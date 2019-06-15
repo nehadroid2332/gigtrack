@@ -151,7 +151,11 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
   LoginPresenter get presenter => LoginPresenter(this);
 
   @override
-  void loginSuccess() {
+  void loginSuccess(String token, String userId) {
+    widget.appListener.sharedPreferences
+        .setString(SharedPrefsKeys.TOKEN.toString(), token);
+    widget.appListener.sharedPreferences
+        .setString(SharedPrefsKeys.USERID.toString(), userId);
     hideLoading();
     widget.appListener.router.navigateTo(
       context,

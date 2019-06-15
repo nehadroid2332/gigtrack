@@ -35,10 +35,6 @@ abstract class BaseScreenState<B extends BaseScreen, P extends BasePresenter>
   }
 
   @override
-  SharedPreferences get sharedPreferences =>
-      widget.appListener.sharedPreferences;
-
-  @override
   Drawer get drawer => null;
 
   @override

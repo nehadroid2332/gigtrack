@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
+import 'package:gigtrack/utils/common_app_utils.dart';
 
 import 'splash_presenter.dart';
 
@@ -39,7 +40,13 @@ class _SplashScreenState extends BaseScreenState<SplashScreen, SplashPresenter>
 
   @override
   void loginSucess(bool isLoginSuccess) {
-    widget.appListener.router
-        .navigateTo(context, Screens.LOGIN.toString());
+    if (widget.appListener.sharedPreferences
+            .containsKey(SharedPrefsKeys.TOKEN.toString()) &&
+        widget.appListener.sharedPreferences
+            .containsKey(SharedPrefsKeys.USERID.toString())) {
+      widget.appListener.router
+          .navigateTo(context, Screens.DASHBOARD.toString());
+    } else
+      widget.appListener.router.navigateTo(context, Screens.LOGIN.toString());
   }
 }
