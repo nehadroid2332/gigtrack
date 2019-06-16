@@ -16,37 +16,41 @@ class _DashboardScreenState
   @override
   Widget buildBody() {
     return Container(
-      child: GridView.count(
-        crossAxisCount: 2,
-        padding: EdgeInsets.all(20),
-        children:
-            ["Activities/Schedules", "Notes/ToDo", "Band", "Instrument"].map(
-          (txt) {
-            return GridTile(
-              child: InkWell(
-                child: Card(
-                  child: Center(
-                    child: Text(
-                      "$txt",
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
+      color: widget.appListener.primaryColor,
+      child: Center(
+        child: GridView.count(
+          crossAxisCount: 2,
+          shrinkWrap: true,
+          padding: EdgeInsets.all(20),
+          children:
+              ["Activities/Schedules", "Notes/ToDo", "Band", "Instrument"].map(
+            (txt) {
+              return GridTile(
+                child: InkWell(
+                  child: Card(
+                    child: Center(
+                      child: Text(
+                        "$txt",
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
+                  onTap: () {
+                    if (txt == "Activities/Schedules")
+                      widget.appListener.router.navigateTo(
+                          context, Screens.ACTIVITIESLIST.toString());
+                    else if (txt == "Notes/ToDo")
+                      widget.appListener.router
+                          .navigateTo(context, Screens.NOTETODOLIST.toString());
+                  },
                 ),
-                onTap: () {
-                  if (txt == "Activities/Schedules")
-                    widget.appListener.router
-                        .navigateTo(context, Screens.ACTIVITIESLIST.toString());
-                  else if (txt == "Notes/ToDo")
-                    widget.appListener.router
-                        .navigateTo(context, Screens.NOTETODOLIST.toString());
-                },
-              ),
-            );
-          },
-        ).toList(),
+              );
+            },
+          ).toList(),
+        ),
       ),
     );
   }

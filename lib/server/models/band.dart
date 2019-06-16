@@ -10,6 +10,9 @@ class Band extends BaseModel {
   String email;
   String website;
 
+  String id;
+  String userId;
+
   Band(
       {this.dateStarted,
       this.email,
@@ -29,6 +32,8 @@ class Band extends BaseModel {
     responsbilities = data['responsbilities'];
     email = data['email'];
     website = data['website'];
+    id = data['id'];
+    userId = data['user_id'];
   }
 
   @override

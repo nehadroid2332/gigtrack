@@ -19,13 +19,55 @@ class _AddNotesScreenState
       _endDateController = TextEditingController(),
       _endTimeController = TextEditingController();
 
+  String _descError,
+      _startDateError,
+      _endDateError,
+      _startTimeError,
+      _endTimeError;
+
+  int _type = 0;
+
+  void _handleTypeValueChange(int value) {
+    setState(() {
+      _type = value;
+    });
+  }
+
   @override
   Widget buildBody() {
     return ListView(
       padding: EdgeInsets.all(20),
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(10),
+        ),
+        Text("Type"),
+        Row(
+          children: <Widget>[
+            new Radio(
+              value: 0,
+              groupValue: _type,
+              onChanged: _handleTypeValueChange,
+            ),
+            new Text(
+              'Note',
+              style: new TextStyle(fontSize: 16.0),
+            ),
+            new Radio(
+              value: 1,
+              groupValue: _type,
+              onChanged: _handleTypeValueChange,
+            ),
+            new Text(
+              'ToDO',
+              style: new TextStyle(
+                fontSize: 16.0,
+              ),
+            ),
+          ],
+        ),
+        Padding(
+          padding: EdgeInsets.all(10),
         ),
         TextField(
           decoration: InputDecoration(hintText: "Desc"),
@@ -93,7 +135,32 @@ class _AddNotesScreenState
           padding: EdgeInsets.all(20),
         ),
         RaisedButton(
-          onPressed: () {},
+          onPressed: () {
+            String desc = _descController.text;
+            String stDate = _startDateController.text;
+            String stTime = _startTimeController.text;
+            String endDate = _endDateController.text;
+            String endTime = _endTimeController.text;
+
+            setState(() {
+              _descError = null;
+              _startDateError = null;
+              _endDateError = null;
+              _startTimeError = null;
+              _endTimeError = null;
+              if (desc.isEmpty) {
+                _descError = "Cannot be Empty";
+              } else if (stDate.isEmpty) {
+                _startDateError = "Cannot be Empty";
+              } else if (stTime.isEmpty) {
+                _startTimeError = "Cannot be Empty";
+              } else if (endDate.isEmpty) {
+                _endDateError = "Cannot be Empty";
+              } else if (endTime.isEmpty) {
+                _endTimeError = "Cannot be Empty";
+              } else {}
+            });
+          },
           color: widget.appListener.primaryColor,
           child: Text("Submit"),
           textColor: Colors.white,

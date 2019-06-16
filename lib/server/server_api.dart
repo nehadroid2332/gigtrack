@@ -1,8 +1,13 @@
 import 'dart:io';
 
+import 'package:gigtrack/server/models/activities.dart';
+import 'package:gigtrack/server/models/activities_response.dart';
 import 'package:gigtrack/server/models/band.dart';
+import 'package:gigtrack/server/models/band_list_response.dart';
 import 'package:gigtrack/server/models/error_response.dart';
 import 'package:gigtrack/server/models/login_response.dart';
+import 'package:gigtrack/server/models/note_todo_response.dart';
+import 'package:gigtrack/server/models/notestodo.dart';
 import 'package:gigtrack/server/models/register_response.dart';
 import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/utils/network_utils.dart';
@@ -26,7 +31,10 @@ class ServerAPI {
         body: {"email": email, "password": password},
         headers: _headers,
       );
-      return LoginResponse.fromJSON(res);
+      final lRes = LoginResponse.fromJSON(res);
+      _headers['User-ID'] = lRes.user_id;
+      _headers['Authorization'] = lRes.token;
+      return lRes;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }
@@ -53,6 +61,44 @@ class ServerAPI {
         headers: _headers,
       );
       return RegisterResponse.fromJSON(res);
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
+  Future<dynamic> getBands() async {
+    try {
+      final res = await _netUtil.get(
+        _baseUrl + "bands",
+        headers: _headers,
+      );
+      return BandListResponse.fromJSON(res);
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
+  Future<dynamic> addNotes(NotesTodo notesTodo) async {
+    try {
+      final res = await _netUtil.post(
+        _baseUrl + "notes/add",
+        body: notesTodo.toMap(),
+        headers: _headers,
+      );
+      return NoteTodoResponse.fromJSON(res);
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
+  Future<dynamic> addActivities(Activites activities) async {
+    try {
+      final res = await _netUtil.post(
+        _baseUrl + "activities/add",
+        body: activities.toMap(),
+        headers: _headers,
+      );
+      return ActivitiesResponse.fromJSON(res);
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }

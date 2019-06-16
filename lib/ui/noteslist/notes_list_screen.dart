@@ -5,7 +5,7 @@ import 'package:gigtrack/main.dart';
 import 'package:gigtrack/ui/noteslist/notes_list_presenter.dart';
 
 class NotesListScreen extends BaseScreen {
-  NotesListScreen(AppListener appListener) : super(appListener);
+  NotesListScreen(AppListener appListener) : super(appListener, title: "Notes List");
 
   @override
   _NotesListScreenState createState() => _NotesListScreenState();
