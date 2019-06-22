@@ -46,6 +46,11 @@ class _SplashScreenState extends BaseScreenState<SplashScreen, SplashPresenter>
             .containsKey(SharedPrefsKeys.USERID.toString())) {
       widget.appListener.router
           .navigateTo(context, Screens.DASHBOARD.toString());
+      presenter.addLogin(
+          widget.appListener.sharedPreferences
+              .getString(SharedPrefsKeys.USERID.toString()),
+          widget.appListener.sharedPreferences
+              .getString(SharedPrefsKeys.TOKEN.toString()));
     } else
       widget.appListener.router.navigateTo(context, Screens.LOGIN.toString());
   }

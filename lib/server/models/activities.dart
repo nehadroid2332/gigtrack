@@ -31,13 +31,13 @@ class Activites extends BaseModel {
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> data = super.toMap();
-    data['type'] = type;
+    data['type'] = "$type";
     data['description'] = description;
     data['date'] = date;
     data['location'] = location;
     data['title'] = title;
-    data['action_type'] = action_type;
-    data['band_id'] = band_id;
+    data['action_type'] = "$action_type";
+    if (band_id != null) data['band_id'] = band_id;
     return data;
   }
 }

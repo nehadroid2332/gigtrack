@@ -20,7 +20,7 @@ class ServerAPI {
 
   NetworkUtil _netUtil = new NetworkUtil();
 
-  static final _baseUrl = "http://wptactic.com/gigtrack/api/";
+  static final _baseUrl = "http://www.accountechs.online/gigtrack/api/";
   final _headers = {"Auth-Key": "gigtrackkey"};
   ServerAPI._internal();
 
@@ -32,12 +32,15 @@ class ServerAPI {
         headers: _headers,
       );
       final lRes = LoginResponse.fromJSON(res);
-      _headers['User-ID'] = lRes.user_id;
-      _headers['Authorization'] = lRes.token;
       return lRes;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }
+  }
+
+  void setUpHeaderAfterLogin(String userId, String token) {
+    _headers['User-ID'] = userId;
+    _headers['Authorization'] = token;
   }
 
   Future<dynamic> register(User user, File file) async {
@@ -97,6 +100,40 @@ class ServerAPI {
         _baseUrl + "activities/add",
         body: activities.toMap(),
         headers: _headers,
+      );
+      return ActivitiesResponse.fromJSON(res);
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
+  Future<dynamic> getActivities({int bandId}) async {
+    try {
+      Map<String, dynamic> data = {
+        "type": 0,
+        "band_id": bandId,
+      };
+      final res = await _netUtil.post(
+        _baseUrl + "activities/get_activities",
+        headers: _headers,
+        body: data,
+      );
+      return ActivitiesResponse.fromJSON(res);
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
+  Future<dynamic> getSchedules({int bandId}) async {
+    try {
+      Map<String, dynamic> data = {
+        "type": 1,
+        "band_id": bandId,
+      };
+      final res = await _netUtil.post(
+        _baseUrl + "activities/get_schedules",
+        headers: _headers,
+        body: data,
       );
       return ActivitiesResponse.fromJSON(res);
     } catch (e) {

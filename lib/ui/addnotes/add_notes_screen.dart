@@ -1,6 +1,9 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
+import 'package:gigtrack/server/models/note_todo_response.dart';
+import 'package:gigtrack/server/models/notestodo.dart';
 import 'package:gigtrack/ui/addnotes/add_notes_presenter.dart';
 
 class AddNotesScreen extends BaseScreen {
@@ -12,7 +15,8 @@ class AddNotesScreen extends BaseScreen {
 }
 
 class _AddNotesScreenState
-    extends BaseScreenState<AddNotesScreen, AddNotesPresenter> {
+    extends BaseScreenState<AddNotesScreen, AddNotesPresenter>
+    implements AddNoteContract {
   final _descController = TextEditingController(),
       _startDateController = TextEditingController(),
       _startTimeController = TextEditingController(),
@@ -26,6 +30,10 @@ class _AddNotesScreenState
       _endTimeError;
 
   int _type = 0;
+
+  DateTime selectedStartDate = DateTime.now(), selectedEndDate = DateTime.now();
+  TimeOfDay selectedStartTime = TimeOfDay.now(),
+      selectedEndTime = TimeOfDay.now();
 
   void _handleTypeValueChange(int value) {
     setState(() {
@@ -83,7 +91,9 @@ class _AddNotesScreenState
                     controller: _startDateController,
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  _selectDate(context, true);
+                },
               ),
             ),
             Padding(
@@ -97,7 +107,9 @@ class _AddNotesScreenState
                     controller: _startTimeController,
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  _selectTime(context, true);
+                },
               ),
             )
           ],
@@ -112,7 +124,9 @@ class _AddNotesScreenState
                     controller: _endDateController,
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  _selectDate(context, false);
+                },
               ),
             ),
             Padding(
@@ -126,7 +140,9 @@ class _AddNotesScreenState
                     controller: _endTimeController,
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  _selectTime(context, false);
+                },
               ),
             )
           ],
@@ -158,7 +174,16 @@ class _AddNotesScreenState
                 _endDateError = "Cannot be Empty";
               } else if (endTime.isEmpty) {
                 _endTimeError = "Cannot be Empty";
-              } else {}
+              } else {
+                NotesTodo notesTodo = NotesTodo(
+                  description: desc,
+                  end_date: endDate,
+                  start_date: stDate,
+                  type: _type,
+                );
+                showLoading();
+                presenter.addNotes(notesTodo);
+              }
             });
           },
           color: widget.appListener.primaryColor,
@@ -169,6 +194,50 @@ class _AddNotesScreenState
     );
   }
 
+  Future<Null> _selectDate(BuildContext context, bool isStart) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedStartDate)
+      setState(() {
+        if (isStart) {
+          selectedStartDate = picked;
+          _startDateController.text =
+              formatDate(selectedStartDate, [yyyy, '-', mm, '-', dd]);
+        } else {
+          selectedEndDate = picked;
+          _endDateController.text =
+              formatDate(selectedStartDate, [yyyy, '-', mm, '-', dd]);
+        }
+      });
+  }
+
+  Future<Null> _selectTime(BuildContext context, bool isStart) async {
+    final TimeOfDay picked = await showTimePicker(
+      context: context,
+      initialTime: selectedStartTime,
+    );
+    if (picked != null && picked != selectedStartTime)
+      setState(() {
+        if (isStart) {
+          selectedStartTime = picked;
+          _startTimeController.text = selectedStartTime.format(context);
+        } else {
+          selectedEndTime = picked;
+          _endTimeController.text = selectedStartTime.format(context);
+        }
+      });
+  }
+
   @override
   AddNotesPresenter get presenter => AddNotesPresenter(this);
+
+  @override
+  void onSuccess(NoteTodoResponse res) {
+    hideLoading();
+    showMessage(res.message);
+    Navigator.of(context).pop();
+  }
 }

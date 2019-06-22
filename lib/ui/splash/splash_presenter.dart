@@ -11,4 +11,8 @@ class SplashPresenter extends BasePresenter {
     await Future.delayed(Duration(seconds: 2));
     (view as SplashContract).loginSucess(true);
   }
+
+  void addLogin(String userId, String token) {
+    serverAPI.setUpHeaderAfterLogin(userId, token);
+  }
 }

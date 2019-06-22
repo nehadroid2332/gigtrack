@@ -18,7 +18,7 @@ class NotesTodo extends BaseModel {
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> data = super.toMap();
-    data['type'] = type;
+    data['type'] = "$type";
     data['description'] = description;
     data['start_date'] = start_date;
     data['end_date'] = end_date;

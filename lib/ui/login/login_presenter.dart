@@ -18,4 +18,8 @@ class LoginPresenter extends BasePresenter {
       view.showMessage(res.message);
     }
   }
+
+  void addLogin(String userId, String token) {
+    serverAPI.setUpHeaderAfterLogin(userId, token);
+  }
 }

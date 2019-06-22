@@ -71,8 +71,8 @@ class _ActivitiesListScreenState
         itemCount: 5,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          widget.appListener.router
+        onPressed: () async {
+          await widget.appListener.router
               .navigateTo(context, Screens.ADDACTIVITY.toString());
         },
         child: Icon(Icons.add),

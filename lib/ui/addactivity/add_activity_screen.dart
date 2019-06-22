@@ -220,8 +220,9 @@ class _AddActivityScreenState
                   date: date,
                   location: loc,
                   type: _userType,
-                  action_type: _type
+                  action_type: _type,
                 );
+                showLoading();
                 presenter.addActivity(activities);
               }
             });
@@ -239,6 +240,7 @@ class _AddActivityScreenState
 
   @override
   void onSuccess(ActivitiesResponse res) {
+    hideLoading();
     showMessage(res.message);
     Navigator.pop(context);
   }
