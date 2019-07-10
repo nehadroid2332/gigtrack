@@ -17,14 +17,7 @@ class _SplashScreenState extends BaseScreenState<SplashScreen, SplashPresenter>
   @override
   void initState() {
     super.initState();
-    // presenter.movetoLogin();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      widget.appListener.router.navigateTo(
-        context,
-        Screens.DASHBOARD.toString(),
-        replace: true,
-      );
-    });
+    presenter.movetoLogin();
   }
 
   @override
@@ -40,6 +33,11 @@ class _SplashScreenState extends BaseScreenState<SplashScreen, SplashPresenter>
             widget.appListener.accentColor
           ], //tish to gray
           tileMode: TileMode.repeated, // repeats the gradient over the canvas
+        ),
+      ),
+      child: Center(
+        child: Image.asset(
+          'assets/images/logo.png',
         ),
       ),
     );

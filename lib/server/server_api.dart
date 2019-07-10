@@ -29,7 +29,7 @@ class ServerAPI {
   String token;
   NetworkUtil _netUtil = new NetworkUtil();
 
-  static final _baseUrl = "http://www.accountechs.online/gigtrack/api/";
+  static final _baseUrl = "https://www.accountechs.online/gigtrack/api/";
   final _headers = {"Auth-Key": "gigtrackkey"};
   ServerAPI._internal();
 

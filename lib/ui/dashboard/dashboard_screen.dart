@@ -25,6 +25,13 @@ class _DashboardScreenState
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
+                  Expanded(
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      width: 80,
+                      height: 50,
+                    ),
+                  ),
                   IconButton(
                     icon: Icon(
                       Icons.notifications,
