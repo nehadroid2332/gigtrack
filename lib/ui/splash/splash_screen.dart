@@ -17,7 +17,14 @@ class _SplashScreenState extends BaseScreenState<SplashScreen, SplashPresenter>
   @override
   void initState() {
     super.initState();
-    presenter.movetoLogin();
+    // presenter.movetoLogin();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      widget.appListener.router.navigateTo(
+        context,
+        Screens.DASHBOARD.toString(),
+        replace: true,
+      );
+    });
   }
 
   @override
@@ -28,7 +35,10 @@ class _SplashScreenState extends BaseScreenState<SplashScreen, SplashPresenter>
           begin: Alignment.topCenter,
           end: Alignment
               .bottomCenter, // 10% of the width, so there are ten blinds.
-          colors: [Colors.blue, Colors.blue], //tish to gray
+          colors: [
+            widget.appListener.primaryColor,
+            widget.appListener.accentColor
+          ], //tish to gray
           tileMode: TileMode.repeated, // repeats the gradient over the canvas
         ),
       ),
@@ -44,14 +54,21 @@ class _SplashScreenState extends BaseScreenState<SplashScreen, SplashPresenter>
             .containsKey(SharedPrefsKeys.TOKEN.toString()) &&
         widget.appListener.sharedPreferences
             .containsKey(SharedPrefsKeys.USERID.toString())) {
-      widget.appListener.router
-          .navigateTo(context, Screens.DASHBOARD.toString());
       presenter.addLogin(
           widget.appListener.sharedPreferences
               .getString(SharedPrefsKeys.USERID.toString()),
           widget.appListener.sharedPreferences
               .getString(SharedPrefsKeys.TOKEN.toString()));
+      widget.appListener.router.navigateTo(
+        context,
+        Screens.DASHBOARD.toString(),
+        replace: true,
+      );
     } else
-      widget.appListener.router.navigateTo(context, Screens.LOGIN.toString());
+      widget.appListener.router.navigateTo(
+        context,
+        Screens.LOGIN.toString(),
+        replace: true,
+      );
   }
 }

@@ -1,4 +1,7 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:gigtrack/server/models/activities.dart';
+import 'package:gigtrack/server/models/notestodo.dart';
 
 class AppButton extends StatelessWidget {
   final String title;
@@ -169,6 +172,126 @@ bool validateEmail(String value) {
 
 bool validateMobile(String value) {
   return !(value.isNotEmpty && value.length == 10);
+}
+
+Widget buildActivityListItem(Activites ac, {onTap}) {
+  DateTime dt = DateTime.fromMillisecondsSinceEpoch(int.parse(ac.date));
+  return Card(
+    child: InkWell(
+      child: Padding(
+        padding: EdgeInsets.all(15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              "${ac.title}",
+              style: TextStyle(
+                fontSize: 18,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(5),
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    "Location: ${ac.location}",
+                    style: TextStyle(
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    "${formatDate(dt, [
+                      yyyy,
+                      '-',
+                      mm,
+                      '-',
+                      dd
+                    ])} ${formatDate(dt, [HH, ':', nn, ':', ss])}",
+                    style: TextStyle(
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.all(5),
+            ),
+            Text(
+              "Description",
+              style: TextStyle(
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ),
+      ),
+      onTap: onTap,
+    ),
+  );
+}
+
+Widget buildNoteListItem(NotesTodo not, {onTap}) {
+  DateTime stDate =
+      DateTime.fromMillisecondsSinceEpoch(int.parse(not.start_date));
+  DateTime endDate =
+      DateTime.fromMillisecondsSinceEpoch(int.parse(not.end_date));
+
+  return Card(
+    margin: EdgeInsets.all(10),
+    child: InkWell(
+      child: Padding(
+        padding: EdgeInsets.all(15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              "${not.description}",
+              style: TextStyle(
+                fontSize: 14,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(5),
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    "Start: ${formatDate(stDate, [
+                      yyyy,
+                      '-',
+                      mm,
+                      '-',
+                      dd
+                    ])} ${formatDate(stDate, [HH, ':', nn, ':', ss])}",
+                    style: TextStyle(fontSize: 11),
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    "End: ${formatDate(endDate, [
+                      yyyy,
+                      '-',
+                      mm,
+                      '-',
+                      dd
+                    ])} ${formatDate(endDate, [HH, ':', nn, ':', ss])}",
+                    style: TextStyle(fontSize: 11),
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+      onTap: onTap,
+    ),
+  );
 }
 
 enum SharedPrefsKeys { TOKEN, USERID }

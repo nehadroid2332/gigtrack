@@ -22,19 +22,20 @@ class SignUpPresenter extends BasePresenter {
       String city,
       String state,
       String zipcode,
-      File file) async {
+      File file,
+      String primaryInstrument) async {
     final res = await serverAPI.register(
         User(
-          address: address,
-          city: city,
-          email: email,
-          firstName: firstName,
-          lastName: lastName,
-          password: password,
-          phone: phone,
-          state: state,
-          zipcode: zipcode,
-        ),
+            address: address,
+            city: city,
+            email: email,
+            firstName: firstName,
+            lastName: lastName,
+            password: password,
+            phone: phone,
+            state: state,
+            zipcode: zipcode,
+            primaryInstrument: primaryInstrument),
         file);
     print("REs-> $res");
     if (res is RegisterResponse) {

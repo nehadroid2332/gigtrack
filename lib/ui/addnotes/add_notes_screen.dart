@@ -7,7 +7,8 @@ import 'package:gigtrack/server/models/notestodo.dart';
 import 'package:gigtrack/ui/addnotes/add_notes_presenter.dart';
 
 class AddNotesScreen extends BaseScreen {
-  AddNotesScreen(AppListener appListener)
+  final String id;
+  AddNotesScreen(AppListener appListener, {this.id})
       : super(appListener, title: "Add Notes/Todo");
 
   @override
@@ -42,6 +43,17 @@ class _AddNotesScreenState
   }
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.id.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showLoading();
+        presenter.getNotesDetails(widget.id);
+      });
+    }
+  }
+
+  @override
   Widget buildBody() {
     return ListView(
       padding: EdgeInsets.all(20),
@@ -49,36 +61,44 @@ class _AddNotesScreenState
         Padding(
           padding: EdgeInsets.all(10),
         ),
-        Text("Type"),
-        Row(
-          children: <Widget>[
-            new Radio(
-              value: 0,
-              groupValue: _type,
-              onChanged: _handleTypeValueChange,
-            ),
-            new Text(
-              'Note',
-              style: new TextStyle(fontSize: 16.0),
-            ),
-            new Radio(
-              value: 1,
-              groupValue: _type,
-              onChanged: _handleTypeValueChange,
-            ),
-            new Text(
-              'ToDO',
-              style: new TextStyle(
-                fontSize: 16.0,
-              ),
-            ),
-          ],
-        ),
+        widget.id.isEmpty ? Text("Type") : Container(),
+        widget.id.isEmpty
+            ? Row(
+                children: <Widget>[
+                  new Radio(
+                    value: 0,
+                    groupValue: _type,
+                    onChanged: _handleTypeValueChange,
+                  ),
+                  new Text(
+                    'Note',
+                    style: new TextStyle(fontSize: 16.0),
+                  ),
+                  new Radio(
+                    value: 1,
+                    groupValue: _type,
+                    onChanged: _handleTypeValueChange,
+                  ),
+                  new Text(
+                    'ToDO',
+                    style: new TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
+                ],
+              )
+            : Container(),
         Padding(
           padding: EdgeInsets.all(10),
         ),
         TextField(
-          decoration: InputDecoration(hintText: "Desc"),
+          enabled: widget.id.isEmpty,
+          decoration: InputDecoration(
+            labelText: "Desc",
+            labelStyle: TextStyle(
+              color: Colors.white,
+            ),
+          ),
           controller: _descController,
         ),
         Row(
@@ -87,12 +107,18 @@ class _AddNotesScreenState
               child: InkWell(
                 child: AbsorbPointer(
                   child: TextField(
-                    decoration: InputDecoration(labelText: "Start Date"),
+                    enabled: widget.id.isEmpty,
+                    decoration: InputDecoration(
+                      labelText: "Start Date",
+                      labelStyle: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                     controller: _startDateController,
                   ),
                 ),
                 onTap: () {
-                  _selectDate(context, true);
+                  if (widget.id.isEmpty) _selectDate(context, true);
                 },
               ),
             ),
@@ -103,12 +129,18 @@ class _AddNotesScreenState
               child: InkWell(
                 child: AbsorbPointer(
                   child: TextField(
-                    decoration: InputDecoration(labelText: "Start Time"),
+                    enabled: widget.id.isEmpty,
+                    decoration: InputDecoration(
+                      labelText: "Start Time",
+                      labelStyle: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                     controller: _startTimeController,
                   ),
                 ),
                 onTap: () {
-                  _selectTime(context, true);
+                  if (widget.id.isEmpty) _selectTime(context, true);
                 },
               ),
             )
@@ -120,12 +152,18 @@ class _AddNotesScreenState
               child: InkWell(
                 child: AbsorbPointer(
                   child: TextField(
-                    decoration: InputDecoration(labelText: "End Date"),
+                    enabled: widget.id.isEmpty,
+                    decoration: InputDecoration(
+                      labelText: "End Date",
+                      labelStyle: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                     controller: _endDateController,
                   ),
                 ),
                 onTap: () {
-                  _selectDate(context, false);
+                  if (widget.id.isEmpty) _selectDate(context, false);
                 },
               ),
             ),
@@ -136,12 +174,18 @@ class _AddNotesScreenState
               child: InkWell(
                 child: AbsorbPointer(
                   child: TextField(
-                    decoration: InputDecoration(labelText: "End Time"),
+                    enabled: widget.id.isEmpty,
+                    decoration: InputDecoration(
+                      labelText: "End Time",
+                      labelStyle: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                     controller: _endTimeController,
                   ),
                 ),
                 onTap: () {
-                  _selectTime(context, false);
+                  if (widget.id.isEmpty) _selectTime(context, false);
                 },
               ),
             )
@@ -150,46 +194,48 @@ class _AddNotesScreenState
         Padding(
           padding: EdgeInsets.all(20),
         ),
-        RaisedButton(
-          onPressed: () {
-            String desc = _descController.text;
-            String stDate = _startDateController.text;
-            String stTime = _startTimeController.text;
-            String endDate = _endDateController.text;
-            String endTime = _endTimeController.text;
+        widget.id.isEmpty
+            ? RaisedButton(
+                onPressed: () {
+                  String desc = _descController.text;
+                  String stDate = _startDateController.text;
+                  String stTime = _startTimeController.text;
+                  String endDate = _endDateController.text;
+                  String endTime = _endTimeController.text;
 
-            setState(() {
-              _descError = null;
-              _startDateError = null;
-              _endDateError = null;
-              _startTimeError = null;
-              _endTimeError = null;
-              if (desc.isEmpty) {
-                _descError = "Cannot be Empty";
-              } else if (stDate.isEmpty) {
-                _startDateError = "Cannot be Empty";
-              } else if (stTime.isEmpty) {
-                _startTimeError = "Cannot be Empty";
-              } else if (endDate.isEmpty) {
-                _endDateError = "Cannot be Empty";
-              } else if (endTime.isEmpty) {
-                _endTimeError = "Cannot be Empty";
-              } else {
-                NotesTodo notesTodo = NotesTodo(
-                  description: desc,
-                  end_date: endDate,
-                  start_date: stDate,
-                  type: _type,
-                );
-                showLoading();
-                presenter.addNotes(notesTodo);
-              }
-            });
-          },
-          color: widget.appListener.primaryColor,
-          child: Text("Submit"),
-          textColor: Colors.white,
-        )
+                  setState(() {
+                    _descError = null;
+                    _startDateError = null;
+                    _endDateError = null;
+                    _startTimeError = null;
+                    _endTimeError = null;
+                    if (desc.isEmpty) {
+                      _descError = "Cannot be Empty";
+                    } else if (stDate.isEmpty) {
+                      _startDateError = "Cannot be Empty";
+                    } else if (stTime.isEmpty) {
+                      _startTimeError = "Cannot be Empty";
+                    } else if (endDate.isEmpty) {
+                      _endDateError = "Cannot be Empty";
+                    } else if (endTime.isEmpty) {
+                      _endTimeError = "Cannot be Empty";
+                    } else {
+                      NotesTodo notesTodo = NotesTodo(
+                        description: desc,
+                        end_date: endDate,
+                        start_date: stDate,
+                        type: _type.toString(),
+                      );
+                      showLoading();
+                      presenter.addNotes(notesTodo);
+                    }
+                  });
+                },
+                color: widget.appListener.primaryColor,
+                child: Text("Submit"),
+                textColor: Colors.white,
+              )
+            : Container()
       ],
     );
   }
@@ -205,11 +251,11 @@ class _AddNotesScreenState
         if (isStart) {
           selectedStartDate = picked;
           _startDateController.text =
-              formatDate(selectedStartDate, [yyyy, '-', mm, '-', dd]);
+              formatDate(selectedStartDate, [mm, '-', dd, '-', yy]);
         } else {
           selectedEndDate = picked;
           _endDateController.text =
-              formatDate(selectedStartDate, [yyyy, '-', mm, '-', dd]);
+              formatDate(selectedEndDate, [mm, '-', dd, '-', yy]);
         }
       });
   }
@@ -226,7 +272,7 @@ class _AddNotesScreenState
           _startTimeController.text = selectedStartTime.format(context);
         } else {
           selectedEndTime = picked;
-          _endTimeController.text = selectedStartTime.format(context);
+          _endTimeController.text = selectedEndTime.format(context);
         }
       });
   }
@@ -236,8 +282,29 @@ class _AddNotesScreenState
 
   @override
   void onSuccess(NoteTodoResponse res) {
+    if (!mounted) return;
     hideLoading();
     showMessage(res.message);
     Navigator.of(context).pop();
+  }
+
+  @override
+  void getNoteDetails(NotesTodo note) {
+    hideLoading();
+    setState(() {
+      _descController.text = note.description;
+      DateTime stDate =
+          DateTime.fromMillisecondsSinceEpoch(int.parse(note.start_date));
+      DateTime endDate =
+          DateTime.fromMillisecondsSinceEpoch(int.parse(note.end_date));
+      _startDateController.text =
+          "${formatDate(stDate, [yyyy, '-', mm, '-', dd])}";
+      _endDateController.text =
+          "${formatDate(endDate, [yyyy, '-', mm, '-', dd])}";
+      _startTimeController.text =
+          "${formatDate(stDate, [HH, ':', nn, ':', ss])}";
+      _endTimeController.text =
+          "${formatDate(endDate, [HH, ':', nn, ':', ss])}";
+    });
   }
 }

@@ -1,15 +1,17 @@
 import 'dart:io';
 
-import 'package:fluro/fluro.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
+import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/ui/addband/add_band_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddBandScreen extends BaseScreen {
-  AddBandScreen(AppListener appListener) : super(appListener);
+  final String id;
+  AddBandScreen(AppListener appListener, {this.id}) : super(appListener);
 
   @override
   _AddBandScreenState createState() => _AddBandScreenState();
@@ -74,6 +76,17 @@ class _AddBandScreenState
   }
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.id.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showLoading();
+        presenter.getBandDetails(widget.id);
+      });
+    }
+  }
+
+  @override
   Widget buildBody() {
     return Container(
         color: Color.fromRGBO(240, 243, 244, 0.5),
@@ -89,32 +102,12 @@ class _AddBandScreenState
               ),
               Align(
                 child: Text(
-                  "Add Band",
+                  "${widget.id.isEmpty ? "Add " : ""}Band",
                   style: textTheme.headline,
                   textAlign: TextAlign.center,
                 ),
                 alignment: Alignment.center,
               ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: InkWell(
-                  child: Padding(
-                    padding: EdgeInsets.all(5),
-                    child: Text(
-                      "Next",
-                      style: textTheme.button,
-                    ),
-                  ),
-                  onTap: () {
-                    widget.appListener.router.navigateTo(
-                      context,
-                      Screens.ADDINSTRUMENT.toString(),
-                      replace: true,
-                      transition: TransitionType.inFromRight,
-                    );
-                  },
-                ),
-              )
             ],
           ),
           Padding(
@@ -122,199 +115,152 @@ class _AddBandScreenState
           ),
           Expanded(
             child: Card(
-              elevation: 8,
+              color: Colors.transparent,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
               child: ListView(
                 padding: EdgeInsets.all(20),
                 children: <Widget>[
-                  InkWell(
-                    child: Center(
-                      child: Container(
-                        width: 150.0,
-                        height: 150.0,
-                        decoration: _image != null
-                            ? new BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: new DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: FileImage(_image),
-                                ),
-                              )
-                            : null,
-                        child: _image == null
-                            ? Icon(
-                                Icons.account_circle,
-                                size: 100,
-                              )
-                            : null,
-                      ),
-                    ),
-                    onTap: getImage,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                  ),
+                  // InkWell(
+                  //   child: Center(
+                  //     child: Container(
+                  //       width: 150.0,
+                  //       height: 150.0,
+                  //       decoration: _image != null
+                  //           ? new BoxDecoration(
+                  //               shape: BoxShape.circle,
+                  //               image: new DecorationImage(
+                  //                 fit: BoxFit.fill,
+                  //                 image: FileImage(_image),
+                  //               ),
+                  //             )
+                  //           : null,
+                  //       child: _image == null
+                  //           ? Icon(
+                  //               Icons.account_circle,
+                  //               size: 100,
+                  //             )
+                  //           : null,
+                  //     ),
+                  //   ),
+                  //   onTap: getImage,
+                  // ),
+                  // Padding(
+                  //   padding: EdgeInsets.all(20),
+                  // ),
                   Padding(
                     padding: EdgeInsets.all(5),
-                    child: Text(
-                      "Band Name",
-                      style: textTheme.subhead.copyWith(
-                        color: Colors.grey[600],
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                   ),
                   TextField(
+                    enabled: widget.id.isEmpty,
                     controller: _bandNameController,
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
+                        labelStyle: TextStyle(
+                          color: Colors.white,
                         ),
-                        hintText: "Enter Band Name",
+                        labelText: "Enter Band Name",
                         errorText: _errorBandName),
                   ),
                   Padding(
                     padding: EdgeInsets.all(5),
-                    child: Text(
-                      "Band Legal Name",
-                      style: textTheme.subhead.copyWith(
-                        color: Colors.grey[600],
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                   ),
                   TextField(
+                    enabled: widget.id.isEmpty,
                     controller: _bandlegalNameController,
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
+                        labelStyle: TextStyle(
+                          color: Colors.white,
                         ),
-                        hintText: "Enter Band Legal Name",
+                        labelText: "Enter Band Legal Name",
                         errorText: _errorBandLegalName),
                   ),
                   Padding(
                     padding: EdgeInsets.all(5),
-                    child: Text(
-                      "Legal Structure",
-                      style: textTheme.subhead.copyWith(
-                        color: Colors.grey[600],
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                   ),
                   TextField(
+                    enabled: widget.id.isEmpty,
                     controller: _legalStructureController,
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
+                        labelStyle: TextStyle(
+                          color: Colors.white,
                         ),
-                        hintText: "Enter Legal Structure",
+                        labelText: "Enter Legal Structure",
                         errorText: _errorStructure),
                   ),
                   Padding(
                     padding: EdgeInsets.all(5),
-                    child: Text(
-                      "Date Started",
-                      style: textTheme.subhead.copyWith(
-                        color: Colors.grey[600],
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                  ),
+                  InkWell(
+                    child: AbsorbPointer(
+                      child: TextField(
+                        enabled: widget.id.isEmpty,
+                        controller: _dateStartedController,
+                        decoration: InputDecoration(
+                            labelText: "Enter Date Started",
+                            labelStyle: TextStyle(
+                              color: Colors.white,
+                            ),
+                            errorText: _errorDateStarted),
                       ),
                     ),
-                  ),
-                  TextField(
-                    controller: _dateStartedController,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        hintText: "Enter Date Started",
-                        errorText: _errorDateStarted),
+                    onTap: () {
+                      if (widget.id.isEmpty) _selectDate(context, true);
+                    },
                   ),
                   Padding(
                     padding: EdgeInsets.all(5),
-                    child: Text(
-                      "Music Style",
-                      style: textTheme.subhead.copyWith(
-                        color: Colors.grey[600],
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                   ),
                   TextField(
+                    enabled: widget.id.isEmpty,
                     controller: _musicStyleController,
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
+                        labelStyle: TextStyle(
+                          color: Colors.white,
                         ),
-                        hintText: "Enter Music Style",
+                        labelText: "Enter Music Style",
                         errorText: _errorMusicStyle),
                   ),
                   Padding(
                     padding: EdgeInsets.all(5),
-                    child: Text(
-                      "Band Responsibility",
-                      style: textTheme.subhead.copyWith(
-                        color: Colors.grey[600],
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                   ),
                   TextField(
+                    enabled: widget.id.isEmpty,
                     controller: _bandResponsibilitiesController,
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
+                        labelText: "Enter Band Responsibility",
+                        labelStyle: TextStyle(
+                          color: Colors.white,
                         ),
-                        hintText: "Enter Band Responsibility",
                         errorText: _errorBandResponsibility),
                   ),
                   Padding(
                     padding: EdgeInsets.all(5),
-                    child: Text(
-                      "Website",
-                      style: textTheme.subhead.copyWith(
-                        color: Colors.grey[600],
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                   ),
                   TextField(
+                    enabled: widget.id.isEmpty,
                     controller: _websiteController,
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        hintText: "Enter Website",
-                        errorText: _errorWebsite),
+                      labelText: "Enter Website",
+                      labelStyle: TextStyle(
+                        color: Colors.white,
+                      ),
+                      errorText: _errorWebsite,
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.all(5),
-                    child: Text(
-                      "Email Address",
-                      style: textTheme.subhead.copyWith(
-                        color: Colors.grey[600],
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                   ),
                   TextField(
+                    enabled: widget.id.isEmpty,
                     controller: _emailController,
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        hintText: "Enter Email Address",
-                        errorText: _errorEmail),
+                      labelText: "Enter Email Address",
+                      labelStyle: TextStyle(
+                        color: Colors.white,
+                      ),
+                      errorText: _errorEmail,
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.all(5),
@@ -324,58 +270,69 @@ class _AddBandScreenState
                       top: 30,
                     ),
                   ),
-                  RaisedButton(
-                    color: Colors.redAccent,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                    textColor: Colors.white,
-                    onPressed: () {
-                      setState(() {
-                        String dateStarted = _dateStartedController.text;
-                        String musicStyle = _musicStyleController.text;
-                        String bname = _bandNameController.text;
-                        String blname = _bandlegalNameController.text;
-                        String legalstructure = _legalStructureController.text;
-                        String bandRes = _bandResponsibilitiesController.text;
-                        String email = _emailController.text;
-                        String website = _websiteController.text;
-                        _errorBandLegalName = null;
-                        _errorBandName = null;
-                        _errorBandResponsibility = null;
-                        _errorDateStarted = null;
-                        _errorEmail = null;
-                        _errorMusicStyle = null;
-                        _errorStructure = null;
-                        _errorWebsite = null;
-                        if (bname.isEmpty) {
-                          _errorBandName = "Cannot be empty";
-                        } else if (blname.isEmpty) {
-                          _errorBandLegalName = "Cannot be empty";
-                        } else if (dateStarted.isEmpty) {
-                          _errorDateStarted = "Cannot be empty";
-                        } else if (musicStyle.isEmpty) {
-                          _errorMusicStyle = "Cannot be empty";
-                        } else if (email.isEmpty) {
-                          _errorEmail = "Cannot be empty";
-                        } else if (validateEmail(email)) {
-                          _errorEmail = "Not a Valid Email";
-                        } else if (musicStyle.isEmpty) {
-                          _errorMusicStyle = "Cannot be empty";
-                        } else if (legalstructure.isEmpty) {
-                          _errorStructure = "Cannot be empty";
-                        } else if (bandRes.isEmpty) {
-                          _errorBandResponsibility = "Cannot be empty";
-                        } else if (website.isEmpty) {
-                          _errorWebsite = "Cannot be empty";
-                        } else {
-                          showLoading();
-                          presenter.addBand(dateStarted, musicStyle, bname,
-                              blname, legalstructure, bandRes, email, website);
-                        }
-                      });
-                    },
-                    child: Text("Add"),
-                  ),
+                  widget.id.isEmpty
+                      ? RaisedButton(
+                          color: Colors.redAccent,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                          textColor: Colors.white,
+                          onPressed: () {
+                            setState(() {
+                              String dateStarted = _dateStartedController.text;
+                              String musicStyle = _musicStyleController.text;
+                              String bname = _bandNameController.text;
+                              String blname = _bandlegalNameController.text;
+                              String legalstructure =
+                                  _legalStructureController.text;
+                              String bandRes =
+                                  _bandResponsibilitiesController.text;
+                              String email = _emailController.text;
+                              String website = _websiteController.text;
+                              _errorBandLegalName = null;
+                              _errorBandName = null;
+                              _errorBandResponsibility = null;
+                              _errorDateStarted = null;
+                              _errorEmail = null;
+                              _errorMusicStyle = null;
+                              _errorStructure = null;
+                              _errorWebsite = null;
+                              if (bname.isEmpty) {
+                                _errorBandName = "Cannot be empty";
+                              } else if (blname.isEmpty) {
+                                _errorBandLegalName = "Cannot be empty";
+                              } else if (dateStarted.isEmpty) {
+                                _errorDateStarted = "Cannot be empty";
+                              } else if (musicStyle.isEmpty) {
+                                _errorMusicStyle = "Cannot be empty";
+                              } else if (email.isEmpty) {
+                                _errorEmail = "Cannot be empty";
+                              } else if (validateEmail(email)) {
+                                _errorEmail = "Not a Valid Email";
+                              } else if (musicStyle.isEmpty) {
+                                _errorMusicStyle = "Cannot be empty";
+                              } else if (legalstructure.isEmpty) {
+                                _errorStructure = "Cannot be empty";
+                              } else if (bandRes.isEmpty) {
+                                _errorBandResponsibility = "Cannot be empty";
+                              } else if (website.isEmpty) {
+                                _errorWebsite = "Cannot be empty";
+                              } else {
+                                showLoading();
+                                presenter.addBand(
+                                    dateStarted,
+                                    musicStyle,
+                                    bname,
+                                    blname,
+                                    legalstructure,
+                                    bandRes,
+                                    email,
+                                    website);
+                              }
+                            });
+                          },
+                          child: Text("Add"),
+                        )
+                      : Container(),
                   Padding(
                     padding: EdgeInsets.all(10),
                   )
@@ -410,6 +367,46 @@ class _AddBandScreenState
       _errorMusicStyle = null;
       _errorStructure = null;
       _errorWebsite = null;
+    });
+  }
+
+  DateTime selectedStartDate = DateTime.now(), selectedEndDate = DateTime.now();
+
+  Future<Null> _selectDate(BuildContext context, bool isStart) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedStartDate)
+      setState(() {
+        if (isStart) {
+          selectedStartDate = picked;
+          _dateStartedController.text =
+              formatDate(selectedStartDate, [mm, '-', dd, '-', yy]);
+        } else {
+          selectedEndDate = picked;
+          _dateStartedController.text =
+              formatDate(selectedEndDate, [mm, '-', dd, '-', yy]);
+        }
+      });
+  }
+
+  @override
+  void getBandDetails(Band band) {
+    hideLoading();
+    setState(() {
+      _musicStyleController.text = band.musicStyle;
+      _bandlegalNameController.text = band.legalName;
+      _bandNameController.text = band.name;
+      _bandResponsibilitiesController.text = band.responsbilities;
+      _emailController.text = band.email;
+      _legalStructureController.text = band.legalStructure;
+      _websiteController.text = band.website;
+      DateTime dateTime =
+          DateTime.fromMillisecondsSinceEpoch(int.parse(band.dateStarted));
+      _dateStartedController.text =
+          formatDate(dateTime, [yyyy, '-', mm, '-', dd]);
     });
   }
 }

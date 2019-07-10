@@ -1,13 +1,14 @@
 import 'package:gigtrack/base/base_model.dart';
 
 class Activites extends BaseModel {
-  int type;
-  int band_id;
-  int action_type;
+  String type;
+  String band_id;
+  String action_type;
   String title;
   String description;
   String date;
   String location;
+  String id;
 
   Activites(
       {this.description,
@@ -26,6 +27,7 @@ class Activites extends BaseModel {
     band_id = data['band_id'];
     action_type = data['action_type'];
     title = data['title'];
+    id = data['id'];
   }
 
   @override
@@ -37,6 +39,7 @@ class Activites extends BaseModel {
     data['location'] = location;
     data['title'] = title;
     data['action_type'] = "$action_type";
+    data['id'] = id;
     if (band_id != null) data['band_id'] = band_id;
     return data;
   }

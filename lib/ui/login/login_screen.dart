@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/ui/login/login_presenter.dart';
@@ -21,77 +22,46 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
   @override
   Widget buildBody() {
     return Container(
-        color: Color.fromRGBO(240, 243, 244, 0.5),
+        color: Colors.transparent,
         padding: EdgeInsets.all(20),
         child: Column(
           children: <Widget>[
-            Stack(
-              children: <Widget>[
-                Align(
-                  child: Text(
-                    "SignIn",
-                    style: textTheme.headline,
-                    textAlign: TextAlign.center,
-                  ),
-                  alignment: Alignment.center,
-                )
-              ],
-            ),
             Padding(
               padding: EdgeInsets.all(8),
             ),
             Expanded(
               child: Card(
+                color: Colors.transparent,
+                elevation: 0,
                 child: ListView(
                   padding: EdgeInsets.all(20),
                   children: <Widget>[
-                    Icon(
-                      Icons.import_contacts,
-                      size: 50,
+                    Image.asset(
+                      'assets/images/logo.png',
                     ),
                     Padding(
                       padding: EdgeInsets.all(20),
                     ),
-                    Padding(
-                      padding: EdgeInsets.all(5),
-                      child: Text(
-                        "Email",
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.grey[600],
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
                     TextField(
                       controller: _emailController,
                       decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8)),
-                          hintText: "Enter Email",
-                          errorText: _errorEmail),
+                        labelText: "Enter Email",
+                        labelStyle: TextStyle(
+                          color: Colors.white,
+                        ),
+                        errorText: _errorEmail,
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.all(8),
                     ),
-                    Padding(
-                      padding: EdgeInsets.all(5),
-                      child: Text(
-                        "Password",
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.grey[600],
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
                     TextField(
                       controller: _passwordController,
                       decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
+                          labelText: "Enter Password",
+                          labelStyle: TextStyle(
+                            color: Colors.white,
                           ),
-                          hintText: "Enter Password",
                           errorText: _errorPassword),
                       obscureText: true,
                     ),

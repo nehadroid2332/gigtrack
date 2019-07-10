@@ -39,14 +39,14 @@ class Band extends BaseModel {
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> data = super.toMap();
-    data['name'] = name;
-    data['legal_name'] = legalName;
-    data['legal_structure'] = legalStructure;
-    data['date_started'] = dateStarted;
-    data['music_style'] = musicStyle;
-    data['responsbilities'] = responsbilities;
-    data['email'] = email;
-    data['website'] = website;
+    data['name'] = name ?? "";
+    data['legal_name'] = legalName ?? "";
+    data['legal_structure'] = legalStructure ?? "";
+    data['date_started'] = dateStarted ?? "";
+    data['music_style'] = musicStyle ?? "";
+    data['responsbilities'] = responsbilities ?? "";
+    data['email'] = email ?? "";
+    data['website'] = website ?? "";
     return data;
   }
 }

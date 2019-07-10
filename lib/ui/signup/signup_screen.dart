@@ -82,7 +82,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
   @override
   Widget buildBody() {
     return Container(
-      color: Color.fromRGBO(240, 243, 244, 0.5),
+      color: Colors.transparent,
       padding: EdgeInsets.all(20),
       child: Column(
         children: <Widget>[
@@ -109,7 +109,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
           ),
           Expanded(
             child: Card(
-              elevation: 8,
+              color: Colors.transparent,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -146,46 +146,15 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                   Row(
                     children: <Widget>[
                       Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.all(5),
-                          child: Text(
-                            "FirstName",
-                            style: textTheme.subhead.copyWith(
-                              color: Colors.grey[600],
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.all(5),
-                          child: Text(
-                            "LastName",
-                            style: textTheme.subhead.copyWith(
-                              color: Colors.grey[600],
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Expanded(
                         child: TextField(
                           controller: _firstNameController,
                           decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12)),
-                              hintText: "Enter FirstName",
-                              errorText: _errorFirstName),
+                            labelText: "Enter FirstName",
+                            labelStyle: TextStyle(
+                              color: Colors.white,
+                            ),
+                            errorText: _errorFirstName,
+                          ),
                         ),
                       ),
                       Padding(
@@ -195,9 +164,10 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                         child: TextField(
                           controller: _lastNameController,
                           decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12)),
-                              hintText: "Enter LastName",
+                              labelText: "Enter LastName",
+                              labelStyle: TextStyle(
+                                color: Colors.white,
+                              ),
                               errorText: _errorLastName),
                         ),
                       )
@@ -205,169 +175,121 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                   ),
                   Padding(
                     padding: EdgeInsets.all(5),
-                    child: Text(
-                      "Phone",
-                      style: textTheme.subhead.copyWith(
-                        color: Colors.grey[600],
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                   ),
                   TextField(
                     controller: _phoneController,
                     keyboardType: TextInputType.phone,
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: "Enter Phone",
+                        labelText: "Enter Phone",
+                        labelStyle: TextStyle(
+                          color: Colors.white,
+                        ),
                         errorText: _errorPhone),
                   ),
                   Padding(
                     padding: EdgeInsets.all(5),
-                    child: Text(
-                      "Email",
-                      style: textTheme.subhead.copyWith(
-                        color: Colors.grey[600],
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                   ),
                   TextField(
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: "Enter Email",
+                        labelText: "Enter Email",
+                        labelStyle: TextStyle(
+                          color: Colors.white,
+                        ),
                         errorText: _errorEmail),
                   ),
                   Padding(
                     padding: EdgeInsets.all(5),
-                    child: Text(
-                      "Password",
-                      style: textTheme.subhead.copyWith(
-                        color: Colors.grey[600],
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                   ),
                   TextField(
                     controller: _passwordController,
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: "Enter Password",
-                        errorText: _errorPassword),
+                      labelText: "Enter Password",
+                      labelStyle: TextStyle(
+                        color: Colors.white,
+                      ),
+                      errorText: _errorPassword,
+                    ),
                     obscureText: true,
                   ),
                   Padding(
                     padding: EdgeInsets.all(5),
-                    child: Text(
-                      "Address",
-                      style: textTheme.subhead.copyWith(
-                        color: Colors.grey[600],
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                   ),
                   TextField(
                     controller: _addressController,
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: "Enter Address",
-                        errorText: _errorAddress),
+                      labelText: "Enter Address",
+                      labelStyle: TextStyle(
+                        color: Colors.white,
+                      ),
+                      errorText: _errorAddress,
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.all(5),
-                    child: Text(
-                      "City",
-                      style: textTheme.subhead.copyWith(
-                        color: Colors.grey[600],
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                   ),
                   TextField(
                     controller: _cityController,
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: "Enter City",
-                        errorText: _errorCity),
+                      labelText: "Enter City",
+                      labelStyle: TextStyle(
+                        color: Colors.white,
+                      ),
+                      errorText: _errorCity,
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.all(5),
-                    child: Text(
-                      "State",
-                      style: textTheme.subhead.copyWith(
-                        color: Colors.grey[600],
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                   ),
                   TextField(
                     controller: _stateController,
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: "Enter State",
-                        errorText: _errorState),
+                      labelStyle: TextStyle(
+                        color: Colors.white,
+                      ),
+                      labelText: "Enter State",
+                      errorText: _errorState,
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.all(5),
-                    child: Text(
-                      "Zip Code",
-                      style: textTheme.subhead.copyWith(
-                        color: Colors.grey[600],
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                   ),
                   TextField(
                     controller: _zipController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: "Enter Zip Code",
-                        errorText: _errorZip),
+                      labelText: "Enter Zip Code",
+                      labelStyle: TextStyle(
+                        color: Colors.white,
+                      ),
+                      errorText: _errorZip,
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.all(5),
-                    child: Text(
-                      "Primary Instrument",
-                      style: textTheme.subhead.copyWith(
-                        color: Colors.grey[600],
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                   ),
                   TextField(
                     controller: _primaryInstrumentController,
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: "Enter Primary Instrument",
+                        labelText: "Enter Primary Instrument",
+                        labelStyle: TextStyle(
+                          color: Colors.white,
+                        ),
                         errorText: _errorPrimaryInstrument),
                   ),
                   Padding(
                     padding: EdgeInsets.all(5),
-                    child: Text(
-                      "Website",
-                      style: textTheme.subhead.copyWith(
-                        color: Colors.grey[600],
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                   ),
                   TextField(
                     controller: _websiteController,
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: "Enter Website",
-                        errorText: _errorWebsite),
+                      labelText: "Enter Website",
+                      labelStyle: TextStyle(
+                        color: Colors.white,
+                      ),
+                      errorText: _errorWebsite,
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.all(5),
@@ -434,10 +356,24 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                           _errorPrimaryInstrument = "Cannot be empty";
                         } else if (website.isEmpty) {
                           _errorWebsite = "Cannot be empty";
-                        } else {
+                        }
+                        //  else if (_image == null) {
+                        //   showMessage("Please Select Image");
+                        // }
+                        else {
                           showLoading();
-                          presenter.signUpUser(fname, lname, email, password,
-                              phone, address, city, state, zip, _image);
+                          presenter.signUpUser(
+                              fname,
+                              lname,
+                              email,
+                              password,
+                              phone,
+                              address,
+                              city,
+                              state,
+                              zip,
+                              _image,
+                              primaryInstrument);
                         }
                       });
                     },
@@ -462,6 +398,8 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
   void signUpSuccess() {
     hideLoading();
     showMessage("Register Successfully");
-    // widget.appListener.router.navigateTo(context, Screens.ADDBAND.toString());
+    // widget.appListener.router
+    // .navigateTo(context, Screens.ADDBAND.toString() + "/23");
+    Navigator.pop(context);
   }
 }

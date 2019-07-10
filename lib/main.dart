@@ -6,9 +6,12 @@ import 'package:gigtrack/ui/addband/add_band_screen.dart';
 import 'package:gigtrack/ui/addinstrument/add_instrument_screen.dart';
 import 'package:gigtrack/ui/addnotes/add_notes_screen.dart';
 import 'package:gigtrack/ui/addsong/add_song_screen.dart';
+import 'package:gigtrack/ui/bandlist/bandlist_screen.dart';
 import 'package:gigtrack/ui/dashboard/dashboard_screen.dart';
+import 'package:gigtrack/ui/instrumentlist/instrument_list_screen.dart';
 import 'package:gigtrack/ui/login/login_screen.dart';
 import 'package:gigtrack/ui/noteslist/notes_list_screen.dart';
+import 'package:gigtrack/ui/notificationlist/notification_list_screen.dart';
 import 'package:gigtrack/ui/signup/signup_screen.dart';
 import 'package:gigtrack/ui/splash/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,13 +37,21 @@ class MyApp extends StatelessWidget implements AppListener {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return SignUpScreen(this);
     }));
-    _router.define(Screens.ADDBAND.toString(), handler: Handler(
+    _router.define(Screens.ADDBAND.toString() + "/:id", handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-      return AddBandScreen(this);
+      String id = params["id"][0];
+      return AddBandScreen(
+        this,
+        id: id,
+      );
     }));
-    _router.define(Screens.ADDINSTRUMENT.toString(), handler: Handler(
+    _router.define(Screens.ADDINSTRUMENT.toString() + "/:id", handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-      return AddInstrumentScreen(this);
+      String id = params["id"][0];
+      return AddInstrumentScreen(
+        this,
+        id: id,
+      );
     }));
     _router.define(Screens.ADDSONG.toString(), handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
@@ -58,13 +69,33 @@ class MyApp extends StatelessWidget implements AppListener {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return NotesListScreen(this);
     }));
-    _router.define(Screens.ADDACTIVITY.toString(), handler: Handler(
+    _router.define(Screens.ADDACTIVITY.toString() + "/:id", handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-      return AddActivityScreen(this);
+      String id = params["id"][0];
+      return AddActivityScreen(
+        this,
+        id: id,
+      );
     }));
-    _router.define(Screens.ADDNOTE.toString(), handler: Handler(
+    _router.define(Screens.ADDNOTE.toString() + "/:id", handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-      return AddNotesScreen(this);
+      String id = params["id"][0];
+      return AddNotesScreen(
+        this,
+        id: id,
+      );
+    }));
+    _router.define(Screens.BANDLIST.toString(), handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      return BandListScreen(this);
+    }));
+    _router.define(Screens.INSTRUMENTLIST.toString(), handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      return InstrumentListScreen(this);
+    }));
+    _router.define(Screens.NOTIFICATION.toString(), handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      return NotificationListScreens(this);
     }));
 
     // _router.define(Screens.COURSEDETAILS.toString() + "/:id/:id2", handler:
@@ -94,7 +125,7 @@ class MyApp extends StatelessWidget implements AppListener {
   }
 
   @override
-  Color get primaryColor => Colors.redAccent;
+  Color get primaryColor => Color.fromRGBO(18, 130, 119, 1.0);
 
   @override
   Router get router => _router;
@@ -103,10 +134,10 @@ class MyApp extends StatelessWidget implements AppListener {
   SharedPreferences get sharedPreferences => _prefs;
 
   @override
-  Color get primaryColorDark => Colors.red;
+  Color get primaryColorDark => Color.fromRGBO(0, 77, 71, 1.0);
 
   @override
-  Color get accentColor => Colors.redAccent;
+  Color get accentColor => Color.fromRGBO(185, 196, 201, 1.0);
 }
 
 abstract class AppListener {
@@ -127,5 +158,8 @@ enum Screens {
   ACTIVITIESLIST,
   NOTETODOLIST,
   ADDACTIVITY,
-  ADDNOTE
+  ADDNOTE,
+  BANDLIST,
+  INSTRUMENTLIST,
+  NOTIFICATION,
 }

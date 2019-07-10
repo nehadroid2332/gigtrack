@@ -21,7 +21,8 @@ class NetworkUtil {
       final int statusCode = response.statusCode;
 
       if (statusCode < 200 || statusCode > 400 || json == null) {
-        throw new Exception("Error while fetching data");
+        throw new Exception(json.decode(response?.body ??
+            {"message": "Error while fetching data", "status": statusCode}));
       }
       return _decoder.convert(res);
     });

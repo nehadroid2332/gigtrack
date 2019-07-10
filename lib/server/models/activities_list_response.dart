@@ -3,14 +3,14 @@ import 'package:gigtrack/server/models/activities.dart';
 
 class GetActivitiesListResponse extends BaseModel {
   int status;
-  List<Activites> data = [];
+  List<Activites> data = <Activites>[];
 
   GetActivitiesListResponse.fromJSON(dynamic data) {
     status = data['status'];
     if (data['data'] != null) {
       for (var d in data['data']) {
         final dd = Activites.fromJSON(d);
-        data.add(dd);
+        this.data.add(dd);
       }
     }
   }

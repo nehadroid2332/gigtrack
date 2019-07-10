@@ -29,7 +29,23 @@ abstract class BaseScreenState<B extends BaseScreen, P extends BasePresenter>
       drawer: drawer,
       key: scaffoldKey,
       body: SafeArea(
-        child: isLoading ? loading : buildBody(),
+        child: Container(
+          child: isLoading ? loading : buildBody(),
+          decoration: new BoxDecoration(
+            gradient: new LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment
+                  .bottomRight, // 10% of the width, so there are ten blinds.
+              colors: [
+                widget.appListener.primaryColor,
+                widget.appListener.accentColor,
+                widget.appListener.primaryColorDark,
+              ], //tish to gray
+              tileMode:
+                  TileMode.repeated, // repeats the gradient over the canvas
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -49,6 +65,8 @@ abstract class BaseScreenState<B extends BaseScreen, P extends BasePresenter>
 
   @override
   void showMessage(String message) {
+    if (!mounted) return;
+
     hideLoading();
     scaffoldKey.currentState.showSnackBar(SnackBar(
       content: Text(message),
@@ -59,6 +77,8 @@ abstract class BaseScreenState<B extends BaseScreen, P extends BasePresenter>
 
   @override
   void showLoading() {
+    if (!mounted) return;
+
     setState(() {
       isLoading = true;
     });
@@ -74,6 +94,8 @@ abstract class BaseScreenState<B extends BaseScreen, P extends BasePresenter>
   @override
   void hideLoading() {
     // if (isLoading) Navigator.pop(context);
+    if (!mounted) return;
+
     setState(() {
       isLoading = false;
     });
@@ -85,8 +107,17 @@ abstract class BaseScreenState<B extends BaseScreen, P extends BasePresenter>
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            new CircularProgressIndicator(),
-            new Text("Loading"),
+            new CircularProgressIndicator(
+                backgroundColor: Color.fromRGBO(26, 53, 52, 1.0)),
+            Padding(
+              padding: EdgeInsets.all(5),
+            ),
+            new Text(
+              "Loading",
+              style: textTheme.body1.copyWith(
+                color: widget.appListener.primaryColor,
+              ),
+            ),
           ],
         ),
       );

@@ -1,10 +1,13 @@
 import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/add_band_response.dart';
 import 'package:gigtrack/server/models/band.dart';
+import 'package:gigtrack/server/models/band_list_response.dart';
 import 'package:gigtrack/server/models/error_response.dart';
+import 'package:gigtrack/ui/bandlist/bandlist_presenter.dart';
 
 abstract class AddBandContract extends BaseContract {
   void addBandSuccess();
+  void getBandDetails(Band band);
 }
 
 class AddBandPresenter extends BasePresenter {
@@ -32,6 +35,15 @@ class AddBandPresenter extends BasePresenter {
     print("REs-> $res");
     if (res is AddBandResponse) {
       (view as AddBandContract).addBandSuccess();
+    } else if (res is ErrorResponse) {
+      view.showMessage(res.message);
+    }
+  }
+
+  void getBandDetails(String id) async {
+    final res = await serverAPI.getBandDetails(id);
+    if (res is BandListResponse) {
+      (view as AddBandContract).getBandDetails(res.bandList[0]);
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
     }
