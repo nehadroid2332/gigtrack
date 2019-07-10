@@ -219,7 +219,6 @@ class _AddActivityScreenState
                 child: AbsorbPointer(
                   child: TextField(
                     enabled: widget.id.isEmpty,
-                    style: textTheme.caption.copyWith(color: Colors.white),
                     decoration: InputDecoration(
                       labelText: "Time",
                       labelStyle: TextStyle(

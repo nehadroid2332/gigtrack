@@ -108,6 +108,7 @@ class _DashboardScreenState
                         child: Center(
                           child: Text(
                             "$txt",
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 17,
                               color: Colors.white,
