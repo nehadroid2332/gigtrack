@@ -14,6 +14,7 @@ class SplashScreen extends BaseScreen {
 
 class _SplashScreenState extends BaseScreenState<SplashScreen, SplashPresenter>
     implements SplashContract {
+
   @override
   void initState() {
     super.initState();
@@ -47,7 +48,7 @@ class _SplashScreenState extends BaseScreenState<SplashScreen, SplashPresenter>
   SplashPresenter get presenter => SplashPresenter(this);
 
   @override
-  void loginSucess(bool isLoginSuccess) {
+  void loginSuccess(bool isLoginSuccess) {
     if (widget.appListener.sharedPreferences
             .containsKey(SharedPrefsKeys.TOKEN.toString()) &&
         widget.appListener.sharedPreferences

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gigtrack/base/base_screen.dart';
@@ -8,10 +9,10 @@ import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/instrument.dart';
 import 'package:gigtrack/ui/addinstrument/add_instrument_presenter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:date_format/date_format.dart';
 
 class AddInstrumentScreen extends BaseScreen {
   final String id;
+
   AddInstrumentScreen(AppListener appListener, {this.id}) : super(appListener);
 
   @override
@@ -91,6 +92,7 @@ class _AddInstrumentScreenState
   DateTime _date = new DateTime.now();
 
   int _userType = 0;
+
   void _handleUserTypeValueChange(int value) {
     setState(() {
       _userType = value;
@@ -294,7 +296,11 @@ class _AddInstrumentScreenState
                               //_date = picked;
                               _purchaseDateController.text =
                                   "${formatDate(picked, [
-                                    mm, '-', dd, '-', yy
+                                mm,
+                                '-',
+                                dd,
+                                '-',
+                                yy
                               ])}";
                             });
                           }
@@ -457,7 +463,7 @@ class _AddInstrumentScreenState
                                   _errorWarrantyPhone = "Cannot be Empty";
                                 } else {
                                   Instrument instrument = Instrument(
-                                    band_id: selectedBand?.id,
+                                    band_id: selectedBand?.id ?? "0",
                                     is_insured: _instrumentInsured ? "1" : "0",
                                     name: instrumentName,
                                     purchased_date: purchasedDate,
@@ -500,7 +506,7 @@ class _AddInstrumentScreenState
     _warrantyEndController.clear();
     _warrantyReferenceController.clear();
     _warrantyPhoneController.clear();
-    Navigator.of(context).pop();
+//    Navigator.of(context).pop();
   }
 
   @override

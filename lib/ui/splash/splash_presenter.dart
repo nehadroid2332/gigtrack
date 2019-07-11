@@ -1,7 +1,7 @@
 import 'package:gigtrack/base/base_presenter.dart';
 
 abstract class SplashContract extends BaseContract {
-  void loginSucess(bool isLoginSuccess);
+  void loginSuccess(bool isLoginSuccess);
 }
 
 class SplashPresenter extends BasePresenter {
@@ -9,7 +9,7 @@ class SplashPresenter extends BasePresenter {
 
   void movetoLogin() async {
     await Future.delayed(Duration(seconds: 2));
-    (view as SplashContract).loginSucess(true);
+    (view as SplashContract).loginSuccess(true);
   }
 
   void addLogin(String userId, String token) {

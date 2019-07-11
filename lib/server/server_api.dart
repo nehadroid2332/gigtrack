@@ -14,6 +14,7 @@ import 'package:gigtrack/server/models/register_response.dart';
 import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/utils/network_utils.dart';
 
+import 'models/add_band_response.dart';
 import 'models/add_instrument_response.dart';
 import 'models/instruments_list_response.dart';
 import 'models/notes_todo_list_response.dart';
@@ -76,7 +77,7 @@ class ServerAPI {
         body: band.toMap(),
         headers: _headers,
       );
-      return RegisterResponse.fromJSON(res);
+      return AddBandResponse.fromJSON(res);
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }

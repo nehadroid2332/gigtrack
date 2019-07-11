@@ -13,10 +13,10 @@ class NotesListPresenter extends BasePresenter {
   void getNotes() async {
     final res = await serverAPI.getNotes();
     final res2 = await serverAPI.getTodos();
-    if (res is GetNotesTodoListResponse && res2 is GetNotesTodoListResponse) {
+    if (res is GetNotesTodoListResponse || res2 is GetNotesTodoListResponse) {
       final data = <NotesTodo>[];
-      data.addAll(res.data);
-      data.addAll(res2.data);
+      if (res is GetNotesTodoListResponse) data.addAll(res.data);
+      if (res2 is GetNotesTodoListResponse) data.addAll(res2.data);
       (view as NotesListContract).getNotes(data);
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
