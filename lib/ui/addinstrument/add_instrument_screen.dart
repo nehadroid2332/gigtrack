@@ -244,7 +244,7 @@ class _AddInstrumentScreenState
                       enabled: widget.id.isEmpty,
                       controller: _instrumentNameController,
                       decoration: InputDecoration(
-                          labelText: "Enter Instrument Name",
+                          labelText: "Instrument Name",
                           labelStyle: TextStyle(
                             color: Colors.white,
                           ),
@@ -257,7 +257,7 @@ class _AddInstrumentScreenState
                       enabled: widget.id.isEmpty,
                       controller: _wherePurchaseController,
                       decoration: InputDecoration(
-                        labelText: "Enter Purchased Where?",
+                        labelText: "Purchased Where?",
                         labelStyle: TextStyle(
                           color: Colors.white,
                         ),
@@ -273,7 +273,7 @@ class _AddInstrumentScreenState
                           enabled: widget.id.isEmpty,
                           controller: _purchaseDateController,
                           decoration: InputDecoration(
-                            labelText: "Enter Purchased Date",
+                            labelText: "Purchased Date",
                             labelStyle: TextStyle(
                               color: Colors.white,
                             ),
@@ -308,7 +308,7 @@ class _AddInstrumentScreenState
                       enabled: widget.id.isEmpty,
                       controller: _serialNumberController,
                       decoration: InputDecoration(
-                          labelText: "Enter Serial Number",
+                          labelText: "Serial Number",
                           labelStyle: TextStyle(
                             color: Colors.white,
                           ),
@@ -321,7 +321,7 @@ class _AddInstrumentScreenState
                       enabled: widget.id.isEmpty,
                       controller: _warrantyController,
                       decoration: InputDecoration(
-                          labelText: "Enter Warranty",
+                          labelText: "Warranty",
                           labelStyle: TextStyle(
                             color: Colors.white,
                           ),
@@ -336,7 +336,7 @@ class _AddInstrumentScreenState
                           enabled: widget.id.isEmpty,
                           controller: _warrantyEndController,
                           decoration: InputDecoration(
-                              labelText: "Enter Warranty EndDate",
+                              labelText: "Warranty EndDate",
                               labelStyle: TextStyle(
                                 color: Colors.white,
                               ),
@@ -374,7 +374,7 @@ class _AddInstrumentScreenState
                       enabled: widget.id.isEmpty,
                       controller: _warrantyReferenceController,
                       decoration: InputDecoration(
-                          labelText: "Enter Warranty Reference",
+                          labelText: "Warranty Reference",
                           labelStyle: TextStyle(
                             color: Colors.white,
                           ),
@@ -388,7 +388,7 @@ class _AddInstrumentScreenState
                       enabled: widget.id.isEmpty,
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
-                          labelText: "Enter Warranty Phone",
+                          labelText: "Warranty Phone",
                           labelStyle: TextStyle(
                             color: Colors.white,
                           ),

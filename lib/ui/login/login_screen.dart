@@ -45,7 +45,7 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
                     TextField(
                       controller: _emailController,
                       decoration: InputDecoration(
-                        labelText: "Enter Email",
+                        labelText: "Email",
                         labelStyle: TextStyle(
                           color: Colors.white,
                         ),
@@ -58,7 +58,7 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
                     TextField(
                       controller: _passwordController,
                       decoration: InputDecoration(
-                          labelText: "Enter Password",
+                          labelText: "Password",
                           labelStyle: TextStyle(
                             color: Colors.white,
                           ),

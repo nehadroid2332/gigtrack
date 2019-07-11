@@ -149,7 +149,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                         child: TextField(
                           controller: _firstNameController,
                           decoration: InputDecoration(
-                            labelText: "Enter FirstName",
+                            labelText: "FirstName",
                             labelStyle: TextStyle(
                               color: Colors.white,
                             ),
@@ -164,7 +164,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                         child: TextField(
                           controller: _lastNameController,
                           decoration: InputDecoration(
-                              labelText: "Enter LastName",
+                              labelText: "LastName",
                               labelStyle: TextStyle(
                                 color: Colors.white,
                               ),
@@ -180,7 +180,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                     controller: _phoneController,
                     keyboardType: TextInputType.phone,
                     decoration: InputDecoration(
-                        labelText: "Enter Phone",
+                        labelText: "Phone",
                         labelStyle: TextStyle(
                           color: Colors.white,
                         ),
@@ -193,7 +193,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                        labelText: "Enter Email",
+                        labelText: "Email",
                         labelStyle: TextStyle(
                           color: Colors.white,
                         ),
@@ -205,7 +205,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                   TextField(
                     controller: _passwordController,
                     decoration: InputDecoration(
-                      labelText: "Enter Password",
+                      labelText: "Password",
                       labelStyle: TextStyle(
                         color: Colors.white,
                       ),
@@ -219,7 +219,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                   TextField(
                     controller: _addressController,
                     decoration: InputDecoration(
-                      labelText: "Enter Address",
+                      labelText: "Address",
                       labelStyle: TextStyle(
                         color: Colors.white,
                       ),
@@ -232,7 +232,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                   TextField(
                     controller: _cityController,
                     decoration: InputDecoration(
-                      labelText: "Enter City",
+                      labelText: "City",
                       labelStyle: TextStyle(
                         color: Colors.white,
                       ),
@@ -248,7 +248,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                       labelStyle: TextStyle(
                         color: Colors.white,
                       ),
-                      labelText: "Enter State",
+                      labelText: "State",
                       errorText: _errorState,
                     ),
                   ),
@@ -259,7 +259,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                     controller: _zipController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      labelText: "Enter Zip Code",
+                      labelText: "Zip Code",
                       labelStyle: TextStyle(
                         color: Colors.white,
                       ),
@@ -272,7 +272,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                   TextField(
                     controller: _primaryInstrumentController,
                     decoration: InputDecoration(
-                        labelText: "Enter Primary Instrument",
+                        labelText: "Primary Instrument",
                         labelStyle: TextStyle(
                           color: Colors.white,
                         ),
@@ -284,7 +284,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                   TextField(
                     controller: _websiteController,
                     decoration: InputDecoration(
-                      labelText: "Enter Website",
+                      labelText: "Website",
                       labelStyle: TextStyle(
                         color: Colors.white,
                       ),

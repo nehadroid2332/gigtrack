@@ -181,7 +181,7 @@ class _AddActivityScreenState
         TextField(
           enabled: widget.id.isEmpty,
           decoration: InputDecoration(
-            labelText: "Enter Title",
+            labelText: "Title",
             labelStyle: TextStyle(
               color: Colors.white,
             ),

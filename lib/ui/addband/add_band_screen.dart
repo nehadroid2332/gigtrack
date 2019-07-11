@@ -159,7 +159,7 @@ class _AddBandScreenState
                         labelStyle: TextStyle(
                           color: Colors.white,
                         ),
-                        labelText: "Enter Band Name",
+                        labelText: "Band Name",
                         errorText: _errorBandName),
                   ),
                   Padding(
@@ -172,7 +172,7 @@ class _AddBandScreenState
                         labelStyle: TextStyle(
                           color: Colors.white,
                         ),
-                        labelText: "Enter Band Legal Name",
+                        labelText: "Band Legal Name",
                         errorText: _errorBandLegalName),
                   ),
                   Padding(
@@ -185,7 +185,7 @@ class _AddBandScreenState
                         labelStyle: TextStyle(
                           color: Colors.white,
                         ),
-                        labelText: "Enter Legal Structure",
+                        labelText: "Legal Structure",
                         errorText: _errorStructure),
                   ),
                   Padding(
@@ -197,7 +197,7 @@ class _AddBandScreenState
                         enabled: widget.id.isEmpty,
                         controller: _dateStartedController,
                         decoration: InputDecoration(
-                            labelText: "Enter Date Started",
+                            labelText: "Date Started",
                             labelStyle: TextStyle(
                               color: Colors.white,
                             ),
@@ -218,7 +218,7 @@ class _AddBandScreenState
                         labelStyle: TextStyle(
                           color: Colors.white,
                         ),
-                        labelText: "Enter Music Style",
+                        labelText: "Music Style",
                         errorText: _errorMusicStyle),
                   ),
                   Padding(
@@ -228,7 +228,7 @@ class _AddBandScreenState
                     enabled: widget.id.isEmpty,
                     controller: _bandResponsibilitiesController,
                     decoration: InputDecoration(
-                        labelText: "Enter Band Responsibility",
+                        labelText: "Band Responsibility",
                         labelStyle: TextStyle(
                           color: Colors.white,
                         ),
@@ -241,7 +241,7 @@ class _AddBandScreenState
                     enabled: widget.id.isEmpty,
                     controller: _websiteController,
                     decoration: InputDecoration(
-                      labelText: "Enter Website",
+                      labelText: "Website",
                       labelStyle: TextStyle(
                         color: Colors.white,
                       ),
@@ -255,7 +255,7 @@ class _AddBandScreenState
                     enabled: widget.id.isEmpty,
                     controller: _emailController,
                     decoration: InputDecoration(
-                      labelText: "Enter Email Address",
+                      labelText: "Email Address",
                       labelStyle: TextStyle(
                         color: Colors.white,
                       ),

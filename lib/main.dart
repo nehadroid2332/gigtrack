@@ -49,6 +49,7 @@ class MyApp extends StatelessWidget implements AppListener {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["id"][0];
       return AddInstrumentScreen(
+
         this,
         id: id,
       );

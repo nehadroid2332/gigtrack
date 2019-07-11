@@ -94,7 +94,7 @@ class _AddSongScreenState
                     controller: _songNameController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        hintText: "Enter Song",
+                        hintText: "Song",
                         errorText: _errorSongName),
                   ),
                   Padding(
@@ -112,7 +112,7 @@ class _AddSongScreenState
                     controller: _bandNameController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        hintText: "Enter Band",
+                        hintText: "Band",
                         errorText: _errorBandName),
                   ),
                   Padding(
@@ -130,7 +130,7 @@ class _AddSongScreenState
                     controller: _keyController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        hintText: "Enter Key",
+                        hintText: "Key",
                         errorText: _errorKey),
                   ),
                   Padding(
@@ -149,7 +149,7 @@ class _AddSongScreenState
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        hintText: "Enter Year",
+                        hintText: "Year",
                         errorText: _errorYear),
                   ),
                   Padding(
@@ -167,7 +167,7 @@ class _AddSongScreenState
                     controller: _aboutController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        hintText: "Enter About",
+                        hintText: "About",
                         errorText: _errorAbout),
                   ),
                   Padding(
