@@ -53,7 +53,7 @@ class _BandListScreenState
                       padding: EdgeInsets.all(5),
                     ),
                     Text(
-                      "Music Style: ${bnd.musicStyle}",
+                      "${bnd.musicStyle}",
                       style: TextStyle(
                         fontSize: 14,
                       ),

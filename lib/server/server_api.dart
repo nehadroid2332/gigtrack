@@ -22,6 +22,7 @@ import 'models/notification_list_response.dart';
 
 class ServerAPI {
   static final ServerAPI _serverApi = new ServerAPI._internal();
+
   factory ServerAPI() {
     return _serverApi;
   }

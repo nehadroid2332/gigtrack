@@ -293,7 +293,7 @@ class _AddActivityScreenState
                         description: desc,
                         date: "$date $time",
                         location: loc,
-                        band_id: selectedBand?.id,
+                        band_id: selectedBand?.id??"",
                         type: _userType.toString(),
                         action_type: _type.toString(),
                       );

@@ -39,8 +39,8 @@ class Activites extends BaseModel {
     data['location'] = location;
     data['title'] = title;
     data['action_type'] = "$action_type";
-    data['id'] = id;
-    if (band_id != null) data['band_id'] = band_id;
+    data['id'] = id ?? "";
+    data['band_id'] = band_id ?? "";
     return data;
   }
 }
