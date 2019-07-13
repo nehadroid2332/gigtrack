@@ -11,7 +11,9 @@ import 'package:image_picker/image_picker.dart';
 
 class AddBandScreen extends BaseScreen {
   final String id;
-  AddBandScreen(AppListener appListener, {this.id}) : super(appListener);
+
+  AddBandScreen(AppListener appListener, {this.id})
+      : super(appListener, title: "Add Band");
 
   @override
   _AddBandScreenState createState() => _AddBandScreenState();
@@ -88,259 +90,216 @@ class _AddBandScreenState
 
   @override
   Widget buildBody() {
-    return Container(
-        color: Color.fromRGBO(240, 243, 244, 0.5),
-        padding: EdgeInsets.all(20),
-        child: Column(children: <Widget>[
-          Stack(
-            children: <Widget>[
-              InkWell(
-                child: Icon(Icons.arrow_back),
-                onTap: () {
-                  Navigator.pop(context);
-                },
+    return ListView(
+      padding: EdgeInsets.all(30),
+      children: <Widget>[
+        // InkWell(
+        //   child: Center(
+        //     child: Container(
+        //       width: 150.0,
+        //       height: 150.0,
+        //       decoration: _image != null
+        //           ? new BoxDecoration(
+        //               shape: BoxShape.circle,
+        //               image: new DecorationImage(
+        //                 fit: BoxFit.fill,
+        //                 image: FileImage(_image),
+        //               ),
+        //             )
+        //           : null,
+        //       child: _image == null
+        //           ? Icon(
+        //               Icons.account_circle,
+        //               size: 100,
+        //             )
+        //           : null,
+        //     ),
+        //   ),
+        //   onTap: getImage,
+        // ),
+        // Padding(
+        //   padding: EdgeInsets.all(20),
+        // ),
+        Padding(
+          padding: EdgeInsets.all(5),
+        ),
+        TextField(
+          enabled: widget.id.isEmpty,
+          controller: _bandNameController,
+          decoration: InputDecoration(
+              labelStyle: TextStyle(
+                color: Colors.white,
               ),
-              Align(
-                child: Text(
-                  "${widget.id.isEmpty ? "Add " : ""}Band",
-                  style: textTheme.headline,
-                  textAlign: TextAlign.center,
-                ),
-                alignment: Alignment.center,
+              labelText: "Band Name",
+              errorText: _errorBandName),
+        ),
+        Padding(
+          padding: EdgeInsets.all(5),
+        ),
+        TextField(
+          enabled: widget.id.isEmpty,
+          controller: _bandlegalNameController,
+          decoration: InputDecoration(
+              labelStyle: TextStyle(
+                color: Colors.white,
               ),
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.all(8),
-          ),
-          Expanded(
-            child: Card(
-              color: Colors.transparent,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+              labelText: "Band Legal Name",
+              errorText: _errorBandLegalName),
+        ),
+        Padding(
+          padding: EdgeInsets.all(5),
+        ),
+        TextField(
+          enabled: widget.id.isEmpty,
+          controller: _legalStructureController,
+          decoration: InputDecoration(
+              labelStyle: TextStyle(
+                color: Colors.white,
               ),
-              child: ListView(
-                padding: EdgeInsets.all(20),
-                children: <Widget>[
-                  // InkWell(
-                  //   child: Center(
-                  //     child: Container(
-                  //       width: 150.0,
-                  //       height: 150.0,
-                  //       decoration: _image != null
-                  //           ? new BoxDecoration(
-                  //               shape: BoxShape.circle,
-                  //               image: new DecorationImage(
-                  //                 fit: BoxFit.fill,
-                  //                 image: FileImage(_image),
-                  //               ),
-                  //             )
-                  //           : null,
-                  //       child: _image == null
-                  //           ? Icon(
-                  //               Icons.account_circle,
-                  //               size: 100,
-                  //             )
-                  //           : null,
-                  //     ),
-                  //   ),
-                  //   onTap: getImage,
-                  // ),
-                  // Padding(
-                  //   padding: EdgeInsets.all(20),
-                  // ),
-                  Padding(
-                    padding: EdgeInsets.all(5),
+              labelText: "Legal Structure",
+              errorText: _errorStructure),
+        ),
+        Padding(
+          padding: EdgeInsets.all(5),
+        ),
+        InkWell(
+          child: AbsorbPointer(
+            child: TextField(
+              enabled: widget.id.isEmpty,
+              controller: _dateStartedController,
+              decoration: InputDecoration(
+                  labelText: "Date Started",
+                  labelStyle: TextStyle(
+                    color: Colors.white,
                   ),
-                  TextField(
-                    enabled: widget.id.isEmpty,
-                    controller: _bandNameController,
-                    decoration: InputDecoration(
-                        labelStyle: TextStyle(
-                          color: Colors.white,
-                        ),
-                        labelText: "Band Name",
-                        errorText: _errorBandName),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(5),
-                  ),
-                  TextField(
-                    enabled: widget.id.isEmpty,
-                    controller: _bandlegalNameController,
-                    decoration: InputDecoration(
-                        labelStyle: TextStyle(
-                          color: Colors.white,
-                        ),
-                        labelText: "Band Legal Name",
-                        errorText: _errorBandLegalName),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(5),
-                  ),
-                  TextField(
-                    enabled: widget.id.isEmpty,
-                    controller: _legalStructureController,
-                    decoration: InputDecoration(
-                        labelStyle: TextStyle(
-                          color: Colors.white,
-                        ),
-                        labelText: "Legal Structure",
-                        errorText: _errorStructure),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(5),
-                  ),
-                  InkWell(
-                    child: AbsorbPointer(
-                      child: TextField(
-                        enabled: widget.id.isEmpty,
-                        controller: _dateStartedController,
-                        decoration: InputDecoration(
-                            labelText: "Date Started",
-                            labelStyle: TextStyle(
-                              color: Colors.white,
-                            ),
-                            errorText: _errorDateStarted),
-                      ),
-                    ),
-                    onTap: () {
-                      if (widget.id.isEmpty) _selectDate(context, true);
-                    },
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(5),
-                  ),
-                  TextField(
-                    enabled: widget.id.isEmpty,
-                    controller: _musicStyleController,
-                    decoration: InputDecoration(
-                        labelStyle: TextStyle(
-                          color: Colors.white,
-                        ),
-                        labelText: "Music Style",
-                        errorText: _errorMusicStyle),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(5),
-                  ),
-                  TextField(
-                    enabled: widget.id.isEmpty,
-                    controller: _bandResponsibilitiesController,
-                    decoration: InputDecoration(
-                        labelText: "Band Responsibility",
-                        labelStyle: TextStyle(
-                          color: Colors.white,
-                        ),
-                        errorText: _errorBandResponsibility),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(5),
-                  ),
-                  TextField(
-                    enabled: widget.id.isEmpty,
-                    controller: _websiteController,
-                    decoration: InputDecoration(
-                      labelText: "Website",
-                      labelStyle: TextStyle(
-                        color: Colors.white,
-                      ),
-                      errorText: _errorWebsite,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(5),
-                  ),
-                  TextField(
-                    enabled: widget.id.isEmpty,
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      labelText: "Email Address",
-                      labelStyle: TextStyle(
-                        color: Colors.white,
-                      ),
-                      errorText: _errorEmail,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(5),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: 30,
-                    ),
-                  ),
-                  widget.id.isEmpty
-                      ? RaisedButton(
-                          color: Colors.redAccent,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8)),
-                          textColor: Colors.white,
-                          onPressed: () {
-                            setState(() {
-                              String dateStarted = _dateStartedController.text;
-                              String musicStyle = _musicStyleController.text;
-                              String bname = _bandNameController.text;
-                              String blname = _bandlegalNameController.text;
-                              String legalstructure =
-                                  _legalStructureController.text;
-                              String bandRes =
-                                  _bandResponsibilitiesController.text;
-                              String email = _emailController.text;
-                              String website = _websiteController.text;
-                              _errorBandLegalName = null;
-                              _errorBandName = null;
-                              _errorBandResponsibility = null;
-                              _errorDateStarted = null;
-                              _errorEmail = null;
-                              _errorMusicStyle = null;
-                              _errorStructure = null;
-                              _errorWebsite = null;
-                              if (bname.isEmpty) {
-                                _errorBandName = "Cannot be empty";
-                              } else if (blname.isEmpty) {
-                                _errorBandLegalName = "Cannot be empty";
-                              } else if (dateStarted.isEmpty) {
-                                _errorDateStarted = "Cannot be empty";
-                              } else if (musicStyle.isEmpty) {
-                                _errorMusicStyle = "Cannot be empty";
-                              } else if (email.isEmpty) {
-                                _errorEmail = "Cannot be empty";
-                              } else if (validateEmail(email)) {
-                                _errorEmail = "Not a Valid Email";
-                              } else if (musicStyle.isEmpty) {
-                                _errorMusicStyle = "Cannot be empty";
-                              } else if (legalstructure.isEmpty) {
-                                _errorStructure = "Cannot be empty";
-                              } else if (bandRes.isEmpty) {
-                                _errorBandResponsibility = "Cannot be empty";
-                              } else if (website.isEmpty) {
-                                _errorWebsite = "Cannot be empty";
-                              } else {
-                                showLoading();
-                                presenter.addBand(
-                                    dateStarted,
-                                    musicStyle,
-                                    bname,
-                                    blname,
-                                    legalstructure,
-                                    bandRes,
-                                    email,
-                                    website);
-                              }
-                            });
-                          },
-                          child: Text("Add"),
-                        )
-                      : Container(),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                  )
-                ],
-              ),
+                  errorText: _errorDateStarted),
             ),
-          )
-        ]));
+          ),
+          onTap: () {
+            if (widget.id.isEmpty) _selectDate(context, true);
+          },
+        ),
+        Padding(
+          padding: EdgeInsets.all(5),
+        ),
+        TextField(
+          enabled: widget.id.isEmpty,
+          controller: _musicStyleController,
+          decoration: InputDecoration(
+              labelStyle: TextStyle(
+                color: Colors.white,
+              ),
+              labelText: "Music Style",
+              errorText: _errorMusicStyle),
+        ),
+        Padding(
+          padding: EdgeInsets.all(5),
+        ),
+        TextField(
+          enabled: widget.id.isEmpty,
+          controller: _bandResponsibilitiesController,
+          decoration: InputDecoration(
+              labelText: "Band Responsibility",
+              labelStyle: TextStyle(
+                color: Colors.white,
+              ),
+              errorText: _errorBandResponsibility),
+        ),
+        Padding(
+          padding: EdgeInsets.all(5),
+        ),
+        TextField(
+          enabled: widget.id.isEmpty,
+          controller: _websiteController,
+          decoration: InputDecoration(
+            labelText: "Website",
+            labelStyle: TextStyle(
+              color: Colors.white,
+            ),
+            errorText: _errorWebsite,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(5),
+        ),
+        TextField(
+          enabled: widget.id.isEmpty,
+          controller: _emailController,
+          decoration: InputDecoration(
+            labelText: "Email Address",
+            labelStyle: TextStyle(
+              color: Colors.white,
+            ),
+            errorText: _errorEmail,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(5),
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+            top: 30,
+          ),
+        ),
+        widget.id.isEmpty
+            ? RaisedButton(
+                color: Colors.redAccent,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+                textColor: Colors.white,
+                onPressed: () {
+                  setState(() {
+                    String dateStarted = _dateStartedController.text;
+                    String musicStyle = _musicStyleController.text;
+                    String bname = _bandNameController.text;
+                    String blname = _bandlegalNameController.text;
+                    String legalstructure = _legalStructureController.text;
+                    String bandRes = _bandResponsibilitiesController.text;
+                    String email = _emailController.text;
+                    String website = _websiteController.text;
+                    _errorBandLegalName = null;
+                    _errorBandName = null;
+                    _errorBandResponsibility = null;
+                    _errorDateStarted = null;
+                    _errorEmail = null;
+                    _errorMusicStyle = null;
+                    _errorStructure = null;
+                    _errorWebsite = null;
+                    if (bname.isEmpty) {
+                      _errorBandName = "Cannot be empty";
+                    } else if (blname.isEmpty) {
+                      _errorBandLegalName = "Cannot be empty";
+                    } else if (dateStarted.isEmpty) {
+                      _errorDateStarted = "Cannot be empty";
+                    } else if (musicStyle.isEmpty) {
+                      _errorMusicStyle = "Cannot be empty";
+                    } else if (email.isEmpty) {
+                      _errorEmail = "Cannot be empty";
+                    } else if (validateEmail(email)) {
+                      _errorEmail = "Not a Valid Email";
+                    } else if (musicStyle.isEmpty) {
+                      _errorMusicStyle = "Cannot be empty";
+                    } else if (legalstructure.isEmpty) {
+                      _errorStructure = "Cannot be empty";
+                    } else if (bandRes.isEmpty) {
+                      _errorBandResponsibility = "Cannot be empty";
+                    } else if (website.isEmpty) {
+                      _errorWebsite = "Cannot be empty";
+                    } else {
+                      showLoading();
+                      presenter.addBand(dateStarted, musicStyle, bname, blname,
+                          legalstructure, bandRes, email, website);
+                    }
+                  });
+                },
+                child: Text("Add"),
+              )
+            : Container(),
+        Padding(
+          padding: EdgeInsets.all(10),
+        )
+      ],
+    );
   }
 
   @override

@@ -13,7 +13,8 @@ import 'package:image_picker/image_picker.dart';
 class AddInstrumentScreen extends BaseScreen {
   final String id;
 
-  AddInstrumentScreen(AppListener appListener, {this.id}) : super(appListener);
+  AddInstrumentScreen(AppListener appListener, {this.id})
+      : super(appListener, title: "Add Equipment");
 
   @override
   _AddInstrumentScreenState createState() => _AddInstrumentScreenState();
@@ -114,381 +115,331 @@ class _AddInstrumentScreenState
 
   @override
   Widget buildBody() {
-    return Container(
-        color: Color.fromRGBO(240, 243, 244, 0.5),
-        padding: EdgeInsets.all(20),
-        child: Column(
-          children: <Widget>[
-            Stack(
-              children: <Widget>[
-                InkWell(
-                  child: Icon(Icons.arrow_back),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                Align(
-                  child: Text(
-                    "${widget.id.isEmpty ? "Add " : ""}Instrument",
-                    style: textTheme.headline,
-                    textAlign: TextAlign.center,
-                  ),
-                  alignment: Alignment.center,
-                ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.all(8),
-            ),
-            Expanded(
-              child: Card(
-                color: Colors.transparent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: ListView(
-                  padding: EdgeInsets.all(20),
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.all(20),
-                    ),
-                    // InkWell(
-                    //   child: Center(
-                    //     child: Container(
-                    //       width: 150.0,
-                    //       height: 150.0,
-                    //       decoration: _image != null
-                    //           ? new BoxDecoration(
-                    //               shape: BoxShape.circle,
-                    //               image: new DecorationImage(
-                    //                 fit: BoxFit.fill,
-                    //                 image: FileImage(_image),
-                    //               ),
-                    //             )
-                    //           : null,
-                    //       child: _image == null
-                    //           ? Icon(
-                    //               Icons.account_circle,
-                    //               size: 100,
-                    //             )
-                    //           : null,
-                    //     ),
-                    //   ),
-                    //   onTap: getImage,
-                    // ),
+    return ListView(
+      padding: EdgeInsets.all(20),
+      children: <Widget>[
+        // InkWell(
+        //   child: Center(
+        //     child: Container(
+        //       width: 150.0,
+        //       height: 150.0,
+        //       decoration: _image != null
+        //           ? new BoxDecoration(
+        //               shape: BoxShape.circle,
+        //               image: new DecorationImage(
+        //                 fit: BoxFit.fill,
+        //                 image: FileImage(_image),
+        //               ),
+        //             )
+        //           : null,
+        //       child: _image == null
+        //           ? Icon(
+        //               Icons.account_circle,
+        //               size: 100,
+        //             )
+        //           : null,
+        //     ),
+        //   ),
+        //   onTap: getImage,
+        // ),
 
-                    widget.id.isEmpty
-                        ? Text(
-                            "Type",
-                            style: textTheme.caption.copyWith(
-                              color: Colors.white,
-                            ),
-                          )
-                        : Container(),
-                    widget.id.isEmpty
-                        ? Row(
-                            children: <Widget>[
-                              new Radio(
-                                value: 0,
-                                groupValue: _userType,
-                                onChanged: _handleUserTypeValueChange,
-                              ),
-                              new Text(
-                                'User',
-                                style: new TextStyle(fontSize: 16.0),
-                              ),
-                              new Radio(
-                                value: 1,
-                                groupValue: _userType,
-                                onChanged: _handleUserTypeValueChange,
-                              ),
-                              new Text(
-                                'Band',
-                                style: new TextStyle(
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                            ],
-                          )
-                        : Container(),
-                    (_userType == 1 && widget.id.isEmpty)
-                        ? Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20),
-                            child: DropdownButton<Band>(
-                              items: _bands.map((Band value) {
-                                return new DropdownMenuItem<Band>(
-                                  value: value,
-                                  child: new Text(
-                                    value.name,
-                                    style: textTheme.caption.copyWith(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                              isExpanded: true,
-                              onChanged: (b) {
-                                setState(() {
-                                  selectedBand = b;
-                                });
-                              },
-                              value: selectedBand,
-                            ),
-                          )
-                        : Container(),
-                    Padding(
-                      padding: EdgeInsets.all(8),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(5),
-                    ),
-                    TextField(
-                      enabled: widget.id.isEmpty,
-                      controller: _instrumentNameController,
-                      decoration: InputDecoration(
-                          labelText: "Instrument Name",
-                          labelStyle: TextStyle(
-                            color: Colors.white,
-                          ),
-                          errorText: _errorInstrumentName),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(5),
-                    ),
-                    TextField(
-                      enabled: widget.id.isEmpty,
-                      controller: _wherePurchaseController,
-                      decoration: InputDecoration(
-                        labelText: "Purchased Where?",
-                        labelStyle: TextStyle(
-                          color: Colors.white,
-                        ),
-                        errorText: _errorwherePurchased,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(5),
-                    ),
-                    GestureDetector(
-                      child: AbsorbPointer(
-                        child: TextField(
-                          enabled: widget.id.isEmpty,
-                          controller: _purchaseDateController,
-                          decoration: InputDecoration(
-                            labelText: "Purchased Date",
-                            labelStyle: TextStyle(
-                              color: Colors.white,
-                            ),
-                            errorText: _errorPurchasedDate,
-                          ),
-                        ),
-                      ),
-                      onTap: () async {
-                        if (widget.id.isEmpty) {
-                          final DateTime picked = await showDatePicker(
-                            context: context,
-                            firstDate: DateTime(1959),
-                            initialDate: _date,
-                            lastDate: DateTime(2022),
-                          );
-                          if (picked != null) {
-                            setState(() {
-                              //_date = picked;
-                              _purchaseDateController.text =
-                                  "${formatDate(picked, [
-                                mm,
-                                '-',
-                                dd,
-                                '-',
-                                yy
-                              ])}";
-                            });
-                          }
-                        }
-                      },
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(5),
-                    ),
-                    TextField(
-                      enabled: widget.id.isEmpty,
-                      controller: _serialNumberController,
-                      decoration: InputDecoration(
-                          labelText: "Serial Number",
-                          labelStyle: TextStyle(
-                            color: Colors.white,
-                          ),
-                          errorText: _errorSerialNumber),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(5),
-                    ),
-                    TextField(
-                      enabled: widget.id.isEmpty,
-                      controller: _warrantyController,
-                      decoration: InputDecoration(
-                          labelText: "Warranty",
-                          labelStyle: TextStyle(
-                            color: Colors.white,
-                          ),
-                          errorText: _errorWarranty),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(5),
-                    ),
-                    GestureDetector(
-                      child: AbsorbPointer(
-                        child: TextField(
-                          enabled: widget.id.isEmpty,
-                          controller: _warrantyEndController,
-                          decoration: InputDecoration(
-                              labelText: "Warranty EndDate",
-                              labelStyle: TextStyle(
-                                color: Colors.white,
-                              ),
-                              errorText: _errorWarrantyEndDate),
-                        ),
-                      ),
-                      onTap: () async {
-                        if (widget.id.isEmpty) {
-                          final DateTime picked = await showDatePicker(
-                            context: context,
-                            firstDate: _date,
-                            initialDate: _date,
-                            lastDate: DateTime(2022),
-                          );
-                          if (picked != null) {
-                            setState(() {
-                              //_date = picked;
-                              _warrantyEndController.text =
-                                  "${formatDate(picked, [
-                                yyyy,
-                                '-',
-                                mm,
-                                '-',
-                                dd
-                              ])}";
-                            });
-                          }
-                        }
-                      },
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(5),
-                    ),
-                    TextField(
-                      enabled: widget.id.isEmpty,
-                      controller: _warrantyReferenceController,
-                      decoration: InputDecoration(
-                          labelText: "Warranty Reference",
-                          labelStyle: TextStyle(
-                            color: Colors.white,
-                          ),
-                          errorText: _errorWarrantyReference),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(5),
-                    ),
-                    TextField(
-                      controller: _warrantyPhoneController,
-                      enabled: widget.id.isEmpty,
-                      keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                          labelText: "Warranty Phone",
-                          labelStyle: TextStyle(
-                            color: Colors.white,
-                          ),
-                          errorText: _errorWarrantyPhone),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(5),
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Checkbox(
-                          onChanged: (bool value) {
-                            setState(() {
-                              _instrumentInsured = value;
-                            });
-                          },
-                          checkColor: Colors.white,
-                          value: _instrumentInsured,
-                        ),
-                        Text(
-                          "Is Instrument Insured?",
-                          style: textTheme.caption.copyWith(
-                            color: Colors.white,
-                          ),
-                        )
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(5),
-                    ),
-                    widget.id.isEmpty
-                        ? RaisedButton(
-                            color: Colors.redAccent,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8)),
-                            textColor: Colors.white,
-                            onPressed: () {
-                              String instrumentName =
-                                  _instrumentNameController.text;
-                              String wherePurchased =
-                                  _wherePurchaseController.text;
-                              String purchasedDate =
-                                  _purchaseDateController.text;
-                              String sno = _serialNumberController.text;
-                              String warranty = _warrantyController.text;
-                              String wendDate = _warrantyEndController.text;
-                              String wRef = _warrantyReferenceController.text;
-                              String wPh = _warrantyPhoneController.text;
-                              setState(() {
-                                if (instrumentName.isEmpty) {
-                                  _errorInstrumentName = "Cannot be Empty";
-                                } else if (wherePurchased.isEmpty) {
-                                  _errorwherePurchased = "Cannot be Empty";
-                                } else if (purchasedDate.isEmpty) {
-                                  _errorPurchasedDate = "Cannot be Empty";
-                                } else if (sno.isEmpty) {
-                                  _errorSerialNumber = "Cannot be Empty";
-                                } else if (warranty.isEmpty) {
-                                  _errorWarranty = "Cannot be Empty";
-                                } else if (wendDate.isEmpty) {
-                                  _errorWarrantyEndDate = "Cannot be Empty";
-                                } else if (wRef.isEmpty) {
-                                  _errorWarrantyReference = "Cannot be Empty";
-                                } else if (wPh.isEmpty) {
-                                  _errorWarrantyPhone = "Cannot be Empty";
-                                } else {
-                                  Instrument instrument = Instrument(
-                                    band_id: selectedBand?.id ?? "0",
-                                    is_insured: _instrumentInsured ? "1" : "0",
-                                    name: instrumentName,
-                                    purchased_date: purchasedDate,
-                                    purchased_from: wherePurchased,
-                                    serial_number: sno,
-                                    user_id: presenter.serverAPI.userId,
-                                    warranty: warranty,
-                                    warranty_end_date: wendDate,
-                                    warranty_phone: wPh,
-                                    warranty_reference: wRef,
-                                  );
-                                  showLoading();
-                                  presenter.addInstrument(instrument);
-                                }
-                              });
-                            },
-                            child: Text("Add"),
-                          )
-                        : Container()
-                  ],
+        widget.id.isEmpty
+            ? Text(
+                "Type",
+                style: textTheme.caption.copyWith(
+                  color: Colors.white,
                 ),
+              )
+            : Container(),
+        widget.id.isEmpty
+            ? Row(
+                children: <Widget>[
+                  new Radio(
+                    value: 0,
+                    groupValue: _userType,
+                    onChanged: _handleUserTypeValueChange,
+                  ),
+                  new Text(
+                    'User',
+                    style: new TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                  new Radio(
+                    value: 1,
+                    groupValue: _userType,
+                    onChanged: _handleUserTypeValueChange,
+                  ),
+                  new Text(
+                    'Band',
+                    style: new TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              )
+            : Container(),
+        (_userType == 1 && widget.id.isEmpty)
+            ? Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: DropdownButton<Band>(
+                  items: _bands.map((Band value) {
+                    return new DropdownMenuItem<Band>(
+                      value: value,
+                      child: new Text(
+                        value.name,
+                        style: textTheme.caption.copyWith(
+                          color: Colors.black,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                  isExpanded: true,
+                  onChanged: (b) {
+                    setState(() {
+                      selectedBand = b;
+                    });
+                  },
+                  value: selectedBand,
+                ),
+              )
+            : Container(),
+        Padding(
+          padding: EdgeInsets.all(8),
+        ),
+        Padding(
+          padding: EdgeInsets.all(5),
+        ),
+        TextField(
+          enabled: widget.id.isEmpty,
+          controller: _instrumentNameController,
+          decoration: InputDecoration(
+              labelText: "Equipment Name",
+              labelStyle: TextStyle(
+                color: Colors.white,
+              ),
+              errorText: _errorInstrumentName),
+        ),
+        Padding(
+          padding: EdgeInsets.all(5),
+        ),
+        TextField(
+          enabled: widget.id.isEmpty,
+          controller: _wherePurchaseController,
+          decoration: InputDecoration(
+            labelText: "Purchased Where?",
+            labelStyle: TextStyle(
+              color: Colors.white,
+            ),
+            errorText: _errorwherePurchased,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(5),
+        ),
+        GestureDetector(
+          child: AbsorbPointer(
+            child: TextField(
+              enabled: widget.id.isEmpty,
+              controller: _purchaseDateController,
+              decoration: InputDecoration(
+                labelText: "Purchased Date",
+                labelStyle: TextStyle(
+                  color: Colors.white,
+                ),
+                errorText: _errorPurchasedDate,
+              ),
+            ),
+          ),
+          onTap: () async {
+            if (widget.id.isEmpty) {
+              final DateTime picked = await showDatePicker(
+                context: context,
+                firstDate: DateTime(1959),
+                initialDate: _date,
+                lastDate: DateTime(2022),
+              );
+              if (picked != null) {
+                setState(() {
+                  //_date = picked;
+                  _purchaseDateController.text =
+                      "${formatDate(picked, [mm, '-', dd, '-', yy])}";
+                });
+              }
+            }
+          },
+        ),
+        Padding(
+          padding: EdgeInsets.all(5),
+        ),
+        TextField(
+          enabled: widget.id.isEmpty,
+          controller: _serialNumberController,
+          decoration: InputDecoration(
+              labelText: "Serial Number",
+              labelStyle: TextStyle(
+                color: Colors.white,
+              ),
+              errorText: _errorSerialNumber),
+        ),
+        Padding(
+          padding: EdgeInsets.all(5),
+        ),
+        TextField(
+          enabled: widget.id.isEmpty,
+          controller: _warrantyController,
+          decoration: InputDecoration(
+              labelText: "Warranty",
+              labelStyle: TextStyle(
+                color: Colors.white,
+              ),
+              errorText: _errorWarranty),
+        ),
+        Padding(
+          padding: EdgeInsets.all(5),
+        ),
+        GestureDetector(
+          child: AbsorbPointer(
+            child: TextField(
+              enabled: widget.id.isEmpty,
+              controller: _warrantyEndController,
+              decoration: InputDecoration(
+                  labelText: "Warranty EndDate",
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                  errorText: _errorWarrantyEndDate),
+            ),
+          ),
+          onTap: () async {
+            if (widget.id.isEmpty) {
+              final DateTime picked = await showDatePicker(
+                context: context,
+                firstDate: _date,
+                initialDate: _date,
+                lastDate: DateTime(2022),
+              );
+              if (picked != null) {
+                setState(() {
+                  //_date = picked;
+                  _warrantyEndController.text =
+                      "${formatDate(picked, [yyyy, '-', mm, '-', dd])}";
+                });
+              }
+            }
+          },
+        ),
+        Padding(
+          padding: EdgeInsets.all(5),
+        ),
+        TextField(
+          enabled: widget.id.isEmpty,
+          controller: _warrantyReferenceController,
+          decoration: InputDecoration(
+              labelText: "Warranty Reference",
+              labelStyle: TextStyle(
+                color: Colors.white,
+              ),
+              errorText: _errorWarrantyReference),
+        ),
+        Padding(
+          padding: EdgeInsets.all(5),
+        ),
+        TextField(
+          controller: _warrantyPhoneController,
+          enabled: widget.id.isEmpty,
+          keyboardType: TextInputType.phone,
+          decoration: InputDecoration(
+              labelText: "Warranty Phone",
+              labelStyle: TextStyle(
+                color: Colors.white,
+              ),
+              errorText: _errorWarrantyPhone),
+        ),
+        Padding(
+          padding: EdgeInsets.all(5),
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Checkbox(
+              onChanged: (bool value) {
+                setState(() {
+                  _instrumentInsured = value;
+                });
+              },
+              checkColor: Colors.white,
+              value: _instrumentInsured,
+            ),
+            Text(
+              "Is Instrument Insured?",
+              style: textTheme.caption.copyWith(
+                color: Colors.white,
               ),
             )
           ],
-        ));
+        ),
+        Padding(
+          padding: EdgeInsets.all(5),
+        ),
+        widget.id.isEmpty
+            ? RaisedButton(
+                color: Colors.redAccent,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+                textColor: Colors.white,
+                onPressed: () {
+                  String instrumentName = _instrumentNameController.text;
+                  String wherePurchased = _wherePurchaseController.text;
+                  String purchasedDate = _purchaseDateController.text;
+                  String sno = _serialNumberController.text;
+                  String warranty = _warrantyController.text;
+                  String wendDate = _warrantyEndController.text;
+                  String wRef = _warrantyReferenceController.text;
+                  String wPh = _warrantyPhoneController.text;
+                  setState(() {
+                    if (instrumentName.isEmpty) {
+                      _errorInstrumentName = "Cannot be Empty";
+                    } else if (wherePurchased.isEmpty) {
+                      _errorwherePurchased = "Cannot be Empty";
+                    } else if (purchasedDate.isEmpty) {
+                      _errorPurchasedDate = "Cannot be Empty";
+                    } else if (sno.isEmpty) {
+                      _errorSerialNumber = "Cannot be Empty";
+                    } else if (warranty.isEmpty) {
+                      _errorWarranty = "Cannot be Empty";
+                    } else if (wendDate.isEmpty) {
+                      _errorWarrantyEndDate = "Cannot be Empty";
+                    } else if (wRef.isEmpty) {
+                      _errorWarrantyReference = "Cannot be Empty";
+                    } else if (wPh.isEmpty) {
+                      _errorWarrantyPhone = "Cannot be Empty";
+                    } else {
+                      Instrument instrument = Instrument(
+                        band_id: selectedBand?.id ?? "0",
+                        is_insured: _instrumentInsured ? "1" : "0",
+                        name: instrumentName,
+                        purchased_date: purchasedDate,
+                        purchased_from: wherePurchased,
+                        serial_number: sno,
+                        user_id: presenter.serverAPI.userId,
+                        warranty: warranty,
+                        warranty_end_date: wendDate,
+                        warranty_phone: wPh,
+                        warranty_reference: wRef,
+                      );
+                      showLoading();
+                      presenter.addInstrument(instrument);
+                    }
+                  });
+                },
+                child: Text("Add"),
+              )
+            : Container()
+      ],
+    );
   }
 
   @override

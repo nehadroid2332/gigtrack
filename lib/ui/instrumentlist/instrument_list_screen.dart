@@ -7,7 +7,7 @@ import 'package:gigtrack/ui/instrumentlist/instrument_list_presenter.dart';
 
 class InstrumentListScreen extends BaseScreen {
   InstrumentListScreen(AppListener appListener)
-      : super(appListener, title: "Instrument List");
+      : super(appListener, title: "Equipment  List");
 
   @override
   _InstrumentListScreenState createState() => _InstrumentListScreenState();

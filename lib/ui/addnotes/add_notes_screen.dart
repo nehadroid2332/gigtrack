@@ -8,6 +8,7 @@ import 'package:gigtrack/ui/addnotes/add_notes_presenter.dart';
 
 class AddNotesScreen extends BaseScreen {
   final String id;
+
   AddNotesScreen(AppListener appListener, {this.id})
       : super(appListener, title: "Add Notes/Todo");
 
@@ -72,7 +73,7 @@ class _AddNotesScreenState
                   ),
                   new Text(
                     'Note',
-                    style: new TextStyle(fontSize: 16.0),
+                    style: new TextStyle(fontSize: 16.0, color: Colors.white),
                   ),
                   new Radio(
                     value: 1,
@@ -81,9 +82,7 @@ class _AddNotesScreenState
                   ),
                   new Text(
                     'ToDO',
-                    style: new TextStyle(
-                      fontSize: 16.0,
-                    ),
+                    style: new TextStyle(fontSize: 16.0, color: Colors.white),
                   ),
                 ],
               )

@@ -13,10 +13,10 @@ class ActivitiesListPresenter extends BasePresenter {
   void getList() async {
     final res = await serverAPI.getActivities();
     final res2 = await serverAPI.getSchedules();
-    if (res is GetActivitiesListResponse && res2 is GetActivitiesListResponse) {
+    if (res is GetActivitiesListResponse || res2 is GetActivitiesListResponse) {
       final data = <Activites>[];
-      data.addAll(res.data);
-      data.addAll(res2.data);
+      if (res is GetActivitiesListResponse) data.addAll(res.data);
+      if (res2 is GetActivitiesListResponse) data.addAll(res2.data);
       (view as ActivitiesListContract).onActivitiesListSuccess(data);
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);

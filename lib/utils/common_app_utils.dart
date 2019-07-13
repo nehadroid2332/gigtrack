@@ -90,6 +90,7 @@ class TextCheckView extends StatelessWidget {
   final bool check;
 
   final onTap;
+
   const TextCheckView(
       {this.title,
       this.color = Colors.lightGreenAccent,
@@ -222,7 +223,7 @@ Widget buildActivityListItem(Activites ac, {onTap}) {
               padding: EdgeInsets.all(5),
             ),
             Text(
-              "Description",
+              "${ac.description}",
               style: TextStyle(
                 fontSize: 12,
               ),

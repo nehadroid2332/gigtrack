@@ -16,7 +16,7 @@ class _DashboardScreenState
   @override
   Widget buildBody() {
     return Container(
-      child: Stack(
+      child: Column(
         children: <Widget>[
           Align(
             alignment: Alignment.topRight,
@@ -65,7 +65,7 @@ class _DashboardScreenState
               ),
             ),
           ),
-          Center(
+          Expanded(
             child: GridView.count(
               crossAxisCount: 2,
               shrinkWrap: true,
@@ -73,7 +73,7 @@ class _DashboardScreenState
               children: [
                 "Activities/Schedules",
                 "Band",
-                "Instrument",
+                "Equipment",
                 "Playing Style",
                 "Contacts",
                 "Admin",
@@ -92,7 +92,7 @@ class _DashboardScreenState
                     case "Band":
                       color = Color.fromRGBO(185, 196, 201, 1.0);
                       break;
-                    case "Instrument":
+                    case "Equipment":
                       color = Color.fromRGBO(18, 130, 119, 1.0);
                       break;
                     case "Playing Style":
@@ -134,7 +134,7 @@ class _DashboardScreenState
                         else if (txt == "Band")
                           widget.appListener.router
                               .navigateTo(context, Screens.BANDLIST.toString());
-                        else if (txt == "Instrument")
+                        else if (txt == "Equipment")
                           widget.appListener.router.navigateTo(
                               context, Screens.INSTRUMENTLIST.toString());
                       },
