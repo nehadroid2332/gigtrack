@@ -197,7 +197,7 @@ Widget buildActivityListItem(Activites ac, {onTap}) {
               children: <Widget>[
                 Expanded(
                   child: Text(
-                    "Location: ${ac.location}",
+                    "${ac.location}",
                     style: TextStyle(
                       fontSize: 12,
                     ),
@@ -206,12 +206,14 @@ Widget buildActivityListItem(Activites ac, {onTap}) {
                 Expanded(
                   child: Text(
                     "${formatDate(dt, [
-                      yyyy,
-                      '-',
+                      DD,
+                      '\n',
                       mm,
                       '-',
-                      dd
-                    ])} ${formatDate(dt, [HH, ':', nn, ':', ss])}",
+                      dd,
+                      '-',
+                      yy,
+                    ])} \n${formatDate(dt, [hh, ':', nn, am])}",
                     style: TextStyle(
                       fontSize: 12,
                     ),

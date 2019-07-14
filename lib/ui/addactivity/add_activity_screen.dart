@@ -46,8 +46,7 @@ class _AddActivityScreenState
     if (picked != null && picked != selectedDate)
       setState(() {
         selectedDate = picked;
-        _dateController.text =
-            formatDate(selectedDate, [mm, '-', dd, '-', yy]);
+        _dateController.text = formatDate(selectedDate, [mm, '-', dd, '-', yy]);
       });
   }
 
@@ -181,12 +180,19 @@ class _AddActivityScreenState
         TextField(
           enabled: widget.id.isEmpty,
           decoration: InputDecoration(
-            labelText: "Title",
+            labelText: widget.id.isEmpty ? "Title" : "",
             labelStyle: TextStyle(
               color: Colors.white,
             ),
             errorText: _titleError,
           ),
+          style: widget.id.isEmpty
+              ? textTheme.subhead.copyWith(
+                  color: Colors.white,
+                )
+              : textTheme.display1.copyWith(
+                  color: Colors.white,
+                ),
           controller: _titleController,
         ),
         Row(
@@ -197,13 +203,16 @@ class _AddActivityScreenState
                   child: TextField(
                     enabled: widget.id.isEmpty,
                     decoration: InputDecoration(
-                      labelText: "Date",
+                      labelText: widget.id.isEmpty ? "Date" : "",
                       labelStyle: TextStyle(
                         color: Colors.white,
                       ),
                       errorText: _dateError,
                     ),
                     controller: _dateController,
+                    style: textTheme.subhead.copyWith(
+                      color: Colors.white,
+                    ),
                   ),
                 ),
                 onTap: () {
@@ -214,31 +223,36 @@ class _AddActivityScreenState
             Padding(
               padding: EdgeInsets.all(4),
             ),
-            Expanded(
-              child: InkWell(
-                child: AbsorbPointer(
-                  child: TextField(
-                    enabled: widget.id.isEmpty,
-                    decoration: InputDecoration(
-                      labelText: "Time",
-                      labelStyle: TextStyle(
-                        color: Colors.white,
+            widget.id.isEmpty
+                ? Expanded(
+                    child: InkWell(
+                      child: AbsorbPointer(
+                        child: TextField(
+                          enabled: widget.id.isEmpty,
+                          decoration: InputDecoration(
+                            labelText: widget.id.isEmpty ? "Time" : "",
+                            labelStyle: TextStyle(
+                              color: Colors.white,
+                            ),
+                            errorText: _timeError,
+                          ),
+                          controller: _timeController,
+                          style: textTheme.subhead.copyWith(
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
-                      errorText: _timeError,
+                      onTap: () {
+                        if (widget.id.isEmpty) _selectTime(context);
+                      },
                     ),
-                    controller: _timeController,
-                  ),
-                ),
-                onTap: () {
-                  if (widget.id.isEmpty) _selectTime(context);
-                },
-              ),
-            )
+                  )
+                : Container()
           ],
         ),
         TextField(
           decoration: InputDecoration(
-            labelText: "Location",
+            labelText: widget.id.isEmpty ? "Location" : "",
             labelStyle: TextStyle(
               color: Colors.white,
             ),
@@ -246,10 +260,13 @@ class _AddActivityScreenState
           ),
           enabled: widget.id.isEmpty,
           controller: _locController,
+          style: textTheme.subhead.copyWith(
+            color: Colors.white,
+          ),
         ),
         TextField(
           decoration: InputDecoration(
-            labelText: "Description",
+            labelText: widget.id.isEmpty ? "Description" : "",
             labelStyle: TextStyle(
               color: Colors.white,
             ),
@@ -258,6 +275,9 @@ class _AddActivityScreenState
           enabled: widget.id.isEmpty,
           minLines: 5,
           maxLines: 10,
+          style: textTheme.subhead.copyWith(
+            color: Colors.white,
+          ),
           controller: _descController,
         ),
         Padding(
@@ -293,7 +313,7 @@ class _AddActivityScreenState
                         description: desc,
                         date: "$date $time",
                         location: loc,
-                        band_id: selectedBand?.id??"",
+                        band_id: selectedBand?.id ?? "",
                         type: _userType.toString(),
                         action_type: _type.toString(),
                       );
@@ -339,16 +359,18 @@ class _AddActivityScreenState
   }
 
   @override
-  void getActivtyDetails(Activites activities) {
+  void getActivityDetails(Activites activities) {
     hideLoading();
     setState(() {
       _titleController.text = activities.title;
       _descController.text = activities.description;
       DateTime dateTime =
           DateTime.fromMillisecondsSinceEpoch(int.parse(activities.date));
-      _dateController.text = formatDate(dateTime, [yyyy, '-', mm, '-', dd]);
+      _dateController.text =
+          formatDate(dateTime, [DD, ', ', mm, '-', dd, '-', yy]) +
+              " at ${formatDate(dateTime, [hh, ':', nn, am])}";
       _locController.text = activities.location;
-      _timeController.text = "${formatDate(dateTime, [HH, ':', nn, ':', ss])}";
+//      _timeController.text = "at ${formatDate(dateTime, [hh, ':', nn, am])}";
     });
   }
 }

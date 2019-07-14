@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
+import 'package:flutter/material.dart';
 import 'package:gigtrack/ui/activitieslist/activities_list_screen.dart';
 import 'package:gigtrack/ui/addactivity/add_activity_screen.dart';
 import 'package:gigtrack/ui/addband/add_band_screen.dart';
@@ -49,7 +49,6 @@ class MyApp extends StatelessWidget implements AppListener {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["id"][0];
       return AddInstrumentScreen(
-
         this,
         id: id,
       );
@@ -143,9 +142,13 @@ class MyApp extends StatelessWidget implements AppListener {
 
 abstract class AppListener {
   Router get router;
+
   SharedPreferences get sharedPreferences;
+
   Color get primaryColor;
+
   Color get primaryColorDark;
+
   Color get accentColor;
 }
 

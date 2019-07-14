@@ -9,7 +9,7 @@ import 'package:gigtrack/server/models/error_response.dart';
 abstract class AddActivityContract extends BaseContract {
   void onSuccess(ActivitiesResponse res);
   void getBandSuccess(List<Band> bands);
-  void getActivtyDetails(Activites activities);
+  void getActivityDetails(Activites activities);
 }
 
 class AddActivityPresenter extends BasePresenter {
@@ -27,7 +27,7 @@ class AddActivityPresenter extends BasePresenter {
   void getActivityDetails(String id) async {
     final res = await serverAPI.getActivitieDetails(id);
     if (res is GetActivitiesListResponse) {
-      (view as AddActivityContract).getActivtyDetails(res.data[0]);
+      (view as AddActivityContract).getActivityDetails(res.data[0]);
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
     }
