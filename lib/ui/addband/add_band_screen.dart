@@ -127,11 +127,15 @@ class _AddBandScreenState
           enabled: widget.id.isEmpty,
           controller: _bandNameController,
           decoration: InputDecoration(
-              labelStyle: TextStyle(
-                color: Colors.white,
-              ),
-              labelText: "Band Name",
-              errorText: _errorBandName),
+            labelStyle: TextStyle(
+              color: Colors.white,
+            ),
+            labelText: "Band Name",
+            errorText: _errorBandName,
+          ),
+          style: textTheme.subhead.copyWith(
+            color: Colors.white,
+          ),
         ),
         Padding(
           padding: EdgeInsets.all(5),
@@ -139,12 +143,16 @@ class _AddBandScreenState
         TextField(
           enabled: widget.id.isEmpty,
           controller: _bandlegalNameController,
+          style: textTheme.subhead.copyWith(
+            color: Colors.white,
+          ),
           decoration: InputDecoration(
-              labelStyle: TextStyle(
-                color: Colors.white,
-              ),
-              labelText: "Band Legal Name",
-              errorText: _errorBandLegalName),
+            labelStyle: TextStyle(
+              color: Colors.white,
+            ),
+            labelText: "Band Legal Name",
+            errorText: _errorBandLegalName,
+          ),
         ),
         Padding(
           padding: EdgeInsets.all(5),
@@ -152,12 +160,16 @@ class _AddBandScreenState
         TextField(
           enabled: widget.id.isEmpty,
           controller: _legalStructureController,
+          style: textTheme.subhead.copyWith(
+            color: Colors.white,
+          ),
           decoration: InputDecoration(
-              labelStyle: TextStyle(
-                color: Colors.white,
-              ),
-              labelText: "Legal Structure",
-              errorText: _errorStructure),
+            labelStyle: TextStyle(
+              color: Colors.white,
+            ),
+            labelText: "Legal Structure",
+            errorText: _errorStructure,
+          ),
         ),
         Padding(
           padding: EdgeInsets.all(5),
@@ -168,11 +180,15 @@ class _AddBandScreenState
               enabled: widget.id.isEmpty,
               controller: _dateStartedController,
               decoration: InputDecoration(
-                  labelText: "Date Started",
-                  labelStyle: TextStyle(
-                    color: Colors.white,
-                  ),
-                  errorText: _errorDateStarted),
+                labelText: "Date Started",
+                labelStyle: TextStyle(
+                  color: Colors.white,
+                ),
+                errorText: _errorDateStarted,
+              ),
+              style: textTheme.subhead.copyWith(
+                color: Colors.white,
+              ),
             ),
           ),
           onTap: () {
@@ -186,11 +202,15 @@ class _AddBandScreenState
           enabled: widget.id.isEmpty,
           controller: _musicStyleController,
           decoration: InputDecoration(
-              labelStyle: TextStyle(
-                color: Colors.white,
-              ),
-              labelText: "Music Style",
-              errorText: _errorMusicStyle),
+            labelStyle: TextStyle(
+              color: Colors.white,
+            ),
+            labelText: "Music Style",
+            errorText: _errorMusicStyle,
+          ),
+          style: textTheme.subhead.copyWith(
+            color: Colors.white,
+          ),
         ),
         Padding(
           padding: EdgeInsets.all(5),
@@ -198,6 +218,9 @@ class _AddBandScreenState
         TextField(
           enabled: widget.id.isEmpty,
           controller: _bandResponsibilitiesController,
+          style: textTheme.subhead.copyWith(
+            color: Colors.white,
+          ),
           decoration: InputDecoration(
               labelText: "Band Responsibility",
               labelStyle: TextStyle(
@@ -211,6 +234,9 @@ class _AddBandScreenState
         TextField(
           enabled: widget.id.isEmpty,
           controller: _websiteController,
+          style: textTheme.subhead.copyWith(
+            color: Colors.white,
+          ),
           decoration: InputDecoration(
             labelText: "Website",
             labelStyle: TextStyle(
@@ -225,6 +251,9 @@ class _AddBandScreenState
         TextField(
           enabled: widget.id.isEmpty,
           controller: _emailController,
+          style: textTheme.subhead.copyWith(
+            color: Colors.white,
+          ),
           decoration: InputDecoration(
             labelText: "Email Address",
             labelStyle: TextStyle(

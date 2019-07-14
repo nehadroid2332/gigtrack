@@ -16,6 +16,9 @@ import 'package:gigtrack/ui/signup/signup_screen.dart';
 import 'package:gigtrack/ui/splash/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'ui/addplayingstyle/add_playing_style_screen.dart';
+import 'ui/playingstylelist/playing_style_list_screen.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -97,7 +100,14 @@ class MyApp extends StatelessWidget implements AppListener {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return NotificationListScreens(this);
     }));
-
+    _router.define(Screens.PLAYINGSTYLELIST.toString(), handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      return PlayingStyleListScreen(this);
+    }));
+    _router.define(Screens.ADDPLAYINGSTYLE.toString(), handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      return AddPlayingStyleScreen(this);
+    }));
     // _router.define(Screens.COURSEDETAILS.toString() + "/:id/:id2", handler:
     //     Handler(
     //         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
@@ -166,4 +176,6 @@ enum Screens {
   BANDLIST,
   INSTRUMENTLIST,
   NOTIFICATION,
+  PLAYINGSTYLELIST,
+  ADDPLAYINGSTYLE
 }

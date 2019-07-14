@@ -215,6 +215,9 @@ class _AddInstrumentScreenState
         TextField(
           enabled: widget.id.isEmpty,
           controller: _instrumentNameController,
+          style: textTheme.subhead.copyWith(
+            color: Colors.white,
+          ),
           decoration: InputDecoration(
               labelText: "Equipment Name",
               labelStyle: TextStyle(
@@ -228,6 +231,9 @@ class _AddInstrumentScreenState
         TextField(
           enabled: widget.id.isEmpty,
           controller: _wherePurchaseController,
+          style: textTheme.subhead.copyWith(
+            color: Colors.white,
+          ),
           decoration: InputDecoration(
             labelText: "Purchased Where?",
             labelStyle: TextStyle(
@@ -250,6 +256,9 @@ class _AddInstrumentScreenState
                   color: Colors.white,
                 ),
                 errorText: _errorPurchasedDate,
+              ),
+              style: textTheme.subhead.copyWith(
+                color: Colors.white,
               ),
             ),
           ),
@@ -283,6 +292,9 @@ class _AddInstrumentScreenState
                 color: Colors.white,
               ),
               errorText: _errorSerialNumber),
+          style: textTheme.subhead.copyWith(
+            color: Colors.white,
+          ),
         ),
         Padding(
           padding: EdgeInsets.all(5),
@@ -296,6 +308,9 @@ class _AddInstrumentScreenState
                 color: Colors.white,
               ),
               errorText: _errorWarranty),
+          style: textTheme.subhead.copyWith(
+            color: Colors.white,
+          ),
         ),
         Padding(
           padding: EdgeInsets.all(5),
@@ -311,6 +326,9 @@ class _AddInstrumentScreenState
                     color: Colors.white,
                   ),
                   errorText: _errorWarrantyEndDate),
+              style: textTheme.subhead.copyWith(
+                color: Colors.white,
+              ),
             ),
           ),
           onTap: () async {
@@ -338,11 +356,15 @@ class _AddInstrumentScreenState
           enabled: widget.id.isEmpty,
           controller: _warrantyReferenceController,
           decoration: InputDecoration(
-              labelText: "Warranty Reference",
-              labelStyle: TextStyle(
-                color: Colors.white,
-              ),
-              errorText: _errorWarrantyReference),
+            labelText: "Warranty Reference",
+            labelStyle: TextStyle(
+              color: Colors.white,
+            ),
+            errorText: _errorWarrantyReference,
+          ),
+          style: textTheme.subhead.copyWith(
+            color: Colors.white,
+          ),
         ),
         Padding(
           padding: EdgeInsets.all(5),
@@ -352,11 +374,15 @@ class _AddInstrumentScreenState
           enabled: widget.id.isEmpty,
           keyboardType: TextInputType.phone,
           decoration: InputDecoration(
-              labelText: "Warranty Phone",
-              labelStyle: TextStyle(
-                color: Colors.white,
-              ),
-              errorText: _errorWarrantyPhone),
+            labelText: "Warranty Phone",
+            labelStyle: TextStyle(
+              color: Colors.white,
+            ),
+            errorText: _errorWarrantyPhone,
+          ),
+          style: textTheme.subhead.copyWith(
+            color: Colors.white,
+          ),
         ),
         Padding(
           padding: EdgeInsets.all(5),

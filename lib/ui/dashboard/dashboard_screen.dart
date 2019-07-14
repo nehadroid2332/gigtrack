@@ -137,6 +137,9 @@ class _DashboardScreenState
                         else if (txt == "Equipment")
                           widget.appListener.router.navigateTo(
                               context, Screens.INSTRUMENTLIST.toString());
+                        else if (txt == "Playing Style")
+                          widget.appListener.router.navigateTo(
+                              context, Screens.PLAYINGSTYLELIST.toString());
                       },
                     ),
                   );
