@@ -16,9 +16,12 @@ import 'package:gigtrack/utils/network_utils.dart';
 
 import 'models/add_band_response.dart';
 import 'models/add_instrument_response.dart';
+import 'models/band_member_add_response.dart';
 import 'models/instruments_list_response.dart';
 import 'models/notes_todo_list_response.dart';
 import 'models/notification_list_response.dart';
+import 'models/playing_style.dart';
+import 'models/search_user_response.dart';
 
 class ServerAPI {
   static final ServerAPI _serverApi = new ServerAPI._internal();
@@ -33,6 +36,7 @@ class ServerAPI {
 
   static final _baseUrl = "https://www.accountechs.online/gigtrack/api/";
   final _headers = {"Auth-Key": "gigtrackkey"};
+
   ServerAPI._internal();
 
   Future<dynamic> login(String email, String password) async {
@@ -262,6 +266,49 @@ class ServerAPI {
         headers: _headers,
       );
       return GetNotesTodoListResponse.fromJSON(res);
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
+  Future<dynamic> getPlayingStyleList() async {
+    try {
+      final res = await _netUtil.get(
+        _baseUrl + "pstyle/",
+        headers: _headers,
+      );
+      return PlayingStyleResponse.fromJSON(res);
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
+  Future<dynamic> searchUser(String name) async {
+    try {
+      final res = await _netUtil.post(
+        _baseUrl + "auth/search",
+        headers: _headers,
+        body: {
+          "name": name,
+        },
+      );
+      return SearchUserResponse.fromJSON(res);
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
+  Future<dynamic> addBandMember(int bandId, int memberId) async {
+    try {
+      final res = await _netUtil.post(
+        _baseUrl + "bands/add_bandmate",
+        headers: _headers,
+        body: {
+          "band_id": bandId,
+          "bandmate_id": memberId,
+        },
+      );
+      return BandMemberAddResponse.fromJSON(res);
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }

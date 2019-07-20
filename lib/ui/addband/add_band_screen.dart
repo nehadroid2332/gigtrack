@@ -271,6 +271,21 @@ class _AddBandScreenState
           ),
         ),
         widget.id.isEmpty
+            ? Container()
+            : ListView.builder(
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    child: Column(
+                      children: <Widget>[
+                        Text("User Name"),
+                        Text("instrument")
+                      ],
+                    ),
+                  );
+                },
+              ),
+        widget.id.isEmpty
             ? RaisedButton(
                 color: Colors.redAccent,
                 shape: RoundedRectangleBorder(
