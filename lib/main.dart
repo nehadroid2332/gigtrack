@@ -4,6 +4,7 @@ import 'package:gigtrack/ui/activitieslist/activities_list_screen.dart';
 import 'package:gigtrack/ui/addactivity/add_activity_screen.dart';
 import 'package:gigtrack/ui/addband/add_band_screen.dart';
 import 'package:gigtrack/ui/addinstrument/add_instrument_screen.dart';
+import 'package:gigtrack/ui/addmembertoband/addmembertobandscreen.dart';
 import 'package:gigtrack/ui/addnotes/add_notes_screen.dart';
 import 'package:gigtrack/ui/addsong/add_song_screen.dart';
 import 'package:gigtrack/ui/bandlist/bandlist_screen.dart';
@@ -108,6 +109,12 @@ class MyApp extends StatelessWidget implements AppListener {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return AddPlayingStyleScreen(this);
     }));
+    _router.define(Screens.ADDMEMBERTOBAND.toString() + "/:id", handler:
+        Handler(
+            handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      String id = params["id"][0];
+      return AddMemberToBandScreen(this, id: id);
+    }));
     // _router.define(Screens.COURSEDETAILS.toString() + "/:id/:id2", handler:
     //     Handler(
     //         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
@@ -177,5 +184,6 @@ enum Screens {
   INSTRUMENTLIST,
   NOTIFICATION,
   PLAYINGSTYLELIST,
-  ADDPLAYINGSTYLE
+  ADDPLAYINGSTYLE,
+  ADDMEMBERTOBAND
 }

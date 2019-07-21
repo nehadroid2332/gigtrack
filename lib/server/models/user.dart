@@ -1,6 +1,7 @@
 import 'package:gigtrack/base/base_model.dart';
 
 class User extends BaseModel {
+  String id;
   String firstName;
   String lastName;
   String email;
@@ -27,6 +28,7 @@ class User extends BaseModel {
       this.zipcode});
 
   User.fromJSON(dynamic data) {
+    if (data['id'] != null) id = data['id'];
     firstName = data['first_name'];
     lastName = data['last_name'];
     email = data['email'];
@@ -39,10 +41,11 @@ class User extends BaseModel {
     primaryInstrument = data['primary_instrument'];
     profilePic = data['profile_pic'];
   }
+
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> data = super.toMap();
-
+    data['id'] = id ?? "";
     data["first_name"] = firstName ?? "";
     data["last_name"] = lastName ?? "";
     data["email"] = email ?? "";

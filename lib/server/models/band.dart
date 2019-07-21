@@ -1,4 +1,5 @@
 import 'package:gigtrack/base/base_model.dart';
+import 'package:gigtrack/server/models/user.dart';
 
 class Band extends BaseModel {
   String name;
@@ -12,6 +13,8 @@ class Band extends BaseModel {
 
   String id;
   String userId;
+
+  List<User> bandMember = [];
 
   Band(
       {this.dateStarted,
@@ -34,6 +37,13 @@ class Band extends BaseModel {
     website = data['website'];
     id = data['id'];
     userId = data['user_id'];
+    if (data['bandmates'] != null) {
+      for (var bm in data['bandmates']) {
+        for (var b in bm) {
+          bandMember.add(User.fromJSON(b));
+        }
+      }
+    }
   }
 
   @override
@@ -47,6 +57,12 @@ class Band extends BaseModel {
     data['responsbilities'] = responsbilities ?? "";
     data['email'] = email ?? "";
     data['website'] = website ?? "";
+
+    List<dynamic> bm = [];
+    for (var b in bandMember) {
+      bm.add(b.toMap());
+    }
+    data['bandmates'] = bm;
     return data;
   }
 }

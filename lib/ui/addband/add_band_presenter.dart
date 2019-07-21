@@ -1,6 +1,7 @@
 import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/add_band_response.dart';
 import 'package:gigtrack/server/models/band.dart';
+import 'package:gigtrack/server/models/band_details_response.dart';
 import 'package:gigtrack/server/models/band_list_response.dart';
 import 'package:gigtrack/server/models/error_response.dart';
 import 'package:gigtrack/ui/bandlist/bandlist_presenter.dart';
@@ -42,8 +43,8 @@ class AddBandPresenter extends BasePresenter {
 
   void getBandDetails(String id) async {
     final res = await serverAPI.getBandDetails(id);
-    if (res is BandListResponse) {
-      (view as AddBandContract).getBandDetails(res.bandList[0]);
+    if (res is BandDetailsResponse) {
+      (view as AddBandContract).getBandDetails(res.band);
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
     }

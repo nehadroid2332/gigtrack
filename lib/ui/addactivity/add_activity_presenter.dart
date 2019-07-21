@@ -25,7 +25,7 @@ class AddActivityPresenter extends BasePresenter {
   }
 
   void getActivityDetails(String id) async {
-    final res = await serverAPI.getActivitieDetails(id);
+    final res = await serverAPI.getActivityDetails(id);
     if (res is GetActivitiesListResponse) {
       (view as AddActivityContract).getActivityDetails(res.data[0]);
     } else if (res is ErrorResponse) {

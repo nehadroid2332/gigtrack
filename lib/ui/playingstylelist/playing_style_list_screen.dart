@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
+import 'package:gigtrack/server/models/playing_style_response.dart';
 
 import 'playing_style_list_presenter.dart';
 
@@ -13,15 +14,16 @@ class PlayingStyleListScreen extends BaseScreen {
 }
 
 class _PlayingStyleListScreenState
-    extends BaseScreenState<PlayingStyleListScreen, PlayingStyleListPresenter> {
-  final playingStyleList = <String>[];
+    extends BaseScreenState<PlayingStyleListScreen, PlayingStyleListPresenter>
+    implements PlayingStyleListContract {
+  final playingStyleList = <UserPlayingStyle>[];
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-//      showLoading();
-//      presenter.getList();
+      showLoading();
+      presenter.playingStyleList();
     });
   }
 
@@ -32,19 +34,23 @@ class _PlayingStyleListScreenState
       body: ListView.builder(
         padding: EdgeInsets.all(20),
         itemBuilder: (BuildContext context, int index) {
-          String ac = playingStyleList[index];
+          UserPlayingStyle userPlayingStyle = playingStyleList[index];
           return Card(
-            child: Column(
-              children: <Widget>[
-                Text(
-                  "Playing Style",
-                  style: textTheme.subhead,
-                ),
-                Text(
-                  "Instruments",
-                  style: textTheme.caption,
-                )
-              ],
+            child: Padding(
+              padding: EdgeInsets.all(8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "${userPlayingStyle.playingStyle}",
+                    style: textTheme.subhead,
+                  ),
+                  Text(
+                    "${userPlayingStyle.instrument}",
+                    style: textTheme.caption,
+                  )
+                ],
+              ),
             ),
           );
         },
@@ -64,4 +70,17 @@ class _PlayingStyleListScreenState
 
   @override
   PlayingStyleListPresenter get presenter => PlayingStyleListPresenter(this);
+
+  @override
+  void onListSuccess(List<UserPlayingStyle> list, List<Instruments> iList,
+      List<PlayingStyle> pList) {
+    for (UserPlayingStyle up in list) {
+      up.setNames(pList, iList);
+    }
+    hideLoading();
+    setState(() {
+      playingStyleList.clear();
+      playingStyleList.addAll(list);
+    });
+  }
 }

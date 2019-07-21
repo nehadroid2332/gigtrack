@@ -16,11 +16,13 @@ import 'package:gigtrack/utils/network_utils.dart';
 
 import 'models/add_band_response.dart';
 import 'models/add_instrument_response.dart';
+import 'models/add_playing_style_response.dart';
+import 'models/band_details_response.dart';
 import 'models/band_member_add_response.dart';
 import 'models/instruments_list_response.dart';
 import 'models/notes_todo_list_response.dart';
 import 'models/notification_list_response.dart';
-import 'models/playing_style.dart';
+import 'models/playing_style_response.dart';
 import 'models/search_user_response.dart';
 
 class ServerAPI {
@@ -109,7 +111,7 @@ class ServerAPI {
           "id": id,
         },
       );
-      return BandListResponse.fromJSON(res);
+      return BandDetailsResponse.fromJSON(res);
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }
@@ -193,7 +195,7 @@ class ServerAPI {
     }
   }
 
-  Future<dynamic> getActivitieDetails(String id) async {
+  Future<dynamic> getActivityDetails(String id) async {
     try {
       final res = await _netUtil.post(
         _baseUrl + "activities/single",
@@ -298,7 +300,7 @@ class ServerAPI {
     }
   }
 
-  Future<dynamic> addBandMember(int bandId, int memberId) async {
+  Future<dynamic> addBandMember(String bandId, String memberId) async {
     try {
       final res = await _netUtil.post(
         _baseUrl + "bands/add_bandmate",
@@ -309,6 +311,46 @@ class ServerAPI {
         },
       );
       return BandMemberAddResponse.fromJSON(res);
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
+  Future<dynamic> addUserPlayingStyle(
+      String userId, String bandId, String playingStyleId, String instrumentId) async {
+    try {
+      final res = await _netUtil.post(
+        _baseUrl + "pstyle/add",
+        headers: _headers,
+        body: {
+          "user_id": userId,
+          "band_id": bandId,
+          "playing_styles_ids": playingStyleId,
+          "instruments_ids": instrumentId,
+        },
+      );
+      return AddPlayingStyleResponse.fromJSON(res);
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
+  Future<dynamic> getSingleUserById(int id) async {
+    try {
+      final res = await _netUtil.post(
+        _baseUrl + "auth/single",
+        headers: _headers,
+        body: {
+          "user_id": id,
+        },
+      );
+      User user;
+      if (res['data'] != null) {
+        for (var d in res['data']) {
+          user = User.fromJSON(d);
+        }
+      }
+      return user;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }

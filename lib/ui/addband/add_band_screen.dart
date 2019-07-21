@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/band.dart';
+import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/ui/addband/add_band_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:image_picker/image_picker.dart';
@@ -36,6 +37,7 @@ class _AddBandScreenState
       _errorBandLegalName,
       _errorBandResponsibility,
       _errorEmail;
+  List<User> members = [];
 
   File _image;
 
@@ -272,15 +274,49 @@ class _AddBandScreenState
         ),
         widget.id.isEmpty
             ? Container()
+            : Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                      "Members(${members.length})",
+                      style: textTheme.subhead.copyWith(color: Colors.white),
+                    ),
+                  ),
+                  IconButton(
+                      icon: Icon(
+                        Icons.add,
+                        color: Colors.white,
+                      ),
+                      onPressed: () async {
+                        await widget.appListener.router.navigateTo(
+                            context,
+                            Screens.ADDMEMBERTOBAND.toString() +
+                                "/${widget.id}");
+                        presenter.getBandDetails(widget.id);
+                      })
+                ],
+              ),
+        widget.id.isEmpty
+            ? Container()
             : ListView.builder(
                 shrinkWrap: true,
+                itemCount: members.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    child: Column(
-                      children: <Widget>[
-                        Text("User Name"),
-                        Text("instrument")
-                      ],
+                  User user = members[index];
+                  return ListTile(
+                    title: Text(
+                      "${user.firstName} ${user.lastName}",
+                      style: textTheme.subhead.copyWith(
+                        color: Colors.white,
+                        fontSize: 15,
+                      ),
+                    ),
+                    subtitle: Text(
+                      "${user.primaryInstrument}",
+                      style: textTheme.subhead.copyWith(
+                        color: Colors.white,
+                        fontSize: 12,
+                      ),
                     ),
                   );
                 },
@@ -410,6 +446,7 @@ class _AddBandScreenState
           DateTime.fromMillisecondsSinceEpoch(int.parse(band.dateStarted));
       _dateStartedController.text =
           formatDate(dateTime, [yyyy, '-', mm, '-', dd]);
+      members.addAll(band.bandMember);
     });
   }
 }
