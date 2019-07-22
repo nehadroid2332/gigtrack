@@ -179,6 +179,8 @@ class _AddActivityScreenState
             : Container(),
         TextField(
           enabled: widget.id.isEmpty,
+          minLines: 1,
+          maxLines: 4,
           decoration: InputDecoration(
             labelText: widget.id.isEmpty ? "Title" : "",
             labelStyle: TextStyle(

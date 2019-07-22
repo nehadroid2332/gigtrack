@@ -14,7 +14,7 @@ class AddBandScreen extends BaseScreen {
   final String id;
 
   AddBandScreen(AppListener appListener, {this.id})
-      : super(appListener, title: "Add Band");
+      : super(appListener, title: "${id.isEmpty?"Add":""} Band");
 
   @override
   _AddBandScreenState createState() => _AddBandScreenState();
