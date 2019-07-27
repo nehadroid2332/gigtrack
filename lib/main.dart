@@ -142,7 +142,7 @@ class MyApp extends StatelessWidget implements AppListener {
   }
 
   @override
-  Color get primaryColor => Color.fromRGBO(18, 130, 119, 1.0);
+  Color get primaryColor => Color.fromRGBO(81, 3, 120, 1.0);
 
   @override
   Router get router => _router;
@@ -151,10 +151,10 @@ class MyApp extends StatelessWidget implements AppListener {
   SharedPreferences get sharedPreferences => _prefs;
 
   @override
-  Color get primaryColorDark => Color.fromRGBO(0, 77, 71, 1.0);
+  Color get primaryColorDark => Color.fromRGBO(45,1,79, 1.0);
 
   @override
-  Color get accentColor => Color.fromRGBO(185, 196, 201, 1.0);
+  Color get accentColor => Color.fromRGBO(17,5,84, 1.0);
 }
 
 abstract class AppListener {

@@ -22,9 +22,25 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
   @override
   Widget buildBody() {
     return Container(
-        color: Colors.transparent,
+        decoration: new BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/guitar_splash.png'),
+            fit: BoxFit.cover,
+          ),
+          gradient: new LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment
+                .bottomCenter, // 10% of the width, so there are ten blinds.
+            colors: [
+              widget.appListener.primaryColor,
+              widget.appListener.accentColor
+            ], //tish to gray
+            tileMode: TileMode.repeated, // repeats the gradient over the canvas
+          ),
+        ),
         padding: EdgeInsets.all(20),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
               padding: EdgeInsets.all(8),
@@ -36,8 +52,32 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
                 child: ListView(
                   padding: EdgeInsets.all(20),
                   children: <Widget>[
-                    Image.asset(
-                      'assets/images/logo.png',
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Image.asset(
+                        'assets/images/logo.png',
+                        alignment: Alignment.centerLeft,
+                        height: 120,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                    ),
+                    Text(
+                      "Welcome Back,",
+                      style: textTheme.title
+                          .copyWith(color: Colors.white, fontSize: 28),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(5),
+                    ),
+                    Text(
+                      "Sign In to Continue",
+                      style: textTheme.title.copyWith(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w300,
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.all(20),
@@ -50,6 +90,10 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
                           color: Colors.white,
                         ),
                         errorText: _errorEmail,
+                      ),
+                      style: textTheme.title.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w300,
                       ),
                     ),
                     Padding(
@@ -64,50 +108,87 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
                           ),
                           errorText: _errorPassword),
                       obscureText: true,
+                      style: textTheme.title.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w300,
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
                         top: 30,
                       ),
                     ),
-                    RaisedButton(
-                      color: Colors.redAccent,
-                      textColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          String email = _emailController.text;
-                          String password = _passwordController.text;
-                          if (email.isEmpty) {
-                            _errorEmail = "Cannot be empty";
-                          } else if (password.isEmpty) {
-                            _errorPassword = "Cannot be empty";
-                          } else if (validateEmail(email)) {
-                            _errorEmail = "Not a Valid Email";
-                          } else if (password.length < 6) {
-                            _errorPassword =
-                                "Password must be more than 6 character";
-                          } else {
-                            showLoading();
-                            presenter.loginUser(email, password);
-                          }
-                        });
-                      },
-                      child: Text("Login"),
+                    Wrap(
+                      children: <Widget>[
+                        RaisedButton(
+                          color: Color.fromRGBO(255, 0, 104, 1.0),
+                          textColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Text(
+                                "Sign In",
+                                style: textTheme.title.copyWith(
+                                  fontSize: 15,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(2),
+                              ),
+                              Icon(
+                                Icons.arrow_forward,
+                                size: 19,
+                              )
+                            ],
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              String email = _emailController.text;
+                              String password = _passwordController.text;
+                              if (email.isEmpty) {
+                                _errorEmail = "Cannot be empty";
+                              } else if (password.isEmpty) {
+                                _errorPassword = "Cannot be empty";
+                              } else if (validateEmail(email)) {
+                                _errorEmail = "Not a Valid Email";
+                              } else if (password.length < 6) {
+                                _errorPassword =
+                                    "Password must be more than 6 character";
+                              } else {
+                                showLoading();
+                                presenter.loginUser(email, password);
+                              }
+                            });
+                          },
+                        )
+                      ],
                     ),
-                    RaisedButton(
-                      color: Colors.redAccent,
-                      textColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      onPressed: () {
-                        widget.appListener.router
-                            .navigateTo(context, Screens.SIGNUP.toString());
-                      },
-                      child: Text("Sign Up"),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                    ),
+                    Wrap(
+                      alignment: WrapAlignment.start,
+                      children: <Widget>[
+                        FlatButton(
+                          padding: EdgeInsets.zero,
+                          textColor: Colors.white,
+                          onPressed: () {
+                            widget.appListener.router
+                                .navigateTo(context, Screens.SIGNUP.toString());
+                          },
+                          child: Text(
+                            "New User? Sign Up",
+                            style: textTheme.subtitle.copyWith(
+                                color: Colors.white,
+                                fontSize: 19,
+                                fontWeight: FontWeight.w300),
+                          ),
+                        )
+                      ],
                     )
                   ],
                 ),

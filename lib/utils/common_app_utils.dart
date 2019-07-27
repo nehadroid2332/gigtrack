@@ -178,6 +178,10 @@ bool validateMobile(String value) {
 Widget buildActivityListItem(Activites ac, {onTap}) {
   DateTime dt = DateTime.fromMillisecondsSinceEpoch(int.parse(ac.date));
   return Card(
+    color: Color.fromRGBO(235, 84, 99, 1.0),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(12),
+    ),
     child: InkWell(
       child: Padding(
         padding: EdgeInsets.all(15),
@@ -186,8 +190,11 @@ Widget buildActivityListItem(Activites ac, {onTap}) {
           children: <Widget>[
             Text(
               "${ac.title}",
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 22,
+                color: Color.fromRGBO(250, 250, 250, 1.0),
               ),
             ),
             Padding(
@@ -197,17 +204,9 @@ Widget buildActivityListItem(Activites ac, {onTap}) {
               children: <Widget>[
                 Expanded(
                   child: Text(
-                    "${ac.location}",
-                    style: TextStyle(
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
                     "${formatDate(dt, [
                       DD,
-                      '\n',
+                      '  ',
                       mm,
                       '-',
                       dd,
@@ -215,10 +214,22 @@ Widget buildActivityListItem(Activites ac, {onTap}) {
                       yy,
                     ])} \n${formatDate(dt, [hh, ':', nn, am])}",
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white60,
                     ),
                   ),
                 ),
+                Expanded(
+                  child: Text(
+                    "${ac.location}",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white60,
+                    ),
+                  ),
+                )
               ],
             ),
             Padding(
@@ -227,7 +238,9 @@ Widget buildActivityListItem(Activites ac, {onTap}) {
             Text(
               "${ac.description}",
               style: TextStyle(
-                fontSize: 12,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
               ),
             ),
           ],
@@ -238,7 +251,7 @@ Widget buildActivityListItem(Activites ac, {onTap}) {
   );
 }
 
-Widget buildNoteListItem(NotesTodo not, {onTap}) {
+Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
   DateTime stDate =
       DateTime.fromMillisecondsSinceEpoch(int.parse(not.start_date));
   DateTime endDate =
@@ -255,7 +268,8 @@ Widget buildNoteListItem(NotesTodo not, {onTap}) {
             Text(
               "${not.description}",
               style: TextStyle(
-                fontSize: 14,
+                fontSize: 24,
+                color: color,
               ),
             ),
             Padding(
@@ -263,27 +277,43 @@ Widget buildNoteListItem(NotesTodo not, {onTap}) {
             ),
             Row(
               children: <Widget>[
-                Expanded(
-                  child: Text(
-                    "Start: ${formatDate(stDate, [
-                      yyyy,
-                      '-',
-                      mm,
-                      '-',
-                      dd
-                    ])} ${formatDate(stDate, [HH, ':', nn, ':', ss])}",
-                    style: TextStyle(fontSize: 11),
-                  ),
+                Image.asset(
+                  'assets/images/calender.png',
+                  height: 20,
+                  width: 20,
+                ),
+                Padding(
+                  padding: EdgeInsets.all(5),
                 ),
                 Expanded(
                   child: Text(
-                    "End: ${formatDate(endDate, [
+                    "${formatDate(stDate, [
                       yyyy,
                       '-',
                       mm,
                       '-',
                       dd
-                    ])} ${formatDate(endDate, [HH, ':', nn, ':', ss])}",
+                    ])}\n${formatDate(stDate, [HH, ':', nn, ':', ss])}",
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ),
+                Image.asset(
+                  'assets/images/calender.png',
+                  height: 20,
+                  width: 20,
+                ),
+                Padding(
+                  padding: EdgeInsets.all(5),
+                ),
+                Expanded(
+                  child: Text(
+                    "${formatDate(endDate, [
+                      yyyy,
+                      '-',
+                      mm,
+                      '-',
+                      dd
+                    ])}\n${formatDate(endDate, [HH, ':', nn, ':', ss])}",
                     style: TextStyle(fontSize: 11),
                   ),
                 )
@@ -295,6 +325,30 @@ Widget buildNoteListItem(NotesTodo not, {onTap}) {
       onTap: onTap,
     ),
   );
+}
+
+class RoundedClipper extends CustomClipper<Path> {
+  final double height;
+
+  RoundedClipper(this.height);
+
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+    path.lineTo(0.0, height - 80);
+    path.quadraticBezierTo(
+      size.width / 2,
+      height,
+      size.width,
+      height - 80,
+    );
+    path.lineTo(size.width, 0.0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => true;
 }
 
 enum SharedPrefsKeys { TOKEN, USERID }

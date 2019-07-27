@@ -5,12 +5,13 @@ import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/note_todo_response.dart';
 import 'package:gigtrack/server/models/notestodo.dart';
 import 'package:gigtrack/ui/addnotes/add_notes_presenter.dart';
+import 'package:gigtrack/utils/common_app_utils.dart';
 
 class AddNotesScreen extends BaseScreen {
   final String id;
 
   AddNotesScreen(AppListener appListener, {this.id})
-      : super(appListener, title: "Add Notes/Todo");
+      : super(appListener, title: "");
 
   @override
   _AddNotesScreenState createState() => _AddNotesScreenState();
@@ -56,185 +57,292 @@ class _AddNotesScreenState
 
   @override
   Widget buildBody() {
-    return ListView(
-      padding: EdgeInsets.all(20),
+    return Stack(
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.all(10),
-        ),
-        widget.id.isEmpty ? Text("Type") : Container(),
-        widget.id.isEmpty
-            ? Row(
-                children: <Widget>[
-                  new Radio(
-                    value: 0,
-                    groupValue: _type,
-                    onChanged: _handleTypeValueChange,
-                  ),
-                  new Text(
-                    'Note',
-                    style: new TextStyle(fontSize: 16.0, color: Colors.white),
-                  ),
-                  new Radio(
-                    value: 1,
-                    groupValue: _type,
-                    onChanged: _handleTypeValueChange,
-                  ),
-                  new Text(
-                    'ToDO',
-                    style: new TextStyle(fontSize: 16.0, color: Colors.white),
-                  ),
-                ],
-              )
-            : Container(),
-        Padding(
-          padding: EdgeInsets.all(10),
-        ),
-        TextField(
-          enabled: widget.id.isEmpty,
-          decoration: InputDecoration(
-            labelText: "Desc",
-            labelStyle: TextStyle(
-              color: Colors.white,
-            ),
+        ClipPath(
+          clipper: RoundedClipper(height / 2.5),
+          child: Container(
+            color: widget.appListener.primaryColor,
+            height: height / 2.5,
           ),
-          controller: _descController,
-        ),
-        Row(
-          children: <Widget>[
-            Expanded(
-              child: InkWell(
-                child: AbsorbPointer(
-                  child: TextField(
-                    enabled: widget.id.isEmpty,
-                    decoration: InputDecoration(
-                      labelText: "Start Date",
-                      labelStyle: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    controller: _startDateController,
-                  ),
-                ),
-                onTap: () {
-                  if (widget.id.isEmpty) _selectDate(context, true);
-                },
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(4),
-            ),
-            Expanded(
-              child: InkWell(
-                child: AbsorbPointer(
-                  child: TextField(
-                    enabled: widget.id.isEmpty,
-                    decoration: InputDecoration(
-                      labelText: "Start Time",
-                      labelStyle: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    controller: _startTimeController,
-                  ),
-                ),
-                onTap: () {
-                  if (widget.id.isEmpty) _selectTime(context, true);
-                },
-              ),
-            )
-          ],
-        ),
-        Row(
-          children: <Widget>[
-            Expanded(
-              child: InkWell(
-                child: AbsorbPointer(
-                  child: TextField(
-                    enabled: widget.id.isEmpty,
-                    decoration: InputDecoration(
-                      labelText: "End Date",
-                      labelStyle: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    controller: _endDateController,
-                  ),
-                ),
-                onTap: () {
-                  if (widget.id.isEmpty) _selectDate(context, false);
-                },
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(4),
-            ),
-            Expanded(
-              child: InkWell(
-                child: AbsorbPointer(
-                  child: TextField(
-                    enabled: widget.id.isEmpty,
-                    decoration: InputDecoration(
-                      labelText: "End Time",
-                      labelStyle: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    controller: _endTimeController,
-                  ),
-                ),
-                onTap: () {
-                  if (widget.id.isEmpty) _selectTime(context, false);
-                },
-              ),
-            )
-          ],
         ),
         Padding(
-          padding: EdgeInsets.all(20),
-        ),
-        widget.id.isEmpty
-            ? RaisedButton(
-                onPressed: () {
-                  String desc = _descController.text;
-                  String stDate = _startDateController.text;
-                  String stTime = _startTimeController.text;
-                  String endDate = _endDateController.text;
-                  String endTime = _endTimeController.text;
+          padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "Add Notes/Todo",
+                style: textTheme.display2.copyWith(
+                  color: Colors.white,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(10),
+              ),
+              Expanded(
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
+                  child: ListView(
+                    padding: EdgeInsets.all(20),
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                      ),
+                      widget.id.isEmpty
+                          ? Text(
+                              "Type",
+                              style: textTheme.headline.copyWith(),
+                            )
+                          : Container(),
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                      ),
+                      widget.id.isEmpty
+                          ? Row(
+                              children: <Widget>[
+                                InkWell(
+                                  onTap: () {
+                                    _handleTypeValueChange(0);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 14, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        color: _type == 0
+                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+                                            : Color.fromRGBO(
+                                                244, 246, 248, 1.0),
+                                        borderRadius: BorderRadius.circular(15),
+                                        border: Border.all(
+                                            color: _type == 0
+                                                ? Color.fromRGBO(
+                                                    70, 206, 172, 1.0)
+                                                : Color.fromRGBO(
+                                                    244, 246, 248, 1.0))),
+                                    child: Text(
+                                      'Note',
+                                      style: new TextStyle(
+                                        fontSize: 16.0,
+                                        color: _type == 0
+                                            ? Color.fromRGBO(70, 206, 172, 1.0)
+                                            : Color.fromRGBO(
+                                                202, 208, 215, 1.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(6),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    _handleTypeValueChange(1);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 14, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        color: _type == 1
+                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+                                            : Color.fromRGBO(
+                                                244, 246, 248, 1.0),
+                                        borderRadius: BorderRadius.circular(15),
+                                        border: Border.all(
+                                            color: _type == 1
+                                                ? Color.fromRGBO(
+                                                    70, 206, 172, 1.0)
+                                                : Color.fromRGBO(
+                                                    244, 246, 248, 1.0))),
+                                    child: Text(
+                                      'Todo',
+                                      style: new TextStyle(
+                                        fontSize: 16.0,
+                                        color: _type == 1
+                                            ? Color.fromRGBO(70, 206, 172, 1.0)
+                                            : Color.fromRGBO(
+                                                202, 208, 215, 1.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Container(),
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                      ),
+                      TextField(
+                        enabled: widget.id.isEmpty,
+                        style: textTheme.headline,
+                        decoration: InputDecoration(
+                          labelText: "Description",
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                          ),
+                        ),
+                        controller: _descController,
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: InkWell(
+                              child: AbsorbPointer(
+                                child: TextField(
+                                  enabled: widget.id.isEmpty,
+                                  decoration: InputDecoration(
+                                    labelText: "Start Date",
+                                    labelStyle: TextStyle(
+                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+                                    ),
+                                  ),
+                                  controller: _startDateController,
+                                ),
+                              ),
+                              onTap: () {
+                                if (widget.id.isEmpty)
+                                  _selectDate(context, true);
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(4),
+                          ),
+                          Expanded(
+                            child: InkWell(
+                              child: AbsorbPointer(
+                                child: TextField(
+                                  enabled: widget.id.isEmpty,
+                                  decoration: InputDecoration(
+                                    labelText: "Start Time",
+                                    labelStyle: TextStyle(
+                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+                                    ),
+                                  ),
+                                  controller: _startTimeController,
+                                ),
+                              ),
+                              onTap: () {
+                                if (widget.id.isEmpty)
+                                  _selectTime(context, true);
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: InkWell(
+                              child: AbsorbPointer(
+                                child: TextField(
+                                  enabled: widget.id.isEmpty,
+                                  decoration: InputDecoration(
+                                    labelText: "End Date",
+                                    labelStyle: TextStyle(
+                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+                                    ),
+                                  ),
+                                  controller: _endDateController,
+                                ),
+                              ),
+                              onTap: () {
+                                if (widget.id.isEmpty)
+                                  _selectDate(context, false);
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(4),
+                          ),
+                          Expanded(
+                            child: InkWell(
+                              child: AbsorbPointer(
+                                child: TextField(
+                                  enabled: widget.id.isEmpty,
+                                  decoration: InputDecoration(
+                                    labelText: "End Time",
+                                    labelStyle: TextStyle(
+                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+                                    ),
+                                  ),
+                                  controller: _endTimeController,
+                                ),
+                              ),
+                              onTap: () {
+                                if (widget.id.isEmpty)
+                                  _selectTime(context, false);
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(20),
+                      ),
+                      widget.id.isEmpty
+                          ? RaisedButton(
+                              onPressed: () {
+                                String desc = _descController.text;
+                                String stDate = _startDateController.text;
+                                String stTime = _startTimeController.text;
+                                String endDate = _endDateController.text;
+                                String endTime = _endTimeController.text;
 
-                  setState(() {
-                    _descError = null;
-                    _startDateError = null;
-                    _endDateError = null;
-                    _startTimeError = null;
-                    _endTimeError = null;
-                    if (desc.isEmpty) {
-                      _descError = "Cannot be Empty";
-                    } else if (stDate.isEmpty) {
-                      _startDateError = "Cannot be Empty";
-                    } else if (stTime.isEmpty) {
-                      _startTimeError = "Cannot be Empty";
-                    } else if (endDate.isEmpty) {
-                      _endDateError = "Cannot be Empty";
-                    } else if (endTime.isEmpty) {
-                      _endTimeError = "Cannot be Empty";
-                    } else {
-                      NotesTodo notesTodo = NotesTodo(
-                        description: desc,
-                        end_date: endDate,
-                        start_date: stDate,
-                        type: _type.toString(),
-                      );
-                      showLoading();
-                      presenter.addNotes(notesTodo);
-                    }
-                  });
-                },
-                color: widget.appListener.primaryColor,
-                child: Text("Submit"),
-                textColor: Colors.white,
+                                setState(() {
+                                  _descError = null;
+                                  _startDateError = null;
+                                  _endDateError = null;
+                                  _startTimeError = null;
+                                  _endTimeError = null;
+                                  if (desc.isEmpty) {
+                                    _descError = "Cannot be Empty";
+                                  } else if (stDate.isEmpty) {
+                                    _startDateError = "Cannot be Empty";
+                                  } else if (stTime.isEmpty) {
+                                    _startTimeError = "Cannot be Empty";
+                                  } else if (endDate.isEmpty) {
+                                    _endDateError = "Cannot be Empty";
+                                  } else if (endTime.isEmpty) {
+                                    _endTimeError = "Cannot be Empty";
+                                  } else {
+                                    NotesTodo notesTodo = NotesTodo(
+                                      description: desc,
+                                      end_date: endDate,
+                                      start_date: stDate,
+                                      type: _type.toString(),
+                                    );
+                                    showLoading();
+                                    presenter.addNotes(notesTodo);
+                                  }
+                                });
+                              },
+                              color: Color.fromRGBO(255, 0, 104, 1.0),
+                              child: Text(
+                                "Submit",
+                                style: textTheme.headline.copyWith(
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                vertical: 8,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              textColor: Colors.white,
+                            )
+                          : Container()
+                    ],
+                  ),
+                ),
               )
-            : Container()
+            ],
+          ),
+        )
       ],
     );
   }
@@ -307,3 +415,4 @@ class _AddNotesScreenState
     });
   }
 }
+

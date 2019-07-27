@@ -14,7 +14,6 @@ class SplashScreen extends BaseScreen {
 
 class _SplashScreenState extends BaseScreenState<SplashScreen, SplashPresenter>
     implements SplashContract {
-
   @override
   void initState() {
     super.initState();
@@ -25,6 +24,10 @@ class _SplashScreenState extends BaseScreenState<SplashScreen, SplashPresenter>
   Widget buildBody() {
     return new Container(
       decoration: new BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/guitar_splash.png'),
+          fit: BoxFit.cover,
+        ),
         gradient: new LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment

@@ -14,7 +14,7 @@ class AddBandScreen extends BaseScreen {
   final String id;
 
   AddBandScreen(AppListener appListener, {this.id})
-      : super(appListener, title: "${id.isEmpty?"Add":""} Band");
+      : super(appListener, title: "${id.isEmpty ? "Add" : ""} Band");
 
   @override
   _AddBandScreenState createState() => _AddBandScreenState();
@@ -91,292 +91,351 @@ class _AddBandScreenState
   }
 
   @override
+  AppBar get appBar => AppBar(
+        elevation: 0,
+        backgroundColor: Color.fromRGBO(250, 108, 81, 1.0),
+      );
+
+  @override
   Widget buildBody() {
-    return ListView(
-      padding: EdgeInsets.all(30),
+    return Stack(
       children: <Widget>[
-        // InkWell(
-        //   child: Center(
-        //     child: Container(
-        //       width: 150.0,
-        //       height: 150.0,
-        //       decoration: _image != null
-        //           ? new BoxDecoration(
-        //               shape: BoxShape.circle,
-        //               image: new DecorationImage(
-        //                 fit: BoxFit.fill,
-        //                 image: FileImage(_image),
-        //               ),
-        //             )
-        //           : null,
-        //       child: _image == null
-        //           ? Icon(
-        //               Icons.account_circle,
-        //               size: 100,
-        //             )
-        //           : null,
-        //     ),
-        //   ),
-        //   onTap: getImage,
-        // ),
-        // Padding(
-        //   padding: EdgeInsets.all(20),
-        // ),
-        Padding(
-          padding: EdgeInsets.all(5),
-        ),
-        TextField(
-          enabled: widget.id.isEmpty,
-          controller: _bandNameController,
-          decoration: InputDecoration(
-            labelStyle: TextStyle(
-              color: Colors.white,
-            ),
-            labelText: "Band Name",
-            errorText: _errorBandName,
-          ),
-          style: textTheme.subhead.copyWith(
-            color: Colors.white,
+        ClipPath(
+          clipper: RoundedClipper(height / 2.5),
+          child: Container(
+            color: Color.fromRGBO(250, 108, 81, 1.0),
+            height: height / 2.5,
           ),
         ),
         Padding(
-          padding: EdgeInsets.all(5),
-        ),
-        TextField(
-          enabled: widget.id.isEmpty,
-          controller: _bandlegalNameController,
-          style: textTheme.subhead.copyWith(
-            color: Colors.white,
+          padding: EdgeInsets.symmetric(
+            horizontal: 25,
+            vertical: 20,
           ),
-          decoration: InputDecoration(
-            labelStyle: TextStyle(
-              color: Colors.white,
-            ),
-            labelText: "Band Legal Name",
-            errorText: _errorBandLegalName,
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.all(5),
-        ),
-        TextField(
-          enabled: widget.id.isEmpty,
-          controller: _legalStructureController,
-          style: textTheme.subhead.copyWith(
-            color: Colors.white,
-          ),
-          decoration: InputDecoration(
-            labelStyle: TextStyle(
-              color: Colors.white,
-            ),
-            labelText: "Legal Structure",
-            errorText: _errorStructure,
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.all(5),
-        ),
-        InkWell(
-          child: AbsorbPointer(
-            child: TextField(
-              enabled: widget.id.isEmpty,
-              controller: _dateStartedController,
-              decoration: InputDecoration(
-                labelText: "Date Started",
-                labelStyle: TextStyle(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "Add Band",
+                style: textTheme.display1.copyWith(
                   color: Colors.white,
                 ),
-                errorText: _errorDateStarted,
               ),
-              style: textTheme.subhead.copyWith(
-                color: Colors.white,
+              Padding(
+                padding: EdgeInsets.all(10),
               ),
-            ),
-          ),
-          onTap: () {
-            if (widget.id.isEmpty) _selectDate(context, true);
-          },
-        ),
-        Padding(
-          padding: EdgeInsets.all(5),
-        ),
-        TextField(
-          enabled: widget.id.isEmpty,
-          controller: _musicStyleController,
-          decoration: InputDecoration(
-            labelStyle: TextStyle(
-              color: Colors.white,
-            ),
-            labelText: "Music Style",
-            errorText: _errorMusicStyle,
-          ),
-          style: textTheme.subhead.copyWith(
-            color: Colors.white,
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.all(5),
-        ),
-        TextField(
-          enabled: widget.id.isEmpty,
-          controller: _bandResponsibilitiesController,
-          style: textTheme.subhead.copyWith(
-            color: Colors.white,
-          ),
-          decoration: InputDecoration(
-              labelText: "Band Responsibility",
-              labelStyle: TextStyle(
-                color: Colors.white,
-              ),
-              errorText: _errorBandResponsibility),
-        ),
-        Padding(
-          padding: EdgeInsets.all(5),
-        ),
-        TextField(
-          enabled: widget.id.isEmpty,
-          controller: _websiteController,
-          style: textTheme.subhead.copyWith(
-            color: Colors.white,
-          ),
-          decoration: InputDecoration(
-            labelText: "Website",
-            labelStyle: TextStyle(
-              color: Colors.white,
-            ),
-            errorText: _errorWebsite,
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.all(5),
-        ),
-        TextField(
-          enabled: widget.id.isEmpty,
-          controller: _emailController,
-          style: textTheme.subhead.copyWith(
-            color: Colors.white,
-          ),
-          decoration: InputDecoration(
-            labelText: "Email Address",
-            labelStyle: TextStyle(
-              color: Colors.white,
-            ),
-            errorText: _errorEmail,
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.all(5),
-        ),
-        Padding(
-          padding: EdgeInsets.only(
-            top: 30,
-          ),
-        ),
-        widget.id.isEmpty
-            ? Container()
-            : Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Text(
-                      "Members(${members.length})",
-                      style: textTheme.subhead.copyWith(color: Colors.white),
-                    ),
+              Expanded(
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18)),
+                  child: ListView(
+                    padding: EdgeInsets.all(30),
+                    children: <Widget>[
+                      // InkWell(
+                      //   child: Center(
+                      //     child: Container(
+                      //       width: 150.0,
+                      //       height: 150.0,
+                      //       decoration: _image != null
+                      //           ? new BoxDecoration(
+                      //               shape: BoxShape.circle,
+                      //               image: new DecorationImage(
+                      //                 fit: BoxFit.fill,
+                      //                 image: FileImage(_image),
+                      //               ),
+                      //             )
+                      //           : null,
+                      //       child: _image == null
+                      //           ? Icon(
+                      //               Icons.account_circle,
+                      //               size: 100,
+                      //             )
+                      //           : null,
+                      //     ),
+                      //   ),
+                      //   onTap: getImage,
+                      // ),
+                      // Padding(
+                      //   padding: EdgeInsets.all(20),
+                      // ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      TextField(
+                        enabled: widget.id.isEmpty,
+                        controller: _bandNameController,
+                        decoration: InputDecoration(
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                          ),
+                          labelText: "Band Name",
+                          errorText: _errorBandName,
+                        ),
+                        style: textTheme.subhead.copyWith(
+                          color: Colors.black,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      TextField(
+                        enabled: widget.id.isEmpty,
+                        controller: _bandlegalNameController,
+                        style: textTheme.subhead.copyWith(
+                          color: Colors.black,
+                        ),
+                        decoration: InputDecoration(
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                          ),
+                          labelText: "Band Legal Name",
+                          errorText: _errorBandLegalName,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      TextField(
+                        enabled: widget.id.isEmpty,
+                        controller: _legalStructureController,
+                        style: textTheme.subhead.copyWith(
+                          color: Colors.black,
+                        ),
+                        decoration: InputDecoration(
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                          ),
+                          labelText: "Legal Structure",
+                          errorText: _errorStructure,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      InkWell(
+                        child: AbsorbPointer(
+                          child: TextField(
+                            enabled: widget.id.isEmpty,
+                            controller: _dateStartedController,
+                            decoration: InputDecoration(
+                              labelText: "Date Started",
+                              labelStyle: TextStyle(
+                                color: Color.fromRGBO(202, 208, 215, 1.0),
+                              ),
+                              errorText: _errorDateStarted,
+                            ),
+                            style: textTheme.subhead.copyWith(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          if (widget.id.isEmpty) _selectDate(context, true);
+                        },
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      TextField(
+                        enabled: widget.id.isEmpty,
+                        controller: _musicStyleController,
+                        decoration: InputDecoration(
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                          ),
+                          labelText: "Music Style",
+                          errorText: _errorMusicStyle,
+                        ),
+                        style: textTheme.subhead.copyWith(
+                          color: Colors.black,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      TextField(
+                        enabled: widget.id.isEmpty,
+                        controller: _bandResponsibilitiesController,
+                        style: textTheme.subhead.copyWith(
+                          color: Colors.black,
+                        ),
+                        decoration: InputDecoration(
+                            labelText: "Band Responsibility",
+                            labelStyle: TextStyle(
+                              color: Color.fromRGBO(202, 208, 215, 1.0),
+                            ),
+                            errorText: _errorBandResponsibility),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      TextField(
+                        enabled: widget.id.isEmpty,
+                        controller: _websiteController,
+                        style: textTheme.subhead.copyWith(
+                          color: Colors.black,
+                        ),
+                        decoration: InputDecoration(
+                          labelText: "Website",
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                          ),
+                          errorText: _errorWebsite,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      TextField(
+                        enabled: widget.id.isEmpty,
+                        controller: _emailController,
+                        style: textTheme.subhead.copyWith(
+                          color: Colors.black,
+                        ),
+                        decoration: InputDecoration(
+                          labelText: "Email Address",
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                          ),
+                          errorText: _errorEmail,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: 30,
+                        ),
+                      ),
+                      widget.id.isEmpty
+                          ? Container()
+                          : Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Text(
+                                    "Members(${members.length})",
+                                    style: textTheme.subhead.copyWith(
+                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+                                    ),
+                                  ),
+                                ),
+                                IconButton(
+                                    icon: Icon(
+                                      Icons.add,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: () async {
+                                      await widget.appListener.router
+                                          .navigateTo(
+                                              context,
+                                              Screens.ADDMEMBERTOBAND
+                                                      .toString() +
+                                                  "/${widget.id}");
+                                      presenter.getBandDetails(widget.id);
+                                    })
+                              ],
+                            ),
+                      widget.id.isEmpty
+                          ? Container()
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: members.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                User user = members[index];
+                                return ListTile(
+                                  title: Text(
+                                    "${user.firstName} ${user.lastName}",
+                                    style: textTheme.subhead.copyWith(
+                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    "${user.primaryInstrument}",
+                                    style: textTheme.subhead.copyWith(
+                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                      widget.id.isEmpty
+                          ? RaisedButton(
+                              color: Color.fromRGBO(250, 108, 81, 1.0),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18)),
+                              textColor: Colors.white,
+                              onPressed: () {
+                                setState(() {
+                                  String dateStarted =
+                                      _dateStartedController.text;
+                                  String musicStyle =
+                                      _musicStyleController.text;
+                                  String bname = _bandNameController.text;
+                                  String blname = _bandlegalNameController.text;
+                                  String legalstructure =
+                                      _legalStructureController.text;
+                                  String bandRes =
+                                      _bandResponsibilitiesController.text;
+                                  String email = _emailController.text;
+                                  String website = _websiteController.text;
+                                  _errorBandLegalName = null;
+                                  _errorBandName = null;
+                                  _errorBandResponsibility = null;
+                                  _errorDateStarted = null;
+                                  _errorEmail = null;
+                                  _errorMusicStyle = null;
+                                  _errorStructure = null;
+                                  _errorWebsite = null;
+                                  if (bname.isEmpty) {
+                                    _errorBandName = "Cannot be empty";
+                                  } else if (blname.isEmpty) {
+                                    _errorBandLegalName = "Cannot be empty";
+                                  } else if (dateStarted.isEmpty) {
+                                    _errorDateStarted = "Cannot be empty";
+                                  } else if (musicStyle.isEmpty) {
+                                    _errorMusicStyle = "Cannot be empty";
+                                  } else if (email.isEmpty) {
+                                    _errorEmail = "Cannot be empty";
+                                  } else if (validateEmail(email)) {
+                                    _errorEmail = "Not a Valid Email";
+                                  } else if (musicStyle.isEmpty) {
+                                    _errorMusicStyle = "Cannot be empty";
+                                  } else if (legalstructure.isEmpty) {
+                                    _errorStructure = "Cannot be empty";
+                                  } else if (bandRes.isEmpty) {
+                                    _errorBandResponsibility =
+                                        "Cannot be empty";
+                                  } else if (website.isEmpty) {
+                                    _errorWebsite = "Cannot be empty";
+                                  } else {
+                                    showLoading();
+                                    presenter.addBand(
+                                        dateStarted,
+                                        musicStyle,
+                                        bname,
+                                        blname,
+                                        legalstructure,
+                                        bandRes,
+                                        email,
+                                        website);
+                                  }
+                                });
+                              },
+                              child: Text("Submit"),
+                            )
+                          : Container(),
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                      )
+                    ],
                   ),
-                  IconButton(
-                      icon: Icon(
-                        Icons.add,
-                        color: Colors.white,
-                      ),
-                      onPressed: () async {
-                        await widget.appListener.router.navigateTo(
-                            context,
-                            Screens.ADDMEMBERTOBAND.toString() +
-                                "/${widget.id}");
-                        presenter.getBandDetails(widget.id);
-                      })
-                ],
-              ),
-        widget.id.isEmpty
-            ? Container()
-            : ListView.builder(
-                shrinkWrap: true,
-                itemCount: members.length,
-                itemBuilder: (BuildContext context, int index) {
-                  User user = members[index];
-                  return ListTile(
-                    title: Text(
-                      "${user.firstName} ${user.lastName}",
-                      style: textTheme.subhead.copyWith(
-                        color: Colors.white,
-                        fontSize: 15,
-                      ),
-                    ),
-                    subtitle: Text(
-                      "${user.primaryInstrument}",
-                      style: textTheme.subhead.copyWith(
-                        color: Colors.white,
-                        fontSize: 12,
-                      ),
-                    ),
-                  );
-                },
-              ),
-        widget.id.isEmpty
-            ? RaisedButton(
-                color: Colors.redAccent,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8)),
-                textColor: Colors.white,
-                onPressed: () {
-                  setState(() {
-                    String dateStarted = _dateStartedController.text;
-                    String musicStyle = _musicStyleController.text;
-                    String bname = _bandNameController.text;
-                    String blname = _bandlegalNameController.text;
-                    String legalstructure = _legalStructureController.text;
-                    String bandRes = _bandResponsibilitiesController.text;
-                    String email = _emailController.text;
-                    String website = _websiteController.text;
-                    _errorBandLegalName = null;
-                    _errorBandName = null;
-                    _errorBandResponsibility = null;
-                    _errorDateStarted = null;
-                    _errorEmail = null;
-                    _errorMusicStyle = null;
-                    _errorStructure = null;
-                    _errorWebsite = null;
-                    if (bname.isEmpty) {
-                      _errorBandName = "Cannot be empty";
-                    } else if (blname.isEmpty) {
-                      _errorBandLegalName = "Cannot be empty";
-                    } else if (dateStarted.isEmpty) {
-                      _errorDateStarted = "Cannot be empty";
-                    } else if (musicStyle.isEmpty) {
-                      _errorMusicStyle = "Cannot be empty";
-                    } else if (email.isEmpty) {
-                      _errorEmail = "Cannot be empty";
-                    } else if (validateEmail(email)) {
-                      _errorEmail = "Not a Valid Email";
-                    } else if (musicStyle.isEmpty) {
-                      _errorMusicStyle = "Cannot be empty";
-                    } else if (legalstructure.isEmpty) {
-                      _errorStructure = "Cannot be empty";
-                    } else if (bandRes.isEmpty) {
-                      _errorBandResponsibility = "Cannot be empty";
-                    } else if (website.isEmpty) {
-                      _errorWebsite = "Cannot be empty";
-                    } else {
-                      showLoading();
-                      presenter.addBand(dateStarted, musicStyle, bname, blname,
-                          legalstructure, bandRes, email, website);
-                    }
-                  });
-                },
-                child: Text("Add"),
+                ),
               )
-            : Container(),
-        Padding(
-          padding: EdgeInsets.all(10),
+            ],
+          ),
         )
       ],
     );

@@ -78,7 +78,7 @@ class _NotificationListScreensState
             padding: EdgeInsets.all(10),
             itemBuilder: (BuildContext context, int index) {
               NotesTodo todo = _todos[index];
-              return buildNoteListItem(todo);
+              return buildNoteListItem(todo, widget.appListener.primaryColor);
             },
           ),
           Container(

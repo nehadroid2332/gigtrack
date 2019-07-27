@@ -1,4 +1,3 @@
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
@@ -28,19 +27,60 @@ class _ActivitiesListScreenState
   }
 
   @override
+  AppBar get appBar => AppBar(
+        backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: widget.appListener.primaryColorDark,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      );
+
+  @override
   Widget buildBody() {
     return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: ListView.builder(
-        padding: EdgeInsets.all(20),
-        itemBuilder: (BuildContext context, int index) {
-          Activites ac = activities[index];
-          return buildActivityListItem(ac, onTap: () {
-            widget.appListener.router.navigateTo(
-                context, Screens.ADDACTIVITY.toString() + "/${ac.id}");
-          });
-        },
-        itemCount: activities.length,
+      backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 25,
+          vertical: 20,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Image.asset(
+              'assets/images/activities_red.png',
+              height: 60,
+              width: 60,
+            ),
+            Text(
+              "Activities/Schedule",
+              style: textTheme.display1.copyWith(
+                color: widget.appListener.primaryColorDark,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(10),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemBuilder: (BuildContext context, int index) {
+                  Activites ac = activities[index];
+                  return buildActivityListItem(ac, onTap: () {
+                    widget.appListener.router.navigateTo(
+                        context, Screens.ADDACTIVITY.toString() + "/${ac.id}");
+                  });
+                },
+                itemCount: activities.length,
+              ),
+            )
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -49,7 +89,11 @@ class _ActivitiesListScreenState
           showLoading();
           presenter.getList();
         },
-        child: Icon(Icons.add),
+        backgroundColor: Colors.white,
+        child: Icon(
+          Icons.add,
+          color: widget.appListener.primaryColorDark,
+        ),
       ),
     );
   }

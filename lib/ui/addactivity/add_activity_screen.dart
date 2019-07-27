@@ -6,13 +6,13 @@ import 'package:gigtrack/server/models/activities.dart';
 import 'package:gigtrack/server/models/activities_response.dart';
 import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/ui/addactivity/add_activity_presenter.dart';
+import 'package:gigtrack/utils/common_app_utils.dart';
 
 class AddActivityScreen extends BaseScreen {
   final String id;
 
   AddActivityScreen(AppListener appListener, {this.id})
-      : super(appListener,
-            title: "${id.isEmpty ? "Add " : ""}Activity/Schedule");
+      : super(appListener, title: "");
 
   @override
   _AddActivityScreenState createState() => _AddActivityScreenState();
@@ -87,248 +87,386 @@ class _AddActivityScreenState
   }
 
   @override
+  AppBar get appBar => AppBar(
+    elevation: 0,
+    backgroundColor: Color.fromRGBO(235, 84, 99, 1.0),
+  );
+
+  @override
   Widget buildBody() {
-    return ListView(
-      padding: EdgeInsets.all(20),
+    return Stack(
       children: <Widget>[
-        widget.id.isEmpty
-            ? Text(
-                "Select One from each row:",
-                style: textTheme.subtitle.copyWith(color: Colors.white),
-              )
-            : Container(),
-        widget.id.isEmpty
-            ? Row(
-                children: <Widget>[
-                  new Radio(
-                    value: 0,
-                    groupValue: _userType,
-                    onChanged: _handleUserTypeValueChange,
-                  ),
-                  new Text(
-                    'User',
-                    style: new TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.white,
-                    ),
-                  ),
-                  new Radio(
-                    value: 1,
-                    groupValue: _userType,
-                    onChanged: _handleUserTypeValueChange,
-                  ),
-                  new Text(
-                    'Band',
-                    style: new TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              )
-            : Container(),
-        (_userType == 1 && widget.id.isEmpty)
-            ? Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: DropdownButton<Band>(
-                  items: bands.map((Band value) {
-                    return new DropdownMenuItem<Band>(
-                      value: value,
-                      child: new Text(value.name),
-                    );
-                  }).toList(),
-                  isExpanded: true,
-                  onChanged: (b) {
-                    setState(() {
-                      selectedBand = b;
-                    });
-                  },
-                  value: selectedBand,
-                ),
-              )
-            : Container(),
-        widget.id.isEmpty
-            ? Row(
-                children: <Widget>[
-                  new Radio(
-                    value: 0,
-                    groupValue: _type,
-                    onChanged: _handleTypeValueChange,
-                  ),
-                  new Text(
-                    'Schedule',
-                    style: new TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.white,
-                    ),
-                  ),
-                  new Radio(
-                    value: 1,
-                    groupValue: _type,
-                    onChanged: _handleTypeValueChange,
-                  ),
-                  new Text(
-                    'Activity',
-                    style: new TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              )
-            : Container(),
-        TextField(
-          enabled: widget.id.isEmpty,
-          minLines: 1,
-          maxLines: 4,
-          decoration: InputDecoration(
-            labelText: widget.id.isEmpty ? "Title" : "",
-            labelStyle: TextStyle(
-              color: Colors.white,
-            ),
-            errorText: _titleError,
+        ClipPath(
+          clipper: RoundedClipper(height / 2.5),
+          child: Container(
+            color: Color.fromRGBO(235, 84, 99, 1.0),
+            height: height / 2.5,
           ),
-          style: widget.id.isEmpty
-              ? textTheme.subhead.copyWith(
-                  color: Colors.white,
-                )
-              : textTheme.display1.copyWith(
-                  color: Colors.white,
-                ),
-          controller: _titleController,
-        ),
-        Row(
-          children: <Widget>[
-            Expanded(
-              child: InkWell(
-                child: AbsorbPointer(
-                  child: TextField(
-                    enabled: widget.id.isEmpty,
-                    decoration: InputDecoration(
-                      labelText: widget.id.isEmpty ? "Date" : "",
-                      labelStyle: TextStyle(
-                        color: Colors.white,
-                      ),
-                      errorText: _dateError,
-                    ),
-                    controller: _dateController,
-                    style: textTheme.subhead.copyWith(
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                onTap: () {
-                  if (widget.id.isEmpty) _selectDate(context);
-                },
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(4),
-            ),
-            widget.id.isEmpty
-                ? Expanded(
-                    child: InkWell(
-                      child: AbsorbPointer(
-                        child: TextField(
-                          enabled: widget.id.isEmpty,
-                          decoration: InputDecoration(
-                            labelText: widget.id.isEmpty ? "Time" : "",
-                            labelStyle: TextStyle(
-                              color: Colors.white,
-                            ),
-                            errorText: _timeError,
-                          ),
-                          controller: _timeController,
-                          style: textTheme.subhead.copyWith(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        if (widget.id.isEmpty) _selectTime(context);
-                      },
-                    ),
-                  )
-                : Container()
-          ],
-        ),
-        TextField(
-          decoration: InputDecoration(
-            labelText: widget.id.isEmpty ? "Location" : "",
-            labelStyle: TextStyle(
-              color: Colors.white,
-            ),
-            errorText: _locError,
-          ),
-          enabled: widget.id.isEmpty,
-          controller: _locController,
-          style: textTheme.subhead.copyWith(
-            color: Colors.white,
-          ),
-        ),
-        TextField(
-          decoration: InputDecoration(
-            labelText: widget.id.isEmpty ? "Description" : "",
-            labelStyle: TextStyle(
-              color: Colors.white,
-            ),
-            errorText: _descError,
-          ),
-          enabled: widget.id.isEmpty,
-          minLines: 5,
-          maxLines: 10,
-          style: textTheme.subhead.copyWith(
-            color: Colors.white,
-          ),
-          controller: _descController,
         ),
         Padding(
-          padding: EdgeInsets.all(20),
-        ),
-        widget.id.isEmpty
-            ? RaisedButton(
-                onPressed: () {
-                  String title = _titleController.text;
-                  String desc = _descController.text;
-                  String loc = _locController.text;
-                  String time = _timeController.text;
-                  String date = _dateController.text;
-                  setState(() {
-                    _titleError = null;
-                    _descError = null;
-                    _locError = null;
-                    _timeError = null;
-                    _dateError = null;
-                    if (title.isEmpty) {
-                      _titleError = "Cannot be Empty";
-                    } else if (desc.isEmpty) {
-                      _descError = "Cannot be Empty";
-                    } else if (loc.isEmpty) {
-                      _locError = "Cannot be Empty";
-                    } else if (time.isEmpty) {
-                      _timeError = "Cannot be Empty";
-                    } else if (date.isEmpty) {
-                      _dateError = "Cannot be Empty";
-                    } else {
-                      Activites activities = Activites(
-                        title: title,
-                        description: desc,
-                        date: "$date $time",
-                        location: loc,
-                        band_id: selectedBand?.id ?? "",
-                        type: _userType.toString(),
-                        action_type: _type.toString(),
-                      );
-                      showLoading();
-                      presenter.addActivity(activities);
-                    }
-                  });
-                },
-                color: widget.appListener.primaryColor,
-                child: Text("Submit"),
-                textColor: Colors.white,
+          padding: EdgeInsets.symmetric(
+            horizontal: 25,
+            vertical: 20,
+          ),
+          child: Column(
+            children: <Widget>[
+              Text(
+                "Add Activities/Schedule",
+                style: textTheme.display2.copyWith(
+                  color: Colors.white,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(10),
+              ),
+              Expanded(
+                child: Card(
+                  child: ListView(
+                    padding: EdgeInsets.all(20),
+                    children: <Widget>[
+                      widget.id.isEmpty
+                          ? Text(
+                              "Select One from each row:",
+                              style: textTheme.headline.copyWith(
+                                  color: widget.appListener.primaryColorDark),
+                            )
+                          : Container(),
+                      Padding(
+                        padding: EdgeInsets.all(6),
+                      ),
+                      widget.id.isEmpty
+                          ? Row(
+                              children: <Widget>[
+                                InkWell(
+                                  onTap: () {
+                                    _handleUserTypeValueChange(0);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 14, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        color: _userType == 0
+                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+                                            : Color.fromRGBO(
+                                                244, 246, 248, 1.0),
+                                        borderRadius: BorderRadius.circular(15),
+                                        border: Border.all(
+                                            color: _userType == 0
+                                                ? Color.fromRGBO(
+                                                    70, 206, 172, 1.0)
+                                                : Color.fromRGBO(
+                                                    244, 246, 248, 1.0))),
+                                    child: Text(
+                                      'User',
+                                      style: new TextStyle(
+                                        fontSize: 16.0,
+                                        color: _userType == 0
+                                            ? Color.fromRGBO(70, 206, 172, 1.0)
+                                            : Color.fromRGBO(
+                                                202, 208, 215, 1.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(8),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    _handleUserTypeValueChange(1);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 14, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        color: _userType == 1
+                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+                                            : Color.fromRGBO(
+                                                244, 246, 248, 1.0),
+                                        borderRadius: BorderRadius.circular(15),
+                                        border: Border.all(
+                                            color: _userType == 1
+                                                ? Color.fromRGBO(
+                                                    70, 206, 172, 1.0)
+                                                : Color.fromRGBO(
+                                                    244, 246, 248, 1.0))),
+                                    child: Text(
+                                      'Band',
+                                      style: new TextStyle(
+                                        fontSize: 16.0,
+                                        color: _userType == 1
+                                            ? Color.fromRGBO(70, 206, 172, 1.0)
+                                            : Color.fromRGBO(
+                                                202, 208, 215, 1.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Container(),
+                      Padding(
+                        padding: EdgeInsets.all(8),
+                      ),
+                      (_userType == 1 && widget.id.isEmpty)
+                          ? Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: DropdownButton<Band>(
+                                items: bands.map((Band value) {
+                                  return new DropdownMenuItem<Band>(
+                                    value: value,
+                                    child: new Text(value.name),
+                                  );
+                                }).toList(),
+                                isExpanded: true,
+                                onChanged: (b) {
+                                  setState(() {
+                                    selectedBand = b;
+                                  });
+                                },
+                                value: selectedBand,
+                              ),
+                            )
+                          : Container(),
+                      Padding(
+                        padding: EdgeInsets.all(8),
+                      ),
+                      widget.id.isEmpty
+                          ? Row(
+                              children: <Widget>[
+                                InkWell(
+                                  onTap: () {
+                                    _handleTypeValueChange(0);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 14, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        color: _type == 0
+                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+                                            : Color.fromRGBO(
+                                                244, 246, 248, 1.0),
+                                        borderRadius: BorderRadius.circular(15),
+                                        border: Border.all(
+                                            color: _type == 0
+                                                ? Color.fromRGBO(
+                                                    70, 206, 172, 1.0)
+                                                : Color.fromRGBO(
+                                                    244, 246, 248, 1.0))),
+                                    child: Text(
+                                      'Schedule',
+                                      style: new TextStyle(
+                                        fontSize: 16.0,
+                                        color: _type == 0
+                                            ? Color.fromRGBO(70, 206, 172, 1.0)
+                                            : Color.fromRGBO(
+                                                202, 208, 215, 1.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(8),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    _handleTypeValueChange(1);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 14, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        color: _type == 1
+                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+                                            : Color.fromRGBO(
+                                                244, 246, 248, 1.0),
+                                        borderRadius: BorderRadius.circular(15),
+                                        border: Border.all(
+                                            color: _type == 1
+                                                ? Color.fromRGBO(
+                                                    70, 206, 172, 1.0)
+                                                : Color.fromRGBO(
+                                                    244, 246, 248, 1.0))),
+                                    child: Text(
+                                      'Activity',
+                                      style: new TextStyle(
+                                        fontSize: 16.0,
+                                        color: _type == 1
+                                            ? Color.fromRGBO(70, 206, 172, 1.0)
+                                            : Color.fromRGBO(
+                                                202, 208, 215, 1.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Container(),
+                      TextField(
+                        enabled: widget.id.isEmpty,
+                        minLines: 1,
+                        maxLines: 4,
+                        decoration: InputDecoration(
+                          labelText: widget.id.isEmpty ? "Title" : "",
+                          labelStyle: textTheme.headline.copyWith(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                          ),
+                          errorText: _titleError,
+                        ),
+                        style: widget.id.isEmpty
+                            ? textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              )
+                            : textTheme.display1.copyWith(
+                                color: Colors.black,
+                              ),
+                        controller: _titleController,
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: InkWell(
+                              child: AbsorbPointer(
+                                child: TextField(
+                                  enabled: widget.id.isEmpty,
+                                  decoration: InputDecoration(
+                                    labelText: widget.id.isEmpty ? "Date" : "",
+                                    labelStyle: TextStyle(
+                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+                                    ),
+                                    errorText: _dateError,
+                                  ),
+                                  controller: _dateController,
+                                  style: textTheme.subhead.copyWith(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              onTap: () {
+                                if (widget.id.isEmpty) _selectDate(context);
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(4),
+                          ),
+                          widget.id.isEmpty
+                              ? Expanded(
+                                  child: InkWell(
+                                    child: AbsorbPointer(
+                                      child: TextField(
+                                        enabled: widget.id.isEmpty,
+                                        decoration: InputDecoration(
+                                          labelText:
+                                              widget.id.isEmpty ? "Time" : "",
+                                          labelStyle: TextStyle(
+                                            color: Color.fromRGBO(
+                                                202, 208, 215, 1.0),
+                                          ),
+                                          errorText: _timeError,
+                                        ),
+                                        controller: _timeController,
+                                        style: textTheme.subhead.copyWith(
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      if (widget.id.isEmpty)
+                                        _selectTime(context);
+                                    },
+                                  ),
+                                )
+                              : Container()
+                        ],
+                      ),
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: widget.id.isEmpty ? "Location" : "",
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                          ),
+                          errorText: _locError,
+                        ),
+                        enabled: widget.id.isEmpty,
+                        controller: _locController,
+                        style: textTheme.subhead.copyWith(
+                          color: Colors.black,
+                        ),
+                      ),
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: widget.id.isEmpty ? "Description" : "",
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                          ),
+                          errorText: _descError,
+                        ),
+                        enabled: widget.id.isEmpty,
+                        minLines: 5,
+                        maxLines: 10,
+                        style: textTheme.subhead.copyWith(
+                          color: Colors.black,
+                        ),
+                        controller: _descController,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(20),
+                      ),
+                      widget.id.isEmpty
+                          ? RaisedButton(
+                              onPressed: () {
+                                String title = _titleController.text;
+                                String desc = _descController.text;
+                                String loc = _locController.text;
+                                String time = _timeController.text;
+                                String date = _dateController.text;
+                                setState(() {
+                                  _titleError = null;
+                                  _descError = null;
+                                  _locError = null;
+                                  _timeError = null;
+                                  _dateError = null;
+                                  if (title.isEmpty) {
+                                    _titleError = "Cannot be Empty";
+                                  } else if (desc.isEmpty) {
+                                    _descError = "Cannot be Empty";
+                                  } else if (loc.isEmpty) {
+                                    _locError = "Cannot be Empty";
+                                  } else if (time.isEmpty) {
+                                    _timeError = "Cannot be Empty";
+                                  } else if (date.isEmpty) {
+                                    _dateError = "Cannot be Empty";
+                                  } else {
+                                    Activites activities = Activites(
+                                      title: title,
+                                      description: desc,
+                                      date: "$date $time",
+                                      location: loc,
+                                      band_id: selectedBand?.id ?? "",
+                                      type: _userType.toString(),
+                                      action_type: _type.toString(),
+                                    );
+                                    showLoading();
+                                    presenter.addActivity(activities);
+                                  }
+                                });
+                              },
+                              color: Color.fromRGBO(235, 84, 99, 1.0),
+                              child: Text("Submit"),
+                              textColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18)
+                              ),
+                            )
+                          : Container()
+                    ],
+                  ),
+                ),
               )
-            : Container()
+            ],
+          ),
+        )
       ],
     );
   }

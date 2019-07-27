@@ -31,20 +31,6 @@ abstract class BaseScreenState<B extends BaseScreen, P extends BasePresenter>
       body: SafeArea(
         child: Container(
           child: isLoading ? loading : buildBody(),
-          decoration: new BoxDecoration(
-            gradient: new LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment
-                  .bottomRight, // 10% of the width, so there are ten blinds.
-              colors: [
-                widget.appListener.primaryColor,
-                widget.appListener.accentColor,
-                widget.appListener.primaryColorDark,
-              ], //tish to gray
-              tileMode:
-                  TileMode.repeated, // repeats the gradient over the canvas
-            ),
-          ),
         ),
       ),
     );
