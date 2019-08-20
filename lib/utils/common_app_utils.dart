@@ -175,7 +175,8 @@ bool validateMobile(String value) {
   return !(value.isNotEmpty && value.length == 10);
 }
 
-Widget buildActivityListItem(Activites ac, {onTap}) {
+Widget buildActivityListItem(Activites ac,
+    {bool showConfirm = false, onConfirmPressed, onTap}) {
   DateTime dt = DateTime.fromMillisecondsSinceEpoch(int.parse(ac.date));
   return Card(
     color: Color.fromRGBO(235, 84, 99, 1.0),
@@ -243,6 +244,20 @@ Widget buildActivityListItem(Activites ac, {onTap}) {
                 color: Colors.white,
               ),
             ),
+            showConfirm
+                ? Align(
+                    alignment: Alignment.centerRight,
+                    child: FlatButton(
+                      child: Text(
+                        "Confirm",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      onPressed: onConfirmPressed,
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ),

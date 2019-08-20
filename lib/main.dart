@@ -15,6 +15,7 @@ import 'package:gigtrack/ui/noteslist/notes_list_screen.dart';
 import 'package:gigtrack/ui/notificationlist/notification_list_screen.dart';
 import 'package:gigtrack/ui/signup/signup_screen.dart';
 import 'package:gigtrack/ui/splash/splash_screen.dart';
+import 'package:google_places_picker/google_places_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'ui/addplayingstyle/add_playing_style_screen.dart';
@@ -121,6 +122,10 @@ class MyApp extends StatelessWidget implements AppListener {
     //   return CourseDetailsScreen(this, params["id"][0], params["id2"][0]);
     // }));
     initPrefs();
+    PluginGooglePlacePicker.initialize(
+      androidApiKey: "AIzaSyDPmfMCWQcPRNZOcsGXszKGJMs11FbUxtc",
+      iosApiKey: "AIzaSyDPmfMCWQcPRNZOcsGXszKGJMs11FbUxtc",
+    );
   }
 
   void initPrefs() async {
@@ -151,10 +156,10 @@ class MyApp extends StatelessWidget implements AppListener {
   SharedPreferences get sharedPreferences => _prefs;
 
   @override
-  Color get primaryColorDark => Color.fromRGBO(45,1,79, 1.0);
+  Color get primaryColorDark => Color.fromRGBO(45, 1, 79, 1.0);
 
   @override
-  Color get accentColor => Color.fromRGBO(17,5,84, 1.0);
+  Color get accentColor => Color.fromRGBO(17, 5, 84, 1.0);
 }
 
 abstract class AppListener {

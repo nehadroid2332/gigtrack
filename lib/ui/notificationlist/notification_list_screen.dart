@@ -57,7 +57,10 @@ class _NotificationListScreensState
             padding: EdgeInsets.all(10),
             itemBuilder: (BuildContext context, int index) {
               Activites ac = _activities[index];
-              return buildActivityListItem(ac);
+              return buildActivityListItem(ac, onTap: () {
+                widget.appListener.router.navigateTo(
+                    context, Screens.ADDACTIVITY.toString() + "/${ac.id}");
+              });
             },
           ),
           Container(
@@ -78,30 +81,34 @@ class _NotificationListScreensState
             padding: EdgeInsets.all(10),
             itemBuilder: (BuildContext context, int index) {
               NotesTodo todo = _todos[index];
-              return buildNoteListItem(todo, widget.appListener.primaryColor);
+              return buildNoteListItem(todo, widget.appListener.primaryColor,
+                  onTap: () {
+                widget.appListener.router.navigateTo(
+                    context, Screens.ADDNOTE.toString() + "/${todo.id}");
+              });
             },
           ),
-          Container(
-            child: Text(
-              "Warranty",
-              style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 17,
-                  color: Colors.white),
-              textAlign: TextAlign.center,
-            ),
-            padding: EdgeInsets.all(6),
-            color: widget.appListener.primaryColorDark,
-          ),
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: _warranty.length,
-            padding: EdgeInsets.all(10),
-            itemBuilder: (BuildContext context, int index) {
-              Instrument instrument = _warranty[index];
-              return Container();
-            },
-          ),
+          // Container(
+          //   child: Text(
+          //     "Warranty",
+          //     style: TextStyle(
+          //         fontWeight: FontWeight.w500,
+          //         fontSize: 17,
+          //         color: Colors.white),
+          //     textAlign: TextAlign.center,
+          //   ),
+          //   padding: EdgeInsets.all(6),
+          //   color: widget.appListener.primaryColorDark,
+          // ),
+          // ListView.builder(
+          //   shrinkWrap: true,
+          //   itemCount: _warranty.length,
+          //   padding: EdgeInsets.all(10),
+          //   itemBuilder: (BuildContext context, int index) {
+          //     Instrument instrument = _warranty[index];
+          //     return Container();
+          //   },
+          // ),
         ],
       ),
     );

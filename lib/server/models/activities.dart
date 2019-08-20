@@ -1,4 +1,5 @@
 import 'package:gigtrack/base/base_model.dart';
+import 'package:gigtrack/server/models/user.dart';
 
 class Activites extends BaseModel {
   String type;
@@ -9,6 +10,8 @@ class Activites extends BaseModel {
   String date;
   String location;
   String id;
+
+  List<User> bandmates = [];
 
   Activites(
       {this.description,
@@ -28,6 +31,15 @@ class Activites extends BaseModel {
     action_type = data['action_type'];
     title = data['title'];
     id = data['id'];
+    if (data['bandmates'] != null) {
+      for (var b in data['bandmates']) {
+        if (b != null) {
+          User u = User.fromJSON(b[0]);
+          if (b.length > 1) u.status = b[1]['status'];
+          bandmates.add(u);
+        }
+      }
+    }
   }
 
   @override
@@ -41,6 +53,11 @@ class Activites extends BaseModel {
     data['action_type'] = "$action_type";
     data['id'] = id ?? "";
     data['band_id'] = band_id ?? "";
+    List<dynamic> bnds = [];
+    for (var b in bandmates) {
+      bnds.add(b.toMap());
+    }
+    if (bnds.length > 0) data['bandmates'] = bnds;
     return data;
   }
 }

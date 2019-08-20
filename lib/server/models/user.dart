@@ -14,6 +14,8 @@ class User extends BaseModel {
   String primaryInstrument;
   String profilePic;
 
+  String status;
+
   User(
       {this.address,
       this.city,
@@ -25,7 +27,8 @@ class User extends BaseModel {
       this.state,
       this.primaryInstrument,
       this.profilePic,
-      this.zipcode});
+      this.zipcode,
+      this.status});
 
   User.fromJSON(dynamic data) {
     if (data['id'] != null) id = data['id'];

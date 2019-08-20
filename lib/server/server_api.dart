@@ -24,6 +24,7 @@ import 'models/notes_todo_list_response.dart';
 import 'models/notification_list_response.dart';
 import 'models/playing_style_response.dart';
 import 'models/search_user_response.dart';
+import 'models/update_activity_bandmember_status.dart';
 
 class ServerAPI {
   static final ServerAPI _serverApi = new ServerAPI._internal();
@@ -156,6 +157,23 @@ class ServerAPI {
     }
   }
 
+  Future<dynamic> updateBandmateStatusForActivity(
+      String activityId, int status) async {
+    try {
+      final res = await _netUtil.post(
+        _baseUrl + "activities/activity_status",
+        body: {
+          "id": activityId,
+          "status": status,
+        },
+        headers: _headers,
+      );
+      return UpdateAcivityBandMemberStatusResponse.fromJSON(res);
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
   Future<dynamic> getInstruments() async {
     try {
       final res = await _netUtil.get(
@@ -183,11 +201,14 @@ class ServerAPI {
     }
   }
 
-  Future<dynamic> getNotifications() async {
+  Future<dynamic> getNotifications(String date) async {
     try {
-      final res = await _netUtil.get(
+      final res = await _netUtil.post(
         _baseUrl + "notifications",
         headers: _headers,
+        body: {
+          "date": date,
+        },
       );
       return NotificationListResponse.fromJSON(res);
     } catch (e) {
@@ -316,8 +337,8 @@ class ServerAPI {
     }
   }
 
-  Future<dynamic> addUserPlayingStyle(
-      String userId, String bandId, String playingStyleId, String instrumentId) async {
+  Future<dynamic> addUserPlayingStyle(String userId, String bandId,
+      String playingStyleId, String instrumentId) async {
     try {
       final res = await _netUtil.post(
         _baseUrl + "pstyle/add",

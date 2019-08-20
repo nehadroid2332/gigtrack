@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/main.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class BaseScreen extends StatefulWidget {
   final AppListener appListener;
@@ -93,8 +92,7 @@ abstract class BaseScreenState<B extends BaseScreen, P extends BasePresenter>
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            new CircularProgressIndicator(
-                backgroundColor: Color.fromRGBO(26, 53, 52, 1.0)),
+            new CircularProgressIndicator(),
             Padding(
               padding: EdgeInsets.all(5),
             ),

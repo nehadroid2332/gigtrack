@@ -116,7 +116,7 @@ class _AddBandScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "Add Band",
+                "${widget.id.isEmpty ? "Add" : ""} Band",
                 style: textTheme.display1.copyWith(
                   color: Colors.white,
                 ),
@@ -170,6 +170,7 @@ class _AddBandScreenState
                           ),
                           labelText: "Band Name",
                           errorText: _errorBandName,
+                          border: widget.id.isEmpty ? null : InputBorder.none,
                         ),
                         style: textTheme.subhead.copyWith(
                           color: Colors.black,
@@ -190,6 +191,7 @@ class _AddBandScreenState
                           ),
                           labelText: "Band Legal Name",
                           errorText: _errorBandLegalName,
+                          border: widget.id.isEmpty ? null : InputBorder.none,
                         ),
                       ),
                       Padding(
@@ -207,6 +209,7 @@ class _AddBandScreenState
                           ),
                           labelText: "Legal Structure",
                           errorText: _errorStructure,
+                          border: widget.id.isEmpty ? null : InputBorder.none,
                         ),
                       ),
                       Padding(
@@ -223,6 +226,8 @@ class _AddBandScreenState
                                 color: Color.fromRGBO(202, 208, 215, 1.0),
                               ),
                               errorText: _errorDateStarted,
+                              border:
+                                  widget.id.isEmpty ? null : InputBorder.none,
                             ),
                             style: textTheme.subhead.copyWith(
                               color: Colors.black,
@@ -245,6 +250,7 @@ class _AddBandScreenState
                           ),
                           labelText: "Music Style",
                           errorText: _errorMusicStyle,
+                          border: widget.id.isEmpty ? null : InputBorder.none,
                         ),
                         style: textTheme.subhead.copyWith(
                           color: Colors.black,
@@ -260,11 +266,13 @@ class _AddBandScreenState
                           color: Colors.black,
                         ),
                         decoration: InputDecoration(
-                            labelText: "Band Responsibility",
-                            labelStyle: TextStyle(
-                              color: Color.fromRGBO(202, 208, 215, 1.0),
-                            ),
-                            errorText: _errorBandResponsibility),
+                          labelText: "Band Responsibility",
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                          ),
+                          errorText: _errorBandResponsibility,
+                          border: widget.id.isEmpty ? null : InputBorder.none,
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.all(5),
@@ -281,6 +289,7 @@ class _AddBandScreenState
                             color: Color.fromRGBO(202, 208, 215, 1.0),
                           ),
                           errorText: _errorWebsite,
+                          border: widget.id.isEmpty ? null : InputBorder.none,
                         ),
                       ),
                       Padding(
@@ -298,6 +307,7 @@ class _AddBandScreenState
                             color: Color.fromRGBO(202, 208, 215, 1.0),
                           ),
                           errorText: _errorEmail,
+                          border: widget.id.isEmpty ? null : InputBorder.none,
                         ),
                       ),
                       Padding(
@@ -316,14 +326,14 @@ class _AddBandScreenState
                                   child: Text(
                                     "Members(${members.length})",
                                     style: textTheme.subhead.copyWith(
-                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+                                      color: Colors.black,
                                     ),
                                   ),
                                 ),
                                 IconButton(
                                     icon: Icon(
                                       Icons.add,
-                                      color: Colors.white,
+                                      color: widget.appListener.accentColor,
                                     ),
                                     onPressed: () async {
                                       await widget.appListener.router
@@ -347,7 +357,7 @@ class _AddBandScreenState
                                   title: Text(
                                     "${user.firstName} ${user.lastName}",
                                     style: textTheme.subhead.copyWith(
-                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+                                      color: Colors.black,
                                       fontSize: 15,
                                     ),
                                   ),

@@ -62,7 +62,7 @@ class Band extends BaseModel {
     for (var b in bandMember) {
       bm.add(b.toMap());
     }
-    data['bandmates'] = bm;
+    if (bm.length > 0) data['bandmates'] = bm;
     return data;
   }
 }

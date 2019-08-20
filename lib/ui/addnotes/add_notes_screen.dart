@@ -72,7 +72,7 @@ class _AddNotesScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "Add Notes/Todo",
+                "${widget.id.isEmpty ? "Add" : ""} Notes/Todo",
                 style: textTheme.display2.copyWith(
                   color: Colors.white,
                 ),
@@ -181,6 +181,7 @@ class _AddNotesScreenState
                           labelStyle: TextStyle(
                             color: Color.fromRGBO(202, 208, 215, 1.0),
                           ),
+                          border: widget.id.isEmpty ? null : InputBorder.none,
                         ),
                         controller: _descController,
                       ),
@@ -196,6 +197,9 @@ class _AddNotesScreenState
                                     labelStyle: TextStyle(
                                       color: Color.fromRGBO(202, 208, 215, 1.0),
                                     ),
+                                    border: widget.id.isEmpty
+                                        ? null
+                                        : InputBorder.none,
                                   ),
                                   controller: _startDateController,
                                 ),
@@ -219,6 +223,9 @@ class _AddNotesScreenState
                                     labelStyle: TextStyle(
                                       color: Color.fromRGBO(202, 208, 215, 1.0),
                                     ),
+                                    border: widget.id.isEmpty
+                                        ? null
+                                        : InputBorder.none,
                                   ),
                                   controller: _startTimeController,
                                 ),
@@ -243,6 +250,9 @@ class _AddNotesScreenState
                                     labelStyle: TextStyle(
                                       color: Color.fromRGBO(202, 208, 215, 1.0),
                                     ),
+                                    border: widget.id.isEmpty
+                                        ? null
+                                        : InputBorder.none,
                                   ),
                                   controller: _endDateController,
                                 ),
@@ -266,6 +276,9 @@ class _AddNotesScreenState
                                     labelStyle: TextStyle(
                                       color: Color.fromRGBO(202, 208, 215, 1.0),
                                     ),
+                                    border: widget.id.isEmpty
+                                        ? null
+                                        : InputBorder.none,
                                   ),
                                   controller: _endTimeController,
                                 ),
@@ -415,4 +428,3 @@ class _AddNotesScreenState
     });
   }
 }
-

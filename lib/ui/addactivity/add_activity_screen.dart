@@ -5,8 +5,10 @@ import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/activities.dart';
 import 'package:gigtrack/server/models/activities_response.dart';
 import 'package:gigtrack/server/models/band.dart';
+import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/ui/addactivity/add_activity_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
+import 'package:google_places_picker/google_places_picker.dart';
 
 class AddActivityScreen extends BaseScreen {
   final String id;
@@ -27,6 +29,7 @@ class _AddActivityScreenState
       _descController = TextEditingController(),
       _locController = TextEditingController();
   final List<Band> bands = [];
+  final List<User> members = [];
 
   String _titleError, _dateError, _timeError, _descError, _locError;
 
@@ -88,9 +91,9 @@ class _AddActivityScreenState
 
   @override
   AppBar get appBar => AppBar(
-    elevation: 0,
-    backgroundColor: Color.fromRGBO(235, 84, 99, 1.0),
-  );
+        elevation: 0,
+        backgroundColor: Color.fromRGBO(235, 84, 99, 1.0),
+      );
 
   @override
   Widget buildBody() {
@@ -111,7 +114,7 @@ class _AddActivityScreenState
           child: Column(
             children: <Widget>[
               Text(
-                "Add Activities/Schedule",
+                "${widget.id.isEmpty ? "Add" : ""} Activities/Schedule",
                 style: textTheme.display2.copyWith(
                   color: Colors.white,
                 ),
@@ -134,77 +137,73 @@ class _AddActivityScreenState
                       Padding(
                         padding: EdgeInsets.all(6),
                       ),
-                      widget.id.isEmpty
-                          ? Row(
-                              children: <Widget>[
-                                InkWell(
-                                  onTap: () {
+                      Row(
+                        children: <Widget>[
+                          InkWell(
+                            onTap: widget.id.isEmpty
+                                ? () {
                                     _handleUserTypeValueChange(0);
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: _userType == 0
-                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-                                            : Color.fromRGBO(
-                                                244, 246, 248, 1.0),
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            color: _userType == 0
-                                                ? Color.fromRGBO(
-                                                    70, 206, 172, 1.0)
-                                                : Color.fromRGBO(
-                                                    244, 246, 248, 1.0))),
-                                    child: Text(
-                                      'User',
-                                      style: new TextStyle(
-                                        fontSize: 16.0,
-                                        color: _userType == 0
-                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-                                            : Color.fromRGBO(
-                                                202, 208, 215, 1.0),
-                                      ),
-                                    ),
-                                  ),
+                                  }
+                                : null,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 14, vertical: 5),
+                              decoration: BoxDecoration(
+                                  color: _userType == 0
+                                      ? Color.fromRGBO(209, 244, 236, 1.0)
+                                      : Color.fromRGBO(244, 246, 248, 1.0),
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                      color: _userType == 0
+                                          ? Color.fromRGBO(70, 206, 172, 1.0)
+                                          : Color.fromRGBO(
+                                              244, 246, 248, 1.0))),
+                              child: Text(
+                                'User',
+                                style: new TextStyle(
+                                  fontSize: 16.0,
+                                  color: _userType == 0
+                                      ? Color.fromRGBO(70, 206, 172, 1.0)
+                                      : Color.fromRGBO(202, 208, 215, 1.0),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.all(8),
-                                ),
-                                InkWell(
-                                  onTap: () {
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(8),
+                          ),
+                          InkWell(
+                            onTap: widget.id.isEmpty
+                                ? () {
                                     _handleUserTypeValueChange(1);
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: _userType == 1
-                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-                                            : Color.fromRGBO(
-                                                244, 246, 248, 1.0),
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            color: _userType == 1
-                                                ? Color.fromRGBO(
-                                                    70, 206, 172, 1.0)
-                                                : Color.fromRGBO(
-                                                    244, 246, 248, 1.0))),
-                                    child: Text(
-                                      'Band',
-                                      style: new TextStyle(
-                                        fontSize: 16.0,
-                                        color: _userType == 1
-                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-                                            : Color.fromRGBO(
-                                                202, 208, 215, 1.0),
-                                      ),
-                                    ),
-                                  ),
+                                  }
+                                : null,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 14, vertical: 5),
+                              decoration: BoxDecoration(
+                                  color: _userType == 1
+                                      ? Color.fromRGBO(209, 244, 236, 1.0)
+                                      : Color.fromRGBO(244, 246, 248, 1.0),
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                      color: _userType == 1
+                                          ? Color.fromRGBO(70, 206, 172, 1.0)
+                                          : Color.fromRGBO(
+                                              244, 246, 248, 1.0))),
+                              child: Text(
+                                'Band',
+                                style: new TextStyle(
+                                  fontSize: 16.0,
+                                  color: _userType == 1
+                                      ? Color.fromRGBO(70, 206, 172, 1.0)
+                                      : Color.fromRGBO(202, 208, 215, 1.0),
                                 ),
-                              ],
-                            )
-                          : Container(),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                       Padding(
                         padding: EdgeInsets.all(8),
                       ),
@@ -231,77 +230,73 @@ class _AddActivityScreenState
                       Padding(
                         padding: EdgeInsets.all(8),
                       ),
-                      widget.id.isEmpty
-                          ? Row(
-                              children: <Widget>[
-                                InkWell(
-                                  onTap: () {
+                      Row(
+                        children: <Widget>[
+                          InkWell(
+                            onTap: widget.id.isEmpty
+                                ? () {
                                     _handleTypeValueChange(0);
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: _type == 0
-                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-                                            : Color.fromRGBO(
-                                                244, 246, 248, 1.0),
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            color: _type == 0
-                                                ? Color.fromRGBO(
-                                                    70, 206, 172, 1.0)
-                                                : Color.fromRGBO(
-                                                    244, 246, 248, 1.0))),
-                                    child: Text(
-                                      'Schedule',
-                                      style: new TextStyle(
-                                        fontSize: 16.0,
-                                        color: _type == 0
-                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-                                            : Color.fromRGBO(
-                                                202, 208, 215, 1.0),
-                                      ),
-                                    ),
-                                  ),
+                                  }
+                                : null,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 14, vertical: 5),
+                              decoration: BoxDecoration(
+                                  color: _type == 0
+                                      ? Color.fromRGBO(209, 244, 236, 1.0)
+                                      : Color.fromRGBO(244, 246, 248, 1.0),
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                      color: _type == 0
+                                          ? Color.fromRGBO(70, 206, 172, 1.0)
+                                          : Color.fromRGBO(
+                                              244, 246, 248, 1.0))),
+                              child: Text(
+                                'Schedule',
+                                style: new TextStyle(
+                                  fontSize: 16.0,
+                                  color: _type == 0
+                                      ? Color.fromRGBO(70, 206, 172, 1.0)
+                                      : Color.fromRGBO(202, 208, 215, 1.0),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.all(8),
-                                ),
-                                InkWell(
-                                  onTap: () {
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(8),
+                          ),
+                          InkWell(
+                            onTap: widget.id.isEmpty
+                                ? () {
                                     _handleTypeValueChange(1);
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: _type == 1
-                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-                                            : Color.fromRGBO(
-                                                244, 246, 248, 1.0),
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            color: _type == 1
-                                                ? Color.fromRGBO(
-                                                    70, 206, 172, 1.0)
-                                                : Color.fromRGBO(
-                                                    244, 246, 248, 1.0))),
-                                    child: Text(
-                                      'Activity',
-                                      style: new TextStyle(
-                                        fontSize: 16.0,
-                                        color: _type == 1
-                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-                                            : Color.fromRGBO(
-                                                202, 208, 215, 1.0),
-                                      ),
-                                    ),
-                                  ),
+                                  }
+                                : null,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 14, vertical: 5),
+                              decoration: BoxDecoration(
+                                  color: _type == 1
+                                      ? Color.fromRGBO(209, 244, 236, 1.0)
+                                      : Color.fromRGBO(244, 246, 248, 1.0),
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                      color: _type == 1
+                                          ? Color.fromRGBO(70, 206, 172, 1.0)
+                                          : Color.fromRGBO(
+                                              244, 246, 248, 1.0))),
+                              child: Text(
+                                'Activity',
+                                style: new TextStyle(
+                                  fontSize: 16.0,
+                                  color: _type == 1
+                                      ? Color.fromRGBO(70, 206, 172, 1.0)
+                                      : Color.fromRGBO(202, 208, 215, 1.0),
                                 ),
-                              ],
-                            )
-                          : Container(),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                       TextField(
                         enabled: widget.id.isEmpty,
                         minLines: 1,
@@ -312,6 +307,7 @@ class _AddActivityScreenState
                             color: Color.fromRGBO(202, 208, 215, 1.0),
                           ),
                           errorText: _titleError,
+                          border: widget.id.isEmpty ? null : InputBorder.none,
                         ),
                         style: widget.id.isEmpty
                             ? textTheme.subhead.copyWith(
@@ -324,28 +320,55 @@ class _AddActivityScreenState
                       ),
                       Row(
                         children: <Widget>[
-                          Expanded(
-                            child: InkWell(
-                              child: AbsorbPointer(
-                                child: TextField(
-                                  enabled: widget.id.isEmpty,
-                                  decoration: InputDecoration(
-                                    labelText: widget.id.isEmpty ? "Date" : "",
-                                    labelStyle: TextStyle(
-                                      color: Color.fromRGBO(202, 208, 215, 1.0),
-                                    ),
-                                    errorText: _dateError,
-                                  ),
-                                  controller: _dateController,
-                                  style: textTheme.subhead.copyWith(
-                                    color: Colors.black,
+                          widget.id.isEmpty
+                              ? Container()
+                              : Align(
+                                  alignment: Alignment.center,
+                                  child: Icon(
+                                    Icons.calendar_today,
+                                    color: Colors.grey,
                                   ),
                                 ),
-                              ),
-                              onTap: () {
-                                if (widget.id.isEmpty) _selectDate(context);
-                              },
-                            ),
+                          Expanded(
+                            child: widget.id.isEmpty
+                                ? InkWell(
+                                    child: AbsorbPointer(
+                                      child: TextField(
+                                        enabled: widget.id.isEmpty,
+                                        textAlignVertical:
+                                            TextAlignVertical.center,
+                                        decoration: InputDecoration(
+                                          labelText:
+                                              widget.id.isEmpty ? "Date" : "",
+                                          labelStyle: TextStyle(
+                                            color: Color.fromRGBO(
+                                                202, 208, 215, 1.0),
+                                          ),
+                                          errorText: _dateError,
+                                          border: widget.id.isEmpty
+                                              ? null
+                                              : InputBorder.none,
+                                        ),
+                                        controller: _dateController,
+                                        style: textTheme.subhead.copyWith(
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      if (widget.id.isEmpty)
+                                        _selectDate(context);
+                                    },
+                                  )
+                                : Padding(
+                                    padding: EdgeInsets.only(left: 5),
+                                    child: Text(
+                                      _dateController.text,
+                                      style: textTheme.subhead.copyWith(
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
                           ),
                           Padding(
                             padding: EdgeInsets.all(4),
@@ -364,6 +387,9 @@ class _AddActivityScreenState
                                                 202, 208, 215, 1.0),
                                           ),
                                           errorText: _timeError,
+                                          border: widget.id.isEmpty
+                                              ? null
+                                              : InputBorder.none,
                                         ),
                                         controller: _timeController,
                                         style: textTheme.subhead.copyWith(
@@ -380,20 +406,62 @@ class _AddActivityScreenState
                               : Container()
                         ],
                       ),
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: widget.id.isEmpty ? "Location" : "",
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          errorText: _locError,
-                        ),
-                        enabled: widget.id.isEmpty,
-                        controller: _locController,
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                      ),
+                      widget.id.isEmpty
+                          ? InkWell(
+                              onTap: () async {
+                                var place = await PluginGooglePlacePicker
+                                    .showAutocomplete(
+                                  mode: PlaceAutocompleteMode.MODE_OVERLAY,
+                                  countryCode: "US",
+                                  typeFilter: TypeFilter.ESTABLISHMENT,
+                                );
+                                _locController.text = place.address;
+                              },
+                              child: AbsorbPointer(
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                    labelText:
+                                        widget.id.isEmpty ? "Location" : "",
+                                    labelStyle: TextStyle(
+                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+                                    ),
+                                    errorText: _locError,
+                                    border: widget.id.isEmpty
+                                        ? null
+                                        : InputBorder.none,
+                                  ),
+                                  enabled: widget.id.isEmpty,
+                                  controller: _locController,
+                                  style: textTheme.subhead.copyWith(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Padding(
+                              padding: EdgeInsets.only(
+                                top: 15,
+                              ),
+                              child: Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.location_on,
+                                    color: Colors.grey,
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: 5),
+                                      child: Text(
+                                        _locController.text,
+                                        style: textTheme.subhead.copyWith(
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
                       TextField(
                         decoration: InputDecoration(
                           labelText: widget.id.isEmpty ? "Description" : "",
@@ -401,6 +469,7 @@ class _AddActivityScreenState
                             color: Color.fromRGBO(202, 208, 215, 1.0),
                           ),
                           errorText: _descError,
+                          border: widget.id.isEmpty ? null : InputBorder.none,
                         ),
                         enabled: widget.id.isEmpty,
                         minLines: 5,
@@ -456,10 +525,52 @@ class _AddActivityScreenState
                               child: Text("Submit"),
                               textColor: Colors.white,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18)
-                              ),
+                                  borderRadius: BorderRadius.circular(18)),
                             )
-                          : Container()
+                          : Container(),
+                      widget.id.isEmpty
+                          ? Container()
+                          : members.length == 0
+                              ? Container()
+                              : Text(
+                                  "Members",
+                                  style: textTheme.subtitle.copyWith(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                      widget.id.isEmpty
+                          ? Container()
+                          : ListView.builder(
+                              itemCount: members.length,
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (BuildContext context, int index) {
+                                User user = members[index];
+                                return ListTile(
+                                  title: Text(
+                                      "${user.firstName} ${user.lastName}"),
+                                  subtitle: Text("${user.primaryInstrument}"),
+                                  trailing: FlatButton(
+                                    child: Text(
+                                      "${user.status == "1" ? "Accepted" : user.status == "3" ? "Pending" + (user.id == presenter.getCurrentUserId() ? "me" : "") : ""}",
+                                      style: textTheme.subtitle.copyWith(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    onPressed: user.status == "3" &&
+                                            user.id ==
+                                                presenter.getCurrentUserId()
+                                        ? () {
+                                            presenter
+                                                .acceptStatusForBandMemberinAcitivty(
+                                                    widget.id);
+                                          }
+                                        : null,
+                                  ),
+                                );
+                              },
+                            )
                     ],
                   ),
                 ),
@@ -504,6 +615,8 @@ class _AddActivityScreenState
     setState(() {
       _titleController.text = activities.title;
       _descController.text = activities.description;
+      _userType = int.tryParse(activities.type);
+      _type = int.tryParse(activities.action_type);
       DateTime dateTime =
           DateTime.fromMillisecondsSinceEpoch(int.parse(activities.date));
       _dateController.text =
@@ -511,6 +624,18 @@ class _AddActivityScreenState
               " at ${formatDate(dateTime, [hh, ':', nn, am])}";
       _locController.text = activities.location;
 //      _timeController.text = "at ${formatDate(dateTime, [hh, ':', nn, am])}";
+      members.clear();
+      members.addAll(activities.bandmates);
     });
+  }
+
+  @override
+  void onActivitySuccess() {
+    if (widget.id.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showLoading();
+        presenter.getActivityDetails(widget.id);
+      });
+    }
   }
 }

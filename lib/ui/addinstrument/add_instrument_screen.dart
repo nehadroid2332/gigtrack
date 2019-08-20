@@ -134,7 +134,7 @@ class _AddInstrumentScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "Add Equipment",
+                "${widget.id.isEmpty ? "Add" : ""} Equipment",
                 style: textTheme.display1.copyWith(
                   color: Colors.white,
                 ),
@@ -294,11 +294,13 @@ class _AddInstrumentScreenState
                           color: Colors.black,
                         ),
                         decoration: InputDecoration(
-                            labelText: "Equipment Name",
-                            labelStyle: TextStyle(
-                              color: Color.fromRGBO(202, 208, 215, 1.0),
-                            ),
-                            errorText: _errorInstrumentName),
+                          labelText: "Equipment Name",
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                          ),
+                          errorText: _errorInstrumentName,
+                          border: widget.id.isEmpty ? null : InputBorder.none,
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.all(5),
@@ -315,6 +317,7 @@ class _AddInstrumentScreenState
                             color: Color.fromRGBO(202, 208, 215, 1.0),
                           ),
                           errorText: _errorwherePurchased,
+                          border: widget.id.isEmpty ? null : InputBorder.none,
                         ),
                       ),
                       Padding(
@@ -331,6 +334,8 @@ class _AddInstrumentScreenState
                                 color: Color.fromRGBO(202, 208, 215, 1.0),
                               ),
                               errorText: _errorPurchasedDate,
+                              border:
+                                  widget.id.isEmpty ? null : InputBorder.none,
                             ),
                             style: textTheme.subhead.copyWith(
                               color: Colors.black,
@@ -368,11 +373,13 @@ class _AddInstrumentScreenState
                         enabled: widget.id.isEmpty,
                         controller: _serialNumberController,
                         decoration: InputDecoration(
-                            labelText: "Serial Number",
-                            labelStyle: TextStyle(
-                              color: Color.fromRGBO(202, 208, 215, 1.0),
-                            ),
-                            errorText: _errorSerialNumber),
+                          labelText: "Serial Number",
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                          ),
+                          errorText: _errorSerialNumber,
+                          border: widget.id.isEmpty ? null : InputBorder.none,
+                        ),
                         style: textTheme.subhead.copyWith(
                           color: Colors.black,
                         ),
@@ -384,11 +391,13 @@ class _AddInstrumentScreenState
                         enabled: widget.id.isEmpty,
                         controller: _warrantyController,
                         decoration: InputDecoration(
-                            labelText: "Warranty",
-                            labelStyle: TextStyle(
-                              color: Color.fromRGBO(202, 208, 215, 1.0),
-                            ),
-                            errorText: _errorWarranty),
+                          labelText: "Warranty",
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                          ),
+                          errorText: _errorWarranty,
+                          border: widget.id.isEmpty ? null : InputBorder.none,
+                        ),
                         style: textTheme.subhead.copyWith(
                           color: Colors.black,
                         ),
@@ -402,11 +411,14 @@ class _AddInstrumentScreenState
                             enabled: widget.id.isEmpty,
                             controller: _warrantyEndController,
                             decoration: InputDecoration(
-                                labelText: "Warranty EndDate",
-                                labelStyle: TextStyle(
-                                  color: Color.fromRGBO(202, 208, 215, 1.0),
-                                ),
-                                errorText: _errorWarrantyEndDate),
+                              labelText: "Warranty EndDate",
+                              labelStyle: TextStyle(
+                                color: Color.fromRGBO(202, 208, 215, 1.0),
+                              ),
+                              errorText: _errorWarrantyEndDate,
+                              border:
+                                  widget.id.isEmpty ? null : InputBorder.none,
+                            ),
                             style: textTheme.subhead.copyWith(
                               color: Colors.black,
                             ),
@@ -448,6 +460,7 @@ class _AddInstrumentScreenState
                             color: Color.fromRGBO(202, 208, 215, 1.0),
                           ),
                           errorText: _errorWarrantyReference,
+                          border: widget.id.isEmpty ? null : InputBorder.none,
                         ),
                         style: textTheme.subhead.copyWith(
                           color: Colors.black,
@@ -466,6 +479,7 @@ class _AddInstrumentScreenState
                             color: Color.fromRGBO(202, 208, 215, 1.0),
                           ),
                           errorText: _errorWarrantyPhone,
+                          border: widget.id.isEmpty ? null : InputBorder.none,
                         ),
                         style: textTheme.subhead.copyWith(
                           color: Colors.black,

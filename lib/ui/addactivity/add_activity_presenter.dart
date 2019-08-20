@@ -5,11 +5,14 @@ import 'package:gigtrack/server/models/activities_response.dart';
 import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/band_list_response.dart';
 import 'package:gigtrack/server/models/error_response.dart';
+import 'package:gigtrack/server/models/update_activity_bandmember_status.dart';
 
 abstract class AddActivityContract extends BaseContract {
   void onSuccess(ActivitiesResponse res);
   void getBandSuccess(List<Band> bands);
   void getActivityDetails(Activites activities);
+
+  void onActivitySuccess();
 }
 
 class AddActivityPresenter extends BasePresenter {
@@ -37,6 +40,19 @@ class AddActivityPresenter extends BasePresenter {
     final res = await serverAPI.addActivities(activities);
     if (res is ActivitiesResponse) {
       (view as AddActivityContract).onSuccess(res);
+    } else if (res is ErrorResponse) {
+      view.showMessage(res.message);
+    }
+  }
+
+  String getCurrentUserId() {
+    return serverAPI.userId;
+  }
+
+  void acceptStatusForBandMemberinAcitivty(String activityId) async {
+    final res = await serverAPI.updateBandmateStatusForActivity(activityId, 1);
+    if (res is UpdateAcivityBandMemberStatusResponse) {
+      (view as AddActivityContract).onActivitySuccess();
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
     }
