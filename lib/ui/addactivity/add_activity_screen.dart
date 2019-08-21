@@ -159,7 +159,7 @@ class _AddActivityScreenState
                                           : Color.fromRGBO(
                                               244, 246, 248, 1.0))),
                               child: Text(
-                                'User',
+                                'Personal',
                                 style: new TextStyle(
                                   fontSize: 16.0,
                                   color: _userType == 0
@@ -295,6 +295,72 @@ class _AddActivityScreenState
                               ),
                             ),
                           ),
+                          Padding(
+                            padding: EdgeInsets.all(8),
+                          ),
+                          InkWell(
+                            onTap: widget.id.isEmpty
+                                ? () {
+                              _handleTypeValueChange(2);
+                            }
+                                : null,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 14, vertical: 5),
+                              decoration: BoxDecoration(
+                                  color: _type == 2
+                                      ? Color.fromRGBO(209, 244, 236, 1.0)
+                                      : Color.fromRGBO(244, 246, 248, 1.0),
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                      color: _type == 2
+                                          ? Color.fromRGBO(70, 206, 172, 1.0)
+                                          : Color.fromRGBO(
+                                          244, 246, 248, 1.0))),
+                              child: Text(
+                                'Task',
+                                style: new TextStyle(
+                                  fontSize: 16.0,
+                                  color: _type == 2
+                                      ? Color.fromRGBO(70, 206, 172, 1.0)
+                                      : Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(8),
+                          ),
+                          InkWell(
+                            onTap: widget.id.isEmpty
+                                ? () {
+                              _handleTypeValueChange(3);
+                            }
+                                : null,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 14, vertical: 5),
+                              decoration: BoxDecoration(
+                                  color: _type == 3
+                                      ? Color.fromRGBO(209, 244, 236, 1.0)
+                                      : Color.fromRGBO(244, 246, 248, 1.0),
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                      color: _type == 3
+                                          ? Color.fromRGBO(70, 206, 172, 1.0)
+                                          : Color.fromRGBO(
+                                          244, 246, 248, 1.0))),
+                              child: Text(
+                                'Date to Remmember',
+                                style: new TextStyle(
+                                  fontSize: 16.0,
+                                  color: _type == 3
+                                      ? Color.fromRGBO(70, 206, 172, 1.0)
+                                      : Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                       TextField(
@@ -339,7 +405,7 @@ class _AddActivityScreenState
                                             TextAlignVertical.center,
                                         decoration: InputDecoration(
                                           labelText:
-                                              widget.id.isEmpty ? "Date" : "",
+                                              widget.id.isEmpty ? "Start Date" : "",
                                           labelStyle: TextStyle(
                                             color: Color.fromRGBO(
                                                 202, 208, 215, 1.0),
@@ -381,7 +447,7 @@ class _AddActivityScreenState
                                         enabled: widget.id.isEmpty,
                                         decoration: InputDecoration(
                                           labelText:
-                                              widget.id.isEmpty ? "Time" : "",
+                                              widget.id.isEmpty ? "Start Time" : "",
                                           labelStyle: TextStyle(
                                             color: Color.fromRGBO(
                                                 202, 208, 215, 1.0),
@@ -403,6 +469,94 @@ class _AddActivityScreenState
                                     },
                                   ),
                                 )
+                              : Container()
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          widget.id.isEmpty
+                              ? Container()
+                              : Align(
+                            alignment: Alignment.center,
+                            child: Icon(
+                              Icons.calendar_today,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          Expanded(
+                            child: widget.id.isEmpty
+                                ? InkWell(
+                              child: AbsorbPointer(
+                                child: TextField(
+                                  enabled: widget.id.isEmpty,
+                                  textAlignVertical:
+                                  TextAlignVertical.center,
+                                  decoration: InputDecoration(
+                                    labelText:
+                                    widget.id.isEmpty ? "End Date" : "",
+                                    labelStyle: TextStyle(
+                                      color: Color.fromRGBO(
+                                          202, 208, 215, 1.0),
+                                    ),
+                                    errorText: _dateError,
+                                    border: widget.id.isEmpty
+                                        ? null
+                                        : InputBorder.none,
+                                  ),
+                                  controller: _dateController,
+                                  style: textTheme.subhead.copyWith(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              onTap: () {
+                                if (widget.id.isEmpty)
+                                  _selectDate(context);
+                              },
+                            )
+                                : Padding(
+                              padding: EdgeInsets.only(left: 5),
+                              child: Text(
+                                _dateController.text,
+                                style: textTheme.subhead.copyWith(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(4),
+                          ),
+                          widget.id.isEmpty
+                              ? Expanded(
+                            child: InkWell(
+                              child: AbsorbPointer(
+                                child: TextField(
+                                  enabled: widget.id.isEmpty,
+                                  decoration: InputDecoration(
+                                    labelText:
+                                    widget.id.isEmpty ? "End Time" : "",
+                                    labelStyle: TextStyle(
+                                      color: Color.fromRGBO(
+                                          202, 208, 215, 1.0),
+                                    ),
+                                    errorText: _timeError,
+                                    border: widget.id.isEmpty
+                                        ? null
+                                        : InputBorder.none,
+                                  ),
+                                  controller: _timeController,
+                                  style: textTheme.subhead.copyWith(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              onTap: () {
+                                if (widget.id.isEmpty)
+                                  _selectTime(context);
+                              },
+                            ),
+                          )
                               : Container()
                         ],
                       ),
@@ -464,7 +618,7 @@ class _AddActivityScreenState
                             ),
                       TextField(
                         decoration: InputDecoration(
-                          labelText: widget.id.isEmpty ? "Description" : "",
+                          labelText: widget.id.isEmpty ? "Notes" : "",
                           labelStyle: TextStyle(
                             color: Color.fromRGBO(202, 208, 215, 1.0),
                           ),
@@ -472,8 +626,38 @@ class _AddActivityScreenState
                           border: widget.id.isEmpty ? null : InputBorder.none,
                         ),
                         enabled: widget.id.isEmpty,
-                        minLines: 5,
+                        minLines: 2,
                         maxLines: 10,
+                        style: textTheme.subhead.copyWith(
+                          color: Colors.black,
+                        ),
+                        controller: _descController,
+                      ),
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: widget.id.isEmpty ? "Task" : "",
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                          ),
+                          errorText: _descError,
+                          border: widget.id.isEmpty ? null : InputBorder.none,
+                        ),
+                        enabled: false,
+                        style: textTheme.subhead.copyWith(
+                          color: Colors.black,
+                        ),
+                        controller: _descController,
+                      ),
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: widget.id.isEmpty ? "Travel" : "",
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                          ),
+                          errorText: _descError,
+                          border: widget.id.isEmpty ? null : InputBorder.none,
+                        ),
+                        enabled: false,
                         style: textTheme.subhead.copyWith(
                           color: Colors.black,
                         ),
