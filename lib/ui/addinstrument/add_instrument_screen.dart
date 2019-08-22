@@ -33,6 +33,7 @@ class _AddInstrumentScreenState
       _warrantyController = TextEditingController(),
       _warrantyEndController = TextEditingController(),
       _warrantyReferenceController = TextEditingController(),
+      _warrantyCompanyController = TextEditingController(),
       _warrantyPhoneController = TextEditingController();
 
   String _errorInstrumentName;
@@ -49,9 +50,11 @@ class _AddInstrumentScreenState
 
   String _errorWarrantyReference;
 
-  String _errorWarrantyPhone;
+  String _errorWarrantyPhone, _errorWarrantyCompany;
 
   bool _instrumentInsured = false;
+
+  var _pDateType, _eDateType;
 
   Future getImage() async {
     showDialog(
@@ -98,6 +101,18 @@ class _AddInstrumentScreenState
   void _handleUserTypeValueChange(int value) {
     setState(() {
       _userType = value;
+    });
+  }
+
+  void _handlePDateTypeValueChange(int value) {
+    setState(() {
+      _pDateType = value;
+    });
+  }
+
+  void _handleEDateTypeValueChange(int value) {
+    setState(() {
+      _eDateType = value;
     });
   }
 
@@ -323,49 +338,120 @@ class _AddInstrumentScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      GestureDetector(
-                        child: AbsorbPointer(
-                          child: TextField(
-                            enabled: widget.id.isEmpty,
-                            controller: _purchaseDateController,
-                            decoration: InputDecoration(
-                              labelText: "Purchased Date",
-                              labelStyle: TextStyle(
-                                color: Color.fromRGBO(202, 208, 215, 1.0),
+                      Text("Purchased Date"),
+                      Padding(
+                        padding: EdgeInsets.all(3),
+                      ),
+                      Row(
+                        children: <Widget>[
+                          InkWell(
+                            onTap: () {
+                              _handlePDateTypeValueChange(0);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 14, vertical: 5),
+                              decoration: BoxDecoration(
+                                  color: _pDateType == 0
+                                      ? Color.fromRGBO(209, 244, 236, 1.0)
+                                      : Color.fromRGBO(244, 246, 248, 1.0),
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                      color: _pDateType == 0
+                                          ? Color.fromRGBO(70, 206, 172, 1.0)
+                                          : Color.fromRGBO(
+                                              244, 246, 248, 1.0))),
+                              child: Text(
+                                'Date Known',
+                                style: new TextStyle(
+                                  fontSize: 16.0,
+                                  color: _pDateType == 0
+                                      ? Color.fromRGBO(70, 206, 172, 1.0)
+                                      : Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
                               ),
-                              errorText: _errorPurchasedDate,
-                              border:
-                                  widget.id.isEmpty ? null : InputBorder.none,
-                            ),
-                            style: textTheme.subhead.copyWith(
-                              color: Colors.black,
                             ),
                           ),
-                        ),
-                        onTap: () async {
-                          if (widget.id.isEmpty) {
-                            final DateTime picked = await showDatePicker(
-                              context: context,
-                              firstDate: DateTime(1959),
-                              initialDate: _date,
-                              lastDate: DateTime(2022),
-                            );
-                            if (picked != null) {
-                              setState(() {
-                                //_date = picked;
-                                _purchaseDateController.text =
-                                    "${formatDate(picked, [
-                                  mm,
-                                  '-',
-                                  dd,
-                                  '-',
-                                  yy
-                                ])}";
-                              });
-                            }
-                          }
-                        },
+                          Padding(
+                            padding: EdgeInsets.all(8),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              _handlePDateTypeValueChange(1);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 14, vertical: 5),
+                              decoration: BoxDecoration(
+                                  color: _pDateType == 1
+                                      ? Color.fromRGBO(209, 244, 236, 1.0)
+                                      : Color.fromRGBO(244, 246, 248, 1.0),
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                      color: _pDateType == 1
+                                          ? Color.fromRGBO(70, 206, 172, 1.0)
+                                          : Color.fromRGBO(
+                                              244, 246, 248, 1.0))),
+                              child: Text(
+                                'Date Unknown',
+                                style: new TextStyle(
+                                  fontSize: 16.0,
+                                  color: _pDateType == 1
+                                      ? Color.fromRGBO(70, 206, 172, 1.0)
+                                      : Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
+                      _pDateType != null
+                          ? GestureDetector(
+                              child: AbsorbPointer(
+                                child: TextField(
+                                  enabled: widget.id.isEmpty,
+                                  controller: _purchaseDateController,
+                                  decoration: InputDecoration(
+                                    labelText:
+                                        "${_pDateType == 1 ? 'Estimated' : ''} Date",
+                                    labelStyle: TextStyle(
+                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+                                    ),
+                                    errorText: _errorPurchasedDate,
+                                    border: widget.id.isEmpty
+                                        ? null
+                                        : InputBorder.none,
+                                  ),
+                                  style: textTheme.subhead.copyWith(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              onTap: () async {
+                                if (widget.id.isEmpty) {
+                                  final DateTime picked = await showDatePicker(
+                                    context: context,
+                                    firstDate: DateTime(1959),
+                                    initialDate: _date,
+                                    lastDate: DateTime(2022),
+                                  );
+                                  if (picked != null) {
+                                    setState(() {
+                                      //_date = picked;
+                                      _purchaseDateController.text =
+                                          "${formatDate(picked, [
+                                        mm,
+                                        '-',
+                                        dd,
+                                        '-',
+                                        yy
+                                      ])}";
+                                    });
+                                  }
+                                }
+                              },
+                            )
+                          : Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -405,49 +491,119 @@ class _AddInstrumentScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      GestureDetector(
-                        child: AbsorbPointer(
-                          child: TextField(
-                            enabled: widget.id.isEmpty,
-                            controller: _warrantyEndController,
-                            decoration: InputDecoration(
-                              labelText: "Warranty EndDate",
-                              labelStyle: TextStyle(
-                                color: Color.fromRGBO(202, 208, 215, 1.0),
+                      Text("Warranty EndDate"),
+                      Padding(
+                        padding: EdgeInsets.all(3),
+                      ),
+                      Row(
+                        children: <Widget>[
+                          InkWell(
+                            onTap: () {
+                              _handleEDateTypeValueChange(0);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 14, vertical: 5),
+                              decoration: BoxDecoration(
+                                  color: _eDateType == 0
+                                      ? Color.fromRGBO(209, 244, 236, 1.0)
+                                      : Color.fromRGBO(244, 246, 248, 1.0),
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                      color: _eDateType == 0
+                                          ? Color.fromRGBO(70, 206, 172, 1.0)
+                                          : Color.fromRGBO(
+                                              244, 246, 248, 1.0))),
+                              child: Text(
+                                'Date Known',
+                                style: new TextStyle(
+                                  fontSize: 16.0,
+                                  color: _eDateType == 0
+                                      ? Color.fromRGBO(70, 206, 172, 1.0)
+                                      : Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
                               ),
-                              errorText: _errorWarrantyEndDate,
-                              border:
-                                  widget.id.isEmpty ? null : InputBorder.none,
-                            ),
-                            style: textTheme.subhead.copyWith(
-                              color: Colors.black,
                             ),
                           ),
-                        ),
-                        onTap: () async {
-                          if (widget.id.isEmpty) {
-                            final DateTime picked = await showDatePicker(
-                              context: context,
-                              firstDate: _date,
-                              initialDate: _date,
-                              lastDate: DateTime(2022),
-                            );
-                            if (picked != null) {
-                              setState(() {
-                                //_date = picked;
-                                _warrantyEndController.text =
-                                    "${formatDate(picked, [
-                                  yyyy,
-                                  '-',
-                                  mm,
-                                  '-',
-                                  dd
-                                ])}";
-                              });
-                            }
-                          }
-                        },
+                          Padding(
+                            padding: EdgeInsets.all(8),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              _handleEDateTypeValueChange(1);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 14, vertical: 5),
+                              decoration: BoxDecoration(
+                                  color: _eDateType == 1
+                                      ? Color.fromRGBO(209, 244, 236, 1.0)
+                                      : Color.fromRGBO(244, 246, 248, 1.0),
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                      color: _eDateType == 1
+                                          ? Color.fromRGBO(70, 206, 172, 1.0)
+                                          : Color.fromRGBO(
+                                              244, 246, 248, 1.0))),
+                              child: Text(
+                                'Date Unknown',
+                                style: new TextStyle(
+                                  fontSize: 16.0,
+                                  color: _eDateType == 1
+                                      ? Color.fromRGBO(70, 206, 172, 1.0)
+                                      : Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
+                      _eDateType != null
+                          ? GestureDetector(
+                              child: AbsorbPointer(
+                                child: TextField(
+                                  enabled: widget.id.isEmpty,
+                                  controller: _warrantyEndController,
+                                  decoration: InputDecoration(
+                                    labelText: "Date",
+                                    labelStyle: TextStyle(
+                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+                                    ),
+                                    errorText: _errorWarrantyEndDate,
+                                    border: widget.id.isEmpty
+                                        ? null
+                                        : InputBorder.none,
+                                  ),
+                                  style: textTheme.subhead.copyWith(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              onTap: () async {
+                                if (widget.id.isEmpty) {
+                                  final DateTime picked = await showDatePicker(
+                                    context: context,
+                                    firstDate: _date,
+                                    initialDate: _date,
+                                    lastDate: DateTime(2022),
+                                  );
+                                  if (picked != null) {
+                                    setState(() {
+                                      //_date = picked;
+                                      _warrantyEndController.text =
+                                          "${formatDate(picked, [
+                                        yyyy,
+                                        '-',
+                                        mm,
+                                        '-',
+                                        dd
+                                      ])}";
+                                    });
+                                  }
+                                }
+                              },
+                            )
+                          : Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -484,7 +640,29 @@ class _AddInstrumentScreenState
                         style: textTheme.subhead.copyWith(
                           color: Colors.black,
                         ),
+                        onEditingComplete: () {
+                          setState(() {});
+                        },
                       ),
+                      _warrantyPhoneController.text.isNotEmpty
+                          ? TextField(
+                              controller: _warrantyCompanyController,
+                              enabled: widget.id.isEmpty,
+                              keyboardType: TextInputType.phone,
+                              decoration: InputDecoration(
+                                labelText: "Warranty Company",
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                errorText: _errorWarrantyCompany,
+                                border:
+                                    widget.id.isEmpty ? null : InputBorder.none,
+                              ),
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                            )
+                          : Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -529,6 +707,7 @@ class _AddInstrumentScreenState
                                 String wendDate = _warrantyEndController.text;
                                 String wRef = _warrantyReferenceController.text;
                                 String wPh = _warrantyPhoneController.text;
+                                String com = _warrantyCompanyController.text;
                                 setState(() {
                                   if (instrumentName.isEmpty) {
                                     _errorInstrumentName = "Cannot be Empty";
@@ -546,6 +725,8 @@ class _AddInstrumentScreenState
                                     _errorWarrantyReference = "Cannot be Empty";
                                   } else if (wPh.isEmpty) {
                                     _errorWarrantyPhone = "Cannot be Empty";
+                                  } else if (com.isEmpty) {
+                                    _errorWarrantyCompany = "Cannot be Empty";
                                   } else {
                                     Instrument instrument = Instrument(
                                       band_id: selectedBand?.id ?? "0",
