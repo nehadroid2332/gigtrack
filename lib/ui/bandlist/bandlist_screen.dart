@@ -84,13 +84,13 @@ class _BandListScreenState
                             Padding(
                               padding: EdgeInsets.all(5),
                             ),
-                            Text(
-                              "${bnd.musicStyle}",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromRGBO(149, 121, 218, 1.0),
-                              ),
-                            ),
+//                            Text(
+//                              "${bnd.musicStyle}",
+//                              style: TextStyle(
+//                                fontSize: 14,
+//                                color: Color.fromRGBO(149, 121, 218, 1.0),
+//                              ),
+//                            ),
                           ],
                         ),
                       ),

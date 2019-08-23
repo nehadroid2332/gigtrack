@@ -413,7 +413,7 @@ class _AddInstrumentScreenState
                                   controller: _purchaseDateController,
                                   decoration: InputDecoration(
                                     labelText:
-                                        "${_pDateType == 1 ? 'Estimated' : ''} Date",
+                                        "${_pDateType == 1 ? 'Approximate' : ''} Date",
                                     labelStyle: TextStyle(
                                       color: Color.fromRGBO(202, 208, 215, 1.0),
                                     ),
@@ -515,7 +515,7 @@ class _AddInstrumentScreenState
                                           : Color.fromRGBO(
                                               244, 246, 248, 1.0))),
                               child: Text(
-                                'Date Known',
+                                'Yet to Expire',
                                 style: new TextStyle(
                                   fontSize: 16.0,
                                   color: _eDateType == 0
@@ -546,7 +546,7 @@ class _AddInstrumentScreenState
                                           : Color.fromRGBO(
                                               244, 246, 248, 1.0))),
                               child: Text(
-                                'Date Unknown',
+                                'Expired',
                                 style: new TextStyle(
                                   fontSize: 16.0,
                                   color: _eDateType == 1

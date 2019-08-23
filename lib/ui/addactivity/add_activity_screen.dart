@@ -29,6 +29,8 @@ class _AddActivityScreenState
       _timeController = TextEditingController(),
       _timeEndController = TextEditingController(),
       _descController = TextEditingController(),
+      _taskController= TextEditingController(),
+      _travelController=TextEditingController(),
       _locController = TextEditingController();
   final List<Band> bands = [];
   final List<User> members = [];
@@ -44,6 +46,7 @@ class _AddActivityScreenState
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
   DateTime startDate;
+  bool isVisible=false;
 
   int _userType = 0, _type = 0;
 
@@ -62,6 +65,7 @@ class _AddActivityScreenState
           startDate = picked;
           _dateController.text =
               formatDate(selectedDate, [mm, '-', dd, '-', yy]);
+          !isVisible?_showDialog():"";
         } else if (type == 2) {
           if (startDate == null) {
             showMessage("Please Select Start Date first");
@@ -75,6 +79,39 @@ class _AddActivityScreenState
               formatDate(selectedDate, [mm, '-', dd, '-', yy]);
         }
       });
+
+  }
+  // user defined function
+  void _showDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Select EndDate"),
+          content: new Text("Do you want to select end date for activity/schedule?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("No"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new FlatButton(
+              child: new Text("Yes"),
+              onPressed: () {
+                setState(() {
+                  isVisible=true;
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future<Null> _selectTime(BuildContext context, int type) async {
@@ -85,8 +122,9 @@ class _AddActivityScreenState
     if (picked != null && picked != selectedTime)
       setState(() {
         selectedTime = picked;
-        if (type == 1)
+        if (type == 1){
           _timeController.text = (selectedTime.format(context));
+        }
         else if (type == 2)
           _timeEndController.text = (selectedTime.format(context));
       });
@@ -107,7 +145,7 @@ class _AddActivityScreenState
   @override
   void initState() {
     super.initState();
-    presenter.getBands();
+
     if (widget.id.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         showLoading();
@@ -156,7 +194,7 @@ class _AddActivityScreenState
                     children: <Widget>[
                       widget.id.isEmpty
                           ? Text(
-                              "Select One from each row:",
+                              "Select one from each row:",
                               style: textTheme.headline.copyWith(
                                   color: widget.appListener.primaryColorDark),
                             )
@@ -202,6 +240,7 @@ class _AddActivityScreenState
                           InkWell(
                             onTap: widget.id.isEmpty
                                 ? () {
+                                     presenter.getBands();
                                     _handleUserTypeValueChange(1);
                                   }
                                 : null,
@@ -502,7 +541,7 @@ class _AddActivityScreenState
                               : Container()
                         ],
                       ),
-                      Row(
+                     isVisible? Row(
                         children: <Widget>[
                           widget.id.isEmpty
                               ? Container()
@@ -591,7 +630,7 @@ class _AddActivityScreenState
                                 )
                               : Container()
                         ],
-                      ),
+                      ):Container(),
                       widget.id.isEmpty
                           ? InkWell(
                               onTap: () async {
@@ -678,7 +717,7 @@ class _AddActivityScreenState
                         style: textTheme.subhead.copyWith(
                           color: Colors.black,
                         ),
-                        controller: _descController,
+                        controller: _taskController,
                       ),
                       TextField(
                         decoration: InputDecoration(
@@ -693,7 +732,7 @@ class _AddActivityScreenState
                         style: textTheme.subhead.copyWith(
                           color: Colors.black,
                         ),
-                        controller: _descController,
+                        controller: _travelController,
                       ),
                       Padding(
                         padding: EdgeInsets.all(20),
@@ -718,24 +757,24 @@ class _AddActivityScreenState
                                   _timeEndError = null;
                                   if (title.isEmpty) {
                                     _titleError = "Cannot be Empty";
-                                  } else if (desc.isEmpty) {
-                                    _descError = "Cannot be Empty";
-                                  } else if (loc.isEmpty) {
+                                  }  else if (loc.isEmpty) {
                                     _locError = "Cannot be Empty";
                                   } else if (time.isEmpty) {
                                     _timeError = "Cannot be Empty";
                                   } else if (date.isEmpty) {
                                     _dateError = "Cannot be Empty";
-                                  } else if (eTime.isEmpty) {
-                                    _timeEndError = "Cannot be Empty";
-                                  } else if (eDate.isEmpty) {
-                                    _dateEndError = "Cannot be Empty";
-                                  } else {
+                                  }
+//                                  else if (eTime.isEmpty) {
+//                                    _timeEndError = "Cannot be Empty";
+//                                  } else if (eDate.isEmpty) {
+//                                    _dateEndError = "Cannot be Empty";
+                           //       }
+                                  else {
                                     Activites activities = Activites(
                                       title: title,
-                                      description: desc,
+                                      description: desc !=null?desc:"",
                                       startDate: "$date $time",
-                                      endDate: "$eDate $eTime",
+                                      endDate: eDate !=null?"$eDate $eTime":"",
                                       location: loc,
                                       band_id: selectedBand?.id ?? "",
                                       type: _userType.toString(),

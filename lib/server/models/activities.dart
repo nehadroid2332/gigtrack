@@ -27,8 +27,8 @@ class Activites extends BaseModel {
   Activites.fromJSON(dynamic data) {
     type = data['type'];
     description = data['description'];
-    startDate = data['StartDate'];
-    endDate = data['EndDate'];
+    startDate = data['start_date'];
+    endDate = data['end_date'];
     location = data['location'];
     band_id = data['band_id'];
     action_type = data['action_type'];
@@ -50,8 +50,8 @@ class Activites extends BaseModel {
     Map<String, dynamic> data = super.toMap();
     data['type'] = "$type";
     data['description'] = description;
-    data['StartDate'] = startDate;
-    data['EndDate'] = endDate;
+    data['start_date'] = startDate;
+    data['end_date'] = endDate;
     data['location'] = location;
     data['title'] = title;
     data['action_type'] = "$action_type";

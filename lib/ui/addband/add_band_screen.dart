@@ -256,24 +256,24 @@ class _AddBandScreenState
                           color: Colors.black,
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
-                      TextField(
-                        enabled: widget.id.isEmpty,
-                        controller: _bandResponsibilitiesController,
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                        decoration: InputDecoration(
-                          labelText: "Band Responsibility",
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          errorText: _errorBandResponsibility,
-                          border: widget.id.isEmpty ? null : InputBorder.none,
-                        ),
-                      ),
+//                      Padding(
+//                        padding: EdgeInsets.all(5),
+//                      ),
+//                      TextField(
+//                        enabled: widget.id.isEmpty,
+//                        controller: _bandResponsibilitiesController,
+//                        style: textTheme.subhead.copyWith(
+//                          color: Colors.black,
+//                        ),
+//                        decoration: InputDecoration(
+//                          labelText: "Band Responsibility",
+//                          labelStyle: TextStyle(
+//                            color: Color.fromRGBO(202, 208, 215, 1.0),
+//                          ),
+//                          errorText: _errorBandResponsibility,
+//                          border: widget.id.isEmpty ? null : InputBorder.none,
+//                        ),
+//                      ),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),

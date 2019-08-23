@@ -178,7 +178,7 @@ bool validateMobile(String value) {
 Widget buildActivityListItem(Activites ac,
     {bool showConfirm = false, onConfirmPressed, onTap}) {
   DateTime dt =
-      DateTime.fromMillisecondsSinceEpoch(int.tryParse(ac.startDate ?? "0"));
+      DateTime.fromMillisecondsSinceEpoch(int.tryParse(ac.startDate ?? "0")*1000);
   return Card(
     color: Color.fromRGBO(235, 84, 99, 1.0),
     shape: RoundedRectangleBorder(
