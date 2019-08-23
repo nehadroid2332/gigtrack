@@ -48,7 +48,7 @@ class _ActivitiesListScreenState
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 25,
-          vertical: 20,
+          vertical: 10,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,7 +65,7 @@ class _ActivitiesListScreenState
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(7),
             ),
             Expanded(
               child: ListView.builder(

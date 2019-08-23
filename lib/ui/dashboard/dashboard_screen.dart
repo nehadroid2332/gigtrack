@@ -18,7 +18,7 @@ class _DashboardScreenState
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: 30,
-        vertical: 10,
+        vertical: 5,
       ),
       child: Column(
         children: <Widget>[
@@ -26,7 +26,7 @@ class _DashboardScreenState
             alignment: Alignment.topRight,
             child: Padding(
               padding: EdgeInsets.only(
-                bottom: 10,
+                bottom: 0,
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -74,8 +74,9 @@ class _DashboardScreenState
                     Text(
                       "Hello",
                       style: textTheme.display1.copyWith(
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w400,
                         color: widget.appListener.primaryColorDark,
+                        fontSize: 28
                       ),
                     ),
                     Text(
@@ -83,6 +84,7 @@ class _DashboardScreenState
                       style: textTheme.display1.copyWith(
                         fontWeight: FontWeight.w300,
                         color: widget.appListener.primaryColorDark,
+                        fontSize: 31
                       ),
                     )
                   ],
@@ -90,22 +92,22 @@ class _DashboardScreenState
               ),
               Image.asset(
                 'assets/images/music.png',
-                height: 100,
+                height: 70,
               )
             ],
           ),
           Padding(
-            padding: EdgeInsets.all(8),
+            padding: EdgeInsets.all(1),
           ),
           Align(
             alignment: Alignment.centerLeft,
             child: Image.asset(
               'assets/images/logo.png',
-              height: 88,
+              height: 76,
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(9),
+            padding: EdgeInsets.all(2),
           ),
           Expanded(
             child: GridView.count(
