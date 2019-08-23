@@ -40,6 +40,7 @@ class _AddBandScreenState
   List<User> members = [];
 
   File _image;
+  var _legalUserType;
 
   Future getImage() async {
     showDialog(
@@ -95,6 +96,15 @@ class _AddBandScreenState
         elevation: 0,
         backgroundColor: Color.fromRGBO(250, 108, 81, 1.0),
       );
+
+  void _handleLegalUserValueChange(int value) {
+    setState(() {
+      _legalUserType = value;
+      if (_legalUserType == 1) {
+        _bandlegalNameController.text = "NA";
+      }
+    });
+  }
 
   @override
   Widget buildBody() {
@@ -163,6 +173,7 @@ class _AddBandScreenState
                       ),
                       TextField(
                         enabled: widget.id.isEmpty,
+                        textCapitalization: TextCapitalization.sentences,
                         controller: _bandNameController,
                         decoration: InputDecoration(
                           labelStyle: TextStyle(
@@ -179,9 +190,81 @@ class _AddBandScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
+                      Text("Has legal name?"),
+                      Padding(
+                        padding: EdgeInsets.all(3),
+                      ),
+                      Row(
+                        children: <Widget>[
+                          InkWell(
+                            onTap: widget.id.isEmpty
+                                ? () {
+                                    _handleLegalUserValueChange(0);
+                                  }
+                                : null,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 14, vertical: 5),
+                              decoration: BoxDecoration(
+                                  color: _legalUserType == 0
+                                      ? Color.fromRGBO(209, 244, 236, 1.0)
+                                      : Color.fromRGBO(244, 246, 248, 1.0),
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                      color: _legalUserType == 0
+                                          ? Color.fromRGBO(70, 206, 172, 1.0)
+                                          : Color.fromRGBO(
+                                              244, 246, 248, 1.0))),
+                              child: Text(
+                                'Yes',
+                                style: new TextStyle(
+                                  fontSize: 16.0,
+                                  color: _legalUserType == 0
+                                      ? Color.fromRGBO(70, 206, 172, 1.0)
+                                      : Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(8),
+                          ),
+                          InkWell(
+                            onTap: widget.id.isEmpty
+                                ? () {
+                                    _handleLegalUserValueChange(1);
+                                  }
+                                : null,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 14, vertical: 5),
+                              decoration: BoxDecoration(
+                                  color: _legalUserType == 1
+                                      ? Color.fromRGBO(209, 244, 236, 1.0)
+                                      : Color.fromRGBO(244, 246, 248, 1.0),
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                      color: _legalUserType == 1
+                                          ? Color.fromRGBO(70, 206, 172, 1.0)
+                                          : Color.fromRGBO(
+                                              244, 246, 248, 1.0))),
+                              child: Text(
+                                'No',
+                                style: new TextStyle(
+                                  fontSize: 16.0,
+                                  color: _legalUserType == 1
+                                      ? Color.fromRGBO(70, 206, 172, 1.0)
+                                      : Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                       TextField(
-                        enabled: widget.id.isEmpty,
+                        enabled: widget.id.isEmpty && (_legalUserType == 0),
                         controller: _bandlegalNameController,
+                        textCapitalization: TextCapitalization.sentences,
                         style: textTheme.subhead.copyWith(
                           color: Colors.black,
                         ),
@@ -200,6 +283,7 @@ class _AddBandScreenState
                       TextField(
                         enabled: widget.id.isEmpty,
                         controller: _legalStructureController,
+                        textCapitalization: TextCapitalization.sentences,
                         style: textTheme.subhead.copyWith(
                           color: Colors.black,
                         ),
@@ -220,6 +304,7 @@ class _AddBandScreenState
                           child: TextField(
                             enabled: widget.id.isEmpty,
                             controller: _dateStartedController,
+                            textCapitalization: TextCapitalization.sentences,
                             decoration: InputDecoration(
                               labelText: "Date Started",
                               labelStyle: TextStyle(
@@ -244,6 +329,7 @@ class _AddBandScreenState
                       TextField(
                         enabled: widget.id.isEmpty,
                         controller: _musicStyleController,
+                        textCapitalization: TextCapitalization.sentences,
                         decoration: InputDecoration(
                           labelStyle: TextStyle(
                             color: Color.fromRGBO(202, 208, 215, 1.0),
@@ -262,6 +348,7 @@ class _AddBandScreenState
                       TextField(
                         enabled: widget.id.isEmpty,
                         controller: _bandResponsibilitiesController,
+                        textCapitalization: TextCapitalization.sentences,
                         style: textTheme.subhead.copyWith(
                           color: Colors.black,
                         ),

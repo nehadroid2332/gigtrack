@@ -178,6 +178,26 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
                           textColor: Colors.white,
                           onPressed: () {
                             widget.appListener.router
+                                .navigateTo(context, Screens.FORGOTPASSWORD.toString());
+                          },
+                          child: Text(
+                            "ForgotPassword",
+                            style: textTheme.subtitle.copyWith(
+                                color: Colors.white,
+                                fontSize: 19,
+                                fontWeight: FontWeight.w300),
+                          ),
+                        )
+                      ],
+                    ),
+                    Wrap(
+                      alignment: WrapAlignment.start,
+                      children: <Widget>[
+                        FlatButton(
+                          padding: EdgeInsets.zero,
+                          textColor: Colors.white,
+                          onPressed: () {
+                            widget.appListener.router
                                 .navigateTo(context, Screens.SIGNUP.toString());
                           },
                           child: Text(

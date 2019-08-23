@@ -9,6 +9,7 @@ import 'package:gigtrack/ui/addnotes/add_notes_screen.dart';
 import 'package:gigtrack/ui/addsong/add_song_screen.dart';
 import 'package:gigtrack/ui/bandlist/bandlist_screen.dart';
 import 'package:gigtrack/ui/dashboard/dashboard_screen.dart';
+import 'package:gigtrack/ui/forgotpassword/forgot_password_screen.dart';
 import 'package:gigtrack/ui/instrumentlist/instrument_list_screen.dart';
 import 'package:gigtrack/ui/login/login_screen.dart';
 import 'package:gigtrack/ui/noteslist/notes_list_screen.dart';
@@ -110,6 +111,10 @@ class MyApp extends StatelessWidget implements AppListener {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return AddPlayingStyleScreen(this);
     }));
+    _router.define(Screens.FORGOTPASSWORD.toString(), handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      return ForgotPasswordScreen(this);
+    }));
     _router.define(Screens.ADDMEMBERTOBAND.toString() + "/:id", handler:
         Handler(
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
@@ -190,5 +195,6 @@ enum Screens {
   NOTIFICATION,
   PLAYINGSTYLELIST,
   ADDPLAYINGSTYLE,
-  ADDMEMBERTOBAND
+  ADDMEMBERTOBAND,
+  FORGOTPASSWORD
 }

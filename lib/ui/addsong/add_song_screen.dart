@@ -92,6 +92,7 @@ class _AddSongScreenState
                   ),
                   TextField(
                     controller: _songNameController,
+                    textCapitalization: TextCapitalization.sentences,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: "Song",
@@ -110,6 +111,7 @@ class _AddSongScreenState
                   ),
                   TextField(
                     controller: _bandNameController,
+                    textCapitalization: TextCapitalization.sentences,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: "Band",
@@ -128,6 +130,7 @@ class _AddSongScreenState
                   ),
                   TextField(
                     controller: _keyController,
+                    textCapitalization: TextCapitalization.sentences,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: "Key",
@@ -146,6 +149,7 @@ class _AddSongScreenState
                   ),
                   TextField(
                     controller: _yearController,
+                    textCapitalization: TextCapitalization.sentences,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
@@ -165,6 +169,7 @@ class _AddSongScreenState
                   ),
                   TextField(
                     controller: _aboutController,
+                    textCapitalization: TextCapitalization.sentences,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: "About",

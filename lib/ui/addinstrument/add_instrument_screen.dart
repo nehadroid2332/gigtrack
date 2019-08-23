@@ -305,6 +305,7 @@ class _AddInstrumentScreenState
                       TextField(
                         enabled: widget.id.isEmpty,
                         controller: _instrumentNameController,
+                        textCapitalization: TextCapitalization.sentences,
                         style: textTheme.subhead.copyWith(
                           color: Colors.black,
                         ),
@@ -323,6 +324,7 @@ class _AddInstrumentScreenState
                       TextField(
                         enabled: widget.id.isEmpty,
                         controller: _wherePurchaseController,
+                        textCapitalization: TextCapitalization.sentences,
                         style: textTheme.subhead.copyWith(
                           color: Colors.black,
                         ),
@@ -458,6 +460,7 @@ class _AddInstrumentScreenState
                       TextField(
                         enabled: widget.id.isEmpty,
                         controller: _serialNumberController,
+                        textCapitalization: TextCapitalization.sentences,
                         decoration: InputDecoration(
                           labelText: "Serial Number",
                           labelStyle: TextStyle(
@@ -476,6 +479,7 @@ class _AddInstrumentScreenState
                       TextField(
                         enabled: widget.id.isEmpty,
                         controller: _warrantyController,
+                        textCapitalization: TextCapitalization.sentences,
                         decoration: InputDecoration(
                           labelText: "Warranty",
                           labelStyle: TextStyle(
@@ -609,6 +613,7 @@ class _AddInstrumentScreenState
                       ),
                       TextField(
                         enabled: widget.id.isEmpty,
+                        textCapitalization: TextCapitalization.sentences,
                         controller: _warrantyReferenceController,
                         decoration: InputDecoration(
                           labelText: "Warranty Reference",
@@ -628,6 +633,7 @@ class _AddInstrumentScreenState
                       TextField(
                         controller: _warrantyPhoneController,
                         enabled: widget.id.isEmpty,
+                        textCapitalization: TextCapitalization.sentences,
                         keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
                           labelText: "Warranty Phone",
@@ -649,6 +655,7 @@ class _AddInstrumentScreenState
                               controller: _warrantyCompanyController,
                               enabled: widget.id.isEmpty,
                               keyboardType: TextInputType.phone,
+                              textCapitalization: TextCapitalization.sentences,
                               decoration: InputDecoration(
                                 labelText: "Warranty Company",
                                 labelStyle: TextStyle(

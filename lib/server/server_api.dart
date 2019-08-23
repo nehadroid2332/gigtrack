@@ -376,4 +376,6 @@ class ServerAPI {
       return ErrorResponse.fromJSON(e.message);
     }
   }
+
+  Future<dynamic> forgotPassword(String email) {}
 }

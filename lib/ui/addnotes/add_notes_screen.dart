@@ -176,6 +176,7 @@ class _AddNotesScreenState
                       TextField(
                         enabled: widget.id.isEmpty,
                         style: textTheme.headline,
+                        textCapitalization: TextCapitalization.sentences,
                         decoration: InputDecoration(
                           labelText: "Description",
                           labelStyle: TextStyle(

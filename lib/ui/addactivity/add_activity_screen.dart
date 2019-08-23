@@ -395,6 +395,7 @@ class _AddActivityScreenState
                         enabled: widget.id.isEmpty,
                         minLines: 1,
                         maxLines: 4,
+                        textCapitalization: TextCapitalization.sentences,
                         decoration: InputDecoration(
                           labelText: widget.id.isEmpty ? "Title" : "",
                           labelStyle: textTheme.headline.copyWith(
@@ -429,6 +430,7 @@ class _AddActivityScreenState
                                     child: AbsorbPointer(
                                       child: TextField(
                                         enabled: widget.id.isEmpty,
+                                        textCapitalization: TextCapitalization.sentences,
                                         textAlignVertical:
                                             TextAlignVertical.center,
                                         decoration: InputDecoration(
@@ -474,6 +476,7 @@ class _AddActivityScreenState
                                     child: AbsorbPointer(
                                       child: TextField(
                                         enabled: widget.id.isEmpty,
+                                        textCapitalization: TextCapitalization.sentences,
                                         decoration: InputDecoration(
                                           labelText: widget.id.isEmpty
                                               ? "Start Time"
@@ -660,6 +663,7 @@ class _AddActivityScreenState
                         enabled: widget.id.isEmpty,
                         minLines: 2,
                         maxLines: 10,
+                        textCapitalization: TextCapitalization.sentences,
                         style: textTheme.subhead.copyWith(
                           color: Colors.black,
                         ),
@@ -675,6 +679,7 @@ class _AddActivityScreenState
                           border: widget.id.isEmpty ? null : InputBorder.none,
                         ),
                         enabled: false,
+                        textCapitalization: TextCapitalization.sentences,
                         style: textTheme.subhead.copyWith(
                           color: Colors.black,
                         ),
@@ -690,6 +695,7 @@ class _AddActivityScreenState
                           border: widget.id.isEmpty ? null : InputBorder.none,
                         ),
                         enabled: false,
+                        textCapitalization: TextCapitalization.sentences,
                         style: textTheme.subhead.copyWith(
                           color: Colors.black,
                         ),
