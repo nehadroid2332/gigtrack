@@ -89,6 +89,7 @@ class _AddActivityScreenState
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
+          contentPadding: EdgeInsets.all(15),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           title: new Text("Select EndDate"),
@@ -105,6 +106,9 @@ class _AddActivityScreenState
             new RaisedButton(
               child: new Text("Yes"),
               textColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(6)
+              ),
               color: Color.fromRGBO(235, 84, 99, 1.0),
               onPressed: () {
                 setState(() {
