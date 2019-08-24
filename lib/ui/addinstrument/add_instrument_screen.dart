@@ -596,11 +596,11 @@ class _AddInstrumentScreenState
                                       //_date = picked;
                                       _warrantyEndController.text =
                                           "${formatDate(picked, [
-                                        yyyy,
-                                        '-',
                                         mm,
                                         '-',
-                                        dd
+                                        dd,
+                                        '-',
+                                        yy
                                       ])}";
                                     });
                                   }
