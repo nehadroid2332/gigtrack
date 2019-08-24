@@ -74,18 +74,16 @@ class _DashboardScreenState
                     Text(
                       "Hello",
                       style: textTheme.display1.copyWith(
-                        fontWeight: FontWeight.w400,
-                        color: widget.appListener.primaryColorDark,
-                        fontSize: 28
-                      ),
+                          fontWeight: FontWeight.w400,
+                          color: widget.appListener.primaryColorDark,
+                          fontSize: 28),
                     ),
                     Text(
                       "Welcome to",
                       style: textTheme.display1.copyWith(
-                        fontWeight: FontWeight.w300,
-                        color: widget.appListener.primaryColorDark,
-                        fontSize: 31
-                      ),
+                          fontWeight: FontWeight.w300,
+                          color: widget.appListener.primaryColorDark,
+                          fontSize: 31),
                     )
                   ],
                 ),
@@ -208,6 +206,9 @@ class _DashboardScreenState
                       else if (txt == "Playing Style")
                         widget.appListener.router.navigateTo(
                             context, Screens.PLAYINGSTYLELIST.toString());
+                      else if (txt == "Contacts")
+                        widget.appListener.router.navigateTo(
+                            context, Screens.CONTACTLIST.toString());
                     },
                   );
                 },

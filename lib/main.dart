@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:gigtrack/ui/activitieslist/activities_list_screen.dart';
 import 'package:gigtrack/ui/addactivity/add_activity_screen.dart';
 import 'package:gigtrack/ui/addband/add_band_screen.dart';
+import 'package:gigtrack/ui/addcontact/add_contact_screen.dart';
 import 'package:gigtrack/ui/addinstrument/add_instrument_screen.dart';
 import 'package:gigtrack/ui/addmembertoband/addmembertobandscreen.dart';
 import 'package:gigtrack/ui/addnotes/add_notes_screen.dart';
 import 'package:gigtrack/ui/addsong/add_song_screen.dart';
 import 'package:gigtrack/ui/bandlist/bandlist_screen.dart';
+import 'package:gigtrack/ui/contactlist/contact_list_screen.dart';
 import 'package:gigtrack/ui/dashboard/dashboard_screen.dart';
 import 'package:gigtrack/ui/forgotpassword/forgot_password_screen.dart';
 import 'package:gigtrack/ui/instrumentlist/instrument_list_screen.dart';
@@ -95,6 +97,10 @@ class MyApp extends StatelessWidget implements AppListener {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return BandListScreen(this);
     }));
+    _router.define(Screens.CONTACTLIST.toString(), handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      return ContactListScreen(this);
+    }));
     _router.define(Screens.INSTRUMENTLIST.toString(), handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return InstrumentListScreen(this);
@@ -114,6 +120,14 @@ class MyApp extends StatelessWidget implements AppListener {
     _router.define(Screens.FORGOTPASSWORD.toString(), handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return ForgotPasswordScreen(this);
+    }));
+    _router.define(Screens.ADDCONTACT.toString() + "/:id", handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      String id = params["id"][0];
+      return AddContactScreen(
+        this,
+        id: id,
+      );
     }));
     _router.define(Screens.ADDMEMBERTOBAND.toString() + "/:id", handler:
         Handler(
@@ -196,5 +210,7 @@ enum Screens {
   PLAYINGSTYLELIST,
   ADDPLAYINGSTYLE,
   ADDMEMBERTOBAND,
-  FORGOTPASSWORD
+  FORGOTPASSWORD,
+  ADDCONTACT,
+  CONTACTLIST
 }

@@ -377,5 +377,18 @@ class ServerAPI {
     }
   }
 
-  Future<dynamic> forgotPassword(String email) {}
+  Future<dynamic> forgotPassword(String email) async {
+    try {
+      final res = await _netUtil.post(
+        _baseUrl + "auth/forget_password",
+        headers: _headers,
+        body: {
+          "email": email,
+        },
+      );
+      return BandMemberAddResponse.fromJSON(res);
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
 }
