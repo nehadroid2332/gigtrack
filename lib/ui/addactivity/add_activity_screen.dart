@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
@@ -92,7 +94,7 @@ class _AddActivityScreenState
           contentPadding: EdgeInsets.all(15),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          title: new Text("Select EndDate"),
+          title: new Text("Select EndDate",textAlign: TextAlign.center,),
           content:
               new Text("Do you want to select end date for activity/schedule?"),
           actions: <Widget>[
@@ -841,7 +843,10 @@ class _AddActivityScreenState
     if (!mounted) return;
     hideLoading();
     showMessage(res.message);
-    Navigator.pop(context);
+    Timer timer = new Timer(new Duration(seconds: 2), () {
+      Navigator.pop(context);
+    });
+
   }
 
   @override

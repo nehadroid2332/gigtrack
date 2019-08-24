@@ -207,7 +207,7 @@ class ServerAPI {
         _baseUrl + "notifications",
         headers: _headers,
         body: {
-          "date": date,
+        //  "date": date,
         },
       );
       return NotificationListResponse.fromJSON(res);

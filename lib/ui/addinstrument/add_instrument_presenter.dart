@@ -7,7 +7,7 @@ import 'package:gigtrack/server/models/instrument.dart';
 import 'package:gigtrack/server/models/instruments_list_response.dart';
 
 abstract class AddInstrumentContract extends BaseContract {
-  void addInstrumentSuccess();
+  void addInstrumentSuccess(AddInstrumentResponse res);
   void onBandList(List<Band> bands);
   void getInstrumentDetails(Instrument instrument);
 }
@@ -18,7 +18,7 @@ class AddInstrumentPresenter extends BasePresenter {
   void addInstrument(Instrument instrument) async {
     final res = await serverAPI.addInstrument(instrument);
     if (res is AddInstrumentResponse) {
-      (view as AddInstrumentContract).addInstrumentSuccess();
+      (view as AddInstrumentContract).addInstrumentSuccess(res);
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
     }
