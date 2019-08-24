@@ -434,7 +434,7 @@ class _AddActivityScreenState
                         enabled: widget.id.isEmpty,
                         minLines: 1,
                         maxLines: 4,
-                        textCapitalization: TextCapitalization.sentences,
+                        textCapitalization: TextCapitalization.words,
                         decoration: InputDecoration(
                           labelText: widget.id.isEmpty ? "Title" : "",
                           labelStyle: textTheme.headline.copyWith(
@@ -780,7 +780,7 @@ class _AddActivityScreenState
                                       title: title,
                                       description: desc !=null?desc:"",
                                       startDate: "$date $time",
-                                      endDate: eDate !=null?"$eDate $eTime":"",
+                                      endDate: eDate !=null?"$eDate $eTime":null,
                                       location: loc,
                                       band_id: selectedBand?.id ?? "",
                                       type: _userType.toString(),

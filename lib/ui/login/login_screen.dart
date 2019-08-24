@@ -181,10 +181,10 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
                                 .navigateTo(context, Screens.FORGOTPASSWORD.toString());
                           },
                           child: Text(
-                            "ForgotPassword",
+                            "Forgot Password",
                             style: textTheme.subtitle.copyWith(
                                 color: Colors.white,
-                                fontSize: 19,
+                                fontSize: 17,
                                 fontWeight: FontWeight.w300),
                           ),
                         )
