@@ -5,6 +5,7 @@ import 'package:gigtrack/server/models/activities_list_response.dart';
 import 'package:gigtrack/server/models/activities_response.dart';
 import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/band_list_response.dart';
+import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/server/models/error_response.dart';
 import 'package:gigtrack/server/models/instrument.dart';
 import 'package:gigtrack/server/models/login_response.dart';
@@ -83,6 +84,19 @@ class ServerAPI {
       final res = await _netUtil.post(
         _baseUrl + "bands/add",
         body: band.toMap(),
+        headers: _headers,
+      );
+      return AddBandResponse.fromJSON(res);
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
+  Future<dynamic> addContact(Contacts contacts) async {
+    try {
+      final res = await _netUtil.post(
+        _baseUrl + "bands/add",
+        body: contacts.toMap(),
         headers: _headers,
       );
       return AddBandResponse.fromJSON(res);
@@ -207,7 +221,7 @@ class ServerAPI {
         _baseUrl + "notifications",
         headers: _headers,
         body: {
-        //  "date": date,
+          //  "date": date,
         },
       );
       return NotificationListResponse.fromJSON(res);

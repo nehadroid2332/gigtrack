@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/ui/addcontact/add_contact_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddContactScreen extends BaseScreen {
   final String id;
@@ -32,17 +35,21 @@ class _AddContactScreenState
     "Other"
   ];
 
-  var _relationshipType, _dateToRememberType;
+  var _relationshipType = "Agent", _dateToRememberType = "Anniversary";
+
+  final files = <File>[];
 
   void _handleRelationshipValueChange(String value) {
     setState(() {
       _relationshipType = value;
+      _relationshipController.text = value;
     });
   }
 
   void _handleDateToRememberValueChange(String value) {
     setState(() {
       _dateToRememberType = value;
+      _dateToRememberController.text = value;
     });
   }
 
@@ -126,44 +133,15 @@ class _AddContactScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      Wrap(
-                        runSpacing: 5,
-                        spacing: 5,
-                        children: relationships
-                            .map<Widget>(
-                              (r) => InkWell(
-                                onTap: widget.id.isEmpty
-                                    ? () {
-                                        _handleRelationshipValueChange(r);
-                                      }
-                                    : null,
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 14, vertical: 5),
-                                  decoration: BoxDecoration(
-                                      color: _relationshipType == r
-                                          ? Color.fromRGBO(209, 244, 236, 1.0)
-                                          : Color.fromRGBO(244, 246, 248, 1.0),
-                                      borderRadius: BorderRadius.circular(15),
-                                      border: Border.all(
-                                          color: _relationshipType == r
-                                              ? Color.fromRGBO(
-                                                  70, 206, 172, 1.0)
-                                              : Color.fromRGBO(
-                                                  244, 246, 248, 1.0))),
-                                  child: Text(
-                                    '$r',
-                                    style: new TextStyle(
-                                      fontSize: 16.0,
-                                      color: _relationshipType == r
-                                          ? Color.fromRGBO(70, 206, 172, 1.0)
-                                          : Color.fromRGBO(202, 208, 215, 1.0),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            )
-                            .toList(),
+                      DropdownButton<String>(
+                        items: relationships.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        onChanged: _handleRelationshipValueChange,
+                        value: _relationshipType,
                       ),
                       Padding(
                         padding: EdgeInsets.all(3),
@@ -190,71 +168,6 @@ class _AddContactScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      Text("Dates to Remember"),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
-                      Wrap(
-                        runSpacing: 5,
-                        spacing: 5,
-                        children: dateToRemember
-                            .map<Widget>(
-                              (r) => InkWell(
-                                onTap: widget.id.isEmpty
-                                    ? () {
-                                        _handleDateToRememberValueChange(r);
-                                      }
-                                    : null,
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 14, vertical: 5),
-                                  decoration: BoxDecoration(
-                                      color: _dateToRememberType == r
-                                          ? Color.fromRGBO(209, 244, 236, 1.0)
-                                          : Color.fromRGBO(244, 246, 248, 1.0),
-                                      borderRadius: BorderRadius.circular(15),
-                                      border: Border.all(
-                                          color: _dateToRememberType == r
-                                              ? Color.fromRGBO(
-                                                  70, 206, 172, 1.0)
-                                              : Color.fromRGBO(
-                                                  244, 246, 248, 1.0))),
-                                  child: Text(
-                                    '$r',
-                                    style: new TextStyle(
-                                      fontSize: 16.0,
-                                      color: _dateToRememberType == r
-                                          ? Color.fromRGBO(70, 206, 172, 1.0)
-                                          : Color.fromRGBO(202, 208, 215, 1.0),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            )
-                            .toList(),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(3),
-                      ),
-                      _dateToRememberType == "Other"
-                          ? TextField(
-                              enabled: widget.id.isEmpty,
-                              controller: _dateToRememberController,
-                              textCapitalization: TextCapitalization.sentences,
-                              decoration: InputDecoration(
-                                labelStyle: TextStyle(
-                                  color: Color.fromRGBO(202, 208, 215, 1.0),
-                                ),
-                                labelText: "Other",
-                                errorText: _errorDateToRemember,
-                                border:
-                                    widget.id.isEmpty ? null : InputBorder.none,
-                              ),
-                              style: textTheme.subhead.copyWith(
-                                color: Colors.black,
-                              ),
-                            )
-                          : Container(),
                       TextField(
                         enabled: widget.id.isEmpty,
                         controller: _phoneController,
@@ -313,6 +226,74 @@ class _AddContactScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
+                      Text("Dates to Remember"),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      DropdownButton<String>(
+                        items: dateToRemember.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        onChanged: _handleDateToRememberValueChange,
+                        value: _dateToRememberType,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(3),
+                      ),
+                      _dateToRememberType == "Other"
+                          ? TextField(
+                              enabled: widget.id.isEmpty,
+                              controller: _dateToRememberController,
+                              textCapitalization: TextCapitalization.sentences,
+                              decoration: InputDecoration(
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                labelText: "Other",
+                                errorText: _errorDateToRemember,
+                                border:
+                                    widget.id.isEmpty ? null : InputBorder.none,
+                              ),
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                            )
+                          : Container(),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Text("Upload Media"),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.add_a_photo),
+                            onPressed: () {
+                              getImage();
+                            },
+                          )
+                        ],
+                      ),
+                      files.length > 0
+                          ? SizedBox(
+                              height: 90,
+                              child: ListView.builder(
+                                itemCount: files.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (BuildContext context, int index) {
+                                  File file = files[index];
+                                  return Container(
+                                    margin:
+                                        EdgeInsets.only(left: 10, right: 10),
+                                    height: 80,
+                                    width: 150,
+                                    child: Image.file(file,fit: BoxFit.cover,),
+                                  );
+                                },
+                              ),
+                            )
+                          : Container(),
                       widget.id.isEmpty
                           ? RaisedButton(
                               color: Color.fromRGBO(250, 108, 81, 1.0),
@@ -366,6 +347,44 @@ class _AddContactScreenState
           ),
         )
       ],
+    );
+  }
+
+  Future getImage() async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Image Picker"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Camera"),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                var image =
+                    await ImagePicker.pickImage(source: ImageSource.camera);
+
+                setState(() {
+                  files.add(image);
+                });
+              },
+            ),
+            new FlatButton(
+              child: new Text("Gallery"),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                var image =
+                    await ImagePicker.pickImage(source: ImageSource.gallery);
+                setState(() {
+                  files.add(image);
+                });
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
