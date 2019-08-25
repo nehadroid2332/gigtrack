@@ -270,7 +270,11 @@ class _AddContactScreenState
                           IconButton(
                             icon: Icon(Icons.add_a_photo),
                             onPressed: () {
-                              getImage();
+                              if (files.length < 3)
+                                getImage();
+                              else
+                                showMessage(
+                                    "User can upload upto max 2 media files");
                             },
                           )
                         ],
@@ -288,7 +292,10 @@ class _AddContactScreenState
                                         EdgeInsets.only(left: 10, right: 10),
                                     height: 80,
                                     width: 150,
-                                    child: Image.file(file,fit: BoxFit.cover,),
+                                    child: Image.file(
+                                      file,
+                                      fit: BoxFit.cover,
+                                    ),
                                   );
                                 },
                               ),

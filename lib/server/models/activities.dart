@@ -10,7 +10,10 @@ class Activites extends BaseModel {
   String startDate;
   String endDate;
   String location;
+  String notes;
+  String travel;
   String id;
+  String task;
 
   List<User> bandmates = [];
 
@@ -33,6 +36,9 @@ class Activites extends BaseModel {
     band_id = data['band_id'];
     action_type = data['action_type'];
     title = data['title'];
+    travel = data['travel'];
+    notes = data['notes'];
+    task = data['task'];
     id = data['id'];
     if (data['bandmates'] != null) {
       for (var b in data['bandmates']) {
@@ -53,6 +59,9 @@ class Activites extends BaseModel {
     data['start_date'] = startDate;
     data['end_date'] = endDate;
     data['location'] = location;
+    data['task'] = task;
+    data['travel'] = travel;
+    data['notes'] = notes;
     data['title'] = title;
     data['action_type'] = "$action_type";
     data['id'] = id ?? "";
