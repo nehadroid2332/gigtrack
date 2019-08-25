@@ -10,10 +10,10 @@ class Activites extends BaseModel {
   String startDate;
   String endDate;
   String location;
-  String notes;
-  String travel;
+  String notes = "";
+  String travel = "";
   String id;
-  String task;
+  String task = "";
 
   List<User> bandmates = [];
 
@@ -22,6 +22,7 @@ class Activites extends BaseModel {
       this.location,
       this.startDate,
       this.type,
+      this.id,
       this.endDate,
       this.action_type,
       this.band_id,
@@ -55,14 +56,14 @@ class Activites extends BaseModel {
   Map<String, dynamic> toMap() {
     Map<String, dynamic> data = super.toMap();
     data['type'] = "$type";
-    data['description'] = description;
-    data['start_date'] = startDate;
-    data['end_date'] = endDate;
-    data['location'] = location;
-    data['task'] = task;
-    data['travel'] = travel;
-    data['notes'] = notes;
-    data['title'] = title;
+    data['description'] = description ?? "";
+    data['start_date'] = startDate ?? "";
+    data['end_date'] = endDate ?? "";
+    data['location'] = location ?? "";
+    data['task'] = task ?? "";
+    data['travel'] = travel ?? "";
+    data['notes'] = notes ?? "";
+    data['title'] = title ?? "";
     data['action_type'] = "$action_type";
     data['id'] = id ?? "";
     data['band_id'] = band_id ?? "";

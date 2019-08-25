@@ -55,6 +55,8 @@ class _AddActivityScreenState
 
   Band selectedBand;
 
+  String _dateTxt = "", _dateEndTxt = "";
+
   Future<Null> _selectDate(BuildContext context, int type) async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -516,7 +518,7 @@ class _AddActivityScreenState
                                 : Padding(
                                     padding: EdgeInsets.only(left: 5),
                                     child: Text(
-                                      _dateController.text,
+                                      _dateTxt,
                                       style: textTheme.subhead.copyWith(
                                         color: Colors.grey,
                                       ),
@@ -613,7 +615,7 @@ class _AddActivityScreenState
                                           padding:
                                               EdgeInsets.only(left: 5, top: 5),
                                           child: Text(
-                                            _dateEndController.text,
+                                            _dateEndTxt,
                                             style: textTheme.subhead.copyWith(
                                               color: Colors.grey,
                                             ),
@@ -849,6 +851,7 @@ class _AddActivityScreenState
                                   else {
                                     Activites activities = Activites(
                                       title: title,
+                                      id: widget.id.isEmpty ? "" : widget.id,
                                       description: desc != null ? desc : "",
                                       startDate: "$date $time",
                                       endDate: eDate != null
@@ -973,15 +976,17 @@ class _AddActivityScreenState
       _type = int.tryParse(activities.action_type);
       DateTime dateTime =
           DateTime.fromMillisecondsSinceEpoch(int.parse(activities.startDate));
-      _dateController.text =
-          formatDate(dateTime, [DD, ', ', mm, '-', dd, '-', yy]) +
-              " at ${formatDate(dateTime, [hh, ':', nn, am])}";
+      _dateTxt = formatDate(dateTime, [DD, ', ', mm, '-', dd, '-', yy]) +
+          " at ${formatDate(dateTime, [hh, ':', nn, am])}";
+      _dateController.text = formatDate(dateTime, [mm, '-', dd, '-', yy]);
+      _timeController.text = formatDate(dateTime, [hh, ':', nn, ' ', am]);
       try {
         DateTime dateTime2 =
             DateTime.fromMillisecondsSinceEpoch(int.parse(activities.endDate));
-        _dateEndController.text =
-            formatDate(dateTime, [DD, ', ', mm, '-', dd, '-', yy]) +
-                " at ${formatDate(dateTime2, [hh, ':', nn, am])}";
+        _dateEndController.text = formatDate(dateTime2, [mm, '-', dd, '-', yy]);
+        _timeEndController.text = formatDate(dateTime2, [hh, ':', nn, ' ', am]);
+        _dateEndTxt = formatDate(dateTime2, [DD, ', ', mm, '-', dd, '-', yy]) +
+            " at ${formatDate(dateTime2, [hh, ':', nn, am])}";
       } catch (e) {}
       _locController.text = activities.location;
 //      _timeController.text = "at ${formatDate(dateTime, [hh, ':', nn, am])}";
@@ -1004,5 +1009,10 @@ class _AddActivityScreenState
         presenter.getActivityDetails(widget.id);
       });
     }
+  }
+
+  @override
+  void onUpdate(ActivitiesResponse res) {
+    hideLoading();
   }
 }

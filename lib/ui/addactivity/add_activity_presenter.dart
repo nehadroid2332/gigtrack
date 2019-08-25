@@ -13,6 +13,8 @@ abstract class AddActivityContract extends BaseContract {
   void getActivityDetails(Activites activities);
 
   void onActivitySuccess();
+
+  void onUpdate(ActivitiesResponse res);
 }
 
 class AddActivityPresenter extends BasePresenter {
@@ -39,7 +41,11 @@ class AddActivityPresenter extends BasePresenter {
   void addActivity(Activites activities) async {
     final res = await serverAPI.addActivities(activities);
     if (res is ActivitiesResponse) {
-      (view as AddActivityContract).onSuccess(res);
+      if (activities.id.isEmpty)
+        (view as AddActivityContract).onSuccess(res);
+      else {
+        (view as AddActivityContract).onUpdate(res);
+      }
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
     }
