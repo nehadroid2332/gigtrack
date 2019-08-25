@@ -94,14 +94,10 @@ class _AddActivityScreenState
           contentPadding: EdgeInsets.all(15),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-<<<<<<< HEAD
           title: new Text(
             "Select EndDate",
             textAlign: TextAlign.center,
           ),
-=======
-          title: new Text("Select EndDate",textAlign: TextAlign.center,),
->>>>>>> 51a8d4241cf107198575a10bce68c65f95c6e666
           content:
               new Text("Do you want to select end date for activity/schedule?"),
           actions: <Widget>[
