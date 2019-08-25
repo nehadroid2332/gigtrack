@@ -92,7 +92,10 @@ class _AddActivityScreenState
           contentPadding: EdgeInsets.all(15),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          title: new Text("Select EndDate"),
+          title: new Text(
+            "Select EndDate",
+            textAlign: TextAlign.center,
+          ),
           content:
               new Text("Do you want to select end date for activity/schedule?"),
           actions: <Widget>[
@@ -107,8 +110,7 @@ class _AddActivityScreenState
               child: new Text("Yes"),
               textColor: Colors.white,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(6)
-              ),
+                  borderRadius: BorderRadius.circular(6)),
               color: Color.fromRGBO(235, 84, 99, 1.0),
               onPressed: () {
                 setState(() {
