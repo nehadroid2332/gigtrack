@@ -190,61 +190,39 @@ Widget buildActivityListItem(Activites ac,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            Row(children:<Widget>[
+              Text(
+                "${formatDate(dt, [
+                  D,
+                  '-',
+                  mm,
+                  '/',
+                  dd,
+                  '/',
+                  yy,
+                  ' -'
+                ])}",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Color.fromRGBO(250, 250, 250, 1.0),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 2),
+              ),
             Text(
               "${ac.title}",
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: 22,
+                fontSize: 20,
                 color: Color.fromRGBO(250, 250, 250, 1.0),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.all(5),
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Text(
-                    "${formatDate(dt, [
-                      DD,
-                      '  ',
-                      mm,
-                      '-',
-                      dd,
-                      '-',
-                      yy,
-                    ])} \n${formatDate(dt, [hh, ':', nn, am])}",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white60,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    "${ac.location}",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white60,
-                    ),
-                  ),
-                )
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.all(5),
-            ),
-            Text(
-              "${ac.description}",
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-              ),
-            ),
+
+      ]),
+
+
             showConfirm
                 ? Align(
                     alignment: Alignment.centerRight,
@@ -269,9 +247,9 @@ Widget buildActivityListItem(Activites ac,
 
 Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
   DateTime stDate =
-      DateTime.fromMillisecondsSinceEpoch(int.parse(not.start_date));
+      DateTime.fromMillisecondsSinceEpoch(int.parse(not.start_date)*1000);
   DateTime endDate =
-      DateTime.fromMillisecondsSinceEpoch(int.parse(not.end_date));
+      DateTime.fromMillisecondsSinceEpoch(int.parse(not.end_date)*1000);
 
   return Card(
     margin: EdgeInsets.all(10),
