@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:date_format/date_format.dart';
@@ -772,7 +773,7 @@ class _AddInstrumentScreenState
   AddInstrumentPresenter get presenter => AddInstrumentPresenter(this);
 
   @override
-  void addInstrumentSuccess() {
+  void addInstrumentSuccess(res) {
     if (!mounted) return;
     hideLoading();
     _instrumentNameController.clear();
@@ -783,7 +784,11 @@ class _AddInstrumentScreenState
     _warrantyEndController.clear();
     _warrantyReferenceController.clear();
     _warrantyPhoneController.clear();
-//    Navigator.of(context).pop();
+    showMessage(res.message);
+    Timer timer = new Timer(new Duration(seconds: 2), () {
+      Navigator.pop(context);
+    });
+
   }
 
   @override

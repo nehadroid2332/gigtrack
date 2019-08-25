@@ -87,32 +87,32 @@ class _InstrumentListScreenState
                             Padding(
                               padding: EdgeInsets.all(5),
                             ),
-                            Text(
-                              "Purchased",
-                              style: textTheme.subhead.copyWith(
-                                color: Color.fromRGBO(235, 84, 99, 1.0),
-                              ),
-                            ),
-                            Text(
-                              "Date: ${formatDate(purchasedDate, [
-                                yyyy,
-                                '-',
-                                mm,
-                                '-',
-                                dd
-                              ])} ${formatDate(purchasedDate, [
-                                HH,
-                                ':',
-                                nn,
-                                ':',
-                                ss
-                              ])}",
-                              style: TextStyle(fontSize: 11),
-                            ),
-                            Text(
-                              "From: ${instr.purchased_from}",
-                              style: TextStyle(fontSize: 11),
-                            )
+//                            Text(
+//                              "Purchased",
+//                              style: textTheme.subhead.copyWith(
+//                                color: Color.fromRGBO(235, 84, 99, 1.0),
+//                              ),
+//                            ),
+//                            Text(
+//                              "Date: ${formatDate(purchasedDate, [
+//                                yyyy,
+//                                '-',
+//                                mm,
+//                                '-',
+//                                dd
+//                              ])} ${formatDate(purchasedDate, [
+//                                HH,
+//                                ':',
+//                                nn,
+//                                ':',
+//                                ss
+//                              ])}",
+//                              style: TextStyle(fontSize: 11),
+//                            ),
+//                            Text(
+//                              "From: ${instr.purchased_from}",
+//                              style: TextStyle(fontSize: 11),
+//                            )
                           ],
                         ),
                       ),
