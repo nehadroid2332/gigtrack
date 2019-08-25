@@ -61,7 +61,6 @@ class _ForgotPasswordScreenState
                     Padding(
                       padding: EdgeInsets.all(10),
                     ),
-                    
                     Padding(
                       padding: EdgeInsets.all(20),
                     ),
@@ -141,6 +140,8 @@ class _ForgotPasswordScreenState
 
   @override
   void onSuccess() {
-    // TODO: implement onSuccess
+    hideLoading();
+    _emailController.clear();
+    showMessage("Email sent successfully");
   }
 }

@@ -20,6 +20,7 @@ import 'models/add_instrument_response.dart';
 import 'models/add_playing_style_response.dart';
 import 'models/band_details_response.dart';
 import 'models/band_member_add_response.dart';
+import 'models/forgot_password_response.dart';
 import 'models/instruments_list_response.dart';
 import 'models/notes_todo_list_response.dart';
 import 'models/notification_list_response.dart';
@@ -148,7 +149,8 @@ class ServerAPI {
   Future<dynamic> addActivities(Activites activities) async {
     try {
       final res = await _netUtil.post(
-        _baseUrl + "activities/add",
+        _baseUrl +
+            "activities/${activities.id.isEmpty ? 'add' : 'edit/' + activities.id}",
         body: activities.toMap(),
         headers: _headers,
       );
@@ -400,7 +402,7 @@ class ServerAPI {
           "email": email,
         },
       );
-      return BandMemberAddResponse.fromJSON(res);
+      return ForgetPasswordResponse.fromJSON(res);
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }

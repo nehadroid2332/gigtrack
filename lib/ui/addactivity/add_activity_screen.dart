@@ -49,7 +49,7 @@ class _AddActivityScreenState
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
   DateTime startDate;
-  bool isVisible = false;
+  bool isVisible = false, isEdit = false;
 
   int _userType = 0, _type = 0;
 
@@ -171,6 +171,18 @@ class _AddActivityScreenState
   AppBar get appBar => AppBar(
         elevation: 0,
         backgroundColor: Color.fromRGBO(235, 84, 99, 1.0),
+        actions: <Widget>[
+          widget.id.isEmpty
+              ? Container()
+              : IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    setState(() {
+                      isEdit = !isEdit;
+                    });
+                  },
+                )
+        ],
       );
 
   @override
@@ -192,7 +204,7 @@ class _AddActivityScreenState
           child: Column(
             children: <Widget>[
               Text(
-                "${widget.id.isEmpty ? "Add" : ""} Activities/Schedule",
+                "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} Activities/Schedule",
                 style: textTheme.display1.copyWith(
                   color: Colors.white,
                 ),
@@ -205,7 +217,7 @@ class _AddActivityScreenState
                   child: ListView(
                     padding: EdgeInsets.all(20),
                     children: <Widget>[
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? Text(
                               "Select one from each row:",
                               style: textTheme.headline.copyWith(
@@ -213,13 +225,14 @@ class _AddActivityScreenState
                             )
                           : Container(),
                       Padding(
-                        padding: EdgeInsets.all(widget.id.isEmpty ? 6 : 0),
+                        padding:
+                            EdgeInsets.all(widget.id.isEmpty || isEdit ? 6 : 0),
                       ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? Row(
                               children: <Widget>[
                                 InkWell(
-                                  onTap: widget.id.isEmpty
+                                  onTap: widget.id.isEmpty || isEdit
                                       ? () {
                                           _handleUserTypeValueChange(0);
                                         }
@@ -255,7 +268,7 @@ class _AddActivityScreenState
                                   padding: EdgeInsets.all(8),
                                 ),
                                 InkWell(
-                                  onTap: widget.id.isEmpty
+                                  onTap: widget.id.isEmpty || isEdit
                                       ? () {
                                           presenter.getBands();
                                           _handleUserTypeValueChange(1);
@@ -292,9 +305,10 @@ class _AddActivityScreenState
                             )
                           : Container(),
                       Padding(
-                        padding: EdgeInsets.all(widget.id.isEmpty ? 8 : 0),
+                        padding:
+                            EdgeInsets.all(widget.id.isEmpty || isEdit ? 8 : 0),
                       ),
-                      (_userType == 1 && widget.id.isEmpty)
+                      (_userType == 1 && (widget.id.isEmpty || isEdit))
                           ? Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20),
                               child: DropdownButton<Band>(
@@ -315,14 +329,15 @@ class _AddActivityScreenState
                             )
                           : Container(),
                       Padding(
-                        padding: EdgeInsets.all(widget.id.isEmpty ? 8 : 0),
+                        padding:
+                            EdgeInsets.all(widget.id.isEmpty || isEdit ? 8 : 0),
                       ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? Wrap(
                               runSpacing: 14,
                               children: <Widget>[
                                 InkWell(
-                                  onTap: widget.id.isEmpty
+                                  onTap: widget.id.isEmpty || isEdit
                                       ? () {
                                           _handleTypeValueChange(0);
                                         }
@@ -358,7 +373,7 @@ class _AddActivityScreenState
                                   padding: EdgeInsets.all(8),
                                 ),
                                 InkWell(
-                                  onTap: widget.id.isEmpty
+                                  onTap: widget.id.isEmpty || isEdit
                                       ? () {
                                           _handleTypeValueChange(1);
                                         }
@@ -394,7 +409,7 @@ class _AddActivityScreenState
                                   padding: EdgeInsets.all(8),
                                 ),
                                 InkWell(
-                                  onTap: widget.id.isEmpty
+                                  onTap: widget.id.isEmpty || isEdit
                                       ? () {
                                           _handleTypeValueChange(2);
                                         }
@@ -430,19 +445,21 @@ class _AddActivityScreenState
                             )
                           : Container(),
                       TextField(
-                        enabled: widget.id.isEmpty,
+                        enabled: widget.id.isEmpty || isEdit,
                         minLines: 1,
                         maxLines: 4,
                         textCapitalization: TextCapitalization.words,
                         decoration: InputDecoration(
-                          labelText: widget.id.isEmpty ? "Title" : "",
+                          labelText: widget.id.isEmpty || isEdit ? "Title" : "",
                           labelStyle: textTheme.headline.copyWith(
                             color: Color.fromRGBO(202, 208, 215, 1.0),
                           ),
                           errorText: _titleError,
-                          border: widget.id.isEmpty ? null : InputBorder.none,
+                          border: widget.id.isEmpty || isEdit
+                              ? null
+                              : InputBorder.none,
                         ),
-                        style: widget.id.isEmpty
+                        style: widget.id.isEmpty || isEdit
                             ? textTheme.subhead.copyWith(
                                 color: Colors.black,
                               )
@@ -453,7 +470,7 @@ class _AddActivityScreenState
                       ),
                       Row(
                         children: <Widget>[
-                          widget.id.isEmpty
+                          widget.id.isEmpty || isEdit
                               ? Container()
                               : Align(
                                   alignment: Alignment.center,
@@ -463,17 +480,17 @@ class _AddActivityScreenState
                                   ),
                                 ),
                           Expanded(
-                            child: widget.id.isEmpty
+                            child: widget.id.isEmpty || isEdit
                                 ? InkWell(
                                     child: AbsorbPointer(
                                       child: TextField(
-                                        enabled: widget.id.isEmpty,
+                                        enabled: widget.id.isEmpty || isEdit,
                                         textCapitalization:
                                             TextCapitalization.sentences,
                                         textAlignVertical:
                                             TextAlignVertical.center,
                                         decoration: InputDecoration(
-                                          labelText: widget.id.isEmpty
+                                          labelText: widget.id.isEmpty || isEdit
                                               ? "Start Date"
                                               : "",
                                           labelStyle: TextStyle(
@@ -481,7 +498,7 @@ class _AddActivityScreenState
                                                 202, 208, 215, 1.0),
                                           ),
                                           errorText: _dateError,
-                                          border: widget.id.isEmpty
+                                          border: widget.id.isEmpty || isEdit
                                               ? null
                                               : InputBorder.none,
                                         ),
@@ -492,7 +509,7 @@ class _AddActivityScreenState
                                       ),
                                     ),
                                     onTap: () {
-                                      if (widget.id.isEmpty)
+                                      if (widget.id.isEmpty || isEdit)
                                         _selectDate(context, 1);
                                     },
                                   )
@@ -509,16 +526,16 @@ class _AddActivityScreenState
                           Padding(
                             padding: EdgeInsets.all(4),
                           ),
-                          widget.id.isEmpty
+                          widget.id.isEmpty || isEdit
                               ? Expanded(
                                   child: InkWell(
                                     child: AbsorbPointer(
                                       child: TextField(
-                                        enabled: widget.id.isEmpty,
+                                        enabled: widget.id.isEmpty || isEdit,
                                         textCapitalization:
                                             TextCapitalization.sentences,
                                         decoration: InputDecoration(
-                                          labelText: widget.id.isEmpty
+                                          labelText: widget.id.isEmpty || isEdit
                                               ? "Start Time"
                                               : "",
                                           labelStyle: TextStyle(
@@ -526,7 +543,7 @@ class _AddActivityScreenState
                                                 202, 208, 215, 1.0),
                                           ),
                                           errorText: _timeError,
-                                          border: widget.id.isEmpty
+                                          border: widget.id.isEmpty || isEdit
                                               ? null
                                               : InputBorder.none,
                                         ),
@@ -537,7 +554,7 @@ class _AddActivityScreenState
                                       ),
                                     ),
                                     onTap: () {
-                                      if (widget.id.isEmpty)
+                                      if (widget.id.isEmpty || isEdit)
                                         _selectTime(context, 1);
                                     },
                                   ),
@@ -548,7 +565,7 @@ class _AddActivityScreenState
                       isVisible || widget.id.isNotEmpty
                           ? Row(
                               children: <Widget>[
-                                widget.id.isEmpty
+                                widget.id.isEmpty || isEdit
                                     ? Container()
                                     : Align(
                                         alignment: Alignment.center,
@@ -558,25 +575,28 @@ class _AddActivityScreenState
                                         ),
                                       ),
                                 Expanded(
-                                  child: widget.id.isEmpty
+                                  child: widget.id.isEmpty || isEdit
                                       ? InkWell(
                                           child: AbsorbPointer(
                                             child: TextField(
-                                              enabled: widget.id.isEmpty,
+                                              enabled:
+                                                  widget.id.isEmpty || isEdit,
                                               textAlignVertical:
                                                   TextAlignVertical.center,
                                               decoration: InputDecoration(
-                                                labelText: widget.id.isEmpty
-                                                    ? "End Date"
-                                                    : "",
+                                                labelText:
+                                                    widget.id.isEmpty || isEdit
+                                                        ? "End Date"
+                                                        : "",
                                                 labelStyle: TextStyle(
                                                   color: Color.fromRGBO(
                                                       202, 208, 215, 1.0),
                                                 ),
                                                 errorText: _dateEndError,
-                                                border: widget.id.isEmpty
-                                                    ? null
-                                                    : InputBorder.none,
+                                                border:
+                                                    widget.id.isEmpty || isEdit
+                                                        ? null
+                                                        : InputBorder.none,
                                               ),
                                               controller: _dateEndController,
                                               style: textTheme.subhead.copyWith(
@@ -585,7 +605,7 @@ class _AddActivityScreenState
                                             ),
                                           ),
                                           onTap: () {
-                                            if (widget.id.isEmpty)
+                                            if (widget.id.isEmpty || isEdit)
                                               _selectDate(context, 2);
                                           },
                                         )
@@ -603,24 +623,27 @@ class _AddActivityScreenState
                                 Padding(
                                   padding: EdgeInsets.all(4),
                                 ),
-                                widget.id.isEmpty
+                                widget.id.isEmpty || isEdit
                                     ? Expanded(
                                         child: InkWell(
                                           child: AbsorbPointer(
                                             child: TextField(
-                                              enabled: widget.id.isEmpty,
+                                              enabled:
+                                                  widget.id.isEmpty || isEdit,
                                               decoration: InputDecoration(
-                                                labelText: widget.id.isEmpty
-                                                    ? "End Time"
-                                                    : "",
+                                                labelText:
+                                                    widget.id.isEmpty || isEdit
+                                                        ? "End Time"
+                                                        : "",
                                                 labelStyle: TextStyle(
                                                   color: Color.fromRGBO(
                                                       202, 208, 215, 1.0),
                                                 ),
                                                 errorText: _timeEndError,
-                                                border: widget.id.isEmpty
-                                                    ? null
-                                                    : InputBorder.none,
+                                                border:
+                                                    widget.id.isEmpty || isEdit
+                                                        ? null
+                                                        : InputBorder.none,
                                               ),
                                               controller: _timeEndController,
                                               style: textTheme.subhead.copyWith(
@@ -629,7 +652,7 @@ class _AddActivityScreenState
                                             ),
                                           ),
                                           onTap: () {
-                                            if (widget.id.isEmpty)
+                                            if (widget.id.isEmpty || isEdit)
                                               _selectTime(context, 2);
                                           },
                                         ),
@@ -638,7 +661,7 @@ class _AddActivityScreenState
                               ],
                             )
                           : Container(),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? InkWell(
                               onTap: () async {
                                 var place = await PluginGooglePlacePicker
@@ -652,17 +675,18 @@ class _AddActivityScreenState
                               child: AbsorbPointer(
                                 child: TextField(
                                   decoration: InputDecoration(
-                                    labelText:
-                                        widget.id.isEmpty ? "Location" : "",
+                                    labelText: widget.id.isEmpty || isEdit
+                                        ? "Location"
+                                        : "",
                                     labelStyle: TextStyle(
                                       color: Color.fromRGBO(202, 208, 215, 1.0),
                                     ),
                                     errorText: _locError,
-                                    border: widget.id.isEmpty
+                                    border: widget.id.isEmpty || isEdit
                                         ? null
                                         : InputBorder.none,
                                   ),
-                                  enabled: widget.id.isEmpty,
+                                  enabled: widget.id.isEmpty || isEdit,
                                   controller: _locController,
                                   style: textTheme.subhead.copyWith(
                                     color: Colors.black,
@@ -694,7 +718,7 @@ class _AddActivityScreenState
                                 ],
                               ),
                             ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? Container()
                           : Padding(
                               padding: EdgeInsets.only(top: 10),
@@ -708,14 +732,16 @@ class _AddActivityScreenState
                             ),
                       TextField(
                         decoration: InputDecoration(
-                          labelText: widget.id.isEmpty ? "Notes" : "",
+                          labelText: widget.id.isEmpty || isEdit ? "Notes" : "",
                           labelStyle: TextStyle(
                             color: Color.fromRGBO(202, 208, 215, 1.0),
                           ),
                           errorText: _descError,
-                          border: widget.id.isEmpty ? null : InputBorder.none,
+                          border: widget.id.isEmpty || isEdit
+                              ? null
+                              : InputBorder.none,
                         ),
-                        enabled: widget.id.isEmpty,
+                        enabled: widget.id.isEmpty || isEdit,
                         minLines: 2,
                         maxLines: 10,
                         textCapitalization: TextCapitalization.sentences,
@@ -724,7 +750,7 @@ class _AddActivityScreenState
                         ),
                         controller: _descController,
                       ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? Container()
                           : Padding(
                               padding: EdgeInsets.only(top: 10),
@@ -738,12 +764,14 @@ class _AddActivityScreenState
                             ),
                       TextField(
                         decoration: InputDecoration(
-                          labelText: widget.id.isEmpty ? "Task" : "",
+                          labelText: widget.id.isEmpty || isEdit ? "Task" : "",
                           labelStyle: TextStyle(
                             color: Color.fromRGBO(202, 208, 215, 1.0),
                           ),
                           errorText: _taskError,
-                          border: widget.id.isEmpty ? null : InputBorder.none,
+                          border: widget.id.isEmpty || isEdit
+                              ? null
+                              : InputBorder.none,
                         ),
                         enabled: false,
                         textCapitalization: TextCapitalization.sentences,
@@ -752,7 +780,7 @@ class _AddActivityScreenState
                         ),
                         controller: _taskController,
                       ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? Container()
                           : Padding(
                               padding: EdgeInsets.only(top: 10),
@@ -766,12 +794,15 @@ class _AddActivityScreenState
                             ),
                       TextField(
                         decoration: InputDecoration(
-                          labelText: widget.id.isEmpty ? "Travel" : "",
+                          labelText:
+                              widget.id.isEmpty || isEdit ? "Travel" : "",
                           labelStyle: TextStyle(
                             color: Color.fromRGBO(202, 208, 215, 1.0),
                           ),
                           errorText: _descError,
-                          border: widget.id.isEmpty ? null : InputBorder.none,
+                          border: widget.id.isEmpty || isEdit
+                              ? null
+                              : InputBorder.none,
                         ),
                         enabled: false,
                         textCapitalization: TextCapitalization.sentences,
@@ -783,7 +814,7 @@ class _AddActivityScreenState
                       Padding(
                         padding: EdgeInsets.all(20),
                       ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? RaisedButton(
                               onPressed: () {
                                 String title = _titleController.text;
@@ -840,7 +871,7 @@ class _AddActivityScreenState
                                   borderRadius: BorderRadius.circular(18)),
                             )
                           : Container(),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? Container()
                           : members.length == 0
                               ? Container()
@@ -851,7 +882,7 @@ class _AddActivityScreenState
                                     fontSize: 18,
                                   ),
                                 ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? Container()
                           : ListView.builder(
                               itemCount: members.length,
@@ -920,6 +951,13 @@ class _AddActivityScreenState
     setState(() {
       this.bands.clear();
       this.bands.addAll(bands);
+      if (band_id != null) {
+        bands.forEach((b) {
+          if (b.id == band_id) {
+            selectedBand = b;
+          }
+        });
+      }
     });
   }
 
@@ -949,8 +987,14 @@ class _AddActivityScreenState
 //      _timeController.text = "at ${formatDate(dateTime, [hh, ':', nn, am])}";
       members.clear();
       members.addAll(activities.bandmates);
+      if (activities.band_id != null) {
+        band_id = activities.band_id;
+        presenter.getBands();
+      }
     });
   }
+
+  String band_id;
 
   @override
   void onActivitySuccess() {
