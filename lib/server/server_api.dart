@@ -148,12 +148,17 @@ class ServerAPI {
 
   Future<dynamic> addActivities(Activites activities) async {
     try {
-      final res = await _netUtil.post(
-        _baseUrl +
-            "activities/${activities.id.isEmpty ? 'add' : 'edit/' + activities.id}",
-        body: activities.toMap(),
-        headers: _headers,
-      );
+      final res = activities.id.isEmpty
+          ? await _netUtil.post(
+              _baseUrl + "activities/add",
+              body: activities.toMap(),
+              headers: _headers,
+            )
+          : await _netUtil.put(
+              _baseUrl + "activities/edit/${activities.id}",
+              body: activities.toMap(),
+              headers: _headers,
+            );
       return ActivitiesResponse.fromJSON(res);
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);

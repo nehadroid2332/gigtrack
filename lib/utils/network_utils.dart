@@ -44,6 +44,22 @@ class NetworkUtil {
     });
   }
 
+  Future<dynamic> put(String url,
+      {Map body, encoding, Map<String, String> headers}) {
+    return http
+        .put(url, body: body, headers: headers, encoding: encoding)
+        .then((http.Response response) {
+      final String res = response.body;
+      final int statusCode = response.statusCode;
+
+      if (statusCode < 200 || statusCode > 400 || json == null) {
+        throw new Exception(json.decode(response?.body ??
+            {"message": "Error while fetching data", "status": statusCode}));
+      }
+      return _decoder.convert(res);
+    });
+  }
+
   Future<dynamic> upload(
       String apiUrl,
       String fileKey,
