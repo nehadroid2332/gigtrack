@@ -1014,5 +1014,9 @@ class _AddActivityScreenState
   @override
   void onUpdate(ActivitiesResponse res) {
     hideLoading();
+    showMessage("Updated Successfully");
+    setState(() {
+      isEdit = !isEdit;
+    });
   }
 }
