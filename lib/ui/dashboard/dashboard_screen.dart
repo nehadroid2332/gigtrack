@@ -76,7 +76,7 @@ class _DashboardScreenState
                       style: textTheme.display1.copyWith(
                           fontWeight: FontWeight.w400,
                           color: widget.appListener.primaryColorDark,
-                          fontSize: 28),
+                          fontSize: 28,fontFamily: 'Mohave'),
                     ),
                     Text(
                       "Welcome to",

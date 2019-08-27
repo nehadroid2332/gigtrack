@@ -474,13 +474,14 @@ class _AddActivityScreenState
                         children: <Widget>[
                           widget.id.isEmpty || isEdit
                               ? Container()
-                              : Align(
-                                  alignment: Alignment.center,
-                                  child: Icon(
-                                    Icons.calendar_today,
-                                    color: Colors.grey,
-                                  ),
-                                ),
+                              : Container(),
+//                          Align(
+//                                  alignment: Alignment.center,
+//                                  child: Icon(
+//                                    Icons.calendar_today,
+//                                    color: Colors.grey,
+//                                  ),
+//                                ),
                           Expanded(
                             child: widget.id.isEmpty || isEdit
                                 ? InkWell(
@@ -522,6 +523,7 @@ class _AddActivityScreenState
                                       style: textTheme.subhead.copyWith(
                                         color: Colors.grey,
                                       ),
+                                      textAlign: TextAlign.center,
                                     ),
                                   ),
                           ),
@@ -569,13 +571,7 @@ class _AddActivityScreenState
                               children: <Widget>[
                                 widget.id.isEmpty || isEdit
                                     ? Container()
-                                    : Align(
-                                        alignment: Alignment.center,
-                                        child: Icon(
-                                          Icons.calendar_today,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
+                                    : Container(),
                                 Expanded(
                                   child: widget.id.isEmpty || isEdit
                                       ? InkWell(
@@ -615,10 +611,11 @@ class _AddActivityScreenState
                                           padding:
                                               EdgeInsets.only(left: 5, top: 5),
                                           child: Text(
-                                            _dateEndTxt,
+                                            _dateEndTxt!=0?"to "+_dateEndTxt:'',
                                             style: textTheme.subhead.copyWith(
                                               color: Colors.grey,
                                             ),
+                                            textAlign: TextAlign.center,
                                           ),
                                         ),
                                 ),
@@ -975,18 +972,18 @@ class _AddActivityScreenState
       _taskController.text = activities.task;
       _type = int.tryParse(activities.action_type);
       DateTime dateTime =
-          DateTime.fromMillisecondsSinceEpoch(int.parse(activities.startDate));
-      _dateTxt = formatDate(dateTime, [DD, ', ', mm, '-', dd, '-', yy]) +
+          DateTime.fromMillisecondsSinceEpoch(int.parse(activities.startDate)*1000);
+      _dateTxt = formatDate(dateTime, [D, ', ', mm, '-', dd, '-', yy]) +
           " at ${formatDate(dateTime, [hh, ':', nn, am])}";
       _dateController.text = formatDate(dateTime, [mm, '-', dd, '-', yy]);
       _timeController.text = formatDate(dateTime, [hh, ':', nn, ' ', am]);
       try {
         DateTime dateTime2 =
-            DateTime.fromMillisecondsSinceEpoch(int.parse(activities.endDate));
+            DateTime.fromMillisecondsSinceEpoch(int.parse(activities.endDate)*1000);
         _dateEndController.text = formatDate(dateTime2, [mm, '-', dd, '-', yy]);
         _timeEndController.text = formatDate(dateTime2, [hh, ':', nn, ' ', am]);
-        _dateEndTxt = formatDate(dateTime2, [DD, ', ', mm, '-', dd, '-', yy]) +
-            " at ${formatDate(dateTime2, [hh, ':', nn, am])}";
+        _dateEndTxt = int.parse(activities.endDate)!=0?formatDate(dateTime2, [D, ', ', mm, '-', dd, '-', yy]):0;
+           // " at ${formatDate(dateTime2, [hh, ':', nn, am])}";
       } catch (e) {}
       _locController.text = activities.location;
 //      _timeController.text = "at ${formatDate(dateTime, [hh, ':', nn, am])}";

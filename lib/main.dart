@@ -160,6 +160,7 @@ class MyApp extends StatelessWidget implements AppListener {
         primaryColor: primaryColor,
         primaryColorDark: primaryColorDark,
         accentColor: accentColor,
+        fontFamily: 'Mohave'
       ),
       onGenerateRoute: _router.generator,
     );
