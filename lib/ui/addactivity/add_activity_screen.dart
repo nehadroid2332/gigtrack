@@ -1017,8 +1017,12 @@ class _AddActivityScreenState
       try {
         DateTime dateTime2 = DateTime.fromMillisecondsSinceEpoch(
             int.parse(activities.endDate) * 1000);
-        _dateEndController.text = formatDate(dateTime2, [mm, '-', dd, '-', yy]);
-        _timeEndController.text = formatDate(dateTime2, [hh, ':', nn, ' ', am]);
+        _dateEndController.text = int.parse(activities.endDate) != 0
+            ? formatDate(dateTime2, [mm, '-', dd, '-', yy])
+            : "";
+        _timeEndController.text = int.parse(activities.endDate) != 0
+            ? formatDate(dateTime2, [hh, ':', nn, ' ', am])
+            : "";
         _dateEndTxt = int.parse(activities.endDate) != 0
             ? formatDate(dateTime2, [D, ', ', mm, '-', dd, '-', yy])
             : 0;
