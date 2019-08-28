@@ -9,6 +9,7 @@ class Contacts extends BaseModel {
   String text;
   String email;
   String dateToRemember;
+  String id;
 
   List<File> files = [];
   List<String> uploadedFiles = [];
@@ -22,6 +23,7 @@ class Contacts extends BaseModel {
     text = data['text'];
     email = data['email'];
     dateToRemember = data['date_to_remember'];
+    id = data['id'];
   }
 
   @override

@@ -18,7 +18,8 @@ class AddContactScreen extends BaseScreen {
 }
 
 class _AddContactScreenState
-    extends BaseScreenState<AddContactScreen, AddContactPresenter> {
+    extends BaseScreenState<AddContactScreen, AddContactPresenter>
+    implements AddContactContract {
   final relationships = [
     "Agent",
     "Manager",
@@ -279,7 +280,7 @@ class _AddContactScreenState
                           IconButton(
                             icon: Icon(Icons.add_a_photo),
                             onPressed: () {
-                              if (files.length < 3)
+                              if (files.length < 2)
                                 getImage();
                               else
                                 showMessage(
@@ -417,4 +418,11 @@ class _AddContactScreenState
 
   @override
   AddContactPresenter get presenter => AddContactPresenter(this);
+
+  @override
+  void onSuccess() {
+    hideLoading();
+    showMessage("Contact Created Successfully");
+    Navigator.pop(context);
+  }
 }

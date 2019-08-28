@@ -303,366 +303,226 @@ class _AddInstrumentScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      TextField(
-                        enabled: widget.id.isEmpty,
-                        controller: _instrumentNameController,
-                        textCapitalization: TextCapitalization.sentences,
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                        decoration: InputDecoration(
-                          labelText: "Equipment Name",
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          errorText: _errorInstrumentName,
-                          border: widget.id.isEmpty ? null : InputBorder.none,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
-                      TextField(
-                        enabled: widget.id.isEmpty,
-                        controller: _wherePurchaseController,
-                        textCapitalization: TextCapitalization.sentences,
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                        decoration: InputDecoration(
-                          labelText: "Purchased Where?",
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          errorText: _errorwherePurchased,
-                          border: widget.id.isEmpty ? null : InputBorder.none,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
-                      Text("Purchased Date"),
-                      Padding(
-                        padding: EdgeInsets.all(3),
-                      ),
-                      Row(
-                        children: <Widget>[
-                          InkWell(
-                            onTap: () {
-                              _handlePDateTypeValueChange(0);
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 14, vertical: 5),
-                              decoration: BoxDecoration(
-                                  color: _pDateType == 0
-                                      ? Color.fromRGBO(209, 244, 236, 1.0)
-                                      : Color.fromRGBO(244, 246, 248, 1.0),
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(
-                                      color: _pDateType == 0
-                                          ? Color.fromRGBO(70, 206, 172, 1.0)
-                                          : Color.fromRGBO(
-                                              244, 246, 248, 1.0))),
-                              child: Text(
-                                'Date Known',
-                                style: new TextStyle(
-                                  fontSize: 16.0,
-                                  color: _pDateType == 0
-                                      ? Color.fromRGBO(70, 206, 172, 1.0)
-                                      : Color.fromRGBO(202, 208, 215, 1.0),
-                                ),
-                              ),
+                      widget.id.isEmpty
+                          ? Container()
+                          : Text(
+                              "Equipment Name",
+                              textAlign: TextAlign.center,
+                              style: textTheme.subhead,
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(8),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              _handlePDateTypeValueChange(1);
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 14, vertical: 5),
-                              decoration: BoxDecoration(
-                                  color: _pDateType == 1
-                                      ? Color.fromRGBO(209, 244, 236, 1.0)
-                                      : Color.fromRGBO(244, 246, 248, 1.0),
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(
-                                      color: _pDateType == 1
-                                          ? Color.fromRGBO(70, 206, 172, 1.0)
-                                          : Color.fromRGBO(
-                                              244, 246, 248, 1.0))),
-                              child: Text(
-                                'Date Unknown',
-                                style: new TextStyle(
-                                  fontSize: 16.0,
-                                  color: _pDateType == 1
-                                      ? Color.fromRGBO(70, 206, 172, 1.0)
-                                      : Color.fromRGBO(202, 208, 215, 1.0),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      _pDateType != null
-                          ? GestureDetector(
-                              child: AbsorbPointer(
-                                child: TextField(
-                                  enabled: widget.id.isEmpty,
-                                  controller: _purchaseDateController,
-                                  decoration: InputDecoration(
-                                    labelText:
-                                        "${_pDateType == 1 ? 'Approximate' : ''} Date",
-                                    labelStyle: TextStyle(
-                                      color: Color.fromRGBO(202, 208, 215, 1.0),
-                                    ),
-                                    errorText: _errorPurchasedDate,
-                                    border: widget.id.isEmpty
-                                        ? null
-                                        : InputBorder.none,
-                                  ),
-                                  style: textTheme.subhead.copyWith(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                              onTap: () async {
-                                if (widget.id.isEmpty) {
-                                  final DateTime picked = await showDatePicker(
-                                    context: context,
-                                    firstDate: DateTime(1959),
-                                    initialDate: _date,
-                                    lastDate: DateTime(2022),
-                                  );
-                                  if (picked != null) {
-                                    setState(() {
-                                      //_date = picked;
-                                      _purchaseDateController.text =
-                                          "${formatDate(picked, [
-                                        mm,
-                                        '-',
-                                        dd,
-                                        '-',
-                                        yy
-                                      ])}";
-                                    });
-                                  }
-                                }
-                              },
-                            )
-                          : Container(),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
-                      TextField(
-                        enabled: widget.id.isEmpty,
-                        controller: _serialNumberController,
-                        textCapitalization: TextCapitalization.sentences,
-                        decoration: InputDecoration(
-                          labelText: "Serial Number",
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          errorText: _errorSerialNumber,
-                          border: widget.id.isEmpty ? null : InputBorder.none,
-                        ),
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
-                      TextField(
-                        enabled: widget.id.isEmpty,
-                        controller: _warrantyController,
-                        textCapitalization: TextCapitalization.sentences,
-                        decoration: InputDecoration(
-                          labelText: "Warranty",
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          errorText: _errorWarranty,
-                          border: widget.id.isEmpty ? null : InputBorder.none,
-                        ),
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
-                      Text("Warranty EndDate"),
-                      Padding(
-                        padding: EdgeInsets.all(3),
-                      ),
-                      Row(
-                        children: <Widget>[
-                          InkWell(
-                            onTap: () {
-                              _handleEDateTypeValueChange(0);
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 14, vertical: 5),
-                              decoration: BoxDecoration(
-                                  color: _eDateType == 0
-                                      ? Color.fromRGBO(209, 244, 236, 1.0)
-                                      : Color.fromRGBO(244, 246, 248, 1.0),
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(
-                                      color: _eDateType == 0
-                                          ? Color.fromRGBO(70, 206, 172, 1.0)
-                                          : Color.fromRGBO(
-                                              244, 246, 248, 1.0))),
-                              child: Text(
-                                'Yet to Expire',
-                                style: new TextStyle(
-                                  fontSize: 16.0,
-                                  color: _eDateType == 0
-                                      ? Color.fromRGBO(70, 206, 172, 1.0)
-                                      : Color.fromRGBO(202, 208, 215, 1.0),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(8),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              _handleEDateTypeValueChange(1);
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 14, vertical: 5),
-                              decoration: BoxDecoration(
-                                  color: _eDateType == 1
-                                      ? Color.fromRGBO(209, 244, 236, 1.0)
-                                      : Color.fromRGBO(244, 246, 248, 1.0),
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(
-                                      color: _eDateType == 1
-                                          ? Color.fromRGBO(70, 206, 172, 1.0)
-                                          : Color.fromRGBO(
-                                              244, 246, 248, 1.0))),
-                              child: Text(
-                                'Expired',
-                                style: new TextStyle(
-                                  fontSize: 16.0,
-                                  color: _eDateType == 1
-                                      ? Color.fromRGBO(70, 206, 172, 1.0)
-                                      : Color.fromRGBO(202, 208, 215, 1.0),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      _eDateType != null
-                          ? GestureDetector(
-                              child: AbsorbPointer(
-                                child: TextField(
-                                  enabled: widget.id.isEmpty,
-                                  controller: _warrantyEndController,
-                                  decoration: InputDecoration(
-                                    labelText: "Date",
-                                    labelStyle: TextStyle(
-                                      color: Color.fromRGBO(202, 208, 215, 1.0),
-                                    ),
-                                    errorText: _errorWarrantyEndDate,
-                                    border: widget.id.isEmpty
-                                        ? null
-                                        : InputBorder.none,
-                                  ),
-                                  style: textTheme.subhead.copyWith(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                              onTap: () async {
-                                if (widget.id.isEmpty) {
-                                  final DateTime picked = await showDatePicker(
-                                    context: context,
-                                    firstDate: _date,
-                                    initialDate: _date,
-                                    lastDate: DateTime(2022),
-                                  );
-                                  if (picked != null) {
-                                    setState(() {
-                                      //_date = picked;
-                                      _warrantyEndController.text =
-                                          "${formatDate(picked, [
-                                        mm,
-                                        '-',
-                                        dd,
-                                        '-',
-                                        yy
-                                      ])}";
-                                    });
-                                  }
-                                }
-                              },
-                            )
-                          : Container(),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
-                      TextField(
-                        enabled: widget.id.isEmpty,
-                        textCapitalization: TextCapitalization.sentences,
-                        controller: _warrantyReferenceController,
-                        decoration: InputDecoration(
-                          labelText: "Warranty Reference",
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          errorText: _errorWarrantyReference,
-                          border: widget.id.isEmpty ? null : InputBorder.none,
-                        ),
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
-                      TextField(
-                        controller: _warrantyPhoneController,
-                        enabled: widget.id.isEmpty,
-                        textCapitalization: TextCapitalization.sentences,
-                        keyboardType: TextInputType.phone,
-                        decoration: InputDecoration(
-                          labelText: "Warranty Phone",
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          errorText: _errorWarrantyPhone,
-                          border: widget.id.isEmpty ? null : InputBorder.none,
-                        ),
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                        onEditingComplete: () {
-                          setState(() {});
-                        },
-                      ),
-                      _warrantyPhoneController.text.isNotEmpty
+                      widget.id.isEmpty
                           ? TextField(
-                              controller: _warrantyCompanyController,
                               enabled: widget.id.isEmpty,
-                              keyboardType: TextInputType.phone,
+                              controller: _instrumentNameController,
                               textCapitalization: TextCapitalization.sentences,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
                               decoration: InputDecoration(
-                                labelText: "Warranty Company",
+                                labelText: "Equipment Name",
                                 labelStyle: TextStyle(
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
                                 ),
-                                errorText: _errorWarrantyCompany,
+                                errorText: _errorInstrumentName,
+                                border:
+                                    widget.id.isEmpty ? null : InputBorder.none,
+                              ),
+                            )
+                          : Text(
+                              _instrumentNameController.text,
+                              textAlign: TextAlign.center,
+                            ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      widget.id.isEmpty
+                          ? Container()
+                          : Text(
+                              "Purchased Where?",
+                              textAlign: TextAlign.center,
+                              style: textTheme.subhead,
+                            ),
+                      widget.id.isEmpty
+                          ? TextField(
+                              enabled: widget.id.isEmpty,
+                              controller: _wherePurchaseController,
+                              textCapitalization: TextCapitalization.sentences,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                labelText: "Purchased Where?",
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                errorText: _errorwherePurchased,
+                                border:
+                                    widget.id.isEmpty ? null : InputBorder.none,
+                              ),
+                            )
+                          : Text(
+                              _wherePurchaseController.text,
+                              textAlign: TextAlign.center,
+                            ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      Text(
+                        "Purchased Date",
+                        textAlign: widget.id.isEmpty
+                            ? TextAlign.left
+                            : TextAlign.center,
+                        style: textTheme.subhead,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(3),
+                      ),
+                      widget.id.isEmpty
+                          ? Row(
+                              children: <Widget>[
+                                InkWell(
+                                  onTap: () {
+                                    _handlePDateTypeValueChange(0);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 14, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        color: _pDateType == 0
+                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+                                            : Color.fromRGBO(
+                                                244, 246, 248, 1.0),
+                                        borderRadius: BorderRadius.circular(15),
+                                        border: Border.all(
+                                            color: _pDateType == 0
+                                                ? Color.fromRGBO(
+                                                    70, 206, 172, 1.0)
+                                                : Color.fromRGBO(
+                                                    244, 246, 248, 1.0))),
+                                    child: Text(
+                                      'Date Known',
+                                      style: new TextStyle(
+                                        fontSize: 16.0,
+                                        color: _pDateType == 0
+                                            ? Color.fromRGBO(70, 206, 172, 1.0)
+                                            : Color.fromRGBO(
+                                                202, 208, 215, 1.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(8),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    _handlePDateTypeValueChange(1);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 14, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        color: _pDateType == 1
+                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+                                            : Color.fromRGBO(
+                                                244, 246, 248, 1.0),
+                                        borderRadius: BorderRadius.circular(15),
+                                        border: Border.all(
+                                            color: _pDateType == 1
+                                                ? Color.fromRGBO(
+                                                    70, 206, 172, 1.0)
+                                                : Color.fromRGBO(
+                                                    244, 246, 248, 1.0))),
+                                    child: Text(
+                                      'Date Unknown',
+                                      style: new TextStyle(
+                                        fontSize: 16.0,
+                                        color: _pDateType == 1
+                                            ? Color.fromRGBO(70, 206, 172, 1.0)
+                                            : Color.fromRGBO(
+                                                202, 208, 215, 1.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Container(),
+                      widget.id.isEmpty
+                          ? _pDateType != null
+                              ? GestureDetector(
+                                  child: AbsorbPointer(
+                                    child: TextField(
+                                      enabled: widget.id.isEmpty,
+                                      controller: _purchaseDateController,
+                                      decoration: InputDecoration(
+                                        labelText:
+                                            "${_pDateType == 1 ? 'Approximate' : ''} Date",
+                                        labelStyle: TextStyle(
+                                          color: Color.fromRGBO(
+                                              202, 208, 215, 1.0),
+                                        ),
+                                        errorText: _errorPurchasedDate,
+                                        border: widget.id.isEmpty
+                                            ? null
+                                            : InputBorder.none,
+                                      ),
+                                      style: textTheme.subhead.copyWith(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  onTap: () async {
+                                    if (widget.id.isEmpty) {
+                                      final DateTime picked =
+                                          await showDatePicker(
+                                        context: context,
+                                        firstDate: DateTime(1959),
+                                        initialDate: _date,
+                                        lastDate: DateTime(2022),
+                                      );
+                                      if (picked != null) {
+                                        setState(() {
+                                          //_date = picked;
+                                          _purchaseDateController.text =
+                                              "${formatDate(picked, [
+                                            mm,
+                                            '-',
+                                            dd,
+                                            '-',
+                                            yy
+                                          ])}";
+                                        });
+                                      }
+                                    }
+                                  },
+                                )
+                              : Container()
+                          : Text(
+                              _purchaseDateController.text,
+                              textAlign: TextAlign.center,
+                            ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      widget.id.isEmpty
+                          ? Container()
+                          : Text(
+                              "Serial Number",
+                              textAlign: TextAlign.center,
+                              style: textTheme.subhead,
+                            ),
+                      widget.id.isEmpty
+                          ? TextField(
+                              enabled: widget.id.isEmpty,
+                              controller: _serialNumberController,
+                              textCapitalization: TextCapitalization.sentences,
+                              decoration: InputDecoration(
+                                labelText: "Serial Number",
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                errorText: _errorSerialNumber,
                                 border:
                                     widget.id.isEmpty ? null : InputBorder.none,
                               ),
@@ -670,30 +530,272 @@ class _AddInstrumentScreenState
                                 color: Colors.black,
                               ),
                             )
-                          : Container(),
+                          : Text(
+                              _serialNumberController.text,
+                              textAlign: TextAlign.center,
+                            ),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Checkbox(
-                            onChanged: (bool value) {
-                              setState(() {
-                                _instrumentInsured = value;
-                              });
-                            },
-                            checkColor: Colors.white,
-                            value: _instrumentInsured,
-                          ),
-                          Text(
-                            "Is Instrument Insured?",
-                            style: textTheme.caption.copyWith(
-                              color: Color.fromRGBO(202, 208, 215, 1.0),
+                      widget.id.isEmpty
+                          ? Container()
+                          : Text(
+                              "Warranty",
+                              textAlign: TextAlign.center,
+                              style: textTheme.subhead,
                             ),
-                          )
-                        ],
+                      widget.id.isEmpty
+                          ? TextField(
+                              enabled: widget.id.isEmpty,
+                              controller: _warrantyController,
+                              textCapitalization: TextCapitalization.sentences,
+                              decoration: InputDecoration(
+                                labelText: "Warranty",
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                errorText: _errorWarranty,
+                                border:
+                                    widget.id.isEmpty ? null : InputBorder.none,
+                              ),
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                            )
+                          : Text(
+                              _warrantyController.text,
+                              textAlign: TextAlign.center,
+                            ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
                       ),
+                      Text(
+                        "Warranty EndDate",
+                        textAlign: widget.id.isEmpty
+                            ? TextAlign.left
+                            : TextAlign.center,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(3),
+                      ),
+                      widget.id.isEmpty
+                          ? Row(
+                              children: <Widget>[
+                                InkWell(
+                                  onTap: () {
+                                    _handleEDateTypeValueChange(0);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 14, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        color: _eDateType == 0
+                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+                                            : Color.fromRGBO(
+                                                244, 246, 248, 1.0),
+                                        borderRadius: BorderRadius.circular(15),
+                                        border: Border.all(
+                                            color: _eDateType == 0
+                                                ? Color.fromRGBO(
+                                                    70, 206, 172, 1.0)
+                                                : Color.fromRGBO(
+                                                    244, 246, 248, 1.0))),
+                                    child: Text(
+                                      'Yet to Expire',
+                                      style: new TextStyle(
+                                        fontSize: 16.0,
+                                        color: _eDateType == 0
+                                            ? Color.fromRGBO(70, 206, 172, 1.0)
+                                            : Color.fromRGBO(
+                                                202, 208, 215, 1.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(8),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    _handleEDateTypeValueChange(1);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 14, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        color: _eDateType == 1
+                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+                                            : Color.fromRGBO(
+                                                244, 246, 248, 1.0),
+                                        borderRadius: BorderRadius.circular(15),
+                                        border: Border.all(
+                                            color: _eDateType == 1
+                                                ? Color.fromRGBO(
+                                                    70, 206, 172, 1.0)
+                                                : Color.fromRGBO(
+                                                    244, 246, 248, 1.0))),
+                                    child: Text(
+                                      'Expired',
+                                      style: new TextStyle(
+                                        fontSize: 16.0,
+                                        color: _eDateType == 1
+                                            ? Color.fromRGBO(70, 206, 172, 1.0)
+                                            : Color.fromRGBO(
+                                                202, 208, 215, 1.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Container(),
+                      widget.id.isEmpty
+                          ? _eDateType != null
+                              ? GestureDetector(
+                                  child: AbsorbPointer(
+                                    child: TextField(
+                                      enabled: widget.id.isEmpty,
+                                      controller: _warrantyEndController,
+                                      decoration: InputDecoration(
+                                        labelText: "Date",
+                                        labelStyle: TextStyle(
+                                          color: Color.fromRGBO(
+                                              202, 208, 215, 1.0),
+                                        ),
+                                        errorText: _errorWarrantyEndDate,
+                                        border: widget.id.isEmpty
+                                            ? null
+                                            : InputBorder.none,
+                                      ),
+                                      style: textTheme.subhead.copyWith(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  onTap: () async {
+                                    if (widget.id.isEmpty) {
+                                      final DateTime picked =
+                                          await showDatePicker(
+                                        context: context,
+                                        firstDate: _date,
+                                        initialDate: _date,
+                                        lastDate: DateTime(2022),
+                                      );
+                                      if (picked != null) {
+                                        setState(() {
+                                          //_date = picked;
+                                          _warrantyEndController.text =
+                                              "${formatDate(picked, [
+                                            mm,
+                                            '-',
+                                            dd,
+                                            '-',
+                                            yy
+                                          ])}";
+                                        });
+                                      }
+                                    }
+                                  },
+                                )
+                              : Container()
+                          : Text(
+                              _warrantyEndController.text,
+                              textAlign: TextAlign.center,
+                            ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      widget.id.isEmpty
+                          ? Container()
+                          : Text(
+                              "Warranty Reference",
+                              textAlign: TextAlign.center,
+                              style: textTheme.subhead,
+                            ),
+                      widget.id.isEmpty
+                          ? TextField(
+                              enabled: widget.id.isEmpty,
+                              textCapitalization: TextCapitalization.sentences,
+                              controller: _warrantyReferenceController,
+                              decoration: InputDecoration(
+                                labelText: "Warranty Reference",
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                errorText: _errorWarrantyReference,
+                                border:
+                                    widget.id.isEmpty ? null : InputBorder.none,
+                              ),
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                            )
+                          : Text(
+                              _warrantyReferenceController.text,
+                              textAlign: TextAlign.center,
+                            ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      widget.id.isEmpty
+                          ? Container()
+                          : Text(
+                              "Warranty Phone",
+                              textAlign: TextAlign.center,
+                              style: textTheme.subhead,
+                            ),
+                      widget.id.isEmpty
+                          ? TextField(
+                              controller: _warrantyPhoneController,
+                              enabled: widget.id.isEmpty,
+                              textCapitalization: TextCapitalization.sentences,
+                              keyboardType: TextInputType.phone,
+                              decoration: InputDecoration(
+                                labelText: "Warranty Phone",
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                errorText: _errorWarrantyPhone,
+                                border:
+                                    widget.id.isEmpty ? null : InputBorder.none,
+                              ),
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              onEditingComplete: () {
+                                setState(() {});
+                              },
+                            )
+                          : Text(
+                              _warrantyPhoneController.text,
+                              textAlign: TextAlign.center,
+                            ),
+
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      widget.id.isEmpty
+                          ? Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Checkbox(
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      _instrumentInsured = value;
+                                    });
+                                  },
+                                  checkColor: Colors.white,
+                                  value: _instrumentInsured,
+                                ),
+                                Text(
+                                  "Is Instrument Insured?",
+                                  style: textTheme.caption.copyWith(
+                                    color: Color.fromRGBO(202, 208, 215, 1.0),
+                                  ),
+                                )
+                              ],
+                            )
+                          : Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -788,7 +890,6 @@ class _AddInstrumentScreenState
     Timer timer = new Timer(new Duration(seconds: 2), () {
       Navigator.pop(context);
     });
-
   }
 
   @override

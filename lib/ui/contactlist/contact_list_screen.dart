@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
+import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/ui/contactlist/contact_list_presenter.dart';
 
 class ContactListScreen extends BaseScreen {
@@ -11,8 +12,18 @@ class ContactListScreen extends BaseScreen {
 }
 
 class _ContactListScreenState
-    extends BaseScreenState<ContactListScreen, ContactListPresenter> {
-  final _contacts = <String>[];
+    extends BaseScreenState<ContactListScreen, ContactListPresenter>
+    implements ContactListContract {
+  final _contacts = <Contacts>[];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showLoading();
+      presenter.getContacts();
+    });
+  }
 
   @override
   AppBar get appBar => AppBar(
@@ -52,7 +63,7 @@ class _ContactListScreenState
               child: ListView.builder(
                 itemCount: _contacts.length,
                 itemBuilder: (BuildContext context, int index) {
-                  final bnd = _contacts[index];
+                  final cnt = _contacts[index];
                   return Card(
                     margin: EdgeInsets.all(10),
                     shape: RoundedRectangleBorder(
@@ -64,7 +75,7 @@ class _ContactListScreenState
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              "${bnd}",
+                              "${cnt.name}",
                               style: textTheme.headline.copyWith(
                                 color: widget.appListener.primaryColorDark,
                               ),
@@ -83,8 +94,8 @@ class _ContactListScreenState
                         ),
                       ),
                       onTap: () {
-                        widget.appListener.router.navigateTo(
-                            context, Screens.ADDCONTACT.toString() + "/${bnd}");
+                        widget.appListener.router.navigateTo(context,
+                            Screens.ADDCONTACT.toString() + "/${cnt.id}");
                       },
                     ),
                   );
@@ -108,4 +119,13 @@ class _ContactListScreenState
 
   @override
   ContactListPresenter get presenter => ContactListPresenter(this);
+
+  @override
+  void onContactListSuccess(List<Contacts> contacts) {
+    hideLoading();
+    setState(() {
+      this._contacts.clear();
+      this._contacts.addAll(contacts);
+    });
+  }
 }

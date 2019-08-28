@@ -7,6 +7,7 @@ import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/band_list_response.dart';
 import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/server/models/error_response.dart';
+import 'package:gigtrack/server/models/get_contact_list_response.dart';
 import 'package:gigtrack/server/models/instrument.dart';
 import 'package:gigtrack/server/models/login_response.dart';
 import 'package:gigtrack/server/models/note_todo_response.dart';
@@ -101,11 +102,23 @@ class ServerAPI {
         File ff = contacts.files[i];
         files['media$i'] = ff;
       }
-      final res = await _netUtil.upload(
-          _baseUrl + "contact/add", files, contacts.toStringMap(), _headers, "POST");
+      final res = await _netUtil.upload(_baseUrl + "contact/add", files,
+          contacts.toStringMap(), _headers, "POST");
       return AddContactResponse.fromJSON(res);
     } catch (e) {
       print(e);
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
+  Future<dynamic> getContacts() async {
+    try {
+      final res = await _netUtil.get(
+        _baseUrl + "contact/get_contacts",
+        headers: _headers,
+      );
+      return GetContactListResponse.fromJSON(res);
+    } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }
   }

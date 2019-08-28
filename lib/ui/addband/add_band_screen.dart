@@ -171,232 +171,347 @@ class _AddBandScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      TextField(
-                        enabled: widget.id.isEmpty,
-                        textCapitalization: TextCapitalization.sentences,
-                        controller: _bandNameController,
-                        decoration: InputDecoration(
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          labelText: "Band Name",
-                          errorText: _errorBandName,
-                          border: widget.id.isEmpty ? null : InputBorder.none,
-                        ),
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                      ),
+                      widget.id.isEmpty
+                          ? Container()
+                          : Text(
+                              "Band Name",
+                              textAlign: TextAlign.center,
+                              style: textTheme.subhead,
+                            ),
+                      widget.id.isEmpty
+                          ? TextField(
+                              enabled: widget.id.isEmpty,
+                              textCapitalization: TextCapitalization.sentences,
+                              controller: _bandNameController,
+                              decoration: InputDecoration(
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                labelText: "Band Name",
+                                errorText: _errorBandName,
+                                border:
+                                    widget.id.isEmpty ? null : InputBorder.none,
+                              ),
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                            )
+                          : Text(
+                              _bandNameController.text,
+                              textAlign: TextAlign.center,
+                            ),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      Text("Has legal name?"),
+                      widget.id.isEmpty ? Text("Has legal name?") : Container(),
                       Padding(
                         padding: EdgeInsets.all(3),
                       ),
-                      Row(
-                        children: <Widget>[
-                          InkWell(
-                            onTap: widget.id.isEmpty
-                                ? () {
-                                    _handleLegalUserValueChange(0);
-                                  }
-                                : null,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 14, vertical: 5),
-                              decoration: BoxDecoration(
-                                  color: _legalUserType == 0
-                                      ? Color.fromRGBO(209, 244, 236, 1.0)
-                                      : Color.fromRGBO(244, 246, 248, 1.0),
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(
-                                      color: _legalUserType == 0
-                                          ? Color.fromRGBO(70, 206, 172, 1.0)
-                                          : Color.fromRGBO(
-                                              244, 246, 248, 1.0))),
-                              child: Text(
-                                'Yes',
-                                style: new TextStyle(
-                                  fontSize: 16.0,
-                                  color: _legalUserType == 0
-                                      ? Color.fromRGBO(70, 206, 172, 1.0)
-                                      : Color.fromRGBO(202, 208, 215, 1.0),
+                      widget.id.isEmpty
+                          ? Row(
+                              children: <Widget>[
+                                InkWell(
+                                  onTap: widget.id.isEmpty
+                                      ? () {
+                                          _handleLegalUserValueChange(0);
+                                        }
+                                      : null,
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 14, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        color: _legalUserType == 0
+                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+                                            : Color.fromRGBO(
+                                                244, 246, 248, 1.0),
+                                        borderRadius: BorderRadius.circular(15),
+                                        border: Border.all(
+                                            color: _legalUserType == 0
+                                                ? Color.fromRGBO(
+                                                    70, 206, 172, 1.0)
+                                                : Color.fromRGBO(
+                                                    244, 246, 248, 1.0))),
+                                    child: Text(
+                                      'Yes',
+                                      style: new TextStyle(
+                                        fontSize: 16.0,
+                                        color: _legalUserType == 0
+                                            ? Color.fromRGBO(70, 206, 172, 1.0)
+                                            : Color.fromRGBO(
+                                                202, 208, 215, 1.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(8),
+                                ),
+                                InkWell(
+                                  onTap: widget.id.isEmpty
+                                      ? () {
+                                          _handleLegalUserValueChange(1);
+                                        }
+                                      : null,
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 14, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        color: _legalUserType == 1
+                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+                                            : Color.fromRGBO(
+                                                244, 246, 248, 1.0),
+                                        borderRadius: BorderRadius.circular(15),
+                                        border: Border.all(
+                                            color: _legalUserType == 1
+                                                ? Color.fromRGBO(
+                                                    70, 206, 172, 1.0)
+                                                : Color.fromRGBO(
+                                                    244, 246, 248, 1.0))),
+                                    child: Text(
+                                      'No',
+                                      style: new TextStyle(
+                                        fontSize: 16.0,
+                                        color: _legalUserType == 1
+                                            ? Color.fromRGBO(70, 206, 172, 1.0)
+                                            : Color.fromRGBO(
+                                                202, 208, 215, 1.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Container(),
+                      widget.id.isEmpty
+                          ? Container()
+                          : Text(
+                              "Band Legal Name",
+                              textAlign: TextAlign.center,
+                              style: textTheme.subhead,
+                            ),
+                      widget.id.isEmpty
+                          ? TextField(
+                              enabled:
+                                  widget.id.isEmpty && (_legalUserType == 0),
+                              controller: _bandlegalNameController,
+                              textCapitalization: TextCapitalization.sentences,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                labelText: "Band Legal Name",
+                                errorText: _errorBandLegalName,
+                                border:
+                                    widget.id.isEmpty ? null : InputBorder.none,
+                              ),
+                            )
+                          : Text(
+                              _bandlegalNameController.text,
+                              textAlign: TextAlign.center,
+                            ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      widget.id.isEmpty
+                          ? Container()
+                          : Text(
+                              "Legal Structure",
+                              textAlign: TextAlign.center,
+                              style: textTheme.subhead,
+                            ),
+                      widget.id.isEmpty
+                          ? TextField(
+                              enabled: widget.id.isEmpty,
+                              controller: _legalStructureController,
+                              textCapitalization: TextCapitalization.sentences,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                labelText: "Legal Structure",
+                                errorText: _errorStructure,
+                                border:
+                                    widget.id.isEmpty ? null : InputBorder.none,
+                              ),
+                            )
+                          : Text(
+                              _legalStructureController.text,
+                              textAlign: TextAlign.center,
+                            ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      widget.id.isEmpty
+                          ? Container()
+                          : Text(
+                              "Date Started",
+                              textAlign: TextAlign.center,
+                              style: textTheme.subhead,
+                            ),
+                      widget.id.isEmpty
+                          ? InkWell(
+                              child: AbsorbPointer(
+                                child: TextField(
+                                  enabled: widget.id.isEmpty,
+                                  controller: _dateStartedController,
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
+                                  decoration: InputDecoration(
+                                    labelText: "Date Started",
+                                    labelStyle: TextStyle(
+                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+                                    ),
+                                    errorText: _errorDateStarted,
+                                    border: widget.id.isEmpty
+                                        ? null
+                                        : InputBorder.none,
+                                  ),
+                                  style: textTheme.subhead.copyWith(
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
+                              onTap: () {
+                                if (widget.id.isEmpty)
+                                  _selectDate(context, true);
+                              },
+                            )
+                          : Text(
+                              _dateStartedController.text,
+                              textAlign: TextAlign.center,
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(8),
-                          ),
-                          InkWell(
-                            onTap: widget.id.isEmpty
-                                ? () {
-                                    _handleLegalUserValueChange(1);
-                                  }
-                                : null,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 14, vertical: 5),
-                              decoration: BoxDecoration(
-                                  color: _legalUserType == 1
-                                      ? Color.fromRGBO(209, 244, 236, 1.0)
-                                      : Color.fromRGBO(244, 246, 248, 1.0),
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(
-                                      color: _legalUserType == 1
-                                          ? Color.fromRGBO(70, 206, 172, 1.0)
-                                          : Color.fromRGBO(
-                                              244, 246, 248, 1.0))),
-                              child: Text(
-                                'No',
-                                style: new TextStyle(
-                                  fontSize: 16.0,
-                                  color: _legalUserType == 1
-                                      ? Color.fromRGBO(70, 206, 172, 1.0)
-                                      : Color.fromRGBO(202, 208, 215, 1.0),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      widget.id.isEmpty
+                          ? Container()
+                          : Text(
+                              "Music Style",
+                              textAlign: TextAlign.center,
+                              style: textTheme.subhead,
+                            ),
+                      widget.id.isEmpty
+                          ? TextField(
+                              enabled: widget.id.isEmpty,
+                              controller: _musicStyleController,
+                              textCapitalization: TextCapitalization.sentences,
+                              decoration: InputDecoration(
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
                                 ),
+                                labelText: "Music Style",
+                                errorText: _errorMusicStyle,
+                                border:
+                                    widget.id.isEmpty ? null : InputBorder.none,
                               ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      TextField(
-                        enabled: widget.id.isEmpty && (_legalUserType == 0),
-                        controller: _bandlegalNameController,
-                        textCapitalization: TextCapitalization.sentences,
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                        decoration: InputDecoration(
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          labelText: "Band Legal Name",
-                          errorText: _errorBandLegalName,
-                          border: widget.id.isEmpty ? null : InputBorder.none,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
-                      TextField(
-                        enabled: widget.id.isEmpty,
-                        controller: _legalStructureController,
-                        textCapitalization: TextCapitalization.sentences,
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                        decoration: InputDecoration(
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          labelText: "Legal Structure",
-                          errorText: _errorStructure,
-                          border: widget.id.isEmpty ? null : InputBorder.none,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
-                      InkWell(
-                        child: AbsorbPointer(
-                          child: TextField(
-                            enabled: widget.id.isEmpty,
-                            controller: _dateStartedController,
-                            textCapitalization: TextCapitalization.sentences,
-                            decoration: InputDecoration(
-                              labelText: "Date Started",
-                              labelStyle: TextStyle(
-                                color: Color.fromRGBO(202, 208, 215, 1.0),
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
                               ),
-                              errorText: _errorDateStarted,
-                              border:
-                                  widget.id.isEmpty ? null : InputBorder.none,
+                            )
+                          : Text(
+                              _musicStyleController.text,
+                              textAlign: TextAlign.center,
                             ),
-                            style: textTheme.subhead.copyWith(
-                              color: Colors.black,
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      widget.id.isEmpty
+                          ? Container()
+                          : Text(
+                              "Band Responsibility",
+                              textAlign: TextAlign.center,
+                              style: textTheme.subhead,
                             ),
-                          ),
-                        ),
-                        onTap: () {
-                          if (widget.id.isEmpty) _selectDate(context, true);
-                        },
-                      ),
+                      widget.id.isEmpty
+                          ? TextField(
+                              enabled: widget.id.isEmpty,
+                              controller: _bandResponsibilitiesController,
+                              textCapitalization: TextCapitalization.sentences,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                labelText: "Band Responsibility",
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                errorText: _errorBandResponsibility,
+                                border:
+                                    widget.id.isEmpty ? null : InputBorder.none,
+                              ),
+                            )
+                          : Text(
+                              _bandResponsibilitiesController.text,
+                              textAlign: TextAlign.center,
+                            ),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      TextField(
-                        enabled: widget.id.isEmpty,
-                        controller: _musicStyleController,
-                        textCapitalization: TextCapitalization.sentences,
-                        decoration: InputDecoration(
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          labelText: "Music Style",
-                          errorText: _errorMusicStyle,
-                          border: widget.id.isEmpty ? null : InputBorder.none,
-                        ),
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                      ),
+                      widget.id.isEmpty
+                          ? Container()
+                          : Text(
+                              "Website",
+                              textAlign: TextAlign.center,
+                              style: textTheme.subhead,
+                            ),
+                      widget.id.isEmpty
+                          ? TextField(
+                              enabled: widget.id.isEmpty,
+                              controller: _websiteController,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                labelText: "Website",
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                errorText: _errorWebsite,
+                                border:
+                                    widget.id.isEmpty ? null : InputBorder.none,
+                              ),
+                            )
+                          : Text(
+                              _websiteController.text,
+                              textAlign: TextAlign.center,
+                            ),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      TextField(
-                        enabled: widget.id.isEmpty,
-                        controller: _bandResponsibilitiesController,
-                        textCapitalization: TextCapitalization.sentences,
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                        decoration: InputDecoration(
-                          labelText: "Band Responsibility",
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          errorText: _errorBandResponsibility,
-                          border: widget.id.isEmpty ? null : InputBorder.none,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
-                      TextField(
-                        enabled: widget.id.isEmpty,
-                        controller: _websiteController,
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                        decoration: InputDecoration(
-                          labelText: "Website",
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          errorText: _errorWebsite,
-                          border: widget.id.isEmpty ? null : InputBorder.none,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
-                      TextField(
-                        enabled: widget.id.isEmpty,
-                        controller: _emailController,
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                        decoration: InputDecoration(
-                          labelText: "Email Address",
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          errorText: _errorEmail,
-                          border: widget.id.isEmpty ? null : InputBorder.none,
-                        ),
-                      ),
+                      widget.id.isEmpty
+                          ? Container()
+                          : Text(
+                              "Email Address",
+                              textAlign: TextAlign.center,
+                              style: textTheme.subhead,
+                            ),
+                      widget.id.isEmpty
+                          ? TextField(
+                              enabled: widget.id.isEmpty,
+                              controller: _emailController,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                labelText: "Email Address",
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                errorText: _errorEmail,
+                                border:
+                                    widget.id.isEmpty ? null : InputBorder.none,
+                              ),
+                            )
+                          : Text(
+                              _emailController.text,
+                              textAlign: TextAlign.center,
+                            ),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -417,20 +532,22 @@ class _AddBandScreenState
                                     ),
                                   ),
                                 ),
-                                IconButton(
-                                    icon: Icon(
-                                      Icons.add,
-                                      color: widget.appListener.accentColor,
-                                    ),
-                                    onPressed: () async {
-                                      await widget.appListener.router
-                                          .navigateTo(
-                                              context,
-                                              Screens.ADDMEMBERTOBAND
-                                                      .toString() +
-                                                  "/${widget.id}");
-                                      presenter.getBandDetails(widget.id);
-                                    })
+                                widget.id.isEmpty
+                                    ? IconButton(
+                                        icon: Icon(
+                                          Icons.add,
+                                          color: widget.appListener.accentColor,
+                                        ),
+                                        onPressed: () async {
+                                          await widget.appListener.router
+                                              .navigateTo(
+                                                  context,
+                                                  Screens.ADDMEMBERTOBAND
+                                                          .toString() +
+                                                      "/${widget.id}");
+                                          presenter.getBandDetails(widget.id);
+                                        })
+                                    : Container()
                               ],
                             ),
                       widget.id.isEmpty
