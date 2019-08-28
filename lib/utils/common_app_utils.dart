@@ -177,8 +177,8 @@ bool validateMobile(String value) {
 
 Widget buildActivityListItem(Activites ac,
     {bool showConfirm = false, onConfirmPressed, onTap}) {
-  DateTime dt =
-      DateTime.fromMillisecondsSinceEpoch(int.tryParse(ac.startDate ?? "0")*1000);
+  DateTime dt = DateTime.fromMillisecondsSinceEpoch(
+      int.tryParse(ac.startDate ?? "0") * 1000);
   return Card(
     color: Color.fromRGBO(235, 84, 99, 1.0),
     shape: RoundedRectangleBorder(
@@ -190,18 +190,9 @@ Widget buildActivityListItem(Activites ac,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Row(children:<Widget>[
+            Row(children: <Widget>[
               Text(
-                "${formatDate(dt, [
-                  D,
-                  '-',
-                  mm,
-                  '/',
-                  dd,
-                  '/',
-                  yy,
-                  ' -'
-                ])}",
+                "${formatDate(dt, [D, '-', mm, '/', dd, '/', yy, ' -'])}",
                 style: TextStyle(
                   fontSize: 20,
                   color: Color.fromRGBO(250, 250, 250, 1.0),
@@ -210,19 +201,18 @@ Widget buildActivityListItem(Activites ac,
               Padding(
                 padding: EdgeInsets.only(left: 2),
               ),
-            Text(
-              "${ac.title}",
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 20,
-                color: Color.fromRGBO(250, 250, 250, 1.0),
+              Expanded(
+                child: Text(
+                  "${ac.title}",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Color.fromRGBO(250, 250, 250, 1.0),
+                  ),
+                ),
               ),
-            ),
-
-      ]),
-
-
+            ]),
             showConfirm
                 ? Align(
                     alignment: Alignment.centerRight,
@@ -247,9 +237,9 @@ Widget buildActivityListItem(Activites ac,
 
 Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
   DateTime stDate =
-      DateTime.fromMillisecondsSinceEpoch(int.parse(not.start_date)*1000);
+      DateTime.fromMillisecondsSinceEpoch(int.parse(not.start_date) * 1000);
   DateTime endDate =
-      DateTime.fromMillisecondsSinceEpoch(int.parse(not.end_date)*1000);
+      DateTime.fromMillisecondsSinceEpoch(int.parse(not.end_date) * 1000);
 
   return Card(
     margin: EdgeInsets.all(10),

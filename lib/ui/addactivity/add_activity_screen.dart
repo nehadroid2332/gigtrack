@@ -446,30 +446,42 @@ class _AddActivityScreenState
                               ],
                             )
                           : Container(),
-                      TextField(
-                        enabled: widget.id.isEmpty || isEdit,
-                        minLines: 1,
-                        maxLines: 4,
-                        textCapitalization: TextCapitalization.words,
-                        decoration: InputDecoration(
-                          labelText: widget.id.isEmpty || isEdit ? "Title" : "",
-                          labelStyle: textTheme.headline.copyWith(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          errorText: _titleError,
-                          border: widget.id.isEmpty || isEdit
-                              ? null
-                              : InputBorder.none,
-                        ),
-                        style: widget.id.isEmpty || isEdit
-                            ? textTheme.subhead.copyWith(
-                                color: Colors.black,
-                              )
-                            : textTheme.display1.copyWith(
-                                color: Colors.black,
+                      (widget.id.isEmpty || isEdit)
+                          ? TextField(
+                              enabled: widget.id.isEmpty || isEdit,
+                              minLines: 1,
+                              maxLines: 4,
+                              textCapitalization: TextCapitalization.words,
+                              decoration: InputDecoration(
+                                labelText:
+                                    widget.id.isEmpty || isEdit ? "Title" : "",
+                                labelStyle: textTheme.headline.copyWith(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                errorText: _titleError,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
                               ),
-                        controller: _titleController,
-                      ),
+                              style: widget.id.isEmpty || isEdit
+                                  ? textTheme.subhead.copyWith(
+                                      color: Colors.black,
+                                    )
+                                  : textTheme.display1.copyWith(
+                                      color: Colors.black,
+                                    ),
+                              controller: _titleController,
+                            )
+                          : Padding(
+                              padding: EdgeInsets.only(bottom: 5),
+                              child: Text(
+                                _titleController.text,
+                                style: textTheme.display1.copyWith(
+                                  color: Colors.black,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                       Row(
                         children: <Widget>[
                           widget.id.isEmpty || isEdit
@@ -611,7 +623,9 @@ class _AddActivityScreenState
                                           padding:
                                               EdgeInsets.only(left: 5, top: 5),
                                           child: Text(
-                                            _dateEndTxt!=0?"to "+_dateEndTxt:'',
+                                            _dateEndTxt != 0
+                                                ? "to " + _dateEndTxt
+                                                : '',
                                             style: textTheme.subhead.copyWith(
                                               color: Colors.grey,
                                             ),
@@ -698,22 +712,22 @@ class _AddActivityScreenState
                                 top: 15,
                               ),
                               child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   Icon(
                                     Icons.location_on,
                                     color: Colors.grey,
                                   ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: EdgeInsets.only(left: 5),
-                                      child: Text(
-                                        _locController.text,
-                                        style: textTheme.subhead.copyWith(
-                                          color: Colors.grey,
-                                        ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 5),
+                                    child: Text(
+                                      _locController.text,
+                                      style: textTheme.subhead.copyWith(
+                                        color: Colors.grey,
                                       ),
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
@@ -729,26 +743,33 @@ class _AddActivityScreenState
                                 textAlign: TextAlign.center,
                               ),
                             ),
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: widget.id.isEmpty || isEdit ? "Notes" : "",
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          errorText: _descError,
-                          border: widget.id.isEmpty || isEdit
-                              ? null
-                              : InputBorder.none,
-                        ),
-                        enabled: widget.id.isEmpty || isEdit,
-                        minLines: 2,
-                        maxLines: 10,
-                        textCapitalization: TextCapitalization.sentences,
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                        controller: _descController,
-                      ),
+                      widget.id.isEmpty || isEdit
+                          ? TextField(
+                              decoration: InputDecoration(
+                                labelText:
+                                    widget.id.isEmpty || isEdit ? "Notes" : "",
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                errorText: _descError,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
+                              ),
+                              enabled: widget.id.isEmpty || isEdit,
+                              minLines: 2,
+                              maxLines: 10,
+                              textCapitalization: TextCapitalization.sentences,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              controller: _descController,
+                            )
+                          : Text(
+                              _descController.text,
+                              textAlign: TextAlign.center,
+                              style: textTheme.subhead,
+                            ),
                       widget.id.isEmpty || isEdit
                           ? Container()
                           : Padding(
@@ -761,24 +782,30 @@ class _AddActivityScreenState
                                 textAlign: TextAlign.center,
                               ),
                             ),
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: widget.id.isEmpty || isEdit ? "Task" : "",
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          errorText: _taskError,
-                          border: widget.id.isEmpty || isEdit
-                              ? null
-                              : InputBorder.none,
-                        ),
-                        enabled: false,
-                        textCapitalization: TextCapitalization.sentences,
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                        controller: _taskController,
-                      ),
+                      widget.id.isEmpty || isEdit
+                          ? TextField(
+                              decoration: InputDecoration(
+                                labelText:
+                                    widget.id.isEmpty || isEdit ? "Task" : "",
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                errorText: _taskError,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
+                              ),
+                              enabled: false,
+                              textCapitalization: TextCapitalization.sentences,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              controller: _taskController,
+                            )
+                          : Text(
+                              _taskController.text,
+                              textAlign: TextAlign.center,
+                            ),
                       widget.id.isEmpty || isEdit
                           ? Container()
                           : Padding(
@@ -791,25 +818,30 @@ class _AddActivityScreenState
                                 textAlign: TextAlign.center,
                               ),
                             ),
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText:
-                              widget.id.isEmpty || isEdit ? "Travel" : "",
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          errorText: _descError,
-                          border: widget.id.isEmpty || isEdit
-                              ? null
-                              : InputBorder.none,
-                        ),
-                        enabled: false,
-                        textCapitalization: TextCapitalization.sentences,
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                        controller: _travelController,
-                      ),
+                      widget.id.isEmpty || isEdit
+                          ? TextField(
+                              decoration: InputDecoration(
+                                labelText:
+                                    widget.id.isEmpty || isEdit ? "Travel" : "",
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                errorText: _descError,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
+                              ),
+                              enabled: false,
+                              textCapitalization: TextCapitalization.sentences,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              controller: _travelController,
+                            )
+                          : Text(
+                              _travelController.text,
+                              textAlign: TextAlign.center,
+                            ),
                       Padding(
                         padding: EdgeInsets.all(20),
                       ),
@@ -971,19 +1003,21 @@ class _AddActivityScreenState
       _travelController.text = activities.travel;
       _taskController.text = activities.task;
       _type = int.tryParse(activities.action_type);
-      DateTime dateTime =
-          DateTime.fromMillisecondsSinceEpoch(int.parse(activities.startDate)*1000);
+      DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(
+          int.parse(activities.startDate) * 1000);
       _dateTxt = formatDate(dateTime, [D, ', ', mm, '-', dd, '-', yy]) +
           " at ${formatDate(dateTime, [hh, ':', nn, am])}";
       _dateController.text = formatDate(dateTime, [mm, '-', dd, '-', yy]);
       _timeController.text = formatDate(dateTime, [hh, ':', nn, ' ', am]);
       try {
-        DateTime dateTime2 =
-            DateTime.fromMillisecondsSinceEpoch(int.parse(activities.endDate)*1000);
+        DateTime dateTime2 = DateTime.fromMillisecondsSinceEpoch(
+            int.parse(activities.endDate) * 1000);
         _dateEndController.text = formatDate(dateTime2, [mm, '-', dd, '-', yy]);
         _timeEndController.text = formatDate(dateTime2, [hh, ':', nn, ' ', am]);
-        _dateEndTxt = int.parse(activities.endDate)!=0?formatDate(dateTime2, [D, ', ', mm, '-', dd, '-', yy]):0;
-           // " at ${formatDate(dateTime2, [hh, ':', nn, am])}";
+        _dateEndTxt = int.parse(activities.endDate) != 0
+            ? formatDate(dateTime2, [D, ', ', mm, '-', dd, '-', yy])
+            : 0;
+        // " at ${formatDate(dateTime2, [hh, ':', nn, am])}";
       } catch (e) {}
       _locController.text = activities.location;
 //      _timeController.text = "at ${formatDate(dateTime, [hh, ':', nn, am])}";
