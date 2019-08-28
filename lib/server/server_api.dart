@@ -114,8 +114,23 @@ class ServerAPI {
   Future<dynamic> getContacts() async {
     try {
       final res = await _netUtil.get(
+        _baseUrl + "contact",
+        headers: _headers,
+      );
+      return GetContactListResponse.fromJSON(res);
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
+  Future<dynamic> getContactDetails(String id) async {
+    try {
+      final res = await _netUtil.post(
         _baseUrl + "contact/get_contacts",
         headers: _headers,
+        body: {
+          "id": id,
+        },
       );
       return GetContactListResponse.fromJSON(res);
     } catch (e) {

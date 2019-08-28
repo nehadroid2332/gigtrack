@@ -42,10 +42,15 @@ class _AddContactScreenState
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _relationshipController.text = _relationshipType;
     _dateToRememberController.text = _dateToRememberType;
+    if (widget.id.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showLoading();
+        presenter.contactDetails(widget.id);
+      });
+    }
   }
 
   final files = <File>[];
@@ -144,20 +149,22 @@ class _AddContactScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      DropdownButton<String>(
-                        items: relationships.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        onChanged: _handleRelationshipValueChange,
-                        value: _relationshipType,
-                      ),
+                      widget.id.isEmpty
+                          ? DropdownButton<String>(
+                              items: relationships.map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              onChanged: _handleRelationshipValueChange,
+                              value: _relationshipType,
+                            )
+                          : Container(),
                       Padding(
                         padding: EdgeInsets.all(3),
                       ),
-                      _relationshipType == "Other"
+                      _relationshipType == "Other" || widget.id.isNotEmpty
                           ? TextField(
                               enabled: widget.id.isEmpty,
                               controller: _relationshipController,
@@ -166,7 +173,7 @@ class _AddContactScreenState
                                 labelStyle: TextStyle(
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
                                 ),
-                                labelText: "Other",
+                                labelText: widget.id.isNotEmpty ? "" : "Other",
                                 errorText: _errorRelationship,
                                 border:
                                     widget.id.isEmpty ? null : InputBorder.none,
@@ -239,22 +246,24 @@ class _AddContactScreenState
                       ),
                       Text("Dates to Remember"),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: EdgeInsets.all(widget.id.isEmpty ? 5 : 0),
                       ),
-                      DropdownButton<String>(
-                        items: dateToRemember.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        onChanged: _handleDateToRememberValueChange,
-                        value: _dateToRememberType,
-                      ),
+                      widget.id.isEmpty
+                          ? DropdownButton<String>(
+                              items: dateToRemember.map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              onChanged: _handleDateToRememberValueChange,
+                              value: _dateToRememberType,
+                            )
+                          : Container(),
                       Padding(
-                        padding: EdgeInsets.all(3),
+                        padding: EdgeInsets.all(widget.id.isEmpty ? 3 : 0),
                       ),
-                      _dateToRememberType == "Other"
+                      _dateToRememberType == "Other" || widget.id.isNotEmpty
                           ? TextField(
                               enabled: widget.id.isEmpty,
                               controller: _dateToRememberController,
@@ -263,7 +272,7 @@ class _AddContactScreenState
                                 labelStyle: TextStyle(
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
                                 ),
-                                labelText: "Other",
+                                labelText: widget.id.isNotEmpty ? "" : "Other",
                                 errorText: _errorDateToRemember,
                                 border:
                                     widget.id.isEmpty ? null : InputBorder.none,
@@ -278,40 +287,70 @@ class _AddContactScreenState
                           Expanded(
                             child: Text("Upload Media"),
                           ),
-                          IconButton(
-                            icon: Icon(Icons.add_a_photo),
-                            onPressed: () {
-                              if (files.length < 2)
-                                getImage();
-                              else
-                                showMessage(
-                                    "User can upload upto max 2 media files");
-                            },
-                          )
+                          widget.id.isEmpty
+                              ? IconButton(
+                                  icon: Icon(Icons.add_a_photo),
+                                  onPressed: () {
+                                    if (files.length < 2)
+                                      getImage();
+                                    else
+                                      showMessage(
+                                          "User can upload upto max 2 media files");
+                                  },
+                                )
+                              : Container()
                         ],
                       ),
-                      files.length > 0
-                          ? SizedBox(
-                              height: 90,
-                              child: ListView.builder(
-                                itemCount: files.length,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (BuildContext context, int index) {
-                                  File file = files[index];
-                                  return Container(
-                                    margin:
-                                        EdgeInsets.only(left: 10, right: 10),
-                                    height: 80,
-                                    width: 150,
-                                    child: Image.file(
-                                      file,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  );
-                                },
-                              ),
-                            )
-                          : Container(),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      widget.id.isEmpty
+                          ? files.length > 0
+                              ? SizedBox(
+                                  height: 90,
+                                  child: ListView.builder(
+                                    itemCount: files.length,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      File file = files[index];
+                                      return Container(
+                                        margin: EdgeInsets.only(
+                                            left: 10, right: 10),
+                                        height: 80,
+                                        width: 150,
+                                        child: Image.file(
+                                          file,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                )
+                              : Container()
+                          : uploadedFiles.length > 0
+                              ? SizedBox(
+                                  height: 90,
+                                  child: ListView.builder(
+                                    itemCount: uploadedFiles.length,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      String file = uploadedFiles[index];
+                                      return Container(
+                                        margin: EdgeInsets.only(
+                                            left: 10, right: 10),
+                                        height: 80,
+                                        width: 150,
+                                        child: Image.network(
+                                          file,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                )
+                              : Container(),
                       widget.id.isEmpty
                           ? RaisedButton(
                               color: Color.fromRGBO(250, 108, 81, 1.0),
@@ -379,6 +418,8 @@ class _AddContactScreenState
     );
   }
 
+  List<String> uploadedFiles = [];
+
   Future getImage() async {
     showDialog(
       context: context,
@@ -426,6 +467,22 @@ class _AddContactScreenState
     showMessage("Contact Created Successfully");
     Timer timer = new Timer(new Duration(seconds: 2), () {
       Navigator.pop(context);
+    });
+  }
+
+  @override
+  void getContactDetails(Contacts data) {
+    hideLoading();
+    setState(() {
+      uploadedFiles.clear();
+      if (data.media1?.isNotEmpty ?? false) uploadedFiles.add(data.media1);
+      if (data.media2?.isNotEmpty ?? false) uploadedFiles.add(data.media2);
+      _nameController.text = data.name;
+      _dateToRememberController.text = data.dateToRemember;
+      _emailController.text = data.email;
+      _phoneController.text = data.phone;
+      _relationshipController.text = data.relationship;
+      _textController.text = data.text;
     });
   }
 }
