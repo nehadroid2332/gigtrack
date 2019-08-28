@@ -965,6 +965,7 @@ class _AddInstrumentScreenState
                                       warranty_end_date: wendDate,
                                       warranty_phone: wPh,
                                       warranty_reference: wRef,
+                                      id: id,
                                     );
                                     instrument.files = files;
                                     showLoading();
@@ -1017,10 +1018,12 @@ class _AddInstrumentScreenState
     });
   }
 
+  var id;
   @override
   void getInstrumentDetails(Instrument instrument) {
     hideLoading();
     setState(() {
+      id = instrument.id;
       _instrumentNameController.text = instrument.name;
       _instrumentInsured = instrument.is_insured == "1";
       DateTime purchasedDate = DateTime.fromMillisecondsSinceEpoch(

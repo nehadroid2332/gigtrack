@@ -189,8 +189,14 @@ class ServerAPI {
         files["equipment"] = instrument.files[0];
       }
 
-      final res = await _netUtil.upload(_baseUrl + "equipments/add", files,
-          instrument.toStringMap(), _headers, "POST");
+      final res = instrument.id.isEmpty
+          ? await _netUtil.upload(_baseUrl + "equipments/add", files,
+              instrument.toStringMap(), _headers, "POST")
+          : await _netUtil.post(
+              _baseUrl + "equipments/edit/${instrument.id}",
+              headers: _headers,
+              body: instrument.toMap(),
+            );
       return AddInstrumentResponse.fromJSON(res);
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
