@@ -16,6 +16,7 @@ import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/utils/network_utils.dart';
 
 import 'models/add_band_response.dart';
+import 'models/add_contact_response.dart';
 import 'models/add_instrument_response.dart';
 import 'models/add_playing_style_response.dart';
 import 'models/band_details_response.dart';
@@ -95,13 +96,16 @@ class ServerAPI {
 
   Future<dynamic> addContact(Contacts contacts) async {
     try {
-      final res = await _netUtil.post(
-        _baseUrl + "bands/add",
-        body: contacts.toMap(),
-        headers: _headers,
-      );
-      return AddBandResponse.fromJSON(res);
+      Map<String, File> files = new Map();
+      for (var i = 0; i < contacts.files.length; i++) {
+        File ff = contacts.files[i];
+        files['media$i'] = ff;
+      }
+      final res = await _netUtil.upload(
+          _baseUrl + "bands/add", files, contacts.toStringMap(), _headers, "POST");
+      return AddContactResponse.fromJSON(res);
     } catch (e) {
+      print(e);
       return ErrorResponse.fromJSON(e.message);
     }
   }

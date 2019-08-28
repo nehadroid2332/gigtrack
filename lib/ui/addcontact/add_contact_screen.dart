@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
+import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/ui/addcontact/add_contact_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:image_picker/image_picker.dart';
@@ -36,6 +37,14 @@ class _AddContactScreenState
   ];
 
   var _relationshipType = "Agent", _dateToRememberType = "Anniversary";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _relationshipController.text = _relationshipType;
+    _dateToRememberController.text = _dateToRememberType;
+  }
 
   final files = <File>[];
 
@@ -325,8 +334,10 @@ class _AddContactScreenState
                                     _errorName = "Cannot be empty";
                                   } else if (rel.isEmpty) {
                                     _errorRelationship = "Cannot be empty";
+                                    showMessage(_errorRelationship);
                                   } else if (dRem.isEmpty) {
                                     _errorDateToRemember = "Cannot be empty";
+                                    showMessage(_errorDateToRemember);
                                   } else if (ph.isEmpty) {
                                     _errorPhone = "Cannot be empty";
                                   } else if (txt.isEmpty) {
@@ -337,6 +348,15 @@ class _AddContactScreenState
                                     _errorEmail = "Not a Valid Email";
                                   } else {
                                     showLoading();
+                                    Contacts contacts = new Contacts();
+                                    contacts.name = nm;
+                                    contacts.relationship = rel;
+                                    contacts.dateToRemember = dRem;
+                                    contacts.email = em;
+                                    contacts.phone = ph;
+                                    contacts.text = txt;
+                                    contacts.files = files;
+                                    presenter.addContact(contacts);
                                   }
                                 });
                               },

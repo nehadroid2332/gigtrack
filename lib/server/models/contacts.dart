@@ -13,13 +13,15 @@ class Contacts extends BaseModel {
   List<File> files = [];
   List<String> uploadedFiles = [];
 
+  Contacts();
+
   Contacts.fromJSON(dynamic data) : super.fromJSON(data) {
     name = data['name'];
     relationship = data['relationship'];
     phone = data['phone'];
     text = data['text'];
     email = data['email'];
-    dateToRemember = data['dateToRemember'];
+    dateToRemember = data['date_to_remember'];
   }
 
   @override
@@ -30,7 +32,18 @@ class Contacts extends BaseModel {
     data['phone'] = phone;
     data['text'] = text;
     data['email'] = email;
-    data['dateToRemember'] = dateToRemember;
+    data['date_to_remember'] = dateToRemember;
+    return data;
+  }
+
+  Map<String, String> toStringMap() {
+    Map<String, String> data = Map();
+    data['name'] = name;
+    data['relationship'] = relationship;
+    data['phone'] = phone;
+    data['text'] = text;
+    data['email'] = email;
+    data['date_to_remember'] = dateToRemember;
     return data;
   }
 }
