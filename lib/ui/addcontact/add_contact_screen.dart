@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -423,6 +424,8 @@ class _AddContactScreenState
   void onSuccess() {
     hideLoading();
     showMessage("Contact Created Successfully");
-    Navigator.pop(context);
+    Timer timer = new Timer(new Duration(seconds: 2), () {
+      Navigator.pop(context);
+    });
   }
 }

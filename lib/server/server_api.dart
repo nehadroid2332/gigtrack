@@ -184,11 +184,13 @@ class ServerAPI {
 
   Future<dynamic> addInstrument(Instrument instrument) async {
     try {
-      final res = await _netUtil.post(
-        _baseUrl + "equipments/add",
-        body: instrument.toMap(),
-        headers: _headers,
-      );
+      Map<String, File> files = Map();
+      if (instrument.files?.isNotEmpty ?? false) {
+        files["equipment"] = instrument.files[0];
+      }
+
+      final res = await _netUtil.upload(_baseUrl + "equipments/add", files,
+          instrument.toStringMap(), _headers, "POST");
       return AddInstrumentResponse.fromJSON(res);
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
