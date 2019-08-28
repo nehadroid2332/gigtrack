@@ -620,10 +620,15 @@ class _AddActivityScreenState
                                           },
                                         )
                                       : Padding(
-                                          padding:
-                                              EdgeInsets.only(left: 5, top: 5),
+                                          padding: EdgeInsets.only(
+                                              left: _dateEndTxt != 0.toString()
+                                                  ? 5
+                                                  : 0,
+                                              top: _dateEndTxt != 0.toString()
+                                                  ? 5
+                                                  : 0),
                                           child: Text(
-                                            _dateEndTxt != 0
+                                            _dateEndTxt != 0.toString()
                                                 ? "to " + _dateEndTxt
                                                 : '',
                                             style: textTheme.subhead.copyWith(
@@ -709,7 +714,7 @@ class _AddActivityScreenState
                             )
                           : Padding(
                               padding: EdgeInsets.only(
-                                top: 15,
+                                top: 10,
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1018,7 +1023,9 @@ class _AddActivityScreenState
             ? formatDate(dateTime2, [D, ', ', mm, '-', dd, '-', yy])
             : 0;
         // " at ${formatDate(dateTime2, [hh, ':', nn, am])}";
-      } catch (e) {}
+      } catch (e) {
+        _dateEndTxt = "0";
+      }
       _locController.text = activities.location;
 //      _timeController.text = "at ${formatDate(dateTime, [hh, ':', nn, am])}";
       members.clear();
