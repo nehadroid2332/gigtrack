@@ -83,6 +83,8 @@ class _InstrumentListScreenState
                               style: textTheme.headline.copyWith(
                                 color: widget.appListener.primaryColorDark,
                               ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                             Padding(
                               padding: EdgeInsets.all(5),
