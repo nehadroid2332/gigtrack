@@ -734,10 +734,10 @@ class _AddActivityScreenState
                       widget.id.isEmpty || isEdit
                           ? Container()
                           : Padding(
-                              padding: EdgeInsets.only(top: 10),
+                              padding: EdgeInsets.only(top: 14),
                               child: Text(
                                 "Notes",
-                                style: textTheme.subtitle.copyWith(
+                                style: textTheme.subhead.copyWith(
                                   fontWeight: FontWeight.w700,
                                 ),
                                 textAlign: TextAlign.center,
@@ -768,15 +768,15 @@ class _AddActivityScreenState
                           : Text(
                               _descController.text,
                               textAlign: TextAlign.center,
-                              style: textTheme.subhead,
+                              style: textTheme.subtitle,
                             ),
                       widget.id.isEmpty || isEdit
                           ? Container()
                           : Padding(
-                              padding: EdgeInsets.only(top: 10),
+                              padding: EdgeInsets.only(top: 14),
                               child: Text(
                                 "Task",
-                                style: textTheme.subtitle.copyWith(
+                                style: textTheme.subhead.copyWith(
                                   fontWeight: FontWeight.w700,
                                 ),
                                 textAlign: TextAlign.center,
@@ -809,10 +809,10 @@ class _AddActivityScreenState
                       widget.id.isEmpty || isEdit
                           ? Container()
                           : Padding(
-                              padding: EdgeInsets.only(top: 10),
+                              padding: EdgeInsets.only(top: 14),
                               child: Text(
                                 "Travel",
-                                style: textTheme.subtitle.copyWith(
+                                style: textTheme.subhead.copyWith(
                                   fontWeight: FontWeight.w700,
                                 ),
                                 textAlign: TextAlign.center,
