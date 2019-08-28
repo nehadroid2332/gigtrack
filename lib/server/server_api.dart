@@ -102,7 +102,7 @@ class ServerAPI {
         files['media$i'] = ff;
       }
       final res = await _netUtil.upload(
-          _baseUrl + "bands/add", files, contacts.toStringMap(), _headers, "POST");
+          _baseUrl + "contact/add", files, contacts.toStringMap(), _headers, "POST");
       return AddContactResponse.fromJSON(res);
     } catch (e) {
       print(e);
