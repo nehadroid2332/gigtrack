@@ -206,10 +206,11 @@ class _AddActivityScreenState
           child: Column(
             children: <Widget>[
               Text(
-                "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} Activities/Schedule",
+                "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" :"Add" : ""} Activities/Schedule",
                 style: textTheme.display1.copyWith(
                   color: Colors.white,
                 ),
+
               ),
               Padding(
                 padding: EdgeInsets.all(10),

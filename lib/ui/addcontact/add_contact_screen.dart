@@ -73,7 +73,7 @@ class _AddContactScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(250, 108, 81, 1.0),
+        backgroundColor: Color.fromRGBO(82, 149, 171, 1.0),
       );
 
   @override
@@ -83,7 +83,7 @@ class _AddContactScreenState
         ClipPath(
           clipper: RoundedClipper(height / 2.5),
           child: Container(
-            color: Color.fromRGBO(250, 108, 81, 1.0),
+            color: Color.fromRGBO(82, 149, 171, 1.0),
             height: height / 2.5,
           ),
         ),
@@ -205,7 +205,7 @@ class _AddContactScreenState
                           labelStyle: TextStyle(
                             color: Color.fromRGBO(202, 208, 215, 1.0),
                           ),
-                          labelText: "Text",
+                          labelText: "Cell/Text",
                           errorText: _errorText,
                           border: widget.id.isEmpty ? null : InputBorder.none,
                         ),
@@ -424,7 +424,7 @@ class _AddContactScreenState
                               : Container(),
                       widget.id.isEmpty
                           ? RaisedButton(
-                              color: Color.fromRGBO(250, 108, 81, 1.0),
+                              color: Color.fromRGBO(82, 149, 171, 1.0),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(18)),
                               textColor: Colors.white,

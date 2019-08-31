@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
@@ -45,19 +46,30 @@ class _BandListScreenState
     return Scaffold(
       backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children: <Widget>[Row(children: <Widget>[
+            Image.asset(
+              'assets/images/band_color.png',
+              height: 40,
+              width: 40,
+            ),
+            Padding(padding: EdgeInsets.only(left: 15),),
             Text(
-              "Band Lists",
+              "Bands",
               style: textTheme.display1.copyWith(
-                  color: widget.appListener.primaryColorDark,
+                  color: Color.fromRGBO(135, 67, 125, 1.0),
+                  fontSize: 28,
                   fontWeight: FontWeight.w500),
               textAlign: TextAlign.left,
+
             ),
+          ],),
+
+
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(4),
             ),
             Expanded(
               child: ListView.builder(
@@ -65,7 +77,7 @@ class _BandListScreenState
                 itemBuilder: (BuildContext context, int index) {
                   final bnd = _bands[index];
                   return Card(
-                    margin: EdgeInsets.all(10),
+                    margin: EdgeInsets.all(6),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)
                     ),
@@ -78,11 +90,12 @@ class _BandListScreenState
                             Text(
                               "${bnd.name}",
                               style: textTheme.headline.copyWith(
-                                color: widget.appListener.primaryColorDark,
+                                color: Color.fromRGBO(135, 67, 125, 1.0),
+                                fontSize: 18
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.all(5),
+                              padding: EdgeInsets.all(0),
                             ),
 //                            Text(
 //                              "${bnd.musicStyle}",
@@ -114,6 +127,7 @@ class _BandListScreenState
           presenter.getBands();
         },
         child: Icon(Icons.add),
+        backgroundColor: Color.fromRGBO(135, 67, 125, 1.0),
       ),
     );
   }

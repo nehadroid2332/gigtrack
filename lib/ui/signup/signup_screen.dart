@@ -7,6 +7,7 @@ import 'package:gigtrack/ui/signup/signup_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:image_picker/image_picker.dart';
 
+
 class SignUpScreen extends BaseScreen {
   SignUpScreen(AppListener appListener) : super(appListener);
 

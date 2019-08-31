@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
@@ -48,24 +49,29 @@ class _ActivitiesListScreenState
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 25,
-          vertical: 10,
+          vertical: 5,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Image.asset(
-              'assets/images/activities_red.png',
-              height: 60,
-              width: 60,
-            ),
-            Text(
-              "Activities/Schedule",
-              style: textTheme.display1.copyWith(
-                color: widget.appListener.primaryColorDark,
+            Row(children: <Widget>[
+              Image.asset(
+                'assets/images/activities_red.png',
+                height: 40,
+                width: 40,
               ),
-            ),
+              Padding(padding: EdgeInsets.only(left: 15),),
+              Text(
+                "Activities/Schedule",
+                style: textTheme.display1.copyWith(
+                    color: widget.appListener.primaryColorDark,
+                    fontSize: 28
+                ),
+              ),
+            ],),
+
             Padding(
-              padding: EdgeInsets.all(7),
+              padding: EdgeInsets.all(8),
             ),
             Expanded(
               child: ListView.builder(

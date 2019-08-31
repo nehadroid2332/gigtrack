@@ -1,3 +1,4 @@
+
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/server/models/activities.dart';
@@ -194,12 +195,12 @@ Widget buildActivityListItem(Activites ac,
               Text(
                 "${formatDate(dt, [D, '-', mm, '/', dd, '/', yy, ' -'])}",
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 18,
                   color: Color.fromRGBO(250, 250, 250, 1.0),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 2),
+                padding: EdgeInsets.all(5),
               ),
               Expanded(
                 child: Text(
@@ -207,7 +208,7 @@ Widget buildActivityListItem(Activites ac,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
                     color: Color.fromRGBO(250, 250, 250, 1.0),
                   ),
                 ),

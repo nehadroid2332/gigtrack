@@ -46,19 +46,29 @@ class _InstrumentListScreenState
     return Scaffold(
       backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children: <Widget>[Row(children: <Widget>[
+            Image.asset(
+              'assets/images/equipment_color.png',
+              height: 45,
+              width: 45,
+            ),
+            Padding(padding: EdgeInsets.only(left: 15),),
             Text(
-              "Equipment Lists",
+              "Equipments",
               style: textTheme.display1.copyWith(
-                  color: widget.appListener.primaryColorDark,
+                  color:Color.fromRGBO(79, 73, 108, 1.0),
+                  fontSize: 28,
                   fontWeight: FontWeight.w500),
               textAlign: TextAlign.left,
+
             ),
+          ],),
+
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(4),
             ),
             Expanded(
               child: ListView.builder(
@@ -69,6 +79,7 @@ class _InstrumentListScreenState
                       int.parse(instr.purchased_date));
 
                   return Card(
+                    color: Color.fromRGBO(79, 73, 108, 1.0),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16)
                     ),
@@ -81,13 +92,14 @@ class _InstrumentListScreenState
                             Text(
                               "${instr.name}",
                               style: textTheme.headline.copyWith(
-                                color: widget.appListener.primaryColorDark,
+                                fontSize: 18,
+                                color: Colors.white
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
                             Padding(
-                              padding: EdgeInsets.all(5),
+                              padding: EdgeInsets.all(0),
                             ),
 //                            Text(
 //                              "Purchased",
@@ -138,6 +150,7 @@ class _InstrumentListScreenState
           presenter.getInstruments();
         },
         child: Icon(Icons.add),
+        backgroundColor: Color.fromRGBO(79, 73, 108, 1.0),
       ),
     );
   }

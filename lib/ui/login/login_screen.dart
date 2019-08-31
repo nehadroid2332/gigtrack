@@ -1,6 +1,6 @@
+
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/ui/login/login_presenter.dart';
@@ -57,19 +57,11 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
                       child: Image.asset(
                         'assets/images/logo.png',
                         alignment: Alignment.centerLeft,
-                        height: 120,
+                        height: 100,
                       ),
                     ),
                     Padding(
                       padding: EdgeInsets.all(10),
-                    ),
-                    Text(
-                      "Welcome Back,",
-                      style: textTheme.title
-                          .copyWith(color: Colors.white, fontSize: 28),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(5),
                     ),
                     Text(
                       "Sign In to Continue",
@@ -80,7 +72,7 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(15),
                     ),
                     TextField(
                       controller: _emailController,

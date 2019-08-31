@@ -141,7 +141,7 @@ class _AddInstrumentScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-        backgroundColor: widget.appListener.primaryColor,
+        backgroundColor: Color.fromRGBO(79, 73, 108, 1.0),
         actions: <Widget>[
           widget.id.isEmpty
               ? Container()
@@ -163,7 +163,7 @@ class _AddInstrumentScreenState
         ClipPath(
           clipper: RoundedClipper(height / 2.5),
           child: Container(
-            color: widget.appListener.primaryColor,
+            color: Color.fromRGBO(79, 73, 108, 1.0),
             height: height / 2.5,
           ),
         ),
@@ -331,13 +331,14 @@ class _AddInstrumentScreenState
                       ),
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : Text(
-                              "Equipment Name",
-                              textAlign: TextAlign.center,
-                              style: textTheme.subhead.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                          : Container(),
+//                      Text(
+//                              "Equipment Name",
+//                              textAlign: TextAlign.center,
+//                              style: textTheme.subhead.copyWith(
+//                                fontWeight: FontWeight.bold,
+//                              ),
+//                            ),
                       widget.id.isEmpty || isEdit
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
@@ -366,13 +367,14 @@ class _AddInstrumentScreenState
                       ),
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : Text(
-                              "Purchased Where?",
-                              textAlign: TextAlign.center,
-                              style: textTheme.subhead.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                          : Container(),
+//                      Text(
+//                              "Purchased Where?",
+//                              textAlign: TextAlign.center,
+//                              style: textTheme.subhead.copyWith(
+//                                fontWeight: FontWeight.bold,
+//                              ),
+//                            ),
                       widget.id.isEmpty || isEdit
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
@@ -858,7 +860,7 @@ class _AddInstrumentScreenState
                           ? Row(
                               children: <Widget>[
                                 Expanded(
-                                  child: Text("Upload Media"),
+                                  child: Text("Upload Invoice"),
                                 ),
                                 widget.id.isEmpty || isEdit
                                     ? IconButton(
@@ -913,7 +915,7 @@ class _AddInstrumentScreenState
                       ),
                       widget.id.isEmpty || isEdit
                           ? RaisedButton(
-                              color: widget.appListener.primaryColor,
+                              color: Color.fromRGBO(79, 73, 108, 1.0),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(18)),
                               textColor: Colors.white,

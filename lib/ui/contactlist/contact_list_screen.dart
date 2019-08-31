@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
@@ -45,19 +46,27 @@ class _ContactListScreenState
     return Scaffold(
       backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children: <Widget>[Row(children: <Widget>[
+            Image.asset(
+              'assets/images/contact_color.png',
+              height: 40,
+              width: 40,
+            ),
+            Padding(padding: EdgeInsets.only(left: 15),),
             Text(
-              "Contacts Lists",
+              "Contacts",
               style: textTheme.display1.copyWith(
-                  color: widget.appListener.primaryColorDark,
+                  color: Color.fromRGBO(82, 149, 171, 1.0),
+                  fontSize: 28,
                   fontWeight: FontWeight.w500),
               textAlign: TextAlign.left,
             ),
+          ],),
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(4),
             ),
             Expanded(
               child: ListView.builder(
@@ -65,7 +74,8 @@ class _ContactListScreenState
                 itemBuilder: (BuildContext context, int index) {
                   final cnt = _contacts[index];
                   return Card(
-                    margin: EdgeInsets.all(10),
+                    color: Color.fromRGBO(82, 149, 171, 1.0),
+                    margin: EdgeInsets.all(6),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
                     child: InkWell(
@@ -77,11 +87,12 @@ class _ContactListScreenState
                             Text(
                               "${cnt.name}",
                               style: textTheme.headline.copyWith(
-                                color: widget.appListener.primaryColorDark,
+                                color: Colors.white,
+                                fontSize: 18
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.all(5),
+                              padding: EdgeInsets.all(0),
                             ),
 //                            Text(
 //                              "${bnd.musicStyle}",
@@ -113,6 +124,7 @@ class _ContactListScreenState
           // presenter.getBands();
         },
         child: Icon(Icons.add),
+        backgroundColor: Color.fromRGBO(82, 149, 171, 1.0),
       ),
     );
   }

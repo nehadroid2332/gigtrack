@@ -1,5 +1,6 @@
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/ui/dashboard/dashboard_presenter.dart';
@@ -31,14 +32,7 @@ class _DashboardScreenState
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  Text(
-                    "Hello",
-                    style: textTheme.display1.copyWith(
-                        fontWeight: FontWeight.w400,
-                        color: widget.appListener.primaryColorDark,
-                        fontSize: 28,
-                        fontFamily: 'Mohave'),
-                  ),
+
                   Expanded(
                     child: Container(),
                   ),
@@ -84,12 +78,12 @@ class _DashboardScreenState
                   children: <Widget>[
                     Align(
                       alignment: Alignment.topLeft,
-                      child: Text(
-                        "Welcome to",
-                        style: textTheme.display1.copyWith(
-                            fontWeight: FontWeight.w300,
-                            color: widget.appListener.primaryColorDark,
-                            fontSize: 34),
+                      child:  Align(
+                        alignment: Alignment.centerLeft,
+                        child: Image.asset(
+                          'assets/images/logo.png',
+                          height: 86,
+                        ),
                       ),
                     )
                   ],
@@ -97,27 +91,21 @@ class _DashboardScreenState
               ),
               Image.asset(
                 'assets/images/music.png',
-                height: 70,
+                height: 50,
               )
             ],
           ),
           Padding(
             padding: EdgeInsets.all(1),
           ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Image.asset(
-              'assets/images/logo.png',
-              height: 86,
-            ),
-          ),
+
           Padding(
             padding: EdgeInsets.all(2),
           ),
           Expanded(
             child: GridView.count(
               crossAxisCount: 2,
-              childAspectRatio: 0.9,
+              childAspectRatio: 1.42,
               children: [
                 "Activities/Schedules",
                 "Band",
@@ -126,7 +114,7 @@ class _DashboardScreenState
                 "Contacts",
                 "Admin",
                 "Notes/Todo",
-                "Reports"
+                "Bulletin Board"
               ].map(
                 (txt) {
                   Color color = widget.appListener.primaryColor;
@@ -141,11 +129,11 @@ class _DashboardScreenState
                       image = 'assets/images/activities.png';
                       break;
                     case "Band":
-                      color = Color.fromRGBO(185, 196, 201, 1.0);
+                      color = Color.fromRGBO(135, 67, 125, 1.0);
                       image = 'assets/images/band.png';
                       break;
                     case "Equipment":
-                      color = Color.fromRGBO(18, 130, 119, 1.0);
+                      color = Color.fromRGBO(79, 73, 108, 1.0);
                       image = 'assets/images/equipment.png';
                       break;
                     case "Playing Style":
@@ -160,39 +148,45 @@ class _DashboardScreenState
                       color = Color.fromRGBO(18, 130, 119, 1.0);
                       image = 'assets/images/admin.png';
                       break;
-                    case "Reports":
+                    case "Bulletin Board":
                       color = Color.fromRGBO(0, 77, 71, 1.0);
                       image = 'assets/images/activities.png';
                       break;
                   }
                   return InkWell(
                     child: Card(
-                      margin: EdgeInsets.all(10),
+                      margin: EdgeInsets.all(8),
                       color: color,
                       elevation: 13,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.all(20),
+                        padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Image.asset(
-                              image,
-                              height: 50,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(5),
-                            ),
-                            Text(
-                              "$txt",
-                              textAlign: TextAlign.left,
-                              style: textTheme.headline.copyWith(
-                                color: Color.fromRGBO(250, 250, 250, 1.0),
+                          children: <Widget>[Center(child: Column(
+                            children: <Widget>[
+                              Image.asset(
+                                image,
+                                height: 40,
                               ),
-                            )
+                              Padding(
+                                padding: EdgeInsets.only(left: 5,right: 5,top: 5,bottom: 5),
+                              ),
+                              Text(
+                                "$txt",
+                                textAlign: TextAlign.center,
+                                maxLines: 2,
+                                style: textTheme.headline.copyWith(
+                                    color: Color.fromRGBO(250, 250, 250, 1.0),
+                                    fontSize: 19
+                                ),
+                              )
+                            ],
+                          ),),
+
                           ],
                         ),
                       ),
