@@ -41,6 +41,7 @@ class _AddBandScreenState
 
   File _image;
   var _legalUserType;
+  bool isEdit = false;
 
   Future getImage() async {
     showDialog(
@@ -95,6 +96,18 @@ class _AddBandScreenState
   AppBar get appBar => AppBar(
         elevation: 0,
         backgroundColor: Color.fromRGBO(250, 108, 81, 1.0),
+        actions: <Widget>[
+          widget.id.isEmpty
+              ? Container()
+              : IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    setState(() {
+                      isEdit = !isEdit;
+                    });
+                  },
+                )
+        ],
       );
 
   void _handleLegalUserValueChange(int value) {
@@ -126,7 +139,7 @@ class _AddBandScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "${widget.id.isEmpty ? "Add" : ""} Band",
+                "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Band",
                 style: textTheme.display1.copyWith(
                   color: Colors.white,
                 ),
@@ -171,16 +184,16 @@ class _AddBandScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? Container()
                           : Text(
                               "Band Name",
                               textAlign: TextAlign.center,
                               style: textTheme.subhead,
                             ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? TextField(
-                              enabled: widget.id.isEmpty,
+                              enabled: widget.id.isEmpty || isEdit,
                               textCapitalization: TextCapitalization.sentences,
                               controller: _bandNameController,
                               decoration: InputDecoration(
@@ -189,8 +202,9 @@ class _AddBandScreenState
                                 ),
                                 labelText: "Band Name",
                                 errorText: _errorBandName,
-                                border:
-                                    widget.id.isEmpty ? null : InputBorder.none,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
                               ),
                               style: textTheme.subhead.copyWith(
                                 color: Colors.black,
@@ -203,15 +217,17 @@ class _AddBandScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty ? Text("Has legal name?") : Container(),
+                      widget.id.isEmpty || isEdit || isEdit
+                          ? Text("Has legal name?")
+                          : Container(),
                       Padding(
                         padding: EdgeInsets.all(3),
                       ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit || isEdit
                           ? Row(
                               children: <Widget>[
                                 InkWell(
-                                  onTap: widget.id.isEmpty
+                                  onTap: widget.id.isEmpty || isEdit
                                       ? () {
                                           _handleLegalUserValueChange(0);
                                         }
@@ -247,7 +263,7 @@ class _AddBandScreenState
                                   padding: EdgeInsets.all(8),
                                 ),
                                 InkWell(
-                                  onTap: widget.id.isEmpty
+                                  onTap: widget.id.isEmpty || isEdit
                                       ? () {
                                           _handleLegalUserValueChange(1);
                                         }
@@ -282,17 +298,17 @@ class _AddBandScreenState
                               ],
                             )
                           : Container(),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit || isEdit
                           ? Container()
                           : Text(
                               "Band Legal Name",
                               textAlign: TextAlign.center,
                               style: textTheme.subhead,
                             ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit || isEdit
                           ? TextField(
-                              enabled:
-                                  widget.id.isEmpty && (_legalUserType == 0),
+                              enabled: widget.id.isEmpty ||
+                                  isEdit && (_legalUserType == 0),
                               controller: _bandlegalNameController,
                               textCapitalization: TextCapitalization.sentences,
                               style: textTheme.subhead.copyWith(
@@ -304,8 +320,9 @@ class _AddBandScreenState
                                 ),
                                 labelText: "Band Legal Name",
                                 errorText: _errorBandLegalName,
-                                border:
-                                    widget.id.isEmpty ? null : InputBorder.none,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
                               ),
                             )
                           : Text(
@@ -315,16 +332,16 @@ class _AddBandScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit || isEdit
                           ? Container()
                           : Text(
                               "Legal Structure",
                               textAlign: TextAlign.center,
                               style: textTheme.subhead,
                             ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit || isEdit
                           ? TextField(
-                              enabled: widget.id.isEmpty,
+                              enabled: widget.id.isEmpty || isEdit,
                               controller: _legalStructureController,
                               textCapitalization: TextCapitalization.sentences,
                               style: textTheme.subhead.copyWith(
@@ -336,8 +353,9 @@ class _AddBandScreenState
                                 ),
                                 labelText: "Legal Structure",
                                 errorText: _errorStructure,
-                                border:
-                                    widget.id.isEmpty ? null : InputBorder.none,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
                               ),
                             )
                           : Text(
@@ -347,14 +365,14 @@ class _AddBandScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? Container()
                           : Text(
                               "Date Started",
                               textAlign: TextAlign.center,
                               style: textTheme.subhead,
                             ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? InkWell(
                               child: AbsorbPointer(
                                 child: TextField(
@@ -389,14 +407,14 @@ class _AddBandScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? Container()
                           : Text(
                               "Music Style",
                               textAlign: TextAlign.center,
                               style: textTheme.subhead,
                             ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? TextField(
                               enabled: widget.id.isEmpty,
                               controller: _musicStyleController,
@@ -421,14 +439,14 @@ class _AddBandScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? Container()
                           : Text(
                               "Band Responsibility",
                               textAlign: TextAlign.center,
                               style: textTheme.subhead,
                             ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? TextField(
                               enabled: widget.id.isEmpty,
                               controller: _bandResponsibilitiesController,
@@ -453,14 +471,14 @@ class _AddBandScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? Container()
                           : Text(
                               "Website",
                               textAlign: TextAlign.center,
                               style: textTheme.subhead,
                             ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? TextField(
                               enabled: widget.id.isEmpty,
                               controller: _websiteController,
@@ -484,14 +502,14 @@ class _AddBandScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? Container()
                           : Text(
                               "Email Address",
                               textAlign: TextAlign.center,
                               style: textTheme.subhead,
                             ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? TextField(
                               enabled: widget.id.isEmpty,
                               controller: _emailController,
@@ -634,7 +652,8 @@ class _AddBandScreenState
                                         legalstructure,
                                         bandRes,
                                         email,
-                                        website);
+                                        website,
+                                        id: widget.id);
                                   }
                                 });
                               },

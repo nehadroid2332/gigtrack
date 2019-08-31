@@ -29,8 +29,19 @@ class _DashboardScreenState
                 bottom: 0,
               ),
               child: Row(
-                mainAxisSize: MainAxisSize.min,
+                mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
+                  Text(
+                    "Hello",
+                    style: textTheme.display1.copyWith(
+                        fontWeight: FontWeight.w400,
+                        color: widget.appListener.primaryColorDark,
+                        fontSize: 28,
+                        fontFamily: 'Mohave'),
+                  ),
+                  Expanded(
+                    child: Container(),
+                  ),
                   IconButton(
                     icon: Icon(
                       Icons.notifications,
@@ -66,24 +77,20 @@ class _DashboardScreenState
             ),
           ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      "Hello",
-                      style: textTheme.display1.copyWith(
-                          fontWeight: FontWeight.w400,
-                          color: widget.appListener.primaryColorDark,
-                          fontSize: 28,fontFamily: 'Mohave'),
-                    ),
-                    Text(
-                      "Welcome to",
-                      style: textTheme.display1.copyWith(
-                          fontWeight: FontWeight.w300,
-                          color: widget.appListener.primaryColorDark,
-                          fontSize: 31),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Welcome to",
+                        style: textTheme.display1.copyWith(
+                            fontWeight: FontWeight.w300,
+                            color: widget.appListener.primaryColorDark,
+                            fontSize: 34),
+                      ),
                     )
                   ],
                 ),
@@ -101,7 +108,7 @@ class _DashboardScreenState
             alignment: Alignment.centerLeft,
             child: Image.asset(
               'assets/images/logo.png',
-              height: 76,
+              height: 86,
             ),
           ),
           Padding(

@@ -2,9 +2,7 @@ import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/add_band_response.dart';
 import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/band_details_response.dart';
-import 'package:gigtrack/server/models/band_list_response.dart';
 import 'package:gigtrack/server/models/error_response.dart';
-import 'package:gigtrack/ui/bandlist/bandlist_presenter.dart';
 
 abstract class AddBandContract extends BaseContract {
   void addBandSuccess();
@@ -22,8 +20,9 @@ class AddBandPresenter extends BasePresenter {
       String legalstructure,
       String bandRes,
       String email,
-      String website) async {
-    final res = await serverAPI.addBand(Band(
+      String website,
+      {String id}) async {
+    Band band = Band(
       dateStarted: dateStarted,
       email: email,
       legalName: blname,
@@ -32,7 +31,11 @@ class AddBandPresenter extends BasePresenter {
       name: bname,
       responsbilities: bandRes,
       website: website,
-    ));
+    );
+    if (id != null) {
+      band.id = id;
+    }
+    final res = await serverAPI.addBand(band);
     print("REs-> $res");
     if (res is AddBandResponse) {
       (view as AddBandContract).addBandSuccess();

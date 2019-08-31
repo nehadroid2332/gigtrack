@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
@@ -38,13 +39,12 @@ class _AddContactScreenState
     "Other"
   ];
 
-  var _relationshipType = "Agent", _dateToRememberType = "Anniversary";
+  var _relationshipType = "Agent";
 
   @override
   void initState() {
     super.initState();
     _relationshipController.text = _relationshipType;
-    _dateToRememberController.text = _dateToRememberType;
     if (widget.id.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         showLoading();
@@ -54,6 +54,7 @@ class _AddContactScreenState
   }
 
   final files = <File>[];
+  final _dateToRememberItems = <DateToRememberData>[];
 
   void _handleRelationshipValueChange(String value) {
     setState(() {
@@ -62,25 +63,12 @@ class _AddContactScreenState
     });
   }
 
-  void _handleDateToRememberValueChange(String value) {
-    setState(() {
-      _dateToRememberType = value;
-      _dateToRememberController.text = value;
-    });
-  }
-
   final _nameController = TextEditingController(),
       _phoneController = TextEditingController(),
       _textController = TextEditingController(),
       _relationshipController = TextEditingController(),
-      _dateToRememberController = TextEditingController(),
       _emailController = TextEditingController();
-  String _errorName,
-      _errorPhone,
-      _errorEmail,
-      _errorText,
-      _errorRelationship,
-      _errorDateToRemember;
+  String _errorName, _errorPhone, _errorEmail, _errorText, _errorRelationship;
 
   @override
   AppBar get appBar => AppBar(
@@ -244,44 +232,127 @@ class _AddContactScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      Text("Dates to Remember"),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Text("Dates to Remember"),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.add),
+                            onPressed: () {
+                              setState(() {
+                                _dateToRememberItems.add(DateToRememberData());
+                              });
+                            },
+                          )
+                        ],
+                      ),
                       Padding(
                         padding: EdgeInsets.all(widget.id.isEmpty ? 5 : 0),
                       ),
-                      widget.id.isEmpty
-                          ? DropdownButton<String>(
-                              items: dateToRemember.map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                              onChanged: _handleDateToRememberValueChange,
-                              value: _dateToRememberType,
-                            )
-                          : Container(),
-                      Padding(
-                        padding: EdgeInsets.all(widget.id.isEmpty ? 3 : 0),
-                      ),
-                      _dateToRememberType == "Other" || widget.id.isNotEmpty
-                          ? TextField(
-                              enabled: widget.id.isEmpty,
-                              controller: _dateToRememberController,
-                              textCapitalization: TextCapitalization.sentences,
-                              decoration: InputDecoration(
-                                labelStyle: TextStyle(
-                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                      ListView.builder(
+                        itemCount: _dateToRememberItems.length,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (BuildContext context, int index) {
+                          DateToRememberData data = _dateToRememberItems[index];
+                          final _dateToRememberController =
+                              TextEditingController();
+                          final _dateToRememberDateController =
+                              TextEditingController();
+                          _dateToRememberController.addListener(() {
+                            data.type = _dateToRememberController.text;
+                            _dateToRememberItems[index] = data;
+                          });
+                          _dateToRememberDateController.addListener(() {
+                            data.date = _dateToRememberDateController.text;
+                            _dateToRememberItems[index] = data;
+                          });
+                          void _handleDateToRememberValueChange(String value) {
+                            setState(() {
+                              data.type = value;
+                              _dateToRememberItems[index] = data;
+                            });
+                          }
+
+                          _dateToRememberController.text = data.type;
+                          _dateToRememberDateController.text = data.date;
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              DropdownButton<String>(
+                                items: dateToRemember.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                                onChanged: _handleDateToRememberValueChange,
+                                value: data.type,
+                              ),
+                              data.type == "Other"
+                                  ? TextField(
+                                      enabled: widget.id.isEmpty,
+                                      controller: _dateToRememberController,
+                                      textCapitalization:
+                                          TextCapitalization.sentences,
+                                      decoration: InputDecoration(
+                                        labelStyle: TextStyle(
+                                          color: Color.fromRGBO(
+                                              202, 208, 215, 1.0),
+                                        ),
+                                        labelText:
+                                            widget.id.isNotEmpty ? "" : "Other",
+                                        border: widget.id.isEmpty
+                                            ? null
+                                            : InputBorder.none,
+                                      ),
+                                      style: textTheme.subhead.copyWith(
+                                        color: Colors.black,
+                                      ),
+                                    )
+                                  : Container(),
+                              GestureDetector(
+                                onTap: () async {
+                                  final DateTime picked = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(2015, 8),
+                                      lastDate: DateTime(2101));
+                                  if (picked != null)
+                                    setState(() {
+                                      _dateToRememberDateController.text =
+                                          formatDate(
+                                              picked, [mm, '-', dd, '-', yy]);
+                                    });
+                                },
+                                child: AbsorbPointer(
+                                  child: TextField(
+                                    enabled: widget.id.isEmpty,
+                                    controller: _dateToRememberDateController,
+                                    textCapitalization:
+                                        TextCapitalization.sentences,
+                                    decoration: InputDecoration(
+                                      labelStyle: TextStyle(
+                                        color:
+                                            Color.fromRGBO(202, 208, 215, 1.0),
+                                      ),
+                                      labelText:
+                                          widget.id.isNotEmpty ? "" : "Date",
+                                      border: widget.id.isEmpty
+                                          ? null
+                                          : InputBorder.none,
+                                    ),
+                                    style: textTheme.subhead.copyWith(
+                                      color: Colors.black,
+                                    ),
+                                  ),
                                 ),
-                                labelText: widget.id.isNotEmpty ? "" : "Other",
-                                errorText: _errorDateToRemember,
-                                border:
-                                    widget.id.isEmpty ? null : InputBorder.none,
-                              ),
-                              style: textTheme.subhead.copyWith(
-                                color: Colors.black,
-                              ),
-                            )
-                          : Container(),
+                              )
+                            ],
+                          );
+                        },
+                      ),
                       Row(
                         children: <Widget>[
                           Expanded(
@@ -361,11 +432,9 @@ class _AddContactScreenState
                                 setState(() {
                                   String nm = _nameController.text;
                                   String rel = _relationshipController.text;
-                                  String dRem = _dateToRememberController.text;
                                   String ph = _phoneController.text;
                                   String txt = _textController.text;
                                   String em = _emailController.text;
-                                  _errorDateToRemember = null;
                                   _errorEmail = null;
                                   _errorName = null;
                                   _errorPhone = null;
@@ -376,9 +445,6 @@ class _AddContactScreenState
                                   } else if (rel.isEmpty) {
                                     _errorRelationship = "Cannot be empty";
                                     showMessage(_errorRelationship);
-                                  } else if (dRem.isEmpty) {
-                                    _errorDateToRemember = "Cannot be empty";
-                                    showMessage(_errorDateToRemember);
                                   } else if (ph.isEmpty) {
                                     _errorPhone = "Cannot be empty";
                                   } else if (txt.isEmpty) {
@@ -392,7 +458,6 @@ class _AddContactScreenState
                                     Contacts contacts = new Contacts();
                                     contacts.name = nm;
                                     contacts.relationship = rel;
-                                    contacts.dateToRemember = dRem;
                                     contacts.email = em;
                                     contacts.phone = ph;
                                     contacts.text = txt;
@@ -478,11 +543,16 @@ class _AddContactScreenState
       if (data.media1?.isNotEmpty ?? false) uploadedFiles.add(data.media1);
       if (data.media2?.isNotEmpty ?? false) uploadedFiles.add(data.media2);
       _nameController.text = data.name;
-      _dateToRememberController.text = data.dateToRemember;
+      // _dateToRememberController.text = data.dateToRemember;
       _emailController.text = data.email;
       _phoneController.text = data.phone;
       _relationshipController.text = data.relationship;
       _textController.text = data.text;
     });
   }
+}
+
+class DateToRememberData {
+  String type = "Anniversary";
+  String date = formatDate(DateTime.now(), [mm, '-', dd, '-', yy]);
 }
