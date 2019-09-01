@@ -34,7 +34,7 @@ class _NotesListScreenState
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
-            color: widget.appListener.primaryColorDark,
+            color: Color.fromRGBO(105, 114, 98, 1.0),
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -54,7 +54,7 @@ class _NotesListScreenState
             Text(
               "Notes Lists",
               style: textTheme.display1.copyWith(
-                color: widget.appListener.primaryColorDark,
+                color: Color.fromRGBO(105, 114, 98, 1.0),
               ),
             ),
             
@@ -66,7 +66,7 @@ class _NotesListScreenState
                 itemCount: _notes.length,
                 itemBuilder: (BuildContext context, int index) {
                   final not = _notes[index];
-                  return buildNoteListItem(not, widget.appListener.primaryColor,
+                  return buildNoteListItem(not, Color.fromRGBO(105, 114, 98, 1.0),
                       onTap: () {
                     widget.appListener.router.navigateTo(
                         context, Screens.ADDNOTE.toString() + "/${not.id}");
@@ -84,7 +84,7 @@ class _NotesListScreenState
           showLoading();
           presenter.getNotes();
         },
-        backgroundColor: Color.fromRGBO(255, 0, 104, 1.0),
+        backgroundColor: Color.fromRGBO(105, 114, 98, 1.0),
         child: Icon(Icons.add),
       ),
     );

@@ -35,9 +35,12 @@ class _AddInstrumentScreenState
       _warrantyEndController = TextEditingController(),
       _warrantyReferenceController = TextEditingController(),
       _warrantyCompanyController = TextEditingController(),
+      _costController= TextEditingController(),
       _warrantyPhoneController = TextEditingController();
 
   String _errorInstrumentName;
+
+  String _errorCost;
 
   String _errorwherePurchased;
 
@@ -324,10 +327,20 @@ class _AddInstrumentScreenState
                             )
                           : Container(),
                       Padding(
-                        padding: EdgeInsets.all(8),
+                        padding: EdgeInsets.only(left: 5,right: 5,top: 0,bottom: 5),
                       ),
+                      widget.id.isEmpty||isEdit?Container():
+                      image!=null &&image.length>0?Container(
+                        margin: EdgeInsets.only(left: 10, right: 10),
+                        height: 120,
+                        width: 80,
+                        child: Image.network(
+                          image,
+                          fit: BoxFit.cover,
+                        ),
+                      ):Container(),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: EdgeInsets.all(8),
                       ),
                       widget.id.isEmpty || isEdit
                           ? Container()
@@ -401,7 +414,48 @@ class _AddInstrumentScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      Text(
+                      widget.id.isEmpty || isEdit
+                          ? Container()
+                          : Container(),
+//                      Text(
+//                        "Warranty Phone",
+//                        textAlign: TextAlign.center,
+//                        style: textTheme.subhead.copyWith(
+//                          fontWeight: FontWeight.bold,
+//                        ),
+                      //),
+                      widget.id.isEmpty || isEdit
+                          ? _eDateType == 0
+                          ? TextField(
+                        controller: _warrantyPhoneController,
+                        enabled: widget.id.isEmpty || isEdit,
+                        textCapitalization:
+                        TextCapitalization.sentences,
+                        keyboardType: TextInputType.phone,
+                        decoration: InputDecoration(
+                          labelText: "Warranty Phone",
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                          ),
+                          errorText: _errorWarrantyPhone,
+                          border: widget.id.isEmpty || isEdit
+                              ? null
+                              : InputBorder.none,
+                        ),
+                        style: textTheme.subhead.copyWith(
+                          color: Colors.black,
+                        ),
+                        onEditingComplete: () {
+                          setState(() {});
+                        },
+                      )
+                          : Container()
+                          : Text(
+                        _warrantyPhoneController.text,
+                        textAlign: TextAlign.center,
+                      ),
+                      Padding(padding: EdgeInsets.all(5),),
+                      widget.id.isEmpty||isEdit?Text(
                         "Purchased Date",
                         textAlign: widget.id.isEmpty || isEdit
                             ? TextAlign.left
@@ -409,7 +463,7 @@ class _AddInstrumentScreenState
                         style: textTheme.subhead.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
-                      ),
+                      ):Container(),
                       Padding(
                         padding: EdgeInsets.all(3),
                       ),
@@ -534,22 +588,47 @@ class _AddInstrumentScreenState
                                   },
                                 )
                               : Container()
-                          : Text(
+                          : widget.id.isEmpty||isEdit?Text(
                               _purchaseDateController.text,
                               textAlign: TextAlign.center,
-                            ),
+                            ):Text(
+                        "Purch date "+_purchaseDateController.text,
+                        textAlign: TextAlign.center,
+                      ),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
                       widget.id.isEmpty || isEdit
+                          ? TextField(
+                        enabled: widget.id.isEmpty || isEdit,
+                        controller: _costController,
+                        textCapitalization: TextCapitalization.sentences,
+                        style: textTheme.subhead.copyWith(
+                          color: Colors.black,
+                        ),
+                        decoration: InputDecoration(
+                          labelText: "Cost",
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                          ),
+                          errorText: _errorCost,
+                          border: widget.id.isEmpty || isEdit
+                              ? null
+                              : InputBorder.none,
+                        ),
+                      )
+                          : Container(),
+                      Padding(padding: EdgeInsets.all(5),),
+                      widget.id.isEmpty || isEdit
                           ? Container()
-                          : Text(
-                              "Serial Number",
-                              textAlign: TextAlign.center,
-                              style: textTheme.subhead.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                          : Container(),
+//                      Text(
+//                              "Serial Number",
+//                              textAlign: TextAlign.center,
+//                              style: textTheme.subhead.copyWith(
+//                                fontWeight: FontWeight.bold,
+//                              ),
+//                            ),
                       widget.id.isEmpty || isEdit
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
@@ -570,7 +649,7 @@ class _AddInstrumentScreenState
                               ),
                             )
                           : Text(
-                              _serialNumberController.text,
+                              "SN "+_serialNumberController.text,
                               textAlign: TextAlign.center,
                             ),
                       Padding(
@@ -578,13 +657,14 @@ class _AddInstrumentScreenState
                       ),
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : Text(
-                              "Warranty",
-                              textAlign: TextAlign.center,
-                              style: textTheme.subhead.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                          : Container(),
+//                      Text(
+//                              "Warranty",
+//                              textAlign: TextAlign.center,
+//                              style: textTheme.subhead.copyWith(
+//                                fontWeight: FontWeight.bold,
+//                              ),
+//                            ),
                       widget.id.isEmpty || isEdit
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
@@ -611,7 +691,7 @@ class _AddInstrumentScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      Text(
+                      widget.id.isEmpty||isEdit?Text(
                         "Warranty EndDate",
                         textAlign: widget.id.isEmpty || isEdit
                             ? TextAlign.left
@@ -619,7 +699,7 @@ class _AddInstrumentScreenState
                         style: textTheme.subhead.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
-                      ),
+                      ):Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -744,21 +824,22 @@ class _AddInstrumentScreenState
                                 )
                               : Container()
                           : Text(
-                              _warrantyEndController.text,
+                              "Warranty expires "+_warrantyEndController.text,
                               textAlign: TextAlign.center,
                             ),
                       Padding(
-                        padding: EdgeInsets.all(_eDateType == 0 ? 5 : 0),
+                        padding: EdgeInsets.all(_eDateType == 0 ? 5 : 5),
                       ),
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : Text(
-                              "Warranty Reference",
-                              textAlign: TextAlign.center,
-                              style: textTheme.subhead.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                          : Container(),
+//                          Text(
+//                              "Warranty Reference",
+//                              textAlign: TextAlign.center,
+//                              style: textTheme.subhead.copyWith(
+//                                fontWeight: FontWeight.bold,
+//                              ),
+//                            ),
                       widget.id.isEmpty || isEdit
                           ? _eDateType == 0
                               ? TextField(
@@ -788,45 +869,7 @@ class _AddInstrumentScreenState
                       Padding(
                         padding: EdgeInsets.all(_eDateType == 0 ? 5 : 0),
                       ),
-                      widget.id.isEmpty || isEdit
-                          ? Container()
-                          : Text(
-                              "Warranty Phone",
-                              textAlign: TextAlign.center,
-                              style: textTheme.subhead.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                      widget.id.isEmpty || isEdit
-                          ? _eDateType == 0
-                              ? TextField(
-                                  controller: _warrantyPhoneController,
-                                  enabled: widget.id.isEmpty || isEdit,
-                                  textCapitalization:
-                                      TextCapitalization.sentences,
-                                  keyboardType: TextInputType.phone,
-                                  decoration: InputDecoration(
-                                    labelText: "Warranty Phone",
-                                    labelStyle: TextStyle(
-                                      color: Color.fromRGBO(202, 208, 215, 1.0),
-                                    ),
-                                    errorText: _errorWarrantyPhone,
-                                    border: widget.id.isEmpty || isEdit
-                                        ? null
-                                        : InputBorder.none,
-                                  ),
-                                  style: textTheme.subhead.copyWith(
-                                    color: Colors.black,
-                                  ),
-                                  onEditingComplete: () {
-                                    setState(() {});
-                                  },
-                                )
-                              : Container()
-                          : Text(
-                              _warrantyPhoneController.text,
-                              textAlign: TextAlign.center,
-                            ),
+
 
                       Padding(
                         padding: EdgeInsets.all(5),
@@ -879,13 +922,13 @@ class _AddInstrumentScreenState
                           : Container(),
                       (image != null && image.isNotEmpty) && !isEdit
                           ? Container(
-                              margin: EdgeInsets.only(left: 10, right: 10),
-                              height: 80,
-                              width: 150,
-                              child: Image.network(
-                                image,
-                                fit: BoxFit.cover,
-                              ),
+//                              margin: EdgeInsets.only(left: 10, right: 10),
+//                              height: 80,
+//                              width: 150,
+//                              child: Image.network(
+//                                image,
+//                                fit: BoxFit.cover,
+//                              ),
                             )
                           : files.length > 0
                               ? SizedBox(
@@ -932,6 +975,7 @@ class _AddInstrumentScreenState
                                 String wRef = _warrantyReferenceController.text;
                                 String wPh = _warrantyPhoneController.text;
                                 String com = _warrantyCompanyController.text;
+                                String cost= _costController.text;
                                 setState(() {
                                   if (instrumentName.isEmpty) {
                                     _errorInstrumentName = "Cannot be Empty";

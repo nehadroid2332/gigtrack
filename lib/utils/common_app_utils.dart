@@ -244,6 +244,7 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
 
   return Card(
     margin: EdgeInsets.all(10),
+    color: Color.fromRGBO(105, 114, 98, 1.0),
     child: InkWell(
       child: Padding(
         padding: EdgeInsets.all(15),

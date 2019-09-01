@@ -54,6 +54,25 @@ class _AddNotesScreenState
       });
     }
   }
+  bool isEdit = false;
+
+  @override
+  AppBar get appBar => AppBar(
+    elevation: 0,
+    backgroundColor: Color.fromRGBO(105, 114, 98, 1.0),
+    actions: <Widget>[
+      widget.id.isEmpty
+          ? Container()
+          : IconButton(
+        icon: Icon(Icons.edit),
+        onPressed: () {
+          setState(() {
+            isEdit = !isEdit;
+          });
+        },
+      )
+    ],
+  );
 
   @override
   Widget buildBody() {
@@ -62,7 +81,7 @@ class _AddNotesScreenState
         ClipPath(
           clipper: RoundedClipper(height / 2.5),
           child: Container(
-            color: widget.appListener.primaryColor,
+            color: Color.fromRGBO(105, 114, 98, 1.0),
             height: height / 2.5,
           ),
         ),
@@ -332,7 +351,7 @@ class _AddNotesScreenState
                                   }
                                 });
                               },
-                              color: Color.fromRGBO(255, 0, 104, 1.0),
+                              color: Color.fromRGBO(105, 114, 98, 1.0),
                               child: Text(
                                 "Submit",
                                 style: textTheme.headline.copyWith(

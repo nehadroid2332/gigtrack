@@ -125,7 +125,7 @@ class _DashboardScreenState
                       image = 'assets/images/activities.png';
                       break;
                     case "Notes/Todo":
-                      color = Color.fromRGBO(185, 196, 201, 1.0);
+                      color = Color.fromRGBO(105, 114, 98, 1.0);
                       image = 'assets/images/activities.png';
                       break;
                     case "Band":
