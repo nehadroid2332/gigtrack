@@ -209,6 +209,7 @@ class _AddActivityScreenState
                 "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" :"Add" : ""} Activities/Schedule",
                 style: textTheme.display1.copyWith(
                   color: Colors.white,
+                  fontSize: 30
                 ),
 
               ),
