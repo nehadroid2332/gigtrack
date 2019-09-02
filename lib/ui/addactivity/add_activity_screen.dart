@@ -235,76 +235,76 @@ class _AddActivityScreenState
                       widget.id.isEmpty || isEdit
                           ? Row(
                               children: <Widget>[
-                                InkWell(
-                                  onTap: widget.id.isEmpty || isEdit
-                                      ? () {
-                                          _handleUserTypeValueChange(0);
-                                        }
-                                      : null,
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: _userType == 0
-                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-                                            : Color.fromRGBO(
-                                                244, 246, 248, 1.0),
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            color: _userType == 0
-                                                ? Color.fromRGBO(
-                                                    70, 206, 172, 1.0)
-                                                : Color.fromRGBO(
-                                                    244, 246, 248, 1.0))),
-                                    child: Text(
-                                      'Personal',
-                                      style: new TextStyle(
-                                        fontSize: 16.0,
-                                        color: _userType == 0
-                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-                                            : Color.fromRGBO(
-                                                202, 208, 215, 1.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(8),
-                                ),
-                                InkWell(
-                                  onTap: widget.id.isEmpty || isEdit
-                                      ? () {
-                                          presenter.getBands();
-                                          _handleUserTypeValueChange(1);
-                                        }
-                                      : null,
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: _userType == 1
-                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-                                            : Color.fromRGBO(
-                                                244, 246, 248, 1.0),
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            color: _userType == 1
-                                                ? Color.fromRGBO(
-                                                    70, 206, 172, 1.0)
-                                                : Color.fromRGBO(
-                                                    244, 246, 248, 1.0))),
-                                    child: Text(
-                                      'Band',
-                                      style: new TextStyle(
-                                        fontSize: 16.0,
-                                        color: _userType == 1
-                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-                                            : Color.fromRGBO(
-                                                202, 208, 215, 1.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
+//                                InkWell(
+//                                  onTap: widget.id.isEmpty || isEdit
+//                                      ? () {
+//                                          _handleUserTypeValueChange(0);
+//                                        }
+//                                      : null,
+//                                  child: Container(
+//                                    padding: EdgeInsets.symmetric(
+//                                        horizontal: 14, vertical: 5),
+//                                    decoration: BoxDecoration(
+//                                        color: _userType == 0
+//                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+//                                            : Color.fromRGBO(
+//                                                244, 246, 248, 1.0),
+//                                        borderRadius: BorderRadius.circular(15),
+//                                        border: Border.all(
+//                                            color: _userType == 0
+//                                                ? Color.fromRGBO(
+//                                                    70, 206, 172, 1.0)
+//                                                : Color.fromRGBO(
+//                                                    244, 246, 248, 1.0))),
+//                                    child: Text(
+//                                      'Personal',
+//                                      style: new TextStyle(
+//                                        fontSize: 16.0,
+//                                        color: _userType == 0
+//                                            ? Color.fromRGBO(70, 206, 172, 1.0)
+//                                            : Color.fromRGBO(
+//                                                202, 208, 215, 1.0),
+//                                      ),
+//                                    ),
+//                                  ),
+//                                ),
+//                                Padding(
+//                                  padding: EdgeInsets.all(8),
+//                                ),
+//                                InkWell(
+//                                  onTap: widget.id.isEmpty || isEdit
+//                                      ? () {
+//                                          presenter.getBands();
+//                                          _handleUserTypeValueChange(1);
+//                                        }
+//                                      : null,
+//                                  child: Container(
+//                                    padding: EdgeInsets.symmetric(
+//                                        horizontal: 14, vertical: 5),
+//                                    decoration: BoxDecoration(
+//                                        color: _userType == 1
+//                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+//                                            : Color.fromRGBO(
+//                                                244, 246, 248, 1.0),
+//                                        borderRadius: BorderRadius.circular(15),
+//                                        border: Border.all(
+//                                            color: _userType == 1
+//                                                ? Color.fromRGBO(
+//                                                    70, 206, 172, 1.0)
+//                                                : Color.fromRGBO(
+//                                                    244, 246, 248, 1.0))),
+//                                    child: Text(
+//                                      'Band',
+//                                      style: new TextStyle(
+//                                        fontSize: 16.0,
+//                                        color: _userType == 1
+//                                            ? Color.fromRGBO(70, 206, 172, 1.0)
+//                                            : Color.fromRGBO(
+//                                                202, 208, 215, 1.0),
+//                                      ),
+//                                    ),
+//                                  ),
+//                                ),
                               ],
                             )
                           : Container(),
@@ -480,6 +480,7 @@ class _AddActivityScreenState
                                 _titleController.text,
                                 style: textTheme.display1.copyWith(
                                   color: Colors.black,
+                                  fontSize: 28
                                 ),
                                 textAlign: TextAlign.center,
                               ),
@@ -621,7 +622,7 @@ class _AddActivityScreenState
                                               _selectDate(context, 2);
                                           },
                                         )
-                                      : Padding(
+                                      : _dateEndTxt != 0.toString()?Padding(
                                           padding: EdgeInsets.only(
                                               left: _dateEndTxt != 0.toString()
                                                   ? 5
@@ -638,7 +639,7 @@ class _AddActivityScreenState
                                             ),
                                             textAlign: TextAlign.center,
                                           ),
-                                        ),
+                                        ):Container(),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.all(4),
@@ -741,7 +742,7 @@ class _AddActivityScreenState
                       widget.id.isEmpty || isEdit
                           ? Container()
                           : Padding(
-                              padding: EdgeInsets.only(top: 14),
+                              padding: EdgeInsets.only(top: 14,bottom: 6),
                               child: Text(
                                 "Notes",
                                 style: textTheme.subhead.copyWith(

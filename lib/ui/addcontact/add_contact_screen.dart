@@ -356,7 +356,7 @@ class _AddContactScreenState
                       Row(
                         children: <Widget>[
                           Expanded(
-                            child: Text("Upload Media"),
+                            child: Text("Add Picture"),
                           ),
                           widget.id.isEmpty
                               ? IconButton(
