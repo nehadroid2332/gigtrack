@@ -1,4 +1,4 @@
-package com.richard.gigtrack.gigtrack
+package com.gigtrack.app
 
 import android.os.Bundle
 

@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/ui/activitieslist/activities_list_screen.dart';
@@ -31,6 +33,8 @@ void main() {
 class MyApp extends StatelessWidget implements AppListener {
   final _router = Router();
   SharedPreferences _prefs;
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
 
   MyApp() {
     _router.define("/", handler: Handler(
@@ -39,11 +43,12 @@ class MyApp extends StatelessWidget implements AppListener {
     }));
     _router.define(Screens.LOGIN.toString(), handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-      return LoginScreen(this);
+      return LoginScreen(this,analytics: analytics,
+        observer: observer,);
     }));
     _router.define(Screens.SIGNUP.toString(), handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-      return SignUpScreen(this);
+      return SignUpScreen(this,analytics:analytics,observer:observer);
     }));
     _router.define(Screens.ADDBAND.toString() + "/:id", handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {

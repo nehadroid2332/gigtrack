@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
@@ -9,14 +11,19 @@ import 'package:image_picker/image_picker.dart';
 
 
 class SignUpScreen extends BaseScreen {
-  SignUpScreen(AppListener appListener) : super(appListener);
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
+  SignUpScreen(AppListener appListener, {this.analytics, this.observer}) : super(appListener);
 
   @override
-  _SignUpScreenState createState() => _SignUpScreenState();
+  _SignUpScreenState createState() => _SignUpScreenState(analytics, observer);
 }
 
 class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
     implements SignUpContract {
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
+  _SignUpScreenState(this.analytics, this.observer);
   final _emailController = TextEditingController(),
       _passwordController = TextEditingController(),
       _firstNameController = TextEditingController(),
@@ -450,6 +457,16 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
     showMessage("Register Successfully");
     // widget.appListener.router
     // .navigateTo(context, Screens.ADDBAND.toString() + "/23");
+    _sendAnalyticsEvent();
     Navigator.pop(context);
+  }
+  Future<void> _sendAnalyticsEvent() async {
+    await analytics.logEvent(
+      name: 'signup_event',
+      parameters: <String, dynamic>{
+        'signup_status': true,
+      },
+    );
+
   }
 }

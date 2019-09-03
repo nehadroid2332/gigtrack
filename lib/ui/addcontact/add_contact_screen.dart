@@ -205,7 +205,7 @@ class _AddContactScreenState
                           labelStyle: TextStyle(
                             color: Color.fromRGBO(202, 208, 215, 1.0),
                           ),
-                          labelText: "Cell/Text",
+                          labelText: "Mobile/Text",
                           errorText: _errorText,
                           border: widget.id.isEmpty ? null : InputBorder.none,
                         ),
