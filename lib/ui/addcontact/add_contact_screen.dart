@@ -205,7 +205,7 @@ class _AddContactScreenState
                           labelStyle: TextStyle(
                             color: Color.fromRGBO(202, 208, 215, 1.0),
                           ),
-                          labelText: "Cell/Text",
+                          labelText: "Mobile/Text",
                           errorText: _errorText,
                           border: widget.id.isEmpty ? null : InputBorder.none,
                         ),
@@ -356,7 +356,7 @@ class _AddContactScreenState
                       Row(
                         children: <Widget>[
                           Expanded(
-                            child: Text("Upload Media"),
+                            child: Text("Add Picture"),
                           ),
                           widget.id.isEmpty
                               ? IconButton(
