@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:gigtrack/server/models/activities.dart';
 import 'package:gigtrack/server/models/activities_list_response.dart';
 import 'package:gigtrack/server/models/activities_response.dart';
@@ -44,16 +46,26 @@ class ServerAPI {
   static final _baseUrl = "https://www.accountechs.online/gigtrack/api/";
   final _headers = {"Auth-Key": "gigtrackkey"};
 
-  ServerAPI._internal();
+  FirebaseAuth _auth;
+  DatabaseReference _userDB;
+
+  ServerAPI._internal() {
+    _auth = FirebaseAuth.instance;
+    DatabaseReference _mainFirebaseDatabase =
+        FirebaseDatabase.instance.reference().child("Gigtrack");
+    _userDB = _mainFirebaseDatabase.child("users");
+  }
+
+  Future<FirebaseUser> getCurrentUser() async {
+    FirebaseUser user = await _auth.currentUser();
+    return user;
+  }
 
   Future<dynamic> login(String email, String password) async {
     try {
-      final res = await _netUtil.post(
-        _baseUrl + "auth/login",
-        body: {"email": email, "password": password},
-        headers: _headers,
-      );
-      final lRes = LoginResponse.fromJSON(res);
+      final res = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      final lRes = res.user;
       return lRes;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
@@ -69,14 +81,14 @@ class ServerAPI {
 
   Future<dynamic> register(User user, File file) async {
     try {
-      final res =
-          // file != null
-          //     ? await _netUtil.upload(_baseUrl + "auth/register", "profile_image",
-          //         file, user.toStringMap(), _headers, "POST")
-          //     :
-          await _netUtil.post(_baseUrl + "auth/register",
-              body: user.toMap(), headers: _headers);
-      return RegisterResponse.fromJSON(res);
+      AuthResult authResult = await _auth.createUserWithEmailAndPassword(
+          email: user.email, password: user.password);
+      AuthResult authResult1 = await _auth.signInWithEmailAndPassword(
+          email: user.email, password: user.password);
+      user.id = authResult1.user.uid;
+      final res = await _userDB.child(user.id).set(user.toMap());
+      await _auth.signOut();
+      return "Success";
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }

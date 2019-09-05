@@ -38,7 +38,7 @@ class SignUpPresenter extends BasePresenter {
             primaryInstrument: primaryInstrument),
         file);
     print("REs-> $res");
-    if (res is RegisterResponse) {
+    if (res is String) {
       (view as SignUpContract).signUpSuccess();
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
