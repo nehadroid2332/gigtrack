@@ -47,8 +47,10 @@ class _AddActivityScreenState
       _taskError;
 
   DateTime selectedDate = DateTime.now();
-  TimeOfDay selectedTime = TimeOfDay.now();
-  DateTime startDate;
+  TimeOfDay selectedStartTime = TimeOfDay.now();
+  TimeOfDay selectedEndTime = TimeOfDay.now();
+
+  DateTime startDate, endDate;
   bool isVisible = false, isEdit = false;
 
   int _userType = 0, _type = 0;
@@ -80,6 +82,7 @@ class _AddActivityScreenState
             showMessage("Please select End Date before Start Date");
             return;
           }
+          endDate = picked;
           _dateEndController.text =
               formatDate(selectedDate, [mm, '-', dd, '-', yy]);
         }
@@ -133,15 +136,17 @@ class _AddActivityScreenState
   Future<Null> _selectTime(BuildContext context, int type) async {
     final TimeOfDay picked = await showTimePicker(
       context: context,
-      initialTime: selectedTime,
+      initialTime: selectedStartTime,
     );
-    if (picked != null && picked != selectedTime)
+    if (picked != null && picked != selectedStartTime)
       setState(() {
-        selectedTime = picked;
         if (type == 1) {
-          _timeController.text = (selectedTime.format(context));
-        } else if (type == 2)
-          _timeEndController.text = (selectedTime.format(context));
+          selectedStartTime = picked;
+          _timeController.text = (selectedStartTime.format(context));
+        } else if (type == 2) {
+          selectedEndTime = picked;
+          _timeEndController.text = (selectedStartTime.format(context));
+        }
       });
   }
 
@@ -206,12 +211,9 @@ class _AddActivityScreenState
           child: Column(
             children: <Widget>[
               Text(
-                "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" :"Add" : ""} Activities/Schedule",
-                style: textTheme.display1.copyWith(
-                  color: Colors.white,
-                  fontSize: 30
-                ),
-
+                "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} Activities/Schedule",
+                style: textTheme.display1
+                    .copyWith(color: Colors.white, fontSize: 30),
               ),
               Padding(
                 padding: EdgeInsets.all(10),
@@ -479,9 +481,7 @@ class _AddActivityScreenState
                               child: Text(
                                 _titleController.text,
                                 style: textTheme.display1.copyWith(
-                                  color: Colors.black,
-                                  fontSize: 28
-                                ),
+                                    color: Colors.black, fontSize: 28),
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -622,24 +622,29 @@ class _AddActivityScreenState
                                               _selectDate(context, 2);
                                           },
                                         )
-                                      : _dateEndTxt != 0.toString()?Padding(
-                                          padding: EdgeInsets.only(
-                                              left: _dateEndTxt != 0.toString()
-                                                  ? 5
-                                                  : 0,
-                                              top: _dateEndTxt != 0.toString()
-                                                  ? 5
-                                                  : 0),
-                                          child: Text(
-                                            _dateEndTxt != 0.toString()
-                                                ? "to " + _dateEndTxt
-                                                : '',
-                                            style: textTheme.subhead.copyWith(
-                                              color: Colors.grey,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ):Container(),
+                                      : _dateEndTxt != 0.toString()
+                                          ? Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: _dateEndTxt !=
+                                                          0.toString()
+                                                      ? 5
+                                                      : 0,
+                                                  top: _dateEndTxt !=
+                                                          0.toString()
+                                                      ? 5
+                                                      : 0),
+                                              child: Text(
+                                                _dateEndTxt != 0.toString()
+                                                    ? "to " + _dateEndTxt
+                                                    : '',
+                                                style:
+                                                    textTheme.subhead.copyWith(
+                                                  color: Colors.grey,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            )
+                                          : Container(),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.all(4),
@@ -742,7 +747,7 @@ class _AddActivityScreenState
                       widget.id.isEmpty || isEdit
                           ? Container()
                           : Padding(
-                              padding: EdgeInsets.only(top: 14,bottom: 6),
+                              padding: EdgeInsets.only(top: 14, bottom: 6),
                               child: Text(
                                 "Notes",
                                 style: textTheme.subhead.copyWith(
@@ -886,18 +891,33 @@ class _AddActivityScreenState
 //                                    _dateEndError = "Cannot be Empty";
                                   //       }
                                   else {
+                                    DateTime start = DateTime(
+                                        startDate.year,
+                                        startDate.month,
+                                        startDate.day,
+                                        selectedStartTime.hour,
+                                        selectedStartTime.minute);
+                                    DateTime end;
+                                    if (endDate != null) {
+                                      end = DateTime(
+                                          endDate.year,
+                                          endDate.month,
+                                          endDate.day,
+                                          selectedEndTime.hour,
+                                          selectedEndTime.minute);
+                                    }
                                     Activites activities = Activites(
                                       title: title,
                                       id: widget.id.isEmpty ? "" : widget.id,
                                       description: desc != null ? desc : "",
-                                      startDate: "$date $time",
-                                      endDate: eDate != null
-                                          ? "$eDate $eTime"
-                                          : null,
+                                      startDate: start.millisecondsSinceEpoch,
+                                      endDate: end != null
+                                          ? end.millisecondsSinceEpoch
+                                          : 0,
                                       location: loc,
                                       band_id: selectedBand?.id ?? "",
-                                      type: _userType.toString(),
-                                      action_type: _type.toString(),
+                                      type: _userType,
+                                      action_type: _type,
                                     );
                                     showLoading();
                                     presenter.addActivity(activities);
@@ -1007,26 +1027,26 @@ class _AddActivityScreenState
     setState(() {
       _titleController.text = activities.title;
       _descController.text = activities.description;
-      _userType = int.tryParse(activities.type);
+      _userType = activities.type;
       _travelController.text = activities.travel;
       _taskController.text = activities.task;
-      _type = int.tryParse(activities.action_type);
-      DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(
-          int.parse(activities.startDate) * 1000);
+      _type = activities.action_type;
+      DateTime dateTime =
+          DateTime.fromMillisecondsSinceEpoch(activities.startDate);
       _dateTxt = formatDate(dateTime, [D, ', ', mm, '-', dd, '-', yy]) +
           " at ${formatDate(dateTime, [hh, ':', nn, am])}";
       _dateController.text = formatDate(dateTime, [mm, '-', dd, '-', yy]);
       _timeController.text = formatDate(dateTime, [hh, ':', nn, ' ', am]);
       try {
-        DateTime dateTime2 = DateTime.fromMillisecondsSinceEpoch(
-            int.parse(activities.endDate) * 1000);
-        _dateEndController.text = int.parse(activities.endDate) != 0
+        DateTime dateTime2 =
+            DateTime.fromMillisecondsSinceEpoch(activities.endDate);
+        _dateEndController.text = activities.endDate != 0
             ? formatDate(dateTime2, [mm, '-', dd, '-', yy])
             : "";
-        _timeEndController.text = int.parse(activities.endDate) != 0
+        _timeEndController.text = activities.endDate != 0
             ? formatDate(dateTime2, [hh, ':', nn, ' ', am])
             : "";
-        _dateEndTxt = int.parse(activities.endDate) != 0
+        _dateEndTxt = activities.endDate != 0
             ? formatDate(dateTime2, [D, ', ', mm, '-', dd, '-', yy])
             : 0;
         // " at ${formatDate(dateTime2, [hh, ':', nn, am])}";

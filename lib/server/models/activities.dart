@@ -2,13 +2,13 @@ import 'package:gigtrack/base/base_model.dart';
 import 'package:gigtrack/server/models/user.dart';
 
 class Activites extends BaseModel {
-  String type;
+  int type;
   String band_id;
-  String action_type;
+  int action_type;
   String title;
   String description;
-  String startDate;
-  String endDate;
+  int startDate;
+  int endDate;
   String location;
   String notes = "";
   String travel = "";
