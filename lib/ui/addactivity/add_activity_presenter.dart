@@ -1,20 +1,18 @@
 import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/activities.dart';
-import 'package:gigtrack/server/models/activities_list_response.dart';
-import 'package:gigtrack/server/models/activities_response.dart';
 import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/band_list_response.dart';
 import 'package:gigtrack/server/models/error_response.dart';
 import 'package:gigtrack/server/models/update_activity_bandmember_status.dart';
 
 abstract class AddActivityContract extends BaseContract {
-  void onSuccess(ActivitiesResponse res);
+  void onSuccess();
   void getBandSuccess(List<Band> bands);
   void getActivityDetails(Activites activities);
 
   void onActivitySuccess();
 
-  void onUpdate(ActivitiesResponse res);
+  void onUpdate();
 }
 
 class AddActivityPresenter extends BasePresenter {
@@ -31,8 +29,8 @@ class AddActivityPresenter extends BasePresenter {
 
   void getActivityDetails(String id) async {
     final res = await serverAPI.getActivityDetails(id);
-    if (res is GetActivitiesListResponse) {
-      (view as AddActivityContract).getActivityDetails(res.data[0]);
+    if (res is Activites) {
+      (view as AddActivityContract).getActivityDetails(res);
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
     }
@@ -40,11 +38,11 @@ class AddActivityPresenter extends BasePresenter {
 
   void addActivity(Activites activities) async {
     final res = await serverAPI.addActivities(activities);
-    if (res is ActivitiesResponse) {
+    if (res is String) {
       if (activities.id.isEmpty)
-        (view as AddActivityContract).onSuccess(res);
+        (view as AddActivityContract).onSuccess();
       else {
-        (view as AddActivityContract).onUpdate(res);
+        (view as AddActivityContract).onUpdate();
       }
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);

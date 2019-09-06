@@ -1,4 +1,3 @@
-
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/server/models/activities.dart';
@@ -178,8 +177,7 @@ bool validateMobile(String value) {
 
 Widget buildActivityListItem(Activites ac,
     {bool showConfirm = false, onConfirmPressed, onTap}) {
-  DateTime dt = DateTime.fromMillisecondsSinceEpoch(
-      int.tryParse(ac.startDate ?? "0") * 1000);
+  DateTime dt = DateTime.fromMillisecondsSinceEpoch(ac.startDate);
   return Card(
     color: Color.fromRGBO(235, 84, 99, 1.0),
     shape: RoundedRectangleBorder(

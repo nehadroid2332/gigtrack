@@ -1,3 +1,4 @@
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
@@ -18,13 +19,12 @@ class _ActivitiesListScreenState
     extends BaseScreenState<ActivitiesListScreen, ActivitiesListPresenter>
     implements ActivitiesListContract {
   final activities = <Activites>[];
+  Stream<Activites> list;
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      showLoading();
-      presenter.getList();
-    });
+    list = presenter.getList();
   }
 
   @override
@@ -54,35 +54,47 @@ class _ActivitiesListScreenState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Row(children: <Widget>[
-              Image.asset(
-                'assets/images/activities_red.png',
-                height: 40,
-                width: 40,
-              ),
-              Padding(padding: EdgeInsets.only(left: 15),),
-              Text(
-                "Activities/Schedule",
-                style: textTheme.display1.copyWith(
-                    color: widget.appListener.primaryColorDark,
-                    fontSize: 28
+            Row(
+              children: <Widget>[
+                Image.asset(
+                  'assets/images/activities_red.png',
+                  height: 40,
+                  width: 40,
                 ),
-              ),
-            ],),
-
+                Padding(
+                  padding: EdgeInsets.only(left: 15),
+                ),
+                Text(
+                  "Activities/Schedule",
+                  style: textTheme.display1.copyWith(
+                      color: widget.appListener.primaryColorDark, fontSize: 28),
+                ),
+              ],
+            ),
             Padding(
               padding: EdgeInsets.all(8),
             ),
             Expanded(
-              child: ListView.builder(
-                itemBuilder: (BuildContext context, int index) {
-                  Activites ac = activities[index];
-                  return buildActivityListItem(ac, onTap: () {
-                    widget.appListener.router.navigateTo(
-                        context, Screens.ADDACTIVITY.toString() + "/${ac.id}");
-                  });
+              child: StreamBuilder<Activites>(
+                stream: list,
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    Activites act = snapshot.data;
+                    if (!activities.contains(act)) {
+                      activities.add(act);
+                    }
+                  }
+                  return ListView.builder(
+                    itemBuilder: (BuildContext context, int index) {
+                      Activites ac = activities[index];
+                      return buildActivityListItem(ac, onTap: () {
+                        widget.appListener.router.navigateTo(context,
+                            Screens.ADDACTIVITY.toString() + "/${ac.id}");
+                      });
+                    },
+                    itemCount: activities.length,
+                  );
                 },
-                itemCount: activities.length,
               ),
             )
           ],
@@ -106,14 +118,4 @@ class _ActivitiesListScreenState
 
   @override
   ActivitiesListPresenter get presenter => ActivitiesListPresenter(this);
-
-  @override
-  void onActivitiesListSuccess(List<Activites> activities) {
-    if (!mounted) return;
-    hideLoading();
-    setState(() {
-      this.activities.clear();
-      this.activities.addAll(activities);
-    });
-  }
 }

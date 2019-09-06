@@ -15,6 +15,7 @@ class Activites extends BaseModel {
   String id;
   String task = "";
 
+  Map<String, int> bandmatesWithStatus = Map();
   List<User> bandmates = [];
 
   Activites(
@@ -55,7 +56,7 @@ class Activites extends BaseModel {
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> data = super.toMap();
-    data['type'] = "$type";
+    data['type'] = type;
     data['description'] = description ?? "";
     data['start_date'] = startDate ?? "";
     data['end_date'] = endDate ?? "";
@@ -64,14 +65,10 @@ class Activites extends BaseModel {
     data['travel'] = travel ?? "";
     data['notes'] = notes ?? "";
     data['title'] = title ?? "";
-    data['action_type'] = "$action_type";
+    data['action_type'] = action_type;
     data['id'] = id ?? "";
     data['band_id'] = band_id ?? "";
-    List<dynamic> bnds = [];
-    for (var b in bandmates) {
-      bnds.add(b.toMap());
-    }
-    if (bnds.length > 0) data['bandmates'] = bnds;
+    data['bandmates'] = bandmatesWithStatus;
     return data;
   }
 }

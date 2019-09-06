@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/activities.dart';
-import 'package:gigtrack/server/models/activities_response.dart';
 import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/ui/addactivity/add_activity_presenter.dart';
@@ -989,10 +988,10 @@ class _AddActivityScreenState
   AddActivityPresenter get presenter => AddActivityPresenter(this);
 
   @override
-  void onSuccess(ActivitiesResponse res) {
+  void onSuccess() {
     if (!mounted) return;
     hideLoading();
-    showMessage(res.message);
+    showMessage("Added Successfully");
     Timer timer = new Timer(new Duration(seconds: 2), () {
       Navigator.pop(context);
     });
@@ -1077,7 +1076,7 @@ class _AddActivityScreenState
   }
 
   @override
-  void onUpdate(ActivitiesResponse res) {
+  void onUpdate() {
     hideLoading();
     showMessage("Updated Successfully");
     setState(() {

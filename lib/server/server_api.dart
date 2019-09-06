@@ -3,18 +3,14 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:gigtrack/server/models/activities.dart';
-import 'package:gigtrack/server/models/activities_list_response.dart';
-import 'package:gigtrack/server/models/activities_response.dart';
 import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/band_list_response.dart';
 import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/server/models/error_response.dart';
 import 'package:gigtrack/server/models/get_contact_list_response.dart';
 import 'package:gigtrack/server/models/instrument.dart';
-import 'package:gigtrack/server/models/login_response.dart';
 import 'package:gigtrack/server/models/note_todo_response.dart';
 import 'package:gigtrack/server/models/notestodo.dart';
-import 'package:gigtrack/server/models/register_response.dart';
 import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/utils/network_utils.dart';
 
@@ -48,12 +44,14 @@ class ServerAPI {
 
   FirebaseAuth _auth;
   DatabaseReference _userDB;
+  DatabaseReference activitiesDB;
 
   ServerAPI._internal() {
     _auth = FirebaseAuth.instance;
     DatabaseReference _mainFirebaseDatabase =
         FirebaseDatabase.instance.reference().child("Gigtrack");
     _userDB = _mainFirebaseDatabase.child("users");
+    activitiesDB = _mainFirebaseDatabase.child("activities");
   }
 
   Future<FirebaseUser> getCurrentUser() async {
@@ -192,18 +190,10 @@ class ServerAPI {
 
   Future<dynamic> addActivities(Activites activities) async {
     try {
-      final res = activities.id.isEmpty
-          ? await _netUtil.post(
-              _baseUrl + "activities/add",
-              body: activities.toMap(),
-              headers: _headers,
-            )
-          : await _netUtil.put(
-              _baseUrl + "activities/edit/${activities.id}",
-              body: activities.toMap(),
-              headers: _headers,
-            );
-      return ActivitiesResponse.fromJSON(res);
+      String id = activitiesDB.push().key;
+      activities.id = id;
+      await activitiesDB.child(id).set(activities.toMap());
+      return "Success";
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }
@@ -291,38 +281,8 @@ class ServerAPI {
 
   Future<dynamic> getActivityDetails(String id) async {
     try {
-      final res = await _netUtil.post(
-        _baseUrl + "activities/single",
-        headers: _headers,
-        body: {
-          "id": id,
-        },
-      );
-      return GetActivitiesListResponse.fromJSON(res);
-    } catch (e) {
-      return ErrorResponse.fromJSON(e.message);
-    }
-  }
-
-  Future<dynamic> getActivities() async {
-    try {
-      final res = await _netUtil.get(
-        _baseUrl + "activities/get_activities",
-        headers: _headers,
-      );
-      return GetActivitiesListResponse.fromJSON(res);
-    } catch (e) {
-      return ErrorResponse.fromJSON(e.message);
-    }
-  }
-
-  Future<dynamic> getSchedules() async {
-    try {
-      final res = await _netUtil.get(
-        _baseUrl + "activities/get_schedules",
-        headers: _headers,
-      );
-      return GetActivitiesListResponse.fromJSON(res);
+      DataSnapshot dataSnapshot = await activitiesDB.child(id).once();
+      return Activites.fromJSON(dataSnapshot.value);
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }
@@ -463,5 +423,9 @@ class ServerAPI {
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }
+  }
+
+  void logout() async {
+    await _auth.signOut();
   }
 }

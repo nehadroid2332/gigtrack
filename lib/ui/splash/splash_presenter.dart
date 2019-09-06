@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gigtrack/base/base_presenter.dart';
 
 abstract class SplashContract extends BaseContract {
@@ -9,10 +10,7 @@ class SplashPresenter extends BasePresenter {
 
   void movetoLogin() async {
     await Future.delayed(Duration(seconds: 2));
-    (view as SplashContract).loginSuccess(true);
-  }
-
-  void addLogin(String userId, String token) {
-    serverAPI.setUpHeaderAfterLogin(userId, token);
+    FirebaseUser user = await serverAPI.getCurrentUser();
+    (view as SplashContract).loginSuccess(user != null);
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
@@ -32,7 +31,6 @@ class _DashboardScreenState
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-
                   Expanded(
                     child: Container(),
                   ),
@@ -61,6 +59,7 @@ class _DashboardScreenState
                     iconSize: 42,
                     onPressed: () {
                       widget.appListener.sharedPreferences.clear();
+                      presenter.logout();
                       widget.appListener.router.navigateTo(
                           context, Screens.LOGIN.toString(),
                           replace: true);
@@ -78,7 +77,7 @@ class _DashboardScreenState
                   children: <Widget>[
                     Align(
                       alignment: Alignment.topLeft,
-                      child:  Align(
+                      child: Align(
                         alignment: Alignment.centerLeft,
                         child: Image.asset(
                           'assets/images/logo.png',
@@ -98,7 +97,6 @@ class _DashboardScreenState
           Padding(
             padding: EdgeInsets.all(1),
           ),
-
           Padding(
             padding: EdgeInsets.all(2),
           ),
@@ -162,31 +160,35 @@ class _DashboardScreenState
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
+                        padding: EdgeInsets.only(
+                            left: 10, right: 10, top: 5, bottom: 5),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[Center(child: Column(
-                            children: <Widget>[
-                              Image.asset(
-                                image,
-                                height: 40,
+                          children: <Widget>[
+                            Center(
+                              child: Column(
+                                children: <Widget>[
+                                  Image.asset(
+                                    image,
+                                    height: 40,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 5, right: 5, top: 5, bottom: 5),
+                                  ),
+                                  Text(
+                                    "$txt",
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                    style: textTheme.headline.copyWith(
+                                        color:
+                                            Color.fromRGBO(250, 250, 250, 1.0),
+                                        fontSize: 19),
+                                  )
+                                ],
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 5,right: 5,top: 5,bottom: 5),
-                              ),
-                              Text(
-                                "$txt",
-                                textAlign: TextAlign.center,
-                                maxLines: 2,
-                                style: textTheme.headline.copyWith(
-                                    color: Color.fromRGBO(250, 250, 250, 1.0),
-                                    fontSize: 19
-                                ),
-                              )
-                            ],
-                          ),),
-
+                            ),
                           ],
                         ),
                       ),
