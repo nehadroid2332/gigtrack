@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:gigtrack/server/models/activities.dart';
 import 'package:gigtrack/server/models/band.dart';
-import 'package:gigtrack/server/models/band_list_response.dart';
 import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/server/models/error_response.dart';
 import 'package:gigtrack/server/models/get_contact_list_response.dart';
@@ -14,11 +13,9 @@ import 'package:gigtrack/server/models/notestodo.dart';
 import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/utils/network_utils.dart';
 
-import 'models/add_band_response.dart';
 import 'models/add_contact_response.dart';
 import 'models/add_instrument_response.dart';
 import 'models/add_playing_style_response.dart';
-import 'models/band_details_response.dart';
 import 'models/band_member_add_response.dart';
 import 'models/forgot_password_response.dart';
 import 'models/instruments_list_response.dart';
@@ -43,15 +40,16 @@ class ServerAPI {
   final _headers = {"Auth-Key": "gigtrackkey"};
 
   FirebaseAuth _auth;
-  DatabaseReference _userDB;
-  DatabaseReference activitiesDB;
+  DatabaseReference userDB;
+  DatabaseReference activitiesDB, bandDB;
 
   ServerAPI._internal() {
     _auth = FirebaseAuth.instance;
     DatabaseReference _mainFirebaseDatabase =
         FirebaseDatabase.instance.reference().child("Gigtrack");
-    _userDB = _mainFirebaseDatabase.child("users");
+    userDB = _mainFirebaseDatabase.child("users");
     activitiesDB = _mainFirebaseDatabase.child("activities");
+    bandDB = _mainFirebaseDatabase.child("bands");
   }
 
   Future<FirebaseUser> getCurrentUser() async {
@@ -84,7 +82,7 @@ class ServerAPI {
       AuthResult authResult1 = await _auth.signInWithEmailAndPassword(
           email: user.email, password: user.password);
       user.id = authResult1.user.uid;
-      final res = await _userDB.child(user.id).set(user.toMap());
+      final res = await userDB.child(user.id).set(user.toMap());
       await _auth.signOut();
       return "Success";
     } catch (e) {
@@ -94,12 +92,14 @@ class ServerAPI {
 
   Future<dynamic> addBand(Band band) async {
     try {
-      final res = await _netUtil.post(
-        _baseUrl + "bands/add",
-        body: band.toMap(),
-        headers: _headers,
-      );
-      return AddBandResponse.fromJSON(res);
+      bool isUpdate = true;
+      if (band.id == null || band.id.isEmpty) {
+        String id = bandDB.push().key;
+        band.id = id;
+        isUpdate = false;
+      }
+      await bandDB.child(band.id).set(band.toMap());
+      return isUpdate;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }
@@ -148,28 +148,15 @@ class ServerAPI {
     }
   }
 
-  Future<dynamic> getBands() async {
-    try {
-      final res = await _netUtil.get(
-        _baseUrl + "bands",
-        headers: _headers,
-      );
-      return BandListResponse.fromJSON(res);
-    } catch (e) {
-      return ErrorResponse.fromJSON(e.message);
-    }
-  }
-
   Future<dynamic> getBandDetails(String id) async {
     try {
-      final res = await _netUtil.post(
-        _baseUrl + "bands/single",
-        headers: _headers,
-        body: {
-          "id": id,
-        },
-      );
-      return BandDetailsResponse.fromJSON(res);
+      DataSnapshot dataSnapshot = await bandDB.child(id).once();
+      Band band = Band.fromJSON(dataSnapshot.value);
+      for (String id in band.bandmates.keys) {
+        User user = await getSingleUserById(id);
+        band.bandmateUsers.add(user);
+      }
+      return band;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }
@@ -345,14 +332,16 @@ class ServerAPI {
 
   Future<dynamic> searchUser(String name) async {
     try {
-      final res = await _netUtil.post(
-        _baseUrl + "auth/search",
-        headers: _headers,
-        body: {
-          "name": name,
-        },
-      );
-      return SearchUserResponse.fromJSON(res);
+      final res = await userDB.once();
+      Map mp = res.value;
+      List<User> acc = [];
+      for (var d in mp.values) {
+        User user = User.fromJSON(d);
+        if (user.firstName.toLowerCase().contains(name.toLowerCase()) ||
+            user.lastName.toLowerCase().contains(name.toLowerCase()))
+          acc.add(user);
+      }
+      return acc;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }
@@ -393,22 +382,10 @@ class ServerAPI {
     }
   }
 
-  Future<dynamic> getSingleUserById(int id) async {
+  Future<dynamic> getSingleUserById(String id) async {
     try {
-      final res = await _netUtil.post(
-        _baseUrl + "auth/single",
-        headers: _headers,
-        body: {
-          "user_id": id,
-        },
-      );
-      User user;
-      if (res['data'] != null) {
-        for (var d in res['data']) {
-          user = User.fromJSON(d);
-        }
-      }
-      return user;
+      DataSnapshot dataSnapshot = await userDB.child(id).once();
+      return User.fromJSON(dataSnapshot.value);
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }

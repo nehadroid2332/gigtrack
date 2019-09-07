@@ -15,17 +15,8 @@ class AddMemberToBandPresenter extends BasePresenter {
 
   void searchUser(String text) async {
     final res = await serverAPI.searchUser(text);
-    if (res is SearchUserResponse) {
-      (view as AddMemberToBandContract).onSearchUser(res.users);
-    } else if (res is ErrorResponse) {
-      view.showMessage(res.message);
-    }
-  }
-
-  void addMemberToBand(String bandId, String userId) async {
-    final res = await serverAPI.addBandMember(bandId, userId);
-    if (res is BandMemberAddResponse) {
-      (view as AddMemberToBandContract).onMemberAdd();
+    if (res is List<User>) {
+      (view as AddMemberToBandContract).onSearchUser(res);
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
     }

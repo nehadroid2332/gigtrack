@@ -1,7 +1,5 @@
 import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/activities.dart';
-import 'package:gigtrack/server/models/band.dart';
-import 'package:gigtrack/server/models/band_list_response.dart';
 import 'package:gigtrack/server/models/error_response.dart';
 import 'package:gigtrack/server/models/update_activity_bandmember_status.dart';
 

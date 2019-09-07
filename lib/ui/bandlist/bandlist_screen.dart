@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
@@ -15,15 +14,13 @@ class BandListScreen extends BaseScreen {
 class _BandListScreenState
     extends BaseScreenState<BandListScreen, BandListPresenter>
     implements BandListContract {
-  final _bands = <Band>[];
+  List _bands = <Band>[];
+  Stream<List<Band>> list;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      showLoading();
-      presenter.getBands();
-    });
+    list = presenter.getBands();
   }
 
   @override
@@ -49,54 +46,60 @@ class _BandListScreenState
         padding: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[Row(children: <Widget>[
-            Image.asset(
-              'assets/images/band_color.png',
-              height: 40,
-              width: 40,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Image.asset(
+                  'assets/images/band_color.png',
+                  height: 40,
+                  width: 40,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 15),
+                ),
+                Text(
+                  "Bands",
+                  style: textTheme.display1.copyWith(
+                      color: Color.fromRGBO(135, 67, 125, 1.0),
+                      fontSize: 28,
+                      fontWeight: FontWeight.w500),
+                  textAlign: TextAlign.left,
+                ),
+              ],
             ),
-            Padding(padding: EdgeInsets.only(left: 15),),
-            Text(
-              "Bands",
-              style: textTheme.display1.copyWith(
-                  color: Color.fromRGBO(135, 67, 125, 1.0),
-                  fontSize: 28,
-                  fontWeight: FontWeight.w500),
-              textAlign: TextAlign.left,
-
-            ),
-          ],),
-
-
             Padding(
               padding: EdgeInsets.all(4),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: _bands.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final bnd = _bands[index];
-                  return Card(
-                    margin: EdgeInsets.all(6),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)
-                    ),
-                    child: InkWell(
-                      child: Padding(
-                        padding: EdgeInsets.all(15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "${bnd.name}",
-                              style: textTheme.headline.copyWith(
-                                color: Color.fromRGBO(135, 67, 125, 1.0),
-                                fontSize: 18
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(0),
-                            ),
+              child: StreamBuilder(
+                stream: list,
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    _bands = snapshot.data;
+                  }
+                  return ListView.builder(
+                    itemCount: _bands.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final bnd = _bands[index];
+                      return Card(
+                        margin: EdgeInsets.all(6),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15)),
+                        child: InkWell(
+                          child: Padding(
+                            padding: EdgeInsets.all(15),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  "${bnd.name}",
+                                  style: textTheme.headline.copyWith(
+                                      color: Color.fromRGBO(135, 67, 125, 1.0),
+                                      fontSize: 18),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(0),
+                                ),
 //                            Text(
 //                              "${bnd.musicStyle}",
 //                              style: TextStyle(
@@ -104,14 +107,16 @@ class _BandListScreenState
 //                                color: Color.fromRGBO(149, 121, 218, 1.0),
 //                              ),
 //                            ),
-                          ],
+                              ],
+                            ),
+                          ),
+                          onTap: () {
+                            widget.appListener.router.navigateTo(context,
+                                Screens.ADDBAND.toString() + "/${bnd.id}");
+                          },
                         ),
-                      ),
-                      onTap: () {
-                        widget.appListener.router.navigateTo(
-                            context, Screens.ADDBAND.toString() + "/${bnd.id}");
-                      },
-                    ),
+                      );
+                    },
                   );
                 },
               ),

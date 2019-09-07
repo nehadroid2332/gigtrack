@@ -1,7 +1,5 @@
 import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/band.dart';
-import 'package:gigtrack/server/models/band_list_response.dart';
-import 'package:gigtrack/server/models/error_response.dart';
 
 abstract class BandListContract extends BaseContract {
   void onBandList(List<Band> bands);
@@ -10,12 +8,18 @@ abstract class BandListContract extends BaseContract {
 class BandListPresenter extends BasePresenter {
   BandListPresenter(BaseContract view) : super(view);
 
-  void getBands() async {
-    final res = await serverAPI.getBands();
-    if (res is BandListResponse) {
-      (view as BandListContract).onBandList(res.bandList);
-    } else if (res is ErrorResponse) {
-      view.showMessage(res.message);
-    }
+  Stream<List<Band>> getBands() {
+    return serverAPI.bandDB
+        .orderByChild('user_id')
+        .equalTo(currentUserId)
+        .onValue
+        .map((a) {
+      Map mp = a.snapshot.value;
+      List<Band> acc = [];
+      for (var d in mp.values) {
+        acc.add(Band.fromJSON(d));
+      }
+      return acc;
+    });
   }
 }

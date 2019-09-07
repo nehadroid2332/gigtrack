@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:date_format/date_format.dart';
@@ -27,17 +28,13 @@ class _AddBandScreenState
       _musicStyleController = TextEditingController(),
       _bandNameController = TextEditingController(),
       _bandlegalNameController = TextEditingController(),
-      _bandResponsibilitiesController = TextEditingController(),
       _structureController = TextEditingController(),
       _legalStructureController = TextEditingController(),
       _zipController = TextEditingController(),
       _emailController = TextEditingController(),
       _websiteController = TextEditingController();
   String _errorDateStarted, _errorMusicStyle, _errorStructure, _errorWebsite;
-  String _errorBandName,
-      _errorBandLegalName,
-      _errorBandResponsibility,
-      _errorEmail;
+  String _errorBandName, _errorBandLegalName, _errorEmail;
   List<User> members = [];
   final legalStructure = [
     "Corporation",
@@ -51,7 +48,7 @@ class _AddBandScreenState
   File _image;
   var _legalUserType;
   bool isEdit = false;
-  bool showLegalName=false;
+  bool showLegalName = false;
   var _structuretype = "Corporation";
 
   Future getImage() async {
@@ -126,17 +123,17 @@ class _AddBandScreenState
       _legalUserType = value;
       if (_legalUserType == 1) {
         _bandlegalNameController.text = "";
-        showLegalName=false;
-      }else if(_legalUserType==0){
-        showLegalName=true;
+        showLegalName = false;
+      } else if (_legalUserType == 0) {
+        showLegalName = true;
       }
     });
   }
+
   void _handleStructureValueChange(String value) {
     setState(() {
       _structuretype = value;
       _legalStructureController.text = value;
-
     });
   }
 
@@ -164,7 +161,6 @@ class _AddBandScreenState
                 style: textTheme.display1.copyWith(
                   color: Colors.white,
                 ),
-
               ),
               Padding(
                 padding: EdgeInsets.all(10),
@@ -239,13 +235,13 @@ class _AddBandScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty || isEdit || isEdit
+                      widget.id.isEmpty || isEdit
                           ? Text("Has legal name?")
                           : Container(),
                       Padding(
                         padding: EdgeInsets.all(3),
                       ),
-                      widget.id.isEmpty || isEdit || isEdit
+                      widget.id.isEmpty || isEdit
                           ? Row(
                               children: <Widget>[
                                 InkWell(
@@ -320,110 +316,101 @@ class _AddBandScreenState
                               ],
                             )
                           : Container(),
-                     showLegalName? widget.id.isEmpty || isEdit || isEdit
-                          ? Container()
-                          : Text(
-                              "Band Legal Name",
-                              textAlign: TextAlign.center,
-                              style: textTheme.subhead,
-                            ):Container(),
-                      showLegalName?widget.id.isEmpty || isEdit || isEdit
+                      showLegalName
+                          ? widget.id.isEmpty || isEdit
+                              ? Container()
+                              : Text(
+                                  "Band Legal Name",
+                                  textAlign: TextAlign.center,
+                                  style: textTheme.subhead,
+                                )
+                          : Container(),
+                      showLegalName
+                          ? widget.id.isEmpty || isEdit
+                              ? TextField(
+                                  enabled: widget.id.isEmpty ||
+                                      isEdit && (_legalUserType == 0),
+                                  controller: _bandlegalNameController,
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
+                                  style: textTheme.subhead.copyWith(
+                                    color: Colors.black,
+                                  ),
+                                  decoration: InputDecoration(
+                                    labelStyle: TextStyle(
+                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+                                    ),
+                                    labelText: "Band Legal Name",
+                                    errorText: _errorBandLegalName,
+                                    border: widget.id.isEmpty || isEdit
+                                        ? null
+                                        : InputBorder.none,
+                                  ),
+                                )
+                              : Text(
+                                  _bandlegalNameController.text,
+                                  textAlign: TextAlign.center,
+                                )
+                          : Container(),
+                      showLegalName
+                          ? Padding(
+                              padding: EdgeInsets.all(5),
+                            )
+                          : Container(),
+                      showLegalName
+                          ? widget.id.isEmpty || isEdit
+                              ? Text(
+                                  "Legal Structure",
+                                  textAlign: TextAlign.left,
+                                  style: textTheme.subhead,
+                                )
+                              : Text(
+                                  "Legal Structure",
+                                  textAlign: TextAlign.center,
+                                  style: textTheme.subhead,
+                                )
+                          : Container(),
+                      showLegalName
+                          ? widget.id.isEmpty || isEdit
+                              ? Container(
+                                  child: DropdownButton<String>(
+                                    items: legalStructure.map((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                    onChanged: _handleStructureValueChange,
+                                    value: _structuretype,
+                                  ),
+                                  width: MediaQuery.of(context).size.width,
+                                )
+                              : Container()
+                          : Container(),
+                      Padding(
+                        padding: EdgeInsets.all(3),
+                      ),
+                      _structuretype == "Other" &&
+                              (widget.id.isNotEmpty || isEdit)
                           ? TextField(
-                              enabled: widget.id.isEmpty ||
-                                  isEdit && (_legalUserType == 0),
-                              controller: _bandlegalNameController,
+                              enabled: widget.id.isEmpty,
+                              controller: _legalStructureController,
                               textCapitalization: TextCapitalization.sentences,
-                              style: textTheme.subhead.copyWith(
-                                color: Colors.black,
-                              ),
                               decoration: InputDecoration(
                                 labelStyle: TextStyle(
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
                                 ),
-                                labelText: "Band Legal Name",
-                                errorText: _errorBandLegalName,
-                                border: widget.id.isEmpty || isEdit
-                                    ? null
-                                    : InputBorder.none,
+                                labelText: widget.id.isNotEmpty ? "" : "Other",
+                                errorText: _errorStructure,
+                                border:
+                                    widget.id.isEmpty ? null : InputBorder.none,
+                              ),
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
                               ),
                             )
-                          : Text(
-                              _bandlegalNameController.text,
-                              textAlign: TextAlign.center,
-                            ):Container(),
-                     showLegalName? Padding(
-                        padding: EdgeInsets.all(5),
-                      ):Container(),
-                      showLegalName?widget.id.isEmpty || isEdit
-                          ? Text(
-                        "Legal Structure",
-                        textAlign: TextAlign.left,
-                        style: textTheme.subhead,
-                      )
-                          : Text(
-                        "Legal Structure",
-                        textAlign: TextAlign.center,
-                        style: textTheme.subhead,
-                      ):Container(),
-                     showLegalName? widget.id.isEmpty
-                          ? Container(child: DropdownButton<String>(
-                        items: legalStructure.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        onChanged: _handleStructureValueChange,
-                        value: _structuretype,
-                      ),
-                     width: MediaQuery.of(context).size.width,)
-                          : Container():Container(),
-                      Padding(
-                        padding: EdgeInsets.all(3),
-                      ),
-                      _structuretype == "Other" || widget.id.isNotEmpty
-                          ? TextField(
-                        enabled: widget.id.isEmpty,
-                        controller: _legalStructureController,
-                        textCapitalization: TextCapitalization.sentences,
-                        decoration: InputDecoration(
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          labelText: widget.id.isNotEmpty ? "" : "Other",
-                          errorText: _errorStructure,
-                          border:
-                          widget.id.isEmpty ? null : InputBorder.none,
-                        ),
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                      )
                           : Container(),
-//
-//                      showLegalName?widget.id.isEmpty || isEdit || isEdit
-//                          ? TextField(
-//                              enabled: widget.id.isEmpty || isEdit,
-//                              controller: _legalStructureController,
-//                              textCapitalization: TextCapitalization.sentences,
-//                              style: textTheme.subhead.copyWith(
-//                                color: Colors.black,
-//                              ),
-//                              decoration: InputDecoration(
-//                                labelStyle: TextStyle(
-//                                  color: Color.fromRGBO(202, 208, 215, 1.0),
-//                                ),
-//                                labelText: "Legal Structure",
-//                                errorText: _errorStructure,
-//                                border: widget.id.isEmpty || isEdit
-//                                    ? null
-//                                    : InputBorder.none,
-//                              ),
-//                            )
-//                          : Text(
-//                              _legalStructureController.text,
-//                              textAlign: TextAlign.center,
-//                            ):Container(),
+
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -458,7 +445,7 @@ class _AddBandScreenState
                                 ),
                               ),
                               onTap: () {
-                                if (widget.id.isEmpty)
+                                if (widget.id.isEmpty || isEdit)
                                   _selectDate(context, true);
                               },
                             )
@@ -478,7 +465,7 @@ class _AddBandScreenState
                             ),
                       widget.id.isEmpty || isEdit
                           ? TextField(
-                              enabled: widget.id.isEmpty,
+                              enabled: widget.id.isEmpty || isEdit,
                               controller: _musicStyleController,
                               textCapitalization: TextCapitalization.sentences,
                               decoration: InputDecoration(
@@ -487,8 +474,9 @@ class _AddBandScreenState
                                 ),
                                 labelText: "Music Style",
                                 errorText: _errorMusicStyle,
-                                border:
-                                    widget.id.isEmpty ? null : InputBorder.none,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
                               ),
                               style: textTheme.subhead.copyWith(
                                 color: Colors.black,
@@ -498,38 +486,6 @@ class _AddBandScreenState
                               _musicStyleController.text,
                               textAlign: TextAlign.center,
                             ),
-//                      Padding(
-//                        padding: EdgeInsets.all(5),
-//                      ),
-//                      widget.id.isEmpty || isEdit
-//                          ? Container()
-//                          : Text(
-//                              "Band Responsibility",
-//                              textAlign: TextAlign.center,
-//                              style: textTheme.subhead,
-//                            ),
-//                      widget.id.isEmpty || isEdit
-//                          ? TextField(
-//                              enabled: widget.id.isEmpty,
-//                              controller: _bandResponsibilitiesController,
-//                              textCapitalization: TextCapitalization.sentences,
-//                              style: textTheme.subhead.copyWith(
-//                                color: Colors.black,
-//                              ),
-//                              decoration: InputDecoration(
-//                                labelText: "Band Responsibility",
-//                                labelStyle: TextStyle(
-//                                  color: Color.fromRGBO(202, 208, 215, 1.0),
-//                                ),
-//                                errorText: _errorBandResponsibility,
-//                                border:
-//                                    widget.id.isEmpty ? null : InputBorder.none,
-//                              ),
-//                            )
-//                          : Text(
-//                              _bandResponsibilitiesController.text,
-//                              textAlign: TextAlign.center,
-//                            ),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -542,7 +498,7 @@ class _AddBandScreenState
                             ),
                       widget.id.isEmpty || isEdit
                           ? TextField(
-                              enabled: widget.id.isEmpty,
+                              enabled: widget.id.isEmpty || isEdit,
                               controller: _websiteController,
                               style: textTheme.subhead.copyWith(
                                 color: Colors.black,
@@ -553,8 +509,9 @@ class _AddBandScreenState
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
                                 ),
                                 errorText: _errorWebsite,
-                                border:
-                                    widget.id.isEmpty ? null : InputBorder.none,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
                               ),
                             )
                           : Text(
@@ -573,7 +530,7 @@ class _AddBandScreenState
                             ),
                       widget.id.isEmpty || isEdit
                           ? TextField(
-                              enabled: widget.id.isEmpty,
+                              enabled: widget.id.isEmpty || isEdit,
                               controller: _emailController,
                               style: textTheme.subhead.copyWith(
                                 color: Colors.black,
@@ -584,8 +541,9 @@ class _AddBandScreenState
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
                                 ),
                                 errorText: _errorEmail,
-                                border:
-                                    widget.id.isEmpty ? null : InputBorder.none,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
                               ),
                             )
                           : Text(
@@ -612,20 +570,38 @@ class _AddBandScreenState
                                     ),
                                   ),
                                 ),
-                                widget.id.isEmpty
+                                widget.id.isEmpty || isEdit
                                     ? IconButton(
                                         icon: Icon(
                                           Icons.add,
                                           color: widget.appListener.accentColor,
                                         ),
                                         onPressed: () async {
-                                          await widget.appListener.router
+                                          final res = await widget
+                                              .appListener.router
                                               .navigateTo(
                                                   context,
                                                   Screens.ADDMEMBERTOBAND
                                                           .toString() +
                                                       "/${widget.id}");
-                                          presenter.getBandDetails(widget.id);
+                                          if (res != null &&
+                                              res['user_id'] != null) {
+                                            String userId = res['user_id'];
+                                            if (members != null) {
+                                              User user =
+                                                  members.firstWhere((u) {
+                                                return u.id == userId;
+                                              });
+                                              if (user != null) {
+                                                showMessage(
+                                                    "User already a member");
+                                              } else {
+                                                presenter.addMemberToBand(
+                                                    widget.id, res['user_id']);
+                                              }
+                                            }
+                                          }
+                                          // presenter.getBandDetails(widget.id);
                                         })
                                     : Container()
                               ],
@@ -671,13 +647,10 @@ class _AddBandScreenState
                                   String blname = _bandlegalNameController.text;
                                   String legalstructure =
                                       _legalStructureController.text;
-                                  String bandRes =
-                                      _bandResponsibilitiesController.text;
                                   String email = _emailController.text;
                                   String website = _websiteController.text;
                                   _errorBandLegalName = null;
                                   _errorBandName = null;
-                                  _errorBandResponsibility = null;
                                   _errorDateStarted = null;
                                   _errorEmail = null;
                                   _errorMusicStyle = null;
@@ -699,20 +672,17 @@ class _AddBandScreenState
                                     _errorMusicStyle = "Cannot be empty";
                                   } else if (legalstructure.isEmpty) {
                                     _errorStructure = "Cannot be empty";
-                                  } else if (bandRes.isEmpty) {
-                                    _errorBandResponsibility =
-                                        "Cannot be empty";
                                   } else if (website.isEmpty) {
                                     _errorWebsite = "Cannot be empty";
                                   } else {
                                     showLoading();
                                     presenter.addBand(
-                                        dateStarted,
+                                        selectedStartDate
+                                            .millisecondsSinceEpoch,
                                         musicStyle,
                                         bname,
                                         blname,
                                         legalstructure,
-                                        bandRes,
                                         email,
                                         website,
                                         id: widget.id);
@@ -749,17 +719,18 @@ class _AddBandScreenState
       _bandNameController.clear();
       _bandlegalNameController.clear();
       _legalStructureController.clear();
-      _bandResponsibilitiesController.clear();
       _emailController.clear();
       _websiteController.clear();
       _errorBandLegalName = null;
       _errorBandName = null;
-      _errorBandResponsibility = null;
       _errorDateStarted = null;
       _errorEmail = null;
       _errorMusicStyle = null;
       _errorStructure = null;
       _errorWebsite = null;
+    });
+    Timer timer = new Timer(new Duration(seconds: 2), () {
+      Navigator.pop(context);
     });
   }
 
@@ -786,21 +757,27 @@ class _AddBandScreenState
   }
 
   @override
-  void getBandDetails(Band band) {
+  void getBandDetails(Band band) async {
     hideLoading();
     setState(() {
       _musicStyleController.text = band.musicStyle;
       _bandlegalNameController.text = band.legalName;
       _bandNameController.text = band.name;
-      _bandResponsibilitiesController.text = band.responsbilities;
       _emailController.text = band.email;
       _legalStructureController.text = band.legalStructure;
       _websiteController.text = band.website;
-      DateTime dateTime =
-          DateTime.fromMillisecondsSinceEpoch(int.parse(band.dateStarted));
+      _legalUserType = (band.legalName?.isEmpty ?? false) ? 1 : 0;
+      showLegalName = _legalUserType == 0 ? true : false;
+      DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(band.dateStarted);
       _dateStartedController.text =
           formatDate(dateTime, [yyyy, '-', mm, '-', dd]);
-      members.addAll(band.bandMember);
+      members.addAll(band.bandmateUsers);
     });
+  }
+
+  @override
+  void onUpdate() {
+    showLoading();
+    presenter.getBandDetails(widget.id);
   }
 }

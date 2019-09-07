@@ -1,7 +1,6 @@
 import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/add_instrument_response.dart';
 import 'package:gigtrack/server/models/band.dart';
-import 'package:gigtrack/server/models/band_list_response.dart';
 import 'package:gigtrack/server/models/error_response.dart';
 import 'package:gigtrack/server/models/instrument.dart';
 import 'package:gigtrack/server/models/instruments_list_response.dart';
@@ -25,12 +24,12 @@ class AddInstrumentPresenter extends BasePresenter {
   }
 
   void getBands() async {
-    final res = await serverAPI.getBands();
-    if (res is BandListResponse) {
-      (view as AddInstrumentContract).onBandList(res.bandList);
-    } else if (res is ErrorResponse) {
-      view.showMessage(res.message);
-    }
+    // final res = await serverAPI.getBands();
+    // if (res is BandListResponse) {
+    //   (view as AddInstrumentContract).onBandList(res.bandList);
+    // } else if (res is ErrorResponse) {
+    //   view.showMessage(res.message);
+    // }
   }
 
   void getInstrumentDetails(String id) async {

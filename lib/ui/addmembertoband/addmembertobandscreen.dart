@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
@@ -59,8 +58,7 @@ class _AddMemberToBandScreenState
                         title: Text("${user.firstName} ${user.lastName}"),
                         subtitle: Text(user.primaryInstrument),
                         onTap: () {
-                          showLoading();
-                          presenter.addMemberToBand(widget.id, user.id);
+                          Navigator.of(context).pop({"user_id": user.id});
                         },
                       );
                     },

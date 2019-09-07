@@ -1,26 +1,18 @@
 import 'package:gigtrack/base/base_presenter.dart';
-import 'package:gigtrack/server/models/add_band_response.dart';
 import 'package:gigtrack/server/models/band.dart';
-import 'package:gigtrack/server/models/band_details_response.dart';
 import 'package:gigtrack/server/models/error_response.dart';
 
 abstract class AddBandContract extends BaseContract {
   void addBandSuccess();
+  void onUpdate();
   void getBandDetails(Band band);
 }
 
 class AddBandPresenter extends BasePresenter {
   AddBandPresenter(BaseContract view) : super(view);
 
-  void addBand(
-      String dateStarted,
-      String musicStyle,
-      String bname,
-      String blname,
-      String legalstructure,
-      String bandRes,
-      String email,
-      String website,
+  void addBand(int dateStarted, String musicStyle, String bname, String blname,
+      String legalstructure, String email, String website,
       {String id}) async {
     Band band = Band(
       dateStarted: dateStarted,
@@ -29,7 +21,6 @@ class AddBandPresenter extends BasePresenter {
       legalStructure: legalstructure,
       musicStyle: musicStyle,
       name: bname,
-      responsbilities: bandRes,
       website: website,
     );
     if (id != null) {
@@ -37,7 +28,7 @@ class AddBandPresenter extends BasePresenter {
     }
     final res = await serverAPI.addBand(band);
     print("REs-> $res");
-    if (res is AddBandResponse) {
+    if (res is bool) {
       (view as AddBandContract).addBandSuccess();
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
@@ -46,10 +37,19 @@ class AddBandPresenter extends BasePresenter {
 
   void getBandDetails(String id) async {
     final res = await serverAPI.getBandDetails(id);
-    if (res is BandDetailsResponse) {
-      (view as AddBandContract).getBandDetails(res.band);
+    if (res is Band) {
+      (view as AddBandContract).getBandDetails(res);
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
+    }
+  }
+
+  void addMemberToBand(String bandId, String userId) async {
+    final res = await serverAPI.getBandDetails(bandId);
+    if (res is Band) {
+      res.bandmates[userId] = 0;
+      await serverAPI.addBand(res);
+      (view as AddBandContract).onUpdate();
     }
   }
 }

@@ -5,16 +5,16 @@ class Band extends BaseModel {
   String name;
   String legalName;
   String legalStructure;
-  String dateStarted;
+  int dateStarted;
   String musicStyle;
-  String responsbilities;
   String email;
   String website;
 
   String id;
   String userId;
 
-  List<User> bandMember = [];
+  Map<String, int> bandmates = Map();
+  List<User> bandmateUsers = [];
 
   Band(
       {this.dateStarted,
@@ -23,7 +23,6 @@ class Band extends BaseModel {
       this.legalStructure,
       this.musicStyle,
       this.name,
-      this.responsbilities,
       this.website});
 
   Band.fromJSON(dynamic data) {
@@ -32,16 +31,15 @@ class Band extends BaseModel {
     legalStructure = data['legal_structure'];
     dateStarted = data['date_started'];
     musicStyle = data['music_style'];
-    responsbilities = data['responsbilities'];
     email = data['email'];
     website = data['website'];
     id = data['id'];
     userId = data['user_id'];
     if (data['bandmates'] != null) {
-      for (var bm in data['bandmates']) {
-        for (var b in bm) {
-          bandMember.add(User.fromJSON(b));
-        }
+      bandmates.clear();
+      Map map = data['bandmates'];
+      for (MapEntry item in map.entries) {
+        bandmates[item.key] = item.value;
       }
     }
   }
@@ -54,15 +52,11 @@ class Band extends BaseModel {
     data['legal_structure'] = legalStructure ?? "";
     data['date_started'] = dateStarted ?? "";
     data['music_style'] = musicStyle ?? "";
-    data['responsbilities'] = responsbilities ?? "";
+    data['user_id'] = userId;
     data['email'] = email ?? "";
     data['website'] = website ?? "";
-
-    List<dynamic> bm = [];
-    for (var b in bandMember) {
-      bm.add(b.toMap());
-    }
-    if (bm.length > 0) data['bandmates'] = bm;
+    data['id'] = id;
+    data['bandmates'] = bandmates;
     return data;
   }
 }
