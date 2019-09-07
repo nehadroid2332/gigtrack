@@ -7,7 +7,6 @@ import 'package:gigtrack/server/models/update_activity_bandmember_status.dart';
 
 abstract class AddActivityContract extends BaseContract {
   void onSuccess();
-  void getBandSuccess(List<Band> bands);
   void getActivityDetails(Activites activities);
 
   void onActivitySuccess();
@@ -17,15 +16,6 @@ abstract class AddActivityContract extends BaseContract {
 
 class AddActivityPresenter extends BasePresenter {
   AddActivityPresenter(BaseContract view) : super(view);
-
-  void getBands() async {
-    final res = await serverAPI.getBands();
-    if (res is BandListResponse) {
-      (view as AddActivityContract).getBandSuccess(res.bandList);
-    } else if (res is ErrorResponse) {
-      view.showMessage(res.message);
-    }
-  }
 
   void getActivityDetails(String id) async {
     final res = await serverAPI.getActivityDetails(id);
@@ -38,8 +28,8 @@ class AddActivityPresenter extends BasePresenter {
 
   void addActivity(Activites activities) async {
     final res = await serverAPI.addActivities(activities);
-    if (res is String) {
-      if (activities.id.isEmpty)
+    if (res is bool) {
+      if (!res)
         (view as AddActivityContract).onSuccess();
       else {
         (view as AddActivityContract).onUpdate();

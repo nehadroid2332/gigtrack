@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/main.dart';
@@ -15,6 +14,12 @@ abstract class BaseScreenState<B extends BaseScreen, P extends BasePresenter>
   double width, height;
   TextTheme textTheme;
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    presenter.getCurrentUser();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

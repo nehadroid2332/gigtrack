@@ -6,9 +6,18 @@ abstract class ActivitiesListContract extends BaseContract {}
 class ActivitiesListPresenter extends BasePresenter {
   ActivitiesListPresenter(BaseContract view) : super(view);
 
-  Stream<Activites> getList() {
-    return serverAPI.activitiesDB.onChildAdded.map((a) {
-      return Activites.fromJSON(a.snapshot.value);
+  Stream<List<Activites>> getList() {
+    return serverAPI.activitiesDB
+        .orderByChild('user_id')
+        .equalTo(currentUserId)
+        .onValue
+        .map((a) {
+      Map mp = a.snapshot.value;
+      List<Activites> acc=[];
+      for (var d in mp.values) {
+        acc.add(Activites.fromJSON(d));
+      }
+      return acc;
     });
   }
 }

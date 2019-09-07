@@ -18,8 +18,8 @@ class ActivitiesListScreen extends BaseScreen {
 class _ActivitiesListScreenState
     extends BaseScreenState<ActivitiesListScreen, ActivitiesListPresenter>
     implements ActivitiesListContract {
-  final activities = <Activites>[];
-  Stream<Activites> list;
+  List activities = <Activites>[];
+  Stream<List<Activites>> list;
 
   @override
   void initState() {
@@ -75,14 +75,15 @@ class _ActivitiesListScreenState
               padding: EdgeInsets.all(8),
             ),
             Expanded(
-              child: StreamBuilder<Activites>(
+              child: StreamBuilder<List<Activites>>(
                 stream: list,
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
-                    Activites act = snapshot.data;
-                    if (!activities.contains(act)) {
-                      activities.add(act);
-                    }
+                    // Activites act = snapshot.data;
+                    // if (!activities.contains(act)) {
+                    //   activities.add(act);
+                    // }
+                    activities = snapshot.data;
                   }
                   return ListView.builder(
                     itemBuilder: (BuildContext context, int index) {
@@ -104,8 +105,6 @@ class _ActivitiesListScreenState
         onPressed: () async {
           await widget.appListener.router
               .navigateTo(context, Screens.ADDACTIVITY.toString() + "/");
-          showLoading();
-          presenter.getList();
         },
         backgroundColor: Colors.white,
         child: Icon(

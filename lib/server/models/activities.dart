@@ -1,5 +1,4 @@
 import 'package:gigtrack/base/base_model.dart';
-import 'package:gigtrack/server/models/user.dart';
 
 class Activites extends BaseModel {
   int type;
@@ -14,9 +13,7 @@ class Activites extends BaseModel {
   String travel = "";
   String id;
   String task = "";
-
-  Map<String, int> bandmatesWithStatus = Map();
-  List<User> bandmates = [];
+  String userId;
 
   Activites(
       {this.description,
@@ -42,15 +39,6 @@ class Activites extends BaseModel {
     notes = data['notes'];
     task = data['task'];
     id = data['id'];
-    if (data['bandmates'] != null) {
-      for (var b in data['bandmates']) {
-        if (b != null) {
-          User u = User.fromJSON(b[0]);
-          if (b.length > 1) u.status = b[1]['status'];
-          bandmates.add(u);
-        }
-      }
-    }
   }
 
   @override
@@ -67,8 +55,8 @@ class Activites extends BaseModel {
     data['title'] = title ?? "";
     data['action_type'] = action_type;
     data['id'] = id ?? "";
+    data['user_id'] = userId;
     data['band_id'] = band_id ?? "";
-    data['bandmates'] = bandmatesWithStatus;
     return data;
   }
 }

@@ -731,12 +731,15 @@ class _AddActivityScreenState
                                     Icons.location_on,
                                     color: Colors.grey,
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 5),
-                                    child: Text(
-                                      _locController.text,
-                                      style: textTheme.subhead.copyWith(
-                                        color: Colors.grey,
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: 5),
+                                      child: Text(
+                                        _locController.text,
+                                        textAlign: TextAlign.center,
+                                        style: textTheme.subhead.copyWith(
+                                          color: Colors.grey,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -918,6 +921,8 @@ class _AddActivityScreenState
                                       type: _userType,
                                       action_type: _type,
                                     );
+                                    activities.userId =
+                                        presenter.getCurrentUserId();
                                     showLoading();
                                     presenter.addActivity(activities);
                                   }
@@ -1030,36 +1035,34 @@ class _AddActivityScreenState
       _travelController.text = activities.travel;
       _taskController.text = activities.task;
       _type = activities.action_type;
-      DateTime dateTime =
-          DateTime.fromMillisecondsSinceEpoch(activities.startDate);
-      _dateTxt = formatDate(dateTime, [D, ', ', mm, '-', dd, '-', yy]) +
-          " at ${formatDate(dateTime, [hh, ':', nn, am])}";
-      _dateController.text = formatDate(dateTime, [mm, '-', dd, '-', yy]);
-      _timeController.text = formatDate(dateTime, [hh, ':', nn, ' ', am]);
+      startDate = DateTime.fromMillisecondsSinceEpoch(activities.startDate);
+      _dateTxt = formatDate(startDate, [D, ', ', mm, '-', dd, '-', yy]) +
+          " at ${formatDate(startDate, [hh, ':', nn, am])}";
+      _dateController.text = formatDate(startDate, [mm, '-', dd, '-', yy]);
+      selectedStartTime = TimeOfDay.fromDateTime(startDate);
+      _timeController.text = formatDate(startDate, [hh, ':', nn, ' ', am]);
       try {
-        DateTime dateTime2 =
-            DateTime.fromMillisecondsSinceEpoch(activities.endDate);
-        _dateEndController.text = activities.endDate != 0
-            ? formatDate(dateTime2, [mm, '-', dd, '-', yy])
-            : "";
-        _timeEndController.text = activities.endDate != 0
-            ? formatDate(dateTime2, [hh, ':', nn, ' ', am])
-            : "";
-        _dateEndTxt = activities.endDate != 0
-            ? formatDate(dateTime2, [D, ', ', mm, '-', dd, '-', yy])
-            : 0;
-        // " at ${formatDate(dateTime2, [hh, ':', nn, am])}";
+        if (activities.endDate != 0) {
+          endDate = DateTime.fromMillisecondsSinceEpoch(activities.endDate);
+          selectedEndTime = TimeOfDay.fromDateTime(endDate);
+          _dateEndController.text = activities.endDate != 0
+              ? formatDate(endDate, [mm, '-', dd, '-', yy])
+              : "";
+          _timeEndController.text = activities.endDate != 0
+              ? formatDate(endDate, [hh, ':', nn, ' ', am])
+              : "";
+          _dateEndTxt = activities.endDate != 0
+              ? formatDate(endDate, [D, ', ', mm, '-', dd, '-', yy])
+              : 0;
+          // " at ${formatDate(dateTime2, [hh, ':', nn, am])}";
+        }
       } catch (e) {
         _dateEndTxt = "0";
       }
       _locController.text = activities.location;
 //      _timeController.text = "at ${formatDate(dateTime, [hh, ':', nn, am])}";
       members.clear();
-      members.addAll(activities.bandmates);
-      if (activities.band_id != null) {
-        band_id = activities.band_id;
-        presenter.getBands();
-      }
+      // members.addAll(activities.bandmates);
     });
   }
 

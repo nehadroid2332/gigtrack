@@ -190,10 +190,14 @@ class ServerAPI {
 
   Future<dynamic> addActivities(Activites activities) async {
     try {
-      String id = activitiesDB.push().key;
-      activities.id = id;
-      await activitiesDB.child(id).set(activities.toMap());
-      return "Success";
+      bool isUpdate = true;
+      if (activities.id == null || activities.id.isEmpty) {
+        String id = activitiesDB.push().key;
+        activities.id = id;
+        isUpdate = false;
+      }
+      await activitiesDB.child(activities.id).set(activities.toMap());
+      return isUpdate;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }
