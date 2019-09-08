@@ -15,15 +15,14 @@ class InstrumentListScreen extends BaseScreen {
 class _InstrumentListScreenState
     extends BaseScreenState<InstrumentListScreen, InstrumentListPresenter>
     implements InstrumentListContract {
-  final _instruments = <Instrument>[];
+  List<Instrument> _instruments = <Instrument>[];
+
+  Stream<List<Instrument>> list;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      showLoading();
-      presenter.getInstruments();
-    });
+    list = presenter.getList();
   }
 
   @override
@@ -49,58 +48,65 @@ class _InstrumentListScreenState
         padding: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[Row(children: <Widget>[
-            Image.asset(
-              'assets/images/equipment_color.png',
-              height: 45,
-              width: 45,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Image.asset(
+                  'assets/images/equipment_color.png',
+                  height: 45,
+                  width: 45,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 15),
+                ),
+                Text(
+                  "Equipments",
+                  style: textTheme.display1.copyWith(
+                      color: Color.fromRGBO(79, 73, 108, 1.0),
+                      fontSize: 28,
+                      fontWeight: FontWeight.w500),
+                  textAlign: TextAlign.left,
+                ),
+              ],
             ),
-            Padding(padding: EdgeInsets.only(left: 15),),
-            Text(
-              "Equipments",
-              style: textTheme.display1.copyWith(
-                  color:Color.fromRGBO(79, 73, 108, 1.0),
-                  fontSize: 28,
-                  fontWeight: FontWeight.w500),
-              textAlign: TextAlign.left,
-
-            ),
-          ],),
-
             Padding(
               padding: EdgeInsets.all(4),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: _instruments.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final instr = _instruments[index];
-                  DateTime purchasedDate = DateTime.fromMillisecondsSinceEpoch(
-                      int.parse(instr.purchased_date));
+              child: StreamBuilder<List<Instrument>>(
+                stream: list,
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    _instruments = snapshot.data;
+                  }
+                  return ListView.builder(
+                    itemCount: _instruments.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final instr = _instruments[index];
+                      DateTime purchasedDate =
+                          DateTime.fromMillisecondsSinceEpoch(
+                              (instr.purchased_date));
 
-                  return Card(
-                    color: Color.fromRGBO(79, 73, 108, 1.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16)
-                    ),
-                    child: InkWell(
-                      child: Padding(
-                        padding: EdgeInsets.all(15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "${instr.name}",
-                              style: textTheme.headline.copyWith(
-                                fontSize: 18,
-                                color: Colors.white
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(0),
-                            ),
+                      return Card(
+                        color: Color.fromRGBO(79, 73, 108, 1.0),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16)),
+                        child: InkWell(
+                          child: Padding(
+                            padding: EdgeInsets.all(15),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  "${instr.name}",
+                                  style: textTheme.headline.copyWith(
+                                      fontSize: 18, color: Colors.white),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(0),
+                                ),
 //                            Text(
 //                              "Purchased",
 //                              style: textTheme.subhead.copyWith(
@@ -127,14 +133,18 @@ class _InstrumentListScreenState
 //                              "From: ${instr.purchased_from}",
 //                              style: TextStyle(fontSize: 11),
 //                            )
-                          ],
+                              ],
+                            ),
+                          ),
+                          onTap: () {
+                            widget.appListener.router.navigateTo(
+                                context,
+                                Screens.ADDINSTRUMENT.toString() +
+                                    "/${instr.id}");
+                          },
                         ),
-                      ),
-                      onTap: () {
-                        widget.appListener.router.navigateTo(context,
-                            Screens.ADDINSTRUMENT.toString() + "/${instr.id}");
-                      },
-                    ),
+                      );
+                    },
                   );
                 },
               ),
@@ -146,8 +156,6 @@ class _InstrumentListScreenState
         onPressed: () async {
           await widget.appListener.router
               .navigateTo(context, Screens.ADDINSTRUMENT.toString() + "/");
-          showLoading();
-          presenter.getInstruments();
         },
         child: Icon(Icons.add),
         backgroundColor: Color.fromRGBO(79, 73, 108, 1.0),
@@ -157,14 +165,4 @@ class _InstrumentListScreenState
 
   @override
   InstrumentListPresenter get presenter => InstrumentListPresenter(this);
-
-  @override
-  void getInstruments(List<Instrument> list) {
-    if (!mounted) return;
-    hideLoading();
-    setState(() {
-      _instruments.clear();
-      _instruments.addAll(list);
-    });
-  }
 }

@@ -12,9 +12,4 @@ abstract class BasePresenter {
     serverAPI = ServerAPI();
   }
 
-  String currentUserId;
-  void getCurrentUser() async {
-    FirebaseUser firebaseUser = await serverAPI.getCurrentUser();
-    currentUserId = firebaseUser?.uid;
-  }
 }

@@ -17,7 +17,6 @@ abstract class BaseScreenState<B extends BaseScreen, P extends BasePresenter>
 
   @override
   void initState() {
-    presenter.getCurrentUser();
     super.initState();
   }
 

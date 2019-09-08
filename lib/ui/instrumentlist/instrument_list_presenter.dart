@@ -1,21 +1,23 @@
 import 'package:gigtrack/base/base_presenter.dart';
-import 'package:gigtrack/server/models/error_response.dart';
 import 'package:gigtrack/server/models/instrument.dart';
-import 'package:gigtrack/server/models/instruments_list_response.dart';
 
-abstract class InstrumentListContract extends BaseContract {
-  void getInstruments(List<Instrument> list);
-}
+abstract class InstrumentListContract extends BaseContract {}
 
 class InstrumentListPresenter extends BasePresenter {
   InstrumentListPresenter(BaseContract view) : super(view);
 
-  void getInstruments() async {
-    final res = await serverAPI.getInstruments();
-    if (res is InstrumentListResponse) {
-      (view as InstrumentListContract).getInstruments(res.data);
-    } else if (res is ErrorResponse) {
-      view.showMessage(res.message);
-    }
+  Stream<List<Instrument>> getList() {
+    return serverAPI.equipmentsDB
+        .orderByChild('user_id')
+        .equalTo(serverAPI.currentUserId)
+        .onValue
+        .map((a) {
+      Map mp = a.snapshot.value;
+      List<Instrument> acc = [];
+      for (var d in mp.values) {
+        acc.add(Instrument.fromJSON(d));
+      }
+      return acc;
+    });
   }
 }

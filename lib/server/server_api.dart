@@ -2,31 +2,32 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:gigtrack/server/models/activities.dart';
 import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/server/models/error_response.dart';
-import 'package:gigtrack/server/models/get_contact_list_response.dart';
 import 'package:gigtrack/server/models/instrument.dart';
 import 'package:gigtrack/server/models/note_todo_response.dart';
 import 'package:gigtrack/server/models/notestodo.dart';
 import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/utils/network_utils.dart';
+import 'package:path/path.dart';
 
-import 'models/add_contact_response.dart';
-import 'models/add_instrument_response.dart';
 import 'models/add_playing_style_response.dart';
 import 'models/band_member_add_response.dart';
 import 'models/forgot_password_response.dart';
-import 'models/instruments_list_response.dart';
 import 'models/notes_todo_list_response.dart';
 import 'models/notification_list_response.dart';
 import 'models/playing_style_response.dart';
-import 'models/search_user_response.dart';
 import 'models/update_activity_bandmember_status.dart';
 
 class ServerAPI {
   static final ServerAPI _serverApi = new ServerAPI._internal();
+
+  StorageReference equipmentRef;
+
+  StorageReference contactsRef;
 
   factory ServerAPI() {
     return _serverApi;
@@ -41,19 +42,27 @@ class ServerAPI {
 
   FirebaseAuth _auth;
   DatabaseReference userDB;
-  DatabaseReference activitiesDB, bandDB;
+  DatabaseReference activitiesDB, bandDB, equipmentsDB, contactDB;
+  String currentUserId;
 
   ServerAPI._internal() {
     _auth = FirebaseAuth.instance;
+    StorageReference storageRef = FirebaseStorage.instance.ref();
+    equipmentRef = storageRef.child("Equipments");
+    contactsRef = storageRef.child("Contacts");
     DatabaseReference _mainFirebaseDatabase =
         FirebaseDatabase.instance.reference().child("Gigtrack");
     userDB = _mainFirebaseDatabase.child("users");
     activitiesDB = _mainFirebaseDatabase.child("activities");
     bandDB = _mainFirebaseDatabase.child("bands");
+    equipmentsDB = _mainFirebaseDatabase.child("equipments");
+    contactDB = _mainFirebaseDatabase.child("contacts");
+    getCurrentUser();
   }
 
   Future<FirebaseUser> getCurrentUser() async {
     FirebaseUser user = await _auth.currentUser();
+    currentUserId = user?.uid;
     return user;
   }
 
@@ -62,6 +71,7 @@ class ServerAPI {
       final res = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       final lRes = res.user;
+      await getCurrentUser();
       return lRes;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
@@ -107,42 +117,36 @@ class ServerAPI {
 
   Future<dynamic> addContact(Contacts contacts) async {
     try {
-      Map<String, File> files = new Map();
-      for (var i = 0; i < contacts.files.length; i++) {
-        File ff = contacts.files[i];
-        files['media$i'] = ff;
+      for (File file in contacts.files) {
+        String basename = extension(file.path);
+        final StorageUploadTask uploadTask = contactsRef
+            .child("${DateTime.now().toString()}$basename")
+            .putFile(file);
+        StorageTaskSnapshot snapshot = await uploadTask.onComplete;
+        String url = await snapshot.ref.getDownloadURL();
+        print("SD-> $url");
+        contacts.uploadedFiles.add(url);
       }
-      final res = await _netUtil.upload(_baseUrl + "contact/add", files,
-          contacts.toStringMap(), _headers, "POST");
-      return AddContactResponse.fromJSON(res);
+      contacts.files = [];
+      bool isUpdate = true;
+      if (contacts.id == null || contacts.id.isEmpty) {
+        String id = equipmentsDB.push().key;
+        contacts.id = id;
+        isUpdate = false;
+      }
+      await contactDB.child(contacts.id).set(contacts.toMap());
+      return isUpdate;
     } catch (e) {
       print(e);
       return ErrorResponse.fromJSON(e.message);
     }
   }
 
-  Future<dynamic> getContacts() async {
-    try {
-      final res = await _netUtil.get(
-        _baseUrl + "contact",
-        headers: _headers,
-      );
-      return GetContactListResponse.fromJSON(res);
-    } catch (e) {
-      return ErrorResponse.fromJSON(e.message);
-    }
-  }
-
   Future<dynamic> getContactDetails(String id) async {
     try {
-      final res = await _netUtil.post(
-        _baseUrl + "contact/get_contacts",
-        headers: _headers,
-        body: {
-          "id": id,
-        },
-      );
-      return GetContactListResponse.fromJSON(res);
+      DataSnapshot dataSnapshot = await contactDB.child(id).once();
+      Contacts band = Contacts.fromJSON(dataSnapshot.value);
+      return band;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }
@@ -192,20 +196,26 @@ class ServerAPI {
 
   Future<dynamic> addInstrument(Instrument instrument) async {
     try {
-      Map<String, File> files = Map();
-      if (instrument.files?.isNotEmpty ?? false) {
-        files["equipment"] = instrument.files[0];
+      for (File file in instrument.files) {
+        String basename = extension(file.path);
+        final StorageUploadTask uploadTask = equipmentRef
+            .child("${DateTime.now().toString()}$basename")
+            .putFile(file);
+        StorageTaskSnapshot snapshot = await uploadTask.onComplete;
+        String url = await snapshot.ref.getDownloadURL();
+        print("SD-> $url");
+        instrument.uploadedFiles.add(url);
+      }
+      instrument.files = [];
+      bool isUpdate = true;
+      if (instrument.id == null || instrument.id.isEmpty) {
+        String id = equipmentsDB.push().key;
+        instrument.id = id;
+        isUpdate = false;
       }
 
-      final res = instrument.id.isEmpty
-          ? await _netUtil.upload(_baseUrl + "equipments/add", files,
-              instrument.toStringMap(), _headers, "POST")
-          : await _netUtil.post(
-              _baseUrl + "equipments/edit/${instrument.id}",
-              headers: _headers,
-              body: instrument.toMap(),
-            );
-      return AddInstrumentResponse.fromJSON(res);
+      await equipmentsDB.child(instrument.id).set(instrument.toMap());
+      return isUpdate;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }
@@ -228,28 +238,10 @@ class ServerAPI {
     }
   }
 
-  Future<dynamic> getInstruments() async {
-    try {
-      final res = await _netUtil.get(
-        _baseUrl + "equipments",
-        headers: _headers,
-      );
-      return InstrumentListResponse.fromJSON(res);
-    } catch (e) {
-      return ErrorResponse.fromJSON(e.message);
-    }
-  }
-
   Future<dynamic> getInstrumentDetails(String id) async {
     try {
-      final res = await _netUtil.post(
-        _baseUrl + "equipments/single",
-        headers: _headers,
-        body: {
-          "id": id,
-        },
-      );
-      return InstrumentListResponse.fromJSON(res);
+      DataSnapshot dataSnapshot = await equipmentsDB.child(id).once();
+      return Instrument.fromJSON(dataSnapshot.value);
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }

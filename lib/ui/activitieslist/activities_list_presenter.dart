@@ -9,11 +9,11 @@ class ActivitiesListPresenter extends BasePresenter {
   Stream<List<Activites>> getList() {
     return serverAPI.activitiesDB
         .orderByChild('user_id')
-        .equalTo(currentUserId)
+        .equalTo(serverAPI.currentUserId)
         .onValue
         .map((a) {
       Map mp = a.snapshot.value;
-      List<Activites> acc=[];
+      List<Activites> acc = [];
       for (var d in mp.values) {
         acc.add(Activites.fromJSON(d));
       }

@@ -23,9 +23,11 @@ class AddBandPresenter extends BasePresenter {
       name: bname,
       website: website,
     );
+    band.userId = serverAPI.currentUserId;
     if (id != null) {
       band.id = id;
     }
+
     final res = await serverAPI.addBand(band);
     print("REs-> $res");
     if (res is bool) {

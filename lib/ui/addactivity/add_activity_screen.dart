@@ -921,8 +921,6 @@ class _AddActivityScreenState
                                       type: _userType,
                                       action_type: _type,
                                     );
-                                    activities.userId =
-                                        presenter.getCurrentUserId();
                                     showLoading();
                                     presenter.addActivity(activities);
                                   }

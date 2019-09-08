@@ -8,16 +8,17 @@ class Instrument extends BaseModel {
   String user_id;
   String name;
   String purchased_from;
-  String purchased_date;
+  int purchased_date;
   String serial_number;
   String warranty;
-  String warranty_end_date;
+  int warranty_end_date;
   String warranty_reference;
   String warranty_phone;
   String photo;
-  String is_insured;
+  bool is_insured;
   String image;
   List<File> files = [];
+  List<String> uploadedFiles = [];
 
   Instrument(
       {this.band_id,
@@ -49,6 +50,9 @@ class Instrument extends BaseModel {
     this.warranty_phone = data['warranty_phone'];
     this.warranty_reference = data['warranty_reference'];
     this.image = data['image'];
+    for (var d in data['uploadedFiles']) {
+      this.uploadedFiles.add(d);
+    }
   }
 
   @override
@@ -56,7 +60,7 @@ class Instrument extends BaseModel {
     final data = super.toMap();
     data['band_id'] = band_id ?? "";
     data['id'] = id ?? "";
-    data['is_insured'] = is_insured ?? "";
+    data['is_insured'] = is_insured ?? false;
     data['name'] = name ?? "";
     data['photo'] = photo ?? "";
     data['purchased_date'] = purchased_date ?? "";
@@ -68,24 +72,7 @@ class Instrument extends BaseModel {
     data['warranty_phone'] = warranty_phone ?? "";
     data['warranty_reference'] = warranty_reference ?? "";
     data['image'] = image;
-    return data;
-  }
-
-  Map<String, String> toStringMap() {
-    Map<String, String> data = Map();
-    data['band_id'] = band_id ?? "";
-    data['id'] = id ?? "";
-    data['is_insured'] = is_insured ?? "";
-    data['name'] = name ?? "";
-    data['photo'] = photo ?? "";
-    data['purchased_date'] = purchased_date ?? "";
-    data['purchased_from'] = purchased_from ?? "";
-    data['serial_number'] = serial_number ?? "";
-    data['user_id'] = user_id ?? "";
-    data['warranty'] = warranty ?? "";
-    data['warranty_end_date'] = warranty_end_date ?? "";
-    data['warranty_phone'] = warranty_phone ?? "";
-    data['warranty_reference'] = warranty_reference ?? "";
+    data['uploadedFiles'] = uploadedFiles;
     return data;
   }
 }

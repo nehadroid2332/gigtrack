@@ -25,6 +25,7 @@ class AddActivityPresenter extends BasePresenter {
   }
 
   void addActivity(Activites activities) async {
+    activities.userId = serverAPI.currentUserId;
     final res = await serverAPI.addActivities(activities);
     if (res is bool) {
       if (!res)

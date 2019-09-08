@@ -11,7 +11,7 @@ class BandListPresenter extends BasePresenter {
   Stream<List<Band>> getBands() {
     return serverAPI.bandDB
         .orderByChild('user_id')
-        .equalTo(currentUserId)
+        .equalTo(serverAPI.currentUserId)
         .onValue
         .map((a) {
       Map mp = a.snapshot.value;

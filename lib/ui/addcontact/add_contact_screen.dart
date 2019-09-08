@@ -41,6 +41,8 @@ class _AddContactScreenState
 
   var _relationshipType = "Agent";
 
+  DateTime selectedDate;
+
   @override
   void initState() {
     super.initState();
@@ -237,14 +239,17 @@ class _AddContactScreenState
                           Expanded(
                             child: Text("Dates to Remember"),
                           ),
-                          IconButton(
-                            icon: Icon(Icons.add),
-                            onPressed: () {
-                              setState(() {
-                                _dateToRememberItems.add(DateToRememberData());
-                              });
-                            },
-                          )
+                          widget.id.isEmpty
+                              ? IconButton(
+                                  icon: Icon(Icons.add),
+                                  onPressed: () {
+                                    setState(() {
+                                      _dateToRememberItems
+                                          .add(DateToRememberData());
+                                    });
+                                  },
+                                )
+                              : Container()
                         ],
                       ),
                       Padding(
@@ -265,7 +270,7 @@ class _AddContactScreenState
                             _dateToRememberItems[index] = data;
                           });
                           _dateToRememberDateController.addListener(() {
-                            data.date = _dateToRememberDateController.text;
+                            data.date = selectedDate.millisecondsSinceEpoch;
                             _dateToRememberItems[index] = data;
                           });
                           void _handleDateToRememberValueChange(String value) {
@@ -276,7 +281,9 @@ class _AddContactScreenState
                           }
 
                           _dateToRememberController.text = data.type;
-                          _dateToRememberDateController.text = data.date;
+                          _dateToRememberDateController.text = formatDate(
+                              DateTime.fromMillisecondsSinceEpoch(data.date),
+                              [mm, '-', dd, '-', yy]);
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
@@ -321,6 +328,7 @@ class _AddContactScreenState
                                       lastDate: DateTime(2101));
                                   if (picked != null)
                                     setState(() {
+                                      selectedDate = picked;
                                       _dateToRememberDateController.text =
                                           formatDate(
                                               picked, [mm, '-', dd, '-', yy]);
@@ -462,6 +470,8 @@ class _AddContactScreenState
                                     contacts.phone = ph;
                                     contacts.text = txt;
                                     contacts.files = files;
+                                    contacts.dateToRemember =
+                                        _dateToRememberItems;
                                     presenter.addContact(contacts);
                                   }
                                 });
@@ -540,8 +550,9 @@ class _AddContactScreenState
     hideLoading();
     setState(() {
       uploadedFiles.clear();
-      if (data.media1?.isNotEmpty ?? false) uploadedFiles.add(data.media1);
-      if (data.media2?.isNotEmpty ?? false) uploadedFiles.add(data.media2);
+      uploadedFiles.addAll(data.uploadedFiles);
+      _dateToRememberItems.clear();
+      _dateToRememberItems.addAll(data.dateToRemember);
       _nameController.text = data.name;
       // _dateToRememberController.text = data.dateToRemember;
       _emailController.text = data.email;
@@ -550,9 +561,28 @@ class _AddContactScreenState
       _textController.text = data.text;
     });
   }
+
+  @override
+  void onUpdate() {
+    showMessage("Updated Successfully");
+  }
 }
 
 class DateToRememberData {
   String type = "Anniversary";
-  String date = formatDate(DateTime.now(), [mm, '-', dd, '-', yy]);
+  int date = DateTime.now().millisecondsSinceEpoch;
+
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> data = Map();
+    data['type'] = type;
+    data['date'] = date;
+    return data;
+  }
+
+  DateToRememberData();
+
+  DateToRememberData.fromJSON(item) {
+    type = item['type'];
+    date = item['date'];
+  }
 }

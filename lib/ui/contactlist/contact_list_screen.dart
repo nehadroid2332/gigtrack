@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
@@ -15,15 +14,14 @@ class ContactListScreen extends BaseScreen {
 class _ContactListScreenState
     extends BaseScreenState<ContactListScreen, ContactListPresenter>
     implements ContactListContract {
-  final _contacts = <Contacts>[];
+  List<Contacts> _contacts = <Contacts>[];
+
+  Stream<List<Contacts>> list;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      showLoading();
-      presenter.getContacts();
-    });
+    list = presenter.getContacts();
   }
 
   @override
@@ -49,51 +47,60 @@ class _ContactListScreenState
         padding: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[Row(children: <Widget>[
-            Image.asset(
-              'assets/images/contact_color.png',
-              height: 40,
-              width: 40,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Image.asset(
+                  'assets/images/contact_color.png',
+                  height: 40,
+                  width: 40,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 15),
+                ),
+                Text(
+                  "Contacts",
+                  style: textTheme.display1.copyWith(
+                      color: Color.fromRGBO(82, 149, 171, 1.0),
+                      fontSize: 28,
+                      fontWeight: FontWeight.w500),
+                  textAlign: TextAlign.left,
+                ),
+              ],
             ),
-            Padding(padding: EdgeInsets.only(left: 15),),
-            Text(
-              "Contacts",
-              style: textTheme.display1.copyWith(
-                  color: Color.fromRGBO(82, 149, 171, 1.0),
-                  fontSize: 28,
-                  fontWeight: FontWeight.w500),
-              textAlign: TextAlign.left,
-            ),
-          ],),
             Padding(
               padding: EdgeInsets.all(4),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: _contacts.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final cnt = _contacts[index];
-                  return Card(
-                    color: Color.fromRGBO(82, 149, 171, 1.0),
-                    margin: EdgeInsets.all(6),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15)),
-                    child: InkWell(
-                      child: Padding(
-                        padding: EdgeInsets.all(15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "${cnt.name}",
-                              style: textTheme.headline.copyWith(
-                                color: Colors.white,
-                                fontSize: 18
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(0),
-                            ),
+              child: StreamBuilder<List<Contacts>>(
+                stream: list,
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    _contacts = snapshot.data;
+                  }
+                  return ListView.builder(
+                    itemCount: _contacts.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final cnt = _contacts[index];
+                      return Card(
+                        color: Color.fromRGBO(82, 149, 171, 1.0),
+                        margin: EdgeInsets.all(6),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15)),
+                        child: InkWell(
+                          child: Padding(
+                            padding: EdgeInsets.all(15),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  "${cnt.name}",
+                                  style: textTheme.headline.copyWith(
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(0),
+                                ),
 //                            Text(
 //                              "${bnd.musicStyle}",
 //                              style: TextStyle(
@@ -101,14 +108,16 @@ class _ContactListScreenState
 //                                color: Color.fromRGBO(149, 121, 218, 1.0),
 //                              ),
 //                            ),
-                          ],
+                              ],
+                            ),
+                          ),
+                          onTap: () {
+                            widget.appListener.router.navigateTo(context,
+                                Screens.ADDCONTACT.toString() + "/${cnt.id}");
+                          },
                         ),
-                      ),
-                      onTap: () {
-                        widget.appListener.router.navigateTo(context,
-                            Screens.ADDCONTACT.toString() + "/${cnt.id}");
-                      },
-                    ),
+                      );
+                    },
                   );
                 },
               ),
@@ -120,8 +129,6 @@ class _ContactListScreenState
         onPressed: () async {
           await widget.appListener.router
               .navigateTo(context, Screens.ADDCONTACT.toString() + "/");
-          // showLoading();
-          // presenter.getBands();
         },
         child: Icon(Icons.add),
         backgroundColor: Color.fromRGBO(82, 149, 171, 1.0),
@@ -131,13 +138,4 @@ class _ContactListScreenState
 
   @override
   ContactListPresenter get presenter => ContactListPresenter(this);
-
-  @override
-  void onContactListSuccess(List<Contacts> contacts) {
-    hideLoading();
-    setState(() {
-      this._contacts.clear();
-      this._contacts.addAll(contacts);
-    });
-  }
 }

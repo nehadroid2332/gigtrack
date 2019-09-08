@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:gigtrack/base/base_model.dart';
+import 'package:gigtrack/ui/addcontact/add_contact_screen.dart';
 
 class Contacts extends BaseModel {
   String name;
@@ -8,10 +9,9 @@ class Contacts extends BaseModel {
   String phone;
   String text;
   String email;
-  String dateToRemember;
+  List<DateToRememberData> dateToRemember=[];
   String id;
-  String media1, media2;
-
+  String user_id;
   List<File> files = [];
   List<String> uploadedFiles = [];
 
@@ -23,10 +23,18 @@ class Contacts extends BaseModel {
     phone = data['phone'];
     text = data['text'];
     email = data['email'];
-    dateToRemember = data['date_to_remember'];
     id = data['id'];
-    media1 = data['media1'];
-    media2 = data['media2'];
+    user_id = data['user_id'];
+    if (data['uploadedFiles'] != null) {
+      for (String item in data['uploadedFiles']) {
+        uploadedFiles.add(item);
+      }
+    }
+    if (data['date_to_remember'] != null) {
+      for (var item in data['date_to_remember']) {
+        dateToRemember.add(DateToRememberData.fromJSON(item));
+      }
+    }
   }
 
   @override
@@ -37,18 +45,14 @@ class Contacts extends BaseModel {
     data['phone'] = phone;
     data['text'] = text;
     data['email'] = email;
-    data['date_to_remember'] = dateToRemember;
-    return data;
-  }
-
-  Map<String, String> toStringMap() {
-    Map<String, String> data = Map();
-    data['name'] = name;
-    data['relationship'] = relationship;
-    data['phone'] = phone;
-    data['text'] = text;
-    data['email'] = email;
-    data['date_to_remember'] = dateToRemember;
+    List<dynamic> dtR = [];
+    for (var item in dateToRemember) {
+      dtR.add(item.toMap());
+    }
+    data['date_to_remember'] = dtR;
+    data['uploadedFiles'] = uploadedFiles;
+    data['user_id'] = user_id;
+    data['id'] = id;
     return data;
   }
 }
