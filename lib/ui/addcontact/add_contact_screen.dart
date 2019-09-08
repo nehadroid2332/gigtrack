@@ -116,28 +116,53 @@ class _AddContactScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      TextField(
-                        enabled: widget.id.isEmpty,
-                        textCapitalization: TextCapitalization.sentences,
-                        controller: _nameController,
-                        decoration: InputDecoration(
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          labelText: "Name",
-                          errorText: _errorName,
-                          border: widget.id.isEmpty ? null : InputBorder.none,
-                        ),
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                      ),
+                      widget.id.isEmpty
+                          ? Container()
+                          : Text(
+                              "Name",
+                              textAlign: widget.id.isEmpty
+                                  ? TextAlign.left
+                                  : TextAlign.center,
+                              style: textTheme.subtitle.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                      widget.id.isEmpty
+                          ? TextField(
+                              enabled: widget.id.isEmpty,
+                              textCapitalization: TextCapitalization.sentences,
+                              controller: _nameController,
+                              decoration: InputDecoration(
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                labelText: "Name",
+                                errorText: _errorName,
+                                border:
+                                    widget.id.isEmpty ? null : InputBorder.none,
+                              ),
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                            )
+                          : Text(
+                              _nameController.text,
+                              textAlign: TextAlign.center,
+                            ),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      Text("Relationship"),
+                      Text(
+                        "Relationship",
+                        textAlign: widget.id.isEmpty
+                            ? TextAlign.left
+                            : TextAlign.center,
+                        style: textTheme.subtitle.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: EdgeInsets.all(widget.id.isEmpty ? 5 : 0),
                       ),
                       widget.id.isEmpty
                           ? DropdownButton<String>(
@@ -154,7 +179,7 @@ class _AddContactScreenState
                       Padding(
                         padding: EdgeInsets.all(3),
                       ),
-                      _relationshipType == "Other" || widget.id.isNotEmpty
+                      _relationshipType == "Other" || widget.id.isEmpty
                           ? TextField(
                               enabled: widget.id.isEmpty,
                               controller: _relationshipController,
@@ -172,72 +197,133 @@ class _AddContactScreenState
                                 color: Colors.black,
                               ),
                             )
-                          : Container(),
+                          : Text(
+                              _relationshipController.text,
+                              textAlign: TextAlign.center,
+                            ),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      TextField(
-                        enabled: widget.id.isEmpty,
-                        controller: _phoneController,
-                        keyboardType: TextInputType.phone,
-                        textCapitalization: TextCapitalization.sentences,
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                        decoration: InputDecoration(
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          labelText: "Phone",
-                          errorText: _errorPhone,
-                          border: widget.id.isEmpty ? null : InputBorder.none,
-                        ),
-                      ),
+                      widget.id.isEmpty
+                          ? Container()
+                          : Text(
+                              "Phone",
+                              textAlign: widget.id.isEmpty
+                                  ? TextAlign.left
+                                  : TextAlign.center,
+                              style: textTheme.subtitle.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                      widget.id.isEmpty
+                          ? TextField(
+                              enabled: widget.id.isEmpty,
+                              controller: _phoneController,
+                              keyboardType: TextInputType.phone,
+                              textCapitalization: TextCapitalization.sentences,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                labelText: "Phone",
+                                errorText: _errorPhone,
+                                border:
+                                    widget.id.isEmpty ? null : InputBorder.none,
+                              ),
+                            )
+                          : Text(
+                              _phoneController.text,
+                              textAlign: TextAlign.center,
+                            ),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      TextField(
-                        enabled: widget.id.isEmpty,
-                        controller: _textController,
-                        textCapitalization: TextCapitalization.sentences,
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                        decoration: InputDecoration(
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          labelText: "Mobile/Text",
-                          errorText: _errorText,
-                          border: widget.id.isEmpty ? null : InputBorder.none,
-                        ),
-                      ),
+                      widget.id.isEmpty
+                          ? Container()
+                          : Text(
+                              "Mobile/Text",
+                              textAlign: widget.id.isEmpty
+                                  ? TextAlign.left
+                                  : TextAlign.center,
+                              style: textTheme.subtitle.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                      widget.id.isEmpty
+                          ? TextField(
+                              enabled: widget.id.isEmpty,
+                              controller: _textController,
+                              textCapitalization: TextCapitalization.sentences,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                labelText: "Mobile/Text",
+                                errorText: _errorText,
+                                border:
+                                    widget.id.isEmpty ? null : InputBorder.none,
+                              ),
+                            )
+                          : Text(
+                              _textController.text,
+                              textAlign: TextAlign.center,
+                            ),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      TextField(
-                        enabled: widget.id.isEmpty,
-                        controller: _emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                        decoration: InputDecoration(
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          labelText: "Email",
-                          errorText: _errorEmail,
-                          border: widget.id.isEmpty ? null : InputBorder.none,
-                        ),
-                      ),
+                      widget.id.isEmpty
+                          ? Container()
+                          : Text(
+                              "Email",
+                              textAlign: widget.id.isEmpty
+                                  ? TextAlign.left
+                                  : TextAlign.center,
+                              style: textTheme.subtitle.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                      widget.id.isEmpty
+                          ? TextField(
+                              enabled: widget.id.isEmpty,
+                              controller: _emailController,
+                              keyboardType: TextInputType.emailAddress,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                labelText: "Email",
+                                errorText: _errorEmail,
+                                border:
+                                    widget.id.isEmpty ? null : InputBorder.none,
+                              ),
+                            )
+                          : Text(
+                              _emailController.text,
+                              textAlign: TextAlign.center,
+                            ),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
                       Row(
                         children: <Widget>[
                           Expanded(
-                            child: Text("Dates to Remember"),
+                            child: Text(
+                              "Dates to Remember",
+                              style: textTheme.subtitle
+                                  .copyWith(fontWeight: FontWeight.bold),
+                              textAlign: widget.id.isEmpty
+                                  ? TextAlign.left
+                                  : TextAlign.center,
+                            ),
                           ),
                           widget.id.isEmpty
                               ? IconButton(
@@ -285,18 +371,26 @@ class _AddContactScreenState
                               DateTime.fromMillisecondsSinceEpoch(data.date),
                               [mm, '-', dd, '-', yy]);
                           return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: widget.id.isEmpty
+                                ? CrossAxisAlignment.start
+                                : CrossAxisAlignment.center,
                             children: <Widget>[
-                              DropdownButton<String>(
-                                items: dateToRemember.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                                onChanged: _handleDateToRememberValueChange,
-                                value: data.type,
-                              ),
+                              widget.id.isEmpty
+                                  ? DropdownButton<String>(
+                                      items: dateToRemember.map((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      }).toList(),
+                                      onChanged:
+                                          _handleDateToRememberValueChange,
+                                      value: data.type,
+                                    )
+                                  : Text(
+                                      data.type,
+                                      textAlign: TextAlign.center,
+                                    ),
                               data.type == "Other"
                                   ? TextField(
                                       enabled: widget.id.isEmpty,
@@ -319,52 +413,65 @@ class _AddContactScreenState
                                       ),
                                     )
                                   : Container(),
-                              GestureDetector(
-                                onTap: () async {
-                                  final DateTime picked = await showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(2015, 8),
-                                      lastDate: DateTime(2101));
-                                  if (picked != null)
-                                    setState(() {
-                                      selectedDate = picked;
-                                      _dateToRememberDateController.text =
-                                          formatDate(
-                                              picked, [mm, '-', dd, '-', yy]);
-                                    });
-                                },
-                                child: AbsorbPointer(
-                                  child: TextField(
-                                    enabled: widget.id.isEmpty,
-                                    controller: _dateToRememberDateController,
-                                    textCapitalization:
-                                        TextCapitalization.sentences,
-                                    decoration: InputDecoration(
-                                      labelStyle: TextStyle(
-                                        color:
-                                            Color.fromRGBO(202, 208, 215, 1.0),
+                              widget.id.isEmpty
+                                  ? GestureDetector(
+                                      onTap: () async {
+                                        final DateTime picked =
+                                            await showDatePicker(
+                                                context: context,
+                                                initialDate: DateTime.now(),
+                                                firstDate: DateTime(2015, 8),
+                                                lastDate: DateTime(2101));
+                                        if (picked != null)
+                                          setState(() {
+                                            selectedDate = picked;
+                                            _dateToRememberDateController.text =
+                                                formatDate(picked,
+                                                    [mm, '-', dd, '-', yy]);
+                                          });
+                                      },
+                                      child: AbsorbPointer(
+                                        child: TextField(
+                                          enabled: widget.id.isEmpty,
+                                          controller:
+                                              _dateToRememberDateController,
+                                          textCapitalization:
+                                              TextCapitalization.sentences,
+                                          decoration: InputDecoration(
+                                            labelStyle: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  202, 208, 215, 1.0),
+                                            ),
+                                            labelText: widget.id.isNotEmpty
+                                                ? ""
+                                                : "Date",
+                                            border: widget.id.isEmpty
+                                                ? null
+                                                : InputBorder.none,
+                                          ),
+                                          style: textTheme.subhead.copyWith(
+                                            color: Colors.black,
+                                          ),
+                                        ),
                                       ),
-                                      labelText:
-                                          widget.id.isNotEmpty ? "" : "Date",
-                                      border: widget.id.isEmpty
-                                          ? null
-                                          : InputBorder.none,
-                                    ),
-                                    style: textTheme.subhead.copyWith(
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              )
+                                    )
+                                  : Text(_dateToRememberDateController.text)
                             ],
                           );
                         },
                       ),
+                      Padding(
+                        padding: EdgeInsets.all(4),
+                      ),
                       Row(
                         children: <Widget>[
                           Expanded(
-                            child: Text("Add Picture"),
+                            child: Text(
+                              "${widget.id.isEmpty ? 'Add' : ''} Pictures",
+                              style: textTheme.subhead.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                           widget.id.isEmpty
                               ? IconButton(
@@ -512,7 +619,7 @@ class _AddContactScreenState
                     await ImagePicker.pickImage(source: ImageSource.camera);
 
                 setState(() {
-                  files.add(image);
+                  if (image != null) files.add(image);
                 });
               },
             ),
@@ -523,7 +630,7 @@ class _AddContactScreenState
                 var image =
                     await ImagePicker.pickImage(source: ImageSource.gallery);
                 setState(() {
-                  files.add(image);
+                  if (image != null) files.add(image);
                 });
               },
             ),
