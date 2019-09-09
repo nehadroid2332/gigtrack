@@ -1,10 +1,10 @@
 import 'package:gigtrack/base/base_model.dart';
 
 class NotesTodo extends BaseModel {
-  String type;
+  int type;
   String description;
-  String start_date;
-  String end_date;
+  int start_date;
+  int end_date;
   String id;
   String user_id;
 
@@ -22,10 +22,10 @@ class NotesTodo extends BaseModel {
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> data = super.toMap();
-    data['type'] = "$type";
+    data['type'] = type;
     data['description'] = description ?? "";
-    data['start_date'] = start_date ?? "";
-    data['end_date'] = end_date ?? "";
+    data['start_date'] = start_date ?? 0;
+    data['end_date'] = end_date ?? 0;
     data['id'] = id ?? "";
     data['user_id'] = user_id ?? "";
     return data;

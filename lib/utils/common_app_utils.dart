@@ -235,10 +235,8 @@ Widget buildActivityListItem(Activites ac,
 }
 
 Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
-  DateTime stDate =
-      DateTime.fromMillisecondsSinceEpoch(int.parse(not.start_date) * 1000);
-  DateTime endDate =
-      DateTime.fromMillisecondsSinceEpoch(int.parse(not.end_date) * 1000);
+  DateTime stDate = DateTime.fromMillisecondsSinceEpoch((not.start_date));
+  DateTime endDate = DateTime.fromMillisecondsSinceEpoch((not.end_date));
 
   return Card(
     margin: EdgeInsets.all(10),

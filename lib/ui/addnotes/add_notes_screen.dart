@@ -2,7 +2,6 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
-import 'package:gigtrack/server/models/note_todo_response.dart';
 import 'package:gigtrack/server/models/notestodo.dart';
 import 'package:gigtrack/ui/addnotes/add_notes_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
@@ -54,25 +53,26 @@ class _AddNotesScreenState
       });
     }
   }
+
   bool isEdit = false;
 
   @override
   AppBar get appBar => AppBar(
-    elevation: 0,
-    backgroundColor: Color.fromRGBO(105, 114, 98, 1.0),
-    actions: <Widget>[
-      widget.id.isEmpty
-          ? Container()
-          : IconButton(
-        icon: Icon(Icons.edit),
-        onPressed: () {
-          setState(() {
-            isEdit = !isEdit;
-          });
-        },
-      )
-    ],
-  );
+        elevation: 0,
+        backgroundColor: Color.fromRGBO(105, 114, 98, 1.0),
+        actions: <Widget>[
+          widget.id.isEmpty
+              ? Container()
+              : IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    setState(() {
+                      isEdit = !isEdit;
+                    });
+                  },
+                )
+        ],
+      );
 
   @override
   Widget buildBody() {
@@ -340,11 +340,27 @@ class _AddNotesScreenState
                                   } else if (endTime.isEmpty) {
                                     _endTimeError = "Cannot be Empty";
                                   } else {
+                                    DateTime start = DateTime(
+                                        selectedStartDate.year,
+                                        selectedStartDate.month,
+                                        selectedStartDate.day,
+                                        selectedStartTime.hour,
+                                        selectedStartTime.minute);
+                                    DateTime end;
+                                    if (endDate != null) {
+                                      end = DateTime(
+                                          selectedEndDate.year,
+                                          selectedEndDate.month,
+                                          selectedEndDate.day,
+                                          selectedEndTime.hour,
+                                          selectedEndTime.minute);
+                                    }
                                     NotesTodo notesTodo = NotesTodo(
                                       description: desc,
-                                      end_date: endDate,
-                                      start_date: stDate,
-                                      type: _type.toString(),
+                                      end_date:
+                                          end?.millisecondsSinceEpoch ?? 0,
+                                      start_date: start.millisecondsSinceEpoch,
+                                      type: _type,
                                     );
                                     showLoading();
                                     presenter.addNotes(notesTodo);
@@ -421,10 +437,10 @@ class _AddNotesScreenState
   AddNotesPresenter get presenter => AddNotesPresenter(this);
 
   @override
-  void onSuccess(NoteTodoResponse res) {
+  void onSuccess() {
     if (!mounted) return;
     hideLoading();
-    showMessage(res.message);
+    showMessage("Created Successfully");
     Navigator.of(context).pop();
   }
 
@@ -433,10 +449,8 @@ class _AddNotesScreenState
     hideLoading();
     setState(() {
       _descController.text = note.description;
-      DateTime stDate =
-          DateTime.fromMillisecondsSinceEpoch(int.parse(note.start_date));
-      DateTime endDate =
-          DateTime.fromMillisecondsSinceEpoch(int.parse(note.end_date));
+      DateTime stDate = DateTime.fromMillisecondsSinceEpoch((note.start_date));
+      DateTime endDate = DateTime.fromMillisecondsSinceEpoch((note.end_date));
       _startDateController.text =
           "${formatDate(stDate, [yyyy, '-', mm, '-', dd])}";
       _endDateController.text =
@@ -446,5 +460,10 @@ class _AddNotesScreenState
       _endTimeController.text =
           "${formatDate(endDate, [HH, ':', nn, ':', ss])}";
     });
+  }
+
+  @override
+  void onUpdate() {
+    showMessage("Updated Successfully");
   }
 }

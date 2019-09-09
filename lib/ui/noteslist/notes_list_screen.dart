@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
@@ -16,15 +15,14 @@ class NotesListScreen extends BaseScreen {
 class _NotesListScreenState
     extends BaseScreenState<NotesListScreen, NotesListPresenter>
     implements NotesListContract {
-  final _notes = <NotesTodo>[];
+  List<NotesTodo> _notes = <NotesTodo>[];
+
+  Stream<List<NotesTodo>> list;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      showLoading();
-      presenter.getNotes();
-    });
+    list = presenter.getList();
   }
 
   @override
@@ -57,20 +55,27 @@ class _NotesListScreenState
                 color: Color.fromRGBO(105, 114, 98, 1.0),
               ),
             ),
-            
             Padding(
               padding: EdgeInsets.all(10),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: _notes.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final not = _notes[index];
-                  return buildNoteListItem(not, Color.fromRGBO(105, 114, 98, 1.0),
-                      onTap: () {
-                    widget.appListener.router.navigateTo(
-                        context, Screens.ADDNOTE.toString() + "/${not.id}");
-                  });
+              child: StreamBuilder<List<NotesTodo>>(
+                stream: list,
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    _notes = snapshot.data;
+                  }
+                  return ListView.builder(
+                    itemCount: _notes.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final not = _notes[index];
+                      return buildNoteListItem(
+                          not, Colors.white, onTap: () {
+                        widget.appListener.router.navigateTo(
+                            context, Screens.ADDNOTE.toString() + "/${not.id}");
+                      });
+                    },
+                  );
                 },
               ),
             )
@@ -81,8 +86,6 @@ class _NotesListScreenState
         onPressed: () async {
           await widget.appListener.router
               .navigateTo(context, Screens.ADDNOTE.toString() + "/");
-          showLoading();
-          presenter.getNotes();
         },
         backgroundColor: Color.fromRGBO(105, 114, 98, 1.0),
         child: Icon(Icons.add),
@@ -92,14 +95,4 @@ class _NotesListScreenState
 
   @override
   NotesListPresenter get presenter => NotesListPresenter(this);
-
-  @override
-  void getNotes(List<NotesTodo> data) {
-    if (!mounted) return;
-    hideLoading();
-    setState(() {
-      _notes.clear();
-      _notes.addAll(data);
-    });
-  }
 }

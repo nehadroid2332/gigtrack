@@ -8,7 +8,6 @@ import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/server/models/error_response.dart';
 import 'package:gigtrack/server/models/instrument.dart';
-import 'package:gigtrack/server/models/note_todo_response.dart';
 import 'package:gigtrack/server/models/notestodo.dart';
 import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/utils/network_utils.dart';
@@ -17,7 +16,6 @@ import 'package:path/path.dart';
 import 'models/add_playing_style_response.dart';
 import 'models/band_member_add_response.dart';
 import 'models/forgot_password_response.dart';
-import 'models/notes_todo_list_response.dart';
 import 'models/notification_list_response.dart';
 import 'models/playing_style_response.dart';
 import 'models/update_activity_bandmember_status.dart';
@@ -28,6 +26,8 @@ class ServerAPI {
   StorageReference equipmentRef;
 
   StorageReference contactsRef;
+
+  DatabaseReference notesDB;
 
   factory ServerAPI() {
     return _serverApi;
@@ -57,6 +57,7 @@ class ServerAPI {
     bandDB = _mainFirebaseDatabase.child("bands");
     equipmentsDB = _mainFirebaseDatabase.child("equipments");
     contactDB = _mainFirebaseDatabase.child("contacts");
+    notesDB = _mainFirebaseDatabase.child("notes");
     getCurrentUser();
   }
 
@@ -76,13 +77,6 @@ class ServerAPI {
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }
-  }
-
-  void setUpHeaderAfterLogin(String userId, String token) {
-    _headers['User-ID'] = userId;
-    _headers['Authorization'] = token;
-    userId = userId;
-    token = token;
   }
 
   Future<dynamic> register(User user, File file) async {
@@ -168,12 +162,14 @@ class ServerAPI {
 
   Future<dynamic> addNotes(NotesTodo notesTodo) async {
     try {
-      final res = await _netUtil.post(
-        _baseUrl + "notes/add",
-        body: notesTodo.toMap(),
-        headers: _headers,
-      );
-      return NoteTodoResponse.fromJSON(res);
+      bool isUpdate = true;
+      if (notesTodo.id == null || notesTodo.id.isEmpty) {
+        String id = notesDB.push().key;
+        notesTodo.id = id;
+        isUpdate = false;
+      }
+      await notesDB.child(notesTodo.id).set(notesTodo.toMap());
+      return isUpdate;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }
@@ -203,7 +199,6 @@ class ServerAPI {
             .putFile(file);
         StorageTaskSnapshot snapshot = await uploadTask.onComplete;
         String url = await snapshot.ref.getDownloadURL();
-        print("SD-> $url");
         instrument.uploadedFiles.add(url);
       }
       instrument.files = [];
@@ -271,40 +266,10 @@ class ServerAPI {
     }
   }
 
-  Future<dynamic> getNotes() async {
-    try {
-      final res = await _netUtil.get(
-        _baseUrl + "notes/get_notes",
-        headers: _headers,
-      );
-      return GetNotesTodoListResponse.fromJSON(res);
-    } catch (e) {
-      return ErrorResponse.fromJSON(e.message);
-    }
-  }
-
   Future<dynamic> getNoteDetails(String id) async {
     try {
-      final res = await _netUtil.post(
-        _baseUrl + "notes/single",
-        headers: _headers,
-        body: {
-          "id": id,
-        },
-      );
-      return GetNotesTodoListResponse.fromJSON(res);
-    } catch (e) {
-      return ErrorResponse.fromJSON(e.message);
-    }
-  }
-
-  Future<dynamic> getTodos() async {
-    try {
-      final res = await _netUtil.get(
-        _baseUrl + "notes/get_todo",
-        headers: _headers,
-      );
-      return GetNotesTodoListResponse.fromJSON(res);
+      DataSnapshot dataSnapshot = await notesDB.child(id).once();
+      return NotesTodo.fromJSON(dataSnapshot.value);
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }
