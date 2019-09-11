@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/band.dart';
-import 'package:gigtrack/server/models/instrument.dart';
+import 'package:gigtrack/server/models/user_instrument.dart';
 import 'package:gigtrack/ui/addinstrument/add_instrument_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:image_picker/image_picker.dart';
@@ -1020,7 +1020,7 @@ class _AddInstrumentScreenState
                                   //   _errorWarrantyCompany = "Cannot be Empty";
                                   // }
                                   else {
-                                    Instrument instrument = Instrument(
+                                    UserInstrument instrument = UserInstrument(
                                       band_id: selectedBand?.id ?? "0",
                                       is_insured: _instrumentInsured,
                                       name: instrumentName,
@@ -1090,12 +1090,12 @@ class _AddInstrumentScreenState
 
   var id;
   @override
-  void getInstrumentDetails(Instrument instrument) {
+  void getInstrumentDetails(UserInstrument instrument) {
     hideLoading();
     setState(() {
       id = instrument.id;
       _instrumentNameController.text = instrument.name;
-      _instrumentInsured = instrument.is_insured == "1";
+      _instrumentInsured = instrument.is_insured;
       DateTime purchasedDate =
           DateTime.fromMillisecondsSinceEpoch((instrument.purchased_date));
       _purchaseDateController.text =

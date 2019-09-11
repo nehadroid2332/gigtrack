@@ -7,18 +7,16 @@ import 'package:gigtrack/server/models/activities.dart';
 import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/server/models/error_response.dart';
-import 'package:gigtrack/server/models/instrument.dart';
 import 'package:gigtrack/server/models/notestodo.dart';
 import 'package:gigtrack/server/models/user.dart';
+import 'package:gigtrack/server/models/user_playing_style.dart';
 import 'package:gigtrack/utils/network_utils.dart';
 import 'package:path/path.dart';
-
-import 'models/add_playing_style_response.dart';
 import 'models/band_member_add_response.dart';
 import 'models/forgot_password_response.dart';
 import 'models/notification_list_response.dart';
-import 'models/playing_style_response.dart';
 import 'models/update_activity_bandmember_status.dart';
+import 'models/user_instrument.dart';
 
 class ServerAPI {
   static final ServerAPI _serverApi = new ServerAPI._internal();
@@ -42,7 +40,11 @@ class ServerAPI {
 
   FirebaseAuth _auth;
   DatabaseReference userDB;
-  DatabaseReference activitiesDB, bandDB, equipmentsDB, contactDB;
+  DatabaseReference activitiesDB,
+      bandDB,
+      equipmentsDB,
+      contactDB,
+      playingStyleDB;
   String currentUserId;
 
   ServerAPI._internal() {
@@ -58,6 +60,7 @@ class ServerAPI {
     equipmentsDB = _mainFirebaseDatabase.child("equipments");
     contactDB = _mainFirebaseDatabase.child("contacts");
     notesDB = _mainFirebaseDatabase.child("notes");
+    playingStyleDB = _mainFirebaseDatabase.child("playingStyle");
     getCurrentUser();
   }
 
@@ -190,7 +193,7 @@ class ServerAPI {
     }
   }
 
-  Future<dynamic> addInstrument(Instrument instrument) async {
+  Future<dynamic> addInstrument(UserInstrument instrument) async {
     try {
       for (File file in instrument.files) {
         String basename = extension(file.path);
@@ -236,7 +239,7 @@ class ServerAPI {
   Future<dynamic> getInstrumentDetails(String id) async {
     try {
       DataSnapshot dataSnapshot = await equipmentsDB.child(id).once();
-      return Instrument.fromJSON(dataSnapshot.value);
+      return UserInstrument.fromJSON(dataSnapshot.value);
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }
@@ -275,18 +278,6 @@ class ServerAPI {
     }
   }
 
-  Future<dynamic> getPlayingStyleList() async {
-    try {
-      final res = await _netUtil.get(
-        _baseUrl + "pstyle/",
-        headers: _headers,
-      );
-      return PlayingStyleResponse.fromJSON(res);
-    } catch (e) {
-      return ErrorResponse.fromJSON(e.message);
-    }
-  }
-
   Future<dynamic> searchUser(String name) async {
     try {
       final res = await userDB.once();
@@ -320,20 +311,18 @@ class ServerAPI {
     }
   }
 
-  Future<dynamic> addUserPlayingStyle(String userId, String bandId,
-      String playingStyleId, String instrumentId) async {
+  Future<dynamic> addUserPlayingStyle(UserPlayingStyle userPlayingStyle) async {
     try {
-      final res = await _netUtil.post(
-        _baseUrl + "pstyle/add",
-        headers: _headers,
-        body: {
-          "user_id": userId,
-          "band_id": bandId,
-          "playing_styles_ids": playingStyleId,
-          "instruments_ids": instrumentId,
-        },
-      );
-      return AddPlayingStyleResponse.fromJSON(res);
+      bool isUpdate = true;
+      if (userPlayingStyle.id == null || userPlayingStyle.id.isEmpty) {
+        String id = playingStyleDB.push().key;
+        userPlayingStyle.id = id;
+        isUpdate = false;
+      }
+      await playingStyleDB
+          .child(userPlayingStyle.id)
+          .set(userPlayingStyle.toMap());
+      return isUpdate;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }

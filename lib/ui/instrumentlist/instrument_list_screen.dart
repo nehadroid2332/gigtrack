@@ -1,8 +1,7 @@
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
-import 'package:gigtrack/server/models/instrument.dart';
+import 'package:gigtrack/server/models/user_instrument.dart';
 import 'package:gigtrack/ui/instrumentlist/instrument_list_presenter.dart';
 
 class InstrumentListScreen extends BaseScreen {
@@ -15,9 +14,9 @@ class InstrumentListScreen extends BaseScreen {
 class _InstrumentListScreenState
     extends BaseScreenState<InstrumentListScreen, InstrumentListPresenter>
     implements InstrumentListContract {
-  List<Instrument> _instruments = <Instrument>[];
+  List<UserInstrument> _instruments = <UserInstrument>[];
 
-  Stream<List<Instrument>> list;
+  Stream<List<UserInstrument>> list;
 
   @override
   void initState() {
@@ -73,7 +72,7 @@ class _InstrumentListScreenState
               padding: EdgeInsets.all(4),
             ),
             Expanded(
-              child: StreamBuilder<List<Instrument>>(
+              child: StreamBuilder<List<UserInstrument>>(
                 stream: list,
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {

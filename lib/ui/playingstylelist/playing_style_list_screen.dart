@@ -1,9 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
-import 'package:gigtrack/server/models/playing_style_response.dart';
-
+import 'package:gigtrack/server/models/user_playing_style.dart';
 import 'playing_style_list_presenter.dart';
 
 class PlayingStyleListScreen extends BaseScreen {
@@ -17,52 +15,57 @@ class PlayingStyleListScreen extends BaseScreen {
 class _PlayingStyleListScreenState
     extends BaseScreenState<PlayingStyleListScreen, PlayingStyleListPresenter>
     implements PlayingStyleListContract {
-  final playingStyleList = <UserPlayingStyle>[];
+  var playingStyleList = <UserPlayingStyle>[];
+
+  Stream<List<UserPlayingStyle>> list;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      showLoading();
-      presenter.playingStyleList();
-    });
+    list = presenter.getList();
   }
 
   @override
   Widget buildBody() {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: ListView.builder(
-        padding: EdgeInsets.all(20),
-        itemBuilder: (BuildContext context, int index) {
-          UserPlayingStyle userPlayingStyle = playingStyleList[index];
-          return Card(
-            child: Padding(
-              padding: EdgeInsets.all(8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "${userPlayingStyle.playingStyle}",
-                    style: textTheme.subhead,
+      body: StreamBuilder<List<UserPlayingStyle>>(
+        stream: list,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            playingStyleList = snapshot.data;
+          }
+          return ListView.builder(
+            padding: EdgeInsets.all(20),
+            itemBuilder: (BuildContext context, int index) {
+              UserPlayingStyle userPlayingStyle = playingStyleList[index];
+              return Card(
+                child: Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "${userPlayingStyle.playing_styles}",
+                        style: textTheme.subhead,
+                      ),
+                      Text(
+                        "${userPlayingStyle.instruments}",
+                        style: textTheme.caption,
+                      )
+                    ],
                   ),
-                  Text(
-                    "${userPlayingStyle.instrument}",
-                    style: textTheme.caption,
-                  )
-                ],
-              ),
-            ),
+                ),
+              );
+            },
+            itemCount: playingStyleList.length,
           );
         },
-        itemCount: playingStyleList.length,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await widget.appListener.router
               .navigateTo(context, Screens.ADDPLAYINGSTYLE.toString());
-//          showLoading();
-//          presenter.getList();
         },
         child: Icon(Icons.add),
       ),
@@ -71,17 +74,4 @@ class _PlayingStyleListScreenState
 
   @override
   PlayingStyleListPresenter get presenter => PlayingStyleListPresenter(this);
-
-  @override
-  void onListSuccess(List<UserPlayingStyle> list, List<Instruments> iList,
-      List<PlayingStyle> pList) {
-    for (UserPlayingStyle up in list) {
-      up.setNames(pList, iList);
-    }
-    hideLoading();
-    setState(() {
-      playingStyleList.clear();
-      playingStyleList.addAll(list);
-    });
-  }
 }

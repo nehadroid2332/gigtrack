@@ -1,8 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
-import 'package:gigtrack/server/models/playing_style_response.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 
 import 'add_playing_style_presenter.dart';
@@ -17,8 +15,8 @@ class AddPlayingStyleScreen extends BaseScreen {
 class _AddPlayingStyleScreenState
     extends BaseScreenState<AddPlayingStyleScreen, AddPlayingStylePresenter>
     implements AddPlayingStyleContract {
-  final playingStylesList = <PlayingStyle>[];
-  final instrumentList = <Instruments>[];
+  final playingStylesList = <String>[];
+  final instrumentList = <String>[];
 
   final Set<String> psList = Set();
   final Set<String> inList = Set();
@@ -33,13 +31,13 @@ class _AddPlayingStyleScreenState
   @override
   Widget buildBody() {
     List<Widget> items = [];
-    for (PlayingStyle s in playingStylesList) {
+    for (String s in playingStylesList) {
       items.add(GestureDetector(
         child: Container(
           child: Text(
-            s.title,
+            s,
             style: textTheme.subtitle.copyWith(
-                color: psList.contains(s.id)
+                color: psList.contains(s)
                     ? Colors.white
                     : widget.appListener.primaryColorDark),
           ),
@@ -49,7 +47,7 @@ class _AddPlayingStyleScreenState
             vertical: 8,
           ),
           decoration: BoxDecoration(
-            color: psList.contains(s.id)
+            color: psList.contains(s)
                 ? widget.appListener.primaryColorDark
                 : Color.fromRGBO(244, 246, 248, 1.0),
             borderRadius: BorderRadius.circular(18),
@@ -60,22 +58,22 @@ class _AddPlayingStyleScreenState
         ),
         onTap: () {
           setState(() {
-            if (psList.contains(s.id)) {
-              psList.remove(s.id);
+            if (psList.contains(s)) {
+              psList.remove(s);
             } else
-              psList.add(s.id);
+              psList.add(s);
           });
         },
       ));
     }
     List<Widget> items2 = [];
-    for (Instruments s in instrumentList) {
+    for (String s in instrumentList) {
       items2.add(GestureDetector(
         child: Container(
           child: Text(
-            s.title,
+            s,
             style: textTheme.subtitle.copyWith(
-                color: inList.contains(s.id)
+                color: inList.contains(s)
                     ? Colors.white
                     : widget.appListener.primaryColorDark),
           ),
@@ -85,7 +83,7 @@ class _AddPlayingStyleScreenState
             vertical: 8,
           ),
           decoration: BoxDecoration(
-            color: inList.contains(s.id)
+            color: inList.contains(s)
                 ? widget.appListener.primaryColorDark
                 : Color.fromRGBO(244, 246, 248, 1.0),
             borderRadius: BorderRadius.circular(18),
@@ -96,10 +94,10 @@ class _AddPlayingStyleScreenState
         ),
         onTap: () {
           setState(() {
-            if (inList.contains(s.id)) {
-              inList.remove(s.id);
+            if (inList.contains(s)) {
+              inList.remove(s);
             } else
-              inList.add(s.id);
+              inList.add(s);
           });
         },
       ));
@@ -177,8 +175,6 @@ class _AddPlayingStyleScreenState
                 RaisedButton(
                   onPressed: () {
                     showLoading();
-                    String userId = widget.appListener.sharedPreferences
-                        .getString(SharedPrefsKeys.USERID.toString());
                     String psId = "";
                     String inId = "";
 
@@ -196,7 +192,7 @@ class _AddPlayingStyleScreenState
                         inId += i + ",";
                       }
                     }
-                    presenter.addPlayingStyle(userId, psId, inId);
+                    presenter.addPlayingStyle(psId, inId);
                   },
                   child: Text(
                     "Submit",
@@ -225,8 +221,7 @@ class _AddPlayingStyleScreenState
   }
 
   @override
-  void onListSuccess(List<UserPlayingStyle> list, List<Instruments> iList,
-      List<PlayingStyle> pList) {
+  void onListSuccess(List<String> iList, List<String> pList) {
     hideLoading();
     setState(() {
       playingStylesList.clear();
@@ -234,5 +229,10 @@ class _AddPlayingStyleScreenState
       playingStylesList.addAll(pList);
       instrumentList.addAll(iList);
     });
+  }
+
+  @override
+  void onUpdateSuccess() {
+    showMessage("Updated Successfully");
   }
 }

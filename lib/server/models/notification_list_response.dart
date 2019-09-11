@@ -1,15 +1,15 @@
 import 'package:gigtrack/base/base_model.dart';
 import 'package:gigtrack/server/models/activities.dart';
-import 'package:gigtrack/server/models/instrument.dart';
 import 'package:gigtrack/server/models/notestodo.dart';
 import 'package:gigtrack/server/models/user.dart';
+import 'package:gigtrack/server/models/user_instrument.dart';
 
 class NotificationListResponse extends BaseModel {
   int status;
   List<Activites> schedules = [];
   List<Activites> activities = [];
   List<User> users = [];
-  List<Instrument> instruments = [];
+  List<UserInstrument> instruments = [];
   List<NotesTodo> todos = [];
 
   NotificationListResponse.fromJSON(dynamic data) {
@@ -26,7 +26,7 @@ class NotificationListResponse extends BaseModel {
     }
     if (data['equipments_warranty'] != null) {
       for (var ds in data['equipments_warranty']) {
-        instruments.add(Instrument.fromJSON(ds));
+        instruments.add(UserInstrument.fromJSON(ds));
       }
     }
     if (data['user_data'] != null) {
@@ -58,7 +58,7 @@ class NotificationListResponse extends BaseModel {
     data['schedules'] = schedules;
 
     List<dynamic> instr = [];
-    for (Instrument a in instruments) {
+    for (UserInstrument a in instruments) {
       instr.add(a.toMap());
     }
     data['equipments_warranty'] = instr;

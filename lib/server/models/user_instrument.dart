@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:gigtrack/base/base_model.dart';
 
-class Instrument extends BaseModel {
+class UserInstrument extends BaseModel {
   String band_id;
   String id;
   String user_id;
@@ -20,7 +20,7 @@ class Instrument extends BaseModel {
   List<File> files = [];
   List<String> uploadedFiles = [];
 
-  Instrument(
+  UserInstrument(
       {this.band_id,
       this.id,
       this.is_insured,
@@ -35,7 +35,7 @@ class Instrument extends BaseModel {
       this.warranty_phone,
       this.warranty_reference});
 
-  Instrument.fromJSON(dynamic data) {
+  UserInstrument.fromJSON(dynamic data) {
     this.band_id = data['band_id'];
     this.id = data['id'];
     this.is_insured = data['is_insured'];

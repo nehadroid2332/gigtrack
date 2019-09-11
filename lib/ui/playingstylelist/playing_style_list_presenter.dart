@@ -1,25 +1,23 @@
 import 'package:gigtrack/base/base_presenter.dart';
-import 'package:gigtrack/server/models/error_response.dart';
-import 'package:gigtrack/server/models/playing_style_response.dart';
+import 'package:gigtrack/server/models/user_playing_style.dart';
 
-abstract class PlayingStyleListContract extends BaseContract {
-  void onListSuccess(
-    List<UserPlayingStyle> list,
-    List<Instruments> iList,
-    List<PlayingStyle> pList,
-  );
-}
+abstract class PlayingStyleListContract extends BaseContract {}
 
 class PlayingStyleListPresenter extends BasePresenter {
   PlayingStyleListPresenter(BaseContract view) : super(view);
 
-  void playingStyleList() async {
-    final res = await serverAPI.getPlayingStyleList();
-    if (res is PlayingStyleResponse) {
-      (view as PlayingStyleListContract)
-          .onListSuccess(res.user_playing_styles, res.instruments, res.pstyles);
-    } else if (res is ErrorResponse) {
-      view.showMessage(res.message);
-    }
+  Stream<List<UserPlayingStyle>> getList() {
+    return serverAPI.playingStyleDB
+        .orderByChild('user_id')
+        .equalTo(serverAPI.currentUserId)
+        .onValue
+        .map((a) {
+      Map mp = a.snapshot.value;
+      List<UserPlayingStyle> acc = [];
+      for (var d in mp.values) {
+        acc.add(UserPlayingStyle.fromJSON(d));
+      }
+      return acc;
+    });
   }
 }
