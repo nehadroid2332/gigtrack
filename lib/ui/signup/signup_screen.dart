@@ -251,42 +251,42 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                 Padding(
                   padding: EdgeInsets.all(5),
                 ),
-                TextField(
-                  controller: _addressController,
-                  decoration: InputDecoration(
-                    labelText: "Address",
-                    labelStyle: TextStyle(
-                      color: Color.fromRGBO(169, 176, 187, 1.0),
-                    ),
-                    errorText: _errorAddress,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(5),
-                ),
-                TextField(
-                  controller: _cityController,
-                  decoration: InputDecoration(
-                    labelText: "City",
-                    labelStyle: TextStyle(
-                      color: Color.fromRGBO(169, 176, 187, 1.0),
-                    ),
-                    errorText: _errorCity,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(5),
-                ),
-                TextField(
-                  controller: _stateController,
-                  decoration: InputDecoration(
-                    labelStyle: TextStyle(
-                      color: Color.fromRGBO(169, 176, 187, 1.0),
-                    ),
-                    labelText: "State",
-                    errorText: _errorState,
-                  ),
-                ),
+//                TextField(
+//                  controller: _addressController,
+//                  decoration: InputDecoration(
+//                    labelText: "Address",
+//                    labelStyle: TextStyle(
+//                      color: Color.fromRGBO(169, 176, 187, 1.0),
+//                    ),
+//                    errorText: _errorAddress,
+//                  ),
+//                ),
+//                Padding(
+//                  padding: EdgeInsets.all(5),
+//                ),
+//                TextField(
+//                  controller: _cityController,
+//                  decoration: InputDecoration(
+//                    labelText: "City",
+//                    labelStyle: TextStyle(
+//                      color: Color.fromRGBO(169, 176, 187, 1.0),
+//                    ),
+//                    errorText: _errorCity,
+//                  ),
+//                ),
+//                Padding(
+//                  padding: EdgeInsets.all(5),
+//                ),
+//                TextField(
+//                  controller: _stateController,
+//                  decoration: InputDecoration(
+//                    labelStyle: TextStyle(
+//                      color: Color.fromRGBO(169, 176, 187, 1.0),
+//                    ),
+//                    labelText: "State",
+//                    errorText: _errorState,
+//                  ),
+//                ),
                 Padding(
                   padding: EdgeInsets.all(5),
                 ),
@@ -304,31 +304,31 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                 Padding(
                   padding: EdgeInsets.all(5),
                 ),
-                TextField(
-                  controller: _primaryInstrumentController,
-                  decoration: InputDecoration(
-                      labelText: "Primary Instrument",
-                      labelStyle: TextStyle(
-                        color: Color.fromRGBO(169, 176, 187, 1.0),
-                      ),
-                      errorText: _errorPrimaryInstrument),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(5),
-                ),
-                TextField(
-                  controller: _websiteController,
-                  decoration: InputDecoration(
-                    labelText: "Website",
-                    labelStyle: TextStyle(
-                      color: Color.fromRGBO(169, 176, 187, 1.0),
-                    ),
-                    errorText: _errorWebsite,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(5),
-                ),
+//                TextField(
+//                  controller: _primaryInstrumentController,
+//                  decoration: InputDecoration(
+//                      labelText: "Primary Instrument",
+//                      labelStyle: TextStyle(
+//                        color: Color.fromRGBO(169, 176, 187, 1.0),
+//                      ),
+//                      errorText: _errorPrimaryInstrument),
+//                ),
+//                Padding(
+//                  padding: EdgeInsets.all(5),
+//                ),
+//                TextField(
+//                  controller: _websiteController,
+//                  decoration: InputDecoration(
+//                    labelText: "Website",
+//                    labelStyle: TextStyle(
+//                      color: Color.fromRGBO(169, 176, 187, 1.0),
+//                    ),
+//                    errorText: _errorWebsite,
+//                  ),
+//                ),
+//                Padding(
+//                  padding: EdgeInsets.all(5),
+//                ),
                 Padding(
                   padding: EdgeInsets.only(
                     top: 30,
@@ -401,19 +401,23 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                                 "Password must be more than 6 character";
                           } else if (phone.isEmpty) {
                             _errorPhone = "Cannot be empty";
-                          } else if (address.isEmpty) {
-                            _errorAddress = "Cannot be empty";
-                          } else if (city.isEmpty) {
-                            _errorCity = "Cannot be empty";
-                          } else if (state.isEmpty) {
-                            _errorState = "Cannot be empty";
-                          } else if (zip.isEmpty) {
-                            _errorZip = "Cannot be empty";
-                          } else if (primaryInstrument.isEmpty) {
-                            _errorPrimaryInstrument = "Cannot be empty";
-                          } else if (website.isEmpty) {
-                            _errorWebsite = "Cannot be empty";
                           }
+//                          else if (address.isEmpty) {
+//                            _errorAddress = "Cannot be empty";
+//                          } else if (city.isEmpty) {
+//                            _errorCity = "Cannot be empty";
+//                          }
+//                          else if (state.isEmpty) {
+//                            _errorState = "Cannot be empty";
+//                          }
+                          else if (zip.isEmpty) {
+                            _errorZip = "Cannot be empty";
+                          }
+//                          else if (primaryInstrument.isEmpty) {
+//                            _errorPrimaryInstrument = "Cannot be empty";
+//                          } else if (website.isEmpty) {
+//                            _errorWebsite = "Cannot be empty";
+//                          }
                           //  else if (_image == null) {
                           //   showMessage("Please Select Image");
                           // }

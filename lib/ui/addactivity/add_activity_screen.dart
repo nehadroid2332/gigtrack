@@ -226,89 +226,92 @@ class _AddActivityScreenState
                           ? Text(
                               "Select one from each row:",
                               style: textTheme.headline.copyWith(
-                                  color: widget.appListener.primaryColorDark),
+                                  color: Colors.grey,
+                              fontSize: 16
+                              ),
+
                             )
                           : Container(),
                       Padding(
                         padding:
-                            EdgeInsets.all(widget.id.isEmpty || isEdit ? 6 : 0),
+                            EdgeInsets.all(widget.id.isEmpty || isEdit ? 0 : 0),
                       ),
-                      widget.id.isEmpty || isEdit
-                          ? Row(
-                              children: <Widget>[
-//                                InkWell(
-//                                  onTap: widget.id.isEmpty || isEdit
-//                                      ? () {
-//                                          _handleUserTypeValueChange(0);
-//                                        }
-//                                      : null,
-//                                  child: Container(
-//                                    padding: EdgeInsets.symmetric(
-//                                        horizontal: 14, vertical: 5),
-//                                    decoration: BoxDecoration(
-//                                        color: _userType == 0
-//                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-//                                            : Color.fromRGBO(
-//                                                244, 246, 248, 1.0),
-//                                        borderRadius: BorderRadius.circular(15),
-//                                        border: Border.all(
-//                                            color: _userType == 0
-//                                                ? Color.fromRGBO(
-//                                                    70, 206, 172, 1.0)
-//                                                : Color.fromRGBO(
-//                                                    244, 246, 248, 1.0))),
-//                                    child: Text(
-//                                      'Personal',
-//                                      style: new TextStyle(
-//                                        fontSize: 16.0,
-//                                        color: _userType == 0
-//                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-//                                            : Color.fromRGBO(
-//                                                202, 208, 215, 1.0),
-//                                      ),
-//                                    ),
-//                                  ),
-//                                ),
-//                                Padding(
-//                                  padding: EdgeInsets.all(8),
-//                                ),
-//                                InkWell(
-//                                  onTap: widget.id.isEmpty || isEdit
-//                                      ? () {
-//                                          presenter.getBands();
-//                                          _handleUserTypeValueChange(1);
-//                                        }
-//                                      : null,
-//                                  child: Container(
-//                                    padding: EdgeInsets.symmetric(
-//                                        horizontal: 14, vertical: 5),
-//                                    decoration: BoxDecoration(
-//                                        color: _userType == 1
-//                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-//                                            : Color.fromRGBO(
-//                                                244, 246, 248, 1.0),
-//                                        borderRadius: BorderRadius.circular(15),
-//                                        border: Border.all(
-//                                            color: _userType == 1
-//                                                ? Color.fromRGBO(
-//                                                    70, 206, 172, 1.0)
-//                                                : Color.fromRGBO(
-//                                                    244, 246, 248, 1.0))),
-//                                    child: Text(
-//                                      'Band',
-//                                      style: new TextStyle(
-//                                        fontSize: 16.0,
-//                                        color: _userType == 1
-//                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-//                                            : Color.fromRGBO(
-//                                                202, 208, 215, 1.0),
-//                                      ),
-//                                    ),
-//                                  ),
-//                                ),
-                              ],
-                            )
-                          : Container(),
+//                      widget.id.isEmpty || isEdit
+//                          ? Row(
+//                              children: <Widget>[
+////                                InkWell(
+////                                  onTap: widget.id.isEmpty || isEdit
+////                                      ? () {
+////                                          _handleUserTypeValueChange(0);
+////                                        }
+////                                      : null,
+////                                  child: Container(
+////                                    padding: EdgeInsets.symmetric(
+////                                        horizontal: 14, vertical: 5),
+////                                    decoration: BoxDecoration(
+////                                        color: _userType == 0
+////                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+////                                            : Color.fromRGBO(
+////                                                244, 246, 248, 1.0),
+////                                        borderRadius: BorderRadius.circular(15),
+////                                        border: Border.all(
+////                                            color: _userType == 0
+////                                                ? Color.fromRGBO(
+////                                                    70, 206, 172, 1.0)
+////                                                : Color.fromRGBO(
+////                                                    244, 246, 248, 1.0))),
+////                                    child: Text(
+////                                      'Personal',
+////                                      style: new TextStyle(
+////                                        fontSize: 16.0,
+////                                        color: _userType == 0
+////                                            ? Color.fromRGBO(70, 206, 172, 1.0)
+////                                            : Color.fromRGBO(
+////                                                202, 208, 215, 1.0),
+////                                      ),
+////                                    ),
+////                                  ),
+////                                ),
+////                                Padding(
+////                                  padding: EdgeInsets.all(8),
+////                                ),
+////                                InkWell(
+////                                  onTap: widget.id.isEmpty || isEdit
+////                                      ? () {
+////                                          presenter.getBands();
+////                                          _handleUserTypeValueChange(1);
+////                                        }
+////                                      : null,
+////                                  child: Container(
+////                                    padding: EdgeInsets.symmetric(
+////                                        horizontal: 14, vertical: 5),
+////                                    decoration: BoxDecoration(
+////                                        color: _userType == 1
+////                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+////                                            : Color.fromRGBO(
+////                                                244, 246, 248, 1.0),
+////                                        borderRadius: BorderRadius.circular(15),
+////                                        border: Border.all(
+////                                            color: _userType == 1
+////                                                ? Color.fromRGBO(
+////                                                    70, 206, 172, 1.0)
+////                                                : Color.fromRGBO(
+////                                                    244, 246, 248, 1.0))),
+////                                    child: Text(
+////                                      'Band',
+////                                      style: new TextStyle(
+////                                        fontSize: 16.0,
+////                                        color: _userType == 1
+////                                            ? Color.fromRGBO(70, 206, 172, 1.0)
+////                                            : Color.fromRGBO(
+////                                                202, 208, 215, 1.0),
+////                                      ),
+////                                    ),
+////                                  ),
+////                                ),
+//                              ],
+//                            )
+//                          : Container(),
                       Padding(
                         padding:
                             EdgeInsets.all(widget.id.isEmpty || isEdit ? 8 : 0),

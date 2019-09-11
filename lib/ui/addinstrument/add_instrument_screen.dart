@@ -226,89 +226,89 @@ class _AddInstrumentScreenState
                       //   onTap: getImage,
                       // ),
 
-                      widget.id.isEmpty || isEdit
-                          ? Text(
-                              "Type",
-                              style: textTheme.headline.copyWith(
-                                color: Colors.black,
-                              ),
-                            )
-                          : Container(),
-                      Padding(
-                        padding: EdgeInsets.all(6),
-                      ),
-                      widget.id.isEmpty || isEdit
-                          ? Row(
-                              children: <Widget>[
-                                InkWell(
-                                  onTap: () {
-                                    selectedBand = null;
-                                    _handleUserTypeValueChange(0);
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: _userType == 0
-                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-                                            : Color.fromRGBO(
-                                                244, 246, 248, 1.0),
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            color: _userType == 0
-                                                ? Color.fromRGBO(
-                                                    70, 206, 172, 1.0)
-                                                : Color.fromRGBO(
-                                                    244, 246, 248, 1.0))),
-                                    child: Text(
-                                      'User',
-                                      style: new TextStyle(
-                                        fontSize: 16.0,
-                                        color: _userType == 0
-                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-                                            : Color.fromRGBO(
-                                                202, 208, 215, 1.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(8),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    _handleUserTypeValueChange(1);
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: _userType == 1
-                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-                                            : Color.fromRGBO(
-                                                244, 246, 248, 1.0),
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            color: _userType == 1
-                                                ? Color.fromRGBO(
-                                                    70, 206, 172, 1.0)
-                                                : Color.fromRGBO(
-                                                    244, 246, 248, 1.0))),
-                                    child: Text(
-                                      'Band',
-                                      style: new TextStyle(
-                                        fontSize: 16.0,
-                                        color: _userType == 1
-                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-                                            : Color.fromRGBO(
-                                                202, 208, 215, 1.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Container(),
+//                      widget.id.isEmpty || isEdit
+//                          ? Text(
+//                              "Type",
+//                              style: textTheme.headline.copyWith(
+//                                color: Colors.black,
+//                              ),
+//                            )
+//                          : Container(),
+//                      Padding(
+//                        padding: EdgeInsets.all(6),
+//                      ),
+//                      widget.id.isEmpty || isEdit
+//                          ? Row(
+//                              children: <Widget>[
+//                                InkWell(
+//                                  onTap: () {
+//                                    selectedBand = null;
+//                                    _handleUserTypeValueChange(0);
+//                                  },
+//                                  child: Container(
+//                                    padding: EdgeInsets.symmetric(
+//                                        horizontal: 14, vertical: 5),
+//                                    decoration: BoxDecoration(
+//                                        color: _userType == 0
+//                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+//                                            : Color.fromRGBO(
+//                                                244, 246, 248, 1.0),
+//                                        borderRadius: BorderRadius.circular(15),
+//                                        border: Border.all(
+//                                            color: _userType == 0
+//                                                ? Color.fromRGBO(
+//                                                    70, 206, 172, 1.0)
+//                                                : Color.fromRGBO(
+//                                                    244, 246, 248, 1.0))),
+//                                    child: Text(
+//                                      'User',
+//                                      style: new TextStyle(
+//                                        fontSize: 16.0,
+//                                        color: _userType == 0
+//                                            ? Color.fromRGBO(70, 206, 172, 1.0)
+//                                            : Color.fromRGBO(
+//                                                202, 208, 215, 1.0),
+//                                      ),
+//                                    ),
+//                                  ),
+//                                ),
+//                                Padding(
+//                                  padding: EdgeInsets.all(8),
+//                                ),
+//                                InkWell(
+//                                  onTap: () {
+//                                    _handleUserTypeValueChange(1);
+//                                  },
+//                                  child: Container(
+//                                    padding: EdgeInsets.symmetric(
+//                                        horizontal: 14, vertical: 5),
+//                                    decoration: BoxDecoration(
+//                                        color: _userType == 1
+//                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+//                                            : Color.fromRGBO(
+//                                                244, 246, 248, 1.0),
+//                                        borderRadius: BorderRadius.circular(15),
+//                                        border: Border.all(
+//                                            color: _userType == 1
+//                                                ? Color.fromRGBO(
+//                                                    70, 206, 172, 1.0)
+//                                                : Color.fromRGBO(
+//                                                    244, 246, 248, 1.0))),
+//                                    child: Text(
+//                                      'Band',
+//                                      style: new TextStyle(
+//                                        fontSize: 16.0,
+//                                        color: _userType == 1
+//                                            ? Color.fromRGBO(70, 206, 172, 1.0)
+//                                            : Color.fromRGBO(
+//                                                202, 208, 215, 1.0),
+//                                      ),
+//                                    ),
+//                                  ),
+//                                ),
+//                              ],
+//                            )
+//                          : Container(),
                       (_userType == 1 && (widget.id.isEmpty || isEdit))
                           ? Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20),
@@ -632,6 +632,7 @@ class _AddInstrumentScreenState
                               ),
                               decoration: InputDecoration(
                                 labelText: "Cost",
+                                prefixText: '\$',
                                 labelStyle: TextStyle(
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
                                 ),
@@ -1001,15 +1002,16 @@ class _AddInstrumentScreenState
                                 setState(() {
                                   if (instrumentName.isEmpty) {
                                     _errorInstrumentName = "Cannot be Empty";
-                                  } else if (wherePurchased.isEmpty) {
-                                    _errorwherePurchased = "Cannot be Empty";
-                                  } else if (purchasedDate.isEmpty) {
-                                    _errorPurchasedDate = "Cannot be Empty";
-                                  } else if (sno.isEmpty) {
-                                    _errorSerialNumber = "Cannot be Empty";
-                                  } else if (warranty.isEmpty) {
-                                    _errorWarranty = "Cannot be Empty";
                                   }
+//                                  else if (wherePurchased.isEmpty) {
+//                                    _errorwherePurchased = "Cannot be Empty";
+//                                  } else if (purchasedDate.isEmpty) {
+//                                    _errorPurchasedDate = "Cannot be Empty";
+//                                  } else if (sno.isEmpty) {
+//                                    _errorSerialNumber = "Cannot be Empty";
+//                                  } else if (warranty.isEmpty) {
+//                                    _errorWarranty = "Cannot be Empty";
+//                                  }
                                   //  else if (wendDate.isEmpty) {
                                   //   _errorWarrantyEndDate = "Cannot be Empty";
                                   // } else if (wRef.isEmpty) {
@@ -1024,15 +1026,12 @@ class _AddInstrumentScreenState
                                       band_id: selectedBand?.id ?? "0",
                                       is_insured: _instrumentInsured,
                                       name: instrumentName,
-                                      purchased_date: this
-                                          .purchasedDate
-                                          .millisecondsSinceEpoch,
+                                      purchased_date: this.purchasedDate.millisecondsSinceEpoch,
                                       purchased_from: wherePurchased,
                                       serial_number: sno,
                                       user_id: presenter.serverAPI.userId,
                                       warranty: warranty,
-                                      warranty_end_date: warrantyEndDate
-                                          .millisecondsSinceEpoch,
+                                      warranty_end_date: this.warrantyEndDate!=null?this.warrantyEndDate.millisecondsSinceEpoch:0,
                                       warranty_phone: wPh,
                                       warranty_reference: wRef,
                                       id: id,
@@ -1109,7 +1108,7 @@ class _AddInstrumentScreenState
       _warrantyPhoneController.text = instrument.warranty_phone;
       _warrantyReferenceController.text = instrument.warranty_reference;
       _wherePurchaseController.text = instrument.purchased_from;
-      image = instrument.image;
+      image = instrument.uploadedFiles[0];
     });
   }
 
