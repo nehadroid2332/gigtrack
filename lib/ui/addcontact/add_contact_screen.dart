@@ -40,6 +40,7 @@ class _AddContactScreenState
   ];
 
   var _relationshipType = "Agent";
+  bool _currentRelation=false;
 
   DateTime selectedDate;
 
@@ -61,6 +62,11 @@ class _AddContactScreenState
   void _handleRelationshipValueChange(String value) {
     setState(() {
       _relationshipType = value;
+      if(value=="Other"){
+        _currentRelation=true;
+      }else{
+        _currentRelation=false;
+      }
       _relationshipController.text = value;
     });
   }
@@ -69,6 +75,7 @@ class _AddContactScreenState
       _phoneController = TextEditingController(),
       _textController = TextEditingController(),
       _relationshipController = TextEditingController(),
+      _otherRelationshipController= TextEditingController(),
       _emailController = TextEditingController();
   String _errorName, _errorPhone, _errorEmail, _errorText, _errorRelationship;
 
@@ -169,7 +176,11 @@ class _AddContactScreenState
                               items: relationships.map((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
-                                  child: Text(value),
+                                  child: Text(value,
+                                  style: TextStyle(
+                                    color: Colors.grey
+                                  ),
+                                  ),
                                 );
                               }).toList(),
                               onChanged: _handleRelationshipValueChange,
@@ -179,10 +190,10 @@ class _AddContactScreenState
                       Padding(
                         padding: EdgeInsets.all(3),
                       ),
-                      _relationshipType == "Other" || widget.id.isEmpty
+                      _currentRelation
                           ? TextField(
                               enabled: widget.id.isEmpty,
-                              controller: _relationshipController,
+                              controller: _otherRelationshipController,
                               textCapitalization: TextCapitalization.sentences,
                               decoration: InputDecoration(
                                 labelStyle: TextStyle(
@@ -197,13 +208,13 @@ class _AddContactScreenState
                                 color: Colors.black,
                               ),
                             )
-                          : Text(
-                              _relationshipController.text,
+                          : _currentRelation?Text(
+                            _otherRelationshipController.text,
                               textAlign: TextAlign.center,
-                            ),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
+                            ):Container(),
+//                      Padding(
+//                        padding: EdgeInsets.all(5),
+//                      ),
                       widget.id.isEmpty
                           ? Container()
                           : Text(
@@ -347,10 +358,8 @@ class _AddContactScreenState
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (BuildContext context, int index) {
                           DateToRememberData data = _dateToRememberItems[index];
-                          final _dateToRememberController =
-                              TextEditingController();
-                          final _dateToRememberDateController =
-                              TextEditingController();
+                          final _dateToRememberController = TextEditingController();
+                          final _dateToRememberDateController = TextEditingController();
                           _dateToRememberController.addListener(() {
                             data.type = _dateToRememberController.text;
                             _dateToRememberItems[index] = data;
@@ -433,10 +442,8 @@ class _AddContactScreenState
                                       child: AbsorbPointer(
                                         child: TextField(
                                           enabled: widget.id.isEmpty,
-                                          controller:
-                                              _dateToRememberDateController,
-                                          textCapitalization:
-                                              TextCapitalization.sentences,
+                                          controller: _dateToRememberDateController,
+                                          textCapitalization: TextCapitalization.sentences,
                                           decoration: InputDecoration(
                                             labelStyle: TextStyle(
                                               color: Color.fromRGBO(
