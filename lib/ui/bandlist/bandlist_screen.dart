@@ -128,8 +128,6 @@ class _BandListScreenState
         onPressed: () async {
           await widget.appListener.router
               .navigateTo(context, Screens.ADDBAND.toString() + "/");
-          showLoading();
-          presenter.getBands();
         },
         child: Icon(Icons.add),
         backgroundColor: Color.fromRGBO(135, 67, 125, 1.0),

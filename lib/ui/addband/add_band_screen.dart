@@ -246,78 +246,84 @@ class _AddBandScreenState
                             ),
                             widget.id.isEmpty || isEdit
                                 ? Row(
-                              children: <Widget>[
-                                InkWell(
-                                  onTap: widget.id.isEmpty || isEdit
-                                      ? () {
-                                    _handleLegalUserValueChange(0);
-                                  }
-                                      : null,
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: _legalUserType == 0
-                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-                                            : Color.fromRGBO(
-                                            244, 246, 248, 1.0),
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            color: _legalUserType == 0
-                                                ? Color.fromRGBO(
-                                                70, 206, 172, 1.0)
-                                                : Color.fromRGBO(
-                                                244, 246, 248, 1.0))),
-                                    child: Text(
-                                      'Yes',
-                                      style: new TextStyle(
-                                        fontSize: 16.0,
-                                        color: _legalUserType == 0
-                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-                                            : Color.fromRGBO(
-                                            202, 208, 215, 1.0),
+                                    children: <Widget>[
+                                      InkWell(
+                                        onTap: widget.id.isEmpty || isEdit
+                                            ? () {
+                                                _handleLegalUserValueChange(0);
+                                              }
+                                            : null,
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 14, vertical: 5),
+                                          decoration: BoxDecoration(
+                                              color: _legalUserType == 0
+                                                  ? Color.fromRGBO(
+                                                      209, 244, 236, 1.0)
+                                                  : Color.fromRGBO(
+                                                      244, 246, 248, 1.0),
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              border: Border.all(
+                                                  color: _legalUserType == 0
+                                                      ? Color.fromRGBO(
+                                                          70, 206, 172, 1.0)
+                                                      : Color.fromRGBO(
+                                                          244, 246, 248, 1.0))),
+                                          child: Text(
+                                            'Yes',
+                                            style: new TextStyle(
+                                              fontSize: 16.0,
+                                              color: _legalUserType == 0
+                                                  ? Color.fromRGBO(
+                                                      70, 206, 172, 1.0)
+                                                  : Color.fromRGBO(
+                                                      202, 208, 215, 1.0),
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(8),
-                                ),
-                                InkWell(
-                                  onTap: widget.id.isEmpty || isEdit
-                                      ? () {
-                                    _handleLegalUserValueChange(1);
-                                  }
-                                      : null,
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: _legalUserType == 1
-                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-                                            : Color.fromRGBO(
-                                            244, 246, 248, 1.0),
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            color: _legalUserType == 1
-                                                ? Color.fromRGBO(
-                                                70, 206, 172, 1.0)
-                                                : Color.fromRGBO(
-                                                244, 246, 248, 1.0))),
-                                    child: Text(
-                                      'No',
-                                      style: new TextStyle(
-                                        fontSize: 16.0,
-                                        color: _legalUserType == 1
-                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-                                            : Color.fromRGBO(
-                                            202, 208, 215, 1.0),
+                                      Padding(
+                                        padding: EdgeInsets.all(8),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
+                                      InkWell(
+                                        onTap: widget.id.isEmpty || isEdit
+                                            ? () {
+                                                _handleLegalUserValueChange(1);
+                                              }
+                                            : null,
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 14, vertical: 5),
+                                          decoration: BoxDecoration(
+                                              color: _legalUserType == 1
+                                                  ? Color.fromRGBO(
+                                                      209, 244, 236, 1.0)
+                                                  : Color.fromRGBO(
+                                                      244, 246, 248, 1.0),
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              border: Border.all(
+                                                  color: _legalUserType == 1
+                                                      ? Color.fromRGBO(
+                                                          70, 206, 172, 1.0)
+                                                      : Color.fromRGBO(
+                                                          244, 246, 248, 1.0))),
+                                          child: Text(
+                                            'No',
+                                            style: new TextStyle(
+                                              fontSize: 16.0,
+                                              color: _legalUserType == 1
+                                                  ? Color.fromRGBO(
+                                                      70, 206, 172, 1.0)
+                                                  : Color.fromRGBO(
+                                                      202, 208, 215, 1.0),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
                                 : Container(),
                           ],
                         ),
@@ -559,6 +565,17 @@ class _AddBandScreenState
                             ),
                       Padding(
                         padding: EdgeInsets.all(5),
+                      ),
+                      Row(
+                        children: <Widget>[
+                          FlatButton(
+                            child: Text(
+                              "Add Bandmates",
+                              textAlign: TextAlign.left,
+                            ),
+                            onPressed: () {},
+                          )
+                        ],
                       ),
                       Padding(
                         padding: EdgeInsets.only(

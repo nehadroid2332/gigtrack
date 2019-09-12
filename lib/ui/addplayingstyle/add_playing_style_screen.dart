@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
+import 'package:gigtrack/server/models/user_playing_style.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 
 import 'add_playing_style_presenter.dart';
@@ -15,18 +16,50 @@ class AddPlayingStyleScreen extends BaseScreen {
 class _AddPlayingStyleScreenState
     extends BaseScreenState<AddPlayingStyleScreen, AddPlayingStylePresenter>
     implements AddPlayingStyleContract {
-  final playingStylesList = <String>[];
-  final instrumentList = <String>[];
+  final personalHighlights = <String>[
+    "Playing since age 5",
+    "Playing since age 10",
+    "Playing since age 15",
+    "Playing 1-5 years",
+    "Playing 6-10 years",
+    "Playing 11-20 years",
+    "Playing over 20 years",
+    "Music Instructor",
+    "College Grad",
+    "College Grad-Music Degree"
+  ];
+  final instrumentList = <String>[
+    "Guitar-Lead",
+    "Guitar-Rhythm",
+    "Bass",
+    "Drums",
+    "Keys",
+    "Piano",
+    "Harmonica",
+    "Vocals-Lead",
+    "Vocals-Harmony"
+  ];
+  final playingStylesList = <String>[
+    "Bluegrass",
+    "Blues",
+    "Celtic",
+    "Classic Rock",
+    "Country",
+    "Country Rock",
+    "Easy Listening",
+    "Gospel",
+    "Jazz",
+    "Metal",
+    "Punjabi",
+    "Punk",
+    "Raggae"
+  ];
 
+  final Map<String, String> inList = Map();
   final Set<String> psList = Set();
-  final Set<String> inList = Set();
-
-  @override
-  void initState() {
-    super.initState();
-    showLoading();
-    presenter.getList();
-  }
+  String selectedPHighlights;
+  final _degreeController = TextEditingController();
+  final _roleController = TextEditingController();
 
   @override
   Widget buildBody() {
@@ -73,7 +106,7 @@ class _AddPlayingStyleScreenState
           child: Text(
             s,
             style: textTheme.subtitle.copyWith(
-                color: inList.contains(s)
+                color: inList.containsKey(s)
                     ? Colors.white
                     : widget.appListener.primaryColorDark),
           ),
@@ -83,7 +116,7 @@ class _AddPlayingStyleScreenState
             vertical: 8,
           ),
           decoration: BoxDecoration(
-            color: inList.contains(s)
+            color: inList.containsKey(s)
                 ? widget.appListener.primaryColorDark
                 : Color.fromRGBO(244, 246, 248, 1.0),
             borderRadius: BorderRadius.circular(18),
@@ -94,10 +127,46 @@ class _AddPlayingStyleScreenState
         ),
         onTap: () {
           setState(() {
-            if (inList.contains(s)) {
+            if (inList.containsKey(s)) {
               inList.remove(s);
             } else
-              inList.add(s);
+              inList[s] = null;
+          });
+        },
+      ));
+    }
+    List<Widget> prsnlHighlts = [];
+    for (String s in personalHighlights) {
+      prsnlHighlts.add(GestureDetector(
+        child: Container(
+          child: Text(
+            s,
+            style: textTheme.subtitle.copyWith(
+                color: selectedPHighlights == s
+                    ? Colors.white
+                    : widget.appListener.primaryColorDark),
+          ),
+          margin: EdgeInsets.all(5),
+          padding: EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 8,
+          ),
+          decoration: BoxDecoration(
+            color: selectedPHighlights == s
+                ? widget.appListener.primaryColorDark
+                : Color.fromRGBO(244, 246, 248, 1.0),
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(
+              color: Color.fromRGBO(228, 232, 235, 1.0),
+            ),
+          ),
+        ),
+        onTap: () {
+          setState(() {
+            if (selectedPHighlights == s) {
+              selectedPHighlights = null;
+            } else
+              selectedPHighlights = s;
           });
         },
       ));
@@ -150,6 +219,52 @@ class _AddPlayingStyleScreenState
                 ),
                 Padding(padding: EdgeInsets.all(10)),
                 Text(
+                  "Personal Highlights",
+                  style: textTheme.headline.copyWith(
+                    color: Color.fromRGBO(99, 108, 119, 1.0),
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+                Padding(padding: EdgeInsets.all(10)),
+                Wrap(
+                  children: prsnlHighlts,
+                ),
+                Padding(padding: EdgeInsets.all(10)),
+                Text(
+                  "Roles",
+                  style: textTheme.headline.copyWith(
+                    color: Color.fromRGBO(99, 108, 119, 1.0),
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+                TextField(
+                  controller: _roleController,
+                  decoration: InputDecoration(
+                    labelText: "Enter Role",
+                    labelStyle: TextStyle(
+                      color: widget.appListener.primaryColorDark,
+                    ),
+                  ),
+                ),
+                Padding(padding: EdgeInsets.all(10)),
+                Text(
+                  "Degree",
+                  style: textTheme.headline.copyWith(
+                    color: Color.fromRGBO(99, 108, 119, 1.0),
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+                TextField(
+                  controller: _degreeController,
+                  decoration: InputDecoration(
+                    labelText: "Enter Degree",
+                    labelStyle: TextStyle(
+                      color: widget.appListener.primaryColorDark,
+                    ),
+                  ),
+                ),
+                Padding(padding: EdgeInsets.all(10)),
+                Text(
                   "Select your Playing Styles",
                   style: textTheme.headline.copyWith(
                     color: Color.fromRGBO(99, 108, 119, 1.0),
@@ -160,7 +275,7 @@ class _AddPlayingStyleScreenState
                 Wrap(
                   children: items,
                 ),
-                Padding(padding: EdgeInsets.all(30)),
+                Padding(padding: EdgeInsets.all(10)),
                 Text(
                   "Instruments",
                   style: textTheme.title.copyWith(
@@ -171,28 +286,52 @@ class _AddPlayingStyleScreenState
                 Wrap(
                   children: items2,
                 ),
+                ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: inList.keys.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    String key = inList.keys.elementAt(index);
+                    String val = inList[key];
+                    return Row(
+                      children: <Widget>[
+                        Text(key),
+                        Expanded(
+                          child: Container(),
+                        ),
+                        DropdownButton<String>(
+                          items: <String>[
+                            'Begineer',
+                            'Intermediate',
+                            "Professional"
+                          ].map((String value) {
+                            return new DropdownMenuItem<String>(
+                              value: value,
+                              child: new Text(value),
+                            );
+                          }).toList(),
+                          value: val,
+                          onChanged: (v) {
+                            setState(() {
+                              inList[key] = v;
+                            });
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                ),
                 Padding(padding: EdgeInsets.all(20)),
                 RaisedButton(
                   onPressed: () {
                     showLoading();
-                    String psId = "";
-                    String inId = "";
-
-                    if (psList.length == 1) {
-                      psId = psList.first;
-                    } else {
-                      for (String p in psList) {
-                        psId += p + ",";
-                      }
-                    }
-                    if (inList.length == 1) {
-                      inId = inList.first;
-                    } else {
-                      for (String i in inList) {
-                        inId += i + ",";
-                      }
-                    }
-                    presenter.addPlayingStyle(psId, inId);
+                    presenter.addPlayingStyle(UserPlayingStyle(
+                      instruments: inList,
+                      role: _roleController.text,
+                      degree: _degreeController.text,
+                      personalHighlights: selectedPHighlights,
+                      playing_styles: List.from(psList),
+                    ));
                   },
                   child: Text(
                     "Submit",
@@ -218,17 +357,6 @@ class _AddPlayingStyleScreenState
   void onAddSuccess() {
     hideLoading();
     Navigator.pop(context);
-  }
-
-  @override
-  void onListSuccess(List<String> iList, List<String> pList) {
-    hideLoading();
-    setState(() {
-      playingStylesList.clear();
-      instrumentList.clear();
-      playingStylesList.addAll(pList);
-      instrumentList.addAll(iList);
-    });
   }
 
   @override

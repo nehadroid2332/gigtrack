@@ -4,12 +4,20 @@ class UserPlayingStyle extends BaseModel {
   String id;
   String user_id;
   String band_id;
-  String playing_styles;
-  String instruments;
-
+  List<String> playing_styles;
+  Map<String, String> instruments;
+  String personalHighlights;
+  String role;
+  String degree;
 
   UserPlayingStyle(
-      {this.band_id, this.user_id, this.playing_styles, this.instruments});
+      {this.band_id,
+      this.user_id,
+      this.playing_styles,
+      this.instruments,
+      this.role,
+      this.degree,
+      this.personalHighlights});
 
   UserPlayingStyle.fromJSON(dynamic data) {
     id = data['id'];
@@ -17,6 +25,9 @@ class UserPlayingStyle extends BaseModel {
     band_id = data['band_id'];
     playing_styles = data['playing_styles_ids'];
     instruments = data['instruments_ids'];
+    personalHighlights = data['personalHighlights'];
+    role = data['role'];
+    degree = data['degree'];
   }
 
   @override
@@ -27,6 +38,9 @@ class UserPlayingStyle extends BaseModel {
     data['band_id'] = band_id;
     data['playing_styles_ids'] = playing_styles;
     data['instruments_ids'] = instruments;
+    data['personalHighlights'] = personalHighlights;
+    data['role'] = role;
+    data['degree'] = degree;
     return data;
   }
 }
