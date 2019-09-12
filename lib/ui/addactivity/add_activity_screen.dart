@@ -636,7 +636,7 @@ class _AddActivityScreenState
                                                       ? 5
                                                       : 0),
                                               child: Text(
-                                                _dateEndTxt != 0.toString()
+                                                _dateEndTxt != '0'
                                                     ? "to " + _dateEndTxt
                                                     : '',
                                                 style:
@@ -1056,6 +1056,8 @@ class _AddActivityScreenState
               ? formatDate(endDate, [D, ', ', mm, '-', dd, '-', yy])
               : 0;
           // " at ${formatDate(dateTime2, [hh, ':', nn, am])}";
+        }else{
+          _dateEndTxt='0';
         }
       } catch (e) {
         _dateEndTxt = "0";

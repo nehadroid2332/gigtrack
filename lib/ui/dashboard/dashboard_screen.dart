@@ -119,31 +119,38 @@ class _DashboardScreenState
                   String image;
                   switch (txt) {
                     case "Activities/Schedules":
-                      color = Color.fromRGBO(235, 84, 99, 1.0);
+                      color=Color.fromRGBO(22,102,237, 1.0);
+                      //color = Color.fromRGBO(235, 84, 99, 1.0);
                       image = 'assets/images/activities.png';
                       break;
                     case "Notes/Todo":
-                      color = Color.fromRGBO(105, 114, 98, 1.0);
+                      color=Color.fromRGBO(131,36, 77, 1.0);
+                      //color = Color.fromRGBO(105, 114, 98, 1.0);
                       image = 'assets/images/activities.png';
                       break;
                     case "Band":
-                      color = Color.fromRGBO(135, 67, 125, 1.0);
+                      color=Color.fromRGBO(214,22, 35, 1.0);
+                      //color = Color.fromRGBO(135, 67, 125, 1.0);
                       image = 'assets/images/band.png';
                       break;
                     case "Equipment":
-                      color = Color.fromRGBO(79, 73, 108, 1.0);
+                      color=Color.fromRGBO(60, 111, 55, 1.0);
+                      //color = Color.fromRGBO(79, 73, 108, 1.0);
                       image = 'assets/images/equipment.png';
                       break;
                     case "Playing Style":
-                      color = Color.fromRGBO(82, 149, 171, 1.0);
+                      color=Color.fromRGBO(80, 54, 116, 1.0);
+                      //color = Color.fromRGBO(82, 149, 171, 1.0);
                       image = 'assets/images/playingstyle.png';
                       break;
                     case "Contacts":
-                      color = Color.fromRGBO(82, 149, 171, 1.0);
+                      color= Color.fromRGBO(84, 34, 20, 1.0);
+                      //color = Color.fromRGBO(82, 149, 171, 1.0);
                       image = 'assets/images/contacts.png';
                       break;
                     case "Admin":
-                      color = Color.fromRGBO(18, 130, 119, 1.0);
+                      color= Color.fromRGBO(114, 22, 25, 1.0);
+                      //color = Color.fromRGBO(18, 130, 119, 1.0);
                       image = 'assets/images/admin.png';
                       break;
                     case "Bulletin Board":

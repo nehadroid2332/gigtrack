@@ -235,20 +235,23 @@ class _AddBandScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty || isEdit
-                          ? Text("Has legal name?")
-                          : Container(),
-                      Padding(
-                        padding: EdgeInsets.all(3),
-                      ),
-                      widget.id.isEmpty || isEdit
-                          ? Row(
+                      Container(
+                        child: Row(
+                          children: <Widget>[
+                            widget.id.isEmpty || isEdit
+                                ? Text("Has legal name?")
+                                : Container(),
+                            Padding(
+                              padding: EdgeInsets.all(3),
+                            ),
+                            widget.id.isEmpty || isEdit
+                                ? Row(
                               children: <Widget>[
                                 InkWell(
                                   onTap: widget.id.isEmpty || isEdit
                                       ? () {
-                                          _handleLegalUserValueChange(0);
-                                        }
+                                    _handleLegalUserValueChange(0);
+                                  }
                                       : null,
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
@@ -257,14 +260,14 @@ class _AddBandScreenState
                                         color: _legalUserType == 0
                                             ? Color.fromRGBO(209, 244, 236, 1.0)
                                             : Color.fromRGBO(
-                                                244, 246, 248, 1.0),
+                                            244, 246, 248, 1.0),
                                         borderRadius: BorderRadius.circular(15),
                                         border: Border.all(
                                             color: _legalUserType == 0
                                                 ? Color.fromRGBO(
-                                                    70, 206, 172, 1.0)
+                                                70, 206, 172, 1.0)
                                                 : Color.fromRGBO(
-                                                    244, 246, 248, 1.0))),
+                                                244, 246, 248, 1.0))),
                                     child: Text(
                                       'Yes',
                                       style: new TextStyle(
@@ -272,7 +275,7 @@ class _AddBandScreenState
                                         color: _legalUserType == 0
                                             ? Color.fromRGBO(70, 206, 172, 1.0)
                                             : Color.fromRGBO(
-                                                202, 208, 215, 1.0),
+                                            202, 208, 215, 1.0),
                                       ),
                                     ),
                                   ),
@@ -283,8 +286,8 @@ class _AddBandScreenState
                                 InkWell(
                                   onTap: widget.id.isEmpty || isEdit
                                       ? () {
-                                          _handleLegalUserValueChange(1);
-                                        }
+                                    _handleLegalUserValueChange(1);
+                                  }
                                       : null,
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
@@ -293,14 +296,14 @@ class _AddBandScreenState
                                         color: _legalUserType == 1
                                             ? Color.fromRGBO(209, 244, 236, 1.0)
                                             : Color.fromRGBO(
-                                                244, 246, 248, 1.0),
+                                            244, 246, 248, 1.0),
                                         borderRadius: BorderRadius.circular(15),
                                         border: Border.all(
                                             color: _legalUserType == 1
                                                 ? Color.fromRGBO(
-                                                    70, 206, 172, 1.0)
+                                                70, 206, 172, 1.0)
                                                 : Color.fromRGBO(
-                                                    244, 246, 248, 1.0))),
+                                                244, 246, 248, 1.0))),
                                     child: Text(
                                       'No',
                                       style: new TextStyle(
@@ -308,14 +311,18 @@ class _AddBandScreenState
                                         color: _legalUserType == 1
                                             ? Color.fromRGBO(70, 206, 172, 1.0)
                                             : Color.fromRGBO(
-                                                202, 208, 215, 1.0),
+                                            202, 208, 215, 1.0),
                                       ),
                                     ),
                                   ),
                                 ),
                               ],
                             )
-                          : Container(),
+                                : Container(),
+                          ],
+                        ),
+                      ),
+
                       showLegalName
                           ? widget.id.isEmpty || isEdit
                               ? Container()
@@ -453,39 +460,39 @@ class _AddBandScreenState
                               _dateStartedController.text,
                               textAlign: TextAlign.center,
                             ),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
-                      widget.id.isEmpty || isEdit
-                          ? Container()
-                          : Text(
-                              "Music Style",
-                              textAlign: TextAlign.center,
-                              style: textTheme.subhead,
-                            ),
-                      widget.id.isEmpty || isEdit
-                          ? TextField(
-                              enabled: widget.id.isEmpty || isEdit,
-                              controller: _musicStyleController,
-                              textCapitalization: TextCapitalization.sentences,
-                              decoration: InputDecoration(
-                                labelStyle: TextStyle(
-                                  color: Color.fromRGBO(202, 208, 215, 1.0),
-                                ),
-                                labelText: "Music Style",
-                                errorText: _errorMusicStyle,
-                                border: widget.id.isEmpty || isEdit
-                                    ? null
-                                    : InputBorder.none,
-                              ),
-                              style: textTheme.subhead.copyWith(
-                                color: Colors.black,
-                              ),
-                            )
-                          : Text(
-                              _musicStyleController.text,
-                              textAlign: TextAlign.center,
-                            ),
+//                      Padding(
+//                        padding: EdgeInsets.all(5),
+//                      ),
+//                      widget.id.isEmpty || isEdit
+//                          ? Container()
+//                          : Text(
+//                              "Music Style",
+//                              textAlign: TextAlign.center,
+//                              style: textTheme.subhead,
+//                            ),
+//                      widget.id.isEmpty || isEdit
+//                          ? TextField(
+//                              enabled: widget.id.isEmpty || isEdit,
+//                              controller: _musicStyleController,
+//                              textCapitalization: TextCapitalization.sentences,
+//                              decoration: InputDecoration(
+//                                labelStyle: TextStyle(
+//                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+//                                ),
+//                                labelText: "Music Style",
+//                                errorText: _errorMusicStyle,
+//                                border: widget.id.isEmpty || isEdit
+//                                    ? null
+//                                    : InputBorder.none,
+//                              ),
+//                              style: textTheme.subhead.copyWith(
+//                                color: Colors.black,
+//                              ),
+//                            )
+//                          : Text(
+//                              _musicStyleController.text,
+//                              textAlign: TextAlign.center,
+//                            ),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),

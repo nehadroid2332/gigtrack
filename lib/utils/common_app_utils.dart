@@ -276,7 +276,7 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
                       '-',
                       dd
                     ])}\n${formatDate(stDate, [HH, ':', nn, ':', ss])}",
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(fontSize: 12,color: Colors.white),
                   ),
                 ),
                 Image.asset(
@@ -296,7 +296,7 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
                       '-',
                       dd
                     ])}\n${formatDate(endDate, [HH, ':', nn, ':', ss])}",
-                    style: TextStyle(fontSize: 11),
+                    style: TextStyle(fontSize: 11,color: Colors.white),
                   ),
                 )
               ],

@@ -41,7 +41,7 @@ class _AddContactScreenState
 
   var _relationshipType = "Agent";
   bool _currentRelation=false;
-
+  bool defaultdateview= false;
   DateTime selectedDate;
 
   @override
@@ -365,7 +365,10 @@ class _AddContactScreenState
                             _dateToRememberItems[index] = data;
                           });
                           _dateToRememberDateController.addListener(() {
-                            data.date = selectedDate.millisecondsSinceEpoch;
+                            data.date =selectedDate!=null? selectedDate.millisecondsSinceEpoch:0;
+                            _dateToRememberDateController.text = defaultdateview?formatDate(
+                                DateTime.fromMillisecondsSinceEpoch(data.date),
+                                [mm, '-', dd, '-', yy]):"";
                             _dateToRememberItems[index] = data;
                           });
                           void _handleDateToRememberValueChange(String value) {
@@ -374,11 +377,10 @@ class _AddContactScreenState
                               _dateToRememberItems[index] = data;
                             });
                           }
-
                           _dateToRememberController.text = data.type;
-                          _dateToRememberDateController.text = formatDate(
+                          _dateToRememberDateController.text = defaultdateview?formatDate(
                               DateTime.fromMillisecondsSinceEpoch(data.date),
-                              [mm, '-', dd, '-', yy]);
+                              [mm, '-', dd, '-', yy]):"";
                           return Column(
                             crossAxisAlignment: widget.id.isEmpty
                                 ? CrossAxisAlignment.start
@@ -433,6 +435,7 @@ class _AddContactScreenState
                                                 lastDate: DateTime(2101));
                                         if (picked != null)
                                           setState(() {
+                                            defaultdateview= true;
                                             selectedDate = picked;
                                             _dateToRememberDateController.text =
                                                 formatDate(picked,

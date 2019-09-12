@@ -106,89 +106,89 @@ class _AddNotesScreenState
                   child: ListView(
                     padding: EdgeInsets.all(20),
                     children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                      ),
-                      widget.id.isEmpty
-                          ? Text(
-                              "Type",
-                              style: textTheme.headline.copyWith(),
-                            )
-                          : Container(),
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                      ),
-                      widget.id.isEmpty
-                          ? Row(
-                              children: <Widget>[
-                                InkWell(
-                                  onTap: () {
-                                    _handleTypeValueChange(0);
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: _type == 0
-                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-                                            : Color.fromRGBO(
-                                                244, 246, 248, 1.0),
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            color: _type == 0
-                                                ? Color.fromRGBO(
-                                                    70, 206, 172, 1.0)
-                                                : Color.fromRGBO(
-                                                    244, 246, 248, 1.0))),
-                                    child: Text(
-                                      'Note',
-                                      style: new TextStyle(
-                                        fontSize: 16.0,
-                                        color: _type == 0
-                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-                                            : Color.fromRGBO(
-                                                202, 208, 215, 1.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(6),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    _handleTypeValueChange(1);
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: _type == 1
-                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-                                            : Color.fromRGBO(
-                                                244, 246, 248, 1.0),
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            color: _type == 1
-                                                ? Color.fromRGBO(
-                                                    70, 206, 172, 1.0)
-                                                : Color.fromRGBO(
-                                                    244, 246, 248, 1.0))),
-                                    child: Text(
-                                      'Todo',
-                                      style: new TextStyle(
-                                        fontSize: 16.0,
-                                        color: _type == 1
-                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-                                            : Color.fromRGBO(
-                                                202, 208, 215, 1.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Container(),
+//                      Padding(
+//                        padding: EdgeInsets.all(10),
+//                      ),
+//                      widget.id.isEmpty
+//                          ? Text(
+//                              "Type",
+//                              style: textTheme.headline.copyWith(),
+//                            )
+//                          : Container(),
+//                      Padding(
+//                        padding: EdgeInsets.all(10),
+//                      ),
+//                      widget.id.isEmpty
+//                          ? Row(
+//                              children: <Widget>[
+//                                InkWell(
+//                                  onTap: () {
+//                                    _handleTypeValueChange(0);
+//                                  },
+//                                  child: Container(
+//                                    padding: EdgeInsets.symmetric(
+//                                        horizontal: 14, vertical: 5),
+//                                    decoration: BoxDecoration(
+//                                        color: _type == 0
+//                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+//                                            : Color.fromRGBO(
+//                                                244, 246, 248, 1.0),
+//                                        borderRadius: BorderRadius.circular(15),
+//                                        border: Border.all(
+//                                            color: _type == 0
+//                                                ? Color.fromRGBO(
+//                                                    70, 206, 172, 1.0)
+//                                                : Color.fromRGBO(
+//                                                    244, 246, 248, 1.0))),
+//                                    child: Text(
+//                                      'Note',
+//                                      style: new TextStyle(
+//                                        fontSize: 16.0,
+//                                        color: _type == 0
+//                                            ? Color.fromRGBO(70, 206, 172, 1.0)
+//                                            : Color.fromRGBO(
+//                                                202, 208, 215, 1.0),
+//                                      ),
+//                                    ),
+//                                  ),
+//                                ),
+//                                Padding(
+//                                  padding: EdgeInsets.all(6),
+//                                ),
+//                                InkWell(
+//                                  onTap: () {
+//                                    _handleTypeValueChange(1);
+//                                  },
+//                                  child: Container(
+//                                    padding: EdgeInsets.symmetric(
+//                                        horizontal: 14, vertical: 5),
+//                                    decoration: BoxDecoration(
+//                                        color: _type == 1
+//                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+//                                            : Color.fromRGBO(
+//                                                244, 246, 248, 1.0),
+//                                        borderRadius: BorderRadius.circular(15),
+//                                        border: Border.all(
+//                                            color: _type == 1
+//                                                ? Color.fromRGBO(
+//                                                    70, 206, 172, 1.0)
+//                                                : Color.fromRGBO(
+//                                                    244, 246, 248, 1.0))),
+//                                    child: Text(
+//                                      'Todo',
+//                                      style: new TextStyle(
+//                                        fontSize: 16.0,
+//                                        color: _type == 1
+//                                            ? Color.fromRGBO(70, 206, 172, 1.0)
+//                                            : Color.fromRGBO(
+//                                                202, 208, 215, 1.0),
+//                                      ),
+//                                    ),
+//                                  ),
+//                                ),
+//                              ],
+//                            )
+//                          : Container(),
                       Padding(
                         padding: EdgeInsets.all(10),
                       ),
