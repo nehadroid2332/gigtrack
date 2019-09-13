@@ -208,7 +208,8 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
                           ),
                         )
                       ],
-                    )
+                    ),
+
                   ],
                 ),
               ),

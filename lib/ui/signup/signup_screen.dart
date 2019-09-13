@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
@@ -440,6 +441,24 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                       },
                     )
                   ],
+                ),
+                Padding(padding: EdgeInsets.all(10),),
+                Container(
+                  child: Center(
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'By signing up, you agree to our',
+                          style: TextStyle(color: Colors.grey),
+                          children: <TextSpan>[
+                            TextSpan(text: ' Terms ', style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey),
+                              recognizer: new TapGestureRecognizer()..onTap = () => print('Tap Here onTap'),),
+                            TextSpan(text: '& Privay Policy.',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey),
+                              recognizer: new TapGestureRecognizer()..onTap = () => print('Tap Here onTapTwice'),
+                            ),
+                          ],
+                        ),
+                      )
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.all(15),
