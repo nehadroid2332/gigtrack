@@ -574,11 +574,14 @@ class _AddBandScreenState
                                     "Add Bandmates",
                                     textAlign: TextAlign.left,
                                   ),
-                                  onPressed: () {
-                                    widget.appListener.router.navigateTo(
+                                  color: Color.fromRGBO(244, 246, 248, 1.0),
+                                  onPressed: () async {
+                                    await widget.appListener.router.navigateTo(
                                         context,
                                         Screens.ADDMEMBERTOBAND.toString() +
                                             "/${widget.id}");
+                                    showLoading();
+                                    presenter.getBandDetails(widget.id);
                                   },
                                 )
                               ],
@@ -586,7 +589,7 @@ class _AddBandScreenState
                           : Container(),
                       Padding(
                         padding: EdgeInsets.only(
-                          top: 30,
+                          top: widget.id.isEmpty ? 30 : 8,
                         ),
                       ),
                       widget.id.isEmpty
@@ -672,22 +675,10 @@ class _AddBandScreenState
                                   _errorWebsite = null;
                                   if (bname.isEmpty) {
                                     _errorBandName = "Cannot be empty";
-                                  } else if (blname.isEmpty) {
-                                    _errorBandLegalName = "Cannot be empty";
-                                  } else if (dateStarted.isEmpty) {
-                                    _errorDateStarted = "Cannot be empty";
-                                  } else if (musicStyle.isEmpty) {
-                                    _errorMusicStyle = "Cannot be empty";
                                   } else if (email.isEmpty) {
                                     _errorEmail = "Cannot be empty";
                                   } else if (validateEmail(email)) {
                                     _errorEmail = "Not a Valid Email";
-                                  } else if (musicStyle.isEmpty) {
-                                    _errorMusicStyle = "Cannot be empty";
-                                  } else if (legalstructure.isEmpty) {
-                                    _errorStructure = "Cannot be empty";
-                                  } else if (website.isEmpty) {
-                                    _errorWebsite = "Cannot be empty";
                                   } else {
                                     showLoading();
                                     presenter.addBand(
@@ -785,6 +776,7 @@ class _AddBandScreenState
       DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(band.dateStarted);
       _dateStartedController.text =
           formatDate(dateTime, [yyyy, '-', mm, '-', dd]);
+      members.clear();
       members.addAll(band.bandmateUsers);
     });
   }
