@@ -566,20 +566,24 @@ class _AddBandScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      Row(
-                        children: <Widget>[
-                          FlatButton(
-                            child: Text(
-                              "Add Bandmates",
-                              textAlign: TextAlign.left,
-                            ),
-                            onPressed: () {
-                              widget.appListener.router.navigateTo(context,
-                                  Screens.ADDMEMBERTOBAND.toString() + "/");
-                            },
-                          )
-                        ],
-                      ),
+                      widget.id.isNotEmpty || isEdit
+                          ? Row(
+                              children: <Widget>[
+                                FlatButton(
+                                  child: Text(
+                                    "Add Bandmates",
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  onPressed: () {
+                                    widget.appListener.router.navigateTo(
+                                        context,
+                                        Screens.ADDMEMBERTOBAND.toString() +
+                                            "/${widget.id}");
+                                  },
+                                )
+                              ],
+                            )
+                          : Container(),
                       Padding(
                         padding: EdgeInsets.only(
                           top: 30,
