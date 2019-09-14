@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:gigtrack/base/base_model.dart';
 
@@ -17,6 +18,7 @@ class UserInstrument extends BaseModel {
   String photo;
   bool is_insured;
   String image;
+  String cost;
   List<File> files = [];
   List<String> uploadedFiles = [];
 
@@ -29,6 +31,7 @@ class UserInstrument extends BaseModel {
       this.purchased_date,
       this.purchased_from,
       this.serial_number,
+      this.cost,
       this.user_id,
       this.warranty,
       this.warranty_end_date,
@@ -50,6 +53,7 @@ class UserInstrument extends BaseModel {
     this.warranty_phone = data['warranty_phone'];
     this.warranty_reference = data['warranty_reference'];
     this.image = data['image'];
+    this.cost = data['cost'];
     for (var d in data['uploadedFiles']) {
       this.uploadedFiles.add(d);
     }
@@ -73,6 +77,7 @@ class UserInstrument extends BaseModel {
     data['warranty_reference'] = warranty_reference ?? "";
     data['image'] = image;
     data['uploadedFiles'] = uploadedFiles;
+    data['cost'] = cost;
     return data;
   }
 }

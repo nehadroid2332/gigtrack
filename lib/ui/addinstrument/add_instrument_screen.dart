@@ -1143,28 +1143,29 @@ class _AddInstrumentScreenState
                                   // }
                                   else {
                                     UserInstrument instrument = UserInstrument(
-                                      band_id: selectedBand?.id ?? "0",
-                                      is_insured: _instrumentInsured,
-                                      name: instrumentName,
-                                      purchased_date: this.purchasedDate != null
-                                          ? this
-                                              .purchasedDate
-                                              .millisecondsSinceEpoch
-                                          : 0,
-                                      purchased_from: wherePurchased,
-                                      serial_number: sno,
-                                      user_id: presenter.serverAPI.userId,
-                                      warranty: warranty,
-                                      warranty_end_date:
-                                          this.warrantyEndDate != null
-                                              ? this
-                                                  .warrantyEndDate
-                                                  .millisecondsSinceEpoch
-                                              : 0,
-                                      warranty_phone: wPh,
-                                      warranty_reference: wRef,
-                                      id: id,
-                                    );
+                                        band_id: selectedBand?.id ?? "0",
+                                        is_insured: _instrumentInsured,
+                                        name: instrumentName,
+                                        purchased_date: this.purchasedDate !=
+                                                null
+                                            ? this
+                                                .purchasedDate
+                                                .millisecondsSinceEpoch
+                                            : 0,
+                                        purchased_from: wherePurchased,
+                                        serial_number: sno,
+                                        user_id: presenter.serverAPI.userId,
+                                        warranty: warranty,
+                                        warranty_end_date:
+                                            this.warrantyEndDate != null
+                                                ? this
+                                                    .warrantyEndDate
+                                                    .millisecondsSinceEpoch
+                                                : 0,
+                                        warranty_phone: wPh,
+                                        warranty_reference: wRef,
+                                        id: id,
+                                        cost: cost);
                                     instrument.files = files;
                                     showLoading();
                                     presenter.addInstrument(instrument);
