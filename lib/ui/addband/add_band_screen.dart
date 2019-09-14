@@ -573,7 +573,10 @@ class _AddBandScreenState
                               "Add Bandmates",
                               textAlign: TextAlign.left,
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              widget.appListener.router.navigateTo(context,
+                                  Screens.ADDMEMBERTOBAND.toString() + "/");
+                            },
                           )
                         ],
                       ),
@@ -601,31 +604,14 @@ class _AddBandScreenState
                                           color: widget.appListener.accentColor,
                                         ),
                                         onPressed: () async {
-                                          final res = await widget
-                                              .appListener.router
+                                          await widget.appListener.router
                                               .navigateTo(
                                                   context,
                                                   Screens.ADDMEMBERTOBAND
                                                           .toString() +
                                                       "/${widget.id}");
-                                          if (res != null &&
-                                              res['user_id'] != null) {
-                                            String userId = res['user_id'];
-                                            if (members != null) {
-                                              User user =
-                                                  members.firstWhere((u) {
-                                                return u.id == userId;
-                                              });
-                                              if (user != null) {
-                                                showMessage(
-                                                    "User already a member");
-                                              } else {
-                                                presenter.addMemberToBand(
-                                                    widget.id, res['user_id']);
-                                              }
-                                            }
-                                          }
-                                          // presenter.getBandDetails(widget.id);
+                                          showLoading();
+                                          presenter.getBandDetails(widget.id);
                                         })
                                     : Container()
                               ],

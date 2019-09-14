@@ -55,7 +55,7 @@ class _AddPlayingStyleScreenState
     "Punk",
     "Raggae"
   ];
-  String _playingType="Playing since age 5";
+  String _playingType = "Playing since age 5";
   final Map<String, String> inList = Map();
   final Set<String> psList = Set();
   String selectedPHighlights;
@@ -63,10 +63,11 @@ class _AddPlayingStyleScreenState
   final _roleController = TextEditingController();
   void _handleRelationshipValueChange(String value) {
     setState(() {
-     _playingType=value;
-     selectedPHighlights=value;
+      _playingType = value;
+      selectedPHighlights = value;
     });
   }
+
   @override
   Widget buildBody() {
     List<Widget> items = [];
@@ -214,7 +215,7 @@ class _AddPlayingStyleScreenState
           ),
           Expanded(
             child: ListView(
-              padding: EdgeInsets.only(left: 15,right: 15,bottom: 15,top: 5),
+              padding: EdgeInsets.only(left: 15, right: 15, bottom: 15, top: 5),
               children: <Widget>[
                 Text(
                   "Playing Styles",
@@ -236,34 +237,33 @@ class _AddPlayingStyleScreenState
                   "How long you have been playing?",
                   textAlign: TextAlign.left,
                   style: textTheme.subtitle.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: Color.fromRGBO(99, 108, 119, 1.0)
-                  ),
+                      fontWeight: FontWeight.w600,
+                      color: Color.fromRGBO(99, 108, 119, 1.0)),
                 ),
-                Padding(padding: EdgeInsets.all(5),),
+                Padding(
+                  padding: EdgeInsets.all(5),
+                ),
                 DropdownButton<String>(
                   items: personalHighlights.map((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
-                      child: Text(value,
-                        style: TextStyle(
-                            color: Color.fromRGBO(99, 108, 119, 1.0)
-                        ),
+                      child: Text(
+                        value,
+                        style:
+                            TextStyle(color: Color.fromRGBO(99, 108, 119, 1.0)),
                       ),
                     );
                   }).toList(),
                   onChanged: _handleRelationshipValueChange,
                   value: _playingType,
-                )
-                ,
+                ),
                 Padding(padding: EdgeInsets.all(5)),
                 Text(
                   "Roles",
                   textAlign: TextAlign.left,
                   style: textTheme.subtitle.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: Color.fromRGBO(99, 108, 119, 1.0)
-                  ),
+                      color: Color.fromRGBO(99, 108, 119, 1.0)),
                 ),
                 TextField(
                   controller: _roleController,
@@ -280,8 +280,7 @@ class _AddPlayingStyleScreenState
                   textAlign: TextAlign.left,
                   style: textTheme.subtitle.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: Color.fromRGBO(99, 108, 119, 1.0)
-                  ),
+                      color: Color.fromRGBO(99, 108, 119, 1.0)),
                 ),
                 TextField(
                   controller: _degreeController,
@@ -315,15 +314,18 @@ class _AddPlayingStyleScreenState
                 Wrap(
                   children: items2,
                 ),
-                Padding(padding: EdgeInsets.all(5),),
-                inList.length>0? Text(
-                  "Select your expertise level :",
-                  textAlign: TextAlign.left,
-                  style: textTheme.subtitle.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: Color.fromRGBO(99, 108, 119, 1.0)
-                  ),
-                ):Container(),
+                Padding(
+                  padding: EdgeInsets.all(5),
+                ),
+                inList.length > 0
+                    ? Text(
+                        "Select your expertise level :",
+                        textAlign: TextAlign.left,
+                        style: textTheme.subtitle.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: Color.fromRGBO(99, 108, 119, 1.0)),
+                      )
+                    : Container(),
                 ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,

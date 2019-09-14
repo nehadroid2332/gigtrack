@@ -45,13 +45,4 @@ class AddBandPresenter extends BasePresenter {
       view.showMessage(res.message);
     }
   }
-
-  void addMemberToBand(String bandId, String userId) async {
-    final res = await serverAPI.getBandDetails(bandId);
-    if (res is Band) {
-      res.bandmates[userId] = 0;
-      await serverAPI.addBand(res);
-      (view as AddBandContract).onUpdate();
-    }
-  }
 }

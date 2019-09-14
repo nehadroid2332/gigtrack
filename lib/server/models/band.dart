@@ -1,4 +1,5 @@
 import 'package:gigtrack/base/base_model.dart';
+import 'package:gigtrack/server/models/band_member.dart';
 import 'package:gigtrack/server/models/user.dart';
 
 class Band extends BaseModel {
@@ -13,7 +14,7 @@ class Band extends BaseModel {
   String id;
   String userId;
 
-  Map<String, int> bandmates = Map();
+  Map<String, BandMember> bandmates = Map();
   List<User> bandmateUsers = [];
 
   Band(
@@ -39,7 +40,7 @@ class Band extends BaseModel {
       bandmates.clear();
       Map map = data['bandmates'];
       for (MapEntry item in map.entries) {
-        bandmates[item.key] = item.value;
+        bandmates[item.key] = BandMember.fromJSON(item.value);
       }
     }
   }
@@ -56,7 +57,12 @@ class Band extends BaseModel {
     data['email'] = email ?? "";
     data['website'] = website ?? "";
     data['id'] = id;
-    data['bandmates'] = bandmates;
+    Map<String, dynamic> bnds = {};
+    for (var key in bandmates.keys) {
+      BandMember bandMember = bandmates[key];
+      bnds[key] = bandMember.toMap();
+    }
+    data['bandmates'] = bnds;
     return data;
   }
 }
