@@ -681,7 +681,10 @@ class _AddInstrumentScreenState
                                     : InputBorder.none,
                               ),
                             )
-                          : Container(),
+                          : Text(
+                              _warrantyPhoneController.text,
+                              textAlign: TextAlign.center,
+                            ),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -1238,6 +1241,7 @@ class _AddInstrumentScreenState
       _warrantyPhoneController.text = instrument.warranty_phone;
       _warrantyReferenceController.text = instrument.warranty_reference;
       _wherePurchaseController.text = instrument.purchased_from;
+      _costController.text = instrument.cost;
       image = instrument.uploadedFiles[0];
     });
   }
