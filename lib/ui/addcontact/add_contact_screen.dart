@@ -84,8 +84,82 @@ class _AddContactScreenState
         backgroundColor: Color.fromRGBO(82, 149, 171, 1.0),
       );
 
+  final likesList = <String>[
+    "Food",
+    "Snacks",
+    "Hobbies",
+    "Sports",
+    "Entertainment",
+    "Clothes",
+    "Others"
+  ];
+  Map<String, String> selectedLikesMap = {};
+
   @override
   Widget buildBody() {
+    List<Widget> items2 = [];
+    for (String s in likesList) {
+      items2.add(GestureDetector(
+        child: Container(
+          child: Text(
+            s,
+            style: textTheme.subtitle.copyWith(
+                color: selectedLikesMap.containsKey(s)
+                    ? Colors.white
+                    : Color.fromRGBO(82, 149, 171, 1.0)),
+          ),
+          margin: EdgeInsets.all(5),
+          padding: EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 8,
+          ),
+          decoration: BoxDecoration(
+            color: selectedLikesMap.containsKey(s)
+                ? Color.fromRGBO(82, 149, 171, 1.0)
+                : Color.fromRGBO(244, 246, 248, 1.0),
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(
+              color: Color.fromRGBO(228, 232, 235, 1.0),
+            ),
+          ),
+        ),
+        onTap: () {
+          setState(() {
+            if (selectedLikesMap.containsKey(s)) {
+              selectedLikesMap.remove(s);
+            } else
+              selectedLikesMap[s] = null;
+          });
+        },
+      ));
+    }
+    List<Widget> likesTextFields = [];
+    for (String key in selectedLikesMap.keys) {
+      String val = selectedLikesMap[key];
+      final txtController = TextEditingController(text: val);
+      txtController.addListener(() {
+        setState(() {
+          selectedLikesMap[key] = txtController.text;
+        });
+      });
+      likesTextFields.add(Row(
+        children: <Widget>[
+          Expanded(
+            flex: 1,
+            child: Text(key),
+          ),
+          Padding(
+            padding: EdgeInsets.all(4),
+          ),
+          Expanded(
+            flex: 2,
+            child: TextField(
+              controller: txtController,
+            ),
+          )
+        ],
+      ));
+    }
     return Stack(
       children: <Widget>[
         ClipPath(
@@ -550,6 +624,25 @@ class _AddContactScreenState
                                   ),
                                 )
                               : Container(),
+
+                      Text(
+                        "Likes",
+                        style: textTheme.subhead.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(6),
+                      ),
+                      Wrap(
+                        children: items2,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(2),
+                      ),
+                      Column(
+                        children: likesTextFields,
+                      ),
                       widget.id.isEmpty
                           ? RaisedButton(
                               color: Color.fromRGBO(82, 149, 171, 1.0),
