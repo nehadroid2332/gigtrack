@@ -452,7 +452,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                           children: <TextSpan>[
                             TextSpan(text: ' Terms ', style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey),
                               recognizer: new TapGestureRecognizer()..onTap = () => print('Tap Here onTap'),),
-                            TextSpan(text: '& Privay Policy.',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey),
+                            TextSpan(text: '& Privacy Policy.',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey),
                               recognizer: new TapGestureRecognizer()..onTap = () => print('Tap Here onTapTwice'),
                             ),
                           ],

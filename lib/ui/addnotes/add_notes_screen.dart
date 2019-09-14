@@ -5,6 +5,7 @@ import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/notestodo.dart';
 import 'package:gigtrack/ui/addnotes/add_notes_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
+import 'package:gigtrack/utils/showup.dart';
 
 class AddNotesScreen extends BaseScreen {
   final String id;
@@ -55,11 +56,12 @@ class _AddNotesScreenState
   }
 
   bool isEdit = false;
+  bool isDateVisible= false;
 
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(105, 114, 98, 1.0),
+        backgroundColor:Color.fromRGBO(131,36, 77, 1.0),
         actions: <Widget>[
           widget.id.isEmpty
               ? Container()
@@ -81,19 +83,20 @@ class _AddNotesScreenState
         ClipPath(
           clipper: RoundedClipper(height / 2.5),
           child: Container(
-            color: Color.fromRGBO(105, 114, 98, 1.0),
+            color: Color.fromRGBO(131,36, 77, 1.0),
             height: height / 2.5,
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+          padding: EdgeInsets.symmetric(horizontal: 25, vertical: 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "${widget.id.isEmpty ? "Add" : ""} Notes/Todo",
+                "${widget.id.isEmpty ? "Add" : ""} Note",
                 style: textTheme.display2.copyWith(
                   color: Colors.white,
+                  fontSize: 30
                 ),
               ),
               Padding(
@@ -190,14 +193,14 @@ class _AddNotesScreenState
 //                            )
 //                          : Container(),
                       Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: widget.id.isEmpty?EdgeInsets.all(10):EdgeInsets.all(0),
                       ),
                       TextField(
                         enabled: widget.id.isEmpty,
                         style: textTheme.headline,
                         textCapitalization: TextCapitalization.sentences,
                         decoration: InputDecoration(
-                          labelText: "Description",
+                          labelText: widget.id.isEmpty?"Add note here":"",
                           labelStyle: TextStyle(
                             color: Color.fromRGBO(202, 208, 215, 1.0),
                           ),
@@ -205,7 +208,28 @@ class _AddNotesScreenState
                         ),
                         controller: _descController,
                       ),
-                      Row(
+                      Padding(
+                        padding:widget.id.isEmpty ? EdgeInsets.all(8):EdgeInsets.all(0),
+                      ),
+                      ShowUp(
+                        child:  !isDateVisible? new GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isDateVisible=true;
+                            });
+                          },
+                          child:  widget.id.isEmpty?Text(
+                            "Click here to remind me",
+                            style: textTheme.display1.copyWith(
+                                color: widget.appListener.primaryColorDark,
+                                fontSize: 14),
+                          ):Container(),
+                        ):Container(),
+                        delay: 1000,
+                      ),
+
+
+                      isDateVisible||widget.id.isNotEmpty?Row(
                         children: <Widget>[
                           Expanded(
                             child: InkWell(
@@ -213,7 +237,7 @@ class _AddNotesScreenState
                                 child: TextField(
                                   enabled: widget.id.isEmpty,
                                   decoration: InputDecoration(
-                                    labelText: "Start Date",
+                                    labelText: "Date",
                                     labelStyle: TextStyle(
                                       color: Color.fromRGBO(202, 208, 215, 1.0),
                                     ),
@@ -233,84 +257,84 @@ class _AddNotesScreenState
                           Padding(
                             padding: EdgeInsets.all(4),
                           ),
-                          Expanded(
-                            child: InkWell(
-                              child: AbsorbPointer(
-                                child: TextField(
-                                  enabled: widget.id.isEmpty,
-                                  decoration: InputDecoration(
-                                    labelText: "Start Time",
-                                    labelStyle: TextStyle(
-                                      color: Color.fromRGBO(202, 208, 215, 1.0),
-                                    ),
-                                    border: widget.id.isEmpty
-                                        ? null
-                                        : InputBorder.none,
-                                  ),
-                                  controller: _startTimeController,
-                                ),
-                              ),
-                              onTap: () {
-                                if (widget.id.isEmpty)
-                                  _selectTime(context, true);
-                              },
-                            ),
-                          )
+//                          Expanded(
+//                            child: InkWell(
+//                              child: AbsorbPointer(
+//                                child: TextField(
+//                                  enabled: widget.id.isEmpty,
+//                                  decoration: InputDecoration(
+//                                    labelText: "Start Time",
+//                                    labelStyle: TextStyle(
+//                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+//                                    ),
+//                                    border: widget.id.isEmpty
+//                                        ? null
+//                                        : InputBorder.none,
+//                                  ),
+//                                  controller: _startTimeController,
+//                                ),
+//                              ),
+//                              onTap: () {
+//                                if (widget.id.isEmpty)
+//                                  _selectTime(context, true);
+//                              },
+//                            ),
+//                          )
                         ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: InkWell(
-                              child: AbsorbPointer(
-                                child: TextField(
-                                  enabled: widget.id.isEmpty,
-                                  decoration: InputDecoration(
-                                    labelText: "End Date",
-                                    labelStyle: TextStyle(
-                                      color: Color.fromRGBO(202, 208, 215, 1.0),
-                                    ),
-                                    border: widget.id.isEmpty
-                                        ? null
-                                        : InputBorder.none,
-                                  ),
-                                  controller: _endDateController,
-                                ),
-                              ),
-                              onTap: () {
-                                if (widget.id.isEmpty)
-                                  _selectDate(context, false);
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(4),
-                          ),
-                          Expanded(
-                            child: InkWell(
-                              child: AbsorbPointer(
-                                child: TextField(
-                                  enabled: widget.id.isEmpty,
-                                  decoration: InputDecoration(
-                                    labelText: "End Time",
-                                    labelStyle: TextStyle(
-                                      color: Color.fromRGBO(202, 208, 215, 1.0),
-                                    ),
-                                    border: widget.id.isEmpty
-                                        ? null
-                                        : InputBorder.none,
-                                  ),
-                                  controller: _endTimeController,
-                                ),
-                              ),
-                              onTap: () {
-                                if (widget.id.isEmpty)
-                                  _selectTime(context, false);
-                              },
-                            ),
-                          )
-                        ],
-                      ),
+                      ):Container(),
+//                      Row(
+//                        children: <Widget>[
+//                          Expanded(
+//                            child: InkWell(
+//                              child: AbsorbPointer(
+//                                child: TextField(
+//                                  enabled: widget.id.isEmpty,
+//                                  decoration: InputDecoration(
+//                                    labelText: "End Date",
+//                                    labelStyle: TextStyle(
+//                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+//                                    ),
+//                                    border: widget.id.isEmpty
+//                                        ? null
+//                                        : InputBorder.none,
+//                                  ),
+//                                  controller: _endDateController,
+//                                ),
+//                              ),
+//                              onTap: () {
+//                                if (widget.id.isEmpty)
+//                                  _selectDate(context, false);
+//                              },
+//                            ),
+//                          ),
+//                          Padding(
+//                            padding: EdgeInsets.all(4),
+//                          ),
+//                          Expanded(
+//                            child: InkWell(
+//                              child: AbsorbPointer(
+//                                child: TextField(
+//                                  enabled: widget.id.isEmpty,
+//                                  decoration: InputDecoration(
+//                                    labelText: "End Time",
+//                                    labelStyle: TextStyle(
+//                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+//                                    ),
+//                                    border: widget.id.isEmpty
+//                                        ? null
+//                                        : InputBorder.none,
+//                                  ),
+//                                  controller: _endTimeController,
+//                                ),
+//                              ),
+//                              onTap: () {
+//                                if (widget.id.isEmpty)
+//                                  _selectTime(context, false);
+//                              },
+//                            ),
+//                          )
+//                        ],
+//                      ),
                       Padding(
                         padding: EdgeInsets.all(20),
                       ),
@@ -331,15 +355,16 @@ class _AddNotesScreenState
                                   _endTimeError = null;
                                   if (desc.isEmpty) {
                                     _descError = "Cannot be Empty";
-                                  } else if (stDate.isEmpty) {
-                                    _startDateError = "Cannot be Empty";
-                                  } else if (stTime.isEmpty) {
-                                    _startTimeError = "Cannot be Empty";
-                                  } else if (endDate.isEmpty) {
-                                    _endDateError = "Cannot be Empty";
-                                  } else if (endTime.isEmpty) {
-                                    _endTimeError = "Cannot be Empty";
-                                  } else {
+                                  }
+//                                  else if (stDate.isEmpty) {
+//                                    _startDateError = "Cannot be Empty";
+//                                  } else if (stTime.isEmpty) {
+//                                    _startTimeError = "Cannot be Empty";
+//                                  } else if (endDate.isEmpty) {
+//                                    _endDateError = "Cannot be Empty";
+//                                  } else if (endTime.isEmpty) {
+//                                    _endTimeError = "Cannot be Empty";
+                                   else {
                                     DateTime start = DateTime(
                                         selectedStartDate.year,
                                         selectedStartDate.month,
@@ -367,7 +392,7 @@ class _AddNotesScreenState
                                   }
                                 });
                               },
-                              color: Color.fromRGBO(105, 114, 98, 1.0),
+                              color: Color.fromRGBO(131,36, 77, 1.0),
                               child: Text(
                                 "Submit",
                                 style: textTheme.headline.copyWith(

@@ -240,7 +240,7 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
 
   return Card(
     margin: EdgeInsets.all(10),
-    color: Color.fromRGBO(105, 114, 98, 1.0),
+    color: Color.fromRGBO(131,36, 77, 1.0),
     child: InkWell(
       child: Padding(
         padding: EdgeInsets.all(15),
@@ -275,30 +275,30 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
                       mm,
                       '-',
                       dd
-                    ])}\n${formatDate(stDate, [HH, ':', nn, ':', ss])}",
+                    ])}",
                     style: TextStyle(fontSize: 12,color: Colors.white),
                   ),
                 ),
-                Image.asset(
-                  'assets/images/calender.png',
-                  height: 20,
-                  width: 20,
-                ),
-                Padding(
-                  padding: EdgeInsets.all(5),
-                ),
-                Expanded(
-                  child: Text(
-                    "${formatDate(endDate, [
-                      yyyy,
-                      '-',
-                      mm,
-                      '-',
-                      dd
-                    ])}\n${formatDate(endDate, [HH, ':', nn, ':', ss])}",
-                    style: TextStyle(fontSize: 11,color: Colors.white),
-                  ),
-                )
+//                Image.asset(
+//                  'assets/images/calender.png',
+//                  height: 20,
+//                  width: 20,
+//                ),
+//                Padding(
+//                  padding: EdgeInsets.all(5),
+//                ),
+//                Expanded(
+//                  child: Text(
+//                    "${formatDate(endDate, [
+//                      yyyy,
+//                      '-',
+//                      mm,
+//                      '-',
+//                      dd
+//                    ])}\n${formatDate(endDate, [HH, ':', nn, ':', ss])}",
+//                    style: TextStyle(fontSize: 11,color: Colors.white),
+//                  ),
+//                )
               ],
             )
           ],

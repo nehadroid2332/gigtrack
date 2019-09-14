@@ -111,7 +111,7 @@ class _DashboardScreenState
                 "Playing Style",
                 "Contacts",
                 "Admin",
-                "Notes/Todo",
+                "Notes",
                 "Bulletin Board"
               ].map(
                 (txt) {
@@ -123,7 +123,7 @@ class _DashboardScreenState
                       //color = Color.fromRGBO(235, 84, 99, 1.0);
                       image = 'assets/images/activities.png';
                       break;
-                    case "Notes/Todo":
+                    case "Notes":
                       color=Color.fromRGBO(131,36, 77, 1.0);
                       //color = Color.fromRGBO(105, 114, 98, 1.0);
                       image = 'assets/images/activities.png';
@@ -204,7 +204,7 @@ class _DashboardScreenState
                       if (txt == "Activities/Schedules")
                         widget.appListener.router.navigateTo(
                             context, Screens.ACTIVITIESLIST.toString());
-                      else if (txt == "Notes/Todo")
+                      else if (txt == "Notes")
                         widget.appListener.router.navigateTo(
                             context, Screens.NOTETODOLIST.toString());
                       else if (txt == "Band")

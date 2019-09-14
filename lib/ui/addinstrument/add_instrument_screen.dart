@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:date_format/date_format.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gigtrack/base/base_screen.dart';
@@ -10,6 +11,7 @@ import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/user_instrument.dart';
 import 'package:gigtrack/ui/addinstrument/add_instrument_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
+import 'package:gigtrack/utils/showup.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddInstrumentScreen extends BaseScreen {
@@ -26,6 +28,10 @@ class _AddInstrumentScreenState
     extends BaseScreenState<AddInstrumentScreen, AddInstrumentPresenter>
     implements AddInstrumentContract {
   File _image;
+
+  bool _ispurchaseDate=false;
+  bool _iswarrantyInfo=false;
+  bool _iswarrantydate=false;
 
   final _instrumentNameController = TextEditingController(),
       _wherePurchaseController = TextEditingController(),
@@ -58,7 +64,7 @@ class _AddInstrumentScreenState
 
   bool _instrumentInsured = false;
 
-  var _pDateType, _eDateType;
+  var _pDateType=1, _eDateType;
 
   DateTime purchasedDate;
 
@@ -151,7 +157,7 @@ class _AddInstrumentScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(79, 73, 108, 1.0),
+        backgroundColor: Color.fromRGBO(60, 111, 55, 1.0),
         actions: <Widget>[
           widget.id.isEmpty
               ? Container()
@@ -173,7 +179,7 @@ class _AddInstrumentScreenState
         ClipPath(
           clipper: RoundedClipper(height / 2.5),
           child: Container(
-            color: Color.fromRGBO(79, 73, 108, 1.0),
+            color: Color.fromRGBO(60, 111, 55, 1.0),
             height: height / 2.5,
           ),
         ),
@@ -474,8 +480,29 @@ class _AddInstrumentScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty || isEdit
-                          ? Text(
+
+                      ShowUp(
+                        child:  !_ispurchaseDate? new GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _ispurchaseDate=true;
+                            });
+                          },
+                          child:  widget.id.isEmpty?Text(
+                            "Click here to add purchase date",
+                            style: textTheme.display1.copyWith(
+                                color: widget.appListener.primaryColorDark,
+                                fontSize: 14),
+                          ):Container(),
+                        ):Container(),
+                        delay: 1000,
+                      ),
+                     _ispurchaseDate? Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            widget.id.isEmpty || isEdit
+                                ? Text(
                               "Purchased Date",
                               textAlign: widget.id.isEmpty || isEdit
                                   ? TextAlign.left
@@ -484,141 +511,143 @@ class _AddInstrumentScreenState
                                 fontWeight: FontWeight.bold,
                               ),
                             )
-                          : Container(),
-                      Padding(
-                        padding: EdgeInsets.all(3),
-                      ),
-                      widget.id.isEmpty || isEdit
-                          ? Row(
-                              children: <Widget>[
-                                InkWell(
-                                  onTap: () {
-                                    _handlePDateTypeValueChange(0);
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: _pDateType == 0
-                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-                                            : Color.fromRGBO(
-                                                244, 246, 248, 1.0),
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            color: _pDateType == 0
-                                                ? Color.fromRGBO(
-                                                    70, 206, 172, 1.0)
-                                                : Color.fromRGBO(
-                                                    244, 246, 248, 1.0))),
-                                    child: Text(
-                                      'Date Known',
-                                      style: new TextStyle(
-                                        fontSize: 16.0,
-                                        color: _pDateType == 0
-                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-                                            : Color.fromRGBO(
-                                                202, 208, 215, 1.0),
-                                      ),
+                                : Container(),
+                            Padding(
+                              padding: EdgeInsets.all(3),
+                            ),
+//                            widget.id.isEmpty || isEdit
+//                                ? Row(
+//                              children: <Widget>[
+//                                InkWell(
+//                                  onTap: () {
+//                                    _handlePDateTypeValueChange(0);
+//                                  },
+//                                  child: Container(
+//                                    padding: EdgeInsets.symmetric(
+//                                        horizontal: 14, vertical: 5),
+//                                    decoration: BoxDecoration(
+//                                        color: _pDateType == 0
+//                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+//                                            : Color.fromRGBO(
+//                                            244, 246, 248, 1.0),
+//                                        borderRadius: BorderRadius.circular(15),
+//                                        border: Border.all(
+//                                            color: _pDateType == 0
+//                                                ? Color.fromRGBO(
+//                                                70, 206, 172, 1.0)
+//                                                : Color.fromRGBO(
+//                                                244, 246, 248, 1.0))),
+//                                    child: Text(
+//                                      'Date Known',
+//                                      style: new TextStyle(
+//                                        fontSize: 16.0,
+//                                        color: _pDateType == 0
+//                                            ? Color.fromRGBO(70, 206, 172, 1.0)
+//                                            : Color.fromRGBO(
+//                                            202, 208, 215, 1.0),
+//                                      ),
+//                                    ),
+//                                  ),
+//                                ),
+//                                Padding(
+//                                  padding: EdgeInsets.all(8),
+//                                ),
+//                                InkWell(
+//                                  onTap: () {
+//                                    _handlePDateTypeValueChange(1);
+//                                  },
+//                                  child: Container(
+//                                    padding: EdgeInsets.symmetric(
+//                                        horizontal: 14, vertical: 5),
+//                                    decoration: BoxDecoration(
+//                                        color: _pDateType == 1
+//                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+//                                            : Color.fromRGBO(
+//                                            244, 246, 248, 1.0),
+//                                        borderRadius: BorderRadius.circular(15),
+//                                        border: Border.all(
+//                                            color: _pDateType == 1
+//                                                ? Color.fromRGBO(
+//                                                70, 206, 172, 1.0)
+//                                                : Color.fromRGBO(
+//                                                244, 246, 248, 1.0))),
+//                                    child: Text(
+//                                      'Date Unknown',
+//                                      style: new TextStyle(
+//                                        fontSize: 16.0,
+//                                        color: _pDateType == 1
+//                                            ? Color.fromRGBO(70, 206, 172, 1.0)
+//                                            : Color.fromRGBO(
+//                                            202, 208, 215, 1.0),
+//                                      ),
+//                                    ),
+//                                  ),
+//                                ),
+//                              ],
+//                            )
+//                                : Container(),
+                            widget.id.isEmpty || isEdit
+                                ? GestureDetector(
+                              child: AbsorbPointer(
+                                child: TextField(
+                                  enabled: widget.id.isEmpty || isEdit,
+                                  controller: _purchaseDateController,
+                                  decoration: InputDecoration(
+                                    labelText:
+                                    "Date",
+                                    labelStyle: TextStyle(
+                                      color: Color.fromRGBO(
+                                          202, 208, 215, 1.0),
                                     ),
+                                    errorText: _errorPurchasedDate,
+                                    border: widget.id.isEmpty || isEdit
+                                        ? null
+                                        : InputBorder.none,
+                                  ),
+                                  style: textTheme.subhead.copyWith(
+                                    color: Colors.black,
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.all(8),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    _handlePDateTypeValueChange(1);
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: _pDateType == 1
-                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-                                            : Color.fromRGBO(
-                                                244, 246, 248, 1.0),
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            color: _pDateType == 1
-                                                ? Color.fromRGBO(
-                                                    70, 206, 172, 1.0)
-                                                : Color.fromRGBO(
-                                                    244, 246, 248, 1.0))),
-                                    child: Text(
-                                      'Date Unknown',
-                                      style: new TextStyle(
-                                        fontSize: 16.0,
-                                        color: _pDateType == 1
-                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-                                            : Color.fromRGBO(
-                                                202, 208, 215, 1.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              ),
+                              onTap: () async {
+                                if (widget.id.isEmpty || isEdit) {
+                                  final DateTime picked =
+                                  await showDatePicker(
+                                    context: context,
+                                    firstDate: DateTime(1959),
+                                    initialDate: _date,
+                                    lastDate: DateTime(2022),
+                                  );
+                                  if (picked != null) {
+                                    setState(() {
+                                      purchasedDate = picked;
+                                      //_date = picked;
+                                      _purchaseDateController.text =
+                                      "${formatDate(picked, [
+                                        mm,
+                                        '-',
+                                        dd,
+                                        '-',
+                                        yy
+                                      ])}";
+                                    });
+                                  }
+                                }
+                              },
                             )
-                          : Container(),
-                      widget.id.isEmpty || isEdit
-                          ? _pDateType != null
-                              ? GestureDetector(
-                                  child: AbsorbPointer(
-                                    child: TextField(
-                                      enabled: widget.id.isEmpty || isEdit,
-                                      controller: _purchaseDateController,
-                                      decoration: InputDecoration(
-                                        labelText:
-                                            "${_pDateType == 1 ? 'Approximate' : ''} Date",
-                                        labelStyle: TextStyle(
-                                          color: Color.fromRGBO(
-                                              202, 208, 215, 1.0),
-                                        ),
-                                        errorText: _errorPurchasedDate,
-                                        border: widget.id.isEmpty || isEdit
-                                            ? null
-                                            : InputBorder.none,
-                                      ),
-                                      style: textTheme.subhead.copyWith(
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                  onTap: () async {
-                                    if (widget.id.isEmpty || isEdit) {
-                                      final DateTime picked =
-                                          await showDatePicker(
-                                        context: context,
-                                        firstDate: DateTime(1959),
-                                        initialDate: _date,
-                                        lastDate: DateTime(2022),
-                                      );
-                                      if (picked != null) {
-                                        setState(() {
-                                          purchasedDate = picked;
-                                          //_date = picked;
-                                          _purchaseDateController.text =
-                                              "${formatDate(picked, [
-                                            mm,
-                                            '-',
-                                            dd,
-                                            '-',
-                                            yy
-                                          ])}";
-                                        });
-                                      }
-                                    }
-                                  },
-                                )
-                              : Container()
-                          : widget.id.isEmpty || isEdit
-                              ? Text(
-                                  _purchaseDateController.text,
-                                  textAlign: TextAlign.center,
-                                )
-                              : Text(
-                                  "Purch date " + _purchaseDateController.text,
-                                  textAlign: TextAlign.center,
-                                ),
+                                : widget.id.isEmpty || isEdit
+                                ? Text(
+                              _purchaseDateController.text,
+                              textAlign: TextAlign.center,
+                            )
+                                : Text(
+                              "Purch date " + _purchaseDateController.text,
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ):Container(),
+
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -688,8 +717,28 @@ class _AddInstrumentScreenState
 //                                fontWeight: FontWeight.bold,
 //                              ),
 //                            ),
-                      widget.id.isEmpty || isEdit
-                          ? TextField(
+                      ShowUp(
+                        child:  !_iswarrantyInfo? new GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _iswarrantyInfo=true;
+                            });
+                          },
+                          child:  widget.id.isEmpty?Text(
+                            "Click here to add warranty info",
+                            style: textTheme.display1.copyWith(
+                                color: widget.appListener.primaryColorDark,
+                                fontSize: 14),
+                          ):Container(),
+                        ):Container(),
+                        delay: 1000,
+                      ),
+                      _iswarrantyInfo?Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            widget.id.isEmpty || isEdit
+                                ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
                               controller: _warrantyController,
                               textCapitalization: TextCapitalization.sentences,
@@ -707,192 +756,184 @@ class _AddInstrumentScreenState
                                 color: Colors.black,
                               ),
                             )
-                          : Text(
+                                : Text(
                               _warrantyController.text,
                               textAlign: TextAlign.center,
                             ),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
-                      widget.id.isEmpty || isEdit
-                          ? Text(
-                              "Warranty EndDate",
-                              textAlign: widget.id.isEmpty || isEdit
-                                  ? TextAlign.left
-                                  : TextAlign.center,
-                              style: textTheme.subhead.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          : Container(),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
-                      widget.id.isEmpty || isEdit
-                          ? Row(
-                              children: <Widget>[
-                                InkWell(
-                                  onTap: () {
-                                    _handleEDateTypeValueChange(0);
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: _eDateType == 0
-                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-                                            : Color.fromRGBO(
-                                                244, 246, 248, 1.0),
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            color: _eDateType == 0
-                                                ? Color.fromRGBO(
-                                                    70, 206, 172, 1.0)
-                                                : Color.fromRGBO(
-                                                    244, 246, 248, 1.0))),
-                                    child: Text(
-                                      'Yet to Expire',
-                                      style: new TextStyle(
-                                        fontSize: 16.0,
-                                        color: _eDateType == 0
-                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-                                            : Color.fromRGBO(
-                                                202, 208, 215, 1.0),
-                                      ),
+                            Padding(
+                              padding: EdgeInsets.all(5),
+                            ),
+                            ShowUp(
+                              child:  !_iswarrantydate? new GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _iswarrantydate=true;
+                                  });
+                                },
+                                child: widget.id.isEmpty?Text(
+                                  "Click here to add warranty end date",
+                                  style: textTheme.display1.copyWith(
+                                      color: widget.appListener.primaryColorDark,
+                                      fontSize: 14),
+                                ):Container(),
+                              ):Container(),
+                              delay: 1000,
+                            ),
+                           Padding(padding: EdgeInsets.all(5),),
+                           _iswarrantydate? Container(child:
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  widget.id.isEmpty || isEdit
+                                      ? Text(
+                                    "Warranty EndDate",
+                                    textAlign: widget.id.isEmpty || isEdit
+                                        ? TextAlign.left
+                                        : TextAlign.center,
+                                    style: textTheme.subhead.copyWith(
+                                      fontWeight: FontWeight.bold,
                                     ),
+                                  )
+                                      : Container(),
+                                  Padding(
+                                    padding: EdgeInsets.all(5),
                                   ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(8),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    _handleEDateTypeValueChange(1);
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: _eDateType == 1
-                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-                                            : Color.fromRGBO(
-                                                244, 246, 248, 1.0),
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            color: _eDateType == 1
-                                                ? Color.fromRGBO(
-                                                    70, 206, 172, 1.0)
-                                                : Color.fromRGBO(
-                                                    244, 246, 248, 1.0))),
-                                    child: Text(
-                                      'Expired',
-                                      style: new TextStyle(
-                                        fontSize: 16.0,
-                                        color: _eDateType == 1
-                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-                                            : Color.fromRGBO(
+                                  widget.id.isEmpty || isEdit
+                                      ? GestureDetector(
+                                    child: AbsorbPointer(
+                                      child: TextField(
+                                        enabled: widget.id.isEmpty || isEdit,
+                                        controller: _warrantyEndController,
+                                        decoration: InputDecoration(
+                                          labelText: "Date",
+                                          labelStyle: TextStyle(
+                                            color: Color.fromRGBO(
                                                 202, 208, 215, 1.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Container(),
-                      widget.id.isEmpty || isEdit
-                          ? _eDateType != null && _eDateType == 0
-                              ? GestureDetector(
-                                  child: AbsorbPointer(
-                                    child: TextField(
-                                      enabled: widget.id.isEmpty || isEdit,
-                                      controller: _warrantyEndController,
-                                      decoration: InputDecoration(
-                                        labelText: "Date",
-                                        labelStyle: TextStyle(
-                                          color: Color.fromRGBO(
-                                              202, 208, 215, 1.0),
+                                          ),
+                                          errorText: _errorWarrantyEndDate,
+                                          border: widget.id.isEmpty || isEdit
+                                              ? null
+                                              : InputBorder.none,
                                         ),
-                                        errorText: _errorWarrantyEndDate,
-                                        border: widget.id.isEmpty || isEdit
-                                            ? null
-                                            : InputBorder.none,
-                                      ),
-                                      style: textTheme.subhead.copyWith(
-                                        color: Colors.black,
+                                        style: textTheme.subhead.copyWith(
+                                          color: Colors.black,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  onTap: () async {
-                                    if (widget.id.isEmpty || isEdit) {
-                                      final DateTime picked =
-                                          await showDatePicker(
-                                        context: context,
-                                        firstDate: _date,
-                                        initialDate: _date,
-                                        lastDate: DateTime(2022),
-                                      );
-                                      if (picked != null) {
-                                        setState(() {
-                                          //_date = picked;
-                                          warrantyEndDate = picked;
-                                          _warrantyEndController.text =
-                                              "${formatDate(picked, [
-                                            mm,
-                                            '-',
-                                            dd,
-                                            '-',
-                                            yy
-                                          ])}";
-                                        });
+                                    onTap: () async {
+                                      if (widget.id.isEmpty || isEdit) {
+                                        final DateTime picked =
+                                        await showDatePicker(
+                                          context: context,
+                                          firstDate: _date,
+                                          initialDate: _date,
+                                          lastDate: DateTime(2022),
+                                        );
+                                        if (picked != null) {
+                                          setState(() {
+                                            //_date = picked;
+                                            warrantyEndDate = picked;
+                                            _warrantyEndController.text =
+                                            "${formatDate(picked, [
+                                              mm,
+                                              '-',
+                                              dd,
+                                              '-',
+                                              yy
+                                            ])}";
+                                          });
+                                        }
                                       }
-                                    }
-                                  },
-                                )
-                              : Container()
-                          : Text(
-                              "Warranty expires " + _warrantyEndController.text,
-                              textAlign: TextAlign.center,
-                            ),
-                      Padding(
-                        padding: EdgeInsets.all(_eDateType == 0 ? 5 : 5),
-                      ),
-                      widget.id.isEmpty || isEdit ? Container() : Container(),
-//                          Text(
-//                              "Warranty Reference",
-//                              textAlign: TextAlign.center,
-//                              style: textTheme.subhead.copyWith(
-//                                fontWeight: FontWeight.bold,
-//                              ),
-//                            ),
-                      widget.id.isEmpty || isEdit
-                          ? _eDateType == 0
-                              ? TextField(
-                                  enabled: widget.id.isEmpty || isEdit,
-                                  textCapitalization:
-                                      TextCapitalization.sentences,
-                                  controller: _warrantyReferenceController,
-                                  decoration: InputDecoration(
-                                    labelText: "Warranty Reference",
-                                    labelStyle: TextStyle(
-                                      color: Color.fromRGBO(202, 208, 215, 1.0),
-                                    ),
-                                    errorText: _errorWarrantyReference,
-                                    border: widget.id.isEmpty || isEdit
-                                        ? null
-                                        : InputBorder.none,
+                                    },
+                                  )
+                                      : Text(
+                                    "Warranty expires " + _warrantyEndController.text,
+                                    textAlign: TextAlign.center,
                                   ),
-                                  style: textTheme.subhead.copyWith(
-                                    color: Colors.black,
-                                  ),
-                                )
-                              : Container()
-                          : Text(
-                              _warrantyReferenceController.text,
-                              textAlign: TextAlign.center,
+
+                                ],
+                              ),):Container(),
+
+
+//                            widget.id.isEmpty || isEdit
+//                                ? Row(
+//                              children: <Widget>[
+//                                InkWell(
+//                                  onTap: () {
+//                                    _handleEDateTypeValueChange(0);
+//                                  },
+//                                  child: Container(
+//                                    padding: EdgeInsets.symmetric(
+//                                        horizontal: 14, vertical: 5),
+//                                    decoration: BoxDecoration(
+//                                        color: _eDateType == 0
+//                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+//                                            : Color.fromRGBO(
+//                                            244, 246, 248, 1.0),
+//                                        borderRadius: BorderRadius.circular(15),
+//                                        border: Border.all(
+//                                            color: _eDateType == 0
+//                                                ? Color.fromRGBO(
+//                                                70, 206, 172, 1.0)
+//                                                : Color.fromRGBO(
+//                                                244, 246, 248, 1.0))),
+//                                    child: Text(
+//                                      'Yet to Expire',
+//                                      style: new TextStyle(
+//                                        fontSize: 16.0,
+//                                        color: _eDateType == 0
+//                                            ? Color.fromRGBO(70, 206, 172, 1.0)
+//                                            : Color.fromRGBO(
+//                                            202, 208, 215, 1.0),
+//                                      ),
+//                                    ),
+//                                  ),
+//                                ),
+//                                Padding(
+//                                  padding: EdgeInsets.all(8),
+//                                ),
+//                                InkWell(
+//                                  onTap: () {
+//                                    _handleEDateTypeValueChange(1);
+//                                  },
+//                                  child: Container(
+//                                    padding: EdgeInsets.symmetric(
+//                                        horizontal: 14, vertical: 5),
+//                                    decoration: BoxDecoration(
+//                                        color: _eDateType == 1
+//                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+//                                            : Color.fromRGBO(
+//                                            244, 246, 248, 1.0),
+//                                        borderRadius: BorderRadius.circular(15),
+//                                        border: Border.all(
+//                                            color: _eDateType == 1
+//                                                ? Color.fromRGBO(
+//                                                70, 206, 172, 1.0)
+//                                                : Color.fromRGBO(
+//                                                244, 246, 248, 1.0))),
+//                                    child: Text(
+//                                      'Expired',
+//                                      style: new TextStyle(
+//                                        fontSize: 16.0,
+//                                        color: _eDateType == 1
+//                                            ? Color.fromRGBO(70, 206, 172, 1.0)
+//                                            : Color.fromRGBO(
+//                                            202, 208, 215, 1.0),
+//                                      ),
+//                                    ),
+//                                  ),
+//                                ),
+//                              ],
+//                            )
+//                                : Container(),
+//
+                            Padding(
+                              padding: EdgeInsets.all(_eDateType == 0 ? 5 : 5),
                             ),
-                      Padding(
-                        padding: EdgeInsets.all(_eDateType == 0 ? 5 : 0),
-                      ),
+                          ],
+                        ),
+                      ): Container(),
+
 
                       Padding(
                         padding: EdgeInsets.all(5),
@@ -911,7 +952,7 @@ class _AddInstrumentScreenState
                                   value: _instrumentInsured,
                                 ),
                                 Text(
-                                  "Is Instrument Insured?",
+                                  "Check if equipment is insured",
                                   style: textTheme.caption.copyWith(
                                     color: Color.fromRGBO(202, 208, 215, 1.0),
                                   ),
@@ -926,7 +967,7 @@ class _AddInstrumentScreenState
                           ? Row(
                               children: <Widget>[
                                 Expanded(
-                                  child: Text("Upload Invoice"),
+                                  child: Text("Take Invoice/Equip. photo"),
                                 ),
                                 widget.id.isEmpty || isEdit
                                     ? IconButton(
@@ -981,7 +1022,7 @@ class _AddInstrumentScreenState
                       ),
                       widget.id.isEmpty || isEdit
                           ? RaisedButton(
-                              color: Color.fromRGBO(79, 73, 108, 1.0),
+                              color: Color.fromRGBO(60, 111, 55, 1.0),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(18)),
                               textColor: Colors.white,
@@ -1026,7 +1067,7 @@ class _AddInstrumentScreenState
                                       band_id: selectedBand?.id ?? "0",
                                       is_insured: _instrumentInsured,
                                       name: instrumentName,
-                                      purchased_date: this.purchasedDate.millisecondsSinceEpoch,
+                                      purchased_date:this.purchasedDate!=null? this.purchasedDate.millisecondsSinceEpoch:0,
                                       purchased_from: wherePurchased,
                                       serial_number: sno,
                                       user_id: presenter.serverAPI.userId,

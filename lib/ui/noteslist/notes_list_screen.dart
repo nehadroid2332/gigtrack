@@ -45,18 +45,19 @@ class _NotesListScreenState
     return Scaffold(
       backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              "Notes Lists",
+              "Notes",
               style: textTheme.display1.copyWith(
-                color: Color.fromRGBO(105, 114, 98, 1.0),
+                color: Color.fromRGBO(131,36, 77, 1.0),
+                fontSize: 28
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(4),
             ),
             Expanded(
               child: StreamBuilder<List<NotesTodo>>(
@@ -87,7 +88,7 @@ class _NotesListScreenState
           await widget.appListener.router
               .navigateTo(context, Screens.ADDNOTE.toString() + "/");
         },
-        backgroundColor: Color.fromRGBO(105, 114, 98, 1.0),
+        backgroundColor: Color.fromRGBO(131,36, 77, 1.0),
         child: Icon(Icons.add),
       ),
     );

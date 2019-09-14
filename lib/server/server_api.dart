@@ -193,16 +193,20 @@ class ServerAPI {
     }
   }
 
-  Future<dynamic> addInstrument(UserInstrument instrument) async {
+  Future<dynamic> addInstrument(User1Instrument instrument) async {
     try {
-      for (File file in instrument.files) {
-        String basename = extension(file.path);
-        final StorageUploadTask uploadTask = equipmentRef
-            .child("${DateTime.now().toString()}$basename")
-            .putFile(file);
-        StorageTaskSnapshot snapshot = await uploadTask.onComplete;
-        String url = await snapshot.ref.getDownloadURL();
-        instrument.uploadedFiles.add(url);
+      if(instrument.files.length>0) {
+        for (File file in instrument.files) {
+          String basename = extension(file.path);
+          final StorageUploadTask uploadTask = equipmentRef
+              .child("${DateTime.now().toString()}$basename")
+              .putFile(file);
+          StorageTaskSnapshot snapshot = await uploadTask.onComplete;
+          String url = await snapshot.ref.getDownloadURL();
+          instrument.uploadedFiles.add(url);
+        }
+      }else{
+        instrument.uploadedFiles.add("");
       }
       instrument.files = [];
       bool isUpdate = true;

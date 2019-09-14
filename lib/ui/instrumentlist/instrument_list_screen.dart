@@ -61,7 +61,7 @@ class _InstrumentListScreenState
                 Text(
                   "Equipments",
                   style: textTheme.display1.copyWith(
-                      color: Color.fromRGBO(79, 73, 108, 1.0),
+                      color: Color.fromRGBO(60, 111, 55, 1.0),
                       fontSize: 28,
                       fontWeight: FontWeight.w500),
                   textAlign: TextAlign.left,
@@ -87,7 +87,7 @@ class _InstrumentListScreenState
                               (instr.purchased_date));
 
                       return Card(
-                        color: Color.fromRGBO(79, 73, 108, 1.0),
+                        color: Color.fromRGBO(60, 111, 55, 1.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16)),
                         child: InkWell(
@@ -157,7 +157,7 @@ class _InstrumentListScreenState
               .navigateTo(context, Screens.ADDINSTRUMENT.toString() + "/");
         },
         child: Icon(Icons.add),
-        backgroundColor: Color.fromRGBO(79, 73, 108, 1.0),
+        backgroundColor: Color.fromRGBO(60, 111, 55, 1.0),
       ),
     );
   }

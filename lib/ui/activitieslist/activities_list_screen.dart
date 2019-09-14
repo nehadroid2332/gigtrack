@@ -79,10 +79,6 @@ class _ActivitiesListScreenState
                 stream: list,
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
-                    // Activites act = snapshot.data;
-                    // if (!activities.contains(act)) {
-                    //   activities.add(act);
-                    // }
                     activities = snapshot.data;
                   }
                   return ListView.builder(
