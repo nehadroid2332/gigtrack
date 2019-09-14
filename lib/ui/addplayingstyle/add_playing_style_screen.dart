@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
@@ -54,13 +55,18 @@ class _AddPlayingStyleScreenState
     "Punk",
     "Raggae"
   ];
-
+  String _playingType="Playing since age 5";
   final Map<String, String> inList = Map();
   final Set<String> psList = Set();
   String selectedPHighlights;
   final _degreeController = TextEditingController();
   final _roleController = TextEditingController();
-
+  void _handleRelationshipValueChange(String value) {
+    setState(() {
+     _playingType=value;
+     selectedPHighlights=value;
+    });
+  }
   @override
   Widget buildBody() {
     List<Widget> items = [];
@@ -199,7 +205,7 @@ class _AddPlayingStyleScreenState
               ),
               Image.asset(
                 'assets/images/music.png',
-                height: 100,
+                height: 60,
               )
             ],
           ),
@@ -208,7 +214,7 @@ class _AddPlayingStyleScreenState
           ),
           Expanded(
             child: ListView(
-              padding: EdgeInsets.all(15),
+              padding: EdgeInsets.only(left: 15,right: 15,bottom: 15,top: 5),
               children: <Widget>[
                 Text(
                   "Playing Styles",
@@ -226,16 +232,38 @@ class _AddPlayingStyleScreenState
                   textAlign: TextAlign.left,
                 ),
                 Padding(padding: EdgeInsets.all(10)),
-                Wrap(
-                  children: prsnlHighlts,
+                Text(
+                  "How long you have been playing?",
+                  textAlign: TextAlign.left,
+                  style: textTheme.subtitle.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: Color.fromRGBO(99, 108, 119, 1.0)
+                  ),
                 ),
-                Padding(padding: EdgeInsets.all(10)),
+                Padding(padding: EdgeInsets.all(5),),
+                DropdownButton<String>(
+                  items: personalHighlights.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value,
+                        style: TextStyle(
+                            color: Color.fromRGBO(99, 108, 119, 1.0)
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: _handleRelationshipValueChange,
+                  value: _playingType,
+                )
+                ,
+                Padding(padding: EdgeInsets.all(5)),
                 Text(
                   "Roles",
-                  style: textTheme.headline.copyWith(
-                    color: Color.fromRGBO(99, 108, 119, 1.0),
-                  ),
                   textAlign: TextAlign.left,
+                  style: textTheme.subtitle.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: Color.fromRGBO(99, 108, 119, 1.0)
+                  ),
                 ),
                 TextField(
                   controller: _roleController,
@@ -246,13 +274,14 @@ class _AddPlayingStyleScreenState
                     ),
                   ),
                 ),
-                Padding(padding: EdgeInsets.all(10)),
+                Padding(padding: EdgeInsets.all(5)),
                 Text(
                   "Degree",
-                  style: textTheme.headline.copyWith(
-                    color: Color.fromRGBO(99, 108, 119, 1.0),
-                  ),
                   textAlign: TextAlign.left,
+                  style: textTheme.subtitle.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: Color.fromRGBO(99, 108, 119, 1.0)
+                  ),
                 ),
                 TextField(
                   controller: _degreeController,
@@ -286,6 +315,15 @@ class _AddPlayingStyleScreenState
                 Wrap(
                   children: items2,
                 ),
+                Padding(padding: EdgeInsets.all(5),),
+                inList.length>0? Text(
+                  "Select your expertise level :",
+                  textAlign: TextAlign.left,
+                  style: textTheme.subtitle.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: Color.fromRGBO(99, 108, 119, 1.0)
+                  ),
+                ):Container(),
                 ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
@@ -301,7 +339,7 @@ class _AddPlayingStyleScreenState
                         ),
                         DropdownButton<String>(
                           items: <String>[
-                            'Begineer',
+                            'Beginner',
                             'Intermediate',
                             "Professional"
                           ].map((String value) {

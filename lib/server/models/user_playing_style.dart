@@ -4,8 +4,8 @@ class UserPlayingStyle extends BaseModel {
   String id;
   String user_id;
   String band_id;
-  List<String> playing_styles;
-  Map<String, String> instruments;
+  List<dynamic> playing_styles;
+  Map<dynamic, dynamic> instruments;
   String personalHighlights;
   String role;
   String degree;
