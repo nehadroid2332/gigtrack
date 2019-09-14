@@ -40,9 +40,8 @@ class _AddContactScreenState
   ];
 
   var _relationshipType = "Agent";
-  bool _currentRelation=false;
-  bool defaultdateview= false;
-  DateTime selectedDate;
+  bool _currentRelation = false;
+  bool defaultdateview = false;
 
   @override
   void initState() {
@@ -62,10 +61,10 @@ class _AddContactScreenState
   void _handleRelationshipValueChange(String value) {
     setState(() {
       _relationshipType = value;
-      if(value=="Other"){
-        _currentRelation=true;
-      }else{
-        _currentRelation=false;
+      if (value == "Other") {
+        _currentRelation = true;
+      } else {
+        _currentRelation = false;
       }
       _relationshipController.text = value;
     });
@@ -75,7 +74,7 @@ class _AddContactScreenState
       _phoneController = TextEditingController(),
       _textController = TextEditingController(),
       _relationshipController = TextEditingController(),
-      _otherRelationshipController= TextEditingController(),
+      _otherRelationshipController = TextEditingController(),
       _emailController = TextEditingController();
   String _errorName, _errorPhone, _errorEmail, _errorText, _errorRelationship;
 
@@ -176,10 +175,9 @@ class _AddContactScreenState
                               items: relationships.map((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
-                                  child: Text(value,
-                                  style: TextStyle(
-                                    color: Colors.grey
-                                  ),
+                                  child: Text(
+                                    value,
+                                    style: TextStyle(color: Colors.grey),
                                   ),
                                 );
                               }).toList(),
@@ -208,10 +206,12 @@ class _AddContactScreenState
                                 color: Colors.black,
                               ),
                             )
-                          : _currentRelation?Text(
-                            _otherRelationshipController.text,
-                              textAlign: TextAlign.center,
-                            ):Container(),
+                          : _currentRelation
+                              ? Text(
+                                  _otherRelationshipController.text,
+                                  textAlign: TextAlign.center,
+                                )
+                              : Container(),
 //                      Padding(
 //                        padding: EdgeInsets.all(5),
 //                      ),
@@ -358,17 +358,12 @@ class _AddContactScreenState
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (BuildContext context, int index) {
                           DateToRememberData data = _dateToRememberItems[index];
-                          final _dateToRememberController = TextEditingController();
-                          final _dateToRememberDateController = TextEditingController();
+                          final _dateToRememberController =
+                              TextEditingController();
+                          final _dateToRememberDateController =
+                              TextEditingController();
                           _dateToRememberController.addListener(() {
                             data.type = _dateToRememberController.text;
-                            _dateToRememberItems[index] = data;
-                          });
-                          _dateToRememberDateController.addListener(() {
-                            data.date =selectedDate!=null? selectedDate.millisecondsSinceEpoch:0;
-                            _dateToRememberDateController.text = defaultdateview?formatDate(
-                                DateTime.fromMillisecondsSinceEpoch(data.date),
-                                [mm, '-', dd, '-', yy]):"";
                             _dateToRememberItems[index] = data;
                           });
                           void _handleDateToRememberValueChange(String value) {
@@ -377,10 +372,14 @@ class _AddContactScreenState
                               _dateToRememberItems[index] = data;
                             });
                           }
+
                           _dateToRememberController.text = data.type;
-                          _dateToRememberDateController.text = defaultdateview?formatDate(
-                              DateTime.fromMillisecondsSinceEpoch(data.date),
-                              [mm, '-', dd, '-', yy]):"";
+                          _dateToRememberDateController.text = defaultdateview
+                              ? formatDate(
+                                  DateTime.fromMillisecondsSinceEpoch(
+                                      data.date),
+                                  [mm, '-', dd, '-', yy])
+                              : "";
                           return Column(
                             crossAxisAlignment: widget.id.isEmpty
                                 ? CrossAxisAlignment.start
@@ -435,18 +434,22 @@ class _AddContactScreenState
                                                 lastDate: DateTime(2101));
                                         if (picked != null)
                                           setState(() {
-                                            defaultdateview= true;
-                                            selectedDate = picked;
+                                            defaultdateview = true;
+                                            data.date =
+                                                picked.millisecondsSinceEpoch;
                                             _dateToRememberDateController.text =
                                                 formatDate(picked,
                                                     [mm, '-', dd, '-', yy]);
+                                            _dateToRememberItems[index] = data;
                                           });
                                       },
                                       child: AbsorbPointer(
                                         child: TextField(
                                           enabled: widget.id.isEmpty,
-                                          controller: _dateToRememberDateController,
-                                          textCapitalization: TextCapitalization.sentences,
+                                          controller:
+                                              _dateToRememberDateController,
+                                          textCapitalization:
+                                              TextCapitalization.sentences,
                                           decoration: InputDecoration(
                                             labelStyle: TextStyle(
                                               color: Color.fromRGBO(
