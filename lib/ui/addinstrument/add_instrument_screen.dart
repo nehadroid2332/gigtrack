@@ -29,9 +29,9 @@ class _AddInstrumentScreenState
     implements AddInstrumentContract {
   File _image;
 
-  bool _ispurchaseDate=false;
-  bool _iswarrantyInfo=false;
-  bool _iswarrantydate=false;
+  bool _ispurchaseDate = false;
+  bool _iswarrantyInfo = false;
+  bool _iswarrantydate = false;
 
   final _instrumentNameController = TextEditingController(),
       _wherePurchaseController = TextEditingController(),
@@ -64,7 +64,7 @@ class _AddInstrumentScreenState
 
   bool _instrumentInsured = false;
 
-  var _pDateType=1, _eDateType;
+  var _pDateType = 1, _eDateType;
 
   DateTime purchasedDate;
 
@@ -482,39 +482,45 @@ class _AddInstrumentScreenState
                       ),
 
                       ShowUp(
-                        child:  !_ispurchaseDate? new GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _ispurchaseDate=true;
-                            });
-                          },
-                          child:  widget.id.isEmpty?Text(
-                            "Click here to add purchase date",
-                            style: textTheme.display1.copyWith(
-                                color: widget.appListener.primaryColorDark,
-                                fontSize: 14),
-                          ):Container(),
-                        ):Container(),
+                        child: !_ispurchaseDate
+                            ? new GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _ispurchaseDate = true;
+                                  });
+                                },
+                                child: widget.id.isEmpty
+                                    ? Text(
+                                        "Click here to add purchase date",
+                                        style: textTheme.display1.copyWith(
+                                            color: widget
+                                                .appListener.primaryColorDark,
+                                            fontSize: 14),
+                                      )
+                                    : Container(),
+                              )
+                            : Container(),
                         delay: 1000,
                       ),
-                     _ispurchaseDate? Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            widget.id.isEmpty || isEdit
-                                ? Text(
-                              "Purchased Date",
-                              textAlign: widget.id.isEmpty || isEdit
-                                  ? TextAlign.left
-                                  : TextAlign.center,
-                              style: textTheme.subhead.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                                : Container(),
-                            Padding(
-                              padding: EdgeInsets.all(3),
-                            ),
+                      _ispurchaseDate
+                          ? Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  widget.id.isEmpty || isEdit
+                                      ? Text(
+                                          "Purchased Date",
+                                          textAlign: widget.id.isEmpty || isEdit
+                                              ? TextAlign.left
+                                              : TextAlign.center,
+                                          style: textTheme.subhead.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )
+                                      : Container(),
+                                  Padding(
+                                    padding: EdgeInsets.all(3),
+                                  ),
 //                            widget.id.isEmpty || isEdit
 //                                ? Row(
 //                              children: <Widget>[
@@ -586,67 +592,71 @@ class _AddInstrumentScreenState
 //                              ],
 //                            )
 //                                : Container(),
-                            widget.id.isEmpty || isEdit
-                                ? GestureDetector(
-                              child: AbsorbPointer(
-                                child: TextField(
-                                  enabled: widget.id.isEmpty || isEdit,
-                                  controller: _purchaseDateController,
-                                  decoration: InputDecoration(
-                                    labelText:
-                                    "Date",
-                                    labelStyle: TextStyle(
-                                      color: Color.fromRGBO(
-                                          202, 208, 215, 1.0),
-                                    ),
-                                    errorText: _errorPurchasedDate,
-                                    border: widget.id.isEmpty || isEdit
-                                        ? null
-                                        : InputBorder.none,
-                                  ),
-                                  style: textTheme.subhead.copyWith(
-                                    color: Colors.black,
-                                  ),
-                                ),
+                                  widget.id.isEmpty || isEdit
+                                      ? GestureDetector(
+                                          child: AbsorbPointer(
+                                            child: TextField(
+                                              enabled:
+                                                  widget.id.isEmpty || isEdit,
+                                              controller:
+                                                  _purchaseDateController,
+                                              decoration: InputDecoration(
+                                                labelText: "Date",
+                                                labelStyle: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      202, 208, 215, 1.0),
+                                                ),
+                                                errorText: _errorPurchasedDate,
+                                                border:
+                                                    widget.id.isEmpty || isEdit
+                                                        ? null
+                                                        : InputBorder.none,
+                                              ),
+                                              style: textTheme.subhead.copyWith(
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                          onTap: () async {
+                                            if (widget.id.isEmpty || isEdit) {
+                                              final DateTime picked =
+                                                  await showDatePicker(
+                                                context: context,
+                                                firstDate: DateTime(1959),
+                                                initialDate: _date,
+                                                lastDate: DateTime(2022),
+                                              );
+                                              if (picked != null) {
+                                                setState(() {
+                                                  purchasedDate = picked;
+                                                  //_date = picked;
+                                                  _purchaseDateController.text =
+                                                      "${formatDate(picked, [
+                                                    mm,
+                                                    '-',
+                                                    dd,
+                                                    '-',
+                                                    yy
+                                                  ])}";
+                                                });
+                                              }
+                                            }
+                                          },
+                                        )
+                                      : widget.id.isEmpty || isEdit
+                                          ? Text(
+                                              _purchaseDateController.text,
+                                              textAlign: TextAlign.center,
+                                            )
+                                          : Text(
+                                              "Purch date " +
+                                                  _purchaseDateController.text,
+                                              textAlign: TextAlign.center,
+                                            ),
+                                ],
                               ),
-                              onTap: () async {
-                                if (widget.id.isEmpty || isEdit) {
-                                  final DateTime picked =
-                                  await showDatePicker(
-                                    context: context,
-                                    firstDate: DateTime(1959),
-                                    initialDate: _date,
-                                    lastDate: DateTime(2022),
-                                  );
-                                  if (picked != null) {
-                                    setState(() {
-                                      purchasedDate = picked;
-                                      //_date = picked;
-                                      _purchaseDateController.text =
-                                      "${formatDate(picked, [
-                                        mm,
-                                        '-',
-                                        dd,
-                                        '-',
-                                        yy
-                                      ])}";
-                                    });
-                                  }
-                                }
-                              },
                             )
-                                : widget.id.isEmpty || isEdit
-                                ? Text(
-                              _purchaseDateController.text,
-                              textAlign: TextAlign.center,
-                            )
-                                : Text(
-                              "Purch date " + _purchaseDateController.text,
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        ),
-                      ):Container(),
+                          : Container(),
 
                       Padding(
                         padding: EdgeInsets.all(5),
@@ -718,142 +728,188 @@ class _AddInstrumentScreenState
 //                              ),
 //                            ),
                       ShowUp(
-                        child:  !_iswarrantyInfo? new GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _iswarrantyInfo=true;
-                            });
-                          },
-                          child:  widget.id.isEmpty?Text(
-                            "Click here to add warranty info",
-                            style: textTheme.display1.copyWith(
-                                color: widget.appListener.primaryColorDark,
-                                fontSize: 14),
-                          ):Container(),
-                        ):Container(),
-                        delay: 1000,
-                      ),
-                      _iswarrantyInfo?Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            widget.id.isEmpty || isEdit
-                                ? TextField(
-                              enabled: widget.id.isEmpty || isEdit,
-                              controller: _warrantyController,
-                              textCapitalization: TextCapitalization.sentences,
-                              decoration: InputDecoration(
-                                labelText: "Warranty",
-                                labelStyle: TextStyle(
-                                  color: Color.fromRGBO(202, 208, 215, 1.0),
-                                ),
-                                errorText: _errorWarranty,
-                                border: widget.id.isEmpty || isEdit
-                                    ? null
-                                    : InputBorder.none,
-                              ),
-                              style: textTheme.subhead.copyWith(
-                                color: Colors.black,
-                              ),
-                            )
-                                : Text(
-                              _warrantyController.text,
-                              textAlign: TextAlign.center,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(5),
-                            ),
-                            ShowUp(
-                              child:  !_iswarrantydate? new GestureDetector(
+                        child: !_iswarrantyInfo
+                            ? new GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    _iswarrantydate=true;
+                                    _iswarrantyInfo = true;
                                   });
                                 },
-                                child: widget.id.isEmpty?Text(
-                                  "Click here to add warranty end date",
-                                  style: textTheme.display1.copyWith(
-                                      color: widget.appListener.primaryColorDark,
-                                      fontSize: 14),
-                                ):Container(),
-                              ):Container(),
-                              delay: 1000,
-                            ),
-                           Padding(padding: EdgeInsets.all(5),),
-                           _iswarrantydate? Container(child:
-                              Column(
+                                child: widget.id.isEmpty
+                                    ? Text(
+                                        "Click here to add warranty info",
+                                        style: textTheme.display1.copyWith(
+                                            color: widget
+                                                .appListener.primaryColorDark,
+                                            fontSize: 14),
+                                      )
+                                    : Container(),
+                              )
+                            : Container(),
+                        delay: 1000,
+                      ),
+                      _iswarrantyInfo
+                          ? Container(
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   widget.id.isEmpty || isEdit
-                                      ? Text(
-                                    "Warranty EndDate",
-                                    textAlign: widget.id.isEmpty || isEdit
-                                        ? TextAlign.left
-                                        : TextAlign.center,
-                                    style: textTheme.subhead.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  )
-                                      : Container(),
+                                      ? TextField(
+                                          enabled: widget.id.isEmpty || isEdit,
+                                          controller: _warrantyController,
+                                          textCapitalization:
+                                              TextCapitalization.sentences,
+                                          decoration: InputDecoration(
+                                            labelText: "Warranty",
+                                            labelStyle: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  202, 208, 215, 1.0),
+                                            ),
+                                            errorText: _errorWarranty,
+                                            border: widget.id.isEmpty || isEdit
+                                                ? null
+                                                : InputBorder.none,
+                                          ),
+                                          style: textTheme.subhead.copyWith(
+                                            color: Colors.black,
+                                          ),
+                                        )
+                                      : Text(
+                                          _warrantyController.text,
+                                          textAlign: TextAlign.center,
+                                        ),
                                   Padding(
                                     padding: EdgeInsets.all(5),
                                   ),
-                                  widget.id.isEmpty || isEdit
-                                      ? GestureDetector(
-                                    child: AbsorbPointer(
-                                      child: TextField(
-                                        enabled: widget.id.isEmpty || isEdit,
-                                        controller: _warrantyEndController,
-                                        decoration: InputDecoration(
-                                          labelText: "Date",
-                                          labelStyle: TextStyle(
-                                            color: Color.fromRGBO(
-                                                202, 208, 215, 1.0),
-                                          ),
-                                          errorText: _errorWarrantyEndDate,
-                                          border: widget.id.isEmpty || isEdit
-                                              ? null
-                                              : InputBorder.none,
-                                        ),
-                                        style: textTheme.subhead.copyWith(
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ),
-                                    onTap: () async {
-                                      if (widget.id.isEmpty || isEdit) {
-                                        final DateTime picked =
-                                        await showDatePicker(
-                                          context: context,
-                                          firstDate: _date,
-                                          initialDate: _date,
-                                          lastDate: DateTime(2022),
-                                        );
-                                        if (picked != null) {
-                                          setState(() {
-                                            //_date = picked;
-                                            warrantyEndDate = picked;
-                                            _warrantyEndController.text =
-                                            "${formatDate(picked, [
-                                              mm,
-                                              '-',
-                                              dd,
-                                              '-',
-                                              yy
-                                            ])}";
-                                          });
-                                        }
-                                      }
-                                    },
-                                  )
-                                      : Text(
-                                    "Warranty expires " + _warrantyEndController.text,
-                                    textAlign: TextAlign.center,
+                                  ShowUp(
+                                    child: !_iswarrantydate
+                                        ? new GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                _iswarrantydate = true;
+                                              });
+                                            },
+                                            child: widget.id.isEmpty
+                                                ? Text(
+                                                    "Click here to add warranty end date",
+                                                    style: textTheme.display1
+                                                        .copyWith(
+                                                            color: widget
+                                                                .appListener
+                                                                .primaryColorDark,
+                                                            fontSize: 14),
+                                                  )
+                                                : Container(),
+                                          )
+                                        : Container(),
+                                    delay: 1000,
                                   ),
-
-                                ],
-                              ),):Container(),
-
+                                  Padding(
+                                    padding: EdgeInsets.all(5),
+                                  ),
+                                  _iswarrantydate
+                                      ? Container(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              widget.id.isEmpty || isEdit
+                                                  ? Text(
+                                                      "Warranty EndDate",
+                                                      textAlign: widget
+                                                                  .id.isEmpty ||
+                                                              isEdit
+                                                          ? TextAlign.left
+                                                          : TextAlign.center,
+                                                      style: textTheme.subhead
+                                                          .copyWith(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    )
+                                                  : Container(),
+                                              Padding(
+                                                padding: EdgeInsets.all(5),
+                                              ),
+                                              widget.id.isEmpty || isEdit
+                                                  ? GestureDetector(
+                                                      child: AbsorbPointer(
+                                                        child: TextField(
+                                                          enabled: widget
+                                                                  .id.isEmpty ||
+                                                              isEdit,
+                                                          controller:
+                                                              _warrantyEndController,
+                                                          decoration:
+                                                              InputDecoration(
+                                                            labelText: "Date",
+                                                            labelStyle:
+                                                                TextStyle(
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      202,
+                                                                      208,
+                                                                      215,
+                                                                      1.0),
+                                                            ),
+                                                            errorText:
+                                                                _errorWarrantyEndDate,
+                                                            border: widget.id
+                                                                        .isEmpty ||
+                                                                    isEdit
+                                                                ? null
+                                                                : InputBorder
+                                                                    .none,
+                                                          ),
+                                                          style: textTheme
+                                                              .subhead
+                                                              .copyWith(
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      onTap: () async {
+                                                        if (widget.id.isEmpty ||
+                                                            isEdit) {
+                                                          final DateTime
+                                                              picked =
+                                                              await showDatePicker(
+                                                            context: context,
+                                                            firstDate: _date,
+                                                            initialDate: _date,
+                                                            lastDate:
+                                                                DateTime(2022),
+                                                          );
+                                                          if (picked != null) {
+                                                            setState(() {
+                                                              //_date = picked;
+                                                              warrantyEndDate =
+                                                                  picked;
+                                                              _warrantyEndController
+                                                                      .text =
+                                                                  "${formatDate(picked, [
+                                                                mm,
+                                                                '-',
+                                                                dd,
+                                                                '-',
+                                                                yy
+                                                              ])}";
+                                                            });
+                                                          }
+                                                        }
+                                                      },
+                                                    )
+                                                  : Text(
+                                                      "Warranty expires " +
+                                                          _warrantyEndController
+                                                              .text,
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                            ],
+                                          ),
+                                        )
+                                      : Container(),
 
 //                            widget.id.isEmpty || isEdit
 //                                ? Row(
@@ -927,13 +983,14 @@ class _AddInstrumentScreenState
 //                            )
 //                                : Container(),
 //
-                            Padding(
-                              padding: EdgeInsets.all(_eDateType == 0 ? 5 : 5),
-                            ),
-                          ],
-                        ),
-                      ): Container(),
-
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.all(_eDateType == 0 ? 5 : 5),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Container(),
 
                       Padding(
                         padding: EdgeInsets.all(5),
@@ -1008,9 +1065,31 @@ class _AddInstrumentScreenState
                                             left: 10, right: 10),
                                         height: 80,
                                         width: 150,
-                                        child: Image.file(
-                                          file,
-                                          fit: BoxFit.cover,
+                                        child: Stack(
+                                          children: <Widget>[
+                                            Image.file(
+                                              file,
+                                              fit: BoxFit.cover,
+                                            ),
+                                            Positioned(
+                                              right: 14,
+                                              top: 0,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    files.removeAt(index);
+                                                  });
+                                                },
+                                                child: Container(
+                                                  child: Icon(
+                                                    Icons.cancel,
+                                                    color: Colors.white,
+                                                  ),
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            )
+                                          ],
                                         ),
                                       );
                                     },
@@ -1067,12 +1146,21 @@ class _AddInstrumentScreenState
                                       band_id: selectedBand?.id ?? "0",
                                       is_insured: _instrumentInsured,
                                       name: instrumentName,
-                                      purchased_date:this.purchasedDate!=null? this.purchasedDate.millisecondsSinceEpoch:0,
+                                      purchased_date: this.purchasedDate != null
+                                          ? this
+                                              .purchasedDate
+                                              .millisecondsSinceEpoch
+                                          : 0,
                                       purchased_from: wherePurchased,
                                       serial_number: sno,
                                       user_id: presenter.serverAPI.userId,
                                       warranty: warranty,
-                                      warranty_end_date: this.warrantyEndDate!=null?this.warrantyEndDate.millisecondsSinceEpoch:0,
+                                      warranty_end_date:
+                                          this.warrantyEndDate != null
+                                              ? this
+                                                  .warrantyEndDate
+                                                  .millisecondsSinceEpoch
+                                              : 0,
                                       warranty_phone: wPh,
                                       warranty_reference: wRef,
                                       id: id,

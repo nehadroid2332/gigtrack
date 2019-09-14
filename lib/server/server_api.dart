@@ -193,9 +193,9 @@ class ServerAPI {
     }
   }
 
-  Future<dynamic> addInstrument(User1Instrument instrument) async {
+  Future<dynamic> addInstrument(UserInstrument instrument) async {
     try {
-      if(instrument.files.length>0) {
+      if (instrument.files.length > 0) {
         for (File file in instrument.files) {
           String basename = extension(file.path);
           final StorageUploadTask uploadTask = equipmentRef
@@ -205,7 +205,7 @@ class ServerAPI {
           String url = await snapshot.ref.getDownloadURL();
           instrument.uploadedFiles.add(url);
         }
-      }else{
+      } else {
         instrument.uploadedFiles.add("");
       }
       instrument.files = [];
