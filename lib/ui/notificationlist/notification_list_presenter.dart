@@ -1,22 +1,55 @@
-import 'package:date_format/date_format.dart';
 import 'package:gigtrack/base/base_presenter.dart';
-import 'package:gigtrack/server/models/error_response.dart';
-import 'package:gigtrack/server/models/notification_list_response.dart';
+import 'package:gigtrack/server/models/activities.dart';
+import 'package:gigtrack/server/models/notestodo.dart';
+import 'package:gigtrack/server/models/user_instrument.dart';
 
-abstract class NotificationListContract extends BaseContract {
-  void onNotificationSuccess(NotificationListResponse res);
-}
+abstract class NotificationListContract extends BaseContract {}
 
 class NotificationListPresenter extends BasePresenter {
   NotificationListPresenter(BaseContract view) : super(view);
 
-  void getNotifications() async {
-    final res = await serverAPI
-        .getNotifications(formatDate(DateTime.now(), [dd, '-', mm, '-', yyyy]));
-    if (res is NotificationListResponse) {
-      (view as NotificationListContract).onNotificationSuccess(res);
-    } else if (res is ErrorResponse) {
-      view.showMessage(res.message);
-    }
+  Stream<List<Activites>> getAList() {
+    return serverAPI.activitiesDB
+        .orderByChild('user_id')
+        .equalTo(serverAPI.currentUserId)
+        .onValue
+        .map((a) {
+      Map mp = a.snapshot.value;
+      List<Activites> acc = [];
+      for (var d in mp.values) {
+        acc.add(Activites.fromJSON(d));
+      }
+      return acc;
+    });
+  }
+
+  Stream<List<UserInstrument>> getEList() {
+    return serverAPI.equipmentsDB
+        .orderByChild('user_id')
+        .equalTo(serverAPI.currentUserId)
+        .onValue
+        .map((a) {
+      Map mp = a.snapshot.value;
+      List<UserInstrument> acc = [];
+      for (var d in mp.values) {
+        acc.add(UserInstrument.fromJSON(d));
+      }
+      return acc;
+    });
+  }
+
+  Stream<List<NotesTodo>> getNList() {
+    return serverAPI.notesDB
+        .orderByChild('user_id')
+        .equalTo(serverAPI.currentUserId)
+        .onValue
+        .map((a) {
+      Map mp = a.snapshot.value;
+      List<NotesTodo> acc = [];
+      for (var d in mp.values) {
+        acc.add(NotesTodo.fromJSON(d));
+      }
+      return acc;
+    });
   }
 }

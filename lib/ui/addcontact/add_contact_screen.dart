@@ -592,9 +592,31 @@ class _AddContactScreenState
                                             left: 10, right: 10),
                                         height: 80,
                                         width: 150,
-                                        child: Image.file(
-                                          file,
-                                          fit: BoxFit.cover,
+                                        child: Stack(
+                                          children: <Widget>[
+                                            Image.file(
+                                              file,
+                                              fit: BoxFit.cover,
+                                            ),
+                                            Positioned(
+                                              right: 14,
+                                              top: 0,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    files.removeAt(index);
+                                                  });
+                                                },
+                                                child: Container(
+                                                  child: Icon(
+                                                    Icons.cancel,
+                                                    color: Colors.white,
+                                                  ),
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            )
+                                          ],
                                         ),
                                       );
                                     },
@@ -624,7 +646,9 @@ class _AddContactScreenState
                                   ),
                                 )
                               : Container(),
-
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
                       Text(
                         "Likes",
                         style: textTheme.subhead.copyWith(

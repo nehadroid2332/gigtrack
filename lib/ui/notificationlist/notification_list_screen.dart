@@ -20,17 +20,20 @@ class NotificationListScreens extends BaseScreen {
 class _NotificationListScreensState
     extends BaseScreenState<NotificationListScreens, NotificationListPresenter>
     implements NotificationListContract {
-  final _activities = <Activites>[];
+  var _activities = <Activites>[];
   final _warranty = <UserInstrument>[];
-  final _todos = <NotesTodo>[];
+  var _todos = <NotesTodo>[];
+
+  Stream<List<Activites>> activitiesList;
+  Stream<List<UserInstrument>> equipmentList;
+  Stream<List<NotesTodo>> notesList;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      showLoading();
-      presenter.getNotifications();
-    });
+    activitiesList = presenter.getAList();
+    equipmentList = presenter.getEList();
+    notesList = presenter.getNList();
   }
 
   @override
@@ -51,16 +54,24 @@ class _NotificationListScreensState
             padding: EdgeInsets.all(6),
             color: widget.appListener.primaryColorDark,
           ),
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: _activities.length,
-            padding: EdgeInsets.all(10),
-            itemBuilder: (BuildContext context, int index) {
-              Activites ac = _activities[index];
-              return buildActivityListItem(ac, onTap: () {
-                widget.appListener.router.navigateTo(
-                    context, Screens.ADDACTIVITY.toString() + "/${ac.id}");
-              });
+          StreamBuilder(
+            stream: activitiesList,
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                _activities = snapshot.data;
+              }
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: _activities.length,
+                padding: EdgeInsets.all(10),
+                itemBuilder: (BuildContext context, int index) {
+                  Activites ac = _activities[index];
+                  return buildActivityListItem(ac, onTap: () {
+                    widget.appListener.router.navigateTo(
+                        context, Screens.ADDACTIVITY.toString() + "/${ac.id}");
+                  });
+                },
+              );
             },
           ),
           Container(
@@ -75,19 +86,26 @@ class _NotificationListScreensState
             padding: EdgeInsets.all(6),
             color: widget.appListener.primaryColorDark,
           ),
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: _todos.length,
-            padding: EdgeInsets.all(10),
-            itemBuilder: (BuildContext context, int index) {
-              NotesTodo todo = _todos[index];
-              return buildNoteListItem(todo, widget.appListener.primaryColor,
-                  onTap: () {
-                widget.appListener.router.navigateTo(
-                    context, Screens.ADDNOTE.toString() + "/${todo.id}");
-              });
-            },
-          ),
+          StreamBuilder(
+              stream: notesList,
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  _todos = snapshot.data;
+                }
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: _todos.length,
+                  padding: EdgeInsets.all(10),
+                  itemBuilder: (BuildContext context, int index) {
+                    NotesTodo todo = _todos[index];
+                    return buildNoteListItem(
+                        todo, widget.appListener.primaryColor, onTap: () {
+                      widget.appListener.router.navigateTo(
+                          context, Screens.ADDNOTE.toString() + "/${todo.id}");
+                    });
+                  },
+                );
+              }),
           // Container(
           //   child: Text(
           //     "Warranty",
@@ -116,15 +134,4 @@ class _NotificationListScreensState
 
   @override
   NotificationListPresenter get presenter => NotificationListPresenter(this);
-
-  @override
-  void onNotificationSuccess(NotificationListResponse res) {
-    hideLoading();
-    setState(() {
-      _activities.addAll(res.activities);
-      _activities.addAll(res.schedules);
-      _warranty.addAll(res.instruments);
-      _todos.addAll(res.todos);
-    });
-  }
 }
