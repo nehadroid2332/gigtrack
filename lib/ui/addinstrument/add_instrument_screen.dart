@@ -32,6 +32,12 @@ class _AddInstrumentScreenState
   bool _ispurchaseDate = false;
   bool _iswarrantyInfo = false;
   bool _iswarrantydate = false;
+  bool _isnickNameEuip=false;
+  bool _isinsuranceInfo= false;
+  bool _isnetworkimageremoved=false;
+
+  bool _iswarrantyAvailable= false;
+  bool _isinsuranceAvailable=false;
 
   final _instrumentNameController = TextEditingController(),
       _wherePurchaseController = TextEditingController(),
@@ -42,7 +48,10 @@ class _AddInstrumentScreenState
       _warrantyReferenceController = TextEditingController(),
       _warrantyCompanyController = TextEditingController(),
       _costController = TextEditingController(),
-      _warrantyPhoneController = TextEditingController();
+      _warrantyPhoneController = TextEditingController(),
+      _instrumentNickNameController= TextEditingController(),
+      _insuredController= TextEditingController(),
+      _policyController= TextEditingController();
 
   String _errorInstrumentName;
 
@@ -135,7 +144,7 @@ class _AddInstrumentScreenState
   }
 
   Band selectedBand;
-  String image;
+  var image;
   List<Band> _bands = <Band>[];
   final files = <File>[];
   Stream<List<Band>> list;
@@ -186,7 +195,7 @@ class _AddInstrumentScreenState
         Padding(
           padding: EdgeInsets.symmetric(
             horizontal: 25,
-            vertical: 20,
+            vertical: 0,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,6 +204,7 @@ class _AddInstrumentScreenState
                 "${widget.id.isEmpty ? "Add" : ""} Equipment",
                 style: textTheme.display1.copyWith(
                   color: Colors.white,
+                  fontSize: 30
                 ),
               ),
               Padding(
@@ -359,17 +369,22 @@ class _AddInstrumentScreenState
                           ? Container()
                           : image != null && image.length > 0
                               ? Container(
-                                  margin: EdgeInsets.only(left: 10, right: 10),
-                                  height: 120,
-                                  width: 80,
+                                  margin: EdgeInsets.only(left: 50, right: 50),
+                                  height: MediaQuery.of(context).size.height/2.4,
+                                  width: 60,
                                   child: Image.network(
                                     image,
                                     fit: BoxFit.cover,
                                   ),
                                 )
                               : Container(),
+                          widget.id.isEmpty||isEdit?Container():
+                          Text(_instrumentNickNameController.text,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 17),
+                          ),
                       Padding(
-                        padding: EdgeInsets.all(8),
+                        padding: EdgeInsets.only(left: 8,right: 8,top: 15,bottom: 8),
                       ),
                       widget.id.isEmpty || isEdit ? Container() : Container(),
 //                      Text(
@@ -401,10 +416,54 @@ class _AddInstrumentScreenState
                           : Text(
                               _instrumentNameController.text,
                               textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 17),
+
                             ),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
+                      ShowUp(
+                        child: !_isnickNameEuip
+                            ? new GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _isnickNameEuip = true;
+                            });
+                          },
+                          child: widget.id.isEmpty
+                              ? Text(
+                            "Add nick name to equip.",
+                            style: textTheme.display1.copyWith(
+                                color: widget
+                                    .appListener.primaryColorDark,
+                                fontSize: 14),
+                          )
+                              : Container(),
+                        )
+                            : Container(),
+                        delay: 1000,
+                      ),
+                      _isnickNameEuip||isEdit
+                          ? TextField(
+                        enabled: widget.id.isEmpty || isEdit,
+                        controller: _instrumentNickNameController,
+                        textCapitalization: TextCapitalization.sentences,
+                        style: textTheme.subhead.copyWith(
+                          color: Colors.black,
+                        ),
+                        decoration: InputDecoration(
+                          labelText:widget.id.isEmpty||isEdit? "Equipment Nick Name":"",
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                          ),
+                          errorText: _errorInstrumentName,
+                          border: widget.id.isEmpty || isEdit
+                              ? null
+                              : InputBorder.none,
+                        ),
+                      )
+                          : Container(),
+                      Padding(padding: EdgeInsets.all(5),),
                       widget.id.isEmpty || isEdit ? Container() : Container(),
 //                      Text(
 //                              "Purchased Where?",
@@ -433,8 +492,9 @@ class _AddInstrumentScreenState
                               ),
                             )
                           : Text(
-                              _wherePurchaseController.text,
+                              "Vendor - "+_wherePurchaseController.text,
                               textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 17),
                             ),
                       Padding(
                         padding: EdgeInsets.all(5),
@@ -447,39 +507,39 @@ class _AddInstrumentScreenState
 //                          fontWeight: FontWeight.bold,
 //                        ),
                       //),
-                      widget.id.isEmpty || isEdit
-                          ? _eDateType == 0
-                              ? TextField(
-                                  controller: _warrantyPhoneController,
-                                  enabled: widget.id.isEmpty || isEdit,
-                                  textCapitalization:
-                                      TextCapitalization.sentences,
-                                  keyboardType: TextInputType.phone,
-                                  decoration: InputDecoration(
-                                    labelText: "Warranty Phone",
-                                    labelStyle: TextStyle(
-                                      color: Color.fromRGBO(202, 208, 215, 1.0),
-                                    ),
-                                    errorText: _errorWarrantyPhone,
-                                    border: widget.id.isEmpty || isEdit
-                                        ? null
-                                        : InputBorder.none,
-                                  ),
-                                  style: textTheme.subhead.copyWith(
-                                    color: Colors.black,
-                                  ),
-                                  onEditingComplete: () {
-                                    setState(() {});
-                                  },
-                                )
-                              : Container()
-                          : Text(
-                              _warrantyPhoneController.text,
-                              textAlign: TextAlign.center,
-                            ),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
+//                      widget.id.isEmpty || isEdit
+//                          ? _eDateType == 0
+//                              ? TextField(
+//                                  controller: _warrantyPhoneController,
+//                                  enabled: widget.id.isEmpty || isEdit,
+//                                  textCapitalization:
+//                                      TextCapitalization.sentences,
+//                                  keyboardType: TextInputType.phone,
+//                                  decoration: InputDecoration(
+//                                    labelText: "Warranty Phone",
+//                                    labelStyle: TextStyle(
+//                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+//                                    ),
+//                                    errorText: _errorWarrantyPhone,
+//                                    border: widget.id.isEmpty || isEdit
+//                                        ? null
+//                                        : InputBorder.none,
+//                                  ),
+//                                  style: textTheme.subhead.copyWith(
+//                                    color: Colors.black,
+//                                  ),
+//                                  onEditingComplete: () {
+//                                    setState(() {});
+//                                  },
+//                                )
+//                              : Container()
+//                          : Text(
+//                              _warrantyPhoneController.text,
+//                              textAlign: TextAlign.center,
+//                            ),
+//                      Padding(
+//                        padding: EdgeInsets.all(5),
+//                      ),
 
                       ShowUp(
                         child: !_ispurchaseDate
@@ -502,10 +562,10 @@ class _AddInstrumentScreenState
                             : Container(),
                         delay: 1000,
                       ),
-                      _ispurchaseDate
+                      _ispurchaseDate||widget.id.isNotEmpty
                           ? Container(
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: widget.id.isEmpty || isEdit?CrossAxisAlignment.start:CrossAxisAlignment.center,
                                 children: <Widget>[
                                   widget.id.isEmpty || isEdit
                                       ? Text(
@@ -647,11 +707,13 @@ class _AddInstrumentScreenState
                                           ? Text(
                                               _purchaseDateController.text,
                                               textAlign: TextAlign.center,
+                                              style: TextStyle(fontSize: 17),
                                             )
-                                          : Text(
-                                              "Purch date " +
+                                          : _purchaseDateController.text.isEmpty?Container():Text(
+                                              "Purch date  - " +
                                                   _purchaseDateController.text,
                                               textAlign: TextAlign.center,
+                                              style: TextStyle(fontSize: 17),
                                             ),
                                 ],
                               ),
@@ -682,8 +744,9 @@ class _AddInstrumentScreenState
                               ),
                             )
                           : Text(
-                              _warrantyPhoneController.text,
+                        "Cost - " +_costController.text,
                               textAlign: TextAlign.center,
+                             style: TextStyle(fontSize: 17),
                             ),
                       Padding(
                         padding: EdgeInsets.all(5),
@@ -716,8 +779,9 @@ class _AddInstrumentScreenState
                               ),
                             )
                           : Text(
-                              "SN " + _serialNumberController.text,
+                              "SN# - " + _serialNumberController.text,
                               textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 17),
                             ),
                       Padding(
                         padding: EdgeInsets.all(5),
@@ -736,6 +800,7 @@ class _AddInstrumentScreenState
                                 onTap: () {
                                   setState(() {
                                     _iswarrantyInfo = true;
+                                    _iswarrantyAvailable=true;
                                   });
                                 },
                                 child: widget.id.isEmpty
@@ -751,10 +816,10 @@ class _AddInstrumentScreenState
                             : Container(),
                         delay: 1000,
                       ),
-                      _iswarrantyInfo
+                      _iswarrantyInfo||widget.id.isNotEmpty
                           ? Container(
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+
                                 children: <Widget>[
                                   widget.id.isEmpty || isEdit
                                       ? TextField(
@@ -780,6 +845,7 @@ class _AddInstrumentScreenState
                                       : Text(
                                           _warrantyController.text,
                                           textAlign: TextAlign.center,
+                                           style: TextStyle(fontSize: 17),
                                         ),
                                   Padding(
                                     padding: EdgeInsets.all(5),
@@ -810,11 +876,15 @@ class _AddInstrumentScreenState
                                   Padding(
                                     padding: EdgeInsets.all(5),
                                   ),
-                                  _iswarrantydate
+                                  _warrantyEndController.text==null||_warrantyController.text==null?Text(
+                                    "Warranty - Expired",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(fontSize: 17),
+                                  ):Container(),
+                                  _iswarrantydate||widget.id.isNotEmpty
                                       ? Container(
                                           child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            crossAxisAlignment:widget.id.isEmpty || isEdit? CrossAxisAlignment.start:CrossAxisAlignment.center,
                                             children: <Widget>[
                                               widget.id.isEmpty || isEdit
                                                   ? Text(
@@ -902,90 +972,19 @@ class _AddInstrumentScreenState
                                                         }
                                                       },
                                                     )
-                                                  : Text(
-                                                      "Warranty expires " +
+                                                  : _warrantyEndController.text.isEmpty?Container():Text(
+                                                      "Warranty expires - " +
                                                           _warrantyEndController
                                                               .text,
                                                       textAlign:
                                                           TextAlign.center,
+                                                      style: TextStyle(fontSize: 17),
                                                     ),
                                             ],
                                           ),
                                         )
                                       : Container(),
 
-//                            widget.id.isEmpty || isEdit
-//                                ? Row(
-//                              children: <Widget>[
-//                                InkWell(
-//                                  onTap: () {
-//                                    _handleEDateTypeValueChange(0);
-//                                  },
-//                                  child: Container(
-//                                    padding: EdgeInsets.symmetric(
-//                                        horizontal: 14, vertical: 5),
-//                                    decoration: BoxDecoration(
-//                                        color: _eDateType == 0
-//                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-//                                            : Color.fromRGBO(
-//                                            244, 246, 248, 1.0),
-//                                        borderRadius: BorderRadius.circular(15),
-//                                        border: Border.all(
-//                                            color: _eDateType == 0
-//                                                ? Color.fromRGBO(
-//                                                70, 206, 172, 1.0)
-//                                                : Color.fromRGBO(
-//                                                244, 246, 248, 1.0))),
-//                                    child: Text(
-//                                      'Yet to Expire',
-//                                      style: new TextStyle(
-//                                        fontSize: 16.0,
-//                                        color: _eDateType == 0
-//                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-//                                            : Color.fromRGBO(
-//                                            202, 208, 215, 1.0),
-//                                      ),
-//                                    ),
-//                                  ),
-//                                ),
-//                                Padding(
-//                                  padding: EdgeInsets.all(8),
-//                                ),
-//                                InkWell(
-//                                  onTap: () {
-//                                    _handleEDateTypeValueChange(1);
-//                                  },
-//                                  child: Container(
-//                                    padding: EdgeInsets.symmetric(
-//                                        horizontal: 14, vertical: 5),
-//                                    decoration: BoxDecoration(
-//                                        color: _eDateType == 1
-//                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-//                                            : Color.fromRGBO(
-//                                            244, 246, 248, 1.0),
-//                                        borderRadius: BorderRadius.circular(15),
-//                                        border: Border.all(
-//                                            color: _eDateType == 1
-//                                                ? Color.fromRGBO(
-//                                                70, 206, 172, 1.0)
-//                                                : Color.fromRGBO(
-//                                                244, 246, 248, 1.0))),
-//                                    child: Text(
-//                                      'Expired',
-//                                      style: new TextStyle(
-//                                        fontSize: 16.0,
-//                                        color: _eDateType == 1
-//                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-//                                            : Color.fromRGBO(
-//                                            202, 208, 215, 1.0),
-//                                      ),
-//                                    ),
-//                                  ),
-//                                ),
-//                              ],
-//                            )
-//                                : Container(),
-//
                                   Padding(
                                     padding:
                                         EdgeInsets.all(_eDateType == 0 ? 5 : 5),
@@ -998,39 +997,110 @@ class _AddInstrumentScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty || isEdit
-                          ? Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Checkbox(
-                                  onChanged: (bool value) {
-                                    setState(() {
-                                      _instrumentInsured = value;
-                                    });
-                                  },
-                                  checkColor: Colors.white,
-                                  value: _instrumentInsured,
-                                ),
-                                Text(
-                                  "Check if equipment is insured",
-                                  style: textTheme.caption.copyWith(
-                                    color: Color.fromRGBO(202, 208, 215, 1.0),
-                                  ),
-                                )
-                              ],
-                            )
-                          : Container(),
-                      Padding(
-                        padding: EdgeInsets.all(5),
+//                      widget.id.isEmpty || isEdit
+//                          ? Row(
+//                              crossAxisAlignment: CrossAxisAlignment.center,
+//                              children: <Widget>[
+//                                Checkbox(
+//                                  onChanged: (bool value) {
+//                                    setState(() {
+//                                      _instrumentInsured = value;
+//                                    });
+//                                  },
+//                                  checkColor: Colors.white,
+//                                  value: _instrumentInsured,
+//                                ),
+//                                Text(
+//                                  "Check if equipment is insured",
+//                                  style: textTheme.caption.copyWith(
+//                                    color: Color.fromRGBO(202, 208, 215, 1.0),
+//                                  ),
+//                                )
+//                              ],
+//                            )
+//                          : Container(),
+                      ShowUp(
+                        child: !_isinsuranceInfo
+                            ? new GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _isinsuranceInfo = true;
+                              _isinsuranceAvailable=true;
+                            });
+                          },
+                          child: widget.id.isEmpty
+                              ? Text(
+                            "Click to add Insurance info",
+                            style: textTheme.display1
+                                .copyWith(
+                                color: widget
+                                    .appListener
+                                    .primaryColorDark,
+                                fontSize: 14),
+                          )
+                              : Container(),
+                        )
+                            : Container(),
+                        delay: 1000,
                       ),
-                      widget.id.isEmpty
+
+                     _isinsuranceInfo||widget.id.isNotEmpty? widget.id.isEmpty || isEdit
+                          ? TextField(
+                        enabled: widget.id.isEmpty || isEdit,
+                        controller: _insuredController,
+                        textCapitalization: TextCapitalization.sentences,
+                        style: textTheme.subhead.copyWith(
+                          color: Colors.black,
+                        ),
+                        decoration: InputDecoration(
+                          labelText: "Insured with",
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                          ),
+                          errorText: _errorCost,
+                          border: widget.id.isEmpty || isEdit
+                              ? null
+                              : InputBorder.none,
+                        ),
+                      )
+                          : _insuredController.text.isNotEmpty?Text(
+                        "Insured with - " +_insuredController.text,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 17),
+                      ):Container():Container(),
+                      Padding(padding: EdgeInsets.all(5),),
+                      _isinsuranceInfo||widget.id.isNotEmpty? widget.id.isEmpty || isEdit
+                          ? TextField(
+                        enabled: widget.id.isEmpty || isEdit,
+                        controller: _policyController,
+                        textCapitalization: TextCapitalization.sentences,
+                        style: textTheme.subhead.copyWith(
+                          color: Colors.black,
+                        ),
+                        decoration: InputDecoration(
+                          labelText: "Policy no.",
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                          ),
+                          errorText: _errorCost,
+                          border: widget.id.isEmpty || isEdit
+                              ? null
+                              : InputBorder.none,
+                        ),
+                      )
+                          : _policyController.text.isNotEmpty?Text(
+                        "Policy # - " +_policyController.text,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 17),
+                      ):Container():Container(),
+                      widget.id.isEmpty||isEdit
                           ? Row(
                               children: <Widget>[
                                 Expanded(
                                   child: Text("Take Invoice/Equip. photo"),
                                 ),
                                 widget.id.isEmpty || isEdit
-                                    ? IconButton(
+                                    ? _isnetworkimageremoved||image.toString().isEmpty?IconButton(
                                         icon: Icon(Icons.add_a_photo),
                                         onPressed: () {
                                           if (files.length < 1)
@@ -1039,21 +1109,49 @@ class _AddInstrumentScreenState
                                             showMessage(
                                                 "User can upload upto max 1 media files");
                                         },
-                                      )
+                                      ):Container()
                                     : Container()
                               ],
                             )
                           : Container(),
-                      (image != null && image.isNotEmpty) && !isEdit
-                          ? Container(
-//                              margin: EdgeInsets.only(left: 10, right: 10),
-//                              height: 80,
-//                              width: 150,
-//                              child: Image.network(
-//                                image,
-//                                fit: BoxFit.cover,
-//                              ),
-                              )
+                      (image != null && image.isNotEmpty) && isEdit
+                          ? isEdit&&_isnetworkimageremoved?Container():SizedBox(
+                        height: 90,
+                        child: Container(
+                            margin: EdgeInsets.only(left: 10, right: 10),
+                            height: 80,
+                            width: 150,
+                            child:Stack(
+                              children: <Widget>[
+                                Image.network(
+                                  image,
+
+                                  fit: BoxFit.cover,
+                                ),
+                                Positioned(
+                                  right: 130,
+                                  top: 0,
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        _isnetworkimageremoved=true;
+                                        image=null;
+                                      });
+                                    },
+                                    child: Container(
+                                      child: Icon(
+                                        Icons.cancel,
+                                        color: Colors.white,
+                                      ),
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+
+                        )
+                      )
                           : files.length > 0
                               ? SizedBox(
                                   height: 90,
@@ -1122,6 +1220,10 @@ class _AddInstrumentScreenState
                                 String wPh = _warrantyPhoneController.text;
                                 String com = _warrantyCompanyController.text;
                                 String cost = _costController.text;
+                                String nickName= _instrumentNickNameController.text;
+                                String insuranceno= _insuredController.text;
+                                String policyno=_policyController.text;
+                                bool warrantyInfo= _iswarrantyAvailable;
                                 setState(() {
                                   if (instrumentName.isEmpty) {
                                     _errorInstrumentName = "Cannot be Empty";
@@ -1167,9 +1269,14 @@ class _AddInstrumentScreenState
                                                 : 0,
                                         warranty_phone: wPh,
                                         warranty_reference: wRef,
+                                        nickName: nickName,
                                         id: id,
-                                        cost: cost);
-                                    instrument.files = files;
+                                        cost: cost,
+                                        insuranceno: insuranceno,
+                                        isWarranty: warrantyInfo,
+                                         policyno: policyno );
+                                         instrument.files=files;
+
                                     showLoading();
                                     presenter.addInstrument(instrument);
                                   }
@@ -1204,6 +1311,8 @@ class _AddInstrumentScreenState
     _warrantyEndController.clear();
     _warrantyReferenceController.clear();
     _warrantyPhoneController.clear();
+    _instrumentNickNameController.clear();
+    _policyController.clear();
     showMessage("Created sucessfully");
     Timer timer = new Timer(new Duration(seconds: 2), () {
       Navigator.pop(context);
@@ -1228,21 +1337,33 @@ class _AddInstrumentScreenState
       id = instrument.id;
       _instrumentNameController.text = instrument.name;
       _instrumentInsured = instrument.is_insured;
+      if(instrument.purchased_date==0){
+        _purchaseDateController.text=null;
+      }else{
       DateTime purchasedDate =
           DateTime.fromMillisecondsSinceEpoch((instrument.purchased_date));
       _purchaseDateController.text =
-          "${formatDate(purchasedDate, [yyyy, '-', mm, '-', dd])}";
+          "${formatDate(purchasedDate, [mm,'/',dd,'/',yy])}";}
       _serialNumberController.text = instrument.serial_number;
       _warrantyController.text = instrument.warranty;
-      DateTime warrantyDate =
-          DateTime.fromMillisecondsSinceEpoch((instrument.warranty_end_date));
-      _warrantyEndController.text =
-          "${formatDate(warrantyDate, [yyyy, '-', mm, '-', dd])}";
+      if(instrument.warranty_end_date==0){
+        _warrantyEndController.text=null;
+      }else {
+        DateTime warrantyDate =
+        DateTime.fromMillisecondsSinceEpoch((instrument.warranty_end_date));
+        _warrantyEndController.text =
+        "${formatDate(warrantyDate, [mm, '/', dd, '/', yy])}";
+      }
       _warrantyPhoneController.text = instrument.warranty_phone;
       _warrantyReferenceController.text = instrument.warranty_reference;
       _wherePurchaseController.text = instrument.purchased_from;
       _costController.text = instrument.cost;
       image = instrument.uploadedFiles[0];
+      _instrumentNickNameController.text= instrument.nickName;
+      _insuredController.text= instrument.insuranceno;
+      _policyController.text=instrument.policyno;
+      _isinsuranceAvailable= instrument.isInsurance;
+      _iswarrantyAvailable= instrument.isWarranty;
     });
   }
 

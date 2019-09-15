@@ -19,6 +19,11 @@ class UserInstrument extends BaseModel {
   bool is_insured;
   String image;
   String cost;
+  String nickName;
+  String insuranceno;
+  String policyno;
+  bool isWarranty;
+  bool isInsurance;
   List<File> files = [];
   List<String> uploadedFiles = [];
 
@@ -36,7 +41,12 @@ class UserInstrument extends BaseModel {
       this.warranty,
       this.warranty_end_date,
       this.warranty_phone,
-      this.warranty_reference});
+      this.warranty_reference,
+      this.nickName,
+      this.insuranceno,
+      this.policyno,
+      this.isWarranty,
+      this.isInsurance});
 
   UserInstrument.fromJSON(dynamic data) {
     this.band_id = data['band_id'];
@@ -54,6 +64,11 @@ class UserInstrument extends BaseModel {
     this.warranty_reference = data['warranty_reference'];
     this.image = data['image'];
     this.cost = data['cost'];
+    this.nickName=data['nick_name'];
+    this.policyno=data['policy_no'];
+    this.insuranceno=data['insurance_no'];
+    this.isWarranty=data['isWarranty'];
+    this.isInsurance=data['isInsurance'];
     for (var d in data['uploadedFiles']) {
       this.uploadedFiles.add(d);
     }
@@ -78,6 +93,11 @@ class UserInstrument extends BaseModel {
     data['image'] = image;
     data['uploadedFiles'] = uploadedFiles;
     data['cost'] = cost;
+    data['nick_name']= nickName ?? "";
+    data['insurance_no']= insuranceno ?? "";
+    data['policy_no']=policyno ?? "";
+    data['isInsurance']=isInsurance??false;
+    data['isWarranty']=isWarranty??false;
     return data;
   }
 }
