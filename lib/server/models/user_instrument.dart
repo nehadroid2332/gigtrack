@@ -24,7 +24,6 @@ class UserInstrument extends BaseModel {
   String policyno;
   bool isWarranty;
   bool isInsurance;
-  List<File> files = [];
   List<String> uploadedFiles = [];
 
   UserInstrument(
@@ -44,6 +43,7 @@ class UserInstrument extends BaseModel {
       this.warranty_reference,
       this.nickName,
       this.insuranceno,
+      this.uploadedFiles,
       this.policyno,
       this.isWarranty,
       this.isInsurance});
@@ -64,14 +64,13 @@ class UserInstrument extends BaseModel {
     this.warranty_reference = data['warranty_reference'];
     this.image = data['image'];
     this.cost = data['cost'];
-    this.nickName=data['nick_name'];
-    this.policyno=data['policy_no'];
-    this.insuranceno=data['insurance_no'];
-    this.isWarranty=data['isWarranty'];
-    this.isInsurance=data['isInsurance'];
-    for (var d in data['uploadedFiles']) {
-      this.uploadedFiles.add(d);
-    }
+    this.nickName = data['nick_name'];
+    this.policyno = data['policy_no'];
+    this.insuranceno = data['insurance_no'];
+    this.isWarranty = data['isWarranty'];
+    this.isInsurance = data['isInsurance'];
+    if (data['uploadedFiles'] != null)
+      this.uploadedFiles = data['uploadedFiles'];
   }
 
   @override
@@ -93,11 +92,11 @@ class UserInstrument extends BaseModel {
     data['image'] = image;
     data['uploadedFiles'] = uploadedFiles;
     data['cost'] = cost;
-    data['nick_name']= nickName ?? "";
-    data['insurance_no']= insuranceno ?? "";
-    data['policy_no']=policyno ?? "";
-    data['isInsurance']=isInsurance??false;
-    data['isWarranty']=isWarranty??false;
+    data['nick_name'] = nickName ?? "";
+    data['insurance_no'] = insuranceno ?? "";
+    data['policy_no'] = policyno ?? "";
+    data['isInsurance'] = isInsurance ?? false;
+    data['isWarranty'] = isWarranty ?? false;
     return data;
   }
 }

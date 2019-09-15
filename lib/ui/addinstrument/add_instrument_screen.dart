@@ -32,12 +32,11 @@ class _AddInstrumentScreenState
   bool _ispurchaseDate = false;
   bool _iswarrantyInfo = false;
   bool _iswarrantydate = false;
-  bool _isnickNameEuip=false;
-  bool _isinsuranceInfo= false;
-  bool _isnetworkimageremoved=false;
+  bool _isnickNameEuip = false;
+  bool _isinsuranceInfo = false;
 
-  bool _iswarrantyAvailable= false;
-  bool _isinsuranceAvailable=false;
+  bool _iswarrantyAvailable = false;
+  bool _isinsuranceAvailable = false;
 
   final _instrumentNameController = TextEditingController(),
       _wherePurchaseController = TextEditingController(),
@@ -49,9 +48,9 @@ class _AddInstrumentScreenState
       _warrantyCompanyController = TextEditingController(),
       _costController = TextEditingController(),
       _warrantyPhoneController = TextEditingController(),
-      _instrumentNickNameController= TextEditingController(),
-      _insuredController= TextEditingController(),
-      _policyController= TextEditingController();
+      _instrumentNickNameController = TextEditingController(),
+      _insuredController = TextEditingController(),
+      _policyController = TextEditingController();
 
   String _errorInstrumentName;
 
@@ -98,7 +97,7 @@ class _AddInstrumentScreenState
                 setState(() {
                   _image = image;
                   files.clear();
-                  files.add(image);
+                  files.add(image.path);
                 });
               },
             ),
@@ -111,7 +110,7 @@ class _AddInstrumentScreenState
                 setState(() {
                   _image = image;
                   files.clear();
-                  files.add(image);
+                  files.add(image.path);
                 });
               },
             ),
@@ -144,9 +143,8 @@ class _AddInstrumentScreenState
   }
 
   Band selectedBand;
-  var image;
   List<Band> _bands = <Band>[];
-  final files = <File>[];
+  var files = <String>[];
   Stream<List<Band>> list;
 
   @override
@@ -202,10 +200,8 @@ class _AddInstrumentScreenState
             children: <Widget>[
               Text(
                 "${widget.id.isEmpty ? "Add" : ""} Equipment",
-                style: textTheme.display1.copyWith(
-                  color: Colors.white,
-                  fontSize: 30
-                ),
+                style: textTheme.display1
+                    .copyWith(color: Colors.white, fontSize: 30),
               ),
               Padding(
                 padding: EdgeInsets.all(10),
@@ -367,24 +363,28 @@ class _AddInstrumentScreenState
                       ),
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : image != null && image.length > 0
+                          : files != null && files.length > 0
                               ? Container(
                                   margin: EdgeInsets.only(left: 50, right: 50),
-                                  height: MediaQuery.of(context).size.height/2.4,
+                                  height:
+                                      MediaQuery.of(context).size.height / 2.4,
                                   width: 60,
                                   child: Image.network(
-                                    image,
+                                    files[0],
                                     fit: BoxFit.cover,
                                   ),
                                 )
                               : Container(),
-                          widget.id.isEmpty||isEdit?Container():
-                          Text(_instrumentNickNameController.text,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 17),
-                          ),
+                      widget.id.isEmpty || isEdit
+                          ? Container()
+                          : Text(
+                              _instrumentNickNameController.text,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 17),
+                            ),
                       Padding(
-                        padding: EdgeInsets.only(left: 8,right: 8,top: 15,bottom: 8),
+                        padding: EdgeInsets.only(
+                            left: 8, right: 8, top: 15, bottom: 8),
                       ),
                       widget.id.isEmpty || isEdit ? Container() : Container(),
 //                      Text(
@@ -417,7 +417,6 @@ class _AddInstrumentScreenState
                               _instrumentNameController.text,
                               textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 17),
-
                             ),
                       Padding(
                         padding: EdgeInsets.all(5),
@@ -425,45 +424,49 @@ class _AddInstrumentScreenState
                       ShowUp(
                         child: !_isnickNameEuip
                             ? new GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _isnickNameEuip = true;
-                            });
-                          },
-                          child: widget.id.isEmpty
-                              ? Text(
-                            "Add nick name to equip.",
-                            style: textTheme.display1.copyWith(
-                                color: widget
-                                    .appListener.primaryColorDark,
-                                fontSize: 14),
-                          )
-                              : Container(),
-                        )
+                                onTap: () {
+                                  setState(() {
+                                    _isnickNameEuip = true;
+                                  });
+                                },
+                                child: widget.id.isEmpty
+                                    ? Text(
+                                        "Add nick name to equip.",
+                                        style: textTheme.display1.copyWith(
+                                            color: widget
+                                                .appListener.primaryColorDark,
+                                            fontSize: 14),
+                                      )
+                                    : Container(),
+                              )
                             : Container(),
                         delay: 1000,
                       ),
-                      _isnickNameEuip||isEdit
+                      _isnickNameEuip || isEdit
                           ? TextField(
-                        enabled: widget.id.isEmpty || isEdit,
-                        controller: _instrumentNickNameController,
-                        textCapitalization: TextCapitalization.sentences,
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                        decoration: InputDecoration(
-                          labelText:widget.id.isEmpty||isEdit? "Equipment Nick Name":"",
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          errorText: _errorInstrumentName,
-                          border: widget.id.isEmpty || isEdit
-                              ? null
-                              : InputBorder.none,
-                        ),
-                      )
+                              enabled: widget.id.isEmpty || isEdit,
+                              controller: _instrumentNickNameController,
+                              textCapitalization: TextCapitalization.sentences,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                labelText: widget.id.isEmpty || isEdit
+                                    ? "Equipment Nick Name"
+                                    : "",
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                errorText: _errorInstrumentName,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
+                              ),
+                            )
                           : Container(),
-                      Padding(padding: EdgeInsets.all(5),),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
                       widget.id.isEmpty || isEdit ? Container() : Container(),
 //                      Text(
 //                              "Purchased Where?",
@@ -492,7 +495,7 @@ class _AddInstrumentScreenState
                               ),
                             )
                           : Text(
-                              "Vendor - "+_wherePurchaseController.text,
+                              "Vendor - " + _wherePurchaseController.text,
                               textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 17),
                             ),
@@ -562,10 +565,12 @@ class _AddInstrumentScreenState
                             : Container(),
                         delay: 1000,
                       ),
-                      _ispurchaseDate||widget.id.isNotEmpty
+                      _ispurchaseDate || widget.id.isNotEmpty
                           ? Container(
                               child: Column(
-                                crossAxisAlignment: widget.id.isEmpty || isEdit?CrossAxisAlignment.start:CrossAxisAlignment.center,
+                                crossAxisAlignment: widget.id.isEmpty || isEdit
+                                    ? CrossAxisAlignment.start
+                                    : CrossAxisAlignment.center,
                                 children: <Widget>[
                                   widget.id.isEmpty || isEdit
                                       ? Text(
@@ -709,12 +714,16 @@ class _AddInstrumentScreenState
                                               textAlign: TextAlign.center,
                                               style: TextStyle(fontSize: 17),
                                             )
-                                          : _purchaseDateController.text.isEmpty?Container():Text(
-                                              "Purch date  - " +
-                                                  _purchaseDateController.text,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(fontSize: 17),
-                                            ),
+                                          : _purchaseDateController.text.isEmpty
+                                              ? Container()
+                                              : Text(
+                                                  "Purch date  - " +
+                                                      _purchaseDateController
+                                                          .text,
+                                                  textAlign: TextAlign.center,
+                                                  style:
+                                                      TextStyle(fontSize: 17),
+                                                ),
                                 ],
                               ),
                             )
@@ -744,9 +753,9 @@ class _AddInstrumentScreenState
                               ),
                             )
                           : Text(
-                        "Cost - " +_costController.text,
+                              "Cost - " + _costController.text,
                               textAlign: TextAlign.center,
-                             style: TextStyle(fontSize: 17),
+                              style: TextStyle(fontSize: 17),
                             ),
                       Padding(
                         padding: EdgeInsets.all(5),
@@ -800,7 +809,7 @@ class _AddInstrumentScreenState
                                 onTap: () {
                                   setState(() {
                                     _iswarrantyInfo = true;
-                                    _iswarrantyAvailable=true;
+                                    _iswarrantyAvailable = true;
                                   });
                                 },
                                 child: widget.id.isEmpty
@@ -816,10 +825,9 @@ class _AddInstrumentScreenState
                             : Container(),
                         delay: 1000,
                       ),
-                      _iswarrantyInfo||widget.id.isNotEmpty
+                      _iswarrantyInfo || widget.id.isNotEmpty
                           ? Container(
                               child: Column(
-
                                 children: <Widget>[
                                   widget.id.isEmpty || isEdit
                                       ? TextField(
@@ -845,7 +853,7 @@ class _AddInstrumentScreenState
                                       : Text(
                                           _warrantyController.text,
                                           textAlign: TextAlign.center,
-                                           style: TextStyle(fontSize: 17),
+                                          style: TextStyle(fontSize: 17),
                                         ),
                                   Padding(
                                     padding: EdgeInsets.all(5),
@@ -876,15 +884,21 @@ class _AddInstrumentScreenState
                                   Padding(
                                     padding: EdgeInsets.all(5),
                                   ),
-                                  _warrantyEndController.text==null||_warrantyController.text==null?Text(
-                                    "Warranty - Expired",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 17),
-                                  ):Container(),
-                                  _iswarrantydate||widget.id.isNotEmpty
+                                  _warrantyEndController.text == null ||
+                                          _warrantyController.text == null
+                                      ? Text(
+                                          "Warranty - Expired",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(fontSize: 17),
+                                        )
+                                      : Container(),
+                                  _iswarrantydate || widget.id.isNotEmpty
                                       ? Container(
                                           child: Column(
-                                            crossAxisAlignment:widget.id.isEmpty || isEdit? CrossAxisAlignment.start:CrossAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                widget.id.isEmpty || isEdit
+                                                    ? CrossAxisAlignment.start
+                                                    : CrossAxisAlignment.center,
                                             children: <Widget>[
                                               widget.id.isEmpty || isEdit
                                                   ? Text(
@@ -972,19 +986,22 @@ class _AddInstrumentScreenState
                                                         }
                                                       },
                                                     )
-                                                  : _warrantyEndController.text.isEmpty?Container():Text(
-                                                      "Warranty expires - " +
-                                                          _warrantyEndController
-                                                              .text,
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(fontSize: 17),
-                                                    ),
+                                                  : _warrantyEndController
+                                                          .text.isEmpty
+                                                      ? Container()
+                                                      : Text(
+                                                          "Warranty expires - " +
+                                                              _warrantyEndController
+                                                                  .text,
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize: 17),
+                                                        ),
                                             ],
                                           ),
                                         )
                                       : Container(),
-
                                   Padding(
                                     padding:
                                         EdgeInsets.all(_eDateType == 0 ? 5 : 5),
@@ -1022,85 +1039,96 @@ class _AddInstrumentScreenState
                       ShowUp(
                         child: !_isinsuranceInfo
                             ? new GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _isinsuranceInfo = true;
-                              _isinsuranceAvailable=true;
-                            });
-                          },
-                          child: widget.id.isEmpty
-                              ? Text(
-                            "Click to add Insurance info",
-                            style: textTheme.display1
-                                .copyWith(
-                                color: widget
-                                    .appListener
-                                    .primaryColorDark,
-                                fontSize: 14),
-                          )
-                              : Container(),
-                        )
+                                onTap: () {
+                                  setState(() {
+                                    _isinsuranceInfo = true;
+                                    _isinsuranceAvailable = true;
+                                  });
+                                },
+                                child: widget.id.isEmpty
+                                    ? Text(
+                                        "Click to add Insurance info",
+                                        style: textTheme.display1.copyWith(
+                                            color: widget
+                                                .appListener.primaryColorDark,
+                                            fontSize: 14),
+                                      )
+                                    : Container(),
+                              )
                             : Container(),
                         delay: 1000,
                       ),
 
-                     _isinsuranceInfo||widget.id.isNotEmpty? widget.id.isEmpty || isEdit
-                          ? TextField(
-                        enabled: widget.id.isEmpty || isEdit,
-                        controller: _insuredController,
-                        textCapitalization: TextCapitalization.sentences,
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                        decoration: InputDecoration(
-                          labelText: "Insured with",
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          errorText: _errorCost,
-                          border: widget.id.isEmpty || isEdit
-                              ? null
-                              : InputBorder.none,
-                        ),
-                      )
-                          : _insuredController.text.isNotEmpty?Text(
-                        "Insured with - " +_insuredController.text,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 17),
-                      ):Container():Container(),
-                      Padding(padding: EdgeInsets.all(5),),
-                      _isinsuranceInfo||widget.id.isNotEmpty? widget.id.isEmpty || isEdit
-                          ? TextField(
-                        enabled: widget.id.isEmpty || isEdit,
-                        controller: _policyController,
-                        textCapitalization: TextCapitalization.sentences,
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                        decoration: InputDecoration(
-                          labelText: "Policy no.",
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          errorText: _errorCost,
-                          border: widget.id.isEmpty || isEdit
-                              ? null
-                              : InputBorder.none,
-                        ),
-                      )
-                          : _policyController.text.isNotEmpty?Text(
-                        "Policy # - " +_policyController.text,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 17),
-                      ):Container():Container(),
-                      widget.id.isEmpty||isEdit
+                      _isinsuranceInfo || widget.id.isNotEmpty
+                          ? widget.id.isEmpty || isEdit
+                              ? TextField(
+                                  enabled: widget.id.isEmpty || isEdit,
+                                  controller: _insuredController,
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
+                                  style: textTheme.subhead.copyWith(
+                                    color: Colors.black,
+                                  ),
+                                  decoration: InputDecoration(
+                                    labelText: "Insured with",
+                                    labelStyle: TextStyle(
+                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+                                    ),
+                                    errorText: _errorCost,
+                                    border: widget.id.isEmpty || isEdit
+                                        ? null
+                                        : InputBorder.none,
+                                  ),
+                                )
+                              : _insuredController.text.isNotEmpty
+                                  ? Text(
+                                      "Insured with - " +
+                                          _insuredController.text,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 17),
+                                    )
+                                  : Container()
+                          : Container(),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      _isinsuranceInfo || widget.id.isNotEmpty
+                          ? widget.id.isEmpty || isEdit
+                              ? TextField(
+                                  enabled: widget.id.isEmpty || isEdit,
+                                  controller: _policyController,
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
+                                  style: textTheme.subhead.copyWith(
+                                    color: Colors.black,
+                                  ),
+                                  decoration: InputDecoration(
+                                    labelText: "Policy no.",
+                                    labelStyle: TextStyle(
+                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+                                    ),
+                                    errorText: _errorCost,
+                                    border: widget.id.isEmpty || isEdit
+                                        ? null
+                                        : InputBorder.none,
+                                  ),
+                                )
+                              : _policyController.text.isNotEmpty
+                                  ? Text(
+                                      "Policy # - " + _policyController.text,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 17),
+                                    )
+                                  : Container()
+                          : Container(),
+                      widget.id.isEmpty || isEdit
                           ? Row(
                               children: <Widget>[
                                 Expanded(
                                   child: Text("Take Invoice/Equip. photo"),
                                 ),
                                 widget.id.isEmpty || isEdit
-                                    ? _isnetworkimageremoved||image.toString().isEmpty?IconButton(
+                                    ? IconButton(
                                         icon: Icon(Icons.add_a_photo),
                                         onPressed: () {
                                           if (files.length < 1)
@@ -1109,94 +1137,55 @@ class _AddInstrumentScreenState
                                             showMessage(
                                                 "User can upload upto max 1 media files");
                                         },
-                                      ):Container()
+                                      )
                                     : Container()
                               ],
                             )
                           : Container(),
-                      (image != null && image.isNotEmpty) && isEdit
-                          ? isEdit&&_isnetworkimageremoved?Container():SizedBox(
-                        height: 90,
-                        child: Container(
-                            margin: EdgeInsets.only(left: 10, right: 10),
-                            height: 80,
-                            width: 150,
-                            child:Stack(
-                              children: <Widget>[
-                                Image.network(
-                                  image,
-
-                                  fit: BoxFit.cover,
-                                ),
-                                Positioned(
-                                  right: 130,
-                                  top: 0,
-                                  child: InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        _isnetworkimageremoved=true;
-                                        image=null;
-                                      });
-                                    },
-                                    child: Container(
-                                      child: Icon(
-                                        Icons.cancel,
-                                        color: Colors.white,
-                                      ),
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            )
-
-                        )
-                      )
-                          : files.length > 0
-                              ? SizedBox(
-                                  height: 90,
-                                  child: ListView.builder(
-                                    itemCount: files.length,
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      File file = files[index];
-                                      return Container(
-                                        margin: EdgeInsets.only(
-                                            left: 10, right: 10),
-                                        height: 80,
-                                        width: 150,
-                                        child: Stack(
-                                          children: <Widget>[
-                                            Image.file(
-                                              file,
-                                              fit: BoxFit.cover,
-                                            ),
-                                            Positioned(
-                                              right: 14,
-                                              top: 0,
-                                              child: InkWell(
-                                                onTap: () {
-                                                  setState(() {
-                                                    files.removeAt(index);
-                                                  });
-                                                },
-                                                child: Container(
-                                                  child: Icon(
-                                                    Icons.cancel,
-                                                    color: Colors.white,
-                                                  ),
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            )
-                                          ],
+                      files.length > 0
+                          ? SizedBox(
+                              height: 90,
+                              child: ListView.builder(
+                                itemCount: files.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (BuildContext context, int index) {
+                                  File file = File(files[index]);
+                                  return Container(
+                                    margin:
+                                        EdgeInsets.only(left: 10, right: 10),
+                                    height: 80,
+                                    width: 150,
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Image.file(
+                                          file,
+                                          fit: BoxFit.cover,
                                         ),
-                                      );
-                                    },
-                                  ),
-                                )
-                              : Container(),
+                                        Positioned(
+                                          right: 14,
+                                          top: 0,
+                                          child: InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                files.removeAt(index);
+                                              });
+                                            },
+                                            child: Container(
+                                              child: Icon(
+                                                Icons.cancel,
+                                                color: Colors.white,
+                                              ),
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            )
+                          : Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -1220,10 +1209,11 @@ class _AddInstrumentScreenState
                                 String wPh = _warrantyPhoneController.text;
                                 String com = _warrantyCompanyController.text;
                                 String cost = _costController.text;
-                                String nickName= _instrumentNickNameController.text;
-                                String insuranceno= _insuredController.text;
-                                String policyno=_policyController.text;
-                                bool warrantyInfo= _iswarrantyAvailable;
+                                String nickName =
+                                    _instrumentNickNameController.text;
+                                String insuranceno = _insuredController.text;
+                                String policyno = _policyController.text;
+                                bool warrantyInfo = _iswarrantyAvailable;
                                 setState(() {
                                   if (instrumentName.isEmpty) {
                                     _errorInstrumentName = "Cannot be Empty";
@@ -1274,8 +1264,8 @@ class _AddInstrumentScreenState
                                         cost: cost,
                                         insuranceno: insuranceno,
                                         isWarranty: warrantyInfo,
-                                         policyno: policyno );
-                                         instrument.files=files;
+                                        uploadedFiles: files,
+                                        policyno: policyno);
 
                                     showLoading();
                                     presenter.addInstrument(instrument);
@@ -1337,33 +1327,34 @@ class _AddInstrumentScreenState
       id = instrument.id;
       _instrumentNameController.text = instrument.name;
       _instrumentInsured = instrument.is_insured;
-      if(instrument.purchased_date==0){
-        _purchaseDateController.text=null;
-      }else{
-      DateTime purchasedDate =
-          DateTime.fromMillisecondsSinceEpoch((instrument.purchased_date));
-      _purchaseDateController.text =
-          "${formatDate(purchasedDate, [mm,'/',dd,'/',yy])}";}
+      if (instrument.purchased_date == 0) {
+        _purchaseDateController.text = null;
+      } else {
+        DateTime purchasedDate =
+            DateTime.fromMillisecondsSinceEpoch((instrument.purchased_date));
+        _purchaseDateController.text =
+            "${formatDate(purchasedDate, [mm, '/', dd, '/', yy])}";
+      }
       _serialNumberController.text = instrument.serial_number;
       _warrantyController.text = instrument.warranty;
-      if(instrument.warranty_end_date==0){
-        _warrantyEndController.text=null;
-      }else {
+      if (instrument.warranty_end_date == 0) {
+        _warrantyEndController.text = null;
+      } else {
         DateTime warrantyDate =
-        DateTime.fromMillisecondsSinceEpoch((instrument.warranty_end_date));
+            DateTime.fromMillisecondsSinceEpoch((instrument.warranty_end_date));
         _warrantyEndController.text =
-        "${formatDate(warrantyDate, [mm, '/', dd, '/', yy])}";
+            "${formatDate(warrantyDate, [mm, '/', dd, '/', yy])}";
       }
       _warrantyPhoneController.text = instrument.warranty_phone;
       _warrantyReferenceController.text = instrument.warranty_reference;
       _wherePurchaseController.text = instrument.purchased_from;
       _costController.text = instrument.cost;
-      image = instrument.uploadedFiles[0];
-      _instrumentNickNameController.text= instrument.nickName;
-      _insuredController.text= instrument.insuranceno;
-      _policyController.text=instrument.policyno;
-      _isinsuranceAvailable= instrument.isInsurance;
-      _iswarrantyAvailable= instrument.isWarranty;
+      if (instrument.uploadedFiles != null) files = instrument.uploadedFiles;
+      _instrumentNickNameController.text = instrument.nickName;
+      _insuredController.text = instrument.insuranceno;
+      _policyController.text = instrument.policyno;
+      _isinsuranceAvailable = instrument.isInsurance;
+      _iswarrantyAvailable = instrument.isWarranty;
     });
   }
 

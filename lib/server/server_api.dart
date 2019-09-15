@@ -195,20 +195,20 @@ class ServerAPI {
 
   Future<dynamic> addInstrument(UserInstrument instrument) async {
     try {
-      if (instrument.files.length > 0) {
-        for (File file in instrument.files) {
-          String basename = extension(file.path);
-          final StorageUploadTask uploadTask = equipmentRef
-              .child("${DateTime.now().toString()}$basename")
-              .putFile(file);
-          StorageTaskSnapshot snapshot = await uploadTask.onComplete;
-          String url = await snapshot.ref.getDownloadURL();
-          instrument.uploadedFiles.add(url);
+      if (instrument.uploadedFiles.length > 0) {
+        for (var i = 0; i < instrument.uploadedFiles.length; i++) {
+          File file = File(instrument.uploadedFiles[i]);
+          if (await file.exists()) {
+            String basename = extension(file.path);
+            final StorageUploadTask uploadTask = equipmentRef
+                .child("${DateTime.now().toString()}$basename")
+                .putFile(file);
+            StorageTaskSnapshot snapshot = await uploadTask.onComplete;
+            String url = await snapshot.ref.getDownloadURL();
+            instrument.uploadedFiles[i] = url;
+          }
         }
-      } else {
-        instrument.uploadedFiles.add("");
       }
-      instrument.files = [];
       bool isUpdate = true;
       if (instrument.id == null || instrument.id.isEmpty) {
         String id = equipmentsDB.push().key;
