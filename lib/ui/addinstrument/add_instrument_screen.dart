@@ -494,10 +494,33 @@ class _AddInstrumentScreenState
                                     : InputBorder.none,
                               ),
                             )
-                          : Text(
-                              "Vendor - " + _wherePurchaseController.text,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 17),
+                          : Row(
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    "Vendor",
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    " - ",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  flex: 1,
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    _wherePurchaseController.text,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                ),
+                              ],
                             ),
                       Padding(
                         padding: EdgeInsets.all(5),
@@ -752,14 +775,36 @@ class _AddInstrumentScreenState
                                     : InputBorder.none,
                               ),
                             )
-                          : _costController
-                          .text.isEmpty
-                          ? Container()
-                          : Text(
-                              "Cost - \$" + _costController.text,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 17),
-                            ),
+                          : _costController.text.isEmpty
+                              ? Container()
+                              : Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      flex: 2,
+                                      child: Text(
+                                        "Cost",
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(fontSize: 17),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        " - ",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 17),
+                                      ),
+                                      flex: 1,
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: Text(
+                                        _costController.text,
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(fontSize: 17),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -790,10 +835,33 @@ class _AddInstrumentScreenState
                                 color: Colors.black,
                               ),
                             )
-                          : Text(
-                              "SN# - " + _serialNumberController.text,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 17),
+                          : Row(
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    "SN#",
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    " - ",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  flex: 1,
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    _serialNumberController.text,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                ),
+                              ],
                             ),
                       Padding(
                         padding: EdgeInsets.all(5),
@@ -853,13 +921,14 @@ class _AddInstrumentScreenState
                                             color: Colors.black,
                                           ),
                                         )
-                                      : _warrantyController
-                                      .text.isEmpty
-                                      ? Container():Text(
-                                         "Warranty - "+ _warrantyController.text,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 17),
-                                        ),
+                                      : _warrantyController.text.isEmpty
+                                          ? Container()
+                                          : Text(
+                                              "Warranty - " +
+                                                  _warrantyController.text,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(fontSize: 17),
+                                            ),
                                   Padding(
                                     padding: EdgeInsets.all(5),
                                   ),
@@ -889,7 +958,6 @@ class _AddInstrumentScreenState
                                   Padding(
                                     padding: EdgeInsets.all(5),
                                   ),
-
                                   _iswarrantydate || widget.id.isNotEmpty
                                       ? Container(
                                           child: Column(
@@ -1132,7 +1200,8 @@ class _AddInstrumentScreenState
                                           if (files.length < 1)
                                             getImage();
                                           else
-                                            showMessage("User can upload upto max 1 media files");
+                                            showMessage(
+                                                "User can upload upto max 1 media files");
                                         },
                                       )
                                     : Container()
@@ -1140,85 +1209,96 @@ class _AddInstrumentScreenState
                             )
                           : Container(),
                       files.length > 0
-                          ? widget.id.isEmpty||isEdit?SizedBox(
-                              height: 90,
-                              child: ListView.builder(
-                                itemCount: files.length,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (BuildContext context, int index) {
-                                  File file = File(files[index]);
-                                  return file.path.startsWith("https")?Container(
-                                    margin:
-                                        EdgeInsets.only(left: 10, right: 10),
-                                    height: 80,
-                                    width: 150,
-                                    child: Stack(
-                                      children: <Widget>[
-                                       widget.id.isNotEmpty||isEdit && file.path.startsWith("https")?
-                                       Image.network(
-                                      file.path.toString()??"",
-                                      fit: BoxFit.cover,
-                                    ): Image.file(
-                                          file,
-                                          fit: BoxFit.cover,
-                                        ),
-                                        Positioned(
-                                          right: 14,
-                                          top: 0,
-                                          child: InkWell(
-                                            onTap: () {
-                                              setState(() {
-                                                files=new List();
-
-                                              });
-                                            },
-                                            child: Container(
-                                              child: Icon(
-                                                Icons.cancel,
-                                                color: Colors.white,
+                          ? widget.id.isEmpty || isEdit
+                              ? SizedBox(
+                                  height: 90,
+                                  child: ListView.builder(
+                                    itemCount: files.length,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      File file = File(files[index]);
+                                      return file.path.startsWith("https")
+                                          ? Container(
+                                              margin: EdgeInsets.only(
+                                                  left: 10, right: 10),
+                                              height: 80,
+                                              width: 150,
+                                              child: Stack(
+                                                children: <Widget>[
+                                                  widget.id.isNotEmpty ||
+                                                          isEdit &&
+                                                              file.path
+                                                                  .startsWith(
+                                                                      "https")
+                                                      ? Image.network(
+                                                          file.path
+                                                                  .toString() ??
+                                                              "",
+                                                          fit: BoxFit.cover,
+                                                        )
+                                                      : Image.file(
+                                                          file,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                  Positioned(
+                                                    right: 14,
+                                                    top: 0,
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        setState(() {
+                                                          files = new List();
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        child: Icon(
+                                                          Icons.cancel,
+                                                          color: Colors.white,
+                                                        ),
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
                                               ),
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ):Container(
-                                    margin:
-                                    EdgeInsets.only(left: 10, right: 10),
-                                    height: 80,
-                                    width: 150,
-                                    child: Stack(
-                                      children: <Widget>[
-                                         Image.file(
-                                          file,
-                                          fit: BoxFit.cover,
-                                        ),
-                                        Positioned(
-                                          right: 14,
-                                          top: 0,
-                                          child: InkWell(
-                                            onTap: () {
-                                              setState(() {
-                                                files=new List();
-
-                                              });
-                                            },
-                                            child: Container(
-                                              child: Icon(
-                                                Icons.cancel,
-                                                color: Colors.white,
+                                            )
+                                          : Container(
+                                              margin: EdgeInsets.only(
+                                                  left: 10, right: 10),
+                                              height: 80,
+                                              width: 150,
+                                              child: Stack(
+                                                children: <Widget>[
+                                                  Image.file(
+                                                    file,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                  Positioned(
+                                                    right: 14,
+                                                    top: 0,
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        setState(() {
+                                                          files = new List();
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        child: Icon(
+                                                          Icons.cancel,
+                                                          color: Colors.white,
+                                                        ),
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
                                               ),
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  );;
-                                },
-                              ),
-                            ):Container()
+                                            );
+                                      ;
+                                    },
+                                  ),
+                                )
+                              : Container()
                           : Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
@@ -1366,7 +1446,7 @@ class _AddInstrumentScreenState
       } else {
         DateTime purchasedDate1 =
             DateTime.fromMillisecondsSinceEpoch((instrument.purchased_date));
-        purchasedDate=purchasedDate1;
+        purchasedDate = purchasedDate1;
         _purchaseDateController.text =
             "${formatDate(purchasedDate1, [mm, '/', dd, '/', yy])}";
       }
@@ -1377,7 +1457,7 @@ class _AddInstrumentScreenState
       } else {
         DateTime warrantyDate =
             DateTime.fromMillisecondsSinceEpoch((instrument.warranty_end_date));
-        warrantyEndDate=warrantyDate;
+        warrantyEndDate = warrantyDate;
         _warrantyEndController.text =
             "${formatDate(warrantyDate, [mm, '/', dd, '/', yy])}";
       }
