@@ -213,114 +213,6 @@ class _AddInstrumentScreenState
                   child: ListView(
                     padding: EdgeInsets.all(20),
                     children: <Widget>[
-                      // InkWell(
-                      //   child: Center(
-                      //     child: Container(
-                      //       width: 150.0,
-                      //       height: 150.0,
-                      //       decoration: _image != null
-                      //           ? new BoxDecoration(
-                      //               shape: BoxShape.circle,
-                      //               image: new DecorationImage(
-                      //                 fit: BoxFit.fill,
-                      //                 image: FileImage(_image),
-                      //               ),
-                      //             )
-                      //           : null,
-                      //       child: _image == null
-                      //           ? Icon(
-                      //               Icons.account_circle,
-                      //               size: 100,
-                      //             )
-                      //           : null,
-                      //     ),
-                      //   ),
-                      //   onTap: getImage,
-                      // ),
-
-//                      widget.id.isEmpty || isEdit
-//                          ? Text(
-//                              "Type",
-//                              style: textTheme.headline.copyWith(
-//                                color: Colors.black,
-//                              ),
-//                            )
-//                          : Container(),
-//                      Padding(
-//                        padding: EdgeInsets.all(6),
-//                      ),
-//                      widget.id.isEmpty || isEdit
-//                          ? Row(
-//                              children: <Widget>[
-//                                InkWell(
-//                                  onTap: () {
-//                                    selectedBand = null;
-//                                    _handleUserTypeValueChange(0);
-//                                  },
-//                                  child: Container(
-//                                    padding: EdgeInsets.symmetric(
-//                                        horizontal: 14, vertical: 5),
-//                                    decoration: BoxDecoration(
-//                                        color: _userType == 0
-//                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-//                                            : Color.fromRGBO(
-//                                                244, 246, 248, 1.0),
-//                                        borderRadius: BorderRadius.circular(15),
-//                                        border: Border.all(
-//                                            color: _userType == 0
-//                                                ? Color.fromRGBO(
-//                                                    70, 206, 172, 1.0)
-//                                                : Color.fromRGBO(
-//                                                    244, 246, 248, 1.0))),
-//                                    child: Text(
-//                                      'User',
-//                                      style: new TextStyle(
-//                                        fontSize: 16.0,
-//                                        color: _userType == 0
-//                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-//                                            : Color.fromRGBO(
-//                                                202, 208, 215, 1.0),
-//                                      ),
-//                                    ),
-//                                  ),
-//                                ),
-//                                Padding(
-//                                  padding: EdgeInsets.all(8),
-//                                ),
-//                                InkWell(
-//                                  onTap: () {
-//                                    _handleUserTypeValueChange(1);
-//                                  },
-//                                  child: Container(
-//                                    padding: EdgeInsets.symmetric(
-//                                        horizontal: 14, vertical: 5),
-//                                    decoration: BoxDecoration(
-//                                        color: _userType == 1
-//                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-//                                            : Color.fromRGBO(
-//                                                244, 246, 248, 1.0),
-//                                        borderRadius: BorderRadius.circular(15),
-//                                        border: Border.all(
-//                                            color: _userType == 1
-//                                                ? Color.fromRGBO(
-//                                                    70, 206, 172, 1.0)
-//                                                : Color.fromRGBO(
-//                                                    244, 246, 248, 1.0))),
-//                                    child: Text(
-//                                      'Band',
-//                                      style: new TextStyle(
-//                                        fontSize: 16.0,
-//                                        color: _userType == 1
-//                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-//                                            : Color.fromRGBO(
-//                                                202, 208, 215, 1.0),
-//                                      ),
-//                                    ),
-//                                  ),
-//                                ),
-//                              ],
-//                            )
-//                          : Container(),
                       (_userType == 1 && (widget.id.isEmpty || isEdit))
                           ? Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20),
@@ -387,13 +279,6 @@ class _AddInstrumentScreenState
                             left: 8, right: 8, top: 15, bottom: 8),
                       ),
                       widget.id.isEmpty || isEdit ? Container() : Container(),
-//                      Text(
-//                              "Equipment Name",
-//                              textAlign: TextAlign.center,
-//                              style: textTheme.subhead.copyWith(
-//                                fontWeight: FontWeight.bold,
-//                              ),
-//                            ),
                       widget.id.isEmpty || isEdit
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
@@ -468,13 +353,6 @@ class _AddInstrumentScreenState
                         padding: EdgeInsets.all(5),
                       ),
                       widget.id.isEmpty || isEdit ? Container() : Container(),
-//                      Text(
-//                              "Purchased Where?",
-//                              textAlign: TextAlign.center,
-//                              style: textTheme.subhead.copyWith(
-//                                fontWeight: FontWeight.bold,
-//                              ),
-//                            ),
                       widget.id.isEmpty || isEdit
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
@@ -497,7 +375,7 @@ class _AddInstrumentScreenState
                           : Row(
                               children: <Widget>[
                                 Expanded(
-                                  flex: 2,
+                                  flex: 4,
                                   child: Text(
                                     "Vendor",
                                     textAlign: TextAlign.right,
@@ -513,7 +391,7 @@ class _AddInstrumentScreenState
                                   flex: 1,
                                 ),
                                 Expanded(
-                                  flex: 2,
+                                  flex: 4,
                                   child: Text(
                                     _wherePurchaseController.text,
                                     textAlign: TextAlign.left,
@@ -526,47 +404,6 @@ class _AddInstrumentScreenState
                         padding: EdgeInsets.all(5),
                       ),
                       widget.id.isEmpty || isEdit ? Container() : Container(),
-//                      Text(
-//                        "Warranty Phone",
-//                        textAlign: TextAlign.center,
-//                        style: textTheme.subhead.copyWith(
-//                          fontWeight: FontWeight.bold,
-//                        ),
-                      //),
-//                      widget.id.isEmpty || isEdit
-//                          ? _eDateType == 0
-//                              ? TextField(
-//                                  controller: _warrantyPhoneController,
-//                                  enabled: widget.id.isEmpty || isEdit,
-//                                  textCapitalization:
-//                                      TextCapitalization.sentences,
-//                                  keyboardType: TextInputType.phone,
-//                                  decoration: InputDecoration(
-//                                    labelText: "Warranty Phone",
-//                                    labelStyle: TextStyle(
-//                                      color: Color.fromRGBO(202, 208, 215, 1.0),
-//                                    ),
-//                                    errorText: _errorWarrantyPhone,
-//                                    border: widget.id.isEmpty || isEdit
-//                                        ? null
-//                                        : InputBorder.none,
-//                                  ),
-//                                  style: textTheme.subhead.copyWith(
-//                                    color: Colors.black,
-//                                  ),
-//                                  onEditingComplete: () {
-//                                    setState(() {});
-//                                  },
-//                                )
-//                              : Container()
-//                          : Text(
-//                              _warrantyPhoneController.text,
-//                              textAlign: TextAlign.center,
-//                            ),
-//                      Padding(
-//                        padding: EdgeInsets.all(5),
-//                      ),
-
                       ShowUp(
                         child: !_ispurchaseDate
                             ? new GestureDetector(
@@ -609,77 +446,6 @@ class _AddInstrumentScreenState
                                   Padding(
                                     padding: EdgeInsets.all(3),
                                   ),
-//                            widget.id.isEmpty || isEdit
-//                                ? Row(
-//                              children: <Widget>[
-//                                InkWell(
-//                                  onTap: () {
-//                                    _handlePDateTypeValueChange(0);
-//                                  },
-//                                  child: Container(
-//                                    padding: EdgeInsets.symmetric(
-//                                        horizontal: 14, vertical: 5),
-//                                    decoration: BoxDecoration(
-//                                        color: _pDateType == 0
-//                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-//                                            : Color.fromRGBO(
-//                                            244, 246, 248, 1.0),
-//                                        borderRadius: BorderRadius.circular(15),
-//                                        border: Border.all(
-//                                            color: _pDateType == 0
-//                                                ? Color.fromRGBO(
-//                                                70, 206, 172, 1.0)
-//                                                : Color.fromRGBO(
-//                                                244, 246, 248, 1.0))),
-//                                    child: Text(
-//                                      'Date Known',
-//                                      style: new TextStyle(
-//                                        fontSize: 16.0,
-//                                        color: _pDateType == 0
-//                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-//                                            : Color.fromRGBO(
-//                                            202, 208, 215, 1.0),
-//                                      ),
-//                                    ),
-//                                  ),
-//                                ),
-//                                Padding(
-//                                  padding: EdgeInsets.all(8),
-//                                ),
-//                                InkWell(
-//                                  onTap: () {
-//                                    _handlePDateTypeValueChange(1);
-//                                  },
-//                                  child: Container(
-//                                    padding: EdgeInsets.symmetric(
-//                                        horizontal: 14, vertical: 5),
-//                                    decoration: BoxDecoration(
-//                                        color: _pDateType == 1
-//                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-//                                            : Color.fromRGBO(
-//                                            244, 246, 248, 1.0),
-//                                        borderRadius: BorderRadius.circular(15),
-//                                        border: Border.all(
-//                                            color: _pDateType == 1
-//                                                ? Color.fromRGBO(
-//                                                70, 206, 172, 1.0)
-//                                                : Color.fromRGBO(
-//                                                244, 246, 248, 1.0))),
-//                                    child: Text(
-//                                      'Date Unknown',
-//                                      style: new TextStyle(
-//                                        fontSize: 16.0,
-//                                        color: _pDateType == 1
-//                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-//                                            : Color.fromRGBO(
-//                                            202, 208, 215, 1.0),
-//                                      ),
-//                                    ),
-//                                  ),
-//                                ),
-//                              ],
-//                            )
-//                                : Container(),
                                   widget.id.isEmpty || isEdit
                                       ? GestureDetector(
                                           child: AbsorbPointer(
@@ -739,14 +505,32 @@ class _AddInstrumentScreenState
                                             )
                                           : _purchaseDateController.text.isEmpty
                                               ? Container()
-                                              : Text(
-                                                  "Purch date  - " +
-                                                      _purchaseDateController
-                                                          .text,
-                                                  textAlign: TextAlign.center,
+                                              : Row(
+                                              children: <Widget>[
+                                              Expanded(flex: 5,
+                                                      child: Text("Purch date",
+                                                        textAlign: TextAlign.right,
+                                                        style: TextStyle(fontSize: 17),
+                                                      ),),
+                                                Expanded(
+                                                      child: Text(
+                                                        " - ",
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(fontSize: 17),
+                                                      ),
+                                                      flex: 1,
+                                                    ),
+                                              Expanded(
+                                                flex: 5,
+                                                child:  Text(_purchaseDateController.text,
+                                                  textAlign: TextAlign.left,
                                                   style:
-                                                      TextStyle(fontSize: 17),
+                                                  TextStyle(fontSize: 17),
                                                 ),
+                                      ),
+                                    ],
+                                  ),
+
                                 ],
                               ),
                             )
@@ -780,7 +564,7 @@ class _AddInstrumentScreenState
                               : Row(
                                   children: <Widget>[
                                     Expanded(
-                                      flex: 2,
+                                      flex: 4,
                                       child: Text(
                                         "Cost",
                                         textAlign: TextAlign.right,
@@ -796,9 +580,9 @@ class _AddInstrumentScreenState
                                       flex: 1,
                                     ),
                                     Expanded(
-                                      flex: 2,
+                                      flex: 4,
                                       child: Text(
-                                        _costController.text,
+                                        "\$"+_costController.text,
                                         textAlign: TextAlign.left,
                                         style: TextStyle(fontSize: 17),
                                       ),
@@ -838,7 +622,7 @@ class _AddInstrumentScreenState
                           : Row(
                               children: <Widget>[
                                 Expanded(
-                                  flex: 2,
+                                  flex: 4,
                                   child: Text(
                                     "SN#",
                                     textAlign: TextAlign.right,
@@ -854,7 +638,7 @@ class _AddInstrumentScreenState
                                   flex: 1,
                                 ),
                                 Expanded(
-                                  flex: 2,
+                                  flex: 4,
                                   child: Text(
                                     _serialNumberController.text,
                                     textAlign: TextAlign.left,
@@ -867,13 +651,6 @@ class _AddInstrumentScreenState
                         padding: EdgeInsets.all(5),
                       ),
                       widget.id.isEmpty || isEdit ? Container() : Container(),
-//                      Text(
-//                              "Warranty",
-//                              textAlign: TextAlign.center,
-//                              style: textTheme.subhead.copyWith(
-//                                fontWeight: FontWeight.bold,
-//                              ),
-//                            ),
                       ShowUp(
                         child: !_iswarrantyInfo
                             ? new GestureDetector(
@@ -923,12 +700,34 @@ class _AddInstrumentScreenState
                                         )
                                       : _warrantyController.text.isEmpty
                                           ? Container()
-                                          : Text(
-                                              "Warranty - " +
-                                                  _warrantyController.text,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(fontSize: 17),
-                                            ),
+                                          : Row(
+                                      children: <Widget>[
+                                      Expanded(
+                                        flex: 4,
+                                        child: Text(
+                                          "Warranty",
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(fontSize: 17),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          " - ",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(fontSize: 17),
+                                        ),
+                                        flex: 1,
+                                      ),
+                                      Expanded(
+                                        flex: 4,
+                                        child: Text(
+                                          _warrantyController.text,
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(fontSize: 17),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                   Padding(
                                     padding: EdgeInsets.all(5),
                                   ),
@@ -955,9 +754,7 @@ class _AddInstrumentScreenState
                                         : Container(),
                                     delay: 1000,
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.all(5),
-                                  ),
+
                                   _iswarrantydate || widget.id.isNotEmpty
                                       ? Container(
                                           child: Column(
@@ -981,9 +778,7 @@ class _AddInstrumentScreenState
                                                       ),
                                                     )
                                                   : Container(),
-                                              Padding(
-                                                padding: EdgeInsets.all(5),
-                                              ),
+
                                               widget.id.isEmpty || isEdit
                                                   ? GestureDetector(
                                                       child: AbsorbPointer(
@@ -1055,15 +850,34 @@ class _AddInstrumentScreenState
                                                   : _warrantyEndController
                                                           .text.isEmpty
                                                       ? Container()
-                                                      : Text(
-                                                          "Warranty expires - " +
-                                                              _warrantyEndController
-                                                                  .text,
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize: 17),
-                                                        ),
+                                                      : Row(
+                                                children: <Widget>[
+                                                  Expanded(
+                                                    flex: 4,
+                                                    child: Text(
+                                                      "Warranty expires",
+                                                      textAlign: TextAlign.right,
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                      " - ",
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                    flex: 1,
+                                                  ),
+                                                  Expanded(
+                                                    flex: 4,
+                                                    child: Text(
+                                                      _warrantyEndController.text,
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ],
                                           ),
                                         )
@@ -1080,28 +894,6 @@ class _AddInstrumentScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-//                      widget.id.isEmpty || isEdit
-//                          ? Row(
-//                              crossAxisAlignment: CrossAxisAlignment.center,
-//                              children: <Widget>[
-//                                Checkbox(
-//                                  onChanged: (bool value) {
-//                                    setState(() {
-//                                      _instrumentInsured = value;
-//                                    });
-//                                  },
-//                                  checkColor: Colors.white,
-//                                  value: _instrumentInsured,
-//                                ),
-//                                Text(
-//                                  "Check if equipment is insured",
-//                                  style: textTheme.caption.copyWith(
-//                                    color: Color.fromRGBO(202, 208, 215, 1.0),
-//                                  ),
-//                                )
-//                              ],
-//                            )
-//                          : Container(),
                       ShowUp(
                         child: !_isinsuranceInfo
                             ? new GestureDetector(
@@ -1124,7 +916,6 @@ class _AddInstrumentScreenState
                             : Container(),
                         delay: 1000,
                       ),
-
                       _isinsuranceInfo || widget.id.isNotEmpty
                           ? widget.id.isEmpty || isEdit
                               ? TextField(
@@ -1147,14 +938,36 @@ class _AddInstrumentScreenState
                                   ),
                                 )
                               : _insuredController.text.isNotEmpty
-                                  ? Text(
-                                      "Insured with - " +
-                                          _insuredController.text,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 17),
-                                    )
+                                  ?      Row(
+                                          children: <Widget>[
+                                            Expanded(
+                                                  flex: 4,
+                                                  child: Text(
+                                                  "Insured with",
+                                                  textAlign: TextAlign.right,
+                                                  style: TextStyle(fontSize: 17),
+                                                  ),
+                                          ),
+                                          Expanded(
+                                                  child: Text(
+                                                    " - ",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(fontSize: 17),
+                                                  ),
+                                                  flex: 1,
+                                          ),
+                                            Expanded(
+                                                    flex: 4,
+                                                    child: Text(
+                                                      _insuredController.text,
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(fontSize: 17),
+                                                    ),
+                                                  ),
+                                              ],
+                                          )
                                   : Container()
-                          : Container(),
+                                : Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -1180,11 +993,35 @@ class _AddInstrumentScreenState
                                   ),
                                 )
                               : _policyController.text.isNotEmpty
-                                  ? Text(
-                                      "Policy # - " + _policyController.text,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 17),
-                                    )
+                                  ?
+                                      Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            flex: 4,
+                                            child: Text(
+                                              "Policy #",
+                                              textAlign: TextAlign.right,
+                                              style: TextStyle(fontSize: 17),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              " - ",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(fontSize: 17),
+                                            ),
+                                            flex: 1,
+                                          ),
+                                          Expanded(
+                                            flex: 4,
+                                            child: Text(
+                                              _policyController.text,
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(fontSize: 17),
+                                            ),
+                                          ),
+                                        ],
+                                      )
                                   : Container()
                           : Container(),
                       widget.id.isEmpty || isEdit
@@ -1294,7 +1131,6 @@ class _AddInstrumentScreenState
                                                 ],
                                               ),
                                             );
-                                      ;
                                     },
                                   ),
                                 )
@@ -1332,24 +1168,6 @@ class _AddInstrumentScreenState
                                   if (instrumentName.isEmpty) {
                                     _errorInstrumentName = "Cannot be Empty";
                                   }
-//                                  else if (wherePurchased.isEmpty) {
-//                                    _errorwherePurchased = "Cannot be Empty";
-//                                  } else if (purchasedDate.isEmpty) {
-//                                    _errorPurchasedDate = "Cannot be Empty";
-//                                  } else if (sno.isEmpty) {
-//                                    _errorSerialNumber = "Cannot be Empty";
-//                                  } else if (warranty.isEmpty) {
-//                                    _errorWarranty = "Cannot be Empty";
-//                                  }
-                                  //  else if (wendDate.isEmpty) {
-                                  //   _errorWarrantyEndDate = "Cannot be Empty";
-                                  // } else if (wRef.isEmpty) {
-                                  //   _errorWarrantyReference = "Cannot be Empty";
-                                  // } else if (wPh.isEmpty) {
-                                  //   _errorWarrantyPhone = "Cannot be Empty";
-                                  // } else if (com.isEmpty) {
-                                  //   _errorWarrantyCompany = "Cannot be Empty";
-                                  // }
                                   else {
                                     UserInstrument instrument = UserInstrument(
                                         band_id: selectedBand?.id ?? "0",
