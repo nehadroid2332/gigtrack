@@ -144,7 +144,7 @@ class _AddInstrumentScreenState
 
   Band selectedBand;
   List<Band> _bands = <Band>[];
-  var files = <String>[];
+  List files = <dynamic>[];
   Stream<List<Band>> list;
 
   @override
@@ -752,8 +752,11 @@ class _AddInstrumentScreenState
                                     : InputBorder.none,
                               ),
                             )
+                          : _costController
+                          .text.isEmpty
+                          ? Container()
                           : Text(
-                              "Cost - " + _costController.text,
+                              "Cost - \$" + _costController.text,
                               textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 17),
                             ),
@@ -850,8 +853,10 @@ class _AddInstrumentScreenState
                                             color: Colors.black,
                                           ),
                                         )
-                                      : Text(
-                                          _warrantyController.text,
+                                      : _warrantyController
+                                      .text.isEmpty
+                                      ? Container():Text(
+                                         "Warranty - "+ _warrantyController.text,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(fontSize: 17),
                                         ),
@@ -884,14 +889,7 @@ class _AddInstrumentScreenState
                                   Padding(
                                     padding: EdgeInsets.all(5),
                                   ),
-                                  _warrantyEndController.text == null ||
-                                          _warrantyController.text == null
-                                      ? Text(
-                                          "Warranty - Expired",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 17),
-                                        )
-                                      : Container(),
+
                                   _iswarrantydate || widget.id.isNotEmpty
                                       ? Container(
                                           child: Column(
@@ -1134,8 +1132,7 @@ class _AddInstrumentScreenState
                                           if (files.length < 1)
                                             getImage();
                                           else
-                                            showMessage(
-                                                "User can upload upto max 1 media files");
+                                            showMessage("User can upload upto max 1 media files");
                                         },
                                       )
                                     : Container()
@@ -1143,21 +1140,25 @@ class _AddInstrumentScreenState
                             )
                           : Container(),
                       files.length > 0
-                          ? SizedBox(
+                          ? widget.id.isEmpty||isEdit?SizedBox(
                               height: 90,
                               child: ListView.builder(
                                 itemCount: files.length,
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (BuildContext context, int index) {
                                   File file = File(files[index]);
-                                  return Container(
+                                  return file.path.startsWith("https")?Container(
                                     margin:
                                         EdgeInsets.only(left: 10, right: 10),
                                     height: 80,
                                     width: 150,
                                     child: Stack(
                                       children: <Widget>[
-                                        Image.file(
+                                       widget.id.isNotEmpty||isEdit && file.path.startsWith("https")?
+                                       Image.network(
+                                      file.path.toString()??"",
+                                      fit: BoxFit.cover,
+                                    ): Image.file(
                                           file,
                                           fit: BoxFit.cover,
                                         ),
@@ -1167,7 +1168,8 @@ class _AddInstrumentScreenState
                                           child: InkWell(
                                             onTap: () {
                                               setState(() {
-                                                files.removeAt(index);
+                                                files=new List();
+
                                               });
                                             },
                                             child: Container(
@@ -1181,10 +1183,42 @@ class _AddInstrumentScreenState
                                         )
                                       ],
                                     ),
-                                  );
+                                  ):Container(
+                                    margin:
+                                    EdgeInsets.only(left: 10, right: 10),
+                                    height: 80,
+                                    width: 150,
+                                    child: Stack(
+                                      children: <Widget>[
+                                         Image.file(
+                                          file,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        Positioned(
+                                          right: 14,
+                                          top: 0,
+                                          child: InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                files=new List();
+
+                                              });
+                                            },
+                                            child: Container(
+                                              child: Icon(
+                                                Icons.cancel,
+                                                color: Colors.white,
+                                              ),
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );;
                                 },
                               ),
-                            )
+                            ):Container()
                           : Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
@@ -1330,10 +1364,11 @@ class _AddInstrumentScreenState
       if (instrument.purchased_date == 0) {
         _purchaseDateController.text = null;
       } else {
-        DateTime purchasedDate =
+        DateTime purchasedDate1 =
             DateTime.fromMillisecondsSinceEpoch((instrument.purchased_date));
+        purchasedDate=purchasedDate1;
         _purchaseDateController.text =
-            "${formatDate(purchasedDate, [mm, '/', dd, '/', yy])}";
+            "${formatDate(purchasedDate1, [mm, '/', dd, '/', yy])}";
       }
       _serialNumberController.text = instrument.serial_number;
       _warrantyController.text = instrument.warranty;
@@ -1342,6 +1377,7 @@ class _AddInstrumentScreenState
       } else {
         DateTime warrantyDate =
             DateTime.fromMillisecondsSinceEpoch((instrument.warranty_end_date));
+        warrantyEndDate=warrantyDate;
         _warrantyEndController.text =
             "${formatDate(warrantyDate, [mm, '/', dd, '/', yy])}";
       }

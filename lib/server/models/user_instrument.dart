@@ -24,7 +24,7 @@ class UserInstrument extends BaseModel {
   String policyno;
   bool isWarranty;
   bool isInsurance;
-  List<String> uploadedFiles = [];
+  List<dynamic> uploadedFiles = [];
 
   UserInstrument(
       {this.band_id,
