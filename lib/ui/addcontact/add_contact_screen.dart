@@ -43,8 +43,8 @@ class _AddContactScreenState
   var _relationshipType = "Agent";
   bool _currentRelation = false;
   bool defaultdateview = false;
-  bool _adddefaultlikes= false;
-  bool _isphoneNumber=false;
+  bool _adddefaultlikes = false;
+  bool _isphoneNumber = false;
 
   @override
   void initState() {
@@ -58,7 +58,7 @@ class _AddContactScreenState
     }
   }
 
-  final files = <File>[];
+  final files = <String>[];
   final _dateToRememberItems = <DateToRememberData>[];
 
   void _handleRelationshipValueChange(String value) {
@@ -80,11 +80,37 @@ class _AddContactScreenState
       _otherRelationshipController = TextEditingController(),
       _emailController = TextEditingController();
   String _errorName, _errorPhone, _errorEmail, _errorText, _errorRelationship;
+  bool isEdit = false;
 
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
         backgroundColor: Color.fromRGBO(82, 149, 171, 1.0),
+        actions: <Widget>[
+          widget.id.isEmpty
+              ? Container()
+              : IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    setState(() {
+                      isEdit = !isEdit;
+                    });
+                  },
+                ),
+          widget.id.isEmpty
+              ? Container()
+              : IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    if (id == null || id.isEmpty) {
+                      showMessage("Id cannot be null");
+                    } else {
+                      presenter.contactDelete(id);
+                      Navigator.of(context).pop();
+                    }
+                  },
+                )
+        ],
       );
 
   final likesList = <String>[
@@ -181,7 +207,7 @@ class _AddContactScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "${widget.id.isEmpty ? "Add" : ""} Contact",
+                "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Contact",
                 style: textTheme.display1.copyWith(
                   color: Colors.white,
                 ),
@@ -201,18 +227,35 @@ class _AddContactScreenState
                       ),
                       widget.id.isEmpty
                           ? Container()
-                          : Text(
-                              "Name",
-                              textAlign: widget.id.isEmpty
-                                  ? TextAlign.left
-                                  : TextAlign.center,
-                              style: textTheme.subtitle.copyWith(
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                      widget.id.isEmpty
+                          : files.length > 0
+                              ? SizedBox(
+                                  height: 150,
+                                  child: ListView.builder(
+                                    itemCount: files.length,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      String file = files[index];
+                                      return Container(
+                                        margin: EdgeInsets.only(
+                                            left: 10, right: 10),
+                                        height: 130,
+                                        width: width - 50,
+                                        child: Image.network(
+                                          file,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                )
+                              : Container(),
+                      Padding(
+                        padding: EdgeInsets.all(7),
+                      ),
+                      widget.id.isEmpty || isEdit
                           ? TextField(
-                              enabled: widget.id.isEmpty,
+                              enabled: widget.id.isEmpty || isEdit,
                               textCapitalization: TextCapitalization.sentences,
                               controller: _nameController,
                               decoration: InputDecoration(
@@ -221,33 +264,60 @@ class _AddContactScreenState
                                 ),
                                 labelText: "Name",
                                 errorText: _errorName,
-                                border:
-                                    widget.id.isEmpty ? null : InputBorder.none,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
                               ),
                               style: textTheme.subhead.copyWith(
                                 color: Colors.black,
                               ),
                             )
-                          : Text(
-                              _nameController.text,
-                              textAlign: TextAlign.center,
+                          : Row(
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    "Name",
+                                    textAlign: TextAlign.right,
+                                    style: textTheme.subtitle.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    " - ",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    _nameController.text,
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  flex: 2,
+                                )
+                              ],
                             ),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      Text(
-                        "Relationship",
-                        textAlign: widget.id.isEmpty
-                            ? TextAlign.left
-                            : TextAlign.center,
-                        style: textTheme.subtitle.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      widget.id.isEmpty || isEdit
+                          ? Text(
+                              "Relationship",
+                              textAlign: widget.id.isEmpty || isEdit
+                                  ? TextAlign.left
+                                  : TextAlign.center,
+                              style: textTheme.subtitle.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            )
+                          : Container(),
                       Padding(
-                        padding: EdgeInsets.all(widget.id.isEmpty ? 5 : 0),
+                        padding:
+                            EdgeInsets.all(widget.id.isEmpty || isEdit ? 5 : 0),
                       ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? DropdownButton<String>(
                               items: relationships.map((String value) {
                                 return DropdownMenuItem<String>(
@@ -267,7 +337,7 @@ class _AddContactScreenState
                       ),
                       _currentRelation
                           ? TextField(
-                              enabled: widget.id.isEmpty,
+                              enabled: widget.id.isEmpty || isEdit,
                               controller: _otherRelationshipController,
                               textCapitalization: TextCapitalization.sentences,
                               decoration: InputDecoration(
@@ -276,94 +346,119 @@ class _AddContactScreenState
                                 ),
                                 labelText: widget.id.isNotEmpty ? "" : "Other",
                                 errorText: _errorRelationship,
-                                border:
-                                    widget.id.isEmpty ? null : InputBorder.none,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
                               ),
                               style: textTheme.subhead.copyWith(
                                 color: Colors.black,
                               ),
                             )
-                          : widget.id.isNotEmpty
-                              ? Text(
-                                  _relationshipController.text,
-                                  textAlign: TextAlign.center,
-                                )
-                              : Container(),
-
-//                      Padding(
-//                        padding: EdgeInsets.all(5),
-//                      ),
-                      widget.id.isEmpty
-                          ? Container()
-                          : Text(
-                        "Mobile/Text",
-                        textAlign: widget.id.isEmpty
-                            ? TextAlign.left
-                            : TextAlign.center,
-                        style: textTheme.subtitle.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+                          : widget.id.isEmpty || isEdit
+                              ? Container()
+                              : Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      flex: 2,
+                                      child: Text(
+                                        "Relationship",
+                                        textAlign: TextAlign.right,
+                                        style: textTheme.subtitle.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        " - ",
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        _relationshipController.text,
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      flex: 2,
+                                    )
+                                  ],
+                                ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? TextField(
-                        enabled: widget.id.isEmpty,
-                        controller: _textController,
-                        textCapitalization: TextCapitalization.sentences,
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                        decoration: InputDecoration(
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          labelText: "Mobile/Text",
-                          errorText: _errorText,
-                          border:
-                          widget.id.isEmpty ? null : InputBorder.none,
-                        ),
-                      )
-                          : Text(
-                        _textController.text,
-                        textAlign: TextAlign.center,
-                      ),
+                              enabled: widget.id.isEmpty || isEdit,
+                              controller: _textController,
+                              textCapitalization: TextCapitalization.sentences,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                labelText: "Mobile/Text",
+                                errorText: _errorText,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
+                              ),
+                            )
+                          : Row(
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    "Mobile/Text",
+                                    textAlign: TextAlign.right,
+                                    style: textTheme.subtitle.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    " - ",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    _textController.text,
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  flex: 2,
+                                )
+                              ],
+                            ),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
                       ShowUp(
                         child: !_isphoneNumber
                             ? new GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _isphoneNumber = true;
-                            });
-                          },
-                          child: widget.id.isEmpty
-                              ? Text(
-                            "Click here to add phone number",
-                            style: textTheme.display1.copyWith(
-                                color: widget
-                                    .appListener.primaryColorDark,
-                                fontSize: 14),
-                          )
-                              : Container(),
-                        )
+                                onTap: () {
+                                  setState(() {
+                                    _isphoneNumber = true;
+                                  });
+                                },
+                                child: widget.id.isEmpty || isEdit
+                                    ? Text(
+                                        "Click here to add phone number",
+                                        style: textTheme.display1.copyWith(
+                                            color: widget
+                                                .appListener.primaryColorDark,
+                                            fontSize: 14),
+                                      )
+                                    : Container(),
+                              )
                             : Container(),
                         delay: 1000,
                       ),
-                      widget.id.isEmpty && !_isphoneNumber
-                          ? Container()
-                          : Text(
-                              "Phone",
-                              textAlign: widget.id.isEmpty
-                                  ? TextAlign.left
-                                  : TextAlign.center,
-                              style: textTheme.subtitle.copyWith(
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                      widget.id.isEmpty && _isphoneNumber
+                      (widget.id.isEmpty || isEdit) && _isphoneNumber
                           ? TextField(
-                              enabled: widget.id.isEmpty,
+                              enabled: widget.id.isEmpty || isEdit,
                               controller: _phoneController,
                               keyboardType: TextInputType.phone,
                               textCapitalization: TextCapitalization.sentences,
@@ -376,31 +471,48 @@ class _AddContactScreenState
                                 ),
                                 labelText: "Phone",
                                 errorText: _errorPhone,
-                                border:
-                                    widget.id.isEmpty ? null : InputBorder.none,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
                               ),
                             )
-                          : _phoneController.text.isNotEmpty?Text(
-                              _phoneController.text,
-                              textAlign: TextAlign.center,
-                            ):Container(),
+                          : _phoneController.text.isEmpty || isEdit
+                              ? Container()
+                              : Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      flex: 2,
+                                      child: Text(
+                                        "Phone",
+                                        textAlign: TextAlign.right,
+                                        style: textTheme.subtitle.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        " - ",
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        _phoneController.text,
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      flex: 2,
+                                    )
+                                  ],
+                                ),
                       Padding(
-                        padding: _isphoneNumber?EdgeInsets.all(5):EdgeInsets.all(0),
+                        padding: _isphoneNumber
+                            ? EdgeInsets.all(5)
+                            : EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty
-                          ? Container()
-                          : Text(
-                              "Email",
-                              textAlign: widget.id.isEmpty
-                                  ? TextAlign.left
-                                  : TextAlign.center,
-                              style: textTheme.subtitle.copyWith(
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? TextField(
-                              enabled: widget.id.isEmpty,
+                              enabled: widget.id.isEmpty || isEdit,
                               controller: _emailController,
                               keyboardType: TextInputType.emailAddress,
                               style: textTheme.subhead.copyWith(
@@ -412,13 +524,37 @@ class _AddContactScreenState
                                 ),
                                 labelText: "Email",
                                 errorText: _errorEmail,
-                                border:
-                                    widget.id.isEmpty ? null : InputBorder.none,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
                               ),
                             )
-                          : Text(
-                              _emailController.text,
-                              textAlign: TextAlign.center,
+                          : Row(
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    "Email",
+                                    textAlign: TextAlign.right,
+                                    style: textTheme.subtitle.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    " - ",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    _emailController.text,
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  flex: 2,
+                                )
+                              ],
                             ),
                       Padding(
                         padding: EdgeInsets.all(5),
@@ -430,12 +566,12 @@ class _AddContactScreenState
                               "Dates to Remember",
                               style: textTheme.subtitle
                                   .copyWith(fontWeight: FontWeight.bold),
-                              textAlign: widget.id.isEmpty
+                              textAlign: widget.id.isEmpty || isEdit
                                   ? TextAlign.left
                                   : TextAlign.center,
                             ),
                           ),
-                          widget.id.isEmpty
+                          widget.id.isEmpty || isEdit
                               ? IconButton(
                                   icon: Icon(Icons.add),
                                   onPressed: () {
@@ -449,7 +585,8 @@ class _AddContactScreenState
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.all(widget.id.isEmpty ? 5 : 0),
+                        padding:
+                            EdgeInsets.all(widget.id.isEmpty || isEdit ? 5 : 0),
                       ),
                       ListView.builder(
                         itemCount: _dateToRememberItems.length,
@@ -480,11 +617,11 @@ class _AddContactScreenState
                                   [mm, '-', dd, '-', yy])
                               : "";
                           return Column(
-                            crossAxisAlignment: widget.id.isEmpty
+                            crossAxisAlignment: widget.id.isEmpty || isEdit
                                 ? CrossAxisAlignment.start
                                 : CrossAxisAlignment.center,
                             children: <Widget>[
-                              widget.id.isEmpty
+                              widget.id.isEmpty || isEdit
                                   ? DropdownButton<String>(
                                       items: dateToRemember.map((String value) {
                                         return DropdownMenuItem<String>(
@@ -502,7 +639,7 @@ class _AddContactScreenState
                                     ),
                               data.type == "Other"
                                   ? TextField(
-                                      enabled: widget.id.isEmpty,
+                                      enabled: widget.id.isEmpty || isEdit,
                                       controller: _dateToRememberController,
                                       textCapitalization:
                                           TextCapitalization.sentences,
@@ -513,7 +650,7 @@ class _AddContactScreenState
                                         ),
                                         labelText:
                                             widget.id.isNotEmpty ? "" : "Other",
-                                        border: widget.id.isEmpty
+                                        border: widget.id.isEmpty || isEdit
                                             ? null
                                             : InputBorder.none,
                                       ),
@@ -522,7 +659,7 @@ class _AddContactScreenState
                                       ),
                                     )
                                   : Container(),
-                              widget.id.isEmpty
+                              widget.id.isEmpty || isEdit
                                   ? GestureDetector(
                                       onTap: () async {
                                         final DateTime picked =
@@ -544,7 +681,7 @@ class _AddContactScreenState
                                       },
                                       child: AbsorbPointer(
                                         child: TextField(
-                                          enabled: widget.id.isEmpty,
+                                          enabled: widget.id.isEmpty || isEdit,
                                           controller:
                                               _dateToRememberDateController,
                                           textCapitalization:
@@ -554,10 +691,11 @@ class _AddContactScreenState
                                               color: Color.fromRGBO(
                                                   202, 208, 215, 1.0),
                                             ),
-                                            labelText: widget.id.isNotEmpty
-                                                ? ""
-                                                : "Date",
-                                            border: widget.id.isEmpty
+                                            labelText:
+                                                widget.id.isEmpty || isEdit
+                                                    ? "Date"
+                                                    : "",
+                                            border: widget.id.isEmpty || isEdit
                                                 ? null
                                                 : InputBorder.none,
                                           ),
@@ -579,13 +717,13 @@ class _AddContactScreenState
                         children: <Widget>[
                           Expanded(
                             child: Text(
-                              "${widget.id.isEmpty ? 'Add' : ''} Pictures",
+                              "${widget.id.isEmpty || isEdit ? 'Add Pictures' : ''}",
                               style: textTheme.subhead.copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
-                          widget.id.isEmpty
+                          widget.id.isEmpty || isEdit
                               ? IconButton(
                                   icon: Icon(Icons.add_a_photo),
                                   onPressed: () {
@@ -602,7 +740,7 @@ class _AddContactScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? files.length > 0
                               ? SizedBox(
                                   height: 90,
@@ -611,7 +749,7 @@ class _AddContactScreenState
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder:
                                         (BuildContext context, int index) {
-                                      File file = files[index];
+                                      File file = File(files[index]);
                                       return Container(
                                         margin: EdgeInsets.only(
                                             left: 10, right: 10),
@@ -648,29 +786,7 @@ class _AddContactScreenState
                                   ),
                                 )
                               : Container()
-                          : uploadedFiles.length > 0
-                              ? SizedBox(
-                                  height: 90,
-                                  child: ListView.builder(
-                                    itemCount: uploadedFiles.length,
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      String file = uploadedFiles[index];
-                                      return Container(
-                                        margin: EdgeInsets.only(
-                                            left: 10, right: 10),
-                                        height: 80,
-                                        width: 150,
-                                        child: Image.network(
-                                          file,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                )
-                              : Container(),
+                          : Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -684,29 +800,33 @@ class _AddContactScreenState
                               ),
                             ),
                           ),
-                          widget.id.isEmpty
-                              ? _adddefaultlikes?Container():IconButton(
-                            icon: Icon(Icons.add_circle),
-                            onPressed: () {
-                              _showDialog();
-                              },
-                          )
+                          widget.id.isEmpty || isEdit
+                              ? _adddefaultlikes
+                                  ? Container()
+                                  : IconButton(
+                                      icon: Icon(Icons.add_circle),
+                                      onPressed: () {
+                                        _showDialog();
+                                      },
+                                    )
                               : Container()
                         ],
                       ),
                       Padding(
                         padding: EdgeInsets.all(6),
                       ),
-                      _adddefaultlikes?Wrap(
-                        children: items2,
-                      ):Container(),
+                      _adddefaultlikes
+                          ? Wrap(
+                              children: items2,
+                            )
+                          : Container(),
                       Padding(
                         padding: EdgeInsets.all(2),
                       ),
                       Column(
                         children: likesTextFields,
                       ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? RaisedButton(
                               color: Color.fromRGBO(82, 149, 171, 1.0),
                               shape: RoundedRectangleBorder(
@@ -729,8 +849,6 @@ class _AddContactScreenState
                                   } else if (rel.isEmpty) {
                                     _errorRelationship = "Cannot be empty";
                                     showMessage(_errorRelationship);
-                                  } else if (ph.isEmpty) {
-                                    _errorPhone = "Cannot be empty";
                                   } else if (txt.isEmpty) {
                                     _errorText = "Cannot be empty";
                                   } else if (em.isEmpty) {
@@ -741,6 +859,7 @@ class _AddContactScreenState
                                     showLoading();
                                     Contacts contacts = new Contacts();
                                     contacts.name = nm;
+                                    contacts.id = id;
                                     contacts.relationship = rel;
                                     contacts.email = em;
                                     contacts.phone = ph;
@@ -769,8 +888,6 @@ class _AddContactScreenState
     );
   }
 
-  List<String> uploadedFiles = [];
-
   Future getImage() async {
     showDialog(
       context: context,
@@ -788,7 +905,7 @@ class _AddContactScreenState
                     await ImagePicker.pickImage(source: ImageSource.camera);
 
                 setState(() {
-                  if (image != null) files.add(image);
+                  if (image != null) files.add(image.path);
                 });
               },
             ),
@@ -799,7 +916,7 @@ class _AddContactScreenState
                 var image =
                     await ImagePicker.pickImage(source: ImageSource.gallery);
                 setState(() {
-                  if (image != null) files.add(image);
+                  if (image != null) files.add(image.path);
                 });
               },
             ),
@@ -821,12 +938,15 @@ class _AddContactScreenState
     });
   }
 
+  String id;
+
   @override
   void getContactDetails(Contacts data) {
     hideLoading();
     setState(() {
-      uploadedFiles.clear();
-      uploadedFiles.addAll(data.uploadedFiles);
+      id = data.id;
+      files.clear();
+      files.addAll(data.files);
       _dateToRememberItems.clear();
       _dateToRememberItems.addAll(data.dateToRemember);
       _nameController.text = data.name;
@@ -842,6 +962,7 @@ class _AddContactScreenState
   void onUpdate() {
     showMessage("Updated Successfully");
   }
+
   // user defined function
   void _showDialog() {
     // flutter defined function
@@ -852,13 +973,12 @@ class _AddContactScreenState
         return AlertDialog(
           contentPadding: EdgeInsets.all(15),
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           title: new Text(
             "Add Likes",
             textAlign: TextAlign.center,
           ),
-          content:
-          new Text("Do you want to add likes for contact?"),
+          content: new Text("Do you want to add likes for contact?"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
@@ -875,7 +995,7 @@ class _AddContactScreenState
               color: Color.fromRGBO(82, 149, 171, 1.0),
               onPressed: () {
                 setState(() {
-                  _adddefaultlikes=true;
+                  _adddefaultlikes = true;
                 });
                 Navigator.of(context).pop();
               },

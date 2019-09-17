@@ -12,8 +12,7 @@ class Contacts extends BaseModel {
   List<DateToRememberData> dateToRemember=[];
   String id;
   String user_id;
-  List<File> files = [];
-  List<String> uploadedFiles = [];
+  List<String> files = [];
 
   Contacts();
 
@@ -25,9 +24,9 @@ class Contacts extends BaseModel {
     email = data['email'];
     id = data['id'];
     user_id = data['user_id'];
-    if (data['uploadedFiles'] != null) {
-      for (String item in data['uploadedFiles']) {
-        uploadedFiles.add(item);
+    if (data['files'] != null) {
+      for (String item in data['files']) {
+        files.add(item);
       }
     }
     if (data['date_to_remember'] != null) {
@@ -50,7 +49,7 @@ class Contacts extends BaseModel {
       dtR.add(item.toMap());
     }
     data['date_to_remember'] = dtR;
-    data['uploadedFiles'] = uploadedFiles;
+    data['files'] = files;
     data['user_id'] = user_id;
     data['id'] = id;
     return data;

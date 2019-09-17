@@ -34,7 +34,8 @@ class MyApp extends StatelessWidget implements AppListener {
   final _router = Router();
   SharedPreferences _prefs;
   static FirebaseAnalytics analytics = FirebaseAnalytics();
-  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
 
   MyApp() {
     _router.define("/", handler: Handler(
@@ -43,12 +44,15 @@ class MyApp extends StatelessWidget implements AppListener {
     }));
     _router.define(Screens.LOGIN.toString(), handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-      return LoginScreen(this,analytics: analytics,
-        observer: observer,);
+      return LoginScreen(
+        this,
+        analytics: analytics,
+        observer: observer,
+      );
     }));
     _router.define(Screens.SIGNUP.toString(), handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-      return SignUpScreen(this,analytics:analytics,observer:observer);
+      return SignUpScreen(this, analytics: analytics, observer: observer);
     }));
     _router.define(Screens.ADDBAND.toString() + "/:id", handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
@@ -162,11 +166,10 @@ class MyApp extends StatelessWidget implements AppListener {
       title: 'GigTrack',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: primaryColor,
-        primaryColorDark: primaryColorDark,
-        accentColor: accentColor,
-        fontFamily: 'Mohave'
-      ),
+          primaryColor: primaryColor,
+          primaryColorDark: primaryColorDark,
+          accentColor: accentColor,
+          fontFamily: 'Mohave'),
       onGenerateRoute: _router.generator,
     );
   }

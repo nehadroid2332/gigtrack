@@ -114,7 +114,8 @@ class ServerAPI {
 
   Future<dynamic> addContact(Contacts contacts) async {
     try {
-      for (File file in contacts.files) {
+      for (var i = 0; i < contacts.files?.length ?? 0; i++) {
+        File file = File(contacts.files[i]);
         String basename = extension(file.path);
         final StorageUploadTask uploadTask = contactsRef
             .child("${DateTime.now().toString()}$basename")
@@ -122,9 +123,8 @@ class ServerAPI {
         StorageTaskSnapshot snapshot = await uploadTask.onComplete;
         String url = await snapshot.ref.getDownloadURL();
         print("SD-> $url");
-        contacts.uploadedFiles.add(url);
+        contacts.files[i] = url;
       }
-      contacts.files = [];
       bool isUpdate = true;
       if (contacts.id == null || contacts.id.isEmpty) {
         String id = equipmentsDB.push().key;
@@ -358,5 +358,9 @@ class ServerAPI {
 
   void logout() async {
     await _auth.signOut();
+  }
+
+  void deleteContact(String id) async {
+    await contactDB.child(id).remove();
   }
 }

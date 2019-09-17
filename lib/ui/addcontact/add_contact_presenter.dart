@@ -24,6 +24,9 @@ class AddContactPresenter extends BasePresenter {
     }
   }
 
+  void contactDelete(String id) async {
+    serverAPI.deleteContact(id);
+  }
 
   void contactDetails(String id) async {
     final res = await serverAPI.getContactDetails(id);
