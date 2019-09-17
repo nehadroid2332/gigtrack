@@ -94,7 +94,7 @@ class _ContactListScreenState
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  "${cnt.name}",
+                                  "${cnt.name.split(" ").reversed.join(' ')}",
                                   style: textTheme.headline.copyWith(
                                       color: Colors.white, fontSize: 18),
                                 ),

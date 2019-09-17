@@ -8,6 +8,7 @@ import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/ui/addcontact/add_contact_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
+import 'package:gigtrack/utils/showup.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddContactScreen extends BaseScreen {
@@ -42,6 +43,8 @@ class _AddContactScreenState
   var _relationshipType = "Agent";
   bool _currentRelation = false;
   bool defaultdateview = false;
+  bool _adddefaultlikes= false;
+  bool _isphoneNumber=false;
 
   @override
   void initState() {
@@ -280,16 +283,74 @@ class _AddContactScreenState
                                 color: Colors.black,
                               ),
                             )
-                          : _currentRelation
+                          : widget.id.isNotEmpty
                               ? Text(
-                                  _otherRelationshipController.text,
+                                  _relationshipController.text,
                                   textAlign: TextAlign.center,
                                 )
                               : Container(),
+
 //                      Padding(
 //                        padding: EdgeInsets.all(5),
 //                      ),
                       widget.id.isEmpty
+                          ? Container()
+                          : Text(
+                        "Mobile/Text",
+                        textAlign: widget.id.isEmpty
+                            ? TextAlign.left
+                            : TextAlign.center,
+                        style: textTheme.subtitle.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      widget.id.isEmpty
+                          ? TextField(
+                        enabled: widget.id.isEmpty,
+                        controller: _textController,
+                        textCapitalization: TextCapitalization.sentences,
+                        style: textTheme.subhead.copyWith(
+                          color: Colors.black,
+                        ),
+                        decoration: InputDecoration(
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                          ),
+                          labelText: "Mobile/Text",
+                          errorText: _errorText,
+                          border:
+                          widget.id.isEmpty ? null : InputBorder.none,
+                        ),
+                      )
+                          : Text(
+                        _textController.text,
+                        textAlign: TextAlign.center,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      ShowUp(
+                        child: !_isphoneNumber
+                            ? new GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _isphoneNumber = true;
+                            });
+                          },
+                          child: widget.id.isEmpty
+                              ? Text(
+                            "Click here to add phone number",
+                            style: textTheme.display1.copyWith(
+                                color: widget
+                                    .appListener.primaryColorDark,
+                                fontSize: 14),
+                          )
+                              : Container(),
+                        )
+                            : Container(),
+                        delay: 1000,
+                      ),
+                      widget.id.isEmpty && !_isphoneNumber
                           ? Container()
                           : Text(
                               "Phone",
@@ -300,7 +361,7 @@ class _AddContactScreenState
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty && _isphoneNumber
                           ? TextField(
                               enabled: widget.id.isEmpty,
                               controller: _phoneController,
@@ -319,48 +380,12 @@ class _AddContactScreenState
                                     widget.id.isEmpty ? null : InputBorder.none,
                               ),
                             )
-                          : Text(
+                          : _phoneController.text.isNotEmpty?Text(
                               _phoneController.text,
                               textAlign: TextAlign.center,
-                            ),
+                            ):Container(),
                       Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
-                      widget.id.isEmpty
-                          ? Container()
-                          : Text(
-                              "Mobile/Text",
-                              textAlign: widget.id.isEmpty
-                                  ? TextAlign.left
-                                  : TextAlign.center,
-                              style: textTheme.subtitle.copyWith(
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                      widget.id.isEmpty
-                          ? TextField(
-                              enabled: widget.id.isEmpty,
-                              controller: _textController,
-                              textCapitalization: TextCapitalization.sentences,
-                              style: textTheme.subhead.copyWith(
-                                color: Colors.black,
-                              ),
-                              decoration: InputDecoration(
-                                labelStyle: TextStyle(
-                                  color: Color.fromRGBO(202, 208, 215, 1.0),
-                                ),
-                                labelText: "Mobile/Text",
-                                errorText: _errorText,
-                                border:
-                                    widget.id.isEmpty ? null : InputBorder.none,
-                              ),
-                            )
-                          : Text(
-                              _textController.text,
-                              textAlign: TextAlign.center,
-                            ),
-                      Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: _isphoneNumber?EdgeInsets.all(5):EdgeInsets.all(0),
                       ),
                       widget.id.isEmpty
                           ? Container()
@@ -649,18 +674,32 @@ class _AddContactScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      Text(
-                        "Likes",
-                        style: textTheme.subhead.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              "Likes",
+                              style: textTheme.subhead.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          widget.id.isEmpty
+                              ? _adddefaultlikes?Container():IconButton(
+                            icon: Icon(Icons.add_circle),
+                            onPressed: () {
+                              _showDialog();
+                              },
+                          )
+                              : Container()
+                        ],
                       ),
                       Padding(
                         padding: EdgeInsets.all(6),
                       ),
-                      Wrap(
+                      _adddefaultlikes?Wrap(
                         children: items2,
-                      ),
+                      ):Container(),
                       Padding(
                         padding: EdgeInsets.all(2),
                       ),
@@ -802,6 +841,49 @@ class _AddContactScreenState
   @override
   void onUpdate() {
     showMessage("Updated Successfully");
+  }
+  // user defined function
+  void _showDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          contentPadding: EdgeInsets.all(15),
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          title: new Text(
+            "Add Likes",
+            textAlign: TextAlign.center,
+          ),
+          content:
+          new Text("Do you want to add likes for contact?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("No"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new RaisedButton(
+              child: new Text("Yes"),
+              textColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6)),
+              color: Color.fromRGBO(82, 149, 171, 1.0),
+              onPressed: () {
+                setState(() {
+                  _adddefaultlikes=true;
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
 

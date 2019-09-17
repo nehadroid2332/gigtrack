@@ -372,7 +372,8 @@ class _AddInstrumentScreenState
                                     : InputBorder.none,
                               ),
                             )
-                          : Row(
+                          : _wherePurchaseController.text.isEmpty
+                          ? Container():Row(
                               children: <Widget>[
                                 Expanded(
                                   flex: 4,
@@ -661,11 +662,9 @@ class _AddInstrumentScreenState
                                   });
                                 },
                                 child: widget.id.isEmpty
-                                    ? Text(
-                                        "Click here to add warranty info",
-                                        style: textTheme.display1.copyWith(
-                                            color: widget
-                                                .appListener.primaryColorDark,
+                                    ? Text("Click here to add warranty info",
+                                            style: textTheme.display1.copyWith(
+                                            color: widget.appListener.primaryColorDark,
                                             fontSize: 14),
                                       )
                                     : Container(),
@@ -681,8 +680,7 @@ class _AddInstrumentScreenState
                                       ? TextField(
                                           enabled: widget.id.isEmpty || isEdit,
                                           controller: _warrantyController,
-                                          textCapitalization:
-                                              TextCapitalization.sentences,
+                                          textCapitalization: TextCapitalization.sentences,
                                           decoration: InputDecoration(
                                             labelText: "Warranty",
                                             labelStyle: TextStyle(
@@ -1173,11 +1171,8 @@ class _AddInstrumentScreenState
                                         band_id: selectedBand?.id ?? "0",
                                         is_insured: _instrumentInsured,
                                         name: instrumentName,
-                                        purchased_date: this.purchasedDate !=
-                                                null
-                                            ? this
-                                                .purchasedDate
-                                                .millisecondsSinceEpoch
+                                        purchased_date: this.purchasedDate != null
+                                            ? this.purchasedDate.millisecondsSinceEpoch
                                             : 0,
                                         purchased_from: wherePurchased,
                                         serial_number: sno,
@@ -1185,9 +1180,7 @@ class _AddInstrumentScreenState
                                         warranty: warranty,
                                         warranty_end_date:
                                             this.warrantyEndDate != null
-                                                ? this
-                                                    .warrantyEndDate
-                                                    .millisecondsSinceEpoch
+                                                ? this.warrantyEndDate.millisecondsSinceEpoch
                                                 : 0,
                                         warranty_phone: wPh,
                                         warranty_reference: wRef,

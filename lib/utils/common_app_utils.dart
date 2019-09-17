@@ -241,44 +241,54 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
   return Card(
     margin: EdgeInsets.all(10),
     color: Color.fromRGBO(131,36, 77, 1.0),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(12),
+    ),
     child: InkWell(
       child: Padding(
         padding: EdgeInsets.all(15),
-        child: Column(
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
+              "${formatDate(stDate, [D, '-', mm, '/', dd, '/', yy, ' -'])}",
+              style: TextStyle(
+                fontSize: 18,
+                color: Color.fromRGBO(250, 250, 250, 1.0),
+              ),
+            ),
+            Text(
               "${not.description}",
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 18,
                 color: color,
               ),
             ),
-            Padding(
-              padding: EdgeInsets.all(5),
-            ),
-            Row(
-              children: <Widget>[
-                Image.asset(
-                  'assets/images/calender.png',
-                  height: 20,
-                  width: 20,
-                ),
-                Padding(
-                  padding: EdgeInsets.all(5),
-                ),
-                Expanded(
-                  child: Text(
-                    "${formatDate(stDate, [
-                      yyyy,
-                      '-',
-                      mm,
-                      '-',
-                      dd
-                    ])}",
-                    style: TextStyle(fontSize: 12,color: Colors.white),
-                  ),
-                ),
+//            Padding(
+//              padding: EdgeInsets.all(5),
+//            ),
+//            Row(
+//              children: <Widget>[
+//                Image.asset(
+//                  'assets/images/calender.png',
+//                  height: 20,
+//                  width: 20,
+//                ),
+//                Padding(
+//                  padding: EdgeInsets.all(5),
+//                ),
+//                Expanded(
+//                  child: Text(
+//                    "${formatDate(stDate, [
+//                      yyyy,
+//                      '-',
+//                      mm,
+//                      '-',
+//                      dd
+//                    ])}",
+//                    style: TextStyle(fontSize: 12,color: Colors.white),
+//                  ),
+//                ),
 //                Image.asset(
 //                  'assets/images/calender.png',
 //                  height: 20,
@@ -299,8 +309,8 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
 //                    style: TextStyle(fontSize: 11,color: Colors.white),
 //                  ),
 //                )
-              ],
-            )
+             // ],
+           // )
           ],
         ),
       ),
