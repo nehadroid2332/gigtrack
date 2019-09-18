@@ -27,7 +27,7 @@ class _AddContactScreenState
     "Agent",
     "Manager",
     "Family",
-    "Friends",
+    "Friend",
     "Promoter",
     "Vendor",
     "Other"
@@ -45,6 +45,7 @@ class _AddContactScreenState
   bool defaultdateview = false;
   bool _adddefaultlikes = false;
   bool _isphoneNumber = false;
+  bool _isclicktoLikes= false;
 
   @override
   void initState() {
@@ -58,8 +59,9 @@ class _AddContactScreenState
     }
   }
 
-  final files = <String>[];
+  var files = <String>[];
   final _dateToRememberItems = <DateToRememberData>[];
+
 
   void _handleRelationshipValueChange(String value) {
     setState(() {
@@ -225,7 +227,7 @@ class _AddContactScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty|| isEdit
                           ? Container()
                           : files.length > 0
                               ? SizedBox(
@@ -300,7 +302,8 @@ class _AddContactScreenState
                               ],
                             ),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding:
+                        EdgeInsets.all(widget.id.isEmpty || isEdit ? 5 : 2),
                       ),
                       widget.id.isEmpty || isEdit
                           ? Text(
@@ -561,7 +564,7 @@ class _AddContactScreenState
                       ),
                       Row(
                         children: <Widget>[
-                          Expanded(
+                         widget.id.isEmpty||isEdit? Expanded(
                             child: Text(
                               "Dates to Remember",
                               style: textTheme.subtitle
@@ -570,7 +573,7 @@ class _AddContactScreenState
                                   ? TextAlign.left
                                   : TextAlign.center,
                             ),
-                          ),
+                          ):Container(),
                           widget.id.isEmpty || isEdit
                               ? IconButton(
                                   icon: Icon(Icons.add),
@@ -610,13 +613,13 @@ class _AddContactScreenState
                           }
 
                           _dateToRememberController.text = data.type;
-                          _dateToRememberDateController.text = defaultdateview
+                          _dateToRememberDateController.text = defaultdateview||data.date!=null
                               ? formatDate(
                                   DateTime.fromMillisecondsSinceEpoch(
                                       data.date),
                                   [mm, '-', dd, '-', yy])
                               : "";
-                          return Column(
+                          return widget.id.isEmpty||isEdit?Column(
                             crossAxisAlignment: widget.id.isEmpty || isEdit
                                 ? CrossAxisAlignment.start
                                 : CrossAxisAlignment.center,
@@ -707,7 +710,35 @@ class _AddContactScreenState
                                     )
                                   : Text(_dateToRememberDateController.text)
                             ],
-                          );
+                          ):Container(
+                            margin: EdgeInsets.all(5),
+                            child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  data.type,
+                                  textAlign: TextAlign.right,
+                                  style: textTheme.subtitle.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  " - ",
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  _dateToRememberDateController.text,
+                                  textAlign: TextAlign.left,
+                                ),
+                                flex: 2,
+                              )
+                            ],
+                          ),); 
                         },
                       ),
                       Padding(
@@ -738,7 +769,24 @@ class _AddContactScreenState
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding:widget.id.isEmpty||isEdit? EdgeInsets.all(5):EdgeInsets.all(0),
+                      ),
+                       ShowUp(
+                        child: widget.id.isEmpty||isEdit?Container():
+                             new GestureDetector(
+                                 onTap: () {
+                            setState(() {
+                             _isclicktoLikes = true;
+                            });
+                          },
+                          child:Text(
+                            "Click to see likes",
+                            style: TextStyle(
+                                fontSize: 14),
+                            textAlign: TextAlign.center,
+                          )
+                        ),
+                        delay: 1000,
                       ),
                       widget.id.isEmpty || isEdit
                           ? files.length > 0
@@ -750,7 +798,51 @@ class _AddContactScreenState
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       File file = File(files[index]);
-                                      return Container(
+                                      return file.path.startsWith("https")
+                                          ? Container(
+                                        margin: EdgeInsets.only(
+                                            left: 10, right: 10),
+                                        height: 80,
+                                        width: 150,
+                                        child: Stack(
+                                          children: <Widget>[
+                                            widget.id.isNotEmpty ||
+                                                isEdit &&
+                                                    file.path
+                                                        .startsWith(
+                                                        "https")
+                                                ? Image.network(
+                                              file.path
+                                                  .toString() ??
+                                                  "",
+                                              fit: BoxFit.cover,
+                                            )
+                                                : Image.file(
+                                              file,
+                                              fit: BoxFit.cover,
+                                            ),
+                                            Positioned(
+                                              right: 14,
+                                              top: 0,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    files = new List();
+                                                  });
+                                                },
+                                                child: Container(
+                                                  child: Icon(
+                                                    Icons.cancel,
+                                                    color: Colors.white,
+                                                  ),
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                          : Container(
                                         margin: EdgeInsets.only(
                                             left: 10, right: 10),
                                         height: 80,
@@ -767,7 +859,7 @@ class _AddContactScreenState
                                               child: InkWell(
                                                 onTap: () {
                                                   setState(() {
-                                                    files.removeAt(index);
+                                                    files = new List();
                                                   });
                                                 },
                                                 child: Container(
@@ -793,12 +885,12 @@ class _AddContactScreenState
                       Row(
                         children: <Widget>[
                           Expanded(
-                            child: Text(
+                            child:widget.id.isEmpty||isEdit? Text(
                               "Likes",
                               style: textTheme.subhead.copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
-                            ),
+                            ):Container(),
                           ),
                           widget.id.isEmpty || isEdit
                               ? _adddefaultlikes
@@ -867,6 +959,7 @@ class _AddContactScreenState
                                     contacts.files = files;
                                     contacts.dateToRemember =
                                         _dateToRememberItems;
+                                    //contacts.likeadded= selectedLikesMap;
                                     presenter.addContact(contacts);
                                   }
                                 });
@@ -955,6 +1048,7 @@ class _AddContactScreenState
       _phoneController.text = data.phone;
       _relationshipController.text = data.relationship;
       _textController.text = data.text;
+      _relationshipType=data.relationship;
     });
   }
 
@@ -1023,5 +1117,22 @@ class DateToRememberData {
   DateToRememberData.fromJSON(item) {
     type = item['type'];
     date = item['date'];
+  }
+}
+
+class LikesData{
+  String likeType;
+  String likedata;
+  Map<String ,dynamic> toMap(){
+    Map<String , dynamic> data = Map();
+    data['type']= likeType;
+    data['field']= likedata;
+    return data;
+  }
+  LikesData();
+
+  LikesData.fromJSON(item){
+    likeType=item['type'];
+    likedata=item['field'];
   }
 }

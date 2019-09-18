@@ -116,14 +116,16 @@ class ServerAPI {
     try {
       for (var i = 0; i < contacts.files?.length ?? 0; i++) {
         File file = File(contacts.files[i]);
-        String basename = extension(file.path);
-        final StorageUploadTask uploadTask = contactsRef
-            .child("${DateTime.now().toString()}$basename")
-            .putFile(file);
-        StorageTaskSnapshot snapshot = await uploadTask.onComplete;
-        String url = await snapshot.ref.getDownloadURL();
-        print("SD-> $url");
-        contacts.files[i] = url;
+        if(await file.exists()) {
+          String basename = extension(file.path);
+          final StorageUploadTask uploadTask = contactsRef
+              .child("${DateTime.now().toString()}$basename")
+              .putFile(file);
+          StorageTaskSnapshot snapshot = await uploadTask.onComplete;
+          String url = await snapshot.ref.getDownloadURL();
+          print("SD-> $url");
+          contacts.files[i] = url;
+        }
       }
       bool isUpdate = true;
       if (contacts.id == null || contacts.id.isEmpty) {

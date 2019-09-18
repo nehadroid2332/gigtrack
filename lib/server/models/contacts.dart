@@ -13,6 +13,7 @@ class Contacts extends BaseModel {
   String id;
   String user_id;
   List<String> files = [];
+  List<LikesData> likeadded=[];
 
   Contacts();
 
