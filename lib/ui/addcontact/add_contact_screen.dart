@@ -42,7 +42,6 @@ class _AddContactScreenState
 
   var _relationshipType = "Agent";
   bool _currentRelation = false;
-  bool defaultdateview = false;
   bool _adddefaultlikes = false;
   bool _isphoneNumber = false;
   bool _isclicktoLikes = false;
@@ -614,13 +613,12 @@ class _AddContactScreenState
                           }
 
                           _dateToRememberController.text = data.type;
-                          _dateToRememberDateController.text =
-                              defaultdateview || data.date != null
-                                  ? formatDate(
-                                      DateTime.fromMillisecondsSinceEpoch(
-                                          data.date),
-                                      [mm, '-', dd, '-', yy])
-                                  : "";
+                          _dateToRememberDateController.text = data.date != null
+                              ? formatDate(
+                                  DateTime.fromMillisecondsSinceEpoch(
+                                      data.date ?? 0),
+                                  [mm, '-', dd, '-', yy])
+                              : "";
                           return widget.id.isEmpty || isEdit
                               ? Column(
                                   crossAxisAlignment:
@@ -684,7 +682,6 @@ class _AddContactScreenState
                                                       lastDate: DateTime(2101));
                                               if (picked != null)
                                                 setState(() {
-                                                  defaultdateview = true;
                                                   data.date = picked
                                                       .millisecondsSinceEpoch;
                                                   _dateToRememberDateController
