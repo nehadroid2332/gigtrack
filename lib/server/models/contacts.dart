@@ -9,11 +9,11 @@ class Contacts extends BaseModel {
   String phone;
   String text;
   String email;
-  List<DateToRememberData> dateToRemember=[];
+  List<DateToRememberData> dateToRemember = [];
   String id;
   String user_id;
   List<String> files = [];
-  List<LikesData> likeadded=[];
+  Map<String, String> likeadded = {};
 
   Contacts();
 
@@ -35,6 +35,12 @@ class Contacts extends BaseModel {
         dateToRemember.add(DateToRememberData.fromJSON(item));
       }
     }
+    if (data['likes'] != null) {
+      Map map = data['likes'];
+      for (var p in map.keys) {
+        likeadded[p.toString()] = (map[p]).toString();
+      }
+    }
   }
 
   @override
@@ -49,6 +55,7 @@ class Contacts extends BaseModel {
     for (var item in dateToRemember) {
       dtR.add(item.toMap());
     }
+    data['likes'] = likeadded;
     data['date_to_remember'] = dtR;
     data['files'] = files;
     data['user_id'] = user_id;

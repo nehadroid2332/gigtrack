@@ -187,6 +187,19 @@ class _AddActivityScreenState
                       isEdit = !isEdit;
                     });
                   },
+                ),
+          widget.id.isEmpty
+              ? Container()
+              : IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    if (widget.id == null || widget.id.isEmpty) {
+                      showMessage("Id cannot be null");
+                    } else {
+                      presenter.activityDelete(widget.id);
+                      Navigator.of(context).pop();
+                    }
+                  },
                 )
         ],
       );
@@ -225,11 +238,8 @@ class _AddActivityScreenState
                       widget.id.isEmpty || isEdit
                           ? Text(
                               "Select one from each row:",
-                              style: textTheme.headline.copyWith(
-                                  color: Colors.grey,
-                              fontSize: 16
-                              ),
-
+                              style: textTheme.headline
+                                  .copyWith(color: Colors.grey, fontSize: 16),
                             )
                           : Container(),
                       Padding(
@@ -1056,8 +1066,8 @@ class _AddActivityScreenState
               ? formatDate(endDate, [D, ', ', mm, '-', dd, '-', yy])
               : 0;
           // " at ${formatDate(dateTime2, [hh, ':', nn, am])}";
-        }else{
-          _dateEndTxt='0';
+        } else {
+          _dateEndTxt = '0';
         }
       } catch (e) {
         _dateEndTxt = "0";

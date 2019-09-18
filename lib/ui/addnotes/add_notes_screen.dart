@@ -38,6 +38,8 @@ class _AddNotesScreenState
   TimeOfDay selectedStartTime = TimeOfDay.now(),
       selectedEndTime = TimeOfDay.now();
 
+  String id;
+
   void _handleTypeValueChange(int value) {
     setState(() {
       _type = value;
@@ -56,12 +58,12 @@ class _AddNotesScreenState
   }
 
   bool isEdit = false;
-  bool isDateVisible= false;
+  bool isDateVisible = false;
 
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-        backgroundColor:Color.fromRGBO(131,36, 77, 1.0),
+        backgroundColor: Color.fromRGBO(131, 36, 77, 1.0),
         actions: <Widget>[
           widget.id.isEmpty
               ? Container()
@@ -71,6 +73,19 @@ class _AddNotesScreenState
                     setState(() {
                       isEdit = !isEdit;
                     });
+                  },
+                ),
+          widget.id.isEmpty
+              ? Container()
+              : IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    if (id == null || id.isEmpty) {
+                      showMessage("Id cannot be null");
+                    } else {
+                      presenter.notesDelete(id);
+                      Navigator.of(context).pop();
+                    }
                   },
                 )
         ],
@@ -83,7 +98,7 @@ class _AddNotesScreenState
         ClipPath(
           clipper: RoundedClipper(height / 2.5),
           child: Container(
-            color: Color.fromRGBO(131,36, 77, 1.0),
+            color: Color.fromRGBO(131, 36, 77, 1.0),
             height: height / 2.5,
           ),
         ),
@@ -94,10 +109,8 @@ class _AddNotesScreenState
             children: <Widget>[
               Text(
                 "${widget.id.isEmpty ? "Add" : ""} Note",
-                style: textTheme.display2.copyWith(
-                  color: Colors.white,
-                  fontSize: 30
-                ),
+                style: textTheme.display2
+                    .copyWith(color: Colors.white, fontSize: 30),
               ),
               Padding(
                 padding: EdgeInsets.all(10),
@@ -193,14 +206,16 @@ class _AddNotesScreenState
 //                            )
 //                          : Container(),
                       Padding(
-                        padding: widget.id.isEmpty?EdgeInsets.all(10):EdgeInsets.all(0),
+                        padding: widget.id.isEmpty
+                            ? EdgeInsets.all(10)
+                            : EdgeInsets.all(0),
                       ),
                       TextField(
                         enabled: widget.id.isEmpty,
                         style: textTheme.headline,
                         textCapitalization: TextCapitalization.sentences,
                         decoration: InputDecoration(
-                          labelText: widget.id.isEmpty?"Add note here":"",
+                          labelText: widget.id.isEmpty ? "Add note here" : "",
                           labelStyle: TextStyle(
                             color: Color.fromRGBO(202, 208, 215, 1.0),
                           ),
@@ -209,54 +224,62 @@ class _AddNotesScreenState
                         controller: _descController,
                       ),
                       Padding(
-                        padding:widget.id.isEmpty ? EdgeInsets.all(8):EdgeInsets.all(0),
+                        padding: widget.id.isEmpty
+                            ? EdgeInsets.all(8)
+                            : EdgeInsets.all(0),
                       ),
                       ShowUp(
-                        child:  !isDateVisible? new GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isDateVisible=true;
-                            });
-                          },
-                          child:  widget.id.isEmpty?Text(
-                            "Click here to remind me",
-                            style: textTheme.display1.copyWith(
-                                color: widget.appListener.primaryColorDark,
-                                fontSize: 14),
-                          ):Container(),
-                        ):Container(),
+                        child: !isDateVisible
+                            ? new GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    isDateVisible = true;
+                                  });
+                                },
+                                child: widget.id.isEmpty
+                                    ? Text(
+                                        "Click here to remind me",
+                                        style: textTheme.display1.copyWith(
+                                            color: widget
+                                                .appListener.primaryColorDark,
+                                            fontSize: 14),
+                                      )
+                                    : Container(),
+                              )
+                            : Container(),
                         delay: 1000,
                       ),
 
-
-                      isDateVisible||widget.id.isNotEmpty?Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: InkWell(
-                              child: AbsorbPointer(
-                                child: TextField(
-                                  enabled: widget.id.isEmpty,
-                                  decoration: InputDecoration(
-                                    labelText: "Date",
-                                    labelStyle: TextStyle(
-                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+                      isDateVisible || widget.id.isNotEmpty
+                          ? Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: InkWell(
+                                    child: AbsorbPointer(
+                                      child: TextField(
+                                        enabled: widget.id.isEmpty,
+                                        decoration: InputDecoration(
+                                          labelText: "Date",
+                                          labelStyle: TextStyle(
+                                            color: Color.fromRGBO(
+                                                202, 208, 215, 1.0),
+                                          ),
+                                          border: widget.id.isEmpty
+                                              ? null
+                                              : InputBorder.none,
+                                        ),
+                                        controller: _startDateController,
+                                      ),
                                     ),
-                                    border: widget.id.isEmpty
-                                        ? null
-                                        : InputBorder.none,
+                                    onTap: () {
+                                      if (widget.id.isEmpty)
+                                        _selectDate(context, true);
+                                    },
                                   ),
-                                  controller: _startDateController,
                                 ),
-                              ),
-                              onTap: () {
-                                if (widget.id.isEmpty)
-                                  _selectDate(context, true);
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(4),
-                          ),
+                                Padding(
+                                  padding: EdgeInsets.all(4),
+                                ),
 //                          Expanded(
 //                            child: InkWell(
 //                              child: AbsorbPointer(
@@ -280,8 +303,9 @@ class _AddNotesScreenState
 //                              },
 //                            ),
 //                          )
-                        ],
-                      ):Container(),
+                              ],
+                            )
+                          : Container(),
 //                      Row(
 //                        children: <Widget>[
 //                          Expanded(
@@ -364,7 +388,7 @@ class _AddNotesScreenState
 //                                    _endDateError = "Cannot be Empty";
 //                                  } else if (endTime.isEmpty) {
 //                                    _endTimeError = "Cannot be Empty";
-                                   else {
+                                  else {
                                     DateTime start = DateTime(
                                         selectedStartDate.year,
                                         selectedStartDate.month,
@@ -392,7 +416,7 @@ class _AddNotesScreenState
                                   }
                                 });
                               },
-                              color: Color.fromRGBO(131,36, 77, 1.0),
+                              color: Color.fromRGBO(131, 36, 77, 1.0),
                               child: Text(
                                 "Submit",
                                 style: textTheme.headline.copyWith(
@@ -473,6 +497,7 @@ class _AddNotesScreenState
   void getNoteDetails(NotesTodo note) {
     hideLoading();
     setState(() {
+      id = note.id;
       _descController.text = note.description;
       DateTime stDate = DateTime.fromMillisecondsSinceEpoch((note.start_date));
       DateTime endDate = DateTime.fromMillisecondsSinceEpoch((note.end_date));

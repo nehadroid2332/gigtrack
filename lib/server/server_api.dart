@@ -116,7 +116,7 @@ class ServerAPI {
     try {
       for (var i = 0; i < contacts.files?.length ?? 0; i++) {
         File file = File(contacts.files[i]);
-        if(await file.exists()) {
+        if (await file.exists()) {
           String basename = extension(file.path);
           final StorageUploadTask uploadTask = contactsRef
               .child("${DateTime.now().toString()}$basename")
@@ -364,5 +364,17 @@ class ServerAPI {
 
   void deleteContact(String id) async {
     await contactDB.child(id).remove();
+  }
+
+  void deleteInstrument(String id) async {
+    await equipmentsDB.child(id).remove();
+  }
+
+  void deleteNotes(String id) async {
+    await notesDB.child(id).remove();
+  }
+
+  void deleteActivity(String id) async {
+    await activitiesDB.child(id).remove();
   }
 }

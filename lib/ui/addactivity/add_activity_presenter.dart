@@ -50,4 +50,8 @@ class AddActivityPresenter extends BasePresenter {
       view.showMessage(res.message);
     }
   }
+
+  void activityDelete(String id) {
+    serverAPI.deleteActivity(id);
+  }
 }

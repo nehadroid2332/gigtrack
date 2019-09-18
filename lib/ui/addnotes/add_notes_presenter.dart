@@ -32,4 +32,8 @@ class AddNotesPresenter extends BasePresenter {
       view.showMessage(res.message);
     }
   }
+
+  void notesDelete(String id) {
+    serverAPI.deleteNotes(id);
+  }
 }

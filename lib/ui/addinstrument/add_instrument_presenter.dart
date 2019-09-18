@@ -49,4 +49,8 @@ class AddInstrumentPresenter extends BasePresenter {
       view.showMessage(res.message);
     }
   }
+
+  void instrumentDelete(String id) {
+    serverAPI.deleteInstrument(id);
+  }
 }

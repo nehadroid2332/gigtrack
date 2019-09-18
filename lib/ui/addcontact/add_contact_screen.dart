@@ -45,7 +45,7 @@ class _AddContactScreenState
   bool defaultdateview = false;
   bool _adddefaultlikes = false;
   bool _isphoneNumber = false;
-  bool _isclicktoLikes= false;
+  bool _isclicktoLikes = false;
 
   @override
   void initState() {
@@ -61,7 +61,6 @@ class _AddContactScreenState
 
   var files = <String>[];
   final _dateToRememberItems = <DateToRememberData>[];
-
 
   void _handleRelationshipValueChange(String value) {
     setState(() {
@@ -159,7 +158,7 @@ class _AddContactScreenState
             if (selectedLikesMap.containsKey(s)) {
               selectedLikesMap.remove(s);
             } else
-              selectedLikesMap[s] = null;
+              selectedLikesMap[s] = "";
           });
         },
       ));
@@ -227,7 +226,7 @@ class _AddContactScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty|| isEdit
+                      widget.id.isEmpty || isEdit
                           ? Container()
                           : files.length > 0
                               ? SizedBox(
@@ -303,7 +302,7 @@ class _AddContactScreenState
                             ),
                       Padding(
                         padding:
-                        EdgeInsets.all(widget.id.isEmpty || isEdit ? 5 : 2),
+                            EdgeInsets.all(widget.id.isEmpty || isEdit ? 5 : 2),
                       ),
                       widget.id.isEmpty || isEdit
                           ? Text(
@@ -564,16 +563,18 @@ class _AddContactScreenState
                       ),
                       Row(
                         children: <Widget>[
-                         widget.id.isEmpty||isEdit? Expanded(
-                            child: Text(
-                              "Dates to Remember",
-                              style: textTheme.subtitle
-                                  .copyWith(fontWeight: FontWeight.bold),
-                              textAlign: widget.id.isEmpty || isEdit
-                                  ? TextAlign.left
-                                  : TextAlign.center,
-                            ),
-                          ):Container(),
+                          widget.id.isEmpty || isEdit
+                              ? Expanded(
+                                  child: Text(
+                                    "Dates to Remember",
+                                    style: textTheme.subtitle
+                                        .copyWith(fontWeight: FontWeight.bold),
+                                    textAlign: widget.id.isEmpty || isEdit
+                                        ? TextAlign.left
+                                        : TextAlign.center,
+                                  ),
+                                )
+                              : Container(),
                           widget.id.isEmpty || isEdit
                               ? IconButton(
                                   icon: Icon(Icons.add),
@@ -613,132 +614,157 @@ class _AddContactScreenState
                           }
 
                           _dateToRememberController.text = data.type;
-                          _dateToRememberDateController.text = defaultdateview||data.date!=null
-                              ? formatDate(
-                                  DateTime.fromMillisecondsSinceEpoch(
-                                      data.date),
-                                  [mm, '-', dd, '-', yy])
-                              : "";
-                          return widget.id.isEmpty||isEdit?Column(
-                            crossAxisAlignment: widget.id.isEmpty || isEdit
-                                ? CrossAxisAlignment.start
-                                : CrossAxisAlignment.center,
-                            children: <Widget>[
-                              widget.id.isEmpty || isEdit
-                                  ? DropdownButton<String>(
-                                      items: dateToRemember.map((String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Text(value),
-                                        );
-                                      }).toList(),
-                                      onChanged:
-                                          _handleDateToRememberValueChange,
-                                      value: data.type,
-                                    )
-                                  : Text(
-                                      data.type,
-                                      textAlign: TextAlign.center,
-                                    ),
-                              data.type == "Other"
-                                  ? TextField(
-                                      enabled: widget.id.isEmpty || isEdit,
-                                      controller: _dateToRememberController,
-                                      textCapitalization:
-                                          TextCapitalization.sentences,
-                                      decoration: InputDecoration(
-                                        labelStyle: TextStyle(
-                                          color: Color.fromRGBO(
-                                              202, 208, 215, 1.0),
-                                        ),
-                                        labelText:
-                                            widget.id.isNotEmpty ? "" : "Other",
-                                        border: widget.id.isEmpty || isEdit
-                                            ? null
-                                            : InputBorder.none,
-                                      ),
-                                      style: textTheme.subhead.copyWith(
-                                        color: Colors.black,
-                                      ),
-                                    )
-                                  : Container(),
-                              widget.id.isEmpty || isEdit
-                                  ? GestureDetector(
-                                      onTap: () async {
-                                        final DateTime picked =
-                                            await showDatePicker(
-                                                context: context,
-                                                initialDate: DateTime.now(),
-                                                firstDate: DateTime(2015, 8),
-                                                lastDate: DateTime(2101));
-                                        if (picked != null)
-                                          setState(() {
-                                            defaultdateview = true;
-                                            data.date =
-                                                picked.millisecondsSinceEpoch;
-                                            _dateToRememberDateController.text =
-                                                formatDate(picked,
-                                                    [mm, '-', dd, '-', yy]);
-                                            _dateToRememberItems[index] = data;
-                                          });
-                                      },
-                                      child: AbsorbPointer(
-                                        child: TextField(
-                                          enabled: widget.id.isEmpty || isEdit,
-                                          controller:
-                                              _dateToRememberDateController,
-                                          textCapitalization:
-                                              TextCapitalization.sentences,
-                                          decoration: InputDecoration(
-                                            labelStyle: TextStyle(
-                                              color: Color.fromRGBO(
-                                                  202, 208, 215, 1.0),
+                          _dateToRememberDateController.text =
+                              defaultdateview || data.date != null
+                                  ? formatDate(
+                                      DateTime.fromMillisecondsSinceEpoch(
+                                          data.date),
+                                      [mm, '-', dd, '-', yy])
+                                  : "";
+                          return widget.id.isEmpty || isEdit
+                              ? Column(
+                                  crossAxisAlignment:
+                                      widget.id.isEmpty || isEdit
+                                          ? CrossAxisAlignment.start
+                                          : CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    widget.id.isEmpty || isEdit
+                                        ? DropdownButton<String>(
+                                            items: dateToRemember
+                                                .map((String value) {
+                                              return DropdownMenuItem<String>(
+                                                value: value,
+                                                child: Text(value),
+                                              );
+                                            }).toList(),
+                                            onChanged:
+                                                _handleDateToRememberValueChange,
+                                            value: data.type,
+                                          )
+                                        : Text(
+                                            data.type,
+                                            textAlign: TextAlign.center,
+                                          ),
+                                    data.type == "Other"
+                                        ? TextField(
+                                            enabled:
+                                                widget.id.isEmpty || isEdit,
+                                            controller:
+                                                _dateToRememberController,
+                                            textCapitalization:
+                                                TextCapitalization.sentences,
+                                            decoration: InputDecoration(
+                                              labelStyle: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    202, 208, 215, 1.0),
+                                              ),
+                                              labelText: widget.id.isNotEmpty
+                                                  ? ""
+                                                  : "Other",
+                                              border:
+                                                  widget.id.isEmpty || isEdit
+                                                      ? null
+                                                      : InputBorder.none,
                                             ),
-                                            labelText:
-                                                widget.id.isEmpty || isEdit
-                                                    ? "Date"
-                                                    : "",
-                                            border: widget.id.isEmpty || isEdit
-                                                ? null
-                                                : InputBorder.none,
-                                          ),
-                                          style: textTheme.subhead.copyWith(
-                                            color: Colors.black,
+                                            style: textTheme.subhead.copyWith(
+                                              color: Colors.black,
+                                            ),
+                                          )
+                                        : Container(),
+                                    widget.id.isEmpty || isEdit
+                                        ? GestureDetector(
+                                            onTap: () async {
+                                              final DateTime picked =
+                                                  await showDatePicker(
+                                                      context: context,
+                                                      initialDate:
+                                                          DateTime.now(),
+                                                      firstDate:
+                                                          DateTime(2015, 8),
+                                                      lastDate: DateTime(2101));
+                                              if (picked != null)
+                                                setState(() {
+                                                  defaultdateview = true;
+                                                  data.date = picked
+                                                      .millisecondsSinceEpoch;
+                                                  _dateToRememberDateController
+                                                          .text =
+                                                      formatDate(picked, [
+                                                    mm,
+                                                    '-',
+                                                    dd,
+                                                    '-',
+                                                    yy
+                                                  ]);
+                                                  _dateToRememberItems[index] =
+                                                      data;
+                                                });
+                                            },
+                                            child: AbsorbPointer(
+                                              child: TextField(
+                                                enabled:
+                                                    widget.id.isEmpty || isEdit,
+                                                controller:
+                                                    _dateToRememberDateController,
+                                                textCapitalization:
+                                                    TextCapitalization
+                                                        .sentences,
+                                                decoration: InputDecoration(
+                                                  labelStyle: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        202, 208, 215, 1.0),
+                                                  ),
+                                                  labelText:
+                                                      widget.id.isEmpty ||
+                                                              isEdit
+                                                          ? "Date"
+                                                          : "",
+                                                  border: widget.id.isEmpty ||
+                                                          isEdit
+                                                      ? null
+                                                      : InputBorder.none,
+                                                ),
+                                                style:
+                                                    textTheme.subhead.copyWith(
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        : Text(
+                                            _dateToRememberDateController.text)
+                                  ],
+                                )
+                              : Container(
+                                  margin: EdgeInsets.all(5),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        flex: 2,
+                                        child: Text(
+                                          data.type,
+                                          textAlign: TextAlign.right,
+                                          style: textTheme.subtitle.copyWith(
+                                            fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
-                                    )
-                                  : Text(_dateToRememberDateController.text)
-                            ],
-                          ):Container(
-                            margin: EdgeInsets.all(5),
-                            child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                flex: 2,
-                                child: Text(
-                                  data.type,
-                                  textAlign: TextAlign.right,
-                                  style: textTheme.subtitle.copyWith(
-                                    fontWeight: FontWeight.w600,
+                                      Expanded(
+                                        child: Text(
+                                          " - ",
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          _dateToRememberDateController.text,
+                                          textAlign: TextAlign.left,
+                                        ),
+                                        flex: 2,
+                                      )
+                                    ],
                                   ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  " - ",
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  _dateToRememberDateController.text,
-                                  textAlign: TextAlign.left,
-                                ),
-                                flex: 2,
-                              )
-                            ],
-                          ),); 
+                                );
                         },
                       ),
                       Padding(
@@ -769,25 +795,70 @@ class _AddContactScreenState
                         ],
                       ),
                       Padding(
-                        padding:widget.id.isEmpty||isEdit? EdgeInsets.all(5):EdgeInsets.all(0),
+                        padding: widget.id.isEmpty || isEdit
+                            ? EdgeInsets.all(5)
+                            : EdgeInsets.all(0),
                       ),
-                       ShowUp(
-                        child: widget.id.isEmpty||isEdit?Container():
-                             new GestureDetector(
-                                 onTap: () {
-                            setState(() {
-                             _isclicktoLikes = true;
-                            });
-                          },
-                          child:Text(
-                            "Click to see likes",
-                            style: TextStyle(
-                                fontSize: 14),
-                            textAlign: TextAlign.center,
-                          )
-                        ),
+                      ShowUp(
+                        child: widget.id.isEmpty || isEdit
+                            ? Container()
+                            : new GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _isclicktoLikes = true;
+                                  });
+                                },
+                                child: Text(
+                                  "Click to see likes",
+                                  style: TextStyle(fontSize: 14),
+                                  textAlign: TextAlign.center,
+                                )),
                         delay: 1000,
                       ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      widget.id.isEmpty || isEdit
+                          ? Container()
+                          : _isclicktoLikes
+                              ? ListView.builder(
+                                  itemCount: selectedLikesMap.keys.length,
+                                  shrinkWrap: true,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    String key =
+                                        selectedLikesMap.keys.elementAt(index);
+                                    String value = selectedLikesMap[key];
+                                    return Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 2,
+                                          child: Text(
+                                            key,
+                                            textAlign: TextAlign.right,
+                                            style: textTheme.subtitle.copyWith(
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            " - ",
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            value,
+                                            textAlign: TextAlign.left,
+                                          ),
+                                          flex: 2,
+                                        )
+                                      ],
+                                    );
+                                  },
+                                )
+                              : Container(),
                       widget.id.isEmpty || isEdit
                           ? files.length > 0
                               ? SizedBox(
@@ -800,80 +871,80 @@ class _AddContactScreenState
                                       File file = File(files[index]);
                                       return file.path.startsWith("https")
                                           ? Container(
-                                        margin: EdgeInsets.only(
-                                            left: 10, right: 10),
-                                        height: 80,
-                                        width: 150,
-                                        child: Stack(
-                                          children: <Widget>[
-                                            widget.id.isNotEmpty ||
-                                                isEdit &&
-                                                    file.path
-                                                        .startsWith(
-                                                        "https")
-                                                ? Image.network(
-                                              file.path
-                                                  .toString() ??
-                                                  "",
-                                              fit: BoxFit.cover,
-                                            )
-                                                : Image.file(
-                                              file,
-                                              fit: BoxFit.cover,
-                                            ),
-                                            Positioned(
-                                              right: 14,
-                                              top: 0,
-                                              child: InkWell(
-                                                onTap: () {
-                                                  setState(() {
-                                                    files = new List();
-                                                  });
-                                                },
-                                                child: Container(
-                                                  child: Icon(
-                                                    Icons.cancel,
-                                                    color: Colors.white,
-                                                  ),
-                                                  color: Colors.black,
-                                                ),
+                                              margin: EdgeInsets.only(
+                                                  left: 10, right: 10),
+                                              height: 80,
+                                              width: 150,
+                                              child: Stack(
+                                                children: <Widget>[
+                                                  widget.id.isNotEmpty ||
+                                                          isEdit &&
+                                                              file.path
+                                                                  .startsWith(
+                                                                      "https")
+                                                      ? Image.network(
+                                                          file.path
+                                                                  .toString() ??
+                                                              "",
+                                                          fit: BoxFit.cover,
+                                                        )
+                                                      : Image.file(
+                                                          file,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                  Positioned(
+                                                    right: 14,
+                                                    top: 0,
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        setState(() {
+                                                          files = new List();
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        child: Icon(
+                                                          Icons.cancel,
+                                                          color: Colors.white,
+                                                        ),
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
                                               ),
                                             )
-                                          ],
-                                        ),
-                                      )
                                           : Container(
-                                        margin: EdgeInsets.only(
-                                            left: 10, right: 10),
-                                        height: 80,
-                                        width: 150,
-                                        child: Stack(
-                                          children: <Widget>[
-                                            Image.file(
-                                              file,
-                                              fit: BoxFit.cover,
-                                            ),
-                                            Positioned(
-                                              right: 14,
-                                              top: 0,
-                                              child: InkWell(
-                                                onTap: () {
-                                                  setState(() {
-                                                    files = new List();
-                                                  });
-                                                },
-                                                child: Container(
-                                                  child: Icon(
-                                                    Icons.cancel,
-                                                    color: Colors.white,
+                                              margin: EdgeInsets.only(
+                                                  left: 10, right: 10),
+                                              height: 80,
+                                              width: 150,
+                                              child: Stack(
+                                                children: <Widget>[
+                                                  Image.file(
+                                                    file,
+                                                    fit: BoxFit.cover,
                                                   ),
-                                                  color: Colors.black,
-                                                ),
+                                                  Positioned(
+                                                    right: 14,
+                                                    top: 0,
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        setState(() {
+                                                          files = new List();
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        child: Icon(
+                                                          Icons.cancel,
+                                                          color: Colors.white,
+                                                        ),
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
                                               ),
-                                            )
-                                          ],
-                                        ),
-                                      );
+                                            );
                                     },
                                   ),
                                 )
@@ -885,12 +956,14 @@ class _AddContactScreenState
                       Row(
                         children: <Widget>[
                           Expanded(
-                            child:widget.id.isEmpty||isEdit? Text(
-                              "Likes",
-                              style: textTheme.subhead.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ):Container(),
+                            child: widget.id.isEmpty || isEdit
+                                ? Text(
+                                    "Likes",
+                                    style: textTheme.subhead.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
+                                : Container(),
                           ),
                           widget.id.isEmpty || isEdit
                               ? _adddefaultlikes
@@ -907,7 +980,7 @@ class _AddContactScreenState
                       Padding(
                         padding: EdgeInsets.all(6),
                       ),
-                      _adddefaultlikes
+                      _adddefaultlikes || isEdit
                           ? Wrap(
                               children: items2,
                             )
@@ -915,8 +988,13 @@ class _AddContactScreenState
                       Padding(
                         padding: EdgeInsets.all(2),
                       ),
-                      Column(
-                        children: likesTextFields,
+                      widget.id.isEmpty || isEdit
+                          ? Column(
+                              children: likesTextFields,
+                            )
+                          : Container(),
+                      Padding(
+                        padding: EdgeInsets.all(4),
                       ),
                       widget.id.isEmpty || isEdit
                           ? RaisedButton(
@@ -957,6 +1035,7 @@ class _AddContactScreenState
                                     contacts.phone = ph;
                                     contacts.text = txt;
                                     contacts.files = files;
+                                    contacts.likeadded = selectedLikesMap;
                                     contacts.dateToRemember =
                                         _dateToRememberItems;
                                     //contacts.likeadded= selectedLikesMap;
@@ -1048,7 +1127,8 @@ class _AddContactScreenState
       _phoneController.text = data.phone;
       _relationshipController.text = data.relationship;
       _textController.text = data.text;
-      _relationshipType=data.relationship;
+      _relationshipType = data.relationship;
+      selectedLikesMap = data.likeadded;
     });
   }
 
@@ -1117,22 +1197,5 @@ class DateToRememberData {
   DateToRememberData.fromJSON(item) {
     type = item['type'];
     date = item['date'];
-  }
-}
-
-class LikesData{
-  String likeType;
-  String likedata;
-  Map<String ,dynamic> toMap(){
-    Map<String , dynamic> data = Map();
-    data['type']= likeType;
-    data['field']= likedata;
-    return data;
-  }
-  LikesData();
-
-  LikesData.fromJSON(item){
-    likeType=item['type'];
-    likedata=item['field'];
   }
 }
