@@ -13,6 +13,7 @@ class ActivitiesListPresenter extends BasePresenter {
         .onValue
         .map((a) {
       Map mp = a.snapshot.value;
+      if (mp == null) return null;
       List<Activites> acc = [];
       for (var d in mp.values) {
         acc.add(Activites.fromJSON(d));

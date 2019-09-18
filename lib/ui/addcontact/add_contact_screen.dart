@@ -1183,7 +1183,7 @@ class _AddContactScreenState
 
 class DateToRememberData {
   String type = "Anniversary";
-  int date = DateTime.now().millisecondsSinceEpoch;
+  int date;
 
   Map<String, dynamic> toMap() {
     Map<String, dynamic> data = Map();

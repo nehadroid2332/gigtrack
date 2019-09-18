@@ -15,6 +15,8 @@ class NotificationListPresenter extends BasePresenter {
         .onValue
         .map((a) {
       Map mp = a.snapshot.value;
+      if (mp == null) return null;
+
       List<Activites> acc = [];
       for (var d in mp.values) {
         acc.add(Activites.fromJSON(d));
@@ -30,6 +32,8 @@ class NotificationListPresenter extends BasePresenter {
         .onValue
         .map((a) {
       Map mp = a.snapshot.value;
+      if (mp == null) return null;
+
       List<UserInstrument> acc = [];
       for (var d in mp.values) {
         acc.add(UserInstrument.fromJSON(d));
@@ -45,6 +49,8 @@ class NotificationListPresenter extends BasePresenter {
         .onValue
         .map((a) {
       Map mp = a.snapshot.value;
+      if (mp == null) return null;
+
       List<NotesTodo> acc = [];
       for (var d in mp.values) {
         acc.add(NotesTodo.fromJSON(d));

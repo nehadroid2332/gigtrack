@@ -13,6 +13,7 @@ class ContactListPresenter extends BasePresenter {
         .onValue
         .map((a) {
       Map mp = a.snapshot.value;
+      if (mp == null) return null;
       List<Contacts> acc = [];
       for (var d in mp.values) {
         acc.add(Contacts.fromJSON(d));
