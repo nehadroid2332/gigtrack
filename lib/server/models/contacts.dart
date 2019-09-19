@@ -9,6 +9,7 @@ class Contacts extends BaseModel {
   String phone;
   String text;
   String email;
+  String otherrelationship;
   List<DateToRememberData> dateToRemember = [];
   String id;
   String user_id;
@@ -25,6 +26,7 @@ class Contacts extends BaseModel {
     email = data['email'];
     id = data['id'];
     user_id = data['user_id'];
+    otherrelationship=data['other_relationship'];
     if (data['files'] != null) {
       for (String item in data['files']) {
         files.add(item);
@@ -60,6 +62,7 @@ class Contacts extends BaseModel {
     data['files'] = files;
     data['user_id'] = user_id;
     data['id'] = id;
+    data['other_relationship']=otherrelationship;
     return data;
   }
 }

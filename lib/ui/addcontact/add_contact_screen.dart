@@ -3,10 +3,12 @@ import 'dart:io';
 
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/ui/addcontact/add_contact_presenter.dart';
+import 'package:gigtrack/utils/NumberTextInputFormatter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:gigtrack/utils/showup.dart';
 import 'package:image_picker/image_picker.dart';
@@ -23,13 +25,16 @@ class AddContactScreen extends BaseScreen {
 class _AddContactScreenState
     extends BaseScreenState<AddContactScreen, AddContactPresenter>
     implements AddContactContract {
+  NumberTextInputFormatter _phoneNumberFormatter= NumberTextInputFormatter(1);
   final relationships = [
+    "Select",
     "Agent",
     "Manager",
     "Family",
     "Friend",
     "Promoter",
     "Vendor",
+    "Spouse",
     "Other"
   ];
   final dateToRemember = [
@@ -40,7 +45,7 @@ class _AddContactScreenState
     "Other"
   ];
 
-  var _relationshipType = "Agent";
+  var _relationshipType = "Select";
   bool _currentRelation = false;
   bool _adddefaultlikes = false;
   bool _isphoneNumber = false;
@@ -66,6 +71,7 @@ class _AddContactScreenState
       _relationshipType = value;
       if (value == "Other") {
         _currentRelation = true;
+        _otherRelationshipController.text=" ";
       } else {
         _currentRelation = false;
       }
@@ -105,8 +111,9 @@ class _AddContactScreenState
                     if (id == null || id.isEmpty) {
                       showMessage("Id cannot be null");
                     } else {
-                      presenter.contactDelete(id);
-                      Navigator.of(context).pop();
+                      _showDialog();
+//                      presenter.contactDelete(id);
+//                      Navigator.of(context).pop();
                     }
                   },
                 )
@@ -183,6 +190,7 @@ class _AddContactScreenState
           Expanded(
             flex: 2,
             child: TextField(
+              textCapitalization: TextCapitalization.words,
               controller: txtController,
             ),
           )
@@ -243,7 +251,7 @@ class _AddContactScreenState
                                         width: width - 50,
                                         child: Image.network(
                                           file,
-                                          fit: BoxFit.cover,
+                                          fit: BoxFit.fitWidth,
                                         ),
                                       );
                                     },
@@ -256,7 +264,7 @@ class _AddContactScreenState
                       widget.id.isEmpty || isEdit
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
-                              textCapitalization: TextCapitalization.sentences,
+                              textCapitalization: TextCapitalization.words,
                               controller: _nameController,
                               decoration: InputDecoration(
                                 labelStyle: TextStyle(
@@ -336,7 +344,7 @@ class _AddContactScreenState
                       Padding(
                         padding: EdgeInsets.all(3),
                       ),
-                      _currentRelation
+                      _currentRelation && isEdit
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
                               controller: _otherRelationshipController,
@@ -377,7 +385,7 @@ class _AddContactScreenState
                                     ),
                                     Expanded(
                                       child: Text(
-                                        _relationshipController.text,
+                                        _relationshipController.text=="Other"? _otherRelationshipController.text:_relationshipController.text,
                                         textAlign: TextAlign.left,
                                       ),
                                       flex: 2,
@@ -395,6 +403,11 @@ class _AddContactScreenState
                               style: textTheme.subhead.copyWith(
                                 color: Colors.black,
                               ),
+                                inputFormatters: [
+                                WhitelistingTextInputFormatter.digitsOnly,
+                                // Fit the validating format.
+                                _phoneNumberFormatter,
+                                ],
                               decoration: InputDecoration(
                                 labelStyle: TextStyle(
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
@@ -968,7 +981,10 @@ class _AddContactScreenState
                                   : IconButton(
                                       icon: Icon(Icons.add_circle),
                                       onPressed: () {
-                                        _showDialog();
+                                        setState(() {
+                                          _adddefaultlikes = true;
+                                        });
+                                        // _showDialog();
                                       },
                                     )
                               : Container()
@@ -1006,6 +1022,7 @@ class _AddContactScreenState
                                   String ph = _phoneController.text;
                                   String txt = _textController.text;
                                   String em = _emailController.text;
+                                  String otherrelationShip= _otherRelationshipController.text;
                                   _errorEmail = null;
                                   _errorName = null;
                                   _errorPhone = null;
@@ -1035,6 +1052,7 @@ class _AddContactScreenState
                                     contacts.likeadded = selectedLikesMap;
                                     contacts.dateToRemember =
                                         _dateToRememberItems;
+                                    contacts.otherrelationship= otherrelationShip;
                                     //contacts.likeadded= selectedLikesMap;
                                     presenter.addContact(contacts);
                                   }
@@ -1126,6 +1144,13 @@ class _AddContactScreenState
       _textController.text = data.text;
       _relationshipType = data.relationship;
       selectedLikesMap = data.likeadded;
+      _otherRelationshipController.text= data.otherrelationship;
+      if(data.relationship=="Other"){
+        setState(() {
+          _currentRelation=true;
+        });
+      }
+
     });
   }
 
@@ -1137,6 +1162,7 @@ class _AddContactScreenState
   // user defined function
   void _showDialog() {
     // flutter defined function
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -1146,10 +1172,10 @@ class _AddContactScreenState
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           title: new Text(
-            "Add Likes",
+            "Warning",
             textAlign: TextAlign.center,
           ),
-          content: new Text("Do you want to add likes for contact?"),
+          content: Text("Are you sure you want to delete?"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
@@ -1165,10 +1191,57 @@ class _AddContactScreenState
                   borderRadius: BorderRadius.circular(6)),
               color: Color.fromRGBO(82, 149, 171, 1.0),
               onPressed: () {
-                setState(() {
-                  _adddefaultlikes = true;
-                });
                 Navigator.of(context).pop();
+                _showDialogConfirm();
+
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+  void _showDialogConfirm() {
+    // flutter defined function
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          contentPadding: EdgeInsets.all(15),
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          title: new Text(
+            "Warning",
+            textAlign: TextAlign.center,
+          ),
+          content: Text("Are you really sure?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("No"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new RaisedButton(
+              child: new Text("Yes"),
+              textColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6)),
+              color: Color.fromRGBO(82, 149, 171, 1.0),
+              onPressed: () {
+                  if (id == null || id.isEmpty) {
+                    showMessage("Id cannot be null");
+                  } else {
+                    presenter.contactDelete(id);
+                    Navigator.of(context).popUntil(ModalRoute.withName(Screens.CONTACTLIST.toString()));
+                    //Navigator.of(context).pop();
+                  }
+
+
+
               },
             ),
           ],

@@ -94,7 +94,7 @@ class _ContactListScreenState
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  "${cnt.name.split(" ").reversed.join(' ')}",
+                            getNameOrder(cnt.name), // "${cnt.name.split(" ").reversed.join(' ')}",
                                   style: textTheme.headline.copyWith(
                                       color: Colors.white, fontSize: 18),
                                 ),
@@ -134,6 +134,14 @@ class _ContactListScreenState
         backgroundColor: Color.fromRGBO(82, 149, 171, 1.0),
       ),
     );
+  }
+
+  String getNameOrder(String name){
+    List traversedname= name.split(" ");
+    int namelength= traversedname.length;
+    String lastname = ""+traversedname.last+", ";
+    traversedname.removeLast();
+    return lastname+""+traversedname.join(' ');
   }
 
   @override
