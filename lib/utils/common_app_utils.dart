@@ -179,7 +179,7 @@ Widget buildActivityListItem(Activites ac,
     {bool showConfirm = false, onConfirmPressed, onTap}) {
   DateTime dt = DateTime.fromMillisecondsSinceEpoch(ac.startDate);
   return Card(
-    color: Color.fromRGBO(235, 84, 99, 1.0),
+    color: Color.fromRGBO(239,181, 77, 1.0),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(12),
     ),
@@ -241,30 +241,36 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
 
   return Card(
     margin: EdgeInsets.all(10),
-    color: Color.fromRGBO(131,36, 77, 1.0),
+    color: Color.fromRGBO(239,181, 77, 1.0),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(12),
     ),
     child: InkWell(
       child: Padding(
         padding: EdgeInsets.all(15),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Text(
-              not.start_date==0?"":"${formatDate(stDate, [D, '-', mm, '/', dd, '/', yy, ' -'])}",
+              "${not.note}",
+              textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 18,
-                color: Color.fromRGBO(250, 250, 250, 1.0),
-              ),
-            ),
-            Text(
-              "${not.description}",
-              style: TextStyle(
-                fontSize: 18,
+                fontSize: 20,
                 color: color,
+                fontWeight: FontWeight.w700
               ),
             ),
+            Padding(padding: EdgeInsets.all(5),),
+            Text(
+              not.start_date==0?"":"Remind me ${formatDate(stDate, [DD, '-', mm, '/', dd, '/', yy,])}",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                color: Color.fromRGBO(250, 250, 250, 0.9),
+
+              ),
+            ),
+
 //            Padding(
 //              padding: EdgeInsets.all(5),
 //            ),

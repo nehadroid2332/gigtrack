@@ -91,7 +91,7 @@ class _AddContactScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(82, 149, 171, 1.0),
+        backgroundColor:  Color.fromRGBO(191,52,44, 1.0),
         actions: <Widget>[
           widget.id.isEmpty
               ? Container()
@@ -143,7 +143,7 @@ class _AddContactScreenState
             style: textTheme.subtitle.copyWith(
                 color: selectedLikesMap.containsKey(s)
                     ? Colors.white
-                    : Color.fromRGBO(82, 149, 171, 1.0)),
+                    :  Color.fromRGBO(191,52,44, 1.0)),
           ),
           margin: EdgeInsets.all(5),
           padding: EdgeInsets.symmetric(
@@ -152,7 +152,7 @@ class _AddContactScreenState
           ),
           decoration: BoxDecoration(
             color: selectedLikesMap.containsKey(s)
-                ? Color.fromRGBO(82, 149, 171, 1.0)
+                ?  Color.fromRGBO(191,52,44, 1.0)
                 : Color.fromRGBO(244, 246, 248, 1.0),
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
@@ -203,7 +203,7 @@ class _AddContactScreenState
         ClipPath(
           clipper: RoundedClipper(height / 2.5),
           child: Container(
-            color: Color.fromRGBO(82, 149, 171, 1.0),
+            color:  Color.fromRGBO(191,52,44, 1.0),
             height: height / 2.5,
           ),
         ),
@@ -1237,7 +1237,7 @@ class _AddContactScreenState
               textColor: Colors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
-              color: Color.fromRGBO(82, 149, 171, 1.0),
+              color:  Color.fromRGBO(191,52,44, 1.0),
               onPressed: () {
                   if (id == null || id.isEmpty) {
                     showMessage("Id cannot be null");

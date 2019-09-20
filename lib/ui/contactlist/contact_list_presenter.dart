@@ -18,6 +18,9 @@ class ContactListPresenter extends BasePresenter {
       for (var d in mp.values) {
         acc.add(Contacts.fromJSON(d));
       }
+      acc.sort((a, b) {
+        return a.name.split(" ").last.toLowerCase().compareTo(b.name.split(" ").last.toLowerCase());
+      });
       return acc;
     });
   }

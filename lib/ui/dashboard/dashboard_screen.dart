@@ -124,7 +124,7 @@ class _DashboardScreenState
                       image = 'assets/images/activities.png';
                       break;
                     case "Notes":
-                      color=Color.fromRGBO(131,36, 77, 1.0);
+                      color=Color.fromRGBO(239,181, 77, 1.0);
                       //color = Color.fromRGBO(105, 114, 98, 1.0);
                       image = 'assets/images/activities.png';
                       break;
@@ -144,17 +144,17 @@ class _DashboardScreenState
                       image = 'assets/images/playingstyle.png';
                       break;
                     case "Contacts":
-                      color= Color.fromRGBO(84, 34, 20, 1.0);
+                      color= Color.fromRGBO(191,52,44, 1.0);
                       //color = Color.fromRGBO(82, 149, 171, 1.0);
                       image = 'assets/images/contacts.png';
                       break;
                     case "Admin":
-                      color= Color.fromRGBO(114, 22, 25, 1.0);
+                      color= Color.fromRGBO(124, 180, 97, 1.0);
                       //color = Color.fromRGBO(18, 130, 119, 1.0);
                       image = 'assets/images/admin.png';
                       break;
                     case "Bulletin Board":
-                      color = Color.fromRGBO(0, 77, 71, 1.0);
+                      color = Color.fromRGBO(32, 95, 139, 1.0);
                       image = 'assets/images/activities.png';
                       break;
                   }

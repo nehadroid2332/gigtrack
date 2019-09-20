@@ -52,7 +52,7 @@ class _NotesListScreenState
             Text(
               "Notes",
               style: textTheme.display1.copyWith(
-                color: Color.fromRGBO(131,36, 77, 1.0),
+                color: Color.fromRGBO(239,181, 77, 1.0),
                 fontSize: 28
               ),
             ),
@@ -88,7 +88,7 @@ class _NotesListScreenState
           await widget.appListener.router
               .navigateTo(context, Screens.ADDNOTE.toString() + "/");
         },
-        backgroundColor: Color.fromRGBO(131,36, 77, 1.0),
+        backgroundColor: Color.fromRGBO(239,181, 77, 1.0),
         child: Icon(Icons.add),
       ),
     );

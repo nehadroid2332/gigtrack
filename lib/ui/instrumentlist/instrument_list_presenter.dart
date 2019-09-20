@@ -18,6 +18,9 @@ class InstrumentListPresenter extends BasePresenter {
       for (var d in mp.values) {
         acc.add(UserInstrument.fromJSON(d));
       }
+      acc.sort((a, b) {
+        return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+      });
       return acc;
     });
   }

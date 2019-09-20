@@ -62,7 +62,7 @@ class _ContactListScreenState
                 Text(
                   "Contacts",
                   style: textTheme.display1.copyWith(
-                      color: Color.fromRGBO(82, 149, 171, 1.0),
+                      color:  Color.fromRGBO(191,52,44, 1.0),
                       fontSize: 28,
                       fontWeight: FontWeight.w500),
                   textAlign: TextAlign.left,
@@ -84,7 +84,7 @@ class _ContactListScreenState
                     itemBuilder: (BuildContext context, int index) {
                       final cnt = _contacts[index];
                       return Card(
-                        color: Color.fromRGBO(82, 149, 171, 1.0),
+                        color: Color.fromRGBO(191,52,44, 1.0),
                         margin: EdgeInsets.all(6),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15)),
@@ -132,7 +132,7 @@ class _ContactListScreenState
               .navigateTo(context, Screens.ADDCONTACT.toString() + "/");
         },
         child: Icon(Icons.add),
-        backgroundColor: Color.fromRGBO(82, 149, 171, 1.0),
+        backgroundColor:  Color.fromRGBO(191,52,44, 1.0),
       ),
     );
   }
