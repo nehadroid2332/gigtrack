@@ -235,6 +235,7 @@ Widget buildActivityListItem(Activites ac,
 }
 
 Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
+
   DateTime stDate = DateTime.fromMillisecondsSinceEpoch((not.start_date));
   DateTime endDate = DateTime.fromMillisecondsSinceEpoch((not.end_date));
 
@@ -251,7 +252,7 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              "${formatDate(stDate, [D, '-', mm, '/', dd, '/', yy, ' -'])}",
+              not.start_date==0?"":"${formatDate(stDate, [D, '-', mm, '/', dd, '/', yy, ' -'])}",
               style: TextStyle(
                 fontSize: 18,
                 color: Color.fromRGBO(250, 250, 250, 1.0),

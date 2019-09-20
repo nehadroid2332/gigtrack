@@ -7,8 +7,9 @@ class NotesTodo extends BaseModel {
   int end_date;
   String id;
   String user_id;
+  String note;
 
-  NotesTodo({this.description, this.end_date, this.start_date, this.type});
+  NotesTodo({this.description, this.end_date, this.start_date, this.type, this.id,this.note});
 
   NotesTodo.fromJSON(dynamic data) {
     type = data['type'];
@@ -17,6 +18,7 @@ class NotesTodo extends BaseModel {
     end_date = data['end_date'];
     id = data['id'];
     user_id = data['user_id'];
+    note=data['note'];
   }
 
   @override
@@ -28,6 +30,7 @@ class NotesTodo extends BaseModel {
     data['end_date'] = end_date ?? 0;
     data['id'] = id ?? "";
     data['user_id'] = user_id ?? "";
+    data['note']=note??"";
     return data;
   }
 }

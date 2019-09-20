@@ -21,6 +21,7 @@ class _AddNotesScreenState
     extends BaseScreenState<AddNotesScreen, AddNotesPresenter>
     implements AddNoteContract {
   final _descController = TextEditingController(),
+        _noteController=TextEditingController(),
       _startDateController = TextEditingController(),
       _startTimeController = TextEditingController(),
       _endDateController = TextEditingController(),
@@ -30,11 +31,12 @@ class _AddNotesScreenState
       _startDateError,
       _endDateError,
       _startTimeError,
-      _endTimeError;
+      _endTimeError,
+      _noteError;
 
   int _type = 0;
 
-  DateTime selectedStartDate = DateTime.now(), selectedEndDate = DateTime.now();
+  DateTime selectedStartDate= null, selectedEndDate = DateTime.now();
   TimeOfDay selectedStartTime = TimeOfDay.now(),
       selectedEndTime = TimeOfDay.now();
 
@@ -59,6 +61,7 @@ class _AddNotesScreenState
 
   bool isEdit = false;
   bool isDateVisible = false;
+  bool isshowTitle=false;
 
   @override
   AppBar get appBar => AppBar(
@@ -72,6 +75,7 @@ class _AddNotesScreenState
                   onPressed: () {
                     setState(() {
                       isEdit = !isEdit;
+                      isshowTitle= true;
                     });
                   },
                 ),
@@ -207,28 +211,74 @@ class _AddNotesScreenState
 //                          : Container(),
                       Padding(
                         padding: widget.id.isEmpty
-                            ? EdgeInsets.all(10)
+                            ? EdgeInsets.all(5)
                             : EdgeInsets.all(0),
                       ),
-                      TextField(
-                        enabled: widget.id.isEmpty,
-                        style: textTheme.headline,
+                      widget.id.isNotEmpty||isEdit
+                          ? Text(
+                       !isshowTitle?"Note is about":"",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight:  FontWeight.bold
+                        ),
+                      )
+                          : Container(),
+                      Padding(padding: widget.id.isEmpty||isEdit?EdgeInsets.all(0):EdgeInsets.all(5),),
+                      widget.id.isEmpty||isEdit?TextField(
+                        enabled: widget.id.isEmpty||isEdit,
+                        style: textTheme.title,
                         textCapitalization: TextCapitalization.sentences,
                         decoration: InputDecoration(
-                          labelText: widget.id.isEmpty ? "Add note here" : "",
+                          errorText: _noteError,
+                          labelText: widget.id.isEmpty||isEdit ? "Note is about" : "",
                           labelStyle: TextStyle(
                             color: Color.fromRGBO(202, 208, 215, 1.0),
                           ),
-                          border: widget.id.isEmpty ? null : InputBorder.none,
+                          border: widget.id.isEmpty ||isEdit? null : InputBorder.none,
                         ),
-                        controller: _descController,
+                        controller: _noteController,
+                      ):Text(_noteController.text,
+                      style: TextStyle(
+                        fontSize: 17
+                      ),
                       ),
                       Padding(
-                        padding: widget.id.isEmpty
-                            ? EdgeInsets.all(8)
-                            : EdgeInsets.all(0),
+                        padding: widget.id.isEmpty||isEdit
+                            ? EdgeInsets.all(0)
+                            : EdgeInsets.all(5),
                       ),
-                      ShowUp(
+                      widget.id.isNotEmpty||isEdit
+                          ? Text(
+                        !isshowTitle?"Note Description":"",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight:  FontWeight.bold
+                        ),
+                      )
+                          : Container(),
+                      Padding(padding: widget.id.isEmpty||isEdit?EdgeInsets.all(0):EdgeInsets.all(5),),
+                      widget.id.isEmpty||isEdit?TextField(
+                        enabled: widget.id.isEmpty||isEdit,
+                        style: textTheme.title,
+                        textCapitalization: TextCapitalization.sentences,
+                        decoration: InputDecoration(
+                          labelText: widget.id.isEmpty||isEdit ? "Add Description here" : "",
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                            fontSize: 18
+                          ),
+                          border: widget.id.isEmpty ||isEdit? null : InputBorder.none,
+                        ),
+                        controller: _descController,
+                      ):Text(_descController.text,
+                        style: TextStyle(
+                            fontSize: 17
+                        ),
+                      ),
+                     Padding(padding: EdgeInsets.all(5),),
+                     widget.id.isEmpty||isEdit?ShowUp(
                         child: !isDateVisible
                             ? new GestureDetector(
                                 onTap: () {
@@ -236,43 +286,57 @@ class _AddNotesScreenState
                                     isDateVisible = true;
                                   });
                                 },
-                                child: widget.id.isEmpty
-                                    ? Text(
+                                child:Text(
                                         "Click here to remind me",
                                         style: textTheme.display1.copyWith(
                                             color: widget
                                                 .appListener.primaryColorDark,
                                             fontSize: 14),
                                       )
-                                    : Container(),
+                                   ,
                               )
                             : Container(),
                         delay: 1000,
-                      ),
-
-                      isDateVisible || widget.id.isNotEmpty
+                      ):Container(),
+                      widget.id.isNotEmpty||isEdit
+                          ? Text(
+                        !isshowTitle?"Note date":"",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight:  FontWeight.bold
+                        ),
+                      )
+                          : Container(),
+                      Padding(padding: widget.id.isEmpty||isEdit?EdgeInsets.all(0):EdgeInsets.all(5),),
+                      isDateVisible
                           ? Row(
                               children: <Widget>[
                                 Expanded(
                                   child: InkWell(
                                     child: AbsorbPointer(
-                                      child: TextField(
+                                      child:  widget.id.isEmpty||isEdit?TextField(
                                         enabled: widget.id.isEmpty,
                                         decoration: InputDecoration(
-                                          labelText: "Date",
+                                          labelText: widget.id.isEmpty||isEdit? "Note Date":"",
                                           labelStyle: TextStyle(
                                             color: Color.fromRGBO(
                                                 202, 208, 215, 1.0),
+                                            fontSize: 18
                                           ),
-                                          border: widget.id.isEmpty
+                                          border: widget.id.isEmpty||isEdit
                                               ? null
                                               : InputBorder.none,
                                         ),
                                         controller: _startDateController,
+                                      ):Text(_startDateController.text,
+                                        style: TextStyle(
+                                            fontSize: 16
+                                        ),
                                       ),
                                     ),
                                     onTap: () {
-                                      if (widget.id.isEmpty)
+                                      if (widget.id.isEmpty||isEdit)
                                         _selectDate(context, true);
                                     },
                                   ),
@@ -280,89 +344,13 @@ class _AddNotesScreenState
                                 Padding(
                                   padding: EdgeInsets.all(4),
                                 ),
-//                          Expanded(
-//                            child: InkWell(
-//                              child: AbsorbPointer(
-//                                child: TextField(
-//                                  enabled: widget.id.isEmpty,
-//                                  decoration: InputDecoration(
-//                                    labelText: "Start Time",
-//                                    labelStyle: TextStyle(
-//                                      color: Color.fromRGBO(202, 208, 215, 1.0),
-//                                    ),
-//                                    border: widget.id.isEmpty
-//                                        ? null
-//                                        : InputBorder.none,
-//                                  ),
-//                                  controller: _startTimeController,
-//                                ),
-//                              ),
-//                              onTap: () {
-//                                if (widget.id.isEmpty)
-//                                  _selectTime(context, true);
-//                              },
-//                            ),
-//                          )
                               ],
                             )
                           : Container(),
-//                      Row(
-//                        children: <Widget>[
-//                          Expanded(
-//                            child: InkWell(
-//                              child: AbsorbPointer(
-//                                child: TextField(
-//                                  enabled: widget.id.isEmpty,
-//                                  decoration: InputDecoration(
-//                                    labelText: "End Date",
-//                                    labelStyle: TextStyle(
-//                                      color: Color.fromRGBO(202, 208, 215, 1.0),
-//                                    ),
-//                                    border: widget.id.isEmpty
-//                                        ? null
-//                                        : InputBorder.none,
-//                                  ),
-//                                  controller: _endDateController,
-//                                ),
-//                              ),
-//                              onTap: () {
-//                                if (widget.id.isEmpty)
-//                                  _selectDate(context, false);
-//                              },
-//                            ),
-//                          ),
-//                          Padding(
-//                            padding: EdgeInsets.all(4),
-//                          ),
-//                          Expanded(
-//                            child: InkWell(
-//                              child: AbsorbPointer(
-//                                child: TextField(
-//                                  enabled: widget.id.isEmpty,
-//                                  decoration: InputDecoration(
-//                                    labelText: "End Time",
-//                                    labelStyle: TextStyle(
-//                                      color: Color.fromRGBO(202, 208, 215, 1.0),
-//                                    ),
-//                                    border: widget.id.isEmpty
-//                                        ? null
-//                                        : InputBorder.none,
-//                                  ),
-//                                  controller: _endTimeController,
-//                                ),
-//                              ),
-//                              onTap: () {
-//                                if (widget.id.isEmpty)
-//                                  _selectTime(context, false);
-//                              },
-//                            ),
-//                          )
-//                        ],
-//                      ),
                       Padding(
                         padding: EdgeInsets.all(20),
                       ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty||isEdit
                           ? RaisedButton(
                               onPressed: () {
                                 String desc = _descController.text;
@@ -370,6 +358,7 @@ class _AddNotesScreenState
                                 String stTime = _startTimeController.text;
                                 String endDate = _endDateController.text;
                                 String endTime = _endTimeController.text;
+                                String note=_noteController.text;
 
                                 setState(() {
                                   _descError = null;
@@ -389,12 +378,8 @@ class _AddNotesScreenState
 //                                  } else if (endTime.isEmpty) {
 //                                    _endTimeError = "Cannot be Empty";
                                   else {
-                                    DateTime start = DateTime(
-                                        selectedStartDate.year,
-                                        selectedStartDate.month,
-                                        selectedStartDate.day,
-                                        selectedStartTime.hour,
-                                        selectedStartTime.minute);
+//                                    DateTime start = DateTime(
+//        );
                                     DateTime end;
                                     if (endDate != null) {
                                       end = DateTime(
@@ -408,8 +393,10 @@ class _AddNotesScreenState
                                       description: desc,
                                       end_date:
                                           end?.millisecondsSinceEpoch ?? 0,
-                                      start_date: start.millisecondsSinceEpoch,
+                                      start_date:selectedStartDate!=null?selectedStartDate.millisecondsSinceEpoch:0,
                                       type: _type,
+                                      id:id,
+                                      note:note
                                     );
                                     showLoading();
                                     presenter.addNotes(notesTodo);
@@ -499,10 +486,19 @@ class _AddNotesScreenState
     setState(() {
       id = note.id;
       _descController.text = note.description;
+      _noteController.text=note.note;
       DateTime stDate = DateTime.fromMillisecondsSinceEpoch((note.start_date));
       DateTime endDate = DateTime.fromMillisecondsSinceEpoch((note.end_date));
-      _startDateController.text =
-          "${formatDate(stDate, [yyyy, '-', mm, '-', dd])}";
+      if(note.start_date==0){
+        _startDateController.text = null;
+
+        isDateVisible=false;
+
+      }else{
+        isDateVisible=true;
+        selectedStartDate=DateTime.fromMillisecondsSinceEpoch((note.start_date));
+        _startDateController.text = "${formatDate(stDate, [mm, '/', dd, '/', yy])}";
+      }
       _endDateController.text =
           "${formatDate(endDate, [yyyy, '-', mm, '-', dd])}";
       _startTimeController.text =

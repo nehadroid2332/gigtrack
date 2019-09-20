@@ -22,6 +22,7 @@ class _ContactListScreenState
   void initState() {
     super.initState();
     list = presenter.getContacts();
+
   }
 
   @override

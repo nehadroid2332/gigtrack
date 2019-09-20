@@ -100,6 +100,7 @@ class _AddContactScreenState
                   onPressed: () {
                     setState(() {
                       isEdit = !isEdit;
+                      _adddefaultlikes=true;
                     });
                   },
                 ),
@@ -818,7 +819,13 @@ class _AddContactScreenState
                                     _isclicktoLikes = true;
                                   });
                                 },
-                                child: Text(
+                                child:_isclicktoLikes?Text(
+                                  "Likes",
+                                  style: TextStyle(fontSize: 14,
+                                  fontWeight: FontWeight.bold
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ): Text(
                                   "Click to see likes",
                                   style: TextStyle(fontSize: 14),
                                   textAlign: TextAlign.center,
