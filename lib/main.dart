@@ -94,12 +94,15 @@ class MyApp extends StatelessWidget implements AppListener {
         id: id,
       );
     }));
-    _router.define(Screens.ADDNOTE.toString() + "/:id", handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    _router.define(Screens.ADDNOTE.toString() + "/:id/:isParent", handler:
+        Handler(
+            handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["id"][0];
+      bool isParent = params["isParent"][0] == '${true}';
       return AddNotesScreen(
         this,
         id: id,
+        isParent: isParent,
       );
     }));
     _router.define(Screens.BANDLIST.toString(), handler: Handler(

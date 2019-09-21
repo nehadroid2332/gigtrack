@@ -9,8 +9,16 @@ class NotesTodo extends BaseModel {
   String user_id;
   String note;
   int createdDate;
+  List<NotesTodo> subNotes = [];
 
-  NotesTodo({this.description, this.end_date, this.start_date, this.type, this.id,this.note, this.createdDate});
+  NotesTodo(
+      {this.description,
+      this.end_date,
+      this.start_date,
+      this.type,
+      this.id,
+      this.note,
+      this.createdDate});
 
   NotesTodo.fromJSON(dynamic data) {
     type = data['type'];
@@ -19,8 +27,13 @@ class NotesTodo extends BaseModel {
     end_date = data['end_date'];
     id = data['id'];
     user_id = data['user_id'];
-    note=data['note'];
-    createdDate=data['createdDate'];
+    note = data['note'];
+    createdDate = data['createdDate'];
+    if (data['subNotes'] != null) {
+      for (var item in data['subNotes']) {
+        subNotes.add(NotesTodo.fromJSON(item));
+      }
+    }
   }
 
   @override
@@ -32,8 +45,13 @@ class NotesTodo extends BaseModel {
     data['end_date'] = end_date ?? 0;
     data['id'] = id ?? "";
     data['user_id'] = user_id ?? "";
-    data['note']=note??"";
-    data['createdDate']= createdDate??0;
+    data['note'] = note ?? "";
+    data['createdDate'] = createdDate ?? 0;
+    List<dynamic> sb = [];
+    for (NotesTodo item in subNotes) {
+      sb.add(item.toMap());
+    }
+    data['subNotes'] = sb;
     return data;
   }
 }

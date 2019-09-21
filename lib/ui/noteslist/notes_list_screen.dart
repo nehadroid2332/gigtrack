@@ -73,7 +73,7 @@ class _NotesListScreenState
                       return buildNoteListItem(
                           not, Colors.white, onTap: () {
                         widget.appListener.router.navigateTo(
-                            context, Screens.ADDNOTE.toString() + "/${not.id}");
+                            context, Screens.ADDNOTE.toString() + "/${not.id}/");
                       });
                     },
                   );
@@ -86,7 +86,7 @@ class _NotesListScreenState
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await widget.appListener.router
-              .navigateTo(context, Screens.ADDNOTE.toString() + "/");
+              .navigateTo(context, Screens.ADDNOTE.toString() + "//");
         },
         backgroundColor: Color.fromRGBO(239,181, 77, 1.0),
         child: Icon(Icons.add,

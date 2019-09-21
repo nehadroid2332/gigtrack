@@ -12,8 +12,9 @@ import 'package:gigtrack/utils/showup.dart';
 
 class AddNotesScreen extends BaseScreen {
   final String id;
+  final bool isParent;
 
-  AddNotesScreen(AppListener appListener, {this.id})
+  AddNotesScreen(AppListener appListener, {this.id, this.isParent = false})
       : super(appListener, title: "");
 
   @override
@@ -24,11 +25,11 @@ class _AddNotesScreenState
     extends BaseScreenState<AddNotesScreen, AddNotesPresenter>
     implements AddNoteContract {
   final _descController = TextEditingController(),
-        _noteController =   TextEditingController(),
+      _noteController = TextEditingController(),
       _startDateController = TextEditingController(),
       _startTimeController = TextEditingController(),
       _endDateController = TextEditingController(),
-      _createdDateController= TextEditingController(),
+      _createdDateController = TextEditingController(),
       _endTimeController = TextEditingController();
 
   String _descError,
@@ -40,11 +41,9 @@ class _AddNotesScreenState
 
   int _type = 0;
 
-  DateTime selectedStartDate= null, selectedEndDate = DateTime.now();
+  DateTime selectedStartDate = null, selectedEndDate = DateTime.now();
   TimeOfDay selectedStartTime = TimeOfDay.now(),
       selectedEndTime = TimeOfDay.now();
-
-  String id;
 
   void _handleTypeValueChange(int value) {
     setState(() {
@@ -55,50 +54,47 @@ class _AddNotesScreenState
   @override
   void initState() {
     super.initState();
-    if (widget.id.isNotEmpty) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        showLoading();
-        presenter.getNotesDetails(widget.id);
-      });
-    }
+    getDetails();
   }
 
   bool isEdit = false;
   bool isDateVisible = false;
-  bool isshowTitle=false;
+  bool isshowTitle = false;
 
   @override
   AppBar get appBar => AppBar(
-    iconTheme: IconThemeData(
-      color: Colors.black, //change your color here
-    ),
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
         elevation: 0,
-        backgroundColor: Color.fromRGBO(239,181, 77, 1.0),
+        backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
         actions: <Widget>[
-          widget.id.isEmpty
+          widget.id.isEmpty || widget.isParent
               ? Container()
               : IconButton(
-                  icon: Icon(Icons.edit,
-                  color: Colors.black87,
+                  icon: Icon(
+                    Icons.edit,
+                    color: Colors.black87,
                   ),
                   onPressed: () {
                     setState(() {
                       isEdit = !isEdit;
-                      isshowTitle= true;
+                      isshowTitle = true;
                     });
                   },
                 ),
-          widget.id.isEmpty
+          widget.id.isEmpty || widget.isParent
               ? Container()
               : IconButton(
-                  icon: Icon(Icons.delete,
-                  color: Colors.black87,
+                  icon: Icon(
+                    Icons.delete,
+                    color: Colors.black87,
                   ),
                   onPressed: () {
-                    if (id == null || id.isEmpty) {
+                    if (widget.id == null || widget.id.isEmpty) {
                       showMessage("Id cannot be null");
                     } else {
-                      presenter.notesDelete(id);
+                      presenter.notesDelete(widget.id);
                       Navigator.of(context).pop();
                     }
                   },
@@ -113,7 +109,7 @@ class _AddNotesScreenState
         ClipPath(
           clipper: RoundedClipper(height / 2.5),
           child: Container(
-            color: Color.fromRGBO(239,181, 77, 1.0),
+            color: Color.fromRGBO(239, 181, 77, 1.0),
             height: height / 2.5,
           ),
         ),
@@ -123,7 +119,7 @@ class _AddNotesScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "${widget.id.isEmpty ? "Add" : ""} Note",
+                "${widget.id.isEmpty ? "Add" : widget.isParent ? "Add Sub" : ""} Note",
                 style: textTheme.display2
                     .copyWith(color: Colors.black87, fontSize: 30),
               ),
@@ -138,181 +134,252 @@ class _AddNotesScreenState
                     padding: EdgeInsets.all(20),
                     children: <Widget>[
                       Padding(
-                        padding: widget.id.isEmpty
+                        padding: widget.id.isEmpty || isEdit || widget.isParent
                             ? EdgeInsets.all(5)
                             : EdgeInsets.all(0),
                       ),
-//                      widget.id.isNotEmpty||isEdit
-//                          ? Text(
-//                       !isshowTitle?"Note is about":"",
-//                        textAlign: TextAlign.left,
-//                        style: TextStyle(
-//                          fontSize: 17,
-//                          fontWeight:  FontWeight.bold
-//                        ),
-//                      )
-//                          : Container(),
-                      Padding(padding: widget.id.isEmpty||isEdit?EdgeInsets.all(0):EdgeInsets.all(5),),
-                      widget.id.isEmpty||isEdit?TextField(
-                        enabled: widget.id.isEmpty||isEdit,
-                        style: textTheme.title,
-                        textCapitalization: TextCapitalization.sentences,
-                        decoration: InputDecoration(
-                          errorText: _noteError,
-                          labelText: widget.id.isEmpty||isEdit ? "Note is about" : "",
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          border: widget.id.isEmpty ||isEdit? null : InputBorder.none,
-                        ),
-                        controller: _noteController,
-                      ):Text(_noteController.text,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 22
-                      ),
-                      ),
+                      //                      widget.id.isNotEmpty||isEdit
+                      //                          ? Text(
+                      //                       !isshowTitle?"Note is about":"",
+                      //                        textAlign: TextAlign.left,
+                      //                        style: TextStyle(
+                      //                          fontSize: 17,
+                      //                          fontWeight:  FontWeight.bold
+                      //                        ),
+                      //                      )
+                      //                          : Container(),
                       Padding(
-                        padding: widget.id.isEmpty||isEdit
+                        padding: widget.id.isEmpty || isEdit || widget.isParent
                             ? EdgeInsets.all(0)
                             : EdgeInsets.all(5),
                       ),
-//                      widget.id.isNotEmpty||isEdit
-//                          ? Text(
-//                        !isshowTitle?"Note Description":"",
-//                        textAlign: TextAlign.left,
-//                        style: TextStyle(
-//                            fontSize: 18,
-//                            fontWeight:  FontWeight.bold
-//                        ),
-//                      )
-//                          : Container(),
-                      Padding(padding: widget.id.isEmpty||isEdit?EdgeInsets.all(0):EdgeInsets.all(5),),
-                      widget.id.isEmpty||isEdit?TextField(
-                        enabled: widget.id.isEmpty||isEdit,
-                        style: textTheme.title,
-                        textCapitalization: TextCapitalization.sentences,
-                        decoration: InputDecoration(
-                          labelText: widget.id.isEmpty||isEdit ? "Add Description here" : "",
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                            fontSize: 18
-                          ),
-                          border: widget.id.isEmpty ||isEdit? null : InputBorder.none,
-                        ),
-                        controller: _descController,
-                      ):Text(_descController.text,
-                        style: TextStyle(
-                            fontSize: 22
-                        ),
-                        textAlign: TextAlign.center,
+                      widget.id.isEmpty || isEdit || widget.isParent
+                          ? TextField(
+                              enabled: widget.id.isEmpty ||
+                                  isEdit ||
+                                  widget.isParent,
+                              style: textTheme.title,
+                              textCapitalization: TextCapitalization.sentences,
+                              decoration: InputDecoration(
+                                errorText: _noteError,
+                                labelText: widget.id.isEmpty ||
+                                        isEdit ||
+                                        widget.isParent
+                                    ? "Note is about"
+                                    : "",
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                border: widget.id.isEmpty ||
+                                        isEdit ||
+                                        widget.isParent
+                                    ? null
+                                    : InputBorder.none,
+                              ),
+                              controller: _noteController,
+                            )
+                          : Text(
+                              _noteController.text,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 22),
+                            ),
+                      Padding(
+                        padding: widget.id.isEmpty || isEdit || widget.isParent
+                            ? EdgeInsets.all(0)
+                            : EdgeInsets.all(5),
                       ),
-                     Padding(padding: EdgeInsets.all(5),),
-                     widget.id.isEmpty||isEdit?ShowUp(
-                        child: !isDateVisible
-                            ? new GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    isDateVisible = true;
-                                  });
-                                },
-                                child:Text(
+                      //                      widget.id.isNotEmpty||isEdit
+                      //                          ? Text(
+                      //                        !isshowTitle?"Note Description":"",
+                      //                        textAlign: TextAlign.left,
+                      //                        style: TextStyle(
+                      //                            fontSize: 18,
+                      //                            fontWeight:  FontWeight.bold
+                      //                        ),
+                      //                      )
+                      //                          : Container(),
+                      Padding(
+                        padding: widget.id.isEmpty || isEdit || widget.isParent
+                            ? EdgeInsets.all(0)
+                            : EdgeInsets.all(5),
+                      ),
+                      widget.id.isEmpty || isEdit || widget.isParent
+                          ? TextField(
+                              enabled: widget.id.isEmpty ||
+                                  isEdit ||
+                                  widget.isParent,
+                              style: textTheme.title,
+                              textCapitalization: TextCapitalization.sentences,
+                              decoration: InputDecoration(
+                                labelText: widget.id.isEmpty ||
+                                        isEdit ||
+                                        widget.isParent
+                                    ? "Add Description here"
+                                    : "",
+                                labelStyle: TextStyle(
+                                    color: Color.fromRGBO(202, 208, 215, 1.0),
+                                    fontSize: 18),
+                                border: widget.id.isEmpty ||
+                                        isEdit ||
+                                        widget.isParent
+                                    ? null
+                                    : InputBorder.none,
+                              ),
+                              controller: _descController,
+                            )
+                          : Text(
+                              _descController.text,
+                              style: TextStyle(fontSize: 22),
+                              textAlign: TextAlign.center,
+                            ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      widget.id.isEmpty || isEdit
+                          ? ShowUp(
+                              child: !isDateVisible
+                                  ? new GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          isDateVisible = true;
+                                        });
+                                      },
+                                      child: Text(
                                         "Click here to remind me",
                                         style: textTheme.display1.copyWith(
                                             color: widget
                                                 .appListener.primaryColorDark,
                                             fontSize: 14),
-                                      )
-                                   ,
-                              )
-                            : Container(),
-                        delay: 1000,
-                      ):Container(),
+                                      ),
+                                    )
+                                  : Container(),
+                              delay: 1000,
+                            )
+                          : Container(),
 
-                      Padding(padding: widget.id.isEmpty||isEdit?EdgeInsets.all(0):EdgeInsets.all(10),),
+                      Padding(
+                        padding: widget.id.isEmpty || isEdit || widget.isParent
+                            ? EdgeInsets.all(0)
+                            : EdgeInsets.all(10),
+                      ),
                       isDateVisible
                           ? Row(
                               children: <Widget>[
                                 Expanded(
                                   child: InkWell(
                                     child: AbsorbPointer(
-                                      child:  widget.id.isEmpty||isEdit?TextField(
-                                        enabled: widget.id.isEmpty,
-                                        decoration: InputDecoration(
-                                          labelText: widget.id.isEmpty||isEdit? "Note Date":"",
-                                          labelStyle: TextStyle(
-                                            color: Color.fromRGBO(
-                                                202, 208, 215, 1.0),
-                                            fontSize: 18
-                                          ),
-                                          border: widget.id.isEmpty||isEdit
-                                              ? null
-                                              : InputBorder.none,
-                                        ),
-                                        controller: _startDateController,
-                                      ):Container(child: Column(children: <Widget>[
-                                        Row(
-                                          children: <Widget>[
-                                            Padding(padding: EdgeInsets.all(10),),
-                                            Expanded(
-                                              flex: 5,
-                                              child: Text(
-                                                "Date of Note",
-                                                textAlign: TextAlign.right,
-                                                style: textTheme.subtitle.copyWith(
-                                                  //fontWeight: FontWeight.w600,
-                                                ),
+                                      child: widget.id.isEmpty || isEdit
+                                          ? TextField(
+                                              enabled: widget.id.isEmpty,
+                                              decoration: InputDecoration(
+                                                labelText:
+                                                    widget.id.isEmpty || isEdit
+                                                        ? "Note Date"
+                                                        : "",
+                                                labelStyle: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        202, 208, 215, 1.0),
+                                                    fontSize: 18),
+                                                border:
+                                                    widget.id.isEmpty || isEdit
+                                                        ? null
+                                                        : InputBorder.none,
                                               ),
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                " - ",
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                _createdDateController.text,
-                                                textAlign: TextAlign.left,
-                                              ),
-                                              flex: 5,
+                                              controller: _startDateController,
                                             )
-                                          ],
-                                        ),
-                                        Padding(padding: EdgeInsets.all(1),),
-                                        _startDateController.text.isNotEmpty? Row(
-                                          children: <Widget>[
-                                            Padding(padding: EdgeInsets.all(10),),
-                                            Expanded(
-                                              flex: 5,
-                                              child: Text(
-                                                "Reminder Date",
-                                                textAlign: TextAlign.right,
-                                                style: textTheme.subtitle.copyWith(
-                                                  //fontWeight: FontWeight.w600,
-                                                ),
+                                          : Container(
+                                              child: Column(
+                                                children: <Widget>[
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.all(10),
+                                                      ),
+                                                      Expanded(
+                                                        flex: 5,
+                                                        child: Text(
+                                                          "Date of Note",
+                                                          textAlign:
+                                                              TextAlign.right,
+                                                          style: textTheme
+                                                              .subtitle
+                                                              .copyWith(
+                                                                  //fontWeight: FontWeight.w600,
+                                                                  ),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Text(
+                                                          " - ",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Text(
+                                                          _createdDateController
+                                                              .text,
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                        ),
+                                                        flex: 5,
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.all(1),
+                                                  ),
+                                                  _startDateController
+                                                          .text.isNotEmpty
+                                                      ? Row(
+                                                          children: <Widget>[
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(10),
+                                                            ),
+                                                            Expanded(
+                                                              flex: 5,
+                                                              child: Text(
+                                                                "Reminder Date",
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .right,
+                                                                style: textTheme
+                                                                    .subtitle
+                                                                    .copyWith(
+                                                                        //fontWeight: FontWeight.w600,
+                                                                        ),
+                                                              ),
+                                                            ),
+                                                            Expanded(
+                                                              child: Text(
+                                                                " - ",
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                              ),
+                                                            ),
+                                                            Expanded(
+                                                              child: Text(
+                                                                _startDateController
+                                                                    .text,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left,
+                                                              ),
+                                                              flex: 5,
+                                                            )
+                                                          ],
+                                                        )
+                                                      : Container(),
+                                                ],
                                               ),
                                             ),
-                                            Expanded(
-                                              child: Text(
-                                                " - ",
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                _startDateController.text,
-                                                textAlign: TextAlign.left,
-                                              ),
-                                              flex: 5,
-                                            )
-                                          ],
-                                        ):Container(),
-
-                                      ],),),
                                     ),
                                     onTap: () {
-                                      if (widget.id.isEmpty||isEdit)
+                                      if (widget.id.isEmpty || isEdit)
                                         _selectDate(context, true);
                                     },
                                   ),
@@ -323,29 +390,72 @@ class _AddNotesScreenState
                               ],
                             )
                           : Container(),
-                      Padding(padding: EdgeInsets.all(10),),
-                      widget.id.isNotEmpty?ShowUp(
-                        child: new GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isDateVisible = true;
-                            });
-                          },
-                          child:Text(
-                            "Click here to add more notes",
-                            textAlign: TextAlign.center,
-                            style: textTheme.display1.copyWith(
-                                color: Colors.red,
-                                fontSize: 14),
-                          )
-                          ,
-                        ),
-                        delay: 1000,
-                      ):Container(),
+                      widget.id.isEmpty || isEdit || widget.isParent
+                          ? Container()
+                          : Padding(
+                              padding: EdgeInsets.all(10),
+                            ),
+                      widget.id.isEmpty || isEdit || widget.isParent
+                          ? Container()
+                          : ShowUp(
+                              child: new GestureDetector(
+                                onTap: () async {
+                                  await widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.ADDNOTE.toString() +
+                                          "/${widget.id}/${true}");
+                                  getDetails();
+                                },
+                                child: Text(
+                                  "Click here to add more notes",
+                                  textAlign: TextAlign.center,
+                                  style: textTheme.display1.copyWith(
+                                      color: Colors.red, fontSize: 14),
+                                ),
+                              ),
+                              delay: 1000,
+                            ),
+                      widget.id.isEmpty || isEdit || widget.isParent
+                          ? Container()
+                          : Padding(
+                              padding: EdgeInsets.only(top: 10, left: 10),
+                              child: Text(
+                                "Sub Notes",
+                                style: textTheme.subtitle
+                                    .copyWith(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                      widget.id.isEmpty || isEdit || widget.isParent
+                          ? Container()
+                          : ListView.builder(
+                              itemCount: subNotes.length,
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext context, int index) {
+                                NotesTodo notesTodo = subNotes[index];
+                                DateTime dateTime =
+                                    DateTime.fromMillisecondsSinceEpoch(
+                                        notesTodo.createdDate);
+
+                                return ListTile(
+                                  title: Text(notesTodo.note),
+                                  subtitle: Text(notesTodo.description),
+                                  leading: Text(
+                                    "${formatDate(dateTime, [
+                                      mm,
+                                      '/',
+                                      dd,
+                                      '/',
+                                      yy
+                                    ])}",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                );
+                              },
+                            ),
                       Padding(
                         padding: EdgeInsets.all(20),
                       ),
-                      widget.id.isEmpty||isEdit
+                      widget.id.isEmpty || isEdit || widget.isParent
                           ? RaisedButton(
                               onPressed: () {
                                 String desc = _descController.text;
@@ -353,7 +463,7 @@ class _AddNotesScreenState
                                 String stTime = _startTimeController.text;
                                 String endDate = _endDateController.text;
                                 String endTime = _endTimeController.text;
-                                String note=_noteController.text;
+                                String note = _noteController.text;
 
                                 setState(() {
                                   _descError = null;
@@ -364,17 +474,17 @@ class _AddNotesScreenState
                                   if (desc.isEmpty) {
                                     _descError = "Cannot be Empty";
                                   }
-//                                  else if (stDate.isEmpty) {
-//                                    _startDateError = "Cannot be Empty";
-//                                  } else if (stTime.isEmpty) {
-//                                    _startTimeError = "Cannot be Empty";
-//                                  } else if (endDate.isEmpty) {
-//                                    _endDateError = "Cannot be Empty";
-//                                  } else if (endTime.isEmpty) {
-//                                    _endTimeError = "Cannot be Empty";
+                                  //                                  else if (stDate.isEmpty) {
+                                  //                                    _startDateError = "Cannot be Empty";
+                                  //                                  } else if (stTime.isEmpty) {
+                                  //                                    _startTimeError = "Cannot be Empty";
+                                  //                                  } else if (endDate.isEmpty) {
+                                  //                                    _endDateError = "Cannot be Empty";
+                                  //                                  } else if (endTime.isEmpty) {
+                                  //                                    _endTimeError = "Cannot be Empty";
                                   else {
-//                                    DateTime start = DateTime(
-//        );
+                                    //                                    DateTime start = DateTime(
+                                    //        );
                                     DateTime end;
                                     if (endDate != null) {
                                       end = DateTime(
@@ -388,18 +498,23 @@ class _AddNotesScreenState
                                       description: desc,
                                       end_date:
                                           end?.millisecondsSinceEpoch ?? 0,
-                                      start_date:selectedStartDate!=null?selectedStartDate.millisecondsSinceEpoch:0,
+                                      start_date: selectedStartDate != null
+                                          ? selectedStartDate
+                                              .millisecondsSinceEpoch
+                                          : 0,
                                       type: _type,
-                                      id:id,
-                                      note:note,
-                                      createdDate: DateTime.now().millisecondsSinceEpoch
+                                      id: widget.id,
+                                      note: note,
+                                      createdDate:
+                                          DateTime.now().millisecondsSinceEpoch,
                                     );
                                     showLoading();
-                                    presenter.addNotes(notesTodo);
+                                    presenter.addNotes(
+                                        notesTodo, widget.isParent);
                                   }
                                 });
                               },
-                              color: Color.fromRGBO(239,181, 77, 1.0),
+                              color: Color.fromRGBO(239, 181, 77, 1.0),
                               child: Text(
                                 "Submit",
                                 style: textTheme.headline.copyWith(
@@ -476,24 +591,31 @@ class _AddNotesScreenState
     Navigator.of(context).pop();
   }
 
+  List<NotesTodo> subNotes = [];
+
   @override
   void getNoteDetails(NotesTodo note) {
     hideLoading();
     setState(() {
-      id = note.id;
+      subNotes.clear();
+      subNotes.addAll(note.subNotes);
       _descController.text = note.description;
-      _noteController.text=note.note;
-      DateTime createdDate = DateTime.fromMillisecondsSinceEpoch((note.createdDate));
+      _noteController.text = note.note;
+      DateTime createdDate =
+          DateTime.fromMillisecondsSinceEpoch((note.createdDate));
       DateTime stDate = DateTime.fromMillisecondsSinceEpoch((note.start_date));
       DateTime endDate = DateTime.fromMillisecondsSinceEpoch((note.end_date));
-      _createdDateController.text = "${formatDate(stDate, [mm, '/', dd, '/', yy])}";
-      if(note.start_date==0){
+      _createdDateController.text =
+          "${formatDate(stDate, [mm, '/', dd, '/', yy])}";
+      if (note.start_date == 0) {
         _startDateController.text = null;
-        isDateVisible=false;
-      }else{
-        isDateVisible=true;
-        selectedStartDate=DateTime.fromMillisecondsSinceEpoch((note.start_date));
-        _startDateController.text = "${formatDate(stDate, [mm, '/', dd, '/', yy])}";
+        isDateVisible = false;
+      } else {
+        isDateVisible = true;
+        selectedStartDate =
+            DateTime.fromMillisecondsSinceEpoch((note.start_date));
+        _startDateController.text =
+            "${formatDate(stDate, [mm, '/', dd, '/', yy])}";
       }
       _endDateController.text =
           "${formatDate(endDate, [yyyy, '-', mm, '-', dd])}";
@@ -507,5 +629,22 @@ class _AddNotesScreenState
   @override
   void onUpdate() {
     showMessage("Updated Successfully");
+  }
+
+  @override
+  void onSubSuccess() {
+     if (!mounted) return;
+    hideLoading();
+    showMessage("Created SubNote Successfully");
+    Navigator.of(context).pop();
+  }
+
+  void getDetails() {
+    if (widget.id.isNotEmpty && !widget.isParent) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showLoading();
+        presenter.getNotesDetails(widget.id);
+      });
+    }
   }
 }
