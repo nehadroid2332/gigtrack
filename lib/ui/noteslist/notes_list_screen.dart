@@ -89,7 +89,8 @@ class _NotesListScreenState
               .navigateTo(context, Screens.ADDNOTE.toString() + "/");
         },
         backgroundColor: Color.fromRGBO(239,181, 77, 1.0),
-        child: Icon(Icons.add),
+        child: Icon(Icons.add,
+        color: Colors.black,),
       ),
     );
   }

@@ -69,13 +69,18 @@ class _AddNotesScreenState
 
   @override
   AppBar get appBar => AppBar(
+    iconTheme: IconThemeData(
+      color: Colors.black, //change your color here
+    ),
         elevation: 0,
         backgroundColor: Color.fromRGBO(239,181, 77, 1.0),
         actions: <Widget>[
           widget.id.isEmpty
               ? Container()
               : IconButton(
-                  icon: Icon(Icons.edit),
+                  icon: Icon(Icons.edit,
+                  color: Colors.black87,
+                  ),
                   onPressed: () {
                     setState(() {
                       isEdit = !isEdit;
@@ -86,7 +91,9 @@ class _AddNotesScreenState
           widget.id.isEmpty
               ? Container()
               : IconButton(
-                  icon: Icon(Icons.delete),
+                  icon: Icon(Icons.delete,
+                  color: Colors.black87,
+                  ),
                   onPressed: () {
                     if (id == null || id.isEmpty) {
                       showMessage("Id cannot be null");
@@ -118,7 +125,7 @@ class _AddNotesScreenState
               Text(
                 "${widget.id.isEmpty ? "Add" : ""} Note",
                 style: textTheme.display2
-                    .copyWith(color: Colors.white, fontSize: 30),
+                    .copyWith(color: Colors.black87, fontSize: 30),
               ),
               Padding(
                 padding: EdgeInsets.all(10),
@@ -221,26 +228,7 @@ class _AddNotesScreenState
                             : Container(),
                         delay: 1000,
                       ):Container(),
-                      Padding(padding: EdgeInsets.all(10),),
-                      widget.id.isNotEmpty?ShowUp(
-                        child: new GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isDateVisible = true;
-                            });
-                          },
-                          child:Text(
-                            "Click here to add more notes",
-                            textAlign: TextAlign.center,
-                            style: textTheme.display1.copyWith(
-                                color: widget
-                                    .appListener.primaryColorDark,
-                                fontSize: 14),
-                          )
-                          ,
-                        ),
-                        delay: 1000,
-                      ):Container(),
+
                       Padding(padding: widget.id.isEmpty||isEdit?EdgeInsets.all(0):EdgeInsets.all(10),),
                       isDateVisible
                           ? Row(
@@ -335,6 +323,25 @@ class _AddNotesScreenState
                               ],
                             )
                           : Container(),
+                      Padding(padding: EdgeInsets.all(10),),
+                      widget.id.isNotEmpty?ShowUp(
+                        child: new GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isDateVisible = true;
+                            });
+                          },
+                          child:Text(
+                            "Click here to add more notes",
+                            textAlign: TextAlign.center,
+                            style: textTheme.display1.copyWith(
+                                color: Colors.red,
+                                fontSize: 14),
+                          )
+                          ,
+                        ),
+                        delay: 1000,
+                      ):Container(),
                       Padding(
                         padding: EdgeInsets.all(20),
                       ),

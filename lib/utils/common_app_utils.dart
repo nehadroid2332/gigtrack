@@ -256,7 +256,7 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20,
-                color: color,
+                color: Colors.black,
                 fontWeight: FontWeight.w700
               ),
             ),
@@ -266,7 +266,7 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
-                color: Color.fromRGBO(250, 250, 250, 0.9),
+                color: Colors.black,
 
               ),
             ),
