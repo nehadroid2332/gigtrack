@@ -41,7 +41,7 @@ class _AddNotesScreenState
 
   int _type = 0;
 
-  DateTime selectedStartDate = null, selectedEndDate = DateTime.now();
+  DateTime selectedStartDate, selectedEndDate = DateTime.now();
   TimeOfDay selectedStartTime = TimeOfDay.now(),
       selectedEndTime = TimeOfDay.now();
 
@@ -435,20 +435,53 @@ class _AddNotesScreenState
                                 DateTime dateTime =
                                     DateTime.fromMillisecondsSinceEpoch(
                                         notesTodo.createdDate);
-
                                 return ListTile(
                                   title: Text(notesTodo.note),
                                   subtitle: Text(notesTodo.description),
-                                  leading: Text(
-                                    "${formatDate(dateTime, [
-                                      mm,
-                                      '/',
-                                      dd,
-                                      '/',
-                                      yy
-                                    ])}",
-                                    textAlign: TextAlign.center,
-                                  ),
+                                  leading: CircleAvatar(
+                                      radius: 35,
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              Text(
+                                                "${formatDate(dateTime, [dd])}",
+                                                textAlign: TextAlign.center,
+                                                style:
+                                                    textTheme.headline.copyWith(
+                                                  color: Colors.white,
+                                                  fontSize: 25,
+                                                ),
+                                              ),
+                                              Text(
+                                                "${formatDate(dateTime, [M])}",
+                                                textAlign: TextAlign.center,
+                                                style:
+                                                    textTheme.caption.copyWith(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Align(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              "${formatDate(dateTime, [yy])}",
+                                              textAlign: TextAlign.center,
+                                              style: textTheme.caption.copyWith(
+                                                  color: Colors.white54),
+                                            ),
+                                          )
+                                        ],
+                                      )),
                                 );
                               },
                             ),
@@ -633,7 +666,7 @@ class _AddNotesScreenState
 
   @override
   void onSubSuccess() {
-     if (!mounted) return;
+    if (!mounted) return;
     hideLoading();
     showMessage("Created SubNote Successfully");
     Navigator.of(context).pop();
