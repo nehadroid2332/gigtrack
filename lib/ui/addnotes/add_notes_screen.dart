@@ -91,12 +91,7 @@ class _AddNotesScreenState
                     color: Colors.black87,
                   ),
                   onPressed: () {
-                    if (widget.id == null || widget.id.isEmpty) {
-                      showMessage("Id cannot be null");
-                    } else {
-                      presenter.notesDelete(widget.id);
-                      Navigator.of(context).pop();
-                    }
+                    _showDialogConfirm();
                   },
                 )
         ],
@@ -420,7 +415,7 @@ class _AddNotesScreenState
                           : Padding(
                               padding: EdgeInsets.only(top: 10, left: 10),
                               child: Text(
-                                "Sub Notes",
+                                "Additionally Notes",
                                 style: textTheme.subtitle
                                     .copyWith(fontWeight: FontWeight.bold),
                               ),
@@ -439,6 +434,7 @@ class _AddNotesScreenState
                                   title: Text(notesTodo.note),
                                   subtitle: Text(notesTodo.description),
                                   leading: CircleAvatar(
+                                    backgroundColor:Color.fromRGBO(239, 181, 77, 1.0) ,
                                       radius: 35,
                                       child: Row(
                                         crossAxisAlignment:
@@ -457,8 +453,8 @@ class _AddNotesScreenState
                                                 textAlign: TextAlign.center,
                                                 style:
                                                     textTheme.headline.copyWith(
-                                                  color: Colors.white,
-                                                  fontSize: 25,
+                                                  color: Colors.black,
+                                                  fontSize: 16,
                                                 ),
                                               ),
                                               Text(
@@ -466,7 +462,7 @@ class _AddNotesScreenState
                                                 textAlign: TextAlign.center,
                                                 style:
                                                     textTheme.caption.copyWith(
-                                                  color: Colors.white,
+                                                  color: Colors.black,
                                                 ),
                                               ),
                                             ],
@@ -474,10 +470,10 @@ class _AddNotesScreenState
                                           Align(
                                             alignment: Alignment.center,
                                             child: Text(
-                                              "${formatDate(dateTime, [yy])}",
+                                              "${formatDate(dateTime, ["/",yy])}",
                                               textAlign: TextAlign.center,
                                               style: textTheme.caption.copyWith(
-                                                  color: Colors.white54),
+                                                  color: Colors.black87),
                                             ),
                                           )
                                         ],
@@ -679,5 +675,53 @@ class _AddNotesScreenState
         presenter.getNotesDetails(widget.id);
       });
     }
+  }
+  void _showDialogConfirm() {
+    // flutter defined function
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          contentPadding: EdgeInsets.all(15),
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          title: new Text(
+            "Warning",
+            textAlign: TextAlign.center,
+          ),
+          content: Text("Are you sure you want to delete?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("No"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new RaisedButton(
+              child: new Text("Yes"),
+              textColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6)),
+              color: Color.fromRGBO(239, 181, 77, 1.0),
+              onPressed: () {
+                if (widget.id == null || widget.id.isEmpty) {
+                  showMessage("Id cannot be null");
+                } else {
+                  presenter.notesDelete(widget.id);
+                  Navigator.of(context).popUntil(ModalRoute.withName(Screens.NOTETODOLIST.toString()));
+                }
+
+
+
+
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

@@ -112,7 +112,7 @@ class _AddContactScreenState
                     if (id == null || id.isEmpty) {
                       showMessage("Id cannot be null");
                     } else {
-                      _showDialog();
+                      _showDialogConfirm();
 //                      presenter.contactDelete(id);
 //                      Navigator.of(context).pop();
                     }
@@ -175,9 +175,11 @@ class _AddContactScreenState
       String val = selectedLikesMap[key];
       final txtController = TextEditingController(text: val);
       txtController.addListener(() {
-        setState(() {
-          selectedLikesMap[key] = txtController.text;
-        });
+//        setState(() {
+//          selectedLikesMap[key] = txtController.text;
+//          txtController.value = txtController.value.copyWith(text:txtController.text,);
+//
+//        });
       });
       likesTextFields.add(Row(
         children: <Widget>[
@@ -193,6 +195,12 @@ class _AddContactScreenState
             child: TextField(
               textCapitalization: TextCapitalization.words,
               controller: txtController,
+              onChanged:(text){
+                selectedLikesMap[key] = text;
+                txtController.text= text.replaceAll(" ", ',');
+              },
+
+
             ),
           )
         ],
@@ -345,8 +353,8 @@ class _AddContactScreenState
                       Padding(
                         padding: EdgeInsets.all(3),
                       ),
-                      _currentRelation && isEdit
-                          ? TextField(
+                      _currentRelation || isEdit
+                          ? _relationshipType=="Other"?TextField(
                               enabled: widget.id.isEmpty || isEdit,
                               controller: _otherRelationshipController,
                               textCapitalization: TextCapitalization.sentences,
@@ -354,7 +362,7 @@ class _AddContactScreenState
                                 labelStyle: TextStyle(
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
                                 ),
-                                labelText: widget.id.isNotEmpty ? "" : "Other",
+                                labelText: widget.id.isNotEmpty ? "" : "Other info here",
                                 errorText: _errorRelationship,
                                 border: widget.id.isEmpty || isEdit
                                     ? null
@@ -363,7 +371,7 @@ class _AddContactScreenState
                               style: textTheme.subhead.copyWith(
                                 color: Colors.black,
                               ),
-                            )
+                            ):Container()
                           : widget.id.isEmpty || isEdit
                               ? Container()
                               : Row(
@@ -672,7 +680,7 @@ class _AddContactScreenState
                                               ),
                                               labelText: widget.id.isNotEmpty
                                                   ? ""
-                                                  : "Other",
+                                                  : "Other Info here",
                                               border:
                                                   widget.id.isEmpty || isEdit
                                                       ? null
@@ -1018,7 +1026,7 @@ class _AddContactScreenState
                       ),
                       widget.id.isEmpty || isEdit
                           ? RaisedButton(
-                              color: Color.fromRGBO(82, 149, 171, 1.0),
+                              color: Color.fromRGBO(191,52,44, 1.0),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(18)),
                               textColor: Colors.white,
@@ -1223,7 +1231,7 @@ class _AddContactScreenState
             "Warning",
             textAlign: TextAlign.center,
           ),
-          content: Text("Are you really sure?"),
+          content: Text("Are you sure you want to delete?"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(

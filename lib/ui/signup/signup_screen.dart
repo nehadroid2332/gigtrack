@@ -8,6 +8,7 @@ import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/ui/signup/signup_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
+import 'package:gigtrack/utils/privacy.dart';
 import 'package:image_picker/image_picker.dart';
 
 
@@ -451,9 +452,11 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                           style: TextStyle(color: Colors.grey),
                           children: <TextSpan>[
                             TextSpan(text: ' Terms ', style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey),
-                              recognizer: new TapGestureRecognizer()..onTap = () => print('Tap Here onTap'),),
+                              recognizer: new TapGestureRecognizer()..onTap = () =>   widget.appListener.router
+                            .navigateTo(context, Screens.PRIVACY.toString())),
                             TextSpan(text: '& Privacy Policy.',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey),
-                              recognizer: new TapGestureRecognizer()..onTap = () => print('Tap Here onTapTwice'),
+                              recognizer: new TapGestureRecognizer()..onTap = () => widget.appListener.router
+                                  .navigateTo(context, Screens.PRIVACY.toString()),
                             ),
                           ],
                         ),

@@ -184,8 +184,9 @@ class _AddInstrumentScreenState
                     if (id == null || id.isEmpty) {
                       showMessage("Id cannot be null");
                     } else {
-                      presenter.instrumentDelete(id);
-                      Navigator.of(context).pop();
+                      _showDialogConfirm();
+                      // presenter.instrumentDelete(id);
+                     // Navigator.of(context).pop();
                     }
                   },
                 )
@@ -329,7 +330,7 @@ class _AddInstrumentScreenState
                                 },
                                 child: widget.id.isEmpty
                                     ? Text(
-                                        "Add nick name to equip.",
+                                        "Click to add special name",
                                         style: textTheme.display1.copyWith(
                                             color: widget
                                                 .appListener.primaryColorDark,
@@ -672,7 +673,7 @@ class _AddInstrumentScreenState
                               ],
                             ),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: EdgeInsets.all(10),
                       ),
                       widget.id.isEmpty || isEdit ? Container() : Container(),
                       ShowUp(
@@ -1331,5 +1332,53 @@ class _AddInstrumentScreenState
   @override
   void onUpdate() {
     showMessage("Updated Successfully");
+  }
+  void _showDialogConfirm() {
+    // flutter defined function
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          contentPadding: EdgeInsets.all(15),
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          title: new Text(
+            "Warning",
+            textAlign: TextAlign.center,
+          ),
+          content: Text("Are you sure you want to delete?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("No"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new RaisedButton(
+              child: new Text("Yes"),
+              textColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6)),
+              color: Color.fromRGBO(60, 111, 55, 1.0),
+              onPressed: () {
+                if (id == null || id.isEmpty) {
+                  showMessage("Id cannot be null");
+                } else {
+                  presenter.instrumentDelete(id);
+                  Navigator.of(context).popUntil(ModalRoute.withName(Screens.INSTRUMENTLIST.toString()));
+                  //Navigator.of(context).pop();
+                }
+
+
+
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

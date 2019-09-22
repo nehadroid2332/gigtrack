@@ -20,6 +20,7 @@ import 'package:gigtrack/ui/noteslist/notes_list_screen.dart';
 import 'package:gigtrack/ui/notificationlist/notification_list_screen.dart';
 import 'package:gigtrack/ui/signup/signup_screen.dart';
 import 'package:gigtrack/ui/splash/splash_screen.dart';
+import 'package:gigtrack/utils/privacy.dart';
 import 'package:google_places_picker/google_places_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -86,6 +87,10 @@ class MyApp extends StatelessWidget implements AppListener {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return NotesListScreen(this);
     }));
+    _router.define(Screens.PRIVACY.toString(), handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          return PrivacyScreen(this);
+        }));
     _router.define(Screens.ADDACTIVITY.toString() + "/:id", handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["id"][0];
@@ -226,5 +231,6 @@ enum Screens {
   ADDMEMBERTOBAND,
   FORGOTPASSWORD,
   ADDCONTACT,
-  CONTACTLIST
+  CONTACTLIST,
+  PRIVACY
 }

@@ -4,6 +4,7 @@ import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/notestodo.dart';
 import 'package:gigtrack/ui/noteslist/notes_list_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class PrivacyScreen extends BaseScreen {
   PrivacyScreen(AppListener appListener) : super(appListener, title: "");
@@ -41,23 +42,9 @@ class _PrivacyScreenState extends BaseScreenState<PrivacyScreen, NotesListPresen
   Widget buildBody() {
     return Scaffold(
       backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              child: Center(
-                  child: RichText(
-                    text: TextSpan(
-                      text: ""
-                    ),
-                  )
-              ),
-            ),
-
-          ],
-        ),
+      body:  WebView(
+        initialUrl: 'https://www.accountechs.online/terms/#',
+        javascriptMode: JavascriptMode.unrestricted,
       ),
 
     );
