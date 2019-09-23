@@ -14,8 +14,10 @@ import 'package:google_places_picker/google_places_picker.dart';
 class AddActivityScreen extends BaseScreen {
   final String id;
   final int type;
+  final bool isParent;
 
-  AddActivityScreen(AppListener appListener, {this.id, this.type = 0})
+  AddActivityScreen(AppListener appListener,
+      {this.id, this.type = 0, this.isParent = false})
       : super(appListener, title: "");
 
   @override
@@ -27,61 +29,32 @@ class _AddActivityScreenState
     implements AddActivityContract {
   final _titleController = TextEditingController(),
       _dateController = TextEditingController(),
-      _dateEndController = TextEditingController(),
       _timeController = TextEditingController(),
-      _timeEndController = TextEditingController(),
       _descController = TextEditingController(),
       _taskController = TextEditingController(),
-      _travelController = TextEditingController(),
       _locController = TextEditingController();
   final List<Band> bands = [];
   final List<User> members = [];
 
-  String _titleError,
-      _dateError,
-      _dateEndError,
-      _timeError,
-      _timeEndError,
-      _descError,
-      _locError,
-      _taskError;
+  String _titleError, _dateError, _descError, _locError, _taskError;
 
-  DateTime selectedDate = DateTime.now();
-  TimeOfDay selectedStartTime = TimeOfDay.now();
-  TimeOfDay selectedEndTime = TimeOfDay.now();
-
-  DateTime startDate, endDate;
+  DateTime startDate = DateTime.now();
   bool isVisible = false, isEdit = false;
 
-  String _dateTxt = "", _dateEndTxt = "";
+  String _dateTxt = "";
 
   Future<Null> _selectDate(BuildContext context, int type) async {
     final DateTime picked = await showDatePicker(
         context: context,
-        initialDate: selectedDate,
+        initialDate: startDate,
         firstDate: DateTime(2015, 8),
         lastDate: DateTime(2101));
-    if (picked != null && picked != selectedDate)
+    if (picked != null && picked != startDate)
       setState(() {
-        selectedDate = picked;
-        if (type == 1) {
-          startDate = picked;
-          _dateController.text =
-              formatDate(selectedDate, [mm, '-', dd, '-', yy]);
-          !isVisible ? _showDialog() : "";
-        } else if (type == 2) {
-          if (startDate == null) {
-            showMessage("Please Select Start Date first");
-            return;
-          }
-          if (selectedDate.isBefore(startDate)) {
-            showMessage("Please select End Date before Start Date");
-            return;
-          }
-          endDate = picked;
-          _dateEndController.text =
-              formatDate(selectedDate, [mm, '-', dd, '-', yy]);
-        }
+        startDate = picked;
+        startDate = picked;
+        _dateController.text = formatDate(startDate, [mm, '-', dd, '-', yy]);
+        !isVisible ? _showDialog() : "";
       });
   }
 
@@ -129,33 +102,10 @@ class _AddActivityScreenState
     );
   }
 
-  Future<Null> _selectTime(BuildContext context, int type) async {
-    final TimeOfDay picked = await showTimePicker(
-      context: context,
-      initialTime: selectedStartTime,
-    );
-    if (picked != null && picked != selectedStartTime)
-      setState(() {
-        if (type == 1) {
-          selectedStartTime = picked;
-          _timeController.text = (selectedStartTime.format(context));
-        } else if (type == 2) {
-          selectedEndTime = picked;
-          _timeEndController.text = (selectedStartTime.format(context));
-        }
-      });
-  }
-
   @override
   void initState() {
     super.initState();
-
-    if (widget.id.isNotEmpty) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        showLoading();
-        presenter.getActivityDetails(widget.id);
-      });
-    }
+    getData();
   }
 
   @override
@@ -163,7 +113,7 @@ class _AddActivityScreenState
         elevation: 0,
         backgroundColor: Color.fromRGBO(235, 84, 99, 1.0),
         actions: <Widget>[
-          widget.id.isEmpty
+          widget.id.isEmpty || widget.isParent
               ? Container()
               : IconButton(
                   icon: Icon(Icons.edit),
@@ -173,7 +123,7 @@ class _AddActivityScreenState
                     });
                   },
                 ),
-          widget.id.isEmpty
+          widget.id.isEmpty || widget.isParent
               ? Container()
               : IconButton(
                   icon: Icon(Icons.delete),
@@ -208,7 +158,7 @@ class _AddActivityScreenState
           child: Column(
             children: <Widget>[
               Text(
-                "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} Activities/Schedule",
+                "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} ${widget.type == Activites.TYPE_ACTIVITY ? "Activity" : widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? "Performance Schedule" : widget.type == Activites.TYPE_PRACTICE_SCHEDULE ? "Performance Schedule" : widget.type == Activites.TYPE_TASK ? widget.isParent ? "Add Sub Task" : "Task" : ""}",
                 style: textTheme.display1
                     .copyWith(color: Colors.white, fontSize: 30),
               ),
@@ -224,30 +174,38 @@ class _AddActivityScreenState
                         padding:
                             EdgeInsets.all(widget.id.isEmpty || isEdit ? 8 : 0),
                       ),
-                      (widget.id.isEmpty || isEdit)
+                      (widget.id.isEmpty || isEdit || widget.isParent)
                           ? TextField(
-                              enabled: widget.id.isEmpty || isEdit,
+                              enabled: widget.id.isEmpty ||
+                                  isEdit ||
+                                  widget.isParent,
                               minLines: 1,
                               maxLines: 4,
                               textCapitalization: TextCapitalization.words,
                               decoration: InputDecoration(
-                                labelText:
-                                    widget.id.isEmpty || isEdit ? "Title" : "",
+                                labelText: widget.id.isEmpty ||
+                                        isEdit ||
+                                        widget.isParent
+                                    ? "Title"
+                                    : "",
                                 labelStyle: textTheme.headline.copyWith(
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
                                 ),
                                 errorText: _titleError,
-                                border: widget.id.isEmpty || isEdit
+                                border: widget.id.isEmpty ||
+                                        isEdit ||
+                                        widget.isParent
                                     ? null
                                     : InputBorder.none,
                               ),
-                              style: widget.id.isEmpty || isEdit
-                                  ? textTheme.subhead.copyWith(
-                                      color: Colors.black,
-                                    )
-                                  : textTheme.display1.copyWith(
-                                      color: Colors.black,
-                                    ),
+                              style:
+                                  widget.id.isEmpty || isEdit || widget.isParent
+                                      ? textTheme.subhead.copyWith(
+                                          color: Colors.black,
+                                        )
+                                      : textTheme.display1.copyWith(
+                                          color: Colors.black,
+                                        ),
                               controller: _titleController,
                             )
                           : Padding(
@@ -259,209 +217,52 @@ class _AddActivityScreenState
                                 textAlign: TextAlign.center,
                               ),
                             ),
-                      Row(
-                        children: <Widget>[
-                          widget.id.isEmpty || isEdit
-                              ? Container()
-                              : Container(),
-//                          Align(
-//                                  alignment: Alignment.center,
-//                                  child: Icon(
-//                                    Icons.calendar_today,
-//                                    color: Colors.grey,
-//                                  ),
-//                                ),
-                          Expanded(
-                            child: widget.id.isEmpty || isEdit
-                                ? InkWell(
-                                    child: AbsorbPointer(
-                                      child: TextField(
-                                        enabled: widget.id.isEmpty || isEdit,
-                                        textCapitalization:
-                                            TextCapitalization.sentences,
-                                        textAlignVertical:
-                                            TextAlignVertical.center,
-                                        decoration: InputDecoration(
-                                          labelText: widget.id.isEmpty || isEdit
-                                              ? "Start Date"
-                                              : "",
-                                          labelStyle: TextStyle(
-                                            color: Color.fromRGBO(
-                                                202, 208, 215, 1.0),
-                                          ),
-                                          errorText: _dateError,
-                                          border: widget.id.isEmpty || isEdit
-                                              ? null
-                                              : InputBorder.none,
-                                        ),
-                                        controller: _dateController,
-                                        style: textTheme.subhead.copyWith(
-                                          color: Colors.black,
-                                        ),
-                                      ),
+                      (widget.id.isEmpty || isEdit) &&
+                              (widget.type == Activites.TYPE_ACTIVITY)
+                          ? InkWell(
+                              child: AbsorbPointer(
+                                child: TextField(
+                                  enabled: widget.id.isEmpty || isEdit,
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
+                                  textAlignVertical: TextAlignVertical.center,
+                                  decoration: InputDecoration(
+                                    labelText: widget.id.isEmpty || isEdit
+                                        ? "Start Date"
+                                        : "",
+                                    labelStyle: TextStyle(
+                                      color: Color.fromRGBO(202, 208, 215, 1.0),
                                     ),
-                                    onTap: () {
-                                      if (widget.id.isEmpty || isEdit)
-                                        _selectDate(context, 1);
-                                    },
-                                  )
-                                : Padding(
-                                    padding: EdgeInsets.only(left: 5),
-                                    child: Text(
-                                      _dateTxt,
-                                      style: textTheme.subhead.copyWith(
-                                        color: Colors.grey,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
+                                    errorText: _dateError,
+                                    border: widget.id.isEmpty || isEdit
+                                        ? null
+                                        : InputBorder.none,
                                   ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(4),
-                          ),
-//                          widget.id.isEmpty || isEdit
-//                              ? Expanded(
-//                                  child: InkWell(
-//                                    child: AbsorbPointer(
-//                                      child: TextField(
-//                                        enabled: widget.id.isEmpty || isEdit,
-//                                        textCapitalization:
-//                                            TextCapitalization.sentences,
-//                                        decoration: InputDecoration(
-//                                          labelText: widget.id.isEmpty || isEdit
-//                                              ? "Start Time"
-//                                              : "",
-//                                          labelStyle: TextStyle(
-//                                            color: Color.fromRGBO(
-//                                                202, 208, 215, 1.0),
-//                                          ),
-//                                          errorText: _timeError,
-//                                          border: widget.id.isEmpty || isEdit
-//                                              ? null
-//                                              : InputBorder.none,
-//                                        ),
-//                                        controller: _timeController,
-//                                        style: textTheme.subhead.copyWith(
-//                                          color: Colors.black,
-//                                        ),
-//                                      ),
-//                                    ),
-//                                    onTap: () {
-//                                      if (widget.id.isEmpty || isEdit)
-//                                        _selectTime(context, 1);
-//                                    },
-//                                  ),
-//                                )
-                          //         : Container()
-                        ],
-                      ),
-                      isVisible || widget.id.isNotEmpty
-                          ? Row(
-                              children: <Widget>[
-                                widget.id.isEmpty || isEdit
-                                    ? Container()
-                                    : Container(),
-                                Expanded(
-                                  child: widget.id.isEmpty || isEdit
-                                      ? InkWell(
-                                          child: AbsorbPointer(
-                                            child: TextField(
-                                              enabled:
-                                                  widget.id.isEmpty || isEdit,
-                                              textAlignVertical:
-                                                  TextAlignVertical.center,
-                                              decoration: InputDecoration(
-                                                labelText:
-                                                    widget.id.isEmpty || isEdit
-                                                        ? "End Date"
-                                                        : "",
-                                                labelStyle: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      202, 208, 215, 1.0),
-                                                ),
-                                                errorText: _dateEndError,
-                                                border:
-                                                    widget.id.isEmpty || isEdit
-                                                        ? null
-                                                        : InputBorder.none,
-                                              ),
-                                              controller: _dateEndController,
-                                              style: textTheme.subhead.copyWith(
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ),
-                                          onTap: () {
-                                            if (widget.id.isEmpty || isEdit)
-                                              _selectDate(context, 2);
-                                          },
-                                        )
-                                      : _dateEndTxt != 0.toString()
-                                          ? Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: _dateEndTxt !=
-                                                          0.toString()
-                                                      ? 5
-                                                      : 0,
-                                                  top: _dateEndTxt !=
-                                                          0.toString()
-                                                      ? 5
-                                                      : 0),
-                                              child: Text(
-                                                _dateEndTxt != '0'
-                                                    ? "to " + _dateEndTxt
-                                                    : '',
-                                                style:
-                                                    textTheme.subhead.copyWith(
-                                                  color: Colors.grey,
-                                                ),
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            )
-                                          : Container(),
+                                  controller: _dateController,
+                                  style: textTheme.subhead.copyWith(
+                                    color: Colors.black,
+                                  ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.all(4),
-                                ),
-                                widget.id.isEmpty || isEdit
-                                    ? Expanded(
-                                        child: InkWell(
-                                          child: AbsorbPointer(
-                                            child: TextField(
-                                              enabled:
-                                                  widget.id.isEmpty || isEdit,
-                                              decoration: InputDecoration(
-                                                labelText:
-                                                    widget.id.isEmpty || isEdit
-                                                        ? "End Time"
-                                                        : "",
-                                                labelStyle: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      202, 208, 215, 1.0),
-                                                ),
-                                                errorText: _timeEndError,
-                                                border:
-                                                    widget.id.isEmpty || isEdit
-                                                        ? null
-                                                        : InputBorder.none,
-                                              ),
-                                              controller: _timeEndController,
-                                              style: textTheme.subhead.copyWith(
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ),
-                                          onTap: () {
-                                            if (widget.id.isEmpty || isEdit)
-                                              _selectTime(context, 2);
-                                          },
-                                        ),
-                                      )
-                                    : Container()
-                              ],
+                              ),
+                              onTap: () {
+                                if (widget.id.isEmpty || isEdit)
+                                  _selectDate(context, 1);
+                              },
                             )
-                          : Container(),
-                      widget.id.isEmpty || isEdit
+                          : (widget.type == Activites.TYPE_ACTIVITY)
+                              ? Padding(
+                                  padding: EdgeInsets.only(left: 5),
+                                  child: Text(
+                                    _dateTxt,
+                                    style: textTheme.subhead.copyWith(
+                                      color: Colors.grey,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                )
+                              : Container(),
+                      (widget.id.isEmpty || isEdit) &&
+                              widget.type == Activites.TYPE_ACTIVITY
                           ? InkWell(
                               onTap: () async {
                                 var place = await PluginGooglePlacePicker
@@ -494,59 +295,73 @@ class _AddActivityScreenState
                                 ),
                               ),
                             )
-                          : Padding(
-                              padding: EdgeInsets.only(
-                                top: 10,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.location_on,
-                                    color: Colors.grey,
+                          : widget.type == Activites.TYPE_ACTIVITY
+                              ? Padding(
+                                  padding: EdgeInsets.only(
+                                    top: 10,
                                   ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: EdgeInsets.only(left: 5),
-                                      child: Text(
-                                        _locController.text,
-                                        textAlign: TextAlign.center,
-                                        style: textTheme.subhead.copyWith(
-                                          color: Colors.grey,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.location_on,
+                                        color: Colors.grey,
+                                      ),
+                                      Expanded(
+                                        child: Padding(
+                                          padding: EdgeInsets.only(left: 5),
+                                          child: Text(
+                                            _locController.text,
+                                            textAlign: TextAlign.center,
+                                            style: textTheme.subhead.copyWith(
+                                              color: Colors.grey,
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            ),
-                      widget.id.isEmpty || isEdit
+                                )
+                              : Container(),
+                      widget.id.isEmpty || isEdit || widget.isParent
                           ? Container()
                           : Padding(
                               padding: EdgeInsets.only(top: 14, bottom: 6),
                               child: Text(
-                                "Notes",
+                                widget.type == Activites.TYPE_TASK
+                                    ? "Description"
+                                    : "Notes",
                                 style: textTheme.subhead.copyWith(
                                   fontWeight: FontWeight.w700,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
                             ),
-                      widget.id.isEmpty || isEdit
+                      (widget.id.isEmpty || isEdit || widget.isParent)
                           ? TextField(
                               decoration: InputDecoration(
-                                labelText:
-                                    widget.id.isEmpty || isEdit ? "Notes" : "",
+                                labelText: widget.id.isEmpty ||
+                                        isEdit ||
+                                        widget.isParent
+                                    ? widget.type == Activites.TYPE_TASK
+                                        ? "Description"
+                                        : "Notes"
+                                    : "",
                                 labelStyle: TextStyle(
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
                                 ),
                                 errorText: _descError,
-                                border: widget.id.isEmpty || isEdit
+                                border: widget.id.isEmpty ||
+                                        isEdit ||
+                                        widget.isParent
                                     ? null
                                     : InputBorder.none,
                               ),
-                              enabled: widget.id.isEmpty || isEdit,
+                              enabled: widget.id.isEmpty ||
+                                  isEdit ||
+                                  widget.isParent,
                               minLines: 2,
                               maxLines: 10,
                               textCapitalization: TextCapitalization.sentences,
@@ -562,17 +377,20 @@ class _AddActivityScreenState
                             ),
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : Padding(
-                              padding: EdgeInsets.only(top: 14),
-                              child: Text(
-                                "Task",
-                                style: textTheme.subhead.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                      widget.id.isEmpty || isEdit
+                          : widget.type == Activites.TYPE_ACTIVITY
+                              ? Padding(
+                                  padding: EdgeInsets.only(top: 14),
+                                  child: Text(
+                                    "Task",
+                                    style: textTheme.subhead.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                )
+                              : Container(),
+                      (widget.id.isEmpty || isEdit) &&
+                              widget.type == Activites.TYPE_ACTIVITY
                           ? TextField(
                               decoration: InputDecoration(
                                 labelText:
@@ -592,110 +410,156 @@ class _AddActivityScreenState
                               ),
                               controller: _taskController,
                             )
-                          : Text(
-                              _taskController.text,
-                              textAlign: TextAlign.center,
-                            ),
+                          : widget.type == Activites.TYPE_ACTIVITY
+                              ? Text(
+                                  _taskController.text,
+                                  textAlign: TextAlign.center,
+                                )
+                              : Container(),
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : Padding(
-                              padding: EdgeInsets.only(top: 14),
-                              child: Text(
-                                "Travel",
-                                style: textTheme.subhead.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                      widget.id.isEmpty || isEdit
-                          ? TextField(
-                              decoration: InputDecoration(
-                                labelText:
-                                    widget.id.isEmpty || isEdit ? "Travel" : "",
-                                labelStyle: TextStyle(
-                                  color: Color.fromRGBO(202, 208, 215, 1.0),
-                                ),
-                                errorText: _descError,
-                                border: widget.id.isEmpty || isEdit
-                                    ? null
-                                    : InputBorder.none,
-                              ),
-                              enabled: false,
-                              textCapitalization: TextCapitalization.sentences,
-                              style: textTheme.subhead.copyWith(
-                                color: Colors.black,
-                              ),
-                              controller: _travelController,
-                            )
-                          : Text(
-                              _travelController.text,
-                              textAlign: TextAlign.center,
+                          : widget.type == Activites.TYPE_ACTIVITY
+                              ? Padding(
+                                  padding: EdgeInsets.only(top: 14),
+                                  child: Text(
+                                    "Travel",
+                                    style: textTheme.subhead.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                )
+                              : Container(),
+                      widget.type == Activites.TYPE_TASK
+                          ? widget.id.isEmpty || isEdit || widget.isParent
+                              ? Container()
+                              : FlatButton(
+                                  textColor: Color.fromRGBO(235, 84, 99, 1.0),
+                                  child: Text("Click to add task notes"),
+                                  onPressed: () async {
+                                    await widget.appListener.router.navigateTo(
+                                        context,
+                                        Screens.ADDACTIVITY.toString() +
+                                            "/${widget.type}/${widget.id}/${true}");
+                                    getData();
+                                  },
+                                )
+                          : Container(),
+                      widget.type == Activites.TYPE_TASK
+                          ? widget.id.isEmpty || isEdit || widget.isParent
+                              ? Container()
+                              : Text(
+                                  "Date of Note - $_dateTxt",
+                                  textAlign: TextAlign.center,
+                                )
+                          : Container(),
+                      widget.type == Activites.TYPE_TASK
+                          ? widget.id.isEmpty || isEdit || widget.isParent
+                              ? Container()
+                              : FlatButton(
+                                  textColor: Color.fromRGBO(235, 84, 99, 1.0),
+                                  child:
+                                      Text("Click here when task is completed"),
+                                  onPressed: () {},
+                                )
+                          : Container(),
+                      widget.id.isEmpty || isEdit || widget.isParent
+                          ? Container()
+                          : ListView.builder(
+                              itemCount: subActivities.length,
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext context, int index) {
+                                Activites activity = subActivities[index];
+                                DateTime dateTime =
+                                    DateTime.fromMillisecondsSinceEpoch(
+                                        activity.startDate);
+                                return ListTile(
+                                  title: Text(activity.title),
+                                  subtitle: Text(activity.description),
+                                  leading: CircleAvatar(
+                                      backgroundColor:
+                                          Color.fromRGBO(239, 181, 77, 1.0),
+                                      radius: 35,
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              Text(
+                                                "${formatDate(dateTime, [dd])}",
+                                                textAlign: TextAlign.center,
+                                                style:
+                                                    textTheme.headline.copyWith(
+                                                  color: Colors.black,
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                              Text(
+                                                "${formatDate(dateTime, [M])}",
+                                                textAlign: TextAlign.center,
+                                                style:
+                                                    textTheme.caption.copyWith(
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Align(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              "${formatDate(dateTime, [
+                                                "/",
+                                                yy
+                                              ])}",
+                                              textAlign: TextAlign.center,
+                                              style: textTheme.caption.copyWith(
+                                                  color: Colors.black87),
+                                            ),
+                                          )
+                                        ],
+                                      )),
+                                );
+                              },
                             ),
                       Padding(
                         padding: EdgeInsets.all(20),
                       ),
-                      widget.id.isEmpty || isEdit
+                      widget.id.isEmpty || isEdit || widget.isParent
                           ? RaisedButton(
                               onPressed: () {
                                 String title = _titleController.text;
                                 String desc = _descController.text;
                                 String loc = _locController.text;
-                                String time = _timeController.text;
-                                String date = _dateController.text;
-                                String eDate = _dateEndController.text;
-                                String eTime = _timeEndController.text;
                                 setState(() {
                                   _titleError = null;
                                   _descError = null;
                                   _locError = null;
-                                  _timeError = null;
                                   _dateError = null;
-                                  _dateEndError = null;
-                                  _timeEndError = null;
                                   if (title.isEmpty) {
                                     _titleError = "Cannot be Empty";
-                                  } else if (loc.isEmpty) {
+                                  } else if (loc.isEmpty &&
+                                      widget.type == Activites.TYPE_ACTIVITY) {
                                     _locError = "Cannot be Empty";
-                                  } else if (time.isEmpty) {
-                                    _timeError = "Cannot be Empty";
-                                  } else if (date.isEmpty) {
-                                    _dateError = "Cannot be Empty";
-                                  }
-//                                  else if (eTime.isEmpty) {
-//                                    _timeEndError = "Cannot be Empty";
-//                                  } else if (eDate.isEmpty) {
-//                                    _dateEndError = "Cannot be Empty";
-                                  //       }
-                                  else {
-                                    DateTime start = DateTime(
-                                        startDate.year,
-                                        startDate.month,
-                                        startDate.day,
-                                        selectedStartTime.hour,
-                                        selectedStartTime.minute);
-                                    DateTime end;
-                                    if (endDate != null) {
-                                      end = DateTime(
-                                          endDate.year,
-                                          endDate.month,
-                                          endDate.day,
-                                          selectedEndTime.hour,
-                                          selectedEndTime.minute);
-                                    }
+                                  } else {
                                     Activites activities = Activites(
                                       title: title,
-                                      id: widget.id.isEmpty ? "" : widget.id,
-                                      description: desc != null ? desc : "",
-                                      startDate: start.millisecondsSinceEpoch,
-                                      endDate: end != null
-                                          ? end.millisecondsSinceEpoch
-                                          : 0,
+                                      id: widget.id,
+                                      description: desc,
+                                      startDate:
+                                          startDate.millisecondsSinceEpoch,
                                       location: loc,
                                       type: widget.type,
                                     );
                                     showLoading();
-                                    presenter.addActivity(activities);
+                                    presenter.addActivity(
+                                        activities, widget.isParent);
                                   }
                                 });
                               },
@@ -779,43 +643,24 @@ class _AddActivityScreenState
     super.showMessage(message);
   }
 
+  List<Activites> subActivities = [];
+
   @override
   void getActivityDetails(Activites activities) {
     hideLoading();
     setState(() {
+      subActivities.clear();
+      subActivities.addAll(activities.subActivities);
       _titleController.text = activities.title;
       _descController.text = activities.description;
-      _travelController.text = activities.travel;
       _taskController.text = activities.task;
       //_type = activities.action_type;
       startDate = DateTime.fromMillisecondsSinceEpoch(activities.startDate);
-      _dateTxt = formatDate(startDate, [D, ', ', mm, '-', dd, '-', yy]) +
-          " at ${formatDate(startDate, [hh, ':', nn, am])}";
+      _dateTxt = formatDate(startDate, [D, ', ', mm, '-', dd, '-', yy]);
       _dateController.text = formatDate(startDate, [mm, '-', dd, '-', yy]);
-      selectedStartTime = TimeOfDay.fromDateTime(startDate);
       _timeController.text = formatDate(startDate, [hh, ':', nn, ' ', am]);
-      try {
-        if (activities.endDate != 0) {
-          endDate = DateTime.fromMillisecondsSinceEpoch(activities.endDate);
-          selectedEndTime = TimeOfDay.fromDateTime(endDate);
-          _dateEndController.text = activities.endDate != 0
-              ? formatDate(endDate, [mm, '-', dd, '-', yy])
-              : "";
-          _timeEndController.text = activities.endDate != 0
-              ? formatDate(endDate, [hh, ':', nn, ' ', am])
-              : "";
-          _dateEndTxt = activities.endDate != 0
-              ? formatDate(endDate, [D, ', ', mm, '-', dd, '-', yy])
-              : 0;
-          // " at ${formatDate(dateTime2, [hh, ':', nn, am])}";
-        } else {
-          _dateEndTxt = '0';
-        }
-      } catch (e) {
-        _dateEndTxt = "0";
-      }
       _locController.text = activities.location;
-//      _timeController.text = "at ${formatDate(dateTime, [hh, ':', nn, am])}";
+      //      _timeController.text = "at ${formatDate(dateTime, [hh, ':', nn, am])}";
       members.clear();
       // members.addAll(activities.bandmates);
     });
@@ -838,5 +683,21 @@ class _AddActivityScreenState
     setState(() {
       isEdit = !isEdit;
     });
+  }
+
+  @override
+  void onSubSuccess() {
+    hideLoading();
+    showMessage("Sub Task Added Successfully");
+    Navigator.of(context).pop();
+  }
+
+  void getData() {
+    if (widget.id.isNotEmpty && !widget.isParent) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showLoading();
+        presenter.getActivityDetails(widget.id);
+      });
+    }
   }
 }

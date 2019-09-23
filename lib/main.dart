@@ -91,15 +91,17 @@ class MyApp extends StatelessWidget implements AppListener {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return PrivacyScreen(this);
     }));
-    _router.define(Screens.ADDACTIVITY.toString() + "/:type/:id", handler:
-        Handler(
+    _router.define(Screens.ADDACTIVITY.toString() + "/:type/:id/:isParent",
+        handler: Handler(
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["id"][0];
       int type = int.parse(params["type"][0]);
+      bool isParent = params["isParent"][0] == '${true}';
       return AddActivityScreen(
         this,
         id: id,
         type: type,
+        isParent: isParent,
       );
     }));
     _router.define(Screens.ADDNOTE.toString() + "/:id/:isParent", handler:

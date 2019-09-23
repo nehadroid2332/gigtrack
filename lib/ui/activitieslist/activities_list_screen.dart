@@ -86,8 +86,10 @@ class _ActivitiesListScreenState
                     itemBuilder: (BuildContext context, int index) {
                       Activites ac = activities[index];
                       return buildActivityListItem(ac, onTap: () {
-                        widget.appListener.router.navigateTo(context,
-                            Screens.ADDACTIVITY.toString() + "/${ac.id}");
+                        widget.appListener.router.navigateTo(
+                            context,
+                            Screens.ADDACTIVITY.toString() +
+                                "/${ac.type}/${ac.id}/${false}");
                       });
                     },
                     itemCount: activities.length,
@@ -108,7 +110,7 @@ class _ActivitiesListScreenState
               await widget.appListener.router.navigateTo(
                   context,
                   Screens.ADDACTIVITY.toString() +
-                      "/${Activites.TYPE_ACTIVITY}/");
+                      "/${Activites.TYPE_ACTIVITY}//");
             },
           ),
           SpeedDialChild(
@@ -118,7 +120,7 @@ class _ActivitiesListScreenState
               await widget.appListener.router.navigateTo(
                   context,
                   Screens.ADDACTIVITY.toString() +
-                      "/${Activites.TYPE_PERFORMANCE_SCHEDULE}/");
+                      "/${Activites.TYPE_PERFORMANCE_SCHEDULE}//");
             },
           ),
           SpeedDialChild(
@@ -128,7 +130,7 @@ class _ActivitiesListScreenState
               await widget.appListener.router.navigateTo(
                   context,
                   Screens.ADDACTIVITY.toString() +
-                      "/${Activites.TYPE_PRACTICE_SCHEDULE}/");
+                      "/${Activites.TYPE_PRACTICE_SCHEDULE}//");
             },
           ),
           SpeedDialChild(
@@ -136,7 +138,7 @@ class _ActivitiesListScreenState
             child: Icon(Icons.add),
             onTap: () async {
               await widget.appListener.router.navigateTo(context,
-                  Screens.ADDACTIVITY.toString() + "/${Activites.TYPE_TASK}/");
+                  Screens.ADDACTIVITY.toString() + "/${Activites.TYPE_TASK}//");
             },
           )
         ],

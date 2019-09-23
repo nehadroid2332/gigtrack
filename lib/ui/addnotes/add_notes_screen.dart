@@ -434,7 +434,8 @@ class _AddNotesScreenState
                                   title: Text(notesTodo.note),
                                   subtitle: Text(notesTodo.description),
                                   leading: CircleAvatar(
-                                    backgroundColor:Color.fromRGBO(239, 181, 77, 1.0) ,
+                                      backgroundColor:
+                                          Color.fromRGBO(239, 181, 77, 1.0),
                                       radius: 35,
                                       child: Row(
                                         crossAxisAlignment:
@@ -470,7 +471,10 @@ class _AddNotesScreenState
                                           Align(
                                             alignment: Alignment.center,
                                             child: Text(
-                                              "${formatDate(dateTime, ["/",yy])}",
+                                              "${formatDate(dateTime, [
+                                                "/",
+                                                yy
+                                              ])}",
                                               textAlign: TextAlign.center,
                                               style: textTheme.caption.copyWith(
                                                   color: Colors.black87),
@@ -488,10 +492,7 @@ class _AddNotesScreenState
                           ? RaisedButton(
                               onPressed: () {
                                 String desc = _descController.text;
-                                String stDate = _startDateController.text;
-                                String stTime = _startTimeController.text;
                                 String endDate = _endDateController.text;
-                                String endTime = _endTimeController.text;
                                 String note = _noteController.text;
 
                                 setState(() {
@@ -502,18 +503,7 @@ class _AddNotesScreenState
                                   _endTimeError = null;
                                   if (desc.isEmpty) {
                                     _descError = "Cannot be Empty";
-                                  }
-                                  //                                  else if (stDate.isEmpty) {
-                                  //                                    _startDateError = "Cannot be Empty";
-                                  //                                  } else if (stTime.isEmpty) {
-                                  //                                    _startTimeError = "Cannot be Empty";
-                                  //                                  } else if (endDate.isEmpty) {
-                                  //                                    _endDateError = "Cannot be Empty";
-                                  //                                  } else if (endTime.isEmpty) {
-                                  //                                    _endTimeError = "Cannot be Empty";
-                                  else {
-                                    //                                    DateTime start = DateTime(
-                                    //        );
+                                  } else {
                                     DateTime end;
                                     if (endDate != null) {
                                       end = DateTime(
@@ -676,6 +666,7 @@ class _AddNotesScreenState
       });
     }
   }
+
   void _showDialogConfirm() {
     // flutter defined function
 
@@ -686,7 +677,7 @@ class _AddNotesScreenState
         return AlertDialog(
           contentPadding: EdgeInsets.all(15),
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           title: new Text(
             "Warning",
             textAlign: TextAlign.center,
@@ -711,12 +702,9 @@ class _AddNotesScreenState
                   showMessage("Id cannot be null");
                 } else {
                   presenter.notesDelete(widget.id);
-                  Navigator.of(context).popUntil(ModalRoute.withName(Screens.NOTETODOLIST.toString()));
+                  Navigator.of(context).popUntil(
+                      ModalRoute.withName(Screens.NOTETODOLIST.toString()));
                 }
-
-
-
-
               },
             ),
           ],

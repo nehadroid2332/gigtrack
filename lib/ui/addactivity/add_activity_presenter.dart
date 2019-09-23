@@ -10,6 +10,8 @@ abstract class AddActivityContract extends BaseContract {
   void onActivitySuccess();
 
   void onUpdate();
+
+  void onSubSuccess();
 }
 
 class AddActivityPresenter extends BasePresenter {
@@ -24,17 +26,33 @@ class AddActivityPresenter extends BasePresenter {
     }
   }
 
-  void addActivity(Activites activities) async {
+  void addActivity(Activites activities, bool isParent) async {
     activities.userId = serverAPI.currentUserId;
-    final res = await serverAPI.addActivities(activities);
-    if (res is bool) {
-      if (!res)
-        (view as AddActivityContract).onSuccess();
-      else {
-        (view as AddActivityContract).onUpdate();
+    if (isParent) {
+      final res1 = await serverAPI.getActivityDetails(activities.id);
+      if (res1 is Activites) {
+        res1.userId = serverAPI.currentUserId;
+        res1.subActivities.add(activities);
+        final res2 = await serverAPI.addActivities(res1);
+        if (res2 is bool) {
+          (view as AddActivityContract).onSubSuccess();
+        } else if (res2 is ErrorResponse) {
+          view.showMessage(res2.message);
+        }
+      } else if (res1 is ErrorResponse) {
+        view.showMessage(res1.message);
       }
-    } else if (res is ErrorResponse) {
-      view.showMessage(res.message);
+    } else {
+      final res = await serverAPI.addActivities(activities);
+      if (res is bool) {
+        if (!res)
+          (view as AddActivityContract).onSuccess();
+        else {
+          (view as AddActivityContract).onUpdate();
+        }
+      } else if (res is ErrorResponse) {
+        view.showMessage(res.message);
+      }
     }
   }
 
