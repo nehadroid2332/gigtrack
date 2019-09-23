@@ -1,9 +1,12 @@
 import 'package:gigtrack/base/base_model.dart';
 
 class Activites extends BaseModel {
+  static const TYPE_ACTIVITY = 0;
+  static const TYPE_PERFORMANCE_SCHEDULE = 1;
+  static const TYPE_PRACTICE_SCHEDULE = 2;
+  static const TYPE_TASK = 3;
+
   int type;
-  String band_id;
-  int action_type;
   String title;
   String description;
   int startDate;
@@ -22,8 +25,6 @@ class Activites extends BaseModel {
       this.type,
       this.id,
       this.endDate,
-      this.action_type,
-      this.band_id,
       this.title});
 
   Activites.fromJSON(dynamic data) {
@@ -32,8 +33,6 @@ class Activites extends BaseModel {
     startDate = data['start_date'];
     endDate = data['end_date'];
     location = data['location'];
-    band_id = data['band_id'];
-    action_type = data['action_type'];
     title = data['title'];
     travel = data['travel'];
     notes = data['notes'];
@@ -53,10 +52,8 @@ class Activites extends BaseModel {
     data['travel'] = travel ?? "";
     data['notes'] = notes ?? "";
     data['title'] = title ?? "";
-    data['action_type'] = action_type;
     data['id'] = id ?? "";
     data['user_id'] = userId;
-    data['band_id'] = band_id ?? "";
     return data;
   }
 }

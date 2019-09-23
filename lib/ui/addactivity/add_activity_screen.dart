@@ -13,8 +13,9 @@ import 'package:google_places_picker/google_places_picker.dart';
 
 class AddActivityScreen extends BaseScreen {
   final String id;
+  final int type;
 
-  AddActivityScreen(AppListener appListener, {this.id})
+  AddActivityScreen(AppListener appListener, {this.id, this.type = 0})
       : super(appListener, title: "");
 
   @override
@@ -51,10 +52,6 @@ class _AddActivityScreenState
 
   DateTime startDate, endDate;
   bool isVisible = false, isEdit = false;
-
-  int _userType = 0, _type = 0;
-
-  Band selectedBand;
 
   String _dateTxt = "", _dateEndTxt = "";
 
@@ -149,18 +146,6 @@ class _AddActivityScreenState
       });
   }
 
-  void _handleUserTypeValueChange(int value) {
-    setState(() {
-      _userType = value;
-    });
-  }
-
-  void _handleTypeValueChange(int value) {
-    setState(() {
-      _type = value;
-    });
-  }
-
   @override
   void initState() {
     super.initState();
@@ -235,157 +220,10 @@ class _AddActivityScreenState
                   child: ListView(
                     padding: EdgeInsets.all(20),
                     children: <Widget>[
-                      widget.id.isEmpty || isEdit
-                          ? Text(
-                              "Select one from each row:",
-                              style: textTheme.headline
-                                  .copyWith(color: Colors.grey, fontSize: 16),
-                            )
-                          : Container(),
-                      Padding(
-                        padding:
-                            EdgeInsets.all(widget.id.isEmpty || isEdit ? 0 : 0),
-                      ),
                       Padding(
                         padding:
                             EdgeInsets.all(widget.id.isEmpty || isEdit ? 8 : 0),
                       ),
-                      (_userType == 1 && (widget.id.isEmpty || isEdit))
-                          ? Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                              child: DropdownButton<Band>(
-                                items: bands.map((Band value) {
-                                  return new DropdownMenuItem<Band>(
-                                    value: value,
-                                    child: new Text(value.name),
-                                  );
-                                }).toList(),
-                                isExpanded: true,
-                                onChanged: (b) {
-                                  setState(() {
-                                    selectedBand = b;
-                                  });
-                                },
-                                value: selectedBand,
-                              ),
-                            )
-                          : Container(),
-                      Padding(
-                        padding:
-                            EdgeInsets.all(widget.id.isEmpty || isEdit ? 8 : 0),
-                      ),
-                      widget.id.isEmpty || isEdit
-                          ? Wrap(
-                              runSpacing: 14,
-                              children: <Widget>[
-                                InkWell(
-                                  onTap: widget.id.isEmpty || isEdit
-                                      ? () {
-                                          _handleTypeValueChange(0);
-                                        }
-                                      : null,
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: _type == 0
-                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-                                            : Color.fromRGBO(
-                                                244, 246, 248, 1.0),
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            color: _type == 0
-                                                ? Color.fromRGBO(
-                                                    70, 206, 172, 1.0)
-                                                : Color.fromRGBO(
-                                                    244, 246, 248, 1.0))),
-                                    child: Text(
-                                      'Schedule',
-                                      style: new TextStyle(
-                                        fontSize: 16.0,
-                                        color: _type == 0
-                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-                                            : Color.fromRGBO(
-                                                202, 208, 215, 1.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(8),
-                                ),
-                                InkWell(
-                                  onTap: widget.id.isEmpty || isEdit
-                                      ? () {
-                                          _handleTypeValueChange(1);
-                                        }
-                                      : null,
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: _type == 1
-                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-                                            : Color.fromRGBO(
-                                                244, 246, 248, 1.0),
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            color: _type == 1
-                                                ? Color.fromRGBO(
-                                                    70, 206, 172, 1.0)
-                                                : Color.fromRGBO(
-                                                    244, 246, 248, 1.0))),
-                                    child: Text(
-                                      'Activity',
-                                      style: new TextStyle(
-                                        fontSize: 16.0,
-                                        color: _type == 1
-                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-                                            : Color.fromRGBO(
-                                                202, 208, 215, 1.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(8),
-                                ),
-                                InkWell(
-                                  onTap: widget.id.isEmpty || isEdit
-                                      ? () {
-                                          _handleTypeValueChange(2);
-                                        }
-                                      : null,
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: _type == 2
-                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-                                            : Color.fromRGBO(
-                                                244, 246, 248, 1.0),
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            color: _type == 2
-                                                ? Color.fromRGBO(
-                                                    70, 206, 172, 1.0)
-                                                : Color.fromRGBO(
-                                                    244, 246, 248, 1.0))),
-                                    child: Text(
-                                      'Task',
-                                      style: new TextStyle(
-                                        fontSize: 16.0,
-                                        color: _type == 2
-                                            ? Color.fromRGBO(70, 206, 172, 1.0)
-                                            : Color.fromRGBO(
-                                                202, 208, 215, 1.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Container(),
                       (widget.id.isEmpty || isEdit)
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
@@ -514,7 +352,7 @@ class _AddActivityScreenState
 //                                    },
 //                                  ),
 //                                )
-                     //         : Container()
+                          //         : Container()
                         ],
                       ),
                       isVisible || widget.id.isNotEmpty
@@ -854,9 +692,7 @@ class _AddActivityScreenState
                                           ? end.millisecondsSinceEpoch
                                           : 0,
                                       location: loc,
-                                      band_id: selectedBand?.id ?? "",
-                                      type: _userType,
-                                      action_type: _type,
+                                      type: widget.type,
                                     );
                                     showLoading();
                                     presenter.addActivity(activities);
@@ -944,32 +780,14 @@ class _AddActivityScreenState
   }
 
   @override
-  void getBandSuccess(List<Band> bands) {
-    if (!mounted) return;
-    hideLoading();
-    setState(() {
-      this.bands.clear();
-      this.bands.addAll(bands);
-      if (band_id != null) {
-        bands.forEach((b) {
-          if (b.id == band_id) {
-            selectedBand = b;
-          }
-        });
-      }
-    });
-  }
-
-  @override
   void getActivityDetails(Activites activities) {
     hideLoading();
     setState(() {
       _titleController.text = activities.title;
       _descController.text = activities.description;
-      _userType = activities.type;
       _travelController.text = activities.travel;
       _taskController.text = activities.task;
-      _type = activities.action_type;
+      //_type = activities.action_type;
       startDate = DateTime.fromMillisecondsSinceEpoch(activities.startDate);
       _dateTxt = formatDate(startDate, [D, ', ', mm, '-', dd, '-', yy]) +
           " at ${formatDate(startDate, [hh, ':', nn, am])}";
@@ -1002,8 +820,6 @@ class _AddActivityScreenState
       // members.addAll(activities.bandmates);
     });
   }
-
-  String band_id;
 
   @override
   void onActivitySuccess() {

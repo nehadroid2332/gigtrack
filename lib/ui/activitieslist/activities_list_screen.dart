@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/activities.dart';
@@ -97,16 +98,48 @@ class _ActivitiesListScreenState
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await widget.appListener.router
-              .navigateTo(context, Screens.ADDACTIVITY.toString() + "/");
-        },
-        backgroundColor: Colors.white,
-        child: Icon(
-          Icons.add,
-          color: widget.appListener.primaryColorDark,
-        ),
+      floatingActionButton: SpeedDial(
+        animatedIcon: AnimatedIcons.menu_close,
+        children: [
+          SpeedDialChild(
+            label: "Activities",
+            child: Icon(Icons.add),
+            onTap: () async {
+              await widget.appListener.router.navigateTo(
+                  context,
+                  Screens.ADDACTIVITY.toString() +
+                      "/${Activites.TYPE_ACTIVITY}/");
+            },
+          ),
+          SpeedDialChild(
+            label: "Performance Schedule",
+            child: Icon(Icons.add),
+            onTap: () async {
+              await widget.appListener.router.navigateTo(
+                  context,
+                  Screens.ADDACTIVITY.toString() +
+                      "/${Activites.TYPE_PERFORMANCE_SCHEDULE}/");
+            },
+          ),
+          SpeedDialChild(
+            label: "Practice Schedule",
+            child: Icon(Icons.add),
+            onTap: () async {
+              await widget.appListener.router.navigateTo(
+                  context,
+                  Screens.ADDACTIVITY.toString() +
+                      "/${Activites.TYPE_PRACTICE_SCHEDULE}/");
+            },
+          ),
+          SpeedDialChild(
+            label: "Task",
+            child: Icon(Icons.add),
+            onTap: () async {
+              await widget.appListener.router.navigateTo(context,
+                  Screens.ADDACTIVITY.toString() + "/${Activites.TYPE_TASK}/");
+            },
+          )
+        ],
       ),
     );
   }
