@@ -10,7 +10,7 @@ import 'package:gigtrack/utils/common_app_utils.dart';
 
 class ActivitiesListScreen extends BaseScreen {
   ActivitiesListScreen(AppListener appListener)
-      : super(appListener, title: "Activities/Schedules");
+      : super(appListener, title: "Activities");
 
   @override
   _ActivitiesListScreenState createState() => _ActivitiesListScreenState();
@@ -66,7 +66,7 @@ class _ActivitiesListScreenState
                   padding: EdgeInsets.only(left: 15),
                 ),
                 Text(
-                  "Activities/Schedule",
+                  "Activities",
                   style: textTheme.display1.copyWith(
                       color: widget.appListener.primaryColorDark, fontSize: 28),
                 ),

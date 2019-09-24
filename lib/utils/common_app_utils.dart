@@ -179,7 +179,7 @@ Widget buildActivityListItem(Activites ac,
     {bool showConfirm = false, onConfirmPressed, onTap}) {
   DateTime dt = DateTime.fromMillisecondsSinceEpoch(ac.startDate);
   return Card(
-    color: Color.fromRGBO(239,181, 77, 1.0),
+    color: Color.fromRGBO(22,102,237, 1.0),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(12),
     ),

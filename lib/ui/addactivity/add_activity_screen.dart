@@ -88,7 +88,7 @@ class _AddActivityScreenState
               textColor: Colors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
-              color: Color.fromRGBO(235, 84, 99, 1.0),
+              color: Color.fromRGBO(22,102,237, 1.0),
               onPressed: () {
                 setState(() {
                   isVisible = true;
@@ -111,7 +111,7 @@ class _AddActivityScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(235, 84, 99, 1.0),
+        backgroundColor: Color.fromRGBO(22,102,237, 1.0),
         actions: <Widget>[
           widget.id.isEmpty || widget.isParent
               ? Container()
@@ -146,7 +146,7 @@ class _AddActivityScreenState
         ClipPath(
           clipper: RoundedClipper(height / 2.5),
           child: Container(
-            color: Color.fromRGBO(235, 84, 99, 1.0),
+            color: Color.fromRGBO(22,102,237, 1.0),
             height: height / 2.5,
           ),
         ),
@@ -563,7 +563,7 @@ class _AddActivityScreenState
                                   }
                                 });
                               },
-                              color: Color.fromRGBO(235, 84, 99, 1.0),
+                              color: Color.fromRGBO(22,102,237, 1.0),
                               child: Text("Submit"),
                               textColor: Colors.white,
                               shape: RoundedRectangleBorder(

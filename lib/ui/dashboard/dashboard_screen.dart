@@ -105,7 +105,7 @@ class _DashboardScreenState
               crossAxisCount: 2,
               childAspectRatio: 1.42,
               children: [
-                "Activities/Schedules",
+                "Activities",
                 "Band",
                 "Equipment",
                 "Playing Style",
@@ -118,7 +118,7 @@ class _DashboardScreenState
                   Color color = widget.appListener.primaryColor;
                   String image;
                   switch (txt) {
-                    case "Activities/Schedules":
+                    case "Activities":
                       color=Color.fromRGBO(22,102,237, 1.0);
                       //color = Color.fromRGBO(235, 84, 99, 1.0);
                       image = 'assets/images/activities.png';
@@ -134,7 +134,7 @@ class _DashboardScreenState
                       image = 'assets/images/band.png';
                       break;
                     case "Equipment":
-                      color=Color.fromRGBO(60, 111, 55, 1.0);
+                      color=Color.fromRGBO(124, 180, 97, 1.0);
                       //color = Color.fromRGBO(79, 73, 108, 1.0);
                       image = 'assets/images/equipment.png';
                       break;
@@ -201,7 +201,7 @@ class _DashboardScreenState
                       ),
                     ),
                     onTap: () {
-                      if (txt == "Activities/Schedules")
+                      if (txt == "Activities")
                         widget.appListener.router.navigateTo(
                             context, Screens.ACTIVITIESLIST.toString());
                       else if (txt == "Notes")
