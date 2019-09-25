@@ -205,6 +205,7 @@ class _AddNotesScreenState
                                   widget.isParent,
                               style: textTheme.title,
                               textCapitalization: TextCapitalization.sentences,
+                              maxLines: 3,
                               decoration: InputDecoration(
                                 labelText: widget.id.isEmpty ||
                                         isEdit ||

@@ -215,10 +215,9 @@ class _AddContactScreenState
             height: height / 2.5,
           ),
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(
+        Padding(padding: EdgeInsets.symmetric(
             horizontal: 25,
-            vertical: 20,
+            vertical: 0,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -230,14 +229,14 @@ class _AddContactScreenState
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.all(5),
               ),
               Expanded(
                 child: Card(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18)),
                   child: ListView(
-                    padding: EdgeInsets.all(30),
+                    padding: EdgeInsets.only(left: 10,right:20,top: 10,bottom: 15),
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.all(5),
@@ -292,7 +291,7 @@ class _AddContactScreenState
                           : Row(
                               children: <Widget>[
                                 Expanded(
-                                  flex: 2,
+                                  flex: 5,
                                   child: Text(
                                     "Name",
                                     textAlign: TextAlign.right,
@@ -302,6 +301,7 @@ class _AddContactScreenState
                                   ),
                                 ),
                                 Expanded(
+                                  flex: 1,
                                   child: Text(
                                     " - ",
                                     textAlign: TextAlign.center,
@@ -312,7 +312,7 @@ class _AddContactScreenState
                                     _nameController.text,
                                     textAlign: TextAlign.left,
                                   ),
-                                  flex: 2,
+                                  flex: 5,
                                 )
                               ],
                             ),
@@ -377,7 +377,7 @@ class _AddContactScreenState
                               : Row(
                                   children: <Widget>[
                                     Expanded(
-                                      flex: 2,
+                                      flex: 5,
                                       child: Text(
                                         "Relationship",
                                         textAlign: TextAlign.right,
@@ -387,6 +387,7 @@ class _AddContactScreenState
                                       ),
                                     ),
                                     Expanded(
+                                      flex: 1,
                                       child: Text(
                                         " - ",
                                         textAlign: TextAlign.center,
@@ -397,7 +398,7 @@ class _AddContactScreenState
                                         _relationshipController.text=="Other"? _otherRelationshipController.text:_relationshipController.text,
                                         textAlign: TextAlign.left,
                                       ),
-                                      flex: 2,
+                                      flex: 5,
                                     )
                                   ],
                                 ),
@@ -431,7 +432,7 @@ class _AddContactScreenState
                           : Row(
                               children: <Widget>[
                                 Expanded(
-                                  flex: 2,
+                                  flex: 5,
                                   child: Text(
                                     "Mobile/Text",
                                     textAlign: TextAlign.right,
@@ -441,6 +442,7 @@ class _AddContactScreenState
                                   ),
                                 ),
                                 Expanded(
+                                  flex: 1,
                                   child: Text(
                                     " - ",
                                     textAlign: TextAlign.center,
@@ -451,7 +453,7 @@ class _AddContactScreenState
                                     _textController.text,
                                     textAlign: TextAlign.left,
                                   ),
-                                  flex: 2,
+                                  flex: 5,
                                 )
                               ],
                             ),
@@ -504,7 +506,7 @@ class _AddContactScreenState
                               : Row(
                                   children: <Widget>[
                                     Expanded(
-                                      flex: 2,
+                                      flex: 5,
                                       child: Text(
                                         "Phone",
                                         textAlign: TextAlign.right,
@@ -514,6 +516,7 @@ class _AddContactScreenState
                                       ),
                                     ),
                                     Expanded(
+                                      flex: 1,
                                       child: Text(
                                         " - ",
                                         textAlign: TextAlign.center,
@@ -524,7 +527,7 @@ class _AddContactScreenState
                                         _phoneController.text,
                                         textAlign: TextAlign.left,
                                       ),
-                                      flex: 2,
+                                      flex: 5,
                                     )
                                   ],
                                 ),
@@ -555,7 +558,7 @@ class _AddContactScreenState
                           : Row(
                               children: <Widget>[
                                 Expanded(
-                                  flex: 2,
+                                  flex: 5,
                                   child: Text(
                                     "Email",
                                     textAlign: TextAlign.right,
@@ -565,6 +568,7 @@ class _AddContactScreenState
                                   ),
                                 ),
                                 Expanded(
+                                  flex: 1,
                                   child: Text(
                                     " - ",
                                     textAlign: TextAlign.center,
@@ -575,7 +579,7 @@ class _AddContactScreenState
                                     _emailController.text,
                                     textAlign: TextAlign.left,
                                   ),
-                                  flex: 2,
+                                  flex: 5,
                                 )
                               ],
                             ),
@@ -759,7 +763,7 @@ class _AddContactScreenState
                                   child: Row(
                                     children: <Widget>[
                                       Expanded(
-                                        flex: 2,
+                                        flex: 5,
                                         child: Text(
                                           data.type,
                                           textAlign: TextAlign.right,
@@ -769,6 +773,7 @@ class _AddContactScreenState
                                         ),
                                       ),
                                       Expanded(
+                                        flex: 1,
                                         child: Text(
                                           " - ",
                                           textAlign: TextAlign.center,
@@ -779,7 +784,7 @@ class _AddContactScreenState
                                           _dateToRememberDateController.text,
                                           textAlign: TextAlign.left,
                                         ),
-                                        flex: 2,
+                                        flex: 5,
                                       )
                                     ],
                                   ),
@@ -857,16 +862,18 @@ class _AddContactScreenState
                                     return Row(
                                       children: <Widget>[
                                         Expanded(
-                                          flex: 2,
+                                          flex: 5,
                                           child: Text(
                                             key,
                                             textAlign: TextAlign.right,
                                             style: textTheme.subtitle.copyWith(
                                               fontWeight: FontWeight.w600,
+
                                             ),
                                           ),
                                         ),
                                         Expanded(
+                                          flex:1,
                                           child: Text(
                                             " - ",
                                             textAlign: TextAlign.center,
@@ -877,7 +884,7 @@ class _AddContactScreenState
                                             value,
                                             textAlign: TextAlign.left,
                                           ),
-                                          flex: 2,
+                                          flex: 5,
                                         )
                                       ],
                                     );

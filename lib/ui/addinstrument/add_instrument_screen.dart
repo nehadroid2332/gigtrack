@@ -225,7 +225,7 @@ class _AddInstrumentScreenState
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),
                   child: ListView(
-                    padding: EdgeInsets.all(20),
+                    padding: EdgeInsets.only(left: 10,right: 10,top: 15,bottom: 15),
                     children: <Widget>[
                       (_userType == 1 && (widget.id.isEmpty || isEdit))
                           ? Padding(
@@ -274,7 +274,7 @@ class _AddInstrumentScreenState
                                   margin: EdgeInsets.only(left: 50, right: 50),
                                   height:
                                       MediaQuery.of(context).size.height / 2.4,
-                                  width: 60,
+                                  width: 90,
                                   child: Image.network(
                                     files[0],
                                     fit: BoxFit.cover,
@@ -286,7 +286,9 @@ class _AddInstrumentScreenState
                           : Text(
                               _instrumentNickNameController.text,
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 17),
+                        style: textTheme.subtitle.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                             ),
                       Padding(
                         padding: EdgeInsets.only(
@@ -315,7 +317,9 @@ class _AddInstrumentScreenState
                           : Text(
                               _instrumentNameController.text,
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 17),
+                        style: textTheme.subtitle.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                             ),
                       Padding(
                         padding: EdgeInsets.all(5),
@@ -391,27 +395,30 @@ class _AddInstrumentScreenState
                               : Row(
                                   children: <Widget>[
                                     Expanded(
-                                      flex: 4,
+                                      flex: 5,
                                       child: Text(
                                         "Vendor",
                                         textAlign: TextAlign.right,
-                                        style: TextStyle(fontSize: 17),
+                                        style: textTheme.subtitle.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                        ),
+
                                       ),
                                     ),
                                     Expanded(
                                       child: Text(
                                         " - ",
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(fontSize: 17),
+
                                       ),
                                       flex: 1,
                                     ),
                                     Expanded(
-                                      flex: 4,
+                                      flex: 5,
                                       child: Text(
                                         _wherePurchaseController.text,
                                         textAlign: TextAlign.left,
-                                        style: TextStyle(fontSize: 17),
+
                                       ),
                                     ),
                                   ],
@@ -529,8 +536,9 @@ class _AddInstrumentScreenState
                                                         "Purch date",
                                                         textAlign:
                                                             TextAlign.right,
-                                                        style: TextStyle(
-                                                            fontSize: 17),
+                                                        style: textTheme.subtitle.copyWith(
+                                                          fontWeight: FontWeight.w600,
+                                                        ),
                                                       ),
                                                     ),
                                                     Expanded(
@@ -550,8 +558,7 @@ class _AddInstrumentScreenState
                                                             .text,
                                                         textAlign:
                                                             TextAlign.left,
-                                                        style: TextStyle(
-                                                            fontSize: 17),
+
                                                       ),
                                                     ),
                                                   ],
@@ -589,27 +596,27 @@ class _AddInstrumentScreenState
                               : Row(
                                   children: <Widget>[
                                     Expanded(
-                                      flex: 4,
+                                      flex: 5,
                                       child: Text(
                                         "Cost",
                                         textAlign: TextAlign.right,
-                                        style: TextStyle(fontSize: 17),
+                                        style: textTheme.subtitle.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
                                     ),
                                     Expanded(
                                       child: Text(
                                         " - ",
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(fontSize: 17),
                                       ),
                                       flex: 1,
                                     ),
                                     Expanded(
-                                      flex: 4,
+                                      flex: 5,
                                       child: Text(
                                         "\$" + _costController.text,
                                         textAlign: TextAlign.left,
-                                        style: TextStyle(fontSize: 17),
                                       ),
                                     ),
                                   ],
@@ -647,27 +654,27 @@ class _AddInstrumentScreenState
                           : Row(
                               children: <Widget>[
                                 Expanded(
-                                  flex: 4,
+                                  flex: 5,
                                   child: Text(
                                     "SN#",
                                     textAlign: TextAlign.right,
-                                    style: TextStyle(fontSize: 17),
+                                    style: textTheme.subtitle.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ),
                                 Expanded(
                                   child: Text(
                                     " - ",
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 17),
                                   ),
                                   flex: 1,
                                 ),
                                 Expanded(
-                                  flex: 4,
+                                  flex: 5,
                                   child: Text(
                                     _serialNumberController.text,
                                     textAlign: TextAlign.left,
-                                    style: TextStyle(fontSize: 17),
                                   ),
                                 ),
                               ],
@@ -728,30 +735,27 @@ class _AddInstrumentScreenState
                                           : Row(
                                               children: <Widget>[
                                                 Expanded(
-                                                  flex: 4,
+                                                  flex: 5,
                                                   child: Text(
                                                     "Warranty",
                                                     textAlign: TextAlign.right,
-                                                    style:
-                                                        TextStyle(fontSize: 17),
+                                                    style: textTheme.subtitle.copyWith(
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
                                                   ),
                                                 ),
                                                 Expanded(
                                                   child: Text(
                                                     " - ",
                                                     textAlign: TextAlign.center,
-                                                    style:
-                                                        TextStyle(fontSize: 17),
                                                   ),
                                                   flex: 1,
                                                 ),
                                                 Expanded(
-                                                  flex: 4,
+                                                  flex: 5,
                                                   child: Text(
                                                     _warrantyController.text,
                                                     textAlign: TextAlign.left,
-                                                    style:
-                                                        TextStyle(fontSize: 17),
                                                   ),
                                                 ),
                                               ],
@@ -879,15 +883,15 @@ class _AddInstrumentScreenState
                                                       : Row(
                                                           children: <Widget>[
                                                             Expanded(
-                                                              flex: 4,
+                                                              flex: 5,
                                                               child: Text(
                                                                 "Warranty expires",
                                                                 textAlign:
                                                                     TextAlign
                                                                         .right,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        17),
+                                                                style: textTheme.subtitle.copyWith(
+                                                                  fontWeight: FontWeight.w600,
+                                                                ),
                                                               ),
                                                             ),
                                                             Expanded(
@@ -896,23 +900,17 @@ class _AddInstrumentScreenState
                                                                 textAlign:
                                                                     TextAlign
                                                                         .center,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        17),
                                                               ),
                                                               flex: 1,
                                                             ),
                                                             Expanded(
-                                                              flex: 4,
+                                                              flex: 5,
                                                               child: Text(
                                                                 _warrantyEndController
                                                                     .text,
                                                                 textAlign:
                                                                     TextAlign
                                                                         .left,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        17),
                                                               ),
                                                             ),
                                                           ],
@@ -980,27 +978,27 @@ class _AddInstrumentScreenState
                                   ? Row(
                                       children: <Widget>[
                                         Expanded(
-                                          flex: 4,
+                                          flex: 5,
                                           child: Text(
                                             "Insured with",
                                             textAlign: TextAlign.right,
-                                            style: TextStyle(fontSize: 17),
+                                            style: textTheme.subtitle.copyWith(
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                           ),
                                         ),
                                         Expanded(
                                           child: Text(
                                             " - ",
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(fontSize: 17),
                                           ),
                                           flex: 1,
                                         ),
                                         Expanded(
-                                          flex: 4,
+                                          flex: 5,
                                           child: Text(
                                             _insuredController.text,
                                             textAlign: TextAlign.left,
-                                            style: TextStyle(fontSize: 17),
                                           ),
                                         ),
                                       ],
@@ -1035,27 +1033,27 @@ class _AddInstrumentScreenState
                                   ? Row(
                                       children: <Widget>[
                                         Expanded(
-                                          flex: 4,
+                                          flex: 5,
                                           child: Text(
                                             "Policy #",
                                             textAlign: TextAlign.right,
-                                            style: TextStyle(fontSize: 17),
+                                            style: textTheme.subtitle.copyWith(
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                           ),
                                         ),
                                         Expanded(
                                           child: Text(
                                             " - ",
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(fontSize: 17),
                                           ),
                                           flex: 1,
                                         ),
                                         Expanded(
-                                          flex: 4,
+                                          flex: 5,
                                           child: Text(
                                             _policyController.text,
                                             textAlign: TextAlign.left,
-                                            style: TextStyle(fontSize: 17),
                                           ),
                                         ),
                                       ],

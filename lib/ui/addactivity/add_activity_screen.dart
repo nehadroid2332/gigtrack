@@ -128,12 +128,7 @@ class _AddActivityScreenState
               : IconButton(
                   icon: Icon(Icons.delete),
                   onPressed: () {
-                    if (widget.id == null || widget.id.isEmpty) {
-                      showMessage("Id cannot be null");
-                    } else {
-                      presenter.activityDelete(widget.id);
-                      Navigator.of(context).pop();
-                    }
+                    _showDialogConfirm();
                   },
                 )
         ],
@@ -174,6 +169,7 @@ class _AddActivityScreenState
                         padding:
                             EdgeInsets.all(widget.id.isEmpty || isEdit ? 8 : 0),
                       ),
+
                       (widget.id.isEmpty || isEdit || widget.isParent)
                           ? TextField(
                               enabled: widget.id.isEmpty ||
@@ -186,7 +182,7 @@ class _AddActivityScreenState
                                 labelText: widget.id.isEmpty ||
                                         isEdit ||
                                         widget.isParent
-                                    ? "Title"
+                                    ?(widget.type == Activites.TYPE_TASK&& widget.isParent && widget.id.isNotEmpty)?"Description": "Title"
                                     : "",
                                 labelStyle: textTheme.headline.copyWith(
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
@@ -339,6 +335,7 @@ class _AddActivityScreenState
                                 textAlign: TextAlign.center,
                               ),
                             ),
+                      (widget.type == Activites.TYPE_TASK&& widget.isParent && widget.id.isNotEmpty)?Container():
                       (widget.id.isEmpty || isEdit || widget.isParent)
                           ? TextField(
                               decoration: InputDecoration(
@@ -474,8 +471,10 @@ class _AddActivityScreenState
                                     DateTime.fromMillisecondsSinceEpoch(
                                         activity.startDate);
                                 return ListTile(
-                                  title: Text(activity.title),
-                                  subtitle: Text(activity.description),
+                                  title: Text(activity.title,style: TextStyle(
+                                    fontSize: 15
+                                  ),),
+                                  contentPadding: EdgeInsets.all(5),
                                   leading: CircleAvatar(
                                       backgroundColor:
                                           Color.fromRGBO(239, 181, 77, 1.0),
@@ -523,9 +522,14 @@ class _AddActivityScreenState
                                                   color: Colors.black87),
                                             ),
                                           )
+                                          
                                         ],
-                                      )),
+                                      ),
+                                    
+                                  ),
+                                  
                                 );
+                                
                               },
                             ),
                       Padding(
@@ -699,5 +703,53 @@ class _AddActivityScreenState
         presenter.getActivityDetails(widget.id);
       });
     }
+  }
+  void _showDialogConfirm() {
+    // flutter defined function
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          contentPadding: EdgeInsets.all(15),
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          title: new Text(
+            "Warning",
+            textAlign: TextAlign.center,
+          ),
+          content: Text("Are you sure you want to delete?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("No"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new RaisedButton(
+              child: new Text("Yes"),
+              textColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6)),
+              color: Color.fromRGBO(22,102,237, 1.0),
+              onPressed: () {
+                if (widget.id == null || widget.id.isEmpty) {
+                  showMessage("Id cannot be null");
+                } else {
+                  presenter.activityDelete(widget.id);
+                  Navigator.of(context).popUntil(ModalRoute.withName(Screens.ACTIVITIESLIST.toString()));
+                }
+
+
+
+
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

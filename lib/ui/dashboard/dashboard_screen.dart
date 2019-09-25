@@ -119,18 +119,19 @@ class _DashboardScreenState
                   String image;
                   switch (txt) {
                     case "Activities":
-                      color=Color.fromRGBO(22,102,237, 1.0);
+
+                      color= Color.fromRGBO(32, 95, 139, 1.0);
                       //color = Color.fromRGBO(235, 84, 99, 1.0);
                       image = 'assets/images/activities.png';
                       break;
                     case "Notes":
-                      color=Color.fromRGBO(239,181, 77, 1.0);
-                      //color = Color.fromRGBO(105, 114, 98, 1.0);
+                      //color=Color.fromRGBO(239,181, 77, 1.0);
+                      color=Color.fromRGBO(22,102,237, 1.0);
                       image = 'assets/images/activities.png';
                       break;
                     case "Band":
-                      color=Color.fromRGBO(214,22, 35, 1.0);
-                      //color = Color.fromRGBO(135, 67, 125, 1.0);
+                      //color=Color.fromRGBO(214,22, 35, 1.0);
+                      color = Color.fromRGBO(239,181, 77, 1.0);
                       image = 'assets/images/band.png';
                       break;
                     case "Equipment":
@@ -154,7 +155,7 @@ class _DashboardScreenState
                       image = 'assets/images/admin.png';
                       break;
                     case "Bulletin Board":
-                      color = Color.fromRGBO(32, 95, 139, 1.0);
+                      color =Color.fromRGBO(214,22, 35, 1.0);
                       image = 'assets/images/activities.png';
                       break;
                   }
