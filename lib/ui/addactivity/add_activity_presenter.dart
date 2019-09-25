@@ -72,4 +72,18 @@ class AddActivityPresenter extends BasePresenter {
   void activityDelete(String id) {
     serverAPI.deleteActivity(id);
   }
+
+  void updateTaskCompleteDate(String id) async {
+    final res1 = await serverAPI.getActivityDetails(id);
+    if (res1 is Activites) {
+      res1.userId = serverAPI.currentUserId;
+      res1.taskCompleteDate = DateTime.now().millisecondsSinceEpoch;
+      final res2 = await serverAPI.addActivities(res1);
+      if (res2 is bool) {
+        (view as AddActivityContract).onUpdate();
+      } else if (res2 is ErrorResponse) {
+        view.showMessage(res2.message);
+      }
+    }
+  }
 }

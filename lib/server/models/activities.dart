@@ -10,12 +10,17 @@ class Activites extends BaseModel {
   String title;
   String description;
   int startDate;
+  int taskCompleteDate;
   String location;
   String notes = "";
   String travel = "";
   String id;
   String task = "";
   String userId;
+  String wardrobe;
+  String parking;
+  String other;
+
   List<Activites> subActivities = [];
 
   Activites(
@@ -24,6 +29,10 @@ class Activites extends BaseModel {
       this.startDate,
       this.type,
       this.id,
+      this.wardrobe,
+      this.parking,
+      this.taskCompleteDate,
+      this.other,
       this.title});
 
   Activites.fromJSON(dynamic data) {
@@ -33,8 +42,12 @@ class Activites extends BaseModel {
     location = data['location'];
     title = data['title'];
     travel = data['travel'];
+    wardrobe = data['wardrobe'];
+    parking = data['parking'];
+    other = data['other'];
     notes = data['notes'];
     task = data['task'];
+    taskCompleteDate = data['taskCompleteDate'];
     id = data['id'];
     if (data['subActivities'] != null) {
       for (var item in data['subActivities']) {
@@ -55,8 +68,12 @@ class Activites extends BaseModel {
     data['notes'] = notes ?? "";
     data['title'] = title ?? "";
     data['id'] = id ?? "";
+    data['taskCompleteDate'] = taskCompleteDate;
+    data['parking'] = parking;
+    data['wardrobe'] = wardrobe;
+    data['other'] = other;
     data['user_id'] = userId;
-     List<dynamic> sb = [];
+    List<dynamic> sb = [];
     for (Activites item in subActivities) {
       sb.add(item.toMap());
     }

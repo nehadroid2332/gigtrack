@@ -32,6 +32,8 @@ class _AddActivityScreenState
       _timeController = TextEditingController(),
       _descController = TextEditingController(),
       _taskController = TextEditingController(),
+      _parkingController = TextEditingController(),
+      _otherController = TextEditingController(),
       _locController = TextEditingController();
   final List<Band> bands = [];
   final List<User> members = [];
@@ -42,6 +44,8 @@ class _AddActivityScreenState
   bool isVisible = false, isEdit = false;
 
   String _dateTxt = "";
+
+  int taskCompletionDate;
 
   Future<Null> _selectDate(BuildContext context, int type) async {
     final DateTime picked = await showDatePicker(
@@ -88,7 +92,7 @@ class _AddActivityScreenState
               textColor: Colors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
-              color: Color.fromRGBO(22,102,237, 1.0),
+              color: Color.fromRGBO(22, 102, 237, 1.0),
               onPressed: () {
                 setState(() {
                   isVisible = true;
@@ -111,7 +115,7 @@ class _AddActivityScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(22,102,237, 1.0),
+        backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
         actions: <Widget>[
           widget.id.isEmpty || widget.isParent
               ? Container()
@@ -141,7 +145,7 @@ class _AddActivityScreenState
         ClipPath(
           clipper: RoundedClipper(height / 2.5),
           child: Container(
-            color: Color.fromRGBO(22,102,237, 1.0),
+            color: Color.fromRGBO(22, 102, 237, 1.0),
             height: height / 2.5,
           ),
         ),
@@ -169,7 +173,6 @@ class _AddActivityScreenState
                         padding:
                             EdgeInsets.all(widget.id.isEmpty || isEdit ? 8 : 0),
                       ),
-
                       (widget.id.isEmpty || isEdit || widget.isParent)
                           ? TextField(
                               enabled: widget.id.isEmpty ||
@@ -182,7 +185,15 @@ class _AddActivityScreenState
                                 labelText: widget.id.isEmpty ||
                                         isEdit ||
                                         widget.isParent
-                                    ?(widget.type == Activites.TYPE_TASK&& widget.isParent && widget.id.isNotEmpty)?"Description": "Title"
+                                    ? (widget.type == Activites.TYPE_TASK &&
+                                            widget.isParent &&
+                                            widget.id.isNotEmpty)
+                                        ? "Description"
+                                        : widget.type ==
+                                                Activites
+                                                    .TYPE_PERFORMANCE_SCHEDULE
+                                            ? "Special Instruction Highlighted"
+                                            : "Title"
                                     : "",
                                 labelStyle: textTheme.headline.copyWith(
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
@@ -214,7 +225,9 @@ class _AddActivityScreenState
                               ),
                             ),
                       (widget.id.isEmpty || isEdit) &&
-                              (widget.type == Activites.TYPE_ACTIVITY)
+                              (widget.type == Activites.TYPE_ACTIVITY ||
+                                  widget.type ==
+                                      Activites.TYPE_PERFORMANCE_SCHEDULE)
                           ? InkWell(
                               child: AbsorbPointer(
                                 child: TextField(
@@ -245,7 +258,9 @@ class _AddActivityScreenState
                                   _selectDate(context, 1);
                               },
                             )
-                          : (widget.type == Activites.TYPE_ACTIVITY)
+                          : (widget.type == Activites.TYPE_ACTIVITY ||
+                                  widget.type ==
+                                      Activites.TYPE_PERFORMANCE_SCHEDULE)
                               ? Padding(
                                   padding: EdgeInsets.only(left: 5),
                                   child: Text(
@@ -258,7 +273,9 @@ class _AddActivityScreenState
                                 )
                               : Container(),
                       (widget.id.isEmpty || isEdit) &&
-                              widget.type == Activites.TYPE_ACTIVITY
+                              (widget.type == Activites.TYPE_ACTIVITY ||
+                                  widget.type ==
+                                      Activites.TYPE_PERFORMANCE_SCHEDULE)
                           ? InkWell(
                               onTap: () async {
                                 var place = await PluginGooglePlacePicker
@@ -291,7 +308,9 @@ class _AddActivityScreenState
                                 ),
                               ),
                             )
-                          : widget.type == Activites.TYPE_ACTIVITY
+                          : widget.type == Activites.TYPE_ACTIVITY ||
+                                  widget.type ==
+                                      Activites.TYPE_PERFORMANCE_SCHEDULE
                               ? Padding(
                                   padding: EdgeInsets.only(
                                     top: 10,
@@ -335,43 +354,61 @@ class _AddActivityScreenState
                                 textAlign: TextAlign.center,
                               ),
                             ),
-                      (widget.type == Activites.TYPE_TASK&& widget.isParent && widget.id.isNotEmpty)?Container():
-                      (widget.id.isEmpty || isEdit || widget.isParent)
-                          ? TextField(
-                              decoration: InputDecoration(
-                                labelText: widget.id.isEmpty ||
-                                        isEdit ||
-                                        widget.isParent
-                                    ? widget.type == Activites.TYPE_TASK
-                                        ? "Description"
-                                        : "Notes"
-                                    : "",
-                                labelStyle: TextStyle(
-                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                      (widget.type == Activites.TYPE_TASK &&
+                              widget.isParent &&
+                              widget.id.isNotEmpty)
+                          ? Container()
+                          : (widget.id.isEmpty || isEdit || widget.isParent)
+                              ? TextField(
+                                  decoration: InputDecoration(
+                                    labelText: widget.id.isEmpty ||
+                                            isEdit ||
+                                            widget.isParent
+                                        ? widget.type == Activites.TYPE_TASK
+                                            ? "Description"
+                                            : "Notes"
+                                        : "",
+                                    labelStyle: TextStyle(
+                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+                                    ),
+                                    errorText: _descError,
+                                    border: widget.id.isEmpty ||
+                                            isEdit ||
+                                            widget.isParent
+                                        ? null
+                                        : InputBorder.none,
+                                  ),
+                                  enabled: widget.id.isEmpty ||
+                                      isEdit ||
+                                      widget.isParent,
+                                  minLines: 2,
+                                  maxLines: 10,
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
+                                  style: textTheme.subhead.copyWith(
+                                    color: Colors.black,
+                                  ),
+                                  controller: _descController,
+                                )
+                              : Text(
+                                  _descController.text,
+                                  textAlign: TextAlign.center,
+                                  style: textTheme.subtitle,
                                 ),
-                                errorText: _descError,
-                                border: widget.id.isEmpty ||
-                                        isEdit ||
-                                        widget.isParent
-                                    ? null
-                                    : InputBorder.none,
-                              ),
-                              enabled: widget.id.isEmpty ||
-                                  isEdit ||
-                                  widget.isParent,
-                              minLines: 2,
-                              maxLines: 10,
-                              textCapitalization: TextCapitalization.sentences,
-                              style: textTheme.subhead.copyWith(
-                                color: Colors.black,
-                              ),
-                              controller: _descController,
+                      (widget.id.isEmpty || isEdit) &&
+                              widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE
+                          ? Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Text("Set-List"),
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.add),
+                                  onPressed: () {},
+                                )
+                              ],
                             )
-                          : Text(
-                              _descController.text,
-                              textAlign: TextAlign.center,
-                              style: textTheme.subtitle,
-                            ),
+                          : Container(),
                       widget.id.isEmpty || isEdit
                           ? Container()
                           : widget.type == Activites.TYPE_ACTIVITY
@@ -387,11 +424,17 @@ class _AddActivityScreenState
                                 )
                               : Container(),
                       (widget.id.isEmpty || isEdit) &&
-                              widget.type == Activites.TYPE_ACTIVITY
+                              (widget.type == Activites.TYPE_ACTIVITY ||
+                                  widget.type ==
+                                      Activites.TYPE_PERFORMANCE_SCHEDULE)
                           ? TextField(
                               decoration: InputDecoration(
-                                labelText:
-                                    widget.id.isEmpty || isEdit ? "Task" : "",
+                                labelText: widget.id.isEmpty || isEdit
+                                    ? widget.type ==
+                                            Activites.TYPE_PERFORMANCE_SCHEDULE
+                                        ? "Wardrobe"
+                                        : "Task"
+                                    : "",
                                 labelStyle: TextStyle(
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
                                 ),
@@ -407,24 +450,76 @@ class _AddActivityScreenState
                               ),
                               controller: _taskController,
                             )
-                          : widget.type == Activites.TYPE_ACTIVITY
+                          : widget.type == Activites.TYPE_ACTIVITY ||
+                                  widget.type ==
+                                      Activites.TYPE_PERFORMANCE_SCHEDULE
                               ? Text(
                                   _taskController.text,
                                   textAlign: TextAlign.center,
                                 )
                               : Container(),
-                      widget.id.isEmpty || isEdit
-                          ? Container()
-                          : widget.type == Activites.TYPE_ACTIVITY
-                              ? Padding(
-                                  padding: EdgeInsets.only(top: 14),
-                                  child: Text(
-                                    "Travel",
-                                    style: textTheme.subhead.copyWith(
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
+                      (widget.id.isEmpty || isEdit) &&
+                              (widget.type ==
+                                  Activites.TYPE_PERFORMANCE_SCHEDULE)
+                          ? TextField(
+                              decoration: InputDecoration(
+                                labelText: widget.id.isEmpty || isEdit
+                                    ? widget.type ==
+                                            Activites.TYPE_PERFORMANCE_SCHEDULE
+                                        ? "Parking"
+                                        : ""
+                                    : "",
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                errorText: _taskError,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
+                              ),
+                              enabled: false,
+                              textCapitalization: TextCapitalization.sentences,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              controller: _parkingController,
+                            )
+                          : widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE
+                              ? Text(
+                                  _parkingController.text,
+                                  textAlign: TextAlign.center,
+                                )
+                              : Container(),
+                      (widget.id.isEmpty || isEdit) &&
+                              (widget.type ==
+                                  Activites.TYPE_PERFORMANCE_SCHEDULE)
+                          ? TextField(
+                              decoration: InputDecoration(
+                                labelText: widget.id.isEmpty || isEdit
+                                    ? widget.type ==
+                                            Activites.TYPE_PERFORMANCE_SCHEDULE
+                                        ? "Other Instructions"
+                                        : ""
+                                    : "",
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                errorText: _taskError,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
+                              ),
+                              enabled: false,
+                              textCapitalization: TextCapitalization.sentences,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              controller: _otherController,
+                            )
+                          : widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE
+                              ? Text(
+                                  _otherController.text,
+                                  textAlign: TextAlign.center,
                                 )
                               : Container(),
                       widget.type == Activites.TYPE_TASK
@@ -453,12 +548,18 @@ class _AddActivityScreenState
                       widget.type == Activites.TYPE_TASK
                           ? widget.id.isEmpty || isEdit || widget.isParent
                               ? Container()
-                              : FlatButton(
-                                  textColor: Color.fromRGBO(235, 84, 99, 1.0),
-                                  child:
-                                      Text("Click here when task is completed"),
-                                  onPressed: () {},
-                                )
+                              : (taskCompletionDate ?? 0 == 0)
+                                  ? FlatButton(
+                                      textColor:
+                                          Color.fromRGBO(235, 84, 99, 1.0),
+                                      child: Text(
+                                          "Click here when task is completed"),
+                                      onPressed: () {
+                                        presenter
+                                            .updateTaskCompleteDate(widget.id);
+                                      },
+                                    )
+                                  : Container()
                           : Container(),
                       widget.id.isEmpty || isEdit || widget.isParent
                           ? Container()
@@ -471,65 +572,61 @@ class _AddActivityScreenState
                                     DateTime.fromMillisecondsSinceEpoch(
                                         activity.startDate);
                                 return ListTile(
-                                  title: Text(activity.title,style: TextStyle(
-                                    fontSize: 15
-                                  ),),
+                                  title: Text(
+                                    activity.title,
+                                    style: TextStyle(fontSize: 15),
+                                  ),
                                   contentPadding: EdgeInsets.all(5),
                                   leading: CircleAvatar(
-                                      backgroundColor:
-                                          Color.fromRGBO(239, 181, 77, 1.0),
-                                      radius: 35,
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              Text(
-                                                "${formatDate(dateTime, [dd])}",
-                                                textAlign: TextAlign.center,
-                                                style:
-                                                    textTheme.headline.copyWith(
-                                                  color: Colors.black,
-                                                  fontSize: 16,
-                                                ),
+                                    backgroundColor:
+                                        Color.fromRGBO(239, 181, 77, 1.0),
+                                    radius: 35,
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Text(
+                                              "${formatDate(dateTime, [dd])}",
+                                              textAlign: TextAlign.center,
+                                              style:
+                                                  textTheme.headline.copyWith(
+                                                color: Colors.black,
+                                                fontSize: 16,
                                               ),
-                                              Text(
-                                                "${formatDate(dateTime, [M])}",
-                                                textAlign: TextAlign.center,
-                                                style:
-                                                    textTheme.caption.copyWith(
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Align(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              "${formatDate(dateTime, [
-                                                "/",
-                                                yy
-                                              ])}",
+                                            ),
+                                            Text(
+                                              "${formatDate(dateTime, [M])}",
                                               textAlign: TextAlign.center,
                                               style: textTheme.caption.copyWith(
-                                                  color: Colors.black87),
+                                                color: Colors.black,
+                                              ),
                                             ),
-                                          )
-                                          
-                                        ],
-                                      ),
-                                    
+                                          ],
+                                        ),
+                                        Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "${formatDate(dateTime, [
+                                              "/",
+                                              yy
+                                            ])}",
+                                            textAlign: TextAlign.center,
+                                            style: textTheme.caption.copyWith(
+                                                color: Colors.black87),
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                  
                                 );
-                                
                               },
                             ),
                       Padding(
@@ -541,6 +638,9 @@ class _AddActivityScreenState
                                 String title = _titleController.text;
                                 String desc = _descController.text;
                                 String loc = _locController.text;
+                                String ward = _taskController.text;
+                                String park = _parkingController.text;
+                                String other = _otherController.text;
                                 setState(() {
                                   _titleError = null;
                                   _descError = null;
@@ -560,6 +660,9 @@ class _AddActivityScreenState
                                           startDate.millisecondsSinceEpoch,
                                       location: loc,
                                       type: widget.type,
+                                      parking: park,
+                                      wardrobe: ward,
+                                      other: other,
                                     );
                                     showLoading();
                                     presenter.addActivity(
@@ -567,7 +670,7 @@ class _AddActivityScreenState
                                   }
                                 });
                               },
-                              color: Color.fromRGBO(22,102,237, 1.0),
+                              color: Color.fromRGBO(22, 102, 237, 1.0),
                               child: Text("Submit"),
                               textColor: Colors.white,
                               shape: RoundedRectangleBorder(
@@ -653,6 +756,7 @@ class _AddActivityScreenState
   void getActivityDetails(Activites activities) {
     hideLoading();
     setState(() {
+      taskCompletionDate = activities.taskCompleteDate;
       subActivities.clear();
       subActivities.addAll(activities.subActivities);
       _titleController.text = activities.title;
@@ -664,6 +768,8 @@ class _AddActivityScreenState
       _dateController.text = formatDate(startDate, [mm, '-', dd, '-', yy]);
       _timeController.text = formatDate(startDate, [hh, ':', nn, ' ', am]);
       _locController.text = activities.location;
+      _parkingController.text = activities.parking;
+      _otherController.text = activities.other;
       //      _timeController.text = "at ${formatDate(dateTime, [hh, ':', nn, am])}";
       members.clear();
       // members.addAll(activities.bandmates);
@@ -687,6 +793,7 @@ class _AddActivityScreenState
     setState(() {
       isEdit = !isEdit;
     });
+    getData();
   }
 
   @override
@@ -704,6 +811,7 @@ class _AddActivityScreenState
       });
     }
   }
+
   void _showDialogConfirm() {
     // flutter defined function
 
@@ -714,7 +822,7 @@ class _AddActivityScreenState
         return AlertDialog(
           contentPadding: EdgeInsets.all(15),
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           title: new Text(
             "Warning",
             textAlign: TextAlign.center,
@@ -733,18 +841,15 @@ class _AddActivityScreenState
               textColor: Colors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
-              color: Color.fromRGBO(22,102,237, 1.0),
+              color: Color.fromRGBO(22, 102, 237, 1.0),
               onPressed: () {
                 if (widget.id == null || widget.id.isEmpty) {
                   showMessage("Id cannot be null");
                 } else {
                   presenter.activityDelete(widget.id);
-                  Navigator.of(context).popUntil(ModalRoute.withName(Screens.ACTIVITIESLIST.toString()));
+                  Navigator.of(context).popUntil(
+                      ModalRoute.withName(Screens.ACTIVITIESLIST.toString()));
                 }
-
-
-
-
               },
             ),
           ],
