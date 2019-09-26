@@ -752,7 +752,8 @@ class _AddActivityScreenState
                                       child: Text(
                                           "Click here when task is completed"),
                                       onPressed: () {
-                                        // presenter.updateTaskCompleteDate(widget.id);
+                                        presenter
+                                            .updateTaskCompleteDate(widget.id);
                                       },
                                     )
                                   : Text(
@@ -1000,7 +1001,7 @@ class _AddActivityScreenState
       _startTimeController.text = formatDate(startDate, [hh, ':', nn, ' ', am]);
 
       DateTime dateTime =
-          DateTime.fromMillisecondsSinceEpoch(activities.endDate);
+          DateTime.fromMillisecondsSinceEpoch(activities.endDate ?? 0);
       _endTimeController.text = formatDate(dateTime, [hh, ':', nn, ' ', am]);
 
       _locController.text = activities.location;
