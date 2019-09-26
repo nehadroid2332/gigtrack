@@ -64,17 +64,17 @@ class _AddNotesScreenState
   @override
   AppBar get appBar => AppBar(
         iconTheme: IconThemeData(
-          color: Colors.black, //change your color here
+          color: Colors.white, //change your color here
         ),
         elevation: 0,
-        backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
+        backgroundColor: Color.fromRGBO(22,102,237, 1.0),
         actions: <Widget>[
           widget.id.isEmpty || widget.isParent
               ? Container()
               : IconButton(
                   icon: Icon(
                     Icons.edit,
-                    color: Colors.black87,
+                    color: Colors.white,
                   ),
                   onPressed: () {
                     setState(() {
@@ -88,7 +88,7 @@ class _AddNotesScreenState
               : IconButton(
                   icon: Icon(
                     Icons.delete,
-                    color: Colors.black87,
+                    color: Colors.white,
                   ),
                   onPressed: () {
                     _showDialogConfirm();
@@ -104,7 +104,7 @@ class _AddNotesScreenState
         ClipPath(
           clipper: RoundedClipper(height / 2.5),
           child: Container(
-            color: Color.fromRGBO(239, 181, 77, 1.0),
+            color: Color.fromRGBO(22,102,237, 1.0),
             height: height / 2.5,
           ),
         ),
@@ -116,7 +116,7 @@ class _AddNotesScreenState
               Text(
                 "${widget.id.isEmpty ? "Add" : widget.isParent ? "Add Sub" : ""} Note",
                 style: textTheme.display2
-                    .copyWith(color: Colors.black87, fontSize: 30),
+                    .copyWith(color: Colors.white, fontSize: 30),
               ),
               Padding(
                 padding: EdgeInsets.all(10),
@@ -436,7 +436,7 @@ class _AddNotesScreenState
                                   subtitle: Text(notesTodo.description),
                                   leading: CircleAvatar(
                                       backgroundColor:
-                                          Color.fromRGBO(239, 181, 77, 1.0),
+                                      Color.fromRGBO(22,102,237, 1.0),
                                       radius: 35,
                                       child: Row(
                                         crossAxisAlignment:
@@ -455,7 +455,7 @@ class _AddNotesScreenState
                                                 textAlign: TextAlign.center,
                                                 style:
                                                     textTheme.headline.copyWith(
-                                                  color: Colors.black,
+                                                  color: Colors.white,
                                                   fontSize: 16,
                                                 ),
                                               ),
@@ -464,7 +464,7 @@ class _AddNotesScreenState
                                                 textAlign: TextAlign.center,
                                                 style:
                                                     textTheme.caption.copyWith(
-                                                  color: Colors.black,
+                                                  color: Colors.white,
                                                 ),
                                               ),
                                             ],
@@ -478,7 +478,7 @@ class _AddNotesScreenState
                                               ])}",
                                               textAlign: TextAlign.center,
                                               style: textTheme.caption.copyWith(
-                                                  color: Colors.black87),
+                                                  color: Colors.white),
                                             ),
                                           )
                                         ],
@@ -534,7 +534,7 @@ class _AddNotesScreenState
                                   }
                                 });
                               },
-                              color: Color.fromRGBO(239, 181, 77, 1.0),
+                              color: Color.fromRGBO(22,102,237, 1.0),
                               child: Text(
                                 "Submit",
                                 style: textTheme.headline.copyWith(

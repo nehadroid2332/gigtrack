@@ -164,8 +164,8 @@ class MyApp extends StatelessWidget implements AppListener {
     // }));
     initPrefs();
     PluginGooglePlacePicker.initialize(
-      androidApiKey: "AIzaSyDPmfMCWQcPRNZOcsGXszKGJMs11FbUxtc",
-      iosApiKey: "AIzaSyDPmfMCWQcPRNZOcsGXszKGJMs11FbUxtc",
+      androidApiKey: "AIzaSyB3Ux1Qpg9Ul1aA36g-fnQelUUT06qWJFI",
+      iosApiKey: "AIzaSyB3Ux1Qpg9Ul1aA36g-fnQelUUT06qWJFI",
     );
   }
   //AIzaSyCiapnChsL10zjA5956IlTgccaQE8mM5G0

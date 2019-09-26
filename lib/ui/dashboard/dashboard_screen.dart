@@ -145,7 +145,7 @@ class _DashboardScreenState
                       image = 'assets/images/playingstyle.png';
                       break;
                     case "Contacts":
-                      color= Color.fromRGBO(191,52,44, 1.0);
+                      color= Color.fromRGBO(80, 54, 116, 1.0);
                       //color = Color.fromRGBO(82, 149, 171, 1.0);
                       image = 'assets/images/contacts.png';
                       break;

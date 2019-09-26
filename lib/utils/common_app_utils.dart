@@ -179,7 +179,7 @@ Widget buildActivityListItem(Activites ac,
     {bool showConfirm = false, onConfirmPressed, onTap}) {
   DateTime dt = DateTime.fromMillisecondsSinceEpoch(ac.startDate);
   return Card(
-    color: Color.fromRGBO(22,102,237, 1.0),
+    color: Color.fromRGBO(32, 95, 139, 1.0),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(12),
     ),
@@ -187,21 +187,34 @@ Widget buildActivityListItem(Activites ac,
       child: Padding(
         padding: EdgeInsets.all(15),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Row(children: <Widget>[
-              Text(
-                "${formatDate(dt, [D, '-', mm, '/', dd, '/', yy, ' -'])}",
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Color.fromRGBO(250, 250, 250, 1.0),
-                ),
-              ),
+           Row(
+             mainAxisAlignment: MainAxisAlignment.center,
+             children: <Widget>[
+             Text(
+               "${formatDate(dt, [D, '-', mm, '/', dd, '/', yy, ' -'])}",
+               style: TextStyle(
+                 fontSize: 18,
+                 color: Color.fromRGBO(250, 250, 250, 1.0),
+               ),
+               textAlign: TextAlign.center,
+             ),
+             Text(
+               currentType(ac.type),
+               style: TextStyle(
+                 fontSize: 18,
+                 color: Color.fromRGBO(250, 250, 250, 1.0),
+               ),
+               textAlign: TextAlign.center,
+             ),
+             
+           ],),
+             
               Padding(
                 padding: EdgeInsets.all(5),
               ),
-              Expanded(
-                child: Text(
+              Text(
                   "${ac.title}",
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -209,9 +222,10 @@ Widget buildActivityListItem(Activites ac,
                     fontSize: 18,
                     color: Color.fromRGBO(250, 250, 250, 1.0),
                   ),
+                textAlign: TextAlign.center,
                 ),
-              ),
-            ]),
+              
+            
             showConfirm
                 ? Align(
                     alignment: Alignment.centerRight,
@@ -234,6 +248,18 @@ Widget buildActivityListItem(Activites ac,
   );
 }
 
+String currentType(int type) {
+  if(type==0){
+    return "Activity";
+  }else if(type==1){
+    return "Performance";
+  }else if(type==2){
+    return "Schedule";
+  }else if(type==3){
+    return "Task";
+  }
+}
+
 Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
 
   DateTime stDate = DateTime.fromMillisecondsSinceEpoch((not.start_date));
@@ -241,7 +267,7 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
 
   return Card(
     margin: EdgeInsets.all(10),
-    color: Color.fromRGBO(239,181, 77, 1.0),
+    color: Color.fromRGBO(22,102,237, 1.0),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(12),
     ),
@@ -256,7 +282,7 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20,
-                color: Colors.black,
+                color: Colors.white,
                 fontWeight: FontWeight.w700
               ),
             ),
@@ -266,7 +292,7 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.black,
+                color: Colors.white,
 
               ),
             ),

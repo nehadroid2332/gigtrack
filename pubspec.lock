@@ -42,7 +42,7 @@ packages:
       name: firebase_analytics
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.1"
+    version: "5.0.2"
   firebase_auth:
     dependency: "direct main"
     description:
@@ -101,7 +101,7 @@ packages:
       name: google_places_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.2+1"
+    version: "2.0.2+2"
   http:
     dependency: "direct main"
     description:

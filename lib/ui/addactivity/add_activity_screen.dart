@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:core';
+import 'dart:core';
 
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +36,8 @@ class _AddActivityScreenState
       _taskController = TextEditingController(),
       _parkingController = TextEditingController(),
       _otherController = TextEditingController(),
-      _locController = TextEditingController();
+      _locController = TextEditingController(),
+      _taskCompletion= TextEditingController();
   final List<Band> bands = [];
   final List<User> members = [];
 
@@ -45,7 +48,7 @@ class _AddActivityScreenState
 
   String _dateTxt = "";
 
-  int taskCompletionDate;
+  
 
   Future<Null> _selectDate(BuildContext context, int type) async {
     final DateTime picked = await showDatePicker(
@@ -58,7 +61,7 @@ class _AddActivityScreenState
         startDate = picked;
         startDate = picked;
         _dateController.text = formatDate(startDate, [mm, '-', dd, '-', yy]);
-        !isVisible ? _showDialog() : "";
+       // !isVisible ? _showDialog() : "";
       });
   }
 
@@ -115,7 +118,7 @@ class _AddActivityScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
+        backgroundColor:  Color.fromRGBO(32, 95, 139, 1.0),
         actions: <Widget>[
           widget.id.isEmpty || widget.isParent
               ? Container()
@@ -145,7 +148,7 @@ class _AddActivityScreenState
         ClipPath(
           clipper: RoundedClipper(height / 2.5),
           child: Container(
-            color: Color.fromRGBO(22, 102, 237, 1.0),
+            color:  Color.fromRGBO(32, 95, 139, 1.0),
             height: height / 2.5,
           ),
         ),
@@ -188,12 +191,13 @@ class _AddActivityScreenState
                                     ? (widget.type == Activites.TYPE_TASK &&
                                             widget.isParent &&
                                             widget.id.isNotEmpty)
-                                        ? "Description"
+                                        ? "Describe Task?"
                                         : widget.type ==
                                                 Activites
                                                     .TYPE_PERFORMANCE_SCHEDULE
-                                            ? "Special Instruction Highlighted"
-                                            : "Title"
+                                            ? "Special Event Instructions"
+                                            : (widget.type == Activites.TYPE_TASK) &&
+                                    (widget.id.isEmpty||widget.id.isNotEmpty)?"What is the Task":"Title"
                                     : "",
                                 labelStyle: textTheme.headline.copyWith(
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
@@ -207,7 +211,7 @@ class _AddActivityScreenState
                               ),
                               style:
                                   widget.id.isEmpty || isEdit || widget.isParent
-                                      ? textTheme.subhead.copyWith(
+                                      ? textTheme.subtitle.copyWith(
                                           color: Colors.black,
                                         )
                                       : textTheme.display1.copyWith(
@@ -365,7 +369,7 @@ class _AddActivityScreenState
                                             isEdit ||
                                             widget.isParent
                                         ? widget.type == Activites.TYPE_TASK
-                                            ? "Description"
+                                            ? "Describe Task?"
                                             : "Notes"
                                         : "",
                                     labelStyle: TextStyle(
@@ -411,11 +415,11 @@ class _AddActivityScreenState
                           : Container(),
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : widget.type == Activites.TYPE_ACTIVITY
+                          : (widget.type == Activites.TYPE_ACTIVITY||widget.type==Activites.TYPE_PERFORMANCE_SCHEDULE)
                               ? Padding(
                                   padding: EdgeInsets.only(top: 14),
                                   child: Text(
-                                    "Task",
+                                    (widget.type==Activites.TYPE_PERFORMANCE_SCHEDULE||widget.id.isNotEmpty)? "Wardrobe":"Task",
                                     style: textTheme.subhead.copyWith(
                                       fontWeight: FontWeight.w700,
                                     ),
@@ -443,7 +447,7 @@ class _AddActivityScreenState
                                     ? null
                                     : InputBorder.none,
                               ),
-                              enabled: false,
+                              enabled: true,
                               textCapitalization: TextCapitalization.sentences,
                               style: textTheme.subhead.copyWith(
                                 color: Colors.black,
@@ -458,6 +462,20 @@ class _AddActivityScreenState
                                   textAlign: TextAlign.center,
                                 )
                               : Container(),
+                      widget.id.isEmpty || isEdit
+                          ? Container()
+                          : (widget.type == Activites.TYPE_ACTIVITY||widget.type==Activites.TYPE_PERFORMANCE_SCHEDULE)
+                          ? Padding(
+                        padding: EdgeInsets.only(top: 14),
+                        child: Text(
+                          (widget.type==Activites.TYPE_PERFORMANCE_SCHEDULE||widget.id.isNotEmpty)? "Parking":"",
+                          style: textTheme.subhead.copyWith(
+                            fontWeight: FontWeight.w700,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                          : Container(),
                       (widget.id.isEmpty || isEdit) &&
                               (widget.type ==
                                   Activites.TYPE_PERFORMANCE_SCHEDULE)
@@ -477,7 +495,7 @@ class _AddActivityScreenState
                                     ? null
                                     : InputBorder.none,
                               ),
-                              enabled: false,
+                              enabled: true,
                               textCapitalization: TextCapitalization.sentences,
                               style: textTheme.subhead.copyWith(
                                 color: Colors.black,
@@ -490,6 +508,20 @@ class _AddActivityScreenState
                                   textAlign: TextAlign.center,
                                 )
                               : Container(),
+                      widget.id.isEmpty || isEdit
+                          ? Container()
+                          : (widget.type == Activites.TYPE_ACTIVITY||widget.type==Activites.TYPE_PERFORMANCE_SCHEDULE)
+                          ? Padding(
+                        padding: EdgeInsets.only(top: 14),
+                        child: Text(
+                          (widget.type==Activites.TYPE_PERFORMANCE_SCHEDULE||widget.id.isNotEmpty)? "Other Instructions":"",
+                          style: textTheme.subhead.copyWith(
+                            fontWeight: FontWeight.w700,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                          : Container(),
                       (widget.id.isEmpty || isEdit) &&
                               (widget.type ==
                                   Activites.TYPE_PERFORMANCE_SCHEDULE)
@@ -509,7 +541,7 @@ class _AddActivityScreenState
                                     ? null
                                     : InputBorder.none,
                               ),
-                              enabled: false,
+                              enabled: true,
                               textCapitalization: TextCapitalization.sentences,
                               style: textTheme.subhead.copyWith(
                                 color: Colors.black,
@@ -548,18 +580,20 @@ class _AddActivityScreenState
                       widget.type == Activites.TYPE_TASK
                           ? widget.id.isEmpty || isEdit || widget.isParent
                               ? Container()
-                              : (taskCompletionDate ?? 0 == 0)
+                              : _taskCompletion.text.isEmpty
                                   ? FlatButton(
                                       textColor:
                                           Color.fromRGBO(235, 84, 99, 1.0),
                                       child: Text(
                                           "Click here when task is completed"),
                                       onPressed: () {
-                                        presenter
-                                            .updateTaskCompleteDate(widget.id);
+                                       // presenter.updateTaskCompleteDate(widget.id);
                                       },
                                     )
-                                  : Container()
+                                  : Text(
+                        "Date of Completion - "+_taskCompletion.text,
+                        textAlign: TextAlign.center,
+                      )
                           : Container(),
                       widget.id.isEmpty || isEdit || widget.isParent
                           ? Container()
@@ -670,7 +704,7 @@ class _AddActivityScreenState
                                   }
                                 });
                               },
-                              color: Color.fromRGBO(22, 102, 237, 1.0),
+                              color:  Color.fromRGBO(32, 95, 139, 1.0),
                               child: Text("Submit"),
                               textColor: Colors.white,
                               shape: RoundedRectangleBorder(
@@ -756,12 +790,18 @@ class _AddActivityScreenState
   void getActivityDetails(Activites activities) {
     hideLoading();
     setState(() {
-      taskCompletionDate = activities.taskCompleteDate;
+      if(activities.taskCompleteDate!=null) {
+        DateTime completionDate = DateTime.fromMillisecondsSinceEpoch(
+            activities.taskCompleteDate);
+  
+        _taskCompletion.text =
+            formatDate(completionDate, [mm, '-', dd, '-', yy]);
+      }
       subActivities.clear();
       subActivities.addAll(activities.subActivities);
       _titleController.text = activities.title;
       _descController.text = activities.description;
-      _taskController.text = activities.task;
+      _taskController.text = activities.wardrobe;
       //_type = activities.action_type;
       startDate = DateTime.fromMillisecondsSinceEpoch(activities.startDate);
       _dateTxt = formatDate(startDate, [D, ', ', mm, '-', dd, '-', yy]);
@@ -841,7 +881,7 @@ class _AddActivityScreenState
               textColor: Colors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
-              color: Color.fromRGBO(22, 102, 237, 1.0),
+              color:  Color.fromRGBO(32, 95, 139, 1.0),
               onPressed: () {
                 if (widget.id == null || widget.id.isEmpty) {
                   showMessage("Id cannot be null");

@@ -102,10 +102,12 @@ class _ActivitiesListScreenState
       ),
       floatingActionButton: SpeedDial(
         animatedIcon: AnimatedIcons.menu_close,
+        backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
         children: [
           SpeedDialChild(
             label: "Activities",
             child: Icon(Icons.add),
+            backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
             onTap: () async {
               await widget.appListener.router.navigateTo(
                   context,
@@ -116,6 +118,7 @@ class _ActivitiesListScreenState
           SpeedDialChild(
             label: "Performance Schedule",
             child: Icon(Icons.add),
+            backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
             onTap: () async {
               await widget.appListener.router.navigateTo(
                   context,
@@ -125,6 +128,7 @@ class _ActivitiesListScreenState
           ),
           SpeedDialChild(
             label: "Practice Schedule",
+            backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
             child: Icon(Icons.add),
             onTap: () async {
               await widget.appListener.router.navigateTo(
@@ -136,6 +140,7 @@ class _ActivitiesListScreenState
           SpeedDialChild(
             label: "Task",
             child: Icon(Icons.add),
+            backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
             onTap: () async {
               await widget.appListener.router.navigateTo(context,
                   Screens.ADDACTIVITY.toString() + "/${Activites.TYPE_TASK}//");

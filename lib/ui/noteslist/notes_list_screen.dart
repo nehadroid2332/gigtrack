@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/notestodo.dart';
@@ -52,7 +53,7 @@ class _NotesListScreenState
             Text(
               "Notes",
               style: textTheme.display1.copyWith(
-                color: Color.fromRGBO(239,181, 77, 1.0),
+                color: Color.fromRGBO(22,102,237, 1.0),
                 fontSize: 28
               ),
             ),
@@ -83,14 +84,27 @@ class _NotesListScreenState
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await widget.appListener.router
-              .navigateTo(context, Screens.ADDNOTE.toString() + "//");
-        },
-        backgroundColor: Color.fromRGBO(239,181, 77, 1.0),
-        child: Icon(Icons.add,
-        color: Colors.black,),
+      floatingActionButton: SpeedDial(
+        animatedIcon: AnimatedIcons.menu_close,
+        backgroundColor: Color.fromRGBO(22,102,237, 1.0),
+        children: [
+          SpeedDialChild(
+            label: " Write your song Note",
+            child: Icon(Icons.add),
+            backgroundColor: Color.fromRGBO(22,102,237, 1.0),
+            onTap: () async {
+              await widget.appListener.router.navigateTo(context, Screens.ADDNOTE.toString() + "//");
+            },
+          ),
+          SpeedDialChild(
+            label: "Write your song idea",
+            child: Icon(Icons.add),
+            backgroundColor: Color.fromRGBO(22,102,237, 1.0),
+            onTap: () async {
+            
+            },
+          ),
+        ],
       ),
     );
   }
@@ -98,3 +112,13 @@ class _NotesListScreenState
   @override
   NotesListPresenter get presenter => NotesListPresenter(this);
 }
+
+//FloatingActionButton(
+//onPressed: () async {
+//await widget.appListener.router
+//    .navigateTo(context, Screens.ADDNOTE.toString() + "//");
+//},
+//backgroundColor: Color.fromRGBO(22,102,237, 1.0),
+//child: Icon(Icons.add,
+//color: Colors.white,),
+//),

@@ -38,6 +38,7 @@ class _AddContactScreenState
     "Other"
   ];
   final dateToRemember = [
+    "Select",
     "Anniversary",
     "Birthday",
     "Expiration",
@@ -84,6 +85,7 @@ class _AddContactScreenState
       _textController = TextEditingController(),
       _relationshipController = TextEditingController(),
       _otherRelationshipController = TextEditingController(),
+      _yearController= TextEditingController(),
       _emailController = TextEditingController();
   String _errorName, _errorPhone, _errorEmail, _errorText, _errorRelationship;
   bool isEdit = false;
@@ -91,7 +93,7 @@ class _AddContactScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-        backgroundColor:  Color.fromRGBO(191,52,44, 1.0),
+        backgroundColor:  Color.fromRGBO(80, 54, 116, 1.0),
         actions: <Widget>[
           widget.id.isEmpty
               ? Container()
@@ -211,7 +213,7 @@ class _AddContactScreenState
         ClipPath(
           clipper: RoundedClipper(height / 2.5),
           child: Container(
-            color:  Color.fromRGBO(191,52,44, 1.0),
+            color: Color.fromRGBO(80, 54, 116, 1.0),
             height: height / 2.5,
           ),
         ),
@@ -409,6 +411,7 @@ class _AddContactScreenState
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
                               controller: _textController,
+                              keyboardType: TextInputType.number,
                               textCapitalization: TextCapitalization.sentences,
                               style: textTheme.subhead.copyWith(
                                 color: Colors.black,
@@ -639,12 +642,14 @@ class _AddContactScreenState
                           }
 
                           _dateToRememberController.text = data.type;
+                          
                           _dateToRememberDateController.text = data.date != null
                               ? formatDate(
                                   DateTime.fromMillisecondsSinceEpoch(
                                       data.date ?? 0),
-                                  [mm, '-', dd, '-', yy])
+                                  [mm, '-', dd, ])
                               : "";
+                          _yearController.text=data.year!=null?data.year:"";
                           return widget.id.isEmpty || isEdit
                               ? Column(
                                   crossAxisAlignment:
@@ -696,29 +701,29 @@ class _AddContactScreenState
                                           )
                                         : Container(),
                                     widget.id.isEmpty || isEdit
-                                        ? GestureDetector(
+                                        ? Row(children: <Widget>[
+                                          Expanded(child: GestureDetector(
                                             onTap: () async {
                                               final DateTime picked =
-                                                  await showDatePicker(
-                                                      context: context,
-                                                      initialDate:
-                                                          DateTime.now(),
-                                                      firstDate:
-                                                          DateTime(2015, 8),
-                                                      lastDate: DateTime(2101));
+                                              await showDatePicker(
+                                                  context: context,
+                                                  initialDate:
+                                                  DateTime.now(),
+                                                  firstDate:
+                                                  DateTime(2015, 8),
+                                                  lastDate: DateTime(2101));
                                               if (picked != null)
                                                 setState(() {
                                                   data.date = picked
                                                       .millisecondsSinceEpoch;
                                                   _dateToRememberDateController
-                                                          .text =
+                                                      .text =
                                                       formatDate(picked, [
-                                                    mm,
-                                                    '-',
-                                                    dd,
-                                                    '-',
-                                                    yy
-                                                  ]);
+                                                        mm,
+                                                        '-',
+                                                        dd,
+                                                        
+                                                      ]);
                                                   _dateToRememberItems[index] =
                                                       data;
                                                 });
@@ -726,34 +731,69 @@ class _AddContactScreenState
                                             child: AbsorbPointer(
                                               child: TextField(
                                                 enabled:
-                                                    widget.id.isEmpty || isEdit,
+                                                widget.id.isEmpty || isEdit,
                                                 controller:
-                                                    _dateToRememberDateController,
+                                                _dateToRememberDateController,
                                                 textCapitalization:
-                                                    TextCapitalization
-                                                        .sentences,
+                                                TextCapitalization
+                                                    .sentences,
                                                 decoration: InputDecoration(
                                                   labelStyle: TextStyle(
                                                     color: Color.fromRGBO(
                                                         202, 208, 215, 1.0),
                                                   ),
                                                   labelText:
-                                                      widget.id.isEmpty ||
-                                                              isEdit
-                                                          ? "Date"
-                                                          : "",
+                                                  widget.id.isEmpty ||
+                                                      isEdit
+                                                      ? "Date"
+                                                      : "",
                                                   border: widget.id.isEmpty ||
-                                                          isEdit
+                                                      isEdit
                                                       ? null
                                                       : InputBorder.none,
                                                 ),
                                                 style:
-                                                    textTheme.subhead.copyWith(
+                                                textTheme.subhead.copyWith(
                                                   color: Colors.black,
                                                 ),
+                                                
                                               ),
                                             ),
-                                          )
+                                          ),flex: 3,),
+                                      Padding(padding: EdgeInsets.only(left: 10)),
+                                      Expanded(
+                                        
+                                        child: TextField(enabled: true,
+                                          controller: _yearController,
+                                          style: textTheme.subhead.copyWith(
+                                            color: Colors.black
+                                          ),
+                                          decoration: InputDecoration(
+                                            labelStyle: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  202, 208, 215, 1.0),
+                                            ),
+                                            labelText:
+                                            widget.id.isEmpty ||
+                                                isEdit
+                                                ? "Year(Optional)"
+                                                : "",
+                                            border: widget.id.isEmpty ||
+                                                isEdit
+                                                ? null
+                                                : InputBorder.none,
+                                          ),
+                                          keyboardType: TextInputType.number,
+                                          onChanged: (text) {
+                                            data.year= text;
+                                            _dateToRememberItems[index] =
+                                                data;
+                                          },
+                                        ),
+                                        flex: 2,
+                                      )
+                                      
+                                    ],)
                                         : Text(
                                             _dateToRememberDateController.text)
                                   ],
@@ -780,7 +820,10 @@ class _AddContactScreenState
                                         ),
                                       ),
                                       Expanded(
-                                        child: Text(
+                                        child: _yearController.text.isNotEmpty?Text(
+                                          _dateToRememberDateController.text+"-"+_yearController.text,
+                                          textAlign: TextAlign.left,
+                                        ):Text(
                                           _dateToRememberDateController.text,
                                           textAlign: TextAlign.left,
                                         ),
@@ -859,7 +902,7 @@ class _AddContactScreenState
                                     String key =
                                         selectedLikesMap.keys.elementAt(index);
                                     String value = selectedLikesMap[key];
-                                    return Row(
+                                    return value.isNotEmpty?Row(
                                       children: <Widget>[
                                         Expanded(
                                           flex: 5,
@@ -887,7 +930,7 @@ class _AddContactScreenState
                                           flex: 5,
                                         )
                                       ],
-                                    );
+                                    ):Container();
                                   },
                                 )
                               : Container(),
@@ -1033,7 +1076,7 @@ class _AddContactScreenState
                       ),
                       widget.id.isEmpty || isEdit
                           ? RaisedButton(
-                              color: Color.fromRGBO(191,52,44, 1.0),
+                              color: Color.fromRGBO(80, 54, 116, 1.0),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(18)),
                               textColor: Colors.white,
@@ -1274,13 +1317,15 @@ class _AddContactScreenState
 }
 
 class DateToRememberData {
-  String type = "Anniversary";
+  String type = "Select";
   int date;
+  String year;
 
   Map<String, dynamic> toMap() {
     Map<String, dynamic> data = Map();
     data['type'] = type;
     data['date'] = date;
+    data['year']= year;
     return data;
   }
 
@@ -1289,5 +1334,6 @@ class DateToRememberData {
   DateToRememberData.fromJSON(item) {
     type = item['type'];
     date = item['date'];
+    year=item['year'];
   }
 }
