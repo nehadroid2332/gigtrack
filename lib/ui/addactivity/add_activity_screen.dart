@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:core';
-import 'dart:core';
 
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
@@ -37,18 +36,28 @@ class _AddActivityScreenState
       _parkingController = TextEditingController(),
       _otherController = TextEditingController(),
       _locController = TextEditingController(),
-      _taskCompletion= TextEditingController();
+      _startTimeController = TextEditingController(),
+      _endTimeController = TextEditingController(),
+      _taskCompletion = TextEditingController();
   final List<Band> bands = [];
   final List<User> members = [];
 
-  String _titleError, _dateError, _descError, _locError, _taskError;
+  String _titleError,
+      _dateError,
+      _descError,
+      _locError,
+      _taskError,
+      _startTimeError,
+      _endTimeError;
 
   DateTime startDate = DateTime.now();
+  TimeOfDay startTime = TimeOfDay.now();
+  TimeOfDay endTime = TimeOfDay.now();
   bool isVisible = false, isEdit = false;
 
   String _dateTxt = "";
 
-  
+  bool isRecurring = false;
 
   Future<Null> _selectDate(BuildContext context, int type) async {
     final DateTime picked = await showDatePicker(
@@ -61,8 +70,27 @@ class _AddActivityScreenState
         startDate = picked;
         startDate = picked;
         _dateController.text = formatDate(startDate, [mm, '-', dd, '-', yy]);
-       // !isVisible ? _showDialog() : "";
+        // !isVisible ? _showDialog() : "";
       });
+  }
+
+  void selectTime(bool isStart) async {
+    final TimeOfDay picked = await showTimePicker(
+      context: context,
+      initialTime: isStart ? startTime : endTime,
+    );
+    if (picked != null) {
+      DateTime dateTime = DateTime(startDate.year, startDate.month,
+          startDate.day, picked.hour, picked.minute);
+      if (isStart) {
+        startTime = picked;
+        _startTimeController.text =
+            formatDate(dateTime, [hh, ':', nn, ' ', am]);
+      } else {
+        endTime = picked;
+        _endTimeController.text = formatDate(dateTime, [hh, ':', nn, ' ', am]);
+      }
+    }
   }
 
   // user defined function
@@ -118,7 +146,7 @@ class _AddActivityScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-        backgroundColor:  Color.fromRGBO(32, 95, 139, 1.0),
+        backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
         actions: <Widget>[
           widget.id.isEmpty || widget.isParent
               ? Container()
@@ -148,7 +176,7 @@ class _AddActivityScreenState
         ClipPath(
           clipper: RoundedClipper(height / 2.5),
           child: Container(
-            color:  Color.fromRGBO(32, 95, 139, 1.0),
+            color: Color.fromRGBO(32, 95, 139, 1.0),
             height: height / 2.5,
           ),
         ),
@@ -196,8 +224,12 @@ class _AddActivityScreenState
                                                 Activites
                                                     .TYPE_PERFORMANCE_SCHEDULE
                                             ? "Special Event Instructions"
-                                            : (widget.type == Activites.TYPE_TASK) &&
-                                    (widget.id.isEmpty||widget.id.isNotEmpty)?"What is the Task":"Title"
+                                            : (widget.type ==
+                                                        Activites.TYPE_TASK) &&
+                                                    (widget.id.isEmpty ||
+                                                        widget.id.isNotEmpty)
+                                                ? "What is the Task"
+                                                : "Title"
                                     : "",
                                 labelStyle: textTheme.headline.copyWith(
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
@@ -231,7 +263,9 @@ class _AddActivityScreenState
                       (widget.id.isEmpty || isEdit) &&
                               (widget.type == Activites.TYPE_ACTIVITY ||
                                   widget.type ==
-                                      Activites.TYPE_PERFORMANCE_SCHEDULE)
+                                      Activites.TYPE_PERFORMANCE_SCHEDULE ||
+                                  widget.type ==
+                                      Activites.TYPE_PRACTICE_SCHEDULE)
                           ? InkWell(
                               child: AbsorbPointer(
                                 child: TextField(
@@ -241,7 +275,10 @@ class _AddActivityScreenState
                                   textAlignVertical: TextAlignVertical.center,
                                   decoration: InputDecoration(
                                     labelText: widget.id.isEmpty || isEdit
-                                        ? "Start Date"
+                                        ? widget.type ==
+                                                Activites.TYPE_PRACTICE_SCHEDULE
+                                            ? "Date"
+                                            : "Start Date"
                                         : "",
                                     labelStyle: TextStyle(
                                       color: Color.fromRGBO(202, 208, 215, 1.0),
@@ -276,10 +313,112 @@ class _AddActivityScreenState
                                   ),
                                 )
                               : Container(),
+                      widget.type == Activites.TYPE_PRACTICE_SCHEDULE
+                          ? Row(
+                              children: <Widget>[
+                                (widget.id.isEmpty || isEdit)
+                                    ? Expanded(
+                                        child: InkWell(
+                                          onTap: () {
+                                            selectTime(true);
+                                          },
+                                          child: AbsorbPointer(
+                                            child: TextField(
+                                              enabled:
+                                                  widget.id.isEmpty || isEdit,
+                                              textCapitalization:
+                                                  TextCapitalization.sentences,
+                                              textAlignVertical:
+                                                  TextAlignVertical.center,
+                                              decoration: InputDecoration(
+                                                labelText:
+                                                    widget.id.isEmpty || isEdit
+                                                        ? "Start Time"
+                                                        : "",
+                                                labelStyle: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      202, 208, 215, 1.0),
+                                                ),
+                                                errorText: _startTimeError,
+                                                border:
+                                                    widget.id.isEmpty || isEdit
+                                                        ? null
+                                                        : InputBorder.none,
+                                              ),
+                                              controller: _startTimeController,
+                                              style: textTheme.subhead.copyWith(
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : Text(_startTimeController.text),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 10),
+                                ),
+                                (widget.id.isEmpty || isEdit)
+                                    ? Expanded(
+                                        child: InkWell(
+                                          child: AbsorbPointer(
+                                            child: TextField(
+                                              enabled:
+                                                  widget.id.isEmpty || isEdit,
+                                              textCapitalization:
+                                                  TextCapitalization.sentences,
+                                              textAlignVertical:
+                                                  TextAlignVertical.center,
+                                              decoration: InputDecoration(
+                                                labelText:
+                                                    widget.id.isEmpty || isEdit
+                                                        ? "End Time"
+                                                        : "",
+                                                labelStyle: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      202, 208, 215, 1.0),
+                                                ),
+                                                errorText: _endTimeError,
+                                                border:
+                                                    widget.id.isEmpty || isEdit
+                                                        ? null
+                                                        : InputBorder.none,
+                                              ),
+                                              controller: _endTimeController,
+                                              style: textTheme.subhead.copyWith(
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                          onTap: () {
+                                            selectTime(false);
+                                          },
+                                        ),
+                                      )
+                                    : Text(_endTimeController.text)
+                              ],
+                            )
+                          : Container(),
+                      widget.type == Activites.TYPE_PRACTICE_SCHEDULE
+                          ? Row(
+                              children: <Widget>[
+                                Checkbox(
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      isRecurring = value;
+                                    });
+                                  },
+                                  value: isRecurring,
+                                ),
+                                Text("Recurring same day of week and time")
+                              ],
+                            )
+                          : Container(),
                       (widget.id.isEmpty || isEdit) &&
                               (widget.type == Activites.TYPE_ACTIVITY ||
                                   widget.type ==
-                                      Activites.TYPE_PERFORMANCE_SCHEDULE)
+                                      Activites.TYPE_PERFORMANCE_SCHEDULE ||
+                                  widget.type ==
+                                      Activites.TYPE_PRACTICE_SCHEDULE)
                           ? InkWell(
                               onTap: () async {
                                 var place = await PluginGooglePlacePicker
@@ -314,7 +453,9 @@ class _AddActivityScreenState
                             )
                           : widget.type == Activites.TYPE_ACTIVITY ||
                                   widget.type ==
-                                      Activites.TYPE_PERFORMANCE_SCHEDULE
+                                      Activites.TYPE_PERFORMANCE_SCHEDULE ||
+                                  widget.type ==
+                                      Activites.TYPE_PRACTICE_SCHEDULE
                               ? Padding(
                                   padding: EdgeInsets.only(
                                     top: 10,
@@ -400,7 +541,10 @@ class _AddActivityScreenState
                                   style: textTheme.subtitle,
                                 ),
                       (widget.id.isEmpty || isEdit) &&
-                              widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE
+                              (widget.type ==
+                                      Activites.TYPE_PERFORMANCE_SCHEDULE ||
+                                  widget.type ==
+                                      Activites.TYPE_PRACTICE_SCHEDULE)
                           ? Row(
                               children: <Widget>[
                                 Expanded(
@@ -415,11 +559,18 @@ class _AddActivityScreenState
                           : Container(),
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : (widget.type == Activites.TYPE_ACTIVITY||widget.type==Activites.TYPE_PERFORMANCE_SCHEDULE)
+                          : (widget.type == Activites.TYPE_ACTIVITY ||
+                                  widget.type ==
+                                      Activites.TYPE_PERFORMANCE_SCHEDULE)
                               ? Padding(
                                   padding: EdgeInsets.only(top: 14),
                                   child: Text(
-                                    (widget.type==Activites.TYPE_PERFORMANCE_SCHEDULE||widget.id.isNotEmpty)? "Wardrobe":"Task",
+                                    (widget.type ==
+                                                Activites
+                                                    .TYPE_PERFORMANCE_SCHEDULE ||
+                                            widget.id.isNotEmpty)
+                                        ? "Wardrobe"
+                                        : "Task",
                                     style: textTheme.subhead.copyWith(
                                       fontWeight: FontWeight.w700,
                                     ),
@@ -464,18 +615,25 @@ class _AddActivityScreenState
                               : Container(),
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : (widget.type == Activites.TYPE_ACTIVITY||widget.type==Activites.TYPE_PERFORMANCE_SCHEDULE)
-                          ? Padding(
-                        padding: EdgeInsets.only(top: 14),
-                        child: Text(
-                          (widget.type==Activites.TYPE_PERFORMANCE_SCHEDULE||widget.id.isNotEmpty)? "Parking":"",
-                          style: textTheme.subhead.copyWith(
-                            fontWeight: FontWeight.w700,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      )
-                          : Container(),
+                          : (widget.type == Activites.TYPE_ACTIVITY ||
+                                  widget.type ==
+                                      Activites.TYPE_PERFORMANCE_SCHEDULE)
+                              ? Padding(
+                                  padding: EdgeInsets.only(top: 14),
+                                  child: Text(
+                                    (widget.type ==
+                                                Activites
+                                                    .TYPE_PERFORMANCE_SCHEDULE ||
+                                            widget.id.isNotEmpty)
+                                        ? "Parking"
+                                        : "",
+                                    style: textTheme.subhead.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                )
+                              : Container(),
                       (widget.id.isEmpty || isEdit) &&
                               (widget.type ==
                                   Activites.TYPE_PERFORMANCE_SCHEDULE)
@@ -510,18 +668,25 @@ class _AddActivityScreenState
                               : Container(),
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : (widget.type == Activites.TYPE_ACTIVITY||widget.type==Activites.TYPE_PERFORMANCE_SCHEDULE)
-                          ? Padding(
-                        padding: EdgeInsets.only(top: 14),
-                        child: Text(
-                          (widget.type==Activites.TYPE_PERFORMANCE_SCHEDULE||widget.id.isNotEmpty)? "Other Instructions":"",
-                          style: textTheme.subhead.copyWith(
-                            fontWeight: FontWeight.w700,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      )
-                          : Container(),
+                          : (widget.type == Activites.TYPE_ACTIVITY ||
+                                  widget.type ==
+                                      Activites.TYPE_PERFORMANCE_SCHEDULE)
+                              ? Padding(
+                                  padding: EdgeInsets.only(top: 14),
+                                  child: Text(
+                                    (widget.type ==
+                                                Activites
+                                                    .TYPE_PERFORMANCE_SCHEDULE ||
+                                            widget.id.isNotEmpty)
+                                        ? "Other Instructions"
+                                        : "",
+                                    style: textTheme.subhead.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                )
+                              : Container(),
                       (widget.id.isEmpty || isEdit) &&
                               (widget.type ==
                                   Activites.TYPE_PERFORMANCE_SCHEDULE)
@@ -587,13 +752,14 @@ class _AddActivityScreenState
                                       child: Text(
                                           "Click here when task is completed"),
                                       onPressed: () {
-                                       // presenter.updateTaskCompleteDate(widget.id);
+                                        // presenter.updateTaskCompleteDate(widget.id);
                                       },
                                     )
                                   : Text(
-                        "Date of Completion - "+_taskCompletion.text,
-                        textAlign: TextAlign.center,
-                      )
+                                      "Date of Completion - " +
+                                          _taskCompletion.text,
+                                      textAlign: TextAlign.center,
+                                    )
                           : Container(),
                       widget.id.isEmpty || isEdit || widget.isParent
                           ? Container()
@@ -686,12 +852,37 @@ class _AddActivityScreenState
                                       widget.type == Activites.TYPE_ACTIVITY) {
                                     _locError = "Cannot be Empty";
                                   } else {
+                                    DateTime dateTime, dateTime2;
+                                    if (widget.type ==
+                                        Activites.TYPE_PRACTICE_SCHEDULE) {
+                                      dateTime = DateTime(
+                                          startDate.year,
+                                          startDate.month,
+                                          startDate.day,
+                                          startTime.hour,
+                                          startTime.minute);
+                                      dateTime2 = DateTime(
+                                          startDate.year,
+                                          startDate.month,
+                                          startDate.day,
+                                          endTime.hour,
+                                          endTime.minute);
+                                    }
                                     Activites activities = Activites(
                                       title: title,
                                       id: widget.id,
                                       description: desc,
-                                      startDate:
-                                          startDate.millisecondsSinceEpoch,
+                                      isRecurring: isRecurring,
+                                      startDate: widget.type ==
+                                              Activites.TYPE_PRACTICE_SCHEDULE
+                                          ? dateTime?.millisecondsSinceEpoch ??
+                                              0
+                                          : startDate.millisecondsSinceEpoch,
+                                      endDate: widget.type ==
+                                              Activites.TYPE_PRACTICE_SCHEDULE
+                                          ? dateTime2?.millisecondsSinceEpoch ??
+                                              0
+                                          : 0,
                                       location: loc,
                                       type: widget.type,
                                       parking: park,
@@ -704,7 +895,7 @@ class _AddActivityScreenState
                                   }
                                 });
                               },
-                              color:  Color.fromRGBO(32, 95, 139, 1.0),
+                              color: Color.fromRGBO(32, 95, 139, 1.0),
                               child: Text("Submit"),
                               textColor: Colors.white,
                               shape: RoundedRectangleBorder(
@@ -790,10 +981,10 @@ class _AddActivityScreenState
   void getActivityDetails(Activites activities) {
     hideLoading();
     setState(() {
-      if(activities.taskCompleteDate!=null) {
-        DateTime completionDate = DateTime.fromMillisecondsSinceEpoch(
-            activities.taskCompleteDate);
-  
+      if (activities.taskCompleteDate != null) {
+        DateTime completionDate =
+            DateTime.fromMillisecondsSinceEpoch(activities.taskCompleteDate);
+
         _taskCompletion.text =
             formatDate(completionDate, [mm, '-', dd, '-', yy]);
       }
@@ -806,7 +997,12 @@ class _AddActivityScreenState
       startDate = DateTime.fromMillisecondsSinceEpoch(activities.startDate);
       _dateTxt = formatDate(startDate, [D, ', ', mm, '-', dd, '-', yy]);
       _dateController.text = formatDate(startDate, [mm, '-', dd, '-', yy]);
-      _timeController.text = formatDate(startDate, [hh, ':', nn, ' ', am]);
+      _startTimeController.text = formatDate(startDate, [hh, ':', nn, ' ', am]);
+
+      DateTime dateTime =
+          DateTime.fromMillisecondsSinceEpoch(activities.endDate);
+      _endTimeController.text = formatDate(dateTime, [hh, ':', nn, ' ', am]);
+
       _locController.text = activities.location;
       _parkingController.text = activities.parking;
       _otherController.text = activities.other;
@@ -881,7 +1077,7 @@ class _AddActivityScreenState
               textColor: Colors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
-              color:  Color.fromRGBO(32, 95, 139, 1.0),
+              color: Color.fromRGBO(32, 95, 139, 1.0),
               onPressed: () {
                 if (widget.id == null || widget.id.isEmpty) {
                   showMessage("Id cannot be null");

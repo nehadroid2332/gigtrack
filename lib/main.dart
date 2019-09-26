@@ -181,10 +181,11 @@ class MyApp extends StatelessWidget implements AppListener {
       title: 'GigTrack',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          primaryColor: primaryColor,
-          primaryColorDark: primaryColorDark,
-          accentColor: accentColor,
-          fontFamily: 'Mohave'),
+        primaryColor: primaryColor,
+        primaryColorDark: primaryColorDark,
+        accentColor: accentColor,
+        fontFamily: 'Mohave',
+      ),
       onGenerateRoute: _router.generator,
     );
   }

@@ -10,6 +10,7 @@ class Activites extends BaseModel {
   String title;
   String description;
   int startDate;
+  int endDate;
   int taskCompleteDate;
   String location;
   String notes = "";
@@ -20,6 +21,7 @@ class Activites extends BaseModel {
   String wardrobe;
   String parking;
   String other;
+  bool isRecurring = false;
 
   List<Activites> subActivities = [];
 
@@ -27,10 +29,12 @@ class Activites extends BaseModel {
       {this.description,
       this.location,
       this.startDate,
+      this.endDate,
       this.type,
       this.id,
       this.wardrobe,
       this.parking,
+      this.isRecurring,
       this.taskCompleteDate,
       this.other,
       this.title});
@@ -39,11 +43,13 @@ class Activites extends BaseModel {
     type = data['type'];
     description = data['description'];
     startDate = data['start_date'];
+    endDate = data['end_date'];
     location = data['location'];
     title = data['title'];
     travel = data['travel'];
     wardrobe = data['wardrobe'];
     parking = data['parking'];
+    isRecurring = data['isRecurring'];
     other = data['other'];
     notes = data['notes'];
     task = data['task'];
@@ -62,12 +68,14 @@ class Activites extends BaseModel {
     data['type'] = type;
     data['description'] = description ?? "";
     data['start_date'] = startDate ?? 0;
+    data['end_date'] = endDate ?? 0;
     data['location'] = location ?? "";
     data['task'] = task ?? "";
     data['travel'] = travel ?? "";
     data['notes'] = notes ?? "";
     data['title'] = title ?? "";
     data['id'] = id ?? "";
+    data['isRecurring'] = isRecurring;
     data['taskCompleteDate'] = taskCompleteDate;
     data['parking'] = parking;
     data['wardrobe'] = wardrobe;
