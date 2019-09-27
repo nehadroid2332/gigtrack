@@ -88,7 +88,7 @@ class _AddPlayingStyleScreenState
           ),
           decoration: BoxDecoration(
             color: psList.contains(s)
-                ? widget.appListener.primaryColorDark
+                ? Color.fromRGBO(124, 180, 97, 1.0)
                 : Color.fromRGBO(244, 246, 248, 1.0),
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
@@ -124,7 +124,7 @@ class _AddPlayingStyleScreenState
           ),
           decoration: BoxDecoration(
             color: inList.containsKey(s)
-                ? widget.appListener.primaryColorDark
+                ? Color.fromRGBO(124, 180, 97, 1.0)
                 : Color.fromRGBO(244, 246, 248, 1.0),
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
@@ -228,7 +228,7 @@ class _AddPlayingStyleScreenState
                 Text(
                   "Personal Highlights",
                   style: textTheme.headline.copyWith(
-                    color: Color.fromRGBO(99, 108, 119, 1.0),
+                    color: Color.fromRGBO(124, 180, 97, 1.0),
                   ),
                   textAlign: TextAlign.left,
                 ),
@@ -238,7 +238,7 @@ class _AddPlayingStyleScreenState
                   textAlign: TextAlign.left,
                   style: textTheme.subtitle.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: Color.fromRGBO(99, 108, 119, 1.0)),
+                      color: Color.fromRGBO(124, 180, 97, 1.0)),
                 ),
                 Padding(
                   padding: EdgeInsets.all(5),
@@ -250,7 +250,7 @@ class _AddPlayingStyleScreenState
                       child: Text(
                         value,
                         style:
-                            TextStyle(color: Color.fromRGBO(99, 108, 119, 1.0)),
+                            TextStyle(color: Color.fromRGBO(124, 180, 97, 1.0)),
                       ),
                     );
                   }).toList(),
@@ -263,7 +263,7 @@ class _AddPlayingStyleScreenState
                   textAlign: TextAlign.left,
                   style: textTheme.subtitle.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: Color.fromRGBO(99, 108, 119, 1.0)),
+                      color: Color.fromRGBO(124, 180, 97, 1.0)),
                 ),
                 TextField(
                   controller: _roleController,
@@ -280,7 +280,7 @@ class _AddPlayingStyleScreenState
                   textAlign: TextAlign.left,
                   style: textTheme.subtitle.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: Color.fromRGBO(99, 108, 119, 1.0)),
+                      color: Color.fromRGBO(124, 180, 97, 1.0)),
                 ),
                 TextField(
                   controller: _degreeController,
@@ -295,7 +295,7 @@ class _AddPlayingStyleScreenState
                 Text(
                   "Select your Playing Styles",
                   style: textTheme.headline.copyWith(
-                    color: Color.fromRGBO(99, 108, 119, 1.0),
+                    color: Color.fromRGBO(124, 180, 97, 1.0),
                   ),
                   textAlign: TextAlign.left,
                 ),
@@ -307,7 +307,7 @@ class _AddPlayingStyleScreenState
                 Text(
                   "Instruments",
                   style: textTheme.title.copyWith(
-                    color: Color.fromRGBO(99, 108, 119, 1.0),
+                    color: Color.fromRGBO(124, 180, 97, 1.0),
                   ),
                 ),
                 Padding(padding: EdgeInsets.all(10)),
@@ -323,7 +323,7 @@ class _AddPlayingStyleScreenState
                         textAlign: TextAlign.left,
                         style: textTheme.subtitle.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: Color.fromRGBO(99, 108, 119, 1.0)),
+                            color: Color.fromRGBO(124, 180, 97, 1.0)),
                       )
                     : Container(),
                 ListView.builder(
@@ -376,7 +376,7 @@ class _AddPlayingStyleScreenState
                   child: Text(
                     "Submit",
                   ),
-                  color: Color.fromRGBO(255, 0, 104, 1.0),
+                  color:Color.fromRGBO(124, 180, 97, 1.0),
                   textColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),

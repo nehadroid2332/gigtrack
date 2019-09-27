@@ -188,7 +188,7 @@ class _AddActivityScreenState
           child: Column(
             children: <Widget>[
               Text(
-                "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} ${widget.type == Activites.TYPE_ACTIVITY ? "Activity" : widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? "Performance Schedule" : widget.type == Activites.TYPE_PRACTICE_SCHEDULE ? "Performance Schedule" : widget.type == Activites.TYPE_TASK ? widget.isParent ? "Add Sub Task" : "Task" : ""}",
+                "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} ${widget.type == Activites.TYPE_ACTIVITY ? "Activity" : widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? "Performance Schedule" : widget.type == Activites.TYPE_PRACTICE_SCHEDULE ? "Practice Schedule" : widget.type == Activites.TYPE_TASK ? widget.isParent ? "Add Sub Task" : "Task" : ""}",
                 style: textTheme.display1
                     .copyWith(color: Colors.white, fontSize: 30),
               ),
@@ -301,7 +301,7 @@ class _AddActivityScreenState
                             )
                           : (widget.type == Activites.TYPE_ACTIVITY ||
                                   widget.type ==
-                                      Activites.TYPE_PERFORMANCE_SCHEDULE)
+                                      Activites.TYPE_PRACTICE_SCHEDULE)
                               ? Padding(
                                   padding: EdgeInsets.only(left: 5),
                                   child: Text(
@@ -313,6 +313,7 @@ class _AddActivityScreenState
                                   ),
                                 )
                               : Container(),
+                      Padding(padding: EdgeInsets.all(5),),
                       widget.type == Activites.TYPE_PRACTICE_SCHEDULE
                           ? Row(
                               children: <Widget>[
@@ -353,7 +354,7 @@ class _AddActivityScreenState
                                           ),
                                         ),
                                       )
-                                    : Text(_startTimeController.text),
+                                    : _startTimeController.text.isNotEmpty?Expanded(flex:2,child: Text("Start time -"+_startTimeController.text,textAlign: TextAlign.right,),):Container(),
                                 Padding(
                                   padding: EdgeInsets.only(left: 10),
                                 ),
@@ -394,7 +395,7 @@ class _AddActivityScreenState
                                           },
                                         ),
                                       )
-                                    : Text(_endTimeController.text)
+                                    :_endTimeController.text.isNotEmpty?Expanded(flex:2,child:Text("End time - "+_endTimeController.text,textAlign: TextAlign.left,) ,) :Container()
                               ],
                             )
                           : Container(),
@@ -752,8 +753,8 @@ class _AddActivityScreenState
                                       child: Text(
                                           "Click here when task is completed"),
                                       onPressed: () {
-                                        presenter
-                                            .updateTaskCompleteDate(widget.id);
+                                        isEdit=true;
+                                        presenter.updateTaskCompleteDate(widget.id);
                                       },
                                     )
                                   : Text(
@@ -1007,7 +1008,9 @@ class _AddActivityScreenState
       _locController.text = activities.location;
       _parkingController.text = activities.parking;
       _otherController.text = activities.other;
-      //      _timeController.text = "at ${formatDate(dateTime, [hh, ':', nn, am])}";
+      isRecurring= activities.isRecurring;
+      //      _timeController.text = "at ${formatDate(dateT
+      //      ime, [hh, ':', nn, am])}";
       members.clear();
       // members.addAll(activities.bandmates);
     });

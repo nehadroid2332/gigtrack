@@ -51,6 +51,7 @@ class _AddContactScreenState
   bool _adddefaultlikes = false;
   bool _isphoneNumber = false;
   bool _isclicktoLikes = false;
+  bool _isCompanyName= false;
 
   @override
   void initState() {
@@ -85,7 +86,8 @@ class _AddContactScreenState
       _textController = TextEditingController(),
       _relationshipController = TextEditingController(),
       _otherRelationshipController = TextEditingController(),
-      _yearController= TextEditingController(),
+		  _companyNameController= TextEditingController(),
+      _notesController= TextEditingController(),
       _emailController = TextEditingController();
   String _errorName, _errorPhone, _errorEmail, _errorText, _errorRelationship;
   bool isEdit = false;
@@ -93,7 +95,7 @@ class _AddContactScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-        backgroundColor:  Color.fromRGBO(80, 54, 116, 1.0),
+        backgroundColor:Color.fromRGBO(60, 111, 54, 1.0),
         actions: <Widget>[
           widget.id.isEmpty
               ? Container()
@@ -145,7 +147,7 @@ class _AddContactScreenState
             style: textTheme.subtitle.copyWith(
                 color: selectedLikesMap.containsKey(s)
                     ? Colors.white
-                    :  Color.fromRGBO(191,52,44, 1.0)),
+                    :  Color.fromRGBO(60, 111, 54, 1.0)),
           ),
           margin: EdgeInsets.all(5),
           padding: EdgeInsets.symmetric(
@@ -154,7 +156,7 @@ class _AddContactScreenState
           ),
           decoration: BoxDecoration(
             color: selectedLikesMap.containsKey(s)
-                ?  Color.fromRGBO(191,52,44, 1.0)
+                ?  Color.fromRGBO(60, 111, 54, 1.0)
                 : Color.fromRGBO(244, 246, 248, 1.0),
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
@@ -199,10 +201,8 @@ class _AddContactScreenState
               controller: txtController,
               onChanged:(text){
                 selectedLikesMap[key] = text;
-                txtController.text= text.replaceAll(" ", ',');
+                //txtController.text= text.replaceAll(" ", ',');
               },
-
-
             ),
           )
         ],
@@ -213,7 +213,7 @@ class _AddContactScreenState
         ClipPath(
           clipper: RoundedClipper(height / 2.5),
           child: Container(
-            color: Color.fromRGBO(80, 54, 116, 1.0),
+            color: Color.fromRGBO(60, 111, 54, 1.0),
             height: height / 2.5,
           ),
         ),
@@ -322,6 +322,76 @@ class _AddContactScreenState
                         padding:
                             EdgeInsets.all(widget.id.isEmpty || isEdit ? 5 : 2),
                       ),
+	                    ShowUp(
+		                    child: !_isCompanyName
+				                    ? new GestureDetector(
+			                    onTap: () {
+				                    setState(() {
+					                    _isCompanyName = true;
+				                    });
+			                    },
+			                    child: widget.id.isEmpty || isEdit
+					                    ? Text(
+				                    "Click here to add Compnay Name",
+				                    style: textTheme.display1.copyWith(
+						                    color: widget
+								                    .appListener.primaryColorDark,
+						                    fontSize: 14),
+			                    )
+					                    : Container(),
+		                    )
+				                    : Container(),
+		                    delay: 1000,
+	                    ),
+	                    (widget.id.isEmpty || isEdit)&& _isCompanyName
+			                    ? TextField(
+		                    enabled: widget.id.isEmpty || isEdit,
+		                    controller: _companyNameController,
+		                    keyboardType: TextInputType.text,
+		                    textCapitalization: TextCapitalization.sentences,
+		                    style: textTheme.subhead.copyWith(
+			                    color: Colors.black,
+		                    ),
+		                    decoration: InputDecoration(
+			                    labelStyle: TextStyle(
+				                    color: Color.fromRGBO(202, 208, 215, 1.0),
+			                    ),
+			                    labelText: "Company Name",
+			                    errorText: _errorText,
+			                    border: widget.id.isEmpty || isEdit
+					                    ? null
+					                    : InputBorder.none,
+		                    ),
+	                    )
+			                    :_companyNameController.text.isEmpty || isEdit?Container(): Row(
+		                    children: <Widget>[
+			                    Expanded(
+				                    flex: 5,
+				                    child: Text(
+					                    "Company Name",
+					                    textAlign: TextAlign.right,
+					                    style: textTheme.subtitle.copyWith(
+						                    fontWeight: FontWeight.w600,
+					                    ),
+				                    ),
+			                    ),
+			                    Expanded(
+				                    flex: 1,
+				                    child: Text(
+					                    " - ",
+					                    textAlign: TextAlign.center,
+				                    ),
+			                    ),
+			                    Expanded(
+				                    child: Text(
+					                    _companyNameController.text,
+					                    textAlign: TextAlign.left,
+				                    ),
+				                    flex: 5,
+			                    )
+		                    ],
+	                    ),
+                      Padding(padding: widget.id.isNotEmpty?EdgeInsets.all(0):EdgeInsets.all(6),),
                       widget.id.isEmpty || isEdit
                           ? Text(
                               "Relationship",
@@ -558,7 +628,7 @@ class _AddContactScreenState
                                     : InputBorder.none,
                               ),
                             )
-                          : Row(
+                          : _emailController.text.isNotEmpty? Row(
                               children: <Widget>[
                                 Expanded(
                                   flex: 5,
@@ -585,7 +655,43 @@ class _AddContactScreenState
                                   flex: 5,
                                 )
                               ],
-                            ),
+                            ):Container(),
+	                    Padding(padding: EdgeInsets.all(5),),
+	                    widget.id.isEmpty || isEdit
+			                    ? TextField(
+		                    enabled: widget.id.isEmpty || isEdit,
+		                    controller: _notesController,
+		                    keyboardType: TextInputType.emailAddress,
+		                    style: textTheme.subhead.copyWith(
+			                    color: Colors.black,
+		                    ),
+		                    decoration: InputDecoration(
+			                    labelStyle: TextStyle(
+				                    color: Color.fromRGBO(202, 208, 215, 1.0),
+			                    ),
+			                    labelText: "Notes",
+			                    errorText: _errorEmail,
+			                    border: widget.id.isEmpty || isEdit
+					                    ? null
+					                    : InputBorder.none,
+		                    ),
+	                    )
+			                    : _notesController.text.isNotEmpty? Column(
+		                    children: <Widget>[
+		                    	Text(
+					                    "Notes",
+					                    textAlign: TextAlign.right,
+					                    style: textTheme.subtitle.copyWith(
+						                    fontWeight: FontWeight.w600,
+					                    ),
+				                    ),
+			                   Padding(padding: EdgeInsets.all(3),),
+			                   Text(
+					                    _notesController.text,
+					                    textAlign: TextAlign.left,
+				                    ),
+		                    ],
+	                    ):Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -630,6 +736,7 @@ class _AddContactScreenState
                               TextEditingController();
                           final _dateToRememberDateController =
                               TextEditingController();
+                          final   _yearController= TextEditingController();
                           _dateToRememberController.addListener(() {
                             data.type = _dateToRememberController.text;
                             _dateToRememberItems[index] = data;
@@ -911,7 +1018,6 @@ class _AddContactScreenState
                                             textAlign: TextAlign.right,
                                             style: textTheme.subtitle.copyWith(
                                               fontWeight: FontWeight.w600,
-
                                             ),
                                           ),
                                         ),
@@ -1076,11 +1182,16 @@ class _AddContactScreenState
                       ),
                       widget.id.isEmpty || isEdit
                           ? RaisedButton(
-                              color: Color.fromRGBO(80, 54, 116, 1.0),
+                              color: Color.fromRGBO(60, 111, 54, 1.0),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(18)),
                               textColor: Colors.white,
                               onPressed: () {
+	                              selectedLikesMap.forEach((key,value)=> {
+		                              if(value.isEmpty){
+			                              selectedLikesMap.remove(key)
+		                              }
+	                              });
                                 setState(() {
                                   String nm = _nameController.text;
                                   String rel = _relationshipController.text;
@@ -1088,6 +1199,8 @@ class _AddContactScreenState
                                   String txt = _textController.text;
                                   String em = _emailController.text;
                                   String otherrelationShip= _otherRelationshipController.text;
+                                  String companyName= _companyNameController.text;
+                                  String notes= _notesController.text;
                                   _errorEmail = null;
                                   _errorName = null;
                                   _errorPhone = null;
@@ -1100,9 +1213,7 @@ class _AddContactScreenState
                                     showMessage(_errorRelationship);
                                   } else if (txt.isEmpty) {
                                     _errorText = "Cannot be empty";
-                                  } else if (em.isEmpty) {
-                                    _errorEmail = "Cannot be empty";
-                                  } else if (validateEmail(em)) {
+                                  }  else if (validateEmail(em)) {
                                     _errorEmail = "Not a Valid Email";
                                   } else {
                                     showLoading();
@@ -1114,10 +1225,13 @@ class _AddContactScreenState
                                     contacts.phone = ph;
                                     contacts.text = txt;
                                     contacts.files = files;
+                                
                                     contacts.likeadded = selectedLikesMap;
                                     contacts.dateToRemember =
                                         _dateToRememberItems;
                                     contacts.otherrelationship= otherrelationShip;
+                                    contacts.companyName= companyName;
+                                    contacts.notes= notes;
                                     //contacts.likeadded= selectedLikesMap;
                                     presenter.addContact(contacts);
                                   }
@@ -1210,6 +1324,18 @@ class _AddContactScreenState
       _relationshipType = data.relationship;
       selectedLikesMap = data.likeadded;
       _otherRelationshipController.text= data.otherrelationship;
+      _companyNameController.text= data.companyName;
+      _notesController.text= data.notes;
+      if(data.companyName.isNotEmpty){
+      	setState(() {
+      	  _isCompanyName=true;
+      	});
+      }
+      if(data.phone.isNotEmpty){
+      	setState(() {
+      	  _isphoneNumber=true;
+      	});
+      }
       if(data.relationship=="Other"){
         setState(() {
           _currentRelation=true;

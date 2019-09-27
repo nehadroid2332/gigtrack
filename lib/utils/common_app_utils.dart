@@ -1,4 +1,5 @@
 import 'package:date_format/date_format.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/server/models/activities.dart';
 import 'package:gigtrack/server/models/notestodo.dart';
@@ -184,26 +185,28 @@ Widget buildActivityListItem(Activites ac,
       borderRadius: BorderRadius.circular(12),
     ),
     child: InkWell(
-      child: Padding(
-        padding: EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+      child:  Column(
+         
           children: <Widget>[
+           
            Row(
-             mainAxisAlignment: MainAxisAlignment.center,
              children: <Widget>[
+               Padding(padding: EdgeInsets.only(left: 5,),),
              Text(
                "${formatDate(dt, [D, '-', mm, '/', dd, '/', yy, ' -'])}",
                style: TextStyle(
-                 fontSize: 18,
-                 color: Color.fromRGBO(250, 250, 250, 1.0),
+                 fontSize: 16,
+                 fontStyle: FontStyle.italic,
+                 color: Color.fromRGBO(250, 250, 250, 0.8),
+                 
                ),
-               textAlign: TextAlign.center,
+              
              ),
              Text(
                currentType(ac.type),
                style: TextStyle(
-                 fontSize: 18,
+                 fontSize: 16,
+                 fontStyle: FontStyle.italic,
                  color: Color.fromRGBO(250, 250, 250, 1.0),
                ),
                textAlign: TextAlign.center,
@@ -213,17 +216,23 @@ Widget buildActivityListItem(Activites ac,
              
               Padding(
                 padding: EdgeInsets.all(5),
-              ),
-              Text(
+              ),Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(padding: EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 13),
+                child:Text(
                   "${ac.title}",
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 20,
                     color: Color.fromRGBO(250, 250, 250, 1.0),
                   ),
-                textAlign: TextAlign.center,
-                ),
+                  textAlign: TextAlign.center,
+                ) ,)
+              
+            ],),
+            
               
             
             showConfirm
@@ -242,7 +251,7 @@ Widget buildActivityListItem(Activites ac,
                 : Container(),
           ],
         ),
-      ),
+      
       onTap: onTap,
     ),
   );

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:date_format/date_format.dart';
 import 'package:gigtrack/base/base_model.dart';
 import 'package:gigtrack/ui/addcontact/add_contact_screen.dart';
 
@@ -15,6 +16,8 @@ class Contacts extends BaseModel {
   String user_id;
   List<String> files = [];
   Map<String, String> likeadded = {};
+  String companyName;
+  String notes;
 
   Contacts();
 
@@ -27,6 +30,8 @@ class Contacts extends BaseModel {
     id = data['id'];
     user_id = data['user_id'];
     otherrelationship=data['other_relationship'];
+    companyName=data['companyName'];
+    notes=data['notes'];
     if (data['files'] != null) {
       for (String item in data['files']) {
         files.add(item);
@@ -63,6 +68,8 @@ class Contacts extends BaseModel {
     data['user_id'] = user_id;
     data['id'] = id;
     data['other_relationship']=otherrelationship;
+    data['companyName']= companyName;
+    data['notes']= notes;
     return data;
   }
 }

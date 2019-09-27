@@ -40,6 +40,7 @@ class _PlayingStyleListScreenState
             itemBuilder: (BuildContext context, int index) {
               UserPlayingStyle userPlayingStyle = playingStyleList[index];
               return Card(
+                color: Color.fromRGBO(124, 180, 97, 1.0),
                 child: Padding(
                   padding: EdgeInsets.all(10),
                   child: Column(
@@ -47,11 +48,11 @@ class _PlayingStyleListScreenState
                     children: <Widget>[
                       Text(
                         "${userPlayingStyle.playing_styles}",
-                        style: textTheme.subhead,
+                        style: TextStyle(color: Colors.white),
                       ),
                       Text(
                         "${userPlayingStyle.instruments}",
-                        style: textTheme.caption,
+                        style: TextStyle(color: Colors.white),
                       )
                     ],
                   ),
@@ -68,6 +69,7 @@ class _PlayingStyleListScreenState
               .navigateTo(context, Screens.ADDPLAYINGSTYLE.toString());
         },
         child: Icon(Icons.add),
+        backgroundColor: Color.fromRGBO(124, 180, 97, 1.0),
       ),
     );
   }

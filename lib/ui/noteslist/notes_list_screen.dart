@@ -89,7 +89,16 @@ class _NotesListScreenState
         backgroundColor: Color.fromRGBO(22,102,237, 1.0),
         children: [
           SpeedDialChild(
-            label: " Write your song Note",
+            label: "Idea",
+            child: Icon(Icons.add),
+            backgroundColor: Color.fromRGBO(22,102,237, 1.0),
+            onTap: () async {
+      
+            },
+          ),
+          
+          SpeedDialChild(
+            label: " Note",
             child: Icon(Icons.add),
             backgroundColor: Color.fromRGBO(22,102,237, 1.0),
             onTap: () async {
@@ -97,11 +106,11 @@ class _NotesListScreenState
             },
           ),
           SpeedDialChild(
-            label: "Write your song idea",
+            label: "Write you song",
             child: Icon(Icons.add),
             backgroundColor: Color.fromRGBO(22,102,237, 1.0),
             onTap: () async {
-            
+      
             },
           ),
         ],
