@@ -11,7 +11,7 @@ class ForgotPasswordPresenter extends BasePresenter {
 
   void forgotPassword(String email) async {
     final res = await serverAPI.forgotPassword(email);
-    if (res is ForgetPasswordResponse) {
+    if (res==null) {
       (view as ForgotPasswordContract).onSuccess();
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);

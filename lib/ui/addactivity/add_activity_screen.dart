@@ -410,7 +410,10 @@ class _AddActivityScreenState
                                   },
                                   value: isRecurring,
                                 ),
-                                Text("Recurring same day of week and time")
+                                Text("Recurring same day of week and time",
+                                style: TextStyle(
+                                  fontSize: 14
+                                ),)
                               ],
                             )
                           : Container(),

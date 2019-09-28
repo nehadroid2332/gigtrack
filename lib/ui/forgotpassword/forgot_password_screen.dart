@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
@@ -144,5 +146,9 @@ class _ForgotPasswordScreenState
     hideLoading();
     _emailController.clear();
     showMessage("Email sent successfully");
+    Timer timer = new Timer(new Duration(seconds: 2), () {
+      Navigator.pop(context);
+    });
+   
   }
 }

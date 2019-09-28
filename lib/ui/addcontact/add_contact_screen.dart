@@ -228,6 +228,7 @@ class _AddContactScreenState
                 "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Contact",
                 style: textTheme.display1.copyWith(
                   color: Colors.white,
+                  fontSize: 28
                 ),
               ),
               Padding(
@@ -332,7 +333,7 @@ class _AddContactScreenState
 			                    },
 			                    child: widget.id.isEmpty || isEdit
 					                    ? Text(
-				                    "Click here to add Compnay Name",
+				                    "Click here to add Company Name",
 				                    style: textTheme.display1.copyWith(
 						                    color: widget
 								                    .appListener.primaryColorDark,
@@ -1208,13 +1209,6 @@ class _AddContactScreenState
                                   _errorText = null;
                                   if (nm.isEmpty) {
                                     _errorName = "Cannot be empty";
-                                  } else if (rel.isEmpty) {
-                                    _errorRelationship = "Cannot be empty";
-                                    showMessage(_errorRelationship);
-                                  } else if (txt.isEmpty) {
-                                    _errorText = "Cannot be empty";
-                                  }  else if (validateEmail(em)) {
-                                    _errorEmail = "Not a Valid Email";
                                   } else {
                                     showLoading();
                                     Contacts contacts = new Contacts();

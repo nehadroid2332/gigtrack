@@ -345,14 +345,8 @@ class ServerAPI {
 
   Future<dynamic> forgotPassword(String email) async {
     try {
-      final res = await _netUtil.post(
-        _baseUrl + "auth/forget_password",
-        headers: _headers,
-        body: {
-          "email": email,
-        },
-      );
-      return ForgetPasswordResponse.fromJSON(res);
+      var res=await _auth.sendPasswordResetEmail(email: email);
+    return res;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }

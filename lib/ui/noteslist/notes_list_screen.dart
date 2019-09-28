@@ -89,7 +89,7 @@ class _NotesListScreenState
         backgroundColor: Color.fromRGBO(22,102,237, 1.0),
         children: [
           SpeedDialChild(
-            label: "Idea",
+            label: "Ideas",
             child: Icon(Icons.add),
             backgroundColor: Color.fromRGBO(22,102,237, 1.0),
             onTap: () async {

@@ -296,7 +296,7 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
               ),
             ),
             Padding(padding: EdgeInsets.all(5),),
-            Text(
+            not.start_date==0?Container():Text(
               not.start_date==0?"":"Remind me ${formatDate(stDate, [DD, '-', mm, '/', dd, '/', yy,])}",
               textAlign: TextAlign.center,
               style: TextStyle(
