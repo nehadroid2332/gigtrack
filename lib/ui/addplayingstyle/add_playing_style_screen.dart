@@ -132,25 +132,71 @@ class _AddPlayingStyleScreenState
                     });
                   },
                 ),
-          // widget.id.isEmpty
-          //     ? Container()
-          //     : IconButton(
-          //         icon: Icon(
-          //           Icons.delete,
-          //           color: Color.fromRGBO(124, 180, 97, 1.0),
-          //         ),
-          //         onPressed: () {
-          //           if (widget.id == null || widget.id.isEmpty) {
-          //             showMessage("Id cannot be null");
-          //           } else {
-          //             // _showDialogConfirm();
-          //             // presenter.instrumentDelete(id);
-          //             // Navigator.of(context).pop();
-          //           }
-          //         },
-          //       )
+          widget.id.isEmpty
+              ? Container()
+              : IconButton(
+                  icon: Icon(
+                    Icons.delete,
+                    color: Color.fromRGBO(124, 180, 97, 1.0),
+                  ),
+                  onPressed: () {
+                    if (widget.id == null || widget.id.isEmpty) {
+                      showMessage("Id cannot be null");
+                    } else {
+                      _showDialogConfirm();
+                      // presenter.instrumentDelete(id);
+                      // Navigator.of(context).pop();
+                    }
+                  },
+                )
         ],
       );
+
+  void _showDialogConfirm() {
+    // flutter defined function
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          contentPadding: EdgeInsets.all(15),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          title: new Text(
+            "Warning",
+            textAlign: TextAlign.center,
+          ),
+          content: Text("Are you sure you want to delete?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("No"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new RaisedButton(
+              child: new Text("Yes"),
+              textColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6)),
+              color: Color.fromRGBO(60, 111, 55, 1.0),
+              onPressed: () {
+                if (widget.id == null || widget.id.isEmpty) {
+                  showMessage("Id cannot be null");
+                } else {
+                  showLoading();
+                  presenter.deletePlayingStyle(widget.id);
+                  //Navigator.of(context).pop();
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget buildBody() {
@@ -581,7 +627,10 @@ class _AddPlayingStyleScreenState
                               textAlign: TextAlign.center,
                             ),
                       Padding(padding: EdgeInsets.all(10)),
-                      Text("Select your Playing Styles",
+                      Text(
+                          widget.id.isEmpty || isEdit
+                              ? "Select your Playing Styles"
+                              : "Playing Style",
                           style: textTheme.headline.copyWith(
                             color: Color.fromRGBO(124, 180, 97, 1.0),
                           ),
@@ -677,6 +726,8 @@ class _AddPlayingStyleScreenState
                                   playing_styles: List.from(psList),
                                   earn: _earnController.text,
                                   education: selectedEducation,
+                                  age: _ageController.text,
+                                  year: _yearController.text,
                                   experience: List.from(exList.keys),
                                   listSchool: _listSchoolController.text,
                                   viewerKnow: _expController.text,
@@ -715,6 +766,9 @@ class _AddPlayingStyleScreenState
   @override
   void onUpdateSuccess() {
     hideLoading();
+    setState(() {
+      isEdit = false;
+    });
     showMessage("Updated Successfully");
   }
 
@@ -746,5 +800,10 @@ class _AddPlayingStyleScreenState
       inList.clear();
       inList.addAll(userPlayingStyle.instruments);
     });
+  }
+
+  @override
+  void onDelete() {
+    Navigator.of(context).pop();
   }
 }

@@ -6,6 +6,8 @@ abstract class AddPlayingStyleContract extends BaseContract {
   void onAddSuccess();
   void onUpdateSuccess();
   void onDetailsSuccess(UserPlayingStyle userPlayingStyle);
+
+  void onDelete();
 }
 
 class AddPlayingStylePresenter extends BasePresenter {
@@ -31,5 +33,10 @@ class AddPlayingStylePresenter extends BasePresenter {
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
     }
+  }
+
+  void deletePlayingStyle(String id) async {
+    await serverAPI.deletePlayingStyle(id);
+    (view as AddPlayingStyleContract).onDelete();
   }
 }

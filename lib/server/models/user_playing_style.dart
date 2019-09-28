@@ -23,6 +23,8 @@ class UserPlayingStyle extends BaseModel {
     this.instruments,
     this.role,
     this.degree,
+    this.age,
+    this.year,
     this.education,
     this.listSchool,
     this.earn,
@@ -44,7 +46,8 @@ class UserPlayingStyle extends BaseModel {
         instruments[item.toString()] = ins[item];
       }
     }
-
+    age = data['age'];
+    year = data['year'];
     role = data['role'];
     degree = data['degree'];
     education = data['education'];
@@ -70,6 +73,8 @@ class UserPlayingStyle extends BaseModel {
     data['education'] = education;
     data['listSchool'] = listSchool;
     data['earn'] = earn;
+    data['age'] = age;
+    data['year'] = year;
     data['viewerKnow'] = viewerKnow;
     data['experience'] = experience;
     return data;

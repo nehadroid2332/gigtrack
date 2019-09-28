@@ -168,7 +168,8 @@ class ServerAPI {
   Future<dynamic> getPlayingStyleDetails(String id) async {
     try {
       DataSnapshot dataSnapshot = await playingStyleDB.child(id).once();
-      UserPlayingStyle userPlayingStyle = UserPlayingStyle.fromJSON(dataSnapshot.value);
+      UserPlayingStyle userPlayingStyle =
+          UserPlayingStyle.fromJSON(dataSnapshot.value);
       return userPlayingStyle;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
@@ -380,5 +381,9 @@ class ServerAPI {
 
   void deleteActivity(String id) async {
     await activitiesDB.child(id).remove();
+  }
+
+  void deletePlayingStyle(String id) async {
+    await playingStyleDB.child(id).remove();
   }
 }
