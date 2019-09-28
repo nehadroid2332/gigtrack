@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/user_playing_style.dart';
-import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:gigtrack/utils/showup.dart';
 
 import 'add_playing_style_presenter.dart';
 
 class AddPlayingStyleScreen extends BaseScreen {
-  AddPlayingStyleScreen(AppListener appListener) : super(appListener);
+  final String id;
+  AddPlayingStyleScreen(AppListener appListener, {this.id})
+      : super(appListener);
 
   @override
   _AddPlayingStyleScreenState createState() => _AddPlayingStyleScreenState();
@@ -76,6 +77,7 @@ class _AddPlayingStyleScreenState
     "International Touring",
   ];
   bool isyearage;
+  bool isEdit = false;
   final Map<String, String> inList = Map();
   final Map<String, String> exList = Map();
   final Set<String> psList = Set();
@@ -90,6 +92,64 @@ class _AddPlayingStyleScreenState
   String selectedEducation;
 
   bool isEducation = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.id.isNotEmpty) {
+        showLoading();
+        presenter.getPlayingStyleDetails(widget.id);
+      }
+    });
+  }
+
+  @override
+  AppBar get appBar => AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        actions: <Widget>[
+          widget.id.isEmpty
+              ? Container()
+              : IconButton(
+                  icon: Icon(
+                    Icons.edit,
+                    color: Color.fromRGBO(124, 180, 97, 1.0),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      isEdit = !isEdit;
+                    });
+                  },
+                ),
+          // widget.id.isEmpty
+          //     ? Container()
+          //     : IconButton(
+          //         icon: Icon(
+          //           Icons.delete,
+          //           color: Color.fromRGBO(124, 180, 97, 1.0),
+          //         ),
+          //         onPressed: () {
+          //           if (widget.id == null || widget.id.isEmpty) {
+          //             showMessage("Id cannot be null");
+          //           } else {
+          //             // _showDialogConfirm();
+          //             // presenter.instrumentDelete(id);
+          //             // Navigator.of(context).pop();
+          //           }
+          //         },
+          //       )
+        ],
+      );
 
   @override
   Widget buildBody() {
@@ -119,14 +179,16 @@ class _AddPlayingStyleScreenState
             ),
           ),
         ),
-        onTap: () {
-          setState(() {
-            if (psList.contains(s)) {
-              psList.remove(s);
-            } else
-              psList.add(s);
-          });
-        },
+        onTap: widget.id.isEmpty || isEdit
+            ? () {
+                setState(() {
+                  if (psList.contains(s)) {
+                    psList.remove(s);
+                  } else
+                    psList.add(s);
+                });
+              }
+            : null,
       ));
     }
     List<Widget> items2 = [];
@@ -155,14 +217,16 @@ class _AddPlayingStyleScreenState
             ),
           ),
         ),
-        onTap: () {
-          setState(() {
-            if (inList.containsKey(s)) {
-              inList.remove(s);
-            } else
-              inList[s] = null;
-          });
-        },
+        onTap: widget.id.isEmpty || isEdit
+            ? () {
+                setState(() {
+                  if (inList.containsKey(s)) {
+                    inList.remove(s);
+                  } else
+                    inList[s] = null;
+                });
+              }
+            : null,
       ));
     }
     List<Widget> exps = [];
@@ -191,14 +255,16 @@ class _AddPlayingStyleScreenState
             ),
           ),
         ),
-        onTap: () {
-          setState(() {
-            if (exList.containsKey(s)) {
-              exList.remove(s);
-            } else
-              exList[s] = null;
-          });
-        },
+        onTap: widget.id.isEmpty || isEdit
+            ? () {
+                setState(() {
+                  if (exList.containsKey(s)) {
+                    exList.remove(s);
+                  } else
+                    exList[s] = null;
+                });
+              }
+            : null,
       ));
     }
     List<Widget> edcs = [];
@@ -227,11 +293,13 @@ class _AddPlayingStyleScreenState
             ),
           ),
         ),
-        onTap: () {
-          setState(() {
-            selectedEducation = s;
-          });
-        },
+        onTap: widget.id.isEmpty || isEdit
+            ? () {
+                setState(() {
+                  selectedEducation = s;
+                });
+              }
+            : null,
       ));
     }
 
@@ -242,21 +310,6 @@ class _AddPlayingStyleScreenState
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Align(
-                alignment: Alignment.topLeft,
-                child: Container(
-                  padding: EdgeInsets.only(top: 8),
-                  child: InkWell(
-                    child: Icon(
-                      Icons.arrow_back,
-                      color: widget.appListener.primaryColorDark,
-                    ),
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
-              ),
               Expanded(
                 child: Container(),
               ),
@@ -295,16 +348,20 @@ class _AddPlayingStyleScreenState
                 Row(
                   children: <Widget>[
                     Checkbox(
-                      onChanged: (bool value) {
-                        setState(() {
-                          isyearage = value;
-                        });
-                      },
+                      onChanged: widget.id.isEmpty || isEdit
+                          ? (bool value) {
+                              setState(() {
+                                isyearage = value;
+                              });
+                            }
+                          : null,
                       value: isyearage ?? false,
                     ),
                     Expanded(
                       child: TextField(
-                        enabled: isyearage ?? false,
+                        enabled: (widget.id.isEmpty || isEdit)
+                            ? (isyearage ?? false)
+                            : false,
                         controller: _ageController,
                         decoration: InputDecoration(
                           labelText: "Enter Age",
@@ -319,7 +376,9 @@ class _AddPlayingStyleScreenState
                     ),
                     Expanded(
                       child: TextField(
-                        enabled: isyearage ?? false,
+                        enabled: (widget.id.isEmpty || isEdit)
+                            ? (isyearage ?? false)
+                            : false,
                         controller: _yearController,
                         decoration: InputDecoration(
                           labelText: "Enter Year",
@@ -334,16 +393,20 @@ class _AddPlayingStyleScreenState
                 Row(
                   children: <Widget>[
                     Checkbox(
-                      onChanged: (bool value) {
-                        setState(() {
-                          isyearage = !value;
-                        });
-                      },
+                      onChanged: widget.id.isEmpty || isEdit
+                          ? (bool value) {
+                              setState(() {
+                                isyearage = !value;
+                              });
+                            }
+                          : null,
                       value: !(isyearage ?? true),
                     ),
                     Expanded(
                       child: TextField(
-                        enabled: !(isyearage ?? true),
+                        enabled: (widget.id.isEmpty || isEdit)
+                            ? (!(isyearage ?? true))
+                            : false,
                         controller: _responseController,
                         decoration: InputDecoration(
                           labelText: "Type in your response",
@@ -395,6 +458,7 @@ class _AddPlayingStyleScreenState
                     ? Column(
                         children: <Widget>[
                           TextField(
+                            enabled: widget.id.isEmpty || isEdit,
                             controller: _listSchoolController,
                             decoration: InputDecoration(
                               labelText: "List School",
@@ -404,6 +468,7 @@ class _AddPlayingStyleScreenState
                             ),
                           ),
                           TextField(
+                            enabled: widget.id.isEmpty || isEdit,
                             controller: _earnController,
                             decoration: InputDecoration(
                               labelText:
@@ -418,7 +483,7 @@ class _AddPlayingStyleScreenState
                     : Container(),
                 Padding(padding: EdgeInsets.all(5)),
                 Text(
-                  "Expeirence",
+                  "Experience",
                   textAlign: TextAlign.left,
                   style: textTheme.subtitle.copyWith(
                       fontWeight: FontWeight.w600,
@@ -429,6 +494,7 @@ class _AddPlayingStyleScreenState
                   children: exps,
                 ),
                 TextField(
+                  enabled: widget.id.isEmpty || isEdit,
                   controller: _expController,
                   decoration: InputDecoration(
                     labelText: "What else do you want viewer to know?",
@@ -485,53 +551,58 @@ class _AddPlayingStyleScreenState
                         Expanded(
                           child: Container(),
                         ),
-                        DropdownButton<String>(
-                          items: <String>[
-                            'Beginner',
-                            'Intermediate',
-                            "Professional"
-                          ].map((String value) {
-                            return new DropdownMenuItem<String>(
-                              value: value,
-                              child: new Text(value),
-                            );
-                          }).toList(),
-                          value: val,
-                          onChanged: (v) {
-                            setState(() {
-                              inList[key] = v;
-                            });
-                          },
-                        ),
+                        widget.id.isEmpty || isEdit
+                            ? DropdownButton<String>(
+                                items: <String>[
+                                  'Beginner',
+                                  'Intermediate',
+                                  "Professional"
+                                ].map((String value) {
+                                  return new DropdownMenuItem<String>(
+                                    value: value,
+                                    child: new Text(value),
+                                  );
+                                }).toList(),
+                                value: val,
+                                onChanged: (v) {
+                                  setState(() {
+                                    inList[key] = v;
+                                  });
+                                },
+                              )
+                            : Text(val),
                       ],
                     );
                   },
                 ),
                 Padding(padding: EdgeInsets.all(20)),
-                RaisedButton(
-                  onPressed: () {
-                    showLoading();
-                    presenter.addPlayingStyle(UserPlayingStyle(
-                      instruments: inList,
-                      role: _roleController.text,
-                      degree: _degreeController.text,
-                      playing_styles: List.from(psList),
-                      earn: _earnController.text,
-                      education: selectedEducation,
-                      experience: List.from(exList.keys),
-                      listSchool: _listSchoolController.text,
-                      viewerKnow: _expController.text,
-                    ));
-                  },
-                  child: Text(
-                    "Submit",
-                  ),
-                  color: Color.fromRGBO(124, 180, 97, 1.0),
-                  textColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                )
+                widget.id.isEmpty || isEdit
+                    ? RaisedButton(
+                        onPressed: () {
+                          showLoading();
+                          presenter.addPlayingStyle(UserPlayingStyle(
+                            instruments: inList,
+                            id: widget.id,
+                            role: _roleController.text,
+                            degree: _degreeController.text,
+                            playing_styles: List.from(psList),
+                            earn: _earnController.text,
+                            education: selectedEducation,
+                            experience: List.from(exList.keys),
+                            listSchool: _listSchoolController.text,
+                            viewerKnow: _expController.text,
+                          ));
+                        },
+                        child: Text(
+                          "Submit",
+                        ),
+                        color: Color.fromRGBO(124, 180, 97, 1.0),
+                        textColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      )
+                    : Container()
               ],
             ),
           )
@@ -551,6 +622,37 @@ class _AddPlayingStyleScreenState
 
   @override
   void onUpdateSuccess() {
+    hideLoading();
     showMessage("Updated Successfully");
+  }
+
+  @override
+  void onDetailsSuccess(UserPlayingStyle userPlayingStyle) {
+    hideLoading();
+    setState(() {
+      _degreeController.text = userPlayingStyle.degree;
+      _earnController.text = userPlayingStyle.earn;
+      _expController.text = userPlayingStyle.viewerKnow;
+      _listSchoolController.text = userPlayingStyle.listSchool;
+      _responseController.text = userPlayingStyle.response;
+      _roleController.text = userPlayingStyle.role;
+      _yearController.text = userPlayingStyle.year;
+      _ageController.text = userPlayingStyle.age;
+      isEducation = true;
+
+      for (String item in userPlayingStyle.experience) {
+        exList[item] = null;
+      }
+      selectedEducation = userPlayingStyle.education;
+      if (userPlayingStyle.age != null || userPlayingStyle.year != null) {
+        isyearage = true;
+      } else if (userPlayingStyle.response != null) {
+        isyearage = false;
+      }
+      psList.clear();
+      psList.addAll(userPlayingStyle.playing_styles);
+      inList.clear();
+      inList.addAll(userPlayingStyle.instruments);
+    });
   }
 }

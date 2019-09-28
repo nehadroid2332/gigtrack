@@ -39,24 +39,32 @@ class _PlayingStyleListScreenState
             padding: EdgeInsets.all(20),
             itemBuilder: (BuildContext context, int index) {
               UserPlayingStyle userPlayingStyle = playingStyleList[index];
-              return Card(
-                color: Color.fromRGBO(124, 180, 97, 1.0),
-                child: Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "${userPlayingStyle.playing_styles}",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      Text(
-                        "${userPlayingStyle.instruments}",
-                        style: TextStyle(color: Colors.white),
-                      )
-                    ],
+              return InkWell(
+                child: Card(
+                  color: Color.fromRGBO(124, 180, 97, 1.0),
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "${userPlayingStyle.playing_styles}",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        Text(
+                          "${userPlayingStyle.instruments}",
+                          style: TextStyle(color: Colors.white),
+                        )
+                      ],
+                    ),
                   ),
                 ),
+                onTap: () async {
+                  await widget.appListener.router.navigateTo(
+                      context,
+                      Screens.ADDPLAYINGSTYLE.toString() +
+                          "/${userPlayingStyle.id}");
+                },
               );
             },
             itemCount: playingStyleList.length,
@@ -66,7 +74,7 @@ class _PlayingStyleListScreenState
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await widget.appListener.router
-              .navigateTo(context, Screens.ADDPLAYINGSTYLE.toString());
+              .navigateTo(context, Screens.ADDPLAYINGSTYLE.toString() + "/");
         },
         child: Icon(Icons.add),
         backgroundColor: Color.fromRGBO(124, 180, 97, 1.0),

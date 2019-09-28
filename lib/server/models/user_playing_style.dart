@@ -18,6 +18,7 @@ class UserPlayingStyle extends BaseModel {
 
   UserPlayingStyle({
     this.user_id,
+    this.id,
     this.playing_styles,
     this.instruments,
     this.role,

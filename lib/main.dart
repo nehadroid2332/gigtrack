@@ -135,9 +135,14 @@ class MyApp extends StatelessWidget implements AppListener {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return PlayingStyleListScreen(this);
     }));
-    _router.define(Screens.ADDPLAYINGSTYLE.toString(), handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-      return AddPlayingStyleScreen(this);
+    _router.define(Screens.ADDPLAYINGSTYLE.toString() + "/:id", handler:
+        Handler(
+            handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      String id = params["id"][0];
+      return AddPlayingStyleScreen(
+        this,
+        id: id,
+      );
     }));
     _router.define(Screens.FORGOTPASSWORD.toString(), handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {

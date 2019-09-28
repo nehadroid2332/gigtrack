@@ -165,6 +165,16 @@ class ServerAPI {
     }
   }
 
+  Future<dynamic> getPlayingStyleDetails(String id) async {
+    try {
+      DataSnapshot dataSnapshot = await playingStyleDB.child(id).once();
+      UserPlayingStyle userPlayingStyle = UserPlayingStyle.fromJSON(dataSnapshot.value);
+      return userPlayingStyle;
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
   Future<dynamic> addNotes(NotesTodo notesTodo) async {
     try {
       bool isUpdate = true;
@@ -345,8 +355,8 @@ class ServerAPI {
 
   Future<dynamic> forgotPassword(String email) async {
     try {
-      var res=await _auth.sendPasswordResetEmail(email: email);
-    return res;
+      var res = await _auth.sendPasswordResetEmail(email: email);
+      return res;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }
