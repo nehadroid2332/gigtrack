@@ -31,7 +31,7 @@ class _ShowUpState extends State<ShowUp> with TickerProviderStateMixin {
       _animController.forward();
     } else {
       Timer(Duration(milliseconds: widget.delay), () {
-        _animController.forward();
+        if (!_animController.isDismissed) _animController.forward();
       });
     }
   }

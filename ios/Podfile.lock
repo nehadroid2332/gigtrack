@@ -138,7 +138,7 @@ DEPENDENCIES:
   - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
 
 SPEC REPOS:
-  trunk:
+  https://github.com/cocoapods/specs.git:
     - Firebase
     - FirebaseAnalytics
     - FirebaseAuth
@@ -214,4 +214,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 27a99d9019a62ba53ca64b10bfd57ede1e2777d3
 
-COCOAPODS: 1.8.0
+COCOAPODS: 1.7.5

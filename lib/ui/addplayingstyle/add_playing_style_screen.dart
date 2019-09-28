@@ -4,6 +4,7 @@ import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/user_playing_style.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
+import 'package:gigtrack/utils/showup.dart';
 
 import 'add_playing_style_presenter.dart';
 
@@ -55,18 +56,40 @@ class _AddPlayingStyleScreenState
     "Punk",
     "Raggae"
   ];
-  String _playingType = "Playing since age 5";
+  final educationsOptions = <String>[
+    "High School Grad",
+    "BS Degree",
+    "Masters Degree",
+    "Doctorate Degree",
+    "Trade School",
+    "Other"
+  ];
+  final experience = <String>[
+    "Play on my own",
+    "Taking lessens",
+    "I am an instructor",
+    "Garage Band",
+    "Music School band",
+    "Local Band",
+    "Local Touring Band",
+    "National Touring",
+    "International Touring",
+  ];
+  bool isyearage;
   final Map<String, String> inList = Map();
+  final Map<String, String> exList = Map();
   final Set<String> psList = Set();
-  String selectedPHighlights;
   final _degreeController = TextEditingController();
   final _roleController = TextEditingController();
-  void _handleRelationshipValueChange(String value) {
-    setState(() {
-      _playingType = value;
-      selectedPHighlights = value;
-    });
-  }
+  final _ageController = TextEditingController();
+  final _yearController = TextEditingController();
+  final _listSchoolController = TextEditingController();
+  final _earnController = TextEditingController();
+  final _responseController = TextEditingController();
+  final _expController = TextEditingController();
+  String selectedEducation;
+
+  bool isEducation = false;
 
   @override
   Widget buildBody() {
@@ -142,14 +165,14 @@ class _AddPlayingStyleScreenState
         },
       ));
     }
-    List<Widget> prsnlHighlts = [];
-    for (String s in personalHighlights) {
-      prsnlHighlts.add(GestureDetector(
+    List<Widget> exps = [];
+    for (String s in experience) {
+      exps.add(GestureDetector(
         child: Container(
           child: Text(
             s,
             style: textTheme.subtitle.copyWith(
-                color: selectedPHighlights == s
+                color: exList.containsKey(s)
                     ? Colors.white
                     : widget.appListener.primaryColorDark),
           ),
@@ -159,8 +182,8 @@ class _AddPlayingStyleScreenState
             vertical: 8,
           ),
           decoration: BoxDecoration(
-            color: selectedPHighlights == s
-                ? widget.appListener.primaryColorDark
+            color: exList.containsKey(s)
+                ? Color.fromRGBO(124, 180, 97, 1.0)
                 : Color.fromRGBO(244, 246, 248, 1.0),
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
@@ -170,10 +193,43 @@ class _AddPlayingStyleScreenState
         ),
         onTap: () {
           setState(() {
-            if (selectedPHighlights == s) {
-              selectedPHighlights = null;
+            if (exList.containsKey(s)) {
+              exList.remove(s);
             } else
-              selectedPHighlights = s;
+              exList[s] = null;
+          });
+        },
+      ));
+    }
+    List<Widget> edcs = [];
+    for (String s in educationsOptions) {
+      edcs.add(GestureDetector(
+        child: Container(
+          child: Text(
+            s,
+            style: textTheme.subtitle.copyWith(
+                color: selectedEducation == (s)
+                    ? Colors.white
+                    : widget.appListener.primaryColorDark),
+          ),
+          margin: EdgeInsets.all(5),
+          padding: EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 8,
+          ),
+          decoration: BoxDecoration(
+            color: selectedEducation == (s)
+                ? Color.fromRGBO(124, 180, 97, 1.0)
+                : Color.fromRGBO(244, 246, 248, 1.0),
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(
+              color: Color.fromRGBO(228, 232, 235, 1.0),
+            ),
+          ),
+        ),
+        onTap: () {
+          setState(() {
+            selectedEducation = s;
           });
         },
       ));
@@ -226,15 +282,7 @@ class _AddPlayingStyleScreenState
                 ),
                 Padding(padding: EdgeInsets.all(10)),
                 Text(
-                  "Personal Highlights",
-                  style: textTheme.headline.copyWith(
-                    color: Color.fromRGBO(124, 180, 97, 1.0),
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-                Padding(padding: EdgeInsets.all(10)),
-                Text(
-                  "How long you have been playing?",
+                  "My Music Journey started",
                   textAlign: TextAlign.left,
                   style: textTheme.subtitle.copyWith(
                       fontWeight: FontWeight.w600,
@@ -243,49 +291,147 @@ class _AddPlayingStyleScreenState
                 Padding(
                   padding: EdgeInsets.all(5),
                 ),
-                DropdownButton<String>(
-                  items: personalHighlights.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                        style:
-                            TextStyle(color: Color.fromRGBO(124, 180, 97, 1.0)),
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: _handleRelationshipValueChange,
-                  value: _playingType,
-                ),
-                Padding(padding: EdgeInsets.all(5)),
-                Text(
-                  "Roles",
-                  textAlign: TextAlign.left,
-                  style: textTheme.subtitle.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: Color.fromRGBO(124, 180, 97, 1.0)),
-                ),
-                TextField(
-                  controller: _roleController,
-                  decoration: InputDecoration(
-                    labelText: "Enter Role",
-                    labelStyle: TextStyle(
-                      color: widget.appListener.primaryColorDark,
+                Text("Select one"),
+                Row(
+                  children: <Widget>[
+                    Checkbox(
+                      onChanged: (bool value) {
+                        setState(() {
+                          isyearage = value;
+                        });
+                      },
+                      value: isyearage ?? false,
                     ),
-                  ),
+                    Expanded(
+                      child: TextField(
+                        enabled: isyearage ?? false,
+                        controller: _ageController,
+                        decoration: InputDecoration(
+                          labelText: "Enter Age",
+                          labelStyle: TextStyle(
+                            color: widget.appListener.primaryColorDark,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(4),
+                    ),
+                    Expanded(
+                      child: TextField(
+                        enabled: isyearage ?? false,
+                        controller: _yearController,
+                        decoration: InputDecoration(
+                          labelText: "Enter Year",
+                          labelStyle: TextStyle(
+                            color: widget.appListener.primaryColorDark,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
+                Row(
+                  children: <Widget>[
+                    Checkbox(
+                      onChanged: (bool value) {
+                        setState(() {
+                          isyearage = !value;
+                        });
+                      },
+                      value: !(isyearage ?? true),
+                    ),
+                    Expanded(
+                      child: TextField(
+                        enabled: !(isyearage ?? true),
+                        controller: _responseController,
+                        decoration: InputDecoration(
+                          labelText: "Type in your response",
+                          labelStyle: TextStyle(
+                            color: widget.appListener.primaryColorDark,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(padding: EdgeInsets.all(8)),
+                ShowUp(
+                  child: !isEducation
+                      ? new GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isEducation = true;
+                            });
+                          },
+                          child: Text(
+                            "Click here to add education",
+                            style: textTheme.display1.copyWith(
+                                color: widget.appListener.primaryColorDark,
+                                fontSize: 14),
+                          ),
+                        )
+                      : Container(),
+                  delay: 1000,
+                ),
+                isEducation
+                    ? Text(
+                        "Education",
+                        textAlign: TextAlign.left,
+                        style: textTheme.subtitle.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: Color.fromRGBO(124, 180, 97, 1.0)),
+                      )
+                    : Container(),
+                Padding(
+                  padding: EdgeInsets.all(3),
+                ),
+                isEducation
+                    ? Wrap(
+                        children: edcs,
+                      )
+                    : Container(),
+                selectedEducation == "Other"
+                    ? Column(
+                        children: <Widget>[
+                          TextField(
+                            controller: _listSchoolController,
+                            decoration: InputDecoration(
+                              labelText: "List School",
+                              labelStyle: TextStyle(
+                                color: widget.appListener.primaryColorDark,
+                              ),
+                            ),
+                          ),
+                          TextField(
+                            controller: _earnController,
+                            decoration: InputDecoration(
+                              labelText:
+                                  "What did you earn your academic degree in",
+                              labelStyle: TextStyle(
+                                color: widget.appListener.primaryColorDark,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Container(),
                 Padding(padding: EdgeInsets.all(5)),
                 Text(
-                  "Degree",
+                  "Expeirence",
                   textAlign: TextAlign.left,
                   style: textTheme.subtitle.copyWith(
                       fontWeight: FontWeight.w600,
                       color: Color.fromRGBO(124, 180, 97, 1.0)),
                 ),
+                Padding(padding: EdgeInsets.all(3)),
+                Wrap(
+                  children: exps,
+                ),
                 TextField(
-                  controller: _degreeController,
+                  controller: _expController,
                   decoration: InputDecoration(
-                    labelText: "Enter Degree",
+                    labelText: "What else do you want viewer to know?",
                     labelStyle: TextStyle(
                       color: widget.appListener.primaryColorDark,
                     ),
@@ -369,14 +515,18 @@ class _AddPlayingStyleScreenState
                       instruments: inList,
                       role: _roleController.text,
                       degree: _degreeController.text,
-                      personalHighlights: selectedPHighlights,
                       playing_styles: List.from(psList),
+                      earn: _earnController.text,
+                      education: selectedEducation,
+                      experience: List.from(exList.keys),
+                      listSchool: _listSchoolController.text,
+                      viewerKnow: _expController.text,
                     ));
                   },
                   child: Text(
                     "Submit",
                   ),
-                  color:Color.fromRGBO(124, 180, 97, 1.0),
+                  color: Color.fromRGBO(124, 180, 97, 1.0),
                   textColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
