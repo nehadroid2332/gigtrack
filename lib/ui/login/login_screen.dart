@@ -1,5 +1,4 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
+
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
@@ -8,20 +7,20 @@ import 'package:gigtrack/ui/login/login_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 
 class LoginScreen extends BaseScreen {
-  final FirebaseAnalytics analytics;
-  final FirebaseAnalyticsObserver observer;
-  LoginScreen(AppListener appListener, {this.analytics, this.observer})
+//  final FirebaseAnalytics analytics;
+//  final FirebaseAnalyticsObserver observer;
+  LoginScreen(AppListener appListener)
       : super(appListener);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState(analytics, observer);
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
     implements LoginContract {
-  final FirebaseAnalyticsObserver observer;
-  final FirebaseAnalytics analytics;
-  _LoginScreenState(this.analytics, this.observer);
+//  final FirebaseAnalyticsObserver observer;
+//  final FirebaseAnalytics analytics;
+  _LoginScreenState();
   final _emailController = TextEditingController(),
       _passwordController = TextEditingController();
   String _errorEmail, _errorPassword;
@@ -223,7 +222,7 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
 
   @override
   void loginSuccess(String userId) async {
-    _sendAnalyticsEvent(userId);
+ //   _sendAnalyticsEvent(userId);
     hideLoading();
     widget.appListener.router.navigateTo(
       context,
@@ -233,13 +232,13 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
     );
   }
 
-  Future<void> _sendAnalyticsEvent(userid) async {
-    await analytics.logEvent(
-      name: 'login_event',
-      parameters: <String, dynamic>{
-        'userId': userid,
-        'login_status': true,
-      },
-    );
-  }
+//  Future<void> _sendAnalyticsEvent(userid) async {
+//    await analytics.logEvent(
+//      name: 'login_event',
+//      parameters: <String, dynamic>{
+//        'userId': userid,
+//        'login_status': true,
+//      },
+//    );
+//  }
 }

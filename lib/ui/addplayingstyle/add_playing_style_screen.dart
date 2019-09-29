@@ -112,7 +112,7 @@ class _AddPlayingStyleScreenState
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            color: Colors.white,
           ),
           onPressed: () {
             Navigator.of(context).pop();
@@ -124,7 +124,7 @@ class _AddPlayingStyleScreenState
               : IconButton(
                   icon: Icon(
                     Icons.edit,
-                    color: Color.fromRGBO(124, 180, 97, 1.0),
+                    color: Colors.white,
                   ),
                   onPressed: () {
                     setState(() {
@@ -137,7 +137,7 @@ class _AddPlayingStyleScreenState
               : IconButton(
                   icon: Icon(
                     Icons.delete,
-                    color: Color.fromRGBO(124, 180, 97, 1.0),
+                    color: Colors.white,
                   ),
                   onPressed: () {
                     if (widget.id == null || widget.id.isEmpty) {
@@ -395,8 +395,7 @@ class _AddPlayingStyleScreenState
                         textAlign: widget.id.isEmpty || isEdit
                             ? TextAlign.left
                             : TextAlign.center,
-                        style: textTheme.subtitle.copyWith(
-                            fontWeight: FontWeight.w600,
+                        style: textTheme.title.copyWith(
                             color: Color.fromRGBO(124, 180, 97, 1.0)),
                       ),
                       Padding(
@@ -438,10 +437,10 @@ class _AddPlayingStyleScreenState
                                     ),
                                   ),
                                 )
-                              : Text(
+                              : _ageController.text.isNotEmpty?Text(
                                   "Age : ${_ageController.text}",
                                   textAlign: TextAlign.center,
-                                ),
+                                ):Container(),
                           Padding(
                             padding: EdgeInsets.all(4),
                           ),
@@ -473,10 +472,10 @@ class _AddPlayingStyleScreenState
                                     ),
                                   ),
                                 )
-                              : Text(
+                              : _yearController.text.isNotEmpty?Text(
                                   "Year: ${_yearController.text}",
                                   textAlign: TextAlign.center,
-                                ),
+                                ):Container(),
                         ],
                       ),
                       Padding(
@@ -487,18 +486,18 @@ class _AddPlayingStyleScreenState
                             ? MainAxisAlignment.start
                             : MainAxisAlignment.center,
                         children: <Widget>[
-                          widget.id.isEmpty || isEdit
-                              ? Checkbox(
-                                  onChanged: widget.id.isEmpty || isEdit
-                                      ? (bool value) {
-                                          setState(() {
-                                            isyearage = 2;
-                                          });
-                                        }
-                                      : null,
-                                  value: isyearage == 2,
-                                )
-                              : Container(),
+//                          widget.id.isEmpty || isEdit
+//                              ? Checkbox(
+//                                  onChanged: widget.id.isEmpty || isEdit
+//                                      ? (bool value) {
+//                                          setState(() {
+//                                            isyearage = 2;
+//                                          });
+//                                        }
+//                                      : null,
+//                                  value: isyearage == 2,
+//                                )
+//                              : Container(),
                           widget.id.isEmpty || isEdit
                               ? Expanded(
                                   child: TextField(
@@ -507,7 +506,7 @@ class _AddPlayingStyleScreenState
                                         : false,
                                     controller: _responseController,
                                     decoration: InputDecoration(
-                                      labelText: "Type in your response",
+                                      labelText: "Write something about you experience",
                                       labelStyle: TextStyle(
                                         color:
                                             widget.appListener.primaryColorDark,
@@ -515,12 +514,11 @@ class _AddPlayingStyleScreenState
                                     ),
                                   ),
                                 )
-                              : Text("Response: ${_responseController.text}"),
+                              : _responseController.text.isNotEmpty?Text("Response: ${_responseController.text}"):Container(),
                         ],
                       ),
                       Padding(padding: EdgeInsets.all(8)),
-                      widget.id.isEmpty || isEdit
-                          ? ShowUp(
+                       ShowUp(
                               child: !isEducation
                                   ? new GestureDetector(
                                       onTap: () {
@@ -528,26 +526,25 @@ class _AddPlayingStyleScreenState
                                           isEducation = true;
                                         });
                                       },
-                                      child: Text(
+                                      child: widget.id.isEmpty || isEdit? Text(
                                         "Click here to add education",
                                         style: textTheme.display1.copyWith(
                                             color: widget
                                                 .appListener.primaryColorDark,
                                             fontSize: 14),
-                                      ),
+                                      ):Container(),
                                     )
                                   : Container(),
                               delay: 1000,
-                            )
-                          : Container(),
+                            ),
+                          
                       isEducation
                           ? Text(
                               "Education",
                               textAlign: widget.id.isEmpty || isEdit
                                   ? TextAlign.left
                                   : TextAlign.center,
-                              style: textTheme.subtitle.copyWith(
-                                  fontWeight: FontWeight.w600,
+                              style: textTheme.title.copyWith(
                                   color: Color.fromRGBO(124, 180, 97, 1.0)),
                             )
                           : Container(),
@@ -606,8 +603,7 @@ class _AddPlayingStyleScreenState
                         textAlign: widget.id.isEmpty || isEdit
                             ? TextAlign.left
                             : TextAlign.center,
-                        style: textTheme.subtitle.copyWith(
-                            fontWeight: FontWeight.w600,
+                        style: textTheme.title.copyWith(
                             color: Color.fromRGBO(124, 180, 97, 1.0)),
                       ),
                       Padding(padding: EdgeInsets.all(3)),
@@ -622,28 +618,28 @@ class _AddPlayingStyleScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty || isEdit
-                          ? TextField(
-                              enabled: widget.id.isEmpty || isEdit,
-                              controller: _expController,
-                              decoration: InputDecoration(
-                                labelText:
-                                    "What else do you want viewer to know?",
-                                labelStyle: TextStyle(
-                                  color: widget.appListener.primaryColorDark,
-                                ),
-                              ),
-                            )
-                          : Text(
-                              "Want from your viewer: ${_expController.text}",
-                              textAlign: TextAlign.center,
-                            ),
-                      Padding(padding: EdgeInsets.all(10)),
+//                      widget.id.isEmpty || isEdit
+//                          ? TextField(
+//                              enabled: widget.id.isEmpty || isEdit,
+//                              controller: _expController,
+//                              decoration: InputDecoration(
+//                                labelText:
+//                                    "What else do you want viewer to know?",
+//                                labelStyle: TextStyle(
+//                                  color: widget.appListener.primaryColorDark,
+//                                ),
+//                              ),
+//                            )
+//                          : Text(
+//                              "Want from your viewer: ${_expController.text}",
+//                              textAlign: TextAlign.center,
+//                            ),
+//                      Padding(padding: EdgeInsets.all(10)),
                       Text(
                           widget.id.isEmpty || isEdit
                               ? "Select your Playing Styles"
                               : "Playing Style",
-                          style: textTheme.headline.copyWith(
+                          style: textTheme.title.copyWith(
                             color: Color.fromRGBO(124, 180, 97, 1.0),
                           ),
                           textAlign: widget.id.isEmpty || isEdit
@@ -675,7 +671,7 @@ class _AddPlayingStyleScreenState
                             )
                           : Container(),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: widget.id.isNotEmpty?EdgeInsets.all(0):EdgeInsets.all(5),
                       ),
                       inList.length > 0
                           ? widget.id.isEmpty || isEdit
@@ -696,11 +692,13 @@ class _AddPlayingStyleScreenState
                           String key = inList.keys.elementAt(index);
                           String val = inList[key];
                           return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(key),
-                              Expanded(
-                                child: Container(),
-                              ),
+//                              Expanded(
+//                                child: Container(),
+//                              ),
+                            Padding(padding: EdgeInsets.all(5),),
                               widget.id.isEmpty || isEdit
                                   ? DropdownButton<String>(
                                       items: <String>[
@@ -710,7 +708,9 @@ class _AddPlayingStyleScreenState
                                       ].map((String value) {
                                         return new DropdownMenuItem<String>(
                                           value: value,
-                                          child: new Text(value),
+                                          child: new Text(value,
+                                          textAlign: TextAlign.center,
+                                          ),
                                         );
                                       }).toList(),
                                       value: val,
@@ -720,7 +720,7 @@ class _AddPlayingStyleScreenState
                                         });
                                       },
                                     )
-                                  : Text(val),
+                                  : Text("-"+val),
                             ],
                           );
                         },
@@ -796,7 +796,7 @@ class _AddPlayingStyleScreenState
       _roleController.text = userPlayingStyle.role;
       _yearController.text = userPlayingStyle.year;
       _ageController.text = userPlayingStyle.age;
-      isEducation = true;
+    isEducation = true;
 
       for (String item in userPlayingStyle.experience) {
         exList[item] = null;

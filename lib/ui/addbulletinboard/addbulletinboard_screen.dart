@@ -48,7 +48,7 @@ class _AddBulletInBoardScreenState
           color: Colors.white, //change your color here
         ),
         elevation: 0,
-        backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
+        backgroundColor: Color.fromRGBO(214, 22, 35, 1.0),
         actions: <Widget>[
           widget.id.isEmpty
               ? Container()
@@ -111,7 +111,7 @@ class _AddBulletInBoardScreenState
           ),
           decoration: BoxDecoration(
             color: type == s
-                ? Color.fromRGBO(124, 180, 97, 1.0)
+                ? Color.fromRGBO(214, 22, 35, 1.0)
                 : Color.fromRGBO(244, 246, 248, 1.0),
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
@@ -133,7 +133,7 @@ class _AddBulletInBoardScreenState
         ClipPath(
           clipper: RoundedClipper(height / 2.5),
           child: Container(
-            color: Color.fromRGBO(22, 102, 237, 1.0),
+            color: Color.fromRGBO(214, 22, 35, 1.0),
             height: height / 2.5,
           ),
         ),
@@ -189,7 +189,7 @@ class _AddBulletInBoardScreenState
                           : Text(
                               _noteController.text,
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 22),
+                              style: TextStyle(fontSize: 20),
                             ),
                       Padding(
                         padding: EdgeInsets.all(5),
@@ -199,18 +199,37 @@ class _AddBulletInBoardScreenState
                         textAlign: widget.id.isEmpty || isEdit
                             ? TextAlign.left
                             : TextAlign.center,
+                        style: textTheme.title.copyWith(
+                          fontWeight: FontWeight.w600
+                        ),
+                        
                       ),
+                      Padding(padding: EdgeInsets.all(3),),
                       widget.id.isEmpty || isEdit
                           ? Wrap(
                               children: items,
                             )
-                          : Text(
+                          : type.length.isNaN?Text(
                               type,
                               textAlign: TextAlign.center,
-                            ),
+                              style: TextStyle(
+                                fontSize: 17
+                              ),
+                            ):Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
+                      widget.id.isNotEmpty?
+                      Text(
+                        isEdit?"":"Description",
+                        textAlign: widget.id.isEmpty || isEdit
+                            ? TextAlign.left
+                            : TextAlign.center,
+                        style: textTheme.title.copyWith(
+                          fontWeight: FontWeight.w600
+                        ),
+                      ):Container(),
+                      Padding(padding: EdgeInsets.all(3),),
                       widget.id.isEmpty || isEdit
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
@@ -232,16 +251,11 @@ class _AddBulletInBoardScreenState
                             )
                           : Text(
                               _descController.text,
-                              style: TextStyle(fontSize: 22),
+                              style: TextStyle(fontSize: 18),
                               textAlign: TextAlign.center,
                             ),
                       Padding(
                         padding: EdgeInsets.all(5),
-                      ),
-                      Padding(
-                        padding: widget.id.isEmpty || isEdit
-                            ? EdgeInsets.all(0)
-                            : EdgeInsets.all(10),
                       ),
                       Row(
                         children: <Widget>[
@@ -278,8 +292,10 @@ class _AddBulletInBoardScreenState
                                                   child: Text(
                                                     "Date",
                                                     textAlign: TextAlign.right,
-                                                    style: textTheme.subtitle
+                                                    style: textTheme.title
                                                         .copyWith(
+                                                      fontSize: 18,
+                                                            fontWeight: FontWeight.w600
                                                             //fontWeight: FontWeight.w600,
                                                             ),
                                                   ),
@@ -294,6 +310,9 @@ class _AddBulletInBoardScreenState
                                                   child: Text(
                                                     _startDateController.text,
                                                     textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                      fontSize: 17
+                                                    ),
                                                   ),
                                                   flex: 5,
                                                 )
@@ -350,7 +369,7 @@ class _AddBulletInBoardScreenState
                                   }
                                 });
                               },
-                              color: Color.fromRGBO(22, 102, 237, 1.0),
+                              color: Color.fromRGBO(214, 22, 35, 1.0),
                               child: Text(
                                 "Submit",
                                 style: textTheme.headline.copyWith(

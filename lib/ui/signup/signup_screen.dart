@@ -1,7 +1,6 @@
 import 'dart:io';
 
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
@@ -13,19 +12,18 @@ import 'package:image_picker/image_picker.dart';
 
 
 class SignUpScreen extends BaseScreen {
-  final FirebaseAnalytics analytics;
-  final FirebaseAnalyticsObserver observer;
-  SignUpScreen(AppListener appListener, {this.analytics, this.observer}) : super(appListener);
+//  final FirebaseAnalytics analytics;
+//  final FirebaseAnalyticsObserver observer;
+  SignUpScreen(AppListener appListener) : super(appListener);
 
   @override
-  _SignUpScreenState createState() => _SignUpScreenState(analytics, observer);
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
 class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
     implements SignUpContract {
-  final FirebaseAnalytics analytics;
-  final FirebaseAnalyticsObserver observer;
-  _SignUpScreenState(this.analytics, this.observer);
+
+  _SignUpScreenState();
   final _emailController = TextEditingController(),
       _passwordController = TextEditingController(),
       _firstNameController = TextEditingController(),
@@ -483,16 +481,16 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
     showMessage("Register Successfully");
     // widget.appListener.router
     // .navigateTo(context, Screens.ADDBAND.toString() + "/23");
-    _sendAnalyticsEvent();
+ //   _sendAnalyticsEvent();
     Navigator.pop(context);
   }
-  Future<void> _sendAnalyticsEvent() async {
-    await analytics.logEvent(
-      name: 'signup_event',
-      parameters: <String, dynamic>{
-        'signup_status': true,
-      },
-    );
-
-  }
+//  Future<void> _sendAnalyticsEvent() async {
+//    await analytics.logEvent(
+//      name: 'signup_event',
+//      parameters: <String, dynamic>{
+//        'signup_status': true,
+//      },
+//    );
+//
+//  }
 }

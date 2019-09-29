@@ -377,7 +377,7 @@ Widget buildBulletInBoardListItem(BulletInBoard not, Color color, {onTap}) {
 
   return Card(
     margin: EdgeInsets.all(10),
-    color: Color.fromRGBO(22, 102, 237, 1.0),
+    color: Color.fromRGBO(214, 22, 35, 1.0),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(12),
     ),
@@ -403,7 +403,7 @@ Widget buildBulletInBoardListItem(BulletInBoard not, Color color, {onTap}) {
                 : Text(
                     not.date == 0
                         ? ""
-                        : "Remind me ${formatDate(stDate, [
+                        : "${formatDate(stDate, [
                             DD,
                             '-',
                             mm,

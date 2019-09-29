@@ -32,7 +32,7 @@ dependencies:
   mime: ^0.9.6+2
   path: ^1.6.2
   google_places_picker: ^2.0.2+2
-  firebase_analytics: ^5.0.1
+ # firebase_analytics: ^5.0.2
   firebase_auth: ^0.14.0+5
   firebase_database: ^3.0.7
   firebase_storage: ^3.0.6

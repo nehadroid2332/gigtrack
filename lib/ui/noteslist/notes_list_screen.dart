@@ -106,7 +106,7 @@ class _NotesListScreenState
             },
           ),
           SpeedDialChild(
-            label: "Write you song",
+            label: "Write your song",
             child: Icon(Icons.add),
             backgroundColor: Color.fromRGBO(22,102,237, 1.0),
             onTap: () async {

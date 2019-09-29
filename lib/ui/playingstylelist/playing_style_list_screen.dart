@@ -79,26 +79,32 @@ class _PlayingStyleListScreenState
                     playingStyleList = snapshot.data;
                   }
                   return ListView.builder(
-                    padding: EdgeInsets.all(20),
+                    padding: EdgeInsets.all(0),
                     itemBuilder: (BuildContext context, int index) {
                       UserPlayingStyle userPlayingStyle =
                           playingStyleList[index];
                       return InkWell(
                         child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          margin: EdgeInsets.all(10),
                           color: Color.fromRGBO(124, 180, 97, 1.0),
                           child: Padding(
-                            padding: EdgeInsets.all(10),
+                            padding: EdgeInsets.all(15),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  "${userPlayingStyle.playing_styles}",
-                                  style: TextStyle(color: Colors.white),
+                                  "${userPlayingStyle.playing_styles[0]}",
+                                  style: TextStyle(color: Colors.white,
+                                  fontSize: 20
+                                  ),
                                 ),
-                                Text(
-                                  "${userPlayingStyle.instruments}",
-                                  style: TextStyle(color: Colors.white),
-                                )
+//                                Text(
+//                                  "${userPlayingStyle.instruments}",
+//                                  style: TextStyle(color: Colors.white),
+//                                )
                               ],
                             ),
                           ),

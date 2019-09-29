@@ -34,7 +34,7 @@ class _BulletInBoardListScreenState
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
-            color: Color.fromRGBO(105, 114, 98, 1.0),
+            color: Color.fromRGBO(214, 22, 35, 1.0),
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -54,7 +54,7 @@ class _BulletInBoardListScreenState
             Text(
               "Bulletin Board",
               style: textTheme.display1.copyWith(
-                  color: Color.fromRGBO(22, 102, 237, 1.0), fontSize: 28),
+                  color: Color.fromRGBO(214, 22, 35, 1.0), fontSize: 28),
             ),
             Padding(
               padding: EdgeInsets.all(4),
@@ -88,6 +88,7 @@ class _BulletInBoardListScreenState
           await widget.appListener.router
               .navigateTo(context, Screens.ADDBULLETIN.toString() + "/");
         },
+        backgroundColor: Color.fromRGBO(214, 22, 35, 1.0),
         child: Icon(Icons.add),
       ),
     );
