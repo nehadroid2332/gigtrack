@@ -238,7 +238,7 @@ class _AddBulletInBoardScreenState
                               maxLines: 3,
                               decoration: InputDecoration(
                                 labelText: widget.id.isEmpty || isEdit
-                                    ? "Add Description here"
+                                    ? "Add message"
                                     : "",
                                 labelStyle: TextStyle(
                                     color: Color.fromRGBO(202, 208, 215, 1.0),
@@ -290,7 +290,7 @@ class _AddBulletInBoardScreenState
                                                 Expanded(
                                                   flex: 5,
                                                   child: Text(
-                                                    "Date",
+                                                    "Post Date",
                                                     textAlign: TextAlign.right,
                                                     style: textTheme.title
                                                         .copyWith(
