@@ -77,7 +77,7 @@ class _AddPlayingStyleScreenState
     "National Touring",
     "International Touring",
   ];
-  bool isyearage;
+  int isyearage;
   bool isEdit = false;
   final Map<String, String> inList = Map();
   final Map<String, String> exList = Map();
@@ -415,18 +415,18 @@ class _AddPlayingStyleScreenState
                                   onChanged: widget.id.isEmpty || isEdit
                                       ? (bool value) {
                                           setState(() {
-                                            isyearage = value;
+                                            isyearage = 0;
                                           });
                                         }
                                       : null,
-                                  value: isyearage ?? false,
+                                  value: isyearage == 0,
                                 )
                               : Container(),
                           widget.id.isEmpty || isEdit
                               ? Expanded(
                                   child: TextField(
                                     enabled: (widget.id.isEmpty || isEdit)
-                                        ? (isyearage ?? false)
+                                        ? isyearage == 0
                                         : false,
                                     controller: _ageController,
                                     decoration: InputDecoration(
@@ -446,10 +446,22 @@ class _AddPlayingStyleScreenState
                             padding: EdgeInsets.all(4),
                           ),
                           widget.id.isEmpty || isEdit
+                              ? Checkbox(
+                                  onChanged: widget.id.isEmpty || isEdit
+                                      ? (bool value) {
+                                          setState(() {
+                                            isyearage = 1;
+                                          });
+                                        }
+                                      : null,
+                                  value: isyearage == 1,
+                                )
+                              : Container(),
+                          widget.id.isEmpty || isEdit
                               ? Expanded(
                                   child: TextField(
                                     enabled: (widget.id.isEmpty || isEdit)
-                                        ? (isyearage ?? false)
+                                        ? isyearage == 1
                                         : false,
                                     controller: _yearController,
                                     decoration: InputDecoration(
@@ -480,18 +492,18 @@ class _AddPlayingStyleScreenState
                                   onChanged: widget.id.isEmpty || isEdit
                                       ? (bool value) {
                                           setState(() {
-                                            isyearage = !value;
+                                            isyearage = 2;
                                           });
                                         }
                                       : null,
-                                  value: !(isyearage ?? true),
+                                  value: isyearage == 2,
                                 )
                               : Container(),
                           widget.id.isEmpty || isEdit
                               ? Expanded(
                                   child: TextField(
                                     enabled: (widget.id.isEmpty || isEdit)
-                                        ? (!(isyearage ?? true))
+                                        ? (isyearage == 2)
                                         : false,
                                     controller: _responseController,
                                     decoration: InputDecoration(
@@ -790,10 +802,12 @@ class _AddPlayingStyleScreenState
         exList[item] = null;
       }
       selectedEducation = userPlayingStyle.education;
-      if (userPlayingStyle.age != null || userPlayingStyle.year != null) {
-        isyearage = true;
+      if (userPlayingStyle.age != null) {
+        isyearage = 0;
+      } else if (userPlayingStyle.year != null) {
+        isyearage = 1;
       } else if (userPlayingStyle.response != null) {
-        isyearage = false;
+        isyearage = 2;
       }
       psList.clear();
       psList.addAll(userPlayingStyle.playing_styles);

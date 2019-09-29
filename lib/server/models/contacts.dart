@@ -29,9 +29,9 @@ class Contacts extends BaseModel {
     email = data['email'];
     id = data['id'];
     user_id = data['user_id'];
-    otherrelationship=data['other_relationship'];
-    companyName=data['companyName'];
-    notes=data['notes'];
+    otherrelationship = data['other_relationship'];
+    companyName = data['companyName'];
+    notes = data['notes'];
     if (data['files'] != null) {
       for (String item in data['files']) {
         files.add(item);
@@ -67,9 +67,9 @@ class Contacts extends BaseModel {
     data['files'] = files;
     data['user_id'] = user_id;
     data['id'] = id;
-    data['other_relationship']=otherrelationship;
-    data['companyName']= companyName;
-    data['notes']= notes;
+    data['other_relationship'] = otherrelationship;
+    data['companyName'] = companyName;
+    data['notes'] = notes;
     return data;
   }
 }
