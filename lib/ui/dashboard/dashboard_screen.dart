@@ -119,29 +119,28 @@ class _DashboardScreenState
                   String image;
                   switch (txt) {
                     case "Activities":
-
-                      color= Color.fromRGBO(32, 95, 139, 1.0);
+                      color = Color.fromRGBO(32, 95, 139, 1.0);
                       //color = Color.fromRGBO(235, 84, 99, 1.0);
                       image = 'assets/images/activities.png';
                       break;
                     case "Notes":
                       //color=Color.fromRGBO(239,181, 77, 1.0);
-                      color=Color.fromRGBO(22,102,237, 1.0);
+                      color = Color.fromRGBO(22, 102, 237, 1.0);
                       image = 'assets/images/activities.png';
                       break;
                     case "Band":
                       //color=Color.fromRGBO(214,22, 35, 1.0);
-                      color = Color.fromRGBO(239,181, 77, 1.0);
+                      color = Color.fromRGBO(239, 181, 77, 1.0);
                       image = 'assets/images/band.png';
                       break;
                     case "Equipment":
-                      color=Color.fromRGBO(191, 53, 42, 1.0);
+                      color = Color.fromRGBO(191, 53, 42, 1.0);
                       //color = Color.fromRGBO(60, 111, 54, 1.0);
                       image = 'assets/images/equipment.png';
                       break;
                     case "Playing Style":
                       //color=Color.fromRGBO(80, 54, 116, 1.0);
-                      color =  Color.fromRGBO(124, 180, 97, 1.0);
+                      color = Color.fromRGBO(124, 180, 97, 1.0);
                       image = 'assets/images/playingstyle.png';
                       break;
                     case "Contacts":
@@ -150,12 +149,12 @@ class _DashboardScreenState
                       image = 'assets/images/contacts.png';
                       break;
                     case "Admin":
-                      color= Color.fromRGBO(80, 54, 116, 1.0);
+                      color = Color.fromRGBO(80, 54, 116, 1.0);
                       //color = Color.fromRGBO(18, 130, 119, 1.0);
                       image = 'assets/images/admin.png';
                       break;
                     case "Bulletin Board":
-                      color =Color.fromRGBO(214,22, 35, 1.0);
+                      color = Color.fromRGBO(214, 22, 35, 1.0);
                       image = 'assets/images/activities.png';
                       break;
                   }
@@ -220,6 +219,9 @@ class _DashboardScreenState
                       else if (txt == "Contacts")
                         widget.appListener.router.navigateTo(
                             context, Screens.CONTACTLIST.toString());
+                      else if (txt == "Bulletin Board")
+                        widget.appListener.router.navigateTo(
+                            context, Screens.BULLETINLISTLIST.toString());
                     },
                   );
                 },

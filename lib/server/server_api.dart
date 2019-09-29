@@ -5,6 +5,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:gigtrack/server/models/activities.dart';
 import 'package:gigtrack/server/models/band.dart';
+import 'package:gigtrack/server/models/bulletinboard.dart';
 import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/server/models/error_response.dart';
 import 'package:gigtrack/server/models/notestodo.dart';
@@ -25,7 +26,7 @@ class ServerAPI {
 
   StorageReference contactsRef;
 
-  DatabaseReference notesDB;
+  DatabaseReference notesDB, bulletinDB;
 
   factory ServerAPI() {
     return _serverApi;
@@ -60,6 +61,7 @@ class ServerAPI {
     equipmentsDB = _mainFirebaseDatabase.child("equipments");
     contactDB = _mainFirebaseDatabase.child("contacts");
     notesDB = _mainFirebaseDatabase.child("notes");
+    bulletinDB = _mainFirebaseDatabase.child("bulletIn");
     playingStyleDB = _mainFirebaseDatabase.child("playingStyle");
     getCurrentUser();
   }
@@ -191,6 +193,21 @@ class ServerAPI {
     }
   }
 
+  Future<dynamic> addBulletInBoard(BulletInBoard bulletinboard) async {
+    try {
+      bool isUpdate = true;
+      if (bulletinboard.id == null || bulletinboard.id.isEmpty) {
+        String id = bulletinDB.push().key;
+        bulletinboard.id = id;
+        isUpdate = false;
+      }
+      await bulletinDB.child(bulletinboard.id).set(bulletinboard.toMap());
+      return isUpdate;
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
   Future<dynamic> addActivities(Activites activities) async {
     try {
       bool isUpdate = true;
@@ -295,6 +312,15 @@ class ServerAPI {
     }
   }
 
+  Future<dynamic> getBulletInBoardDetails(String id) async {
+    try {
+      DataSnapshot dataSnapshot = await bulletinDB.child(id).once();
+      return BulletInBoard.fromJSON(dataSnapshot.value);
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
   Future<dynamic> searchUser(String name) async {
     try {
       final res = await userDB.once();
@@ -377,6 +403,10 @@ class ServerAPI {
 
   void deleteNotes(String id) async {
     await notesDB.child(id).remove();
+  }
+
+  void deleteBulletInboard(String id) async {
+    await bulletinDB.child(id).remove();
   }
 
   void deleteActivity(String id) async {

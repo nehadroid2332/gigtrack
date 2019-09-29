@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:gigtrack/ui/activitieslist/activities_list_screen.dart';
 import 'package:gigtrack/ui/addactivity/add_activity_screen.dart';
 import 'package:gigtrack/ui/addband/add_band_screen.dart';
+import 'package:gigtrack/ui/addbulletinboard/addbulletinboard_screen.dart';
 import 'package:gigtrack/ui/addcontact/add_contact_screen.dart';
 import 'package:gigtrack/ui/addinstrument/add_instrument_screen.dart';
 import 'package:gigtrack/ui/addmembertoband/addmembertobandscreen.dart';
 import 'package:gigtrack/ui/addnotes/add_notes_screen.dart';
 import 'package:gigtrack/ui/addsong/add_song_screen.dart';
 import 'package:gigtrack/ui/bandlist/bandlist_screen.dart';
+import 'package:gigtrack/ui/bulletinboardlist/bulletinboard_list_screen.dart';
 import 'package:gigtrack/ui/contactlist/contact_list_screen.dart';
 import 'package:gigtrack/ui/dashboard/dashboard_screen.dart';
 import 'package:gigtrack/ui/forgotpassword/forgot_password_screen.dart';
@@ -87,6 +89,10 @@ class MyApp extends StatelessWidget implements AppListener {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return NotesListScreen(this);
     }));
+    _router.define(Screens.BULLETINLISTLIST.toString(), handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      return BulletInBoardListScreen(this);
+    }));
     _router.define(Screens.PRIVACY.toString(), handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return PrivacyScreen(this);
@@ -113,6 +119,14 @@ class MyApp extends StatelessWidget implements AppListener {
         this,
         id: id,
         isParent: isParent,
+      );
+    }));
+    _router.define(Screens.ADDBULLETIN.toString() + "/:id", handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      String id = params["id"][0];
+      return AddBulletInBoardScreen(
+        this,
+        id: id,
       );
     }));
     _router.define(Screens.BANDLIST.toString(), handler: Handler(
@@ -243,5 +257,7 @@ enum Screens {
   FORGOTPASSWORD,
   ADDCONTACT,
   CONTACTLIST,
-  PRIVACY
+  PRIVACY,
+  ADDBULLETIN,
+  BULLETINLISTLIST
 }

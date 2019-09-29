@@ -2,6 +2,7 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/server/models/activities.dart';
+import 'package:gigtrack/server/models/bulletinboard.dart';
 import 'package:gigtrack/server/models/notestodo.dart';
 
 class AppButton extends StatelessWidget {
@@ -185,42 +186,43 @@ Widget buildActivityListItem(Activites ac,
       borderRadius: BorderRadius.circular(12),
     ),
     child: InkWell(
-      child:  Column(
-         
-          children: <Widget>[
-           
-           Row(
-             children: <Widget>[
-               Padding(padding: EdgeInsets.only(left: 5,),),
-             Text(
-               "${formatDate(dt, [D, '-', mm, '/', dd, '/', yy, ' -'])}",
-               style: TextStyle(
-                 fontSize: 16,
-                 fontStyle: FontStyle.italic,
-                 color: Color.fromRGBO(250, 250, 250, 0.8),
-                 
-               ),
-              
-             ),
-             Text(
-               currentType(ac.type),
-               style: TextStyle(
-                 fontSize: 16,
-                 fontStyle: FontStyle.italic,
-                 color: Color.fromRGBO(250, 250, 250, 1.0),
-               ),
-               textAlign: TextAlign.center,
-             ),
-             
-           ],),
-             
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
               Padding(
-                padding: EdgeInsets.all(5),
-              ),Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(padding: EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 13),
-                child:Text(
+                padding: EdgeInsets.only(
+                  left: 5,
+                ),
+              ),
+              Text(
+                "${formatDate(dt, [D, '-', mm, '/', dd, '/', yy, ' -'])}",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontStyle: FontStyle.italic,
+                  color: Color.fromRGBO(250, 250, 250, 0.8),
+                ),
+              ),
+              Text(
+                currentType(ac.type),
+                style: TextStyle(
+                  fontSize: 16,
+                  fontStyle: FontStyle.italic,
+                  color: Color.fromRGBO(250, 250, 250, 1.0),
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.all(5),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 13),
+                child: Text(
                   "${ac.title}",
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -229,54 +231,50 @@ Widget buildActivityListItem(Activites ac,
                     color: Color.fromRGBO(250, 250, 250, 1.0),
                   ),
                   textAlign: TextAlign.center,
-                ) ,)
-              
-            ],),
-            
-              
-            
-            showConfirm
-                ? Align(
-                    alignment: Alignment.centerRight,
-                    child: FlatButton(
-                      child: Text(
-                        "Confirm",
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
+                ),
+              )
+            ],
+          ),
+          showConfirm
+              ? Align(
+                  alignment: Alignment.centerRight,
+                  child: FlatButton(
+                    child: Text(
+                      "Confirm",
+                      style: TextStyle(
+                        color: Colors.white,
                       ),
-                      onPressed: onConfirmPressed,
                     ),
-                  )
-                : Container(),
-          ],
-        ),
-      
+                    onPressed: onConfirmPressed,
+                  ),
+                )
+              : Container(),
+        ],
+      ),
       onTap: onTap,
     ),
   );
 }
 
 String currentType(int type) {
-  if(type==0){
+  if (type == 0) {
     return "Activity";
-  }else if(type==1){
+  } else if (type == 1) {
     return "Performance";
-  }else if(type==2){
+  } else if (type == 2) {
     return "Schedule";
-  }else if(type==3){
+  } else if (type == 3) {
     return "Task";
   }
 }
 
 Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
-
   DateTime stDate = DateTime.fromMillisecondsSinceEpoch((not.start_date));
   DateTime endDate = DateTime.fromMillisecondsSinceEpoch((not.end_date));
 
   return Card(
     margin: EdgeInsets.all(10),
-    color: Color.fromRGBO(22,102,237, 1.0),
+    color: Color.fromRGBO(22, 102, 237, 1.0),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(12),
     ),
@@ -290,21 +288,33 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
               "${not.note}",
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 20,
-                color: Colors.white,
-                fontWeight: FontWeight.w700
-              ),
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700),
             ),
-            Padding(padding: EdgeInsets.all(5),),
-            not.start_date==0?Container():Text(
-              not.start_date==0?"":"Remind me ${formatDate(stDate, [DD, '-', mm, '/', dd, '/', yy,])}",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.white,
-
-              ),
+            Padding(
+              padding: EdgeInsets.all(5),
             ),
+            not.start_date == 0
+                ? Container()
+                : Text(
+                    not.start_date == 0
+                        ? ""
+                        : "Remind me ${formatDate(stDate, [
+                            DD,
+                            '-',
+                            mm,
+                            '/',
+                            dd,
+                            '/',
+                            yy,
+                          ])}",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+                  ),
 
 //            Padding(
 //              padding: EdgeInsets.all(5),
@@ -351,8 +361,111 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
 //                    style: TextStyle(fontSize: 11,color: Colors.white),
 //                  ),
 //                )
-             // ],
-           // )
+            // ],
+            // )
+          ],
+        ),
+      ),
+      onTap: onTap,
+    ),
+  );
+}
+
+Widget buildBulletInBoardListItem(BulletInBoard not, Color color, {onTap}) {
+  DateTime stDate = DateTime.fromMillisecondsSinceEpoch((not.date));
+  // DateTime endDate = DateTime.fromMillisecondsSinceEpoch((not.end_date));
+
+  return Card(
+    margin: EdgeInsets.all(10),
+    color: Color.fromRGBO(22, 102, 237, 1.0),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(12),
+    ),
+    child: InkWell(
+      child: Padding(
+        padding: EdgeInsets.all(15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "${not.item}",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700),
+            ),
+            Padding(
+              padding: EdgeInsets.all(5),
+            ),
+            not.date == 0
+                ? Container()
+                : Text(
+                    not.date == 0
+                        ? ""
+                        : "Remind me ${formatDate(stDate, [
+                            DD,
+                            '-',
+                            mm,
+                            '/',
+                            dd,
+                            '/',
+                            yy,
+                          ])}",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+                  ),
+
+//            Padding(
+//              padding: EdgeInsets.all(5),
+//            ),
+//            Row(
+//              children: <Widget>[
+//                Image.asset(
+//                  'assets/images/calender.png',
+//                  height: 20,
+//                  width: 20,
+//                ),
+//                Padding(
+//                  padding: EdgeInsets.all(5),
+//                ),
+//                Expanded(
+//                  child: Text(
+//                    "${formatDate(stDate, [
+//                      yyyy,
+//                      '-',
+//                      mm,
+//                      '-',
+//                      dd
+//                    ])}",
+//                    style: TextStyle(fontSize: 12,color: Colors.white),
+//                  ),
+//                ),
+//                Image.asset(
+//                  'assets/images/calender.png',
+//                  height: 20,
+//                  width: 20,
+//                ),
+//                Padding(
+//                  padding: EdgeInsets.all(5),
+//                ),
+//                Expanded(
+//                  child: Text(
+//                    "${formatDate(endDate, [
+//                      yyyy,
+//                      '-',
+//                      mm,
+//                      '-',
+//                      dd
+//                    ])}\n${formatDate(endDate, [HH, ':', nn, ':', ss])}",
+//                    style: TextStyle(fontSize: 11,color: Colors.white),
+//                  ),
+//                )
+            // ],
+            // )
           ],
         ),
       ),
