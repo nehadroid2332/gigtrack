@@ -194,10 +194,20 @@ class _AddBulletInBoardScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      Text("Type"),
-                      Wrap(
-                        children: items,
+                      Text(
+                        "Type",
+                        textAlign: widget.id.isEmpty || isEdit
+                            ? TextAlign.left
+                            : TextAlign.center,
                       ),
+                      widget.id.isEmpty || isEdit
+                          ? Wrap(
+                              children: items,
+                            )
+                          : Text(
+                              type,
+                              textAlign: TextAlign.center,
+                            ),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
