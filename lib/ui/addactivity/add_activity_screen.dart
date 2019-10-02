@@ -87,8 +87,13 @@ class _AddActivityScreenState
         _startTimeController.text =
             formatDate(dateTime, [hh, ':', nn, ' ', am]);
       } else {
-        endTime = picked;
-        _endTimeController.text = formatDate(dateTime, [hh, ':', nn, ' ', am]);
+        if (picked.hourOfPeriod<=startTime.hourOfPeriod) {
+          showMessage("End Time cannot be greater than Start Time");
+        } else {
+          endTime = picked;
+          _endTimeController.text =
+              formatDate(dateTime, [hh, ':', nn, ' ', am]);
+        }
       }
     }
   }
@@ -314,7 +319,7 @@ class _AddActivityScreenState
                                 )
                               : Container(),
                       Padding(padding: EdgeInsets.all(5),),
-                      widget.type == Activites.TYPE_PRACTICE_SCHEDULE
+                      widget.type == Activites.TYPE_PRACTICE_SCHEDULE||widget.type== Activites.TYPE_PERFORMANCE_SCHEDULE||widget.type==Activites.TYPE_ACTIVITY
                           ? Row(
                               children: <Widget>[
                                 (widget.id.isEmpty || isEdit)
@@ -840,6 +845,9 @@ class _AddActivityScreenState
                       widget.id.isEmpty || isEdit || widget.isParent
                           ? RaisedButton(
                               onPressed: () {
+                                if( (widget.type == Activites.TYPE_PRACTICE_SCHEDULE||widget.type==Activites.TYPE_PERFORMANCE_SCHEDULE||widget.type==Activites.TYPE_ACTIVITY) &&endTime.hourOfPeriod<=startTime.hourOfPeriod){
+                                  showMessage("End Time cannot be greater than Start Time");
+                                }else{
                                 String title = _titleController.text;
                                 String desc = _descController.text;
                                 String loc = _locController.text;
@@ -858,8 +866,7 @@ class _AddActivityScreenState
                                     _locError = "Cannot be Empty";
                                   } else {
                                     DateTime dateTime, dateTime2;
-                                    if (widget.type ==
-                                        Activites.TYPE_PRACTICE_SCHEDULE) {
+                                    if (widget.type == Activites.TYPE_PRACTICE_SCHEDULE||widget.type==Activites.TYPE_PERFORMANCE_SCHEDULE||widget.type==Activites.TYPE_ACTIVITY) {
                                       dateTime = DateTime(
                                           startDate.year,
                                           startDate.month,
@@ -879,12 +886,12 @@ class _AddActivityScreenState
                                       description: desc,
                                       isRecurring: isRecurring,
                                       startDate: widget.type ==
-                                              Activites.TYPE_PRACTICE_SCHEDULE
+                                              Activites.TYPE_PRACTICE_SCHEDULE||widget.type==Activites.TYPE_PERFORMANCE_SCHEDULE||widget.type==Activites.TYPE_ACTIVITY
                                           ? dateTime?.millisecondsSinceEpoch ??
                                               0
                                           : startDate.millisecondsSinceEpoch,
                                       endDate: widget.type ==
-                                              Activites.TYPE_PRACTICE_SCHEDULE
+                                              Activites.TYPE_PRACTICE_SCHEDULE||widget.type==Activites.TYPE_PERFORMANCE_SCHEDULE||widget.type==Activites.TYPE_ACTIVITY
                                           ? dateTime2?.millisecondsSinceEpoch ??
                                               0
                                           : 0,
@@ -898,7 +905,7 @@ class _AddActivityScreenState
                                     presenter.addActivity(
                                         activities, widget.isParent);
                                   }
-                                });
+                                });}
                               },
                               color: Color.fromRGBO(32, 95, 139, 1.0),
                               child: Text("Submit"),

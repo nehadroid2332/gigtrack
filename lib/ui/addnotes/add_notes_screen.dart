@@ -411,16 +411,16 @@ class _AddNotesScreenState
                               ),
                               delay: 1000,
                             ),
-                      widget.id.isEmpty || isEdit || widget.isParent
-                          ? Container()
-                          : Padding(
-                              padding: EdgeInsets.only(top: 10, left: 10),
-                              child: Text(
-                                "Additionally Notes",
-                                style: textTheme.subtitle
-                                    .copyWith(fontWeight: FontWeight.bold),
-                              ),
-                            ),
+//                      widget.id.isEmpty || isEdit || widget.isParent
+//                          ? Container()
+//                          : Padding(
+//                              padding: EdgeInsets.only(top: 10, left: 10),
+//                              child: Text(
+//                                "Additionally Notes",
+//                                style: textTheme.subtitle
+//                                    .copyWith(fontWeight: FontWeight.bold),
+//                              ),
+//                            ),
                       widget.id.isEmpty || isEdit || widget.isParent
                           ? Container()
                           : ListView.builder(

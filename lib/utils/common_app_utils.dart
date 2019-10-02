@@ -181,13 +181,16 @@ Widget buildActivityListItem(Activites ac,
     {bool showConfirm = false, onConfirmPressed, onTap}) {
   DateTime dt = DateTime.fromMillisecondsSinceEpoch(ac.startDate);
   return Card(
-    color: Color.fromRGBO(32, 95, 139, 1.0),
+    color: dt.millisecondsSinceEpoch < DateTime.now().millisecondsSinceEpoch?Colors.grey:Color.fromRGBO(32, 95, 139, 1.0),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(12),
     ),
     child: InkWell(
       child: Column(
         children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 5,right: 5,top: 10,bottom: 5),
+            child:
           Row(
             children: <Widget>[
               Padding(
@@ -213,42 +216,31 @@ Widget buildActivityListItem(Activites ac,
                 textAlign: TextAlign.center,
               ),
             ],
-          ),
+          ), ),
+         
           Padding(
             padding: EdgeInsets.all(5),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 13),
+              
+              Expanded(child:  Padding(
+                padding: EdgeInsets.only(left: 13, right: 13, top: 0, bottom: 22),
                 child: Text(
                   "${ac.title}",
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 23,
                     color: Color.fromRGBO(250, 250, 250, 1.0),
                   ),
                   textAlign: TextAlign.center,
                 ),
-              )
+              ) ,),
+            
             ],
           ),
-          showConfirm
-              ? Align(
-                  alignment: Alignment.centerRight,
-                  child: FlatButton(
-                    child: Text(
-                      "Confirm",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    onPressed: onConfirmPressed,
-                  ),
-                )
-              : Container(),
         ],
       ),
       onTap: onTap,
