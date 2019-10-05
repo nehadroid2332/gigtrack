@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:gigtrack/server/models/activities.dart';
 import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/band_member.dart';
@@ -225,9 +226,13 @@ class ServerAPI {
     try {
       if (instrument.uploadedFiles.length > 0) {
         for (var i = 0; i < instrument.uploadedFiles.length; i++) {
-          File file = File(instrument.uploadedFiles[i]);
-          if (await file.exists()) {
-            String basename = extension(file.path);
+          File file1 = File(instrument.uploadedFiles[i]);
+
+          if (await file1.exists()) {
+            String basename = extension(file1.path);
+            File newFile = File(
+                file1.parent.path + "/temp-${await file1.length()}" + basename);
+            File file = await compressFileAndGetFile(file1, newFile.path);
             final StorageUploadTask uploadTask = equipmentRef
                 .child("${DateTime.now().toString()}$basename")
                 .putFile(file);
@@ -249,6 +254,19 @@ class ServerAPI {
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }
+  }
+
+  Future<File> compressFileAndGetFile(File file, String targetPath) async {
+    var result = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      targetPath,
+      quality: 60,
+    );
+
+    print(file.lengthSync());
+    print(result.lengthSync());
+
+    return result;
   }
 
   Future<dynamic> updateBandmateStatusForActivity(
