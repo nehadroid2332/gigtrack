@@ -120,9 +120,12 @@ class ServerAPI {
   Future<dynamic> addContact(Contacts contacts) async {
     try {
       for (var i = 0; i < contacts.files?.length ?? 0; i++) {
-        File file = File(contacts.files[i]);
-        if (await file.exists()) {
-          String basename = extension(file.path);
+        File file1 = File(contacts.files[i]);
+        if (await file1.exists()) {
+          String basename = extension(file1.path);
+          File newFile = File(
+              file1.parent.path + "/temp-${await file1.length()}" + basename);
+          File file = await compressFileAndGetFile(file1, newFile.path);
           final StorageUploadTask uploadTask = contactsRef
               .child("${DateTime.now().toString()}$basename")
               .putFile(file);
