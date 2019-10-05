@@ -5,6 +5,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:gigtrack/server/models/activities.dart';
 import 'package:gigtrack/server/models/band.dart';
+import 'package:gigtrack/server/models/band_member.dart';
 import 'package:gigtrack/server/models/bulletinboard.dart';
 import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/server/models/error_response.dart';
@@ -46,7 +47,7 @@ class ServerAPI {
       equipmentsDB,
       contactDB,
       playingStyleDB;
-  String currentUserId;
+  String currentUserId, currentUserEmail;
 
   ServerAPI._internal() {
     _auth = FirebaseAuth.instance;
@@ -69,6 +70,7 @@ class ServerAPI {
   Future<FirebaseUser> getCurrentUser() async {
     FirebaseUser user = await _auth.currentUser();
     currentUserId = user?.uid;
+    currentUserEmail = user?.email;
     return user;
   }
 
@@ -157,10 +159,6 @@ class ServerAPI {
     try {
       DataSnapshot dataSnapshot = await bandDB.child(id).once();
       Band band = Band.fromJSON(dataSnapshot.value);
-      for (String id in band.bandmates.keys) {
-        User user = await getSingleUserById(id);
-        band.bandmateUsers.add(user);
-      }
       return band;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
@@ -323,14 +321,15 @@ class ServerAPI {
 
   Future<dynamic> searchUser(String name) async {
     try {
-      final res = await userDB.once();
+      final res =
+          await contactDB.orderByChild("user_id").equalTo(currentUserId).once();
       Map mp = res.value;
-      List<User> acc = [];
+      List<Contacts> acc = [];
       for (var d in mp.values) {
-        User user = User.fromJSON(d);
-        if (user.firstName.toLowerCase().contains(name.toLowerCase()) ||
-            user.lastName.toLowerCase().contains(name.toLowerCase()))
+        Contacts user = Contacts.fromJSON(d);
+        if (user.name.toLowerCase().contains(name.toLowerCase())) {
           acc.add(user);
+        }
       }
       return acc;
     } catch (e) {
@@ -415,5 +414,18 @@ class ServerAPI {
 
   void deletePlayingStyle(String id) async {
     await playingStyleDB.child(id).remove();
+  }
+
+  Future<dynamic> internalRegister(User user) async {
+    try {
+      AuthResult authResult = await _auth.createUserWithEmailAndPassword(
+          email: user.email, password: user.password);
+      user.id = authResult.user.uid;
+      await userDB.child(user.id).set(user.toMap());
+      await forgotPassword(user.email);
+      return user;
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
   }
 }

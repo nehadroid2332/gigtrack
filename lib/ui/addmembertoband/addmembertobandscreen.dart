@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/band_member.dart';
-import 'package:gigtrack/server/models/user.dart';
+import 'package:gigtrack/server/models/contacts.dart';
 
 import 'addmembertobandpresenter.dart';
 
@@ -19,29 +19,36 @@ class AddMemberToBandScreen extends BaseScreen {
 class _AddMemberToBandScreenState
     extends BaseScreenState<AddMemberToBandScreen, AddMemberToBandPresenter>
     implements AddMemberToBandContract {
-  final searchUsers = <User>[];
+  final searchUsers = <Contacts>[];
   final _searchController = TextEditingController(),
-      _stageNameController = TextEditingController(),
-      _authController = TextEditingController();
+      _firstNameController = TextEditingController(),
+      _lastNameController = TextEditingController(),
+      _emailController = TextEditingController(),
+      _otherTalentController = TextEditingController(),
+      _mobileTextController = TextEditingController(),
+      _notesController = TextEditingController(),
+      _payController = TextEditingController();
   bool isSearching = false;
-  User itemSelect;
-  String _errorStageName, _errorAuth;
+  Contacts itemSelect;
+  String _errorFirstName,
+      _errorLastName,
+      _errorMobileText,
+      _errorPay,
+      _errorNotes,
+      _errorOtherTalent,
+      _errorEmail;
   final playingStylesList = <String>[
-    "All Access",
+    "Leader",
     "Communications",
-    "Post/Edit Activities/Schedules/Tasks",
-    "View Only",
-    "Post/Edit Equipment",
-    "Post/Edit About the Band"
+    "Setup",
+    "Post Entries"
   ];
   final memberRoles = <String>[
     "Agent",
     "Manager",
     "Musician",
     "Roodle",
-    "Back up Musician"
-  ];
-  final instruments = <String>[
+    "Back up Musician",
     "Bass",
     "Drums",
     "Guitar",
@@ -50,15 +57,15 @@ class _AddMemberToBandScreenState
     "Percussions",
     "Vocals-Lead",
     "Vocals-Harmony",
-  ];
-  final others = <String>[
     "Equipment Manager",
     "Communications",
     "Marketing",
     "Button"
   ];
-  final Set<String> psList = Set();
-  String mList, iList, oList;
+  final instruments = <String>[];
+  final others = <String>[];
+  final Set<String> mList = Set();
+  String psList, iList, oList;
 
   @override
   Widget buildBody() {
@@ -69,7 +76,7 @@ class _AddMemberToBandScreenState
           child: Text(
             s,
             style: textTheme.subtitle.copyWith(
-                color: psList.contains(s)
+                color: psList == (s)
                     ? Colors.white
                     : widget.appListener.primaryColorDark),
           ),
@@ -79,7 +86,7 @@ class _AddMemberToBandScreenState
             vertical: 8,
           ),
           decoration: BoxDecoration(
-            color: psList.contains(s)
+            color: psList == s
                 ? widget.appListener.primaryColorDark
                 : Color.fromRGBO(244, 246, 248, 1.0),
             borderRadius: BorderRadius.circular(18),
@@ -90,10 +97,7 @@ class _AddMemberToBandScreenState
         ),
         onTap: () {
           setState(() {
-            if (psList.contains(s)) {
-              psList.remove(s);
-            } else
-              psList.add(s);
+            psList = s;
           });
         },
       ));
@@ -105,7 +109,7 @@ class _AddMemberToBandScreenState
           child: Text(
             s,
             style: textTheme.subtitle.copyWith(
-                color: mList == (s)
+                color: mList.contains(s)
                     ? Colors.white
                     : widget.appListener.primaryColorDark),
           ),
@@ -115,7 +119,7 @@ class _AddMemberToBandScreenState
             vertical: 8,
           ),
           decoration: BoxDecoration(
-            color: mList == (s)
+            color: mList.contains(s)
                 ? widget.appListener.primaryColorDark
                 : Color.fromRGBO(244, 246, 248, 1.0),
             borderRadius: BorderRadius.circular(18),
@@ -126,7 +130,10 @@ class _AddMemberToBandScreenState
         ),
         onTap: () {
           setState(() {
-            mList = s;
+            if (mList.contains(s)) {
+              mList.remove(s);
+            } else
+              mList.add(s);
           });
         },
       ));
@@ -202,19 +209,23 @@ class _AddMemberToBandScreenState
       child: Column(
         children: <Widget>[
           itemSelect == null
-              ? TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    hintText: "Search",
-                  ),
-                )
-              : Container(),
-          itemSelect == null
-              ? FlatButton(
-                  child: Text("Search"),
-                  onPressed: () {
-                    presenter.searchUser(_searchController.text);
-                  },
+              ? Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: TextField(
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                          hintText: "Search",
+                        ),
+                      ),
+                    ),
+                    FlatButton(
+                      child: Text("Search"),
+                      onPressed: () {
+                        presenter.searchUser(_searchController.text);
+                      },
+                    )
+                  ],
                 )
               : Container(),
           Expanded(
@@ -223,70 +234,102 @@ class _AddMemberToBandScreenState
                     child: CircularProgressIndicator(),
                   )
                 : itemSelect == null
-                    ? ListView.builder(
-                        itemCount: searchUsers.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          User user = searchUsers[index];
-                          return ListTile(
-                            title: Text("${user.firstName} ${user.lastName}"),
-                            subtitle: Text(user.primaryInstrument),
-                            trailing: FlatButton(
-                              child: Text(
-                                "Select",
-                                style: textTheme.button.copyWith(
-                                  color: widget.appListener.primaryColorDark,
+                    ? searchUsers.length > 0
+                        ? ListView.builder(
+                            itemCount: searchUsers.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              Contacts user = searchUsers[index];
+                              return ListTile(
+                                title: Text("${user.name}"),
+                                subtitle: Text(user.relationship),
+                                trailing: FlatButton(
+                                  child: Text(
+                                    "Select",
+                                    style: textTheme.button.copyWith(
+                                      color:
+                                          widget.appListener.primaryColorDark,
+                                    ),
+                                  ),
+                                  color: Color.fromRGBO(244, 246, 248, 1.0),
+                                  onPressed: () {
+                                    setState(() {
+                                      itemSelect = user;
+                                      _emailController.text = itemSelect.email;
+                                      _firstNameController.text =
+                                          itemSelect.name;
+                                      _mobileTextController.text =
+                                          itemSelect.text;
+                                    });
+                                  },
                                 ),
-                              ),
-                              color: Color.fromRGBO(244, 246, 248, 1.0),
+                              );
+                            },
+                          )
+                        : Center(
+                            child: FlatButton(
+                              child: Text("Click to Add Member"),
                               onPressed: () {
                                 setState(() {
-                                  itemSelect = user;
+                                  itemSelect = Contacts();
                                 });
                               },
                             ),
-                          );
-                        },
-                      )
+                          )
                     : ListView(
                         children: <Widget>[
-                          ListTile(
-                            title: Text(
-                                "${itemSelect.firstName} ${itemSelect.lastName}"),
-                            subtitle: Text(itemSelect.primaryInstrument),
-                          ),
                           TextField(
-                            controller: _stageNameController,
+                            controller: _firstNameController,
                             decoration: InputDecoration(
-                              labelText: "Stage Name",
+                              labelText: "First Name",
                               labelStyle: TextStyle(
                                 color: Color.fromRGBO(169, 176, 187, 1.0),
                               ),
-                              errorText: _errorStageName,
+                              errorText: _errorFirstName,
                             ),
                           ),
                           TextField(
-                            controller: _authController,
+                            controller: _lastNameController,
                             decoration: InputDecoration(
-                              labelText: "Authentication Field",
+                              labelText: "Last Name",
                               labelStyle: TextStyle(
                                 color: Color.fromRGBO(169, 176, 187, 1.0),
                               ),
-                              errorText: _errorAuth,
+                              errorText: _errorLastName,
+                            ),
+                          ),
+                          TextField(
+                            controller: _mobileTextController,
+                            decoration: InputDecoration(
+                              labelText: "Mobile/Text",
+                              labelStyle: TextStyle(
+                                color: Color.fromRGBO(169, 176, 187, 1.0),
+                              ),
+                              errorText: _errorMobileText,
+                            ),
+                          ),
+                          TextField(
+                            controller: _emailController,
+                            decoration: InputDecoration(
+                              labelText: "Email",
+                              labelStyle: TextStyle(
+                                color: Color.fromRGBO(169, 176, 187, 1.0),
+                              ),
+                              errorText: _errorEmail,
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.all(3),
+                            padding: EdgeInsets.all(10),
                           ),
-                          FlatButton(
-                            child: Text(
-                              "Pay Info",
-                              style: textTheme.button.copyWith(
-                                color: widget.appListener.primaryColorDark,
-                              ),
-                            ),
-                            color: Color.fromRGBO(244, 246, 248, 1.0),
-                            onPressed: () {},
-                          ),
+                          // FlatButton(
+                          //   child: Text(
+                          //     "Pay Info",
+                          //     style: textTheme.button.copyWith(
+                          //       color: widget.appListener.primaryColorDark,
+                          //     ),
+                          //   ),
+                          //   color: Color.fromRGBO(244, 246, 248, 1.0),
+                          //   onPressed: () {},
+                          // ),
                           Text(
                             "Permissions",
                             style: textTheme.headline.copyWith(
@@ -295,7 +338,7 @@ class _AddMemberToBandScreenState
                             ),
                             textAlign: TextAlign.left,
                           ),
-                          Padding(padding: EdgeInsets.all(10)),
+                          Padding(padding: EdgeInsets.all(5)),
                           Wrap(
                             children: items,
                           ),
@@ -315,45 +358,75 @@ class _AddMemberToBandScreenState
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text(
-                                  "Member Role",
-                                  style: textTheme.headline.copyWith(
-                                    color: Color.fromRGBO(99, 108, 119, 1.0),
-                                    fontSize: 15,
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
+                                // Text(
+                                //   "Member Role",
+                                //   style: textTheme.headline.copyWith(
+                                //     color: Color.fromRGBO(99, 108, 119, 1.0),
+                                //     fontSize: 15,
+                                //   ),
+                                //   textAlign: TextAlign.left,
+                                // ),
                                 Padding(padding: EdgeInsets.all(3)),
                                 Wrap(
                                   children: items2,
                                 ),
                                 Divider(),
-                                Text(
-                                  "Instruments",
-                                  style: textTheme.headline.copyWith(
-                                    color: Color.fromRGBO(99, 108, 119, 1.0),
-                                    fontSize: 15,
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                                Padding(padding: EdgeInsets.all(3)),
-                                Wrap(
-                                  children: items3,
-                                ),
-                                Divider(),
-                                Text(
-                                  "Other",
-                                  style: textTheme.headline.copyWith(
-                                    color: Color.fromRGBO(99, 108, 119, 1.0),
-                                    fontSize: 15,
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                                Padding(padding: EdgeInsets.all(3)),
-                                Wrap(
-                                  children: items4,
-                                ),
+                                // Text(
+                                //   "Instruments",
+                                //   style: textTheme.headline.copyWith(
+                                //     color: Color.fromRGBO(99, 108, 119, 1.0),
+                                //     fontSize: 15,
+                                //   ),
+                                //   textAlign: TextAlign.left,
+                                // ),
+                                // Padding(padding: EdgeInsets.all(3)),
+                                // Wrap(
+                                //   children: items3,
+                                // ),
+                                // Divider(),
+                                // Text(
+                                //   "Other",
+                                //   style: textTheme.headline.copyWith(
+                                //     color: Color.fromRGBO(99, 108, 119, 1.0),
+                                //     fontSize: 15,
+                                //   ),
+                                //   textAlign: TextAlign.left,
+                                // ),
+                                // Padding(padding: EdgeInsets.all(3)),
+                                // Wrap(
+                                //   children: items4,
+                                // ),
                               ],
+                            ),
+                          ),
+                          TextField(
+                            controller: _otherTalentController,
+                            decoration: InputDecoration(
+                              labelText: "Other Talent",
+                              labelStyle: TextStyle(
+                                color: Color.fromRGBO(169, 176, 187, 1.0),
+                              ),
+                              errorText: _errorOtherTalent,
+                            ),
+                          ),
+                          TextField(
+                            controller: _notesController,
+                            decoration: InputDecoration(
+                              labelText: "Notes",
+                              labelStyle: TextStyle(
+                                color: Color.fromRGBO(169, 176, 187, 1.0),
+                              ),
+                              errorText: _errorNotes,
+                            ),
+                          ),
+                          TextField(
+                            controller: _payController,
+                            decoration: InputDecoration(
+                              labelText: "Pay Percentage",
+                              labelStyle: TextStyle(
+                                color: Color.fromRGBO(169, 176, 187, 1.0),
+                              ),
+                              errorText: _errorPay,
                             ),
                           ),
                           RaisedButton(
@@ -361,14 +434,19 @@ class _AddMemberToBandScreenState
                               showLoading();
                               presenter.addMemberToBand(
                                   BandMember(
-                                    user_id: itemSelect.id,
-                                    authField: _authController.text,
-                                    instrument: iList,
-                                    memberRole: mList,
+                                    user_id: itemSelect.user_id,
+                                    // instrument: iList,
+                                    memberRole: List.from(mList),
+                                    firstName: _firstNameController.text,
+                                    lastName: _lastNameController.text,
+                                    email: _emailController.text,
+                                    mobileText: _mobileTextController.text,
                                     other: oList,
                                     payInfo: null,
-                                    permissions: List.from(psList),
-                                    stageName: _stageNameController.text,
+                                    pay: _payController.text,
+                                    otherTalent: _otherTalentController.text,
+                                    notes: _notesController.text,
+                                    permissions: (psList),
                                   ),
                                   widget.id);
                             },
@@ -399,7 +477,7 @@ class _AddMemberToBandScreenState
   }
 
   @override
-  void onSearchUser(List<User> users) {
+  void onSearchUser(List<Contacts> users) {
     setState(() {
       searchUsers.clear();
       searchUsers.addAll(users);

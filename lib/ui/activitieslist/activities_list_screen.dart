@@ -19,7 +19,7 @@ class ActivitiesListScreen extends BaseScreen {
 class _ActivitiesListScreenState
     extends BaseScreenState<ActivitiesListScreen, ActivitiesListPresenter>
     implements ActivitiesListContract {
-  List activities = <Activites>[];
+  List<Activites> activities = <Activites>[];
   Stream<List<Activites>> list;
 
   @override
@@ -42,6 +42,8 @@ class _ActivitiesListScreenState
           },
         ),
       );
+
+  final _pageController = PageController();
 
   @override
   Widget buildBody() {
@@ -82,17 +84,148 @@ class _ActivitiesListScreenState
                   if (snapshot.hasData) {
                     activities = snapshot.data;
                   }
-                  return ListView.builder(
-                    itemBuilder: (BuildContext context, int index) {
-                      Activites ac = activities[index];
-                      return buildActivityListItem(ac, onTap: () {
-                        widget.appListener.router.navigateTo(
-                            context,
-                            Screens.ADDACTIVITY.toString() +
-                                "/${ac.type}/${ac.id}/${false}");
-                      });
-                    },
-                    itemCount: activities.length,
+                  List<Activites> current = [];
+                  List<Activites> upcoming = [];
+                  List<Activites> past = [];
+                  int currentDate = DateTime.now().millisecondsSinceEpoch;
+                  for (var ac in activities) {
+                    if (currentDate >= ac.startDate &&
+                        currentDate <= (ac.endDate ?? 0)) {
+                      current.add(ac);
+                    } else if (currentDate > (ac.endDate ?? 0) ||
+                        currentDate > ac.startDate) {
+                      past.add(ac);
+                    } else if (currentDate < ac.startDate) {
+                      upcoming.add(ac);
+                    }
+                  }
+
+                  return Column(
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: RaisedButton(
+                              color: Color.fromRGBO(32, 95, 139, 1.0),
+                              textColor: Colors.white,
+                              onPressed: () {
+                                _pageController.animateToPage(
+                                  0,
+                                  curve: Curves.easeIn,
+                                  duration: Duration(milliseconds: 450),
+                                );
+                              },
+                              child: Text("Current"),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(1),
+                          ),
+                          Expanded(
+                            child: RaisedButton(
+                              textColor: Colors.white,
+                              color: Color.fromRGBO(32, 95, 139, 1.0),
+                              onPressed: () {
+                                _pageController.animateToPage(
+                                  1,
+                                  curve: Curves.easeIn,
+                                  duration: Duration(milliseconds: 450),
+                                );
+                              },
+                              child: Text("Upcoming"),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(1),
+                          ),
+                          Expanded(
+                            child: RaisedButton(
+                              textColor: Colors.white,
+                              color: Color.fromRGBO(32, 95, 139, 1.0),
+                              onPressed: () {
+                                _pageController.animateToPage(
+                                  2,
+                                  curve: Curves.easeIn,
+                                  duration: Duration(milliseconds: 450),
+                                );
+                              },
+                              child: Text("Past"),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: PageView.builder(
+                          controller: _pageController,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Column(
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Container(
+                                        width: double.infinity,
+                                        color: index == 0
+                                            ? Colors.red
+                                            : Colors.white,
+                                        height: 1,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        width: double.infinity,
+                                        color: index == 1
+                                            ? Colors.red
+                                            : Colors.white,
+                                        height: 1,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        width: double.infinity,
+                                        color: index == 2
+                                            ? Colors.red
+                                            : Colors.white,
+                                        height: 1,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                Expanded(
+                                  child: ListView.builder(
+                                    padding: EdgeInsets.only(
+                                      bottom: 60,
+                                    ),
+                                    itemBuilder:
+                                        (BuildContext context, int index1) {
+                                      Activites ac = index == 0
+                                          ? current[index1]
+                                          : index == 1
+                                              ? upcoming[index1]
+                                              : index == 2
+                                                  ? past[index1]
+                                                  : null;
+                                      return buildActivityListItem(ac,
+                                          onTap: () {
+                                        widget.appListener.router.navigateTo(
+                                            context,
+                                            Screens.ADDACTIVITY.toString() +
+                                                "/${ac.type}/${ac.id}/${false}");
+                                      });
+                                    },
+                                    itemCount: index == 0
+                                        ? current.length
+                                        : index == 1
+                                            ? upcoming.length
+                                            : index == 2 ? past.length : 0,
+                                  ),
+                                )
+                              ],
+                            );
+                          },
+                        ),
+                      )
+                    ],
                   );
                 },
               ),

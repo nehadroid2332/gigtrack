@@ -67,7 +67,7 @@ class _AddNotesScreenState
           color: Colors.white, //change your color here
         ),
         elevation: 0,
-        backgroundColor: Color.fromRGBO(22,102,237, 1.0),
+        backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
         actions: <Widget>[
           widget.id.isEmpty || widget.isParent
               ? Container()
@@ -104,7 +104,7 @@ class _AddNotesScreenState
         ClipPath(
           clipper: RoundedClipper(height / 2.5),
           child: Container(
-            color: Color.fromRGBO(22,102,237, 1.0),
+            color: Color.fromRGBO(22, 102, 237, 1.0),
             height: height / 2.5,
           ),
         ),
@@ -114,7 +114,7 @@ class _AddNotesScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "${widget.id.isEmpty ? "Add" : widget.isParent ? "Add Sub" : ""} Note",
+                "${widget.id.isEmpty ? "Add Note" : widget.isParent ? "Note is about" : "Note"}",
                 style: textTheme.display2
                     .copyWith(color: Colors.white, fontSize: 30),
               ),
@@ -436,7 +436,7 @@ class _AddNotesScreenState
                                   subtitle: Text(notesTodo.description),
                                   leading: CircleAvatar(
                                       backgroundColor:
-                                      Color.fromRGBO(22,102,237, 1.0),
+                                          Color.fromRGBO(22, 102, 237, 1.0),
                                       radius: 35,
                                       child: Row(
                                         crossAxisAlignment:
@@ -534,7 +534,7 @@ class _AddNotesScreenState
                                   }
                                 });
                               },
-                              color: Color.fromRGBO(22,102,237, 1.0),
+                              color: Color.fromRGBO(22, 102, 237, 1.0),
                               child: Text(
                                 "Submit",
                                 style: textTheme.headline.copyWith(

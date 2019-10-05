@@ -3,37 +3,55 @@ import 'package:gigtrack/base/base_model.dart';
 class BandMember extends BaseModel {
   String id;
   String user_id;
-  String stageName;
-  String authField;
-  List<String> permissions = [];
+  String firstName;
+  String lastName;
+  String email;
+  String mobileText;
+  String permissions;
   String payInfo;
-  String memberRole;
+  List<String> memberRole=[];
   String instrument;
   String other;
+  String otherTalent;
+  String notes;
+  String pay;
+  int status = 0;
 
-  BandMember({
-    this.user_id,
-    this.stageName,
-    this.authField,
-    this.permissions,
-    this.payInfo,
-    this.memberRole,
-    this.instrument,
-    this.other,
-  });
+  BandMember(
+      {this.user_id,
+      this.otherTalent,
+      this.permissions,
+      this.payInfo,
+      this.email,
+      this.firstName,
+      this.lastName,
+      this.mobileText,
+      this.memberRole,
+      this.instrument,
+      this.other,
+      this.id,
+      this.status,
+      this.notes,
+      this.pay});
 
   BandMember.fromJSON(dynamic data) {
     id = data['id'];
     user_id = data['user_id'];
-    stageName = data['stageName'];
-    authField = data['authField'];
-    if (data['permissions'] != null) {
-      for (var item in data['permissions']) {
-        permissions.add(item.toString());
+    email = data['email'];
+    firstName = data['firstName'];
+    lastName = data['lastName'];
+    mobileText = data['mobileText'];
+    notes = data['notes'];
+    pay = data['pay'];
+    otherTalent = data['otherTalent'];
+    if (data['memberRole'] != null) {
+      for (var item in data['memberRole']) {
+        memberRole.add(item.toString());
       }
     }
+    status = data['status'] ?? 0;
     payInfo = data['payInfo'];
-    memberRole = data['memberRole'];
+    permissions = data['permissions'];
     instrument = data['instrument'];
     other = data['other'];
   }
@@ -43,8 +61,14 @@ class BandMember extends BaseModel {
     Map<String, dynamic> data = super.toMap();
     data['id'] = id;
     data['user_id'] = user_id;
-    data['stageName'] = stageName;
-    data['authField'] = authField;
+    data['email'] = email;
+    data['firstName'] = firstName;
+    data['lastName'] = lastName;
+    data['mobileText'] = mobileText;
+    data['otherTalent'] = otherTalent;
+    data['pay'] = pay;
+    data['status'] = status;
+    data['notes'] = notes;
     data['permissions'] = permissions;
     data['payInfo'] = payInfo;
     data['memberRole'] = memberRole;

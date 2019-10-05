@@ -9,16 +9,17 @@ class BandListPresenter extends BasePresenter {
   BandListPresenter(BaseContract view) : super(view);
 
   Stream<List<Band>> getBands() {
-    return serverAPI.bandDB
-        .orderByChild('user_id')
-        .equalTo(serverAPI.currentUserId)
-        .onValue
-        .map((a) {
+    return serverAPI.bandDB.onValue.map((a) {
       Map mp = a.snapshot.value;
       if (mp == null) return null;
       List<Band> acc = [];
       for (var d in mp.values) {
-        acc.add(Band.fromJSON(d));
+        Band band = Band.fromJSON(d);
+        if (band.userId == serverAPI.currentUserId ||
+            band.bandmates.keys
+                .contains(serverAPI.currentUserEmail.replaceAll(".", ""))) {
+          acc.add(band);
+        }
       }
       return acc;
     });

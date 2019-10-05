@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/band.dart';
+import 'package:gigtrack/server/models/band_member.dart';
+import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/ui/addband/add_band_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
@@ -35,7 +37,7 @@ class _AddBandScreenState
       _websiteController = TextEditingController();
   String _errorDateStarted, _errorMusicStyle, _errorStructure, _errorWebsite;
   String _errorBandName, _errorBandLegalName, _errorEmail;
-  List<User> members = [];
+  List<BandMember> members = [];
   final legalStructure = [
     "Corporation",
     "LLC",
@@ -50,6 +52,8 @@ class _AddBandScreenState
   bool isEdit = false;
   bool showLegalName = false;
   var _structuretype = "Corporation";
+
+  String bandUserId;
 
   Future getImage() async {
     showDialog(
@@ -103,7 +107,7 @@ class _AddBandScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(239,181, 77, 1.0),
+        backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
         actions: <Widget>[
           widget.id.isEmpty
               ? Container()
@@ -139,12 +143,21 @@ class _AddBandScreenState
 
   @override
   Widget buildBody() {
+    bool permission = false;
+    if (members != null && members.length > 0) {
+      for (var item in members) {
+        if (item.permissions == "Leader" || item.permissions == "Setup") {
+          permission = item.email == presenter.serverAPI.currentUserEmail;
+        }
+      }
+    }
+
     return Stack(
       children: <Widget>[
         ClipPath(
           clipper: RoundedClipper(height / 2.5),
           child: Container(
-            color: Color.fromRGBO(239,181, 77, 1.0),
+            color: Color.fromRGBO(239, 181, 77, 1.0),
             height: height / 2.5,
           ),
         ),
@@ -566,27 +579,27 @@ class _AddBandScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      widget.id.isNotEmpty || isEdit
-                          ? Row(
-                              children: <Widget>[
-                                FlatButton(
-                                  child: Text(
-                                    "Add Bandmates",
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  color: Color.fromRGBO(244, 246, 248, 1.0),
-                                  onPressed: () async {
-                                    await widget.appListener.router.navigateTo(
-                                        context,
-                                        Screens.ADDMEMBERTOBAND.toString() +
-                                            "/${widget.id}");
-                                    showLoading();
-                                    presenter.getBandDetails(widget.id);
-                                  },
-                                )
-                              ],
-                            )
-                          : Container(),
+                      // widget.id.isNotEmpty || isEdit
+                      //     ? Row(
+                      //         children: <Widget>[
+                      //           FlatButton(
+                      //             child: Text(
+                      //               "Add Bandmates",
+                      //               textAlign: TextAlign.left,
+                      //             ),
+                      //             color: Color.fromRGBO(244, 246, 248, 1.0),
+                      //             onPressed: () async {
+                      //               await widget.appListener.router.navigateTo(
+                      //                   context,
+                      //                   Screens.ADDMEMBERTOBAND.toString() +
+                      //                       "/${widget.id}");
+                      //               showLoading();
+                      //               presenter.getBandDetails(widget.id);
+                      //             },
+                      //           )
+                      //         ],
+                      //       )
+                      //     : Container(),
                       Padding(
                         padding: EdgeInsets.only(
                           top: widget.id.isEmpty ? 30 : 8,
@@ -604,7 +617,11 @@ class _AddBandScreenState
                                     ),
                                   ),
                                 ),
-                                widget.id.isEmpty || isEdit
+                                (bandUserId != null &&
+                                            bandUserId ==
+                                                presenter
+                                                    .serverAPI.currentUserId) ||
+                                        permission
                                     ? IconButton(
                                         icon: Icon(
                                           Icons.add,
@@ -619,7 +636,8 @@ class _AddBandScreenState
                                                       "/${widget.id}");
                                           showLoading();
                                           presenter.getBandDetails(widget.id);
-                                        })
+                                        },
+                                      )
                                     : Container()
                               ],
                             ),
@@ -629,20 +647,24 @@ class _AddBandScreenState
                               shrinkWrap: true,
                               itemCount: members.length,
                               itemBuilder: (BuildContext context, int index) {
-                                User user = members[index];
+                                BandMember user = members[index];
+                                String permission;
+                                if (user.permissions != null) {
+                                  permission = user.permissions;
+                                }
                                 return ListTile(
                                   title: Text(
                                     "${user.firstName} ${user.lastName}",
                                     style: textTheme.subhead.copyWith(
                                       color: Colors.black,
-                                      fontSize: 15,
+                                      fontSize: 17,
                                     ),
                                   ),
                                   subtitle: Text(
-                                    "${user.primaryInstrument}",
+                                    "${user.memberRole}-$permission",
                                     style: textTheme.subhead.copyWith(
                                       color: Color.fromRGBO(135, 67, 125, 1.0),
-                                      fontSize: 12,
+                                      fontSize: 14,
                                     ),
                                   ),
                                 );
@@ -650,7 +672,7 @@ class _AddBandScreenState
                             ),
                       widget.id.isEmpty
                           ? RaisedButton(
-                              color: Color.fromRGBO(239,181, 77, 1.0),
+                              color: Color.fromRGBO(239, 181, 77, 1.0),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(18)),
                               textColor: Colors.white,
@@ -765,6 +787,7 @@ class _AddBandScreenState
   void getBandDetails(Band band) async {
     hideLoading();
     setState(() {
+      bandUserId = band.userId;
       _musicStyleController.text = band.musicStyle;
       _bandlegalNameController.text = band.legalName;
       _bandNameController.text = band.name;
@@ -777,7 +800,7 @@ class _AddBandScreenState
       _dateStartedController.text =
           formatDate(dateTime, [yyyy, '-', mm, '-', dd]);
       members.clear();
-      members.addAll(band.bandmateUsers);
+      members.addAll(band.bandmates.values);
     });
   }
 
