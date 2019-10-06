@@ -1262,7 +1262,7 @@ class _AddContactScreenState
               onPressed: () async {
                 Navigator.of(context).pop();
                 var image =
-                    await ImagePicker.pickImage(source: ImageSource.camera);
+                    await ImagePicker.pickImage(source: ImageSource.camera,imageQuality: 50);
 
                 setState(() {
                   if (image != null) files.add(image.path);

@@ -14,6 +14,7 @@ class UserPlayingStyle extends BaseModel {
   String listSchool;
   String earn;
   List<String> experience = [];
+  List<String> files = [];
   String viewerKnow;
 
   UserPlayingStyle({
@@ -30,6 +31,7 @@ class UserPlayingStyle extends BaseModel {
     this.earn,
     this.experience,
     this.viewerKnow,
+    this.files
   });
 
   UserPlayingStyle.fromJSON(dynamic data) {
@@ -44,6 +46,11 @@ class UserPlayingStyle extends BaseModel {
       Map ins = data['instruments_ids'];
       for (var item in ins.keys) {
         instruments[item.toString()] = ins[item];
+      }
+    }
+    if (data['files'] != null) {
+      for (String item in data['files']) {
+        files.add(item);
       }
     }
     age = data['age'];
@@ -77,6 +84,7 @@ class UserPlayingStyle extends BaseModel {
     data['year'] = year;
     data['viewerKnow'] = viewerKnow;
     data['experience'] = experience;
+    data['files'] = files;
     return data;
   }
 }

@@ -92,7 +92,7 @@ class _AddInstrumentScreenState
               onPressed: () async {
                 Navigator.of(context).pop();
                 var image =
-                    await ImagePicker.pickImage(source: ImageSource.camera);
+                    await ImagePicker.pickImage(source: ImageSource.camera,imageQuality: 50);
 
                 setState(() {
                   _image = image;
@@ -106,7 +106,7 @@ class _AddInstrumentScreenState
               onPressed: () async {
                 Navigator.of(context).pop();
                 var image =
-                    await ImagePicker.pickImage(source: ImageSource.gallery);
+                    await ImagePicker.pickImage(source: ImageSource.gallery,imageQuality: 50);
                 setState(() {
                   _image = image;
                   files.clear();
