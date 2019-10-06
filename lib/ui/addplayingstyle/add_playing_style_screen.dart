@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
@@ -412,6 +414,21 @@ class _AddPlayingStyleScreenState
                         left: 15, right: 15, bottom: 15, top: 5),
                     children: <Widget>[
                       Padding(padding: EdgeInsets.all(10)),
+                      widget.id.isEmpty || isEdit
+                          ? Container()
+                          : files != null && files.length > 0
+                          ? Container(
+                        margin: EdgeInsets.only(left: 30, right: 30),
+                        height:
+                        MediaQuery.of(context).size.height / 4.0,
+                        width: 90,
+                        child: Image.network(
+                          files[0],
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                          : Container(),
+                      Padding(padding: EdgeInsets.all(5),),
                       Text(
                         "My Music Journey started",
                         textAlign: widget.id.isEmpty || isEdit
@@ -864,6 +881,97 @@ class _AddPlayingStyleScreenState
                               : Container()
                         ],
                       ),
+                      widget.id.isEmpty || isEdit
+                          ? files.length > 0
+                          ? SizedBox(
+                        height: 90,
+                        child: ListView.builder(
+                          itemCount: files.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder:
+                              (BuildContext context, int index) {
+                            File file = File(files[index]);
+                            return file.path.startsWith("https")
+                                ? Container(
+                              margin: EdgeInsets.only(
+                                  left: 10, right: 10),
+                              height: 80,
+                              width: 150,
+                              child: Stack(
+                                children: <Widget>[
+                                  widget.id.isNotEmpty ||
+                                      isEdit &&
+                                          file.path
+                                              .startsWith(
+                                              "https")
+                                      ? Image.network(
+                                    file.path
+                                        .toString() ??
+                                        "",
+                                    fit: BoxFit.cover,
+                                  )
+                                      : Image.file(
+                                    file,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  Positioned(
+                                    right: 14,
+                                    top: 0,
+                                    child: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          files = new List();
+                                        });
+                                      },
+                                      child: Container(
+                                        child: Icon(
+                                          Icons.cancel,
+                                          color: Colors.white,
+                                        ),
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                                : Container(
+                              margin: EdgeInsets.only(
+                                  left: 10, right: 10),
+                              height: 80,
+                              width: 150,
+                              child: Stack(
+                                children: <Widget>[
+                                  Image.file(
+                                    file,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  Positioned(
+                                    right: 14,
+                                    top: 0,
+                                    child: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          files = new List();
+                                        });
+                                      },
+                                      child: Container(
+                                        child: Icon(
+                                          Icons.cancel,
+                                          color: Colors.white,
+                                        ),
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                          : Container()
+                          : Container(),
                       Padding(padding: EdgeInsets.all(20)),
                       widget.id.isEmpty || isEdit
                           ? RaisedButton(
@@ -882,6 +990,7 @@ class _AddPlayingStyleScreenState
                                   experience: List.from(exList.keys),
                                   listSchool: _listSchoolController.text,
                                   viewerKnow: _expController.text,
+                                  files: files
                                 ));
                               },
                               child: Text(
@@ -964,6 +1073,8 @@ class _AddPlayingStyleScreenState
   void onDetailsSuccess(UserPlayingStyle userPlayingStyle) {
     hideLoading();
     setState(() {
+      files.clear();
+      files.addAll(userPlayingStyle.files);
       _degreeController.text = userPlayingStyle.degree;
       _earnController.text = userPlayingStyle.earn;
       _expController.text = userPlayingStyle.viewerKnow;

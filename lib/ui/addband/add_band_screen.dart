@@ -290,8 +290,7 @@ class _AddBandScreenState
                                               color: _legalUserType == 0
                                                   ? Color.fromRGBO(
                                                       70, 206, 172, 1.0)
-                                                  : Color.fromRGBO(
-                                                      202, 208, 215, 1.0),
+                                                  :Color.fromRGBO(239, 181, 77, 1.0),
                                             ),
                                           ),
                                         ),
@@ -329,8 +328,7 @@ class _AddBandScreenState
                                               color: _legalUserType == 1
                                                   ? Color.fromRGBO(
                                                       70, 206, 172, 1.0)
-                                                  : Color.fromRGBO(
-                                                      202, 208, 215, 1.0),
+                                                  : Color.fromRGBO(239, 181, 77, 1.0),
                                             ),
                                           ),
                                         ),

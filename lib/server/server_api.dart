@@ -27,6 +27,8 @@ class ServerAPI {
   StorageReference equipmentRef;
 
   StorageReference contactsRef;
+  
+  StorageReference playingstyleRef;
 
   DatabaseReference notesDB, bulletinDB;
 
@@ -55,6 +57,7 @@ class ServerAPI {
     StorageReference storageRef = FirebaseStorage.instance.ref();
     equipmentRef = storageRef.child("Equipments");
     contactsRef = storageRef.child("Contacts");
+    playingstyleRef=storageRef.child("PlayingStyle");
     DatabaseReference _mainFirebaseDatabase =
         FirebaseDatabase.instance.reference().child("Gigtrack");
     userDB = _mainFirebaseDatabase.child("users");
@@ -376,6 +379,22 @@ class ServerAPI {
 
   Future<dynamic> addUserPlayingStyle(UserPlayingStyle userPlayingStyle) async {
     try {
+      for (var i = 0; i < userPlayingStyle.files?.length ?? 0; i++) {
+        File file1 = File(userPlayingStyle.files[i]);
+        if (await file1.exists()) {
+          String basename = extension(file1.path);
+          File newFile = File(
+              file1.parent.path + "/temp-${await file1.length()}" + basename);
+          File file = await compressFileAndGetFile(file1, newFile.path);
+          final StorageUploadTask uploadTask = playingstyleRef
+              .child("${DateTime.now().toString()}$basename")
+              .putFile(file);
+          StorageTaskSnapshot snapshot = await uploadTask.onComplete;
+          String url = await snapshot.ref.getDownloadURL();
+          print("SD-> $url");
+          userPlayingStyle.files[i] = url;
+        }
+      }
       bool isUpdate = true;
       if (userPlayingStyle.id == null || userPlayingStyle.id.isEmpty) {
         String id = playingStyleDB.push().key;
