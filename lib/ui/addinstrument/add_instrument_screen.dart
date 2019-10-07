@@ -16,8 +16,9 @@ import 'package:image_picker/image_picker.dart';
 
 class AddInstrumentScreen extends BaseScreen {
   final String id;
+  final String bandId;
 
-  AddInstrumentScreen(AppListener appListener, {this.id})
+  AddInstrumentScreen(AppListener appListener, {this.id, this.bandId})
       : super(appListener, title: "");
 
   @override
@@ -91,8 +92,8 @@ class _AddInstrumentScreenState
               child: new Text("Camera"),
               onPressed: () async {
                 Navigator.of(context).pop();
-                var image =
-                    await ImagePicker.pickImage(source: ImageSource.camera,imageQuality: 50);
+                var image = await ImagePicker.pickImage(
+                    source: ImageSource.camera, imageQuality: 50);
 
                 setState(() {
                   _image = image;
@@ -105,8 +106,8 @@ class _AddInstrumentScreenState
               child: new Text("Gallery"),
               onPressed: () async {
                 Navigator.of(context).pop();
-                var image =
-                    await ImagePicker.pickImage(source: ImageSource.gallery,imageQuality: 50);
+                var image = await ImagePicker.pickImage(
+                    source: ImageSource.gallery, imageQuality: 50);
                 setState(() {
                   _image = image;
                   files.clear();
@@ -164,7 +165,7 @@ class _AddInstrumentScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-        backgroundColor:Color.fromRGBO(191, 53, 42, 1.0),
+        backgroundColor: Color.fromRGBO(191, 53, 42, 1.0),
         actions: <Widget>[
           widget.id.isEmpty
               ? Container()
@@ -186,7 +187,7 @@ class _AddInstrumentScreenState
                     } else {
                       _showDialogConfirm();
                       // presenter.instrumentDelete(id);
-                     // Navigator.of(context).pop();
+                      // Navigator.of(context).pop();
                     }
                   },
                 )
@@ -225,7 +226,8 @@ class _AddInstrumentScreenState
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),
                   child: ListView(
-                    padding: EdgeInsets.only(left: 10,right: 10,top: 15,bottom: 15),
+                    padding: EdgeInsets.only(
+                        left: 10, right: 10, top: 15, bottom: 15),
                     children: <Widget>[
                       (_userType == 1 && (widget.id.isEmpty || isEdit))
                           ? Padding(
@@ -286,9 +288,9 @@ class _AddInstrumentScreenState
                           : Text(
                               _instrumentNickNameController.text,
                               textAlign: TextAlign.center,
-                        style: textTheme.subtitle.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+                              style: textTheme.subtitle.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                       Padding(
                         padding: EdgeInsets.only(
@@ -317,9 +319,9 @@ class _AddInstrumentScreenState
                           : Text(
                               _instrumentNameController.text,
                               textAlign: TextAlign.center,
-                        style: textTheme.subtitle.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+                              style: textTheme.subtitle.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                       Padding(
                         padding: EdgeInsets.all(5),
@@ -402,14 +404,12 @@ class _AddInstrumentScreenState
                                         style: textTheme.subtitle.copyWith(
                                           fontWeight: FontWeight.w600,
                                         ),
-
                                       ),
                                     ),
                                     Expanded(
                                       child: Text(
                                         " - ",
                                         textAlign: TextAlign.center,
-
                                       ),
                                       flex: 1,
                                     ),
@@ -418,7 +418,6 @@ class _AddInstrumentScreenState
                                       child: Text(
                                         _wherePurchaseController.text,
                                         textAlign: TextAlign.left,
-
                                       ),
                                     ),
                                   ],
@@ -536,8 +535,11 @@ class _AddInstrumentScreenState
                                                         "Purch date",
                                                         textAlign:
                                                             TextAlign.right,
-                                                        style: textTheme.subtitle.copyWith(
-                                                          fontWeight: FontWeight.w600,
+                                                        style: textTheme
+                                                            .subtitle
+                                                            .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600,
                                                         ),
                                                       ),
                                                     ),
@@ -558,7 +560,6 @@ class _AddInstrumentScreenState
                                                             .text,
                                                         textAlign:
                                                             TextAlign.left,
-
                                                       ),
                                                     ),
                                                   ],
@@ -739,8 +740,10 @@ class _AddInstrumentScreenState
                                                   child: Text(
                                                     "Warranty",
                                                     textAlign: TextAlign.right,
-                                                    style: textTheme.subtitle.copyWith(
-                                                      fontWeight: FontWeight.w600,
+                                                    style: textTheme.subtitle
+                                                        .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
                                                   ),
                                                 ),
@@ -889,8 +892,12 @@ class _AddInstrumentScreenState
                                                                 textAlign:
                                                                     TextAlign
                                                                         .right,
-                                                                style: textTheme.subtitle.copyWith(
-                                                                  fontWeight: FontWeight.w600,
+                                                                style: textTheme
+                                                                    .subtitle
+                                                                    .copyWith(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
                                                                 ),
                                                               ),
                                                             ),
@@ -1207,6 +1214,7 @@ class _AddInstrumentScreenState
                                     UserInstrument instrument = UserInstrument(
                                         band_id: selectedBand?.id ?? "0",
                                         is_insured: _instrumentInsured,
+                                        bandId: widget.bandId,
                                         name: instrumentName,
                                         purchased_date: this.purchasedDate !=
                                                 null
@@ -1331,6 +1339,7 @@ class _AddInstrumentScreenState
   void onUpdate() {
     showMessage("Updated Successfully");
   }
+
   void _showDialogConfirm() {
     // flutter defined function
 
@@ -1341,7 +1350,7 @@ class _AddInstrumentScreenState
         return AlertDialog(
           contentPadding: EdgeInsets.all(15),
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           title: new Text(
             "Warning",
             textAlign: TextAlign.center,
@@ -1366,12 +1375,10 @@ class _AddInstrumentScreenState
                   showMessage("Id cannot be null");
                 } else {
                   presenter.instrumentDelete(id);
-                  Navigator.of(context).popUntil(ModalRoute.withName(Screens.INSTRUMENTLIST.toString()));
+                  Navigator.of(context).popUntil(
+                      ModalRoute.withName(Screens.INSTRUMENTLIST.toString()));
                   //Navigator.of(context).pop();
                 }
-
-
-
               },
             ),
           ],

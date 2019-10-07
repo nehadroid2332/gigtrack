@@ -21,6 +21,7 @@ class Activites extends BaseModel {
   String wardrobe;
   String parking;
   String other;
+  String bandId;
   bool isRecurring = false;
 
   List<Activites> subActivities = [];
@@ -37,6 +38,7 @@ class Activites extends BaseModel {
       this.isRecurring,
       this.taskCompleteDate,
       this.other,
+      this.bandId,
       this.title});
 
   Activites.fromJSON(dynamic data) {
@@ -51,6 +53,7 @@ class Activites extends BaseModel {
     parking = data['parking'];
     isRecurring = data['isRecurring'];
     other = data['other'];
+    bandId = data['bandId'];
     notes = data['notes'];
     task = data['task'];
     taskCompleteDate = data['taskCompleteDate'];
@@ -75,6 +78,7 @@ class Activites extends BaseModel {
     data['notes'] = notes ?? "";
     data['title'] = title ?? "";
     data['id'] = id ?? "";
+    data['bandId'] = bandId;
     data['isRecurring'] = isRecurring;
     data['taskCompleteDate'] = taskCompleteDate;
     data['parking'] = parking;

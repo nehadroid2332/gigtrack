@@ -5,7 +5,9 @@ import 'package:gigtrack/server/models/user_instrument.dart';
 import 'package:gigtrack/ui/instrumentlist/instrument_list_presenter.dart';
 
 class InstrumentListScreen extends BaseScreen {
-  InstrumentListScreen(AppListener appListener) : super(appListener, title: "");
+  final String bandId;
+  InstrumentListScreen(AppListener appListener, {this.bandId})
+      : super(appListener, title: "");
 
   @override
   _InstrumentListScreenState createState() => _InstrumentListScreenState();
@@ -21,7 +23,7 @@ class _InstrumentListScreenState
   @override
   void initState() {
     super.initState();
-    list = presenter.getList();
+    list = presenter.getList(widget.bandId);
   }
 
   @override
@@ -87,7 +89,7 @@ class _InstrumentListScreenState
                               (instr.purchased_date));
 
                       return Card(
-                        color:Color.fromRGBO(191, 53, 42, 1.0),
+                        color: Color.fromRGBO(191, 53, 42, 1.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16)),
                         child: InkWell(
@@ -139,7 +141,7 @@ class _InstrumentListScreenState
                             widget.appListener.router.navigateTo(
                                 context,
                                 Screens.ADDINSTRUMENT.toString() +
-                                    "/${instr.id}");
+                                    "/${instr.id}/${widget.bandId}");
                           },
                         ),
                       );
@@ -153,11 +155,11 @@ class _InstrumentListScreenState
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await widget.appListener.router
-              .navigateTo(context, Screens.ADDINSTRUMENT.toString() + "/");
+          await widget.appListener.router.navigateTo(
+              context, Screens.ADDINSTRUMENT.toString() + "//${widget.bandId}");
         },
         child: Icon(Icons.add),
-        backgroundColor:Color.fromRGBO(191, 53, 42, 1.0),
+        backgroundColor: Color.fromRGBO(191, 53, 42, 1.0),
       ),
     );
   }

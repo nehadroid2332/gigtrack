@@ -5,7 +5,9 @@ import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/ui/contactlist/contact_list_presenter.dart';
 
 class ContactListScreen extends BaseScreen {
-  ContactListScreen(AppListener appListener) : super(appListener);
+  final String bandId;
+  ContactListScreen(AppListener appListener, {this.bandId})
+      : super(appListener);
 
   @override
   _ContactListScreenState createState() => _ContactListScreenState();
@@ -21,8 +23,7 @@ class _ContactListScreenState
   @override
   void initState() {
     super.initState();
-    list = presenter.getContacts();
-
+    list = presenter.getContacts(widget.bandId);
   }
 
   @override
@@ -62,7 +63,7 @@ class _ContactListScreenState
                 Text(
                   "Contacts",
                   style: textTheme.display1.copyWith(
-                      color:  Color.fromRGBO(60, 111, 54, 1.0),
+                      color: Color.fromRGBO(60, 111, 54, 1.0),
                       fontSize: 28,
                       fontWeight: FontWeight.w500),
                   textAlign: TextAlign.left,
@@ -95,7 +96,8 @@ class _ContactListScreenState
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                            getNameOrder(cnt.name), // "${cnt.name.split(" ").reversed.join(' ')}",
+                                  getNameOrder(cnt
+                                      .name), // "${cnt.name.split(" ").reversed.join(' ')}",
                                   style: textTheme.headline.copyWith(
                                       color: Colors.white, fontSize: 18),
                                 ),
@@ -113,8 +115,10 @@ class _ContactListScreenState
                             ),
                           ),
                           onTap: () {
-                            widget.appListener.router.navigateTo(context,
-                                Screens.ADDCONTACT.toString() + "/${cnt.id}");
+                            widget.appListener.router.navigateTo(
+                                context,
+                                Screens.ADDCONTACT.toString() +
+                                    "/${cnt.id}/${widget.bandId}");
                           },
                         ),
                       );
@@ -128,21 +132,21 @@ class _ContactListScreenState
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await widget.appListener.router
-              .navigateTo(context, Screens.ADDCONTACT.toString() + "/");
+          await widget.appListener.router.navigateTo(
+              context, Screens.ADDCONTACT.toString() + "//${widget.bandId}");
         },
         child: Icon(Icons.add),
-        backgroundColor:  Color.fromRGBO(60, 111, 54, 1.0),
+        backgroundColor: Color.fromRGBO(60, 111, 54, 1.0),
       ),
     );
   }
 
-  String getNameOrder(String name){
-    List traversedname= name.split(" ");
-    int namelength= traversedname.length;
-    String lastname = ""+traversedname.last+", ";
+  String getNameOrder(String name) {
+    List traversedname = name.split(" ");
+    int namelength = traversedname.length;
+    String lastname = "" + traversedname.last + ", ";
     traversedname.removeLast();
-    return lastname+""+traversedname.join(' ');
+    return lastname + "" + traversedname.join(' ');
   }
 
   @override

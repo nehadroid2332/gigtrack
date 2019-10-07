@@ -5,7 +5,9 @@ import 'package:gigtrack/server/models/user_playing_style.dart';
 import 'playing_style_list_presenter.dart';
 
 class PlayingStyleListScreen extends BaseScreen {
-  PlayingStyleListScreen(AppListener appListener) : super(appListener);
+  final String bandId;
+  PlayingStyleListScreen(AppListener appListener, {this.bandId})
+      : super(appListener);
 
   @override
   _PlayingStyleListScreenState createState() => _PlayingStyleListScreenState();
@@ -21,7 +23,7 @@ class _PlayingStyleListScreenState
   @override
   void initState() {
     super.initState();
-    list = presenter.getList();
+    list = presenter.getList(widget.bandId);
   }
 
   @override
@@ -85,9 +87,9 @@ class _PlayingStyleListScreenState
                           playingStyleList[index];
                       return InkWell(
                         child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                           margin: EdgeInsets.all(10),
                           color: Color.fromRGBO(124, 180, 97, 1.0),
                           child: Padding(
@@ -97,9 +99,8 @@ class _PlayingStyleListScreenState
                               children: <Widget>[
                                 Text(
                                   "${userPlayingStyle.playing_styles[0]}",
-                                  style: TextStyle(color: Colors.white,
-                                  fontSize: 20
-                                  ),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
                                 ),
 //                                Text(
 //                                  "${userPlayingStyle.instruments}",
@@ -113,7 +114,7 @@ class _PlayingStyleListScreenState
                           await widget.appListener.router.navigateTo(
                               context,
                               Screens.ADDPLAYINGSTYLE.toString() +
-                                  "/${userPlayingStyle.id}");
+                                  "/${userPlayingStyle.id}/${widget.bandId}");
                         },
                       );
                     },
@@ -127,8 +128,8 @@ class _PlayingStyleListScreenState
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await widget.appListener.router
-              .navigateTo(context, Screens.ADDPLAYINGSTYLE.toString() + "/");
+          await widget.appListener.router.navigateTo(context,
+              Screens.ADDPLAYINGSTYLE.toString() + "//${widget.bandId}");
         },
         child: Icon(Icons.add),
         backgroundColor: Color.fromRGBO(124, 180, 97, 1.0),

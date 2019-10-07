@@ -1,4 +1,3 @@
-
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/ui/activitieslist/activities_list_screen.dart';
@@ -64,12 +63,15 @@ class MyApp extends StatelessWidget implements AppListener {
         id: id,
       );
     }));
-    _router.define(Screens.ADDINSTRUMENT.toString() + "/:id", handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    _router.define(Screens.ADDINSTRUMENT.toString() + "/:id/:bandId", handler:
+        Handler(
+            handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["id"][0];
+      String bandId = params["bandId"][0];
       return AddInstrumentScreen(
         this,
         id: id,
+        bandId: bandId,
       );
     }));
     _router.define(Screens.ADDSONG.toString(), handler: Handler(
@@ -80,13 +82,23 @@ class MyApp extends StatelessWidget implements AppListener {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return DashboardScreen(this);
     }));
-    _router.define(Screens.ACTIVITIESLIST.toString(), handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-      return ActivitiesListScreen(this);
+    _router.define(Screens.ACTIVITIESLIST.toString() + "/:bandid", handler:
+        Handler(
+            handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      String id = params["bandid"][0];
+      return ActivitiesListScreen(
+        this,
+        bandId: id,
+      );
     }));
-    _router.define(Screens.NOTETODOLIST.toString(), handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-      return NotesListScreen(this);
+    _router.define(Screens.NOTETODOLIST.toString() + "/:bandid", handler:
+        Handler(
+            handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      String id = params["bandid"][0];
+      return NotesListScreen(
+        this,
+        bandId: id,
+      );
     }));
     _router.define(Screens.BULLETINLISTLIST.toString(), handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
@@ -96,27 +108,32 @@ class MyApp extends StatelessWidget implements AppListener {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return PrivacyScreen(this);
     }));
-    _router.define(Screens.ADDACTIVITY.toString() + "/:type/:id/:isParent",
+    _router.define(
+        Screens.ADDACTIVITY.toString() + "/:type/:id/:isParent/:bandId",
         handler: Handler(
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["id"][0];
       int type = int.parse(params["type"][0]);
       bool isParent = params["isParent"][0] == '${true}';
+      String bandId = params['bandId'][0];
       return AddActivityScreen(
         this,
         id: id,
         type: type,
+        bandId: bandId,
         isParent: isParent,
       );
     }));
-    _router.define(Screens.ADDNOTE.toString() + "/:id/:isParent", handler:
-        Handler(
+    _router.define(Screens.ADDNOTE.toString() + "/:id/:isParent/:bandId",
+        handler: Handler(
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["id"][0];
+      String bandId = params["bandId"][0];
       bool isParent = params["isParent"][0] == '${true}';
       return AddNotesScreen(
         this,
         id: id,
+        bandId: bandId,
         isParent: isParent,
       );
     }));
@@ -132,28 +149,45 @@ class MyApp extends StatelessWidget implements AppListener {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return BandListScreen(this);
     }));
-    _router.define(Screens.CONTACTLIST.toString(), handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-      return ContactListScreen(this);
+    _router.define(Screens.CONTACTLIST.toString() + "/:bandid", handler:
+        Handler(
+            handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      String id = params["bandid"][0];
+      return ContactListScreen(
+        this,
+        bandId: id,
+      );
     }));
-    _router.define(Screens.INSTRUMENTLIST.toString(), handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-      return InstrumentListScreen(this);
+    _router.define(Screens.INSTRUMENTLIST.toString() + "/:bandid", handler:
+        Handler(
+            handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      String id = params["bandid"][0];
+      return InstrumentListScreen(
+        this,
+        bandId: id,
+      );
     }));
     _router.define(Screens.NOTIFICATION.toString(), handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return NotificationListScreens(this);
     }));
-    _router.define(Screens.PLAYINGSTYLELIST.toString(), handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-      return PlayingStyleListScreen(this);
+    _router.define(Screens.PLAYINGSTYLELIST.toString() + "/:bandid", handler:
+        Handler(
+            handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      String id = params["bandid"][0];
+      return PlayingStyleListScreen(
+        this,
+        bandId: id,
+      );
     }));
-    _router.define(Screens.ADDPLAYINGSTYLE.toString() + "/:id", handler:
+    _router.define(Screens.ADDPLAYINGSTYLE.toString() + "/:id/:bandId", handler:
         Handler(
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["id"][0];
+      String bandId = params["bandId"][0];
       return AddPlayingStyleScreen(
         this,
+        bandId: bandId,
         id: id,
       );
     }));
@@ -161,12 +195,15 @@ class MyApp extends StatelessWidget implements AppListener {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return ForgotPasswordScreen(this);
     }));
-    _router.define(Screens.ADDCONTACT.toString() + "/:id", handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    _router.define(Screens.ADDCONTACT.toString() + "/:id/:bandId", handler:
+        Handler(
+            handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["id"][0];
+      String bandId = params["bandId"][0];
       return AddContactScreen(
         this,
         id: id,
+        bandId: bandId,
       );
     }));
     _router.define(Screens.ADDMEMBERTOBAND.toString() + "/:id", handler:

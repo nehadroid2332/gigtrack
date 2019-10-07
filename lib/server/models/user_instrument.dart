@@ -25,6 +25,7 @@ class UserInstrument extends BaseModel {
   bool isWarranty;
   bool isInsurance;
   List<dynamic> uploadedFiles = [];
+  String bandId;
 
   UserInstrument(
       {this.band_id,
@@ -32,6 +33,7 @@ class UserInstrument extends BaseModel {
       this.is_insured,
       this.name,
       this.photo,
+      this.bandId,
       this.purchased_date,
       this.purchased_from,
       this.serial_number,
@@ -64,6 +66,7 @@ class UserInstrument extends BaseModel {
     this.warranty_reference = data['warranty_reference'];
     this.image = data['image'];
     this.cost = data['cost'];
+    this.bandId = data['bandId'];
     this.nickName = data['nick_name'];
     this.policyno = data['policy_no'];
     this.insuranceno = data['insurance_no'];
@@ -80,6 +83,7 @@ class UserInstrument extends BaseModel {
     data['id'] = id ?? "";
     data['is_insured'] = is_insured ?? false;
     data['name'] = name ?? "";
+    data['bandId'] = bandId;
     data['photo'] = photo ?? "";
     data['purchased_date'] = purchased_date ?? "";
     data['purchased_from'] = purchased_from ?? "";

@@ -6,20 +6,36 @@ abstract class PlayingStyleListContract extends BaseContract {}
 class PlayingStyleListPresenter extends BasePresenter {
   PlayingStyleListPresenter(BaseContract view) : super(view);
 
-  Stream<List<UserPlayingStyle>> getList() {
-    return serverAPI.playingStyleDB
-        .orderByChild('user_id')
-        .equalTo(serverAPI.currentUserId)
-        .onValue
-        .map((a) {
-      Map mp = a.snapshot.value;
-      if (mp == null) return null;
+  Stream<List<UserPlayingStyle>> getList(String bandId) {
+    if (bandId != null)
+      return serverAPI.playingStyleDB
+          .orderByChild('bandId')
+          .equalTo(bandId)
+          .onValue
+          .map((a) {
+        Map mp = a.snapshot.value;
+        if (mp == null) return null;
 
-      List<UserPlayingStyle> acc = [];
-      for (var d in mp.values) {
-        acc.add(UserPlayingStyle.fromJSON(d));
-      }
-      return acc;
-    });
+        List<UserPlayingStyle> acc = [];
+        for (var d in mp.values) {
+          acc.add(UserPlayingStyle.fromJSON(d));
+        }
+        return acc;
+      });
+    else
+      return serverAPI.playingStyleDB
+          .orderByChild('user_id')
+          .equalTo(serverAPI.currentUserId)
+          .onValue
+          .map((a) {
+        Map mp = a.snapshot.value;
+        if (mp == null) return null;
+
+        List<UserPlayingStyle> acc = [];
+        for (var d in mp.values) {
+          acc.add(UserPlayingStyle.fromJSON(d));
+        }
+        return acc;
+      });
   }
 }

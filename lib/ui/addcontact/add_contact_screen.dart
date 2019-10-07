@@ -15,7 +15,8 @@ import 'package:image_picker/image_picker.dart';
 
 class AddContactScreen extends BaseScreen {
   final String id;
-  AddContactScreen(AppListener appListener, {this.id})
+  final String bandId;
+  AddContactScreen(AppListener appListener, {this.id, this.bandId})
       : super(appListener, title: "");
 
   @override
@@ -25,7 +26,7 @@ class AddContactScreen extends BaseScreen {
 class _AddContactScreenState
     extends BaseScreenState<AddContactScreen, AddContactPresenter>
     implements AddContactContract {
-  NumberTextInputFormatter _phoneNumberFormatter= NumberTextInputFormatter(1);
+  NumberTextInputFormatter _phoneNumberFormatter = NumberTextInputFormatter(1);
   final relationships = [
     "Select",
     "Agent",
@@ -51,7 +52,7 @@ class _AddContactScreenState
   bool _adddefaultlikes = false;
   bool _isphoneNumber = false;
   bool _isclicktoLikes = false;
-  bool _isCompanyName= false;
+  bool _isCompanyName = false;
 
   @override
   void initState() {
@@ -73,7 +74,7 @@ class _AddContactScreenState
       _relationshipType = value;
       if (value == "Other") {
         _currentRelation = true;
-        _otherRelationshipController.text=" ";
+        _otherRelationshipController.text = " ";
       } else {
         _currentRelation = false;
       }
@@ -86,8 +87,8 @@ class _AddContactScreenState
       _textController = TextEditingController(),
       _relationshipController = TextEditingController(),
       _otherRelationshipController = TextEditingController(),
-		  _companyNameController= TextEditingController(),
-      _notesController= TextEditingController(),
+      _companyNameController = TextEditingController(),
+      _notesController = TextEditingController(),
       _emailController = TextEditingController();
   String _errorName, _errorPhone, _errorEmail, _errorText, _errorRelationship;
   bool isEdit = false;
@@ -95,7 +96,7 @@ class _AddContactScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-        backgroundColor:Color.fromRGBO(60, 111, 54, 1.0),
+        backgroundColor: Color.fromRGBO(60, 111, 54, 1.0),
         actions: <Widget>[
           widget.id.isEmpty
               ? Container()
@@ -104,7 +105,7 @@ class _AddContactScreenState
                   onPressed: () {
                     setState(() {
                       isEdit = !isEdit;
-                      _adddefaultlikes=true;
+                      _adddefaultlikes = true;
                     });
                   },
                 ),
@@ -113,7 +114,7 @@ class _AddContactScreenState
               : IconButton(
                   icon: Icon(Icons.delete),
                   onPressed: () {
-                    if (id == null || id.isEmpty) {
+                    if (widget.id == null || widget.id.isEmpty) {
                       showMessage("Id cannot be null");
                     } else {
                       _showDialogConfirm();
@@ -147,7 +148,7 @@ class _AddContactScreenState
             style: textTheme.subtitle.copyWith(
                 color: selectedLikesMap.containsKey(s)
                     ? Colors.white
-                    :  Color.fromRGBO(60, 111, 54, 1.0)),
+                    : Color.fromRGBO(60, 111, 54, 1.0)),
           ),
           margin: EdgeInsets.all(5),
           padding: EdgeInsets.symmetric(
@@ -156,7 +157,7 @@ class _AddContactScreenState
           ),
           decoration: BoxDecoration(
             color: selectedLikesMap.containsKey(s)
-                ?  Color.fromRGBO(60, 111, 54, 1.0)
+                ? Color.fromRGBO(60, 111, 54, 1.0)
                 : Color.fromRGBO(244, 246, 248, 1.0),
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
@@ -199,7 +200,7 @@ class _AddContactScreenState
             child: TextField(
               textCapitalization: TextCapitalization.words,
               controller: txtController,
-              onChanged:(text){
+              onChanged: (text) {
                 selectedLikesMap[key] = text;
                 //txtController.text= text.replaceAll(" ", ',');
               },
@@ -217,7 +218,8 @@ class _AddContactScreenState
             height: height / 2.5,
           ),
         ),
-        Padding(padding: EdgeInsets.symmetric(
+        Padding(
+          padding: EdgeInsets.symmetric(
             horizontal: 25,
             vertical: 0,
           ),
@@ -226,10 +228,8 @@ class _AddContactScreenState
             children: <Widget>[
               Text(
                 "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Contact",
-                style: textTheme.display1.copyWith(
-                  color: Colors.white,
-                  fontSize: 28
-                ),
+                style: textTheme.display1
+                    .copyWith(color: Colors.white, fontSize: 28),
               ),
               Padding(
                 padding: EdgeInsets.all(5),
@@ -239,7 +239,8 @@ class _AddContactScreenState
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18)),
                   child: ListView(
-                    padding: EdgeInsets.only(left: 10,right:20,top: 10,bottom: 15),
+                    padding: EdgeInsets.only(
+                        left: 10, right: 20, top: 10, bottom: 15),
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.all(5),
@@ -323,76 +324,82 @@ class _AddContactScreenState
                         padding:
                             EdgeInsets.all(widget.id.isEmpty || isEdit ? 5 : 2),
                       ),
-	                    ShowUp(
-		                    child: !_isCompanyName
-				                    ? new GestureDetector(
-			                    onTap: () {
-				                    setState(() {
-					                    _isCompanyName = true;
-				                    });
-			                    },
-			                    child: widget.id.isEmpty || isEdit
-					                    ? Text(
-				                    "Click here to add Company Name",
-				                    style: textTheme.display1.copyWith(
-						                    color: widget
-								                    .appListener.primaryColorDark,
-						                    fontSize: 14),
-			                    )
-					                    : Container(),
-		                    )
-				                    : Container(),
-		                    delay: 1000,
-	                    ),
-	                    (widget.id.isEmpty || isEdit)&& _isCompanyName
-			                    ? TextField(
-		                    enabled: widget.id.isEmpty || isEdit,
-		                    controller: _companyNameController,
-		                    keyboardType: TextInputType.text,
-		                    textCapitalization: TextCapitalization.sentences,
-		                    style: textTheme.subhead.copyWith(
-			                    color: Colors.black,
-		                    ),
-		                    decoration: InputDecoration(
-			                    labelStyle: TextStyle(
-				                    color: Color.fromRGBO(202, 208, 215, 1.0),
-			                    ),
-			                    labelText: "Company Name",
-			                    errorText: _errorText,
-			                    border: widget.id.isEmpty || isEdit
-					                    ? null
-					                    : InputBorder.none,
-		                    ),
-	                    )
-			                    :_companyNameController.text.isEmpty || isEdit?Container(): Row(
-		                    children: <Widget>[
-			                    Expanded(
-				                    flex: 5,
-				                    child: Text(
-					                    "Company Name",
-					                    textAlign: TextAlign.right,
-					                    style: textTheme.subtitle.copyWith(
-						                    fontWeight: FontWeight.w600,
-					                    ),
-				                    ),
-			                    ),
-			                    Expanded(
-				                    flex: 1,
-				                    child: Text(
-					                    " - ",
-					                    textAlign: TextAlign.center,
-				                    ),
-			                    ),
-			                    Expanded(
-				                    child: Text(
-					                    _companyNameController.text,
-					                    textAlign: TextAlign.left,
-				                    ),
-				                    flex: 5,
-			                    )
-		                    ],
-	                    ),
-                      Padding(padding: widget.id.isNotEmpty?EdgeInsets.all(0):EdgeInsets.all(6),),
+                      ShowUp(
+                        child: !_isCompanyName
+                            ? new GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _isCompanyName = true;
+                                  });
+                                },
+                                child: widget.id.isEmpty || isEdit
+                                    ? Text(
+                                        "Click here to add Company Name",
+                                        style: textTheme.display1.copyWith(
+                                            color: widget
+                                                .appListener.primaryColorDark,
+                                            fontSize: 14),
+                                      )
+                                    : Container(),
+                              )
+                            : Container(),
+                        delay: 1000,
+                      ),
+                      (widget.id.isEmpty || isEdit) && _isCompanyName
+                          ? TextField(
+                              enabled: widget.id.isEmpty || isEdit,
+                              controller: _companyNameController,
+                              keyboardType: TextInputType.text,
+                              textCapitalization: TextCapitalization.sentences,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                labelText: "Company Name",
+                                errorText: _errorText,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
+                              ),
+                            )
+                          : _companyNameController.text.isEmpty || isEdit
+                              ? Container()
+                              : Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      flex: 5,
+                                      child: Text(
+                                        "Company Name",
+                                        textAlign: TextAlign.right,
+                                        style: textTheme.subtitle.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                        " - ",
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        _companyNameController.text,
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      flex: 5,
+                                    )
+                                  ],
+                                ),
+                      Padding(
+                        padding: widget.id.isNotEmpty
+                            ? EdgeInsets.all(0)
+                            : EdgeInsets.all(6),
+                      ),
                       widget.id.isEmpty || isEdit
                           ? Text(
                               "Relationship",
@@ -427,24 +434,29 @@ class _AddContactScreenState
                         padding: EdgeInsets.all(3),
                       ),
                       _currentRelation || isEdit
-                          ? _relationshipType=="Other"?TextField(
-                              enabled: widget.id.isEmpty || isEdit,
-                              controller: _otherRelationshipController,
-                              textCapitalization: TextCapitalization.sentences,
-                              decoration: InputDecoration(
-                                labelStyle: TextStyle(
-                                  color: Color.fromRGBO(202, 208, 215, 1.0),
-                                ),
-                                labelText: widget.id.isNotEmpty ? "" : "Other info here",
-                                errorText: _errorRelationship,
-                                border: widget.id.isEmpty || isEdit
-                                    ? null
-                                    : InputBorder.none,
-                              ),
-                              style: textTheme.subhead.copyWith(
-                                color: Colors.black,
-                              ),
-                            ):Container()
+                          ? _relationshipType == "Other"
+                              ? TextField(
+                                  enabled: widget.id.isEmpty || isEdit,
+                                  controller: _otherRelationshipController,
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
+                                  decoration: InputDecoration(
+                                    labelStyle: TextStyle(
+                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+                                    ),
+                                    labelText: widget.id.isNotEmpty
+                                        ? ""
+                                        : "Other info here",
+                                    errorText: _errorRelationship,
+                                    border: widget.id.isEmpty || isEdit
+                                        ? null
+                                        : InputBorder.none,
+                                  ),
+                                  style: textTheme.subhead.copyWith(
+                                    color: Colors.black,
+                                  ),
+                                )
+                              : Container()
                           : widget.id.isEmpty || isEdit
                               ? Container()
                               : Row(
@@ -468,7 +480,9 @@ class _AddContactScreenState
                                     ),
                                     Expanded(
                                       child: Text(
-                                        _relationshipController.text=="Other"? _otherRelationshipController.text:_relationshipController.text,
+                                        _relationshipController.text == "Other"
+                                            ? _otherRelationshipController.text
+                                            : _relationshipController.text,
                                         textAlign: TextAlign.left,
                                       ),
                                       flex: 5,
@@ -487,11 +501,11 @@ class _AddContactScreenState
                               style: textTheme.subhead.copyWith(
                                 color: Colors.black,
                               ),
-                                inputFormatters: [
+                              inputFormatters: [
                                 WhitelistingTextInputFormatter.digitsOnly,
                                 // Fit the validating format.
                                 _phoneNumberFormatter,
-                                ],
+                              ],
                               decoration: InputDecoration(
                                 labelStyle: TextStyle(
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
@@ -629,70 +643,78 @@ class _AddContactScreenState
                                     : InputBorder.none,
                               ),
                             )
-                          : _emailController.text.isNotEmpty? Row(
-                              children: <Widget>[
-                                Expanded(
-                                  flex: 5,
-                                  child: Text(
-                                    "Email",
-                                    textAlign: TextAlign.right,
-                                    style: textTheme.subtitle.copyWith(
-                                      fontWeight: FontWeight.w600,
+                          : _emailController.text.isNotEmpty
+                              ? Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      flex: 5,
+                                      child: Text(
+                                        "Email",
+                                        textAlign: TextAlign.right,
+                                        style: textTheme.subtitle.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                    " - ",
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    _emailController.text,
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  flex: 5,
+                                    Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                        " - ",
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        _emailController.text,
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      flex: 5,
+                                    )
+                                  ],
                                 )
-                              ],
-                            ):Container(),
-	                    Padding(padding: EdgeInsets.all(5),),
-	                    widget.id.isEmpty || isEdit
-			                    ? TextField(
-		                    enabled: widget.id.isEmpty || isEdit,
-		                    controller: _notesController,
-		                    keyboardType: TextInputType.emailAddress,
-		                    style: textTheme.subhead.copyWith(
-			                    color: Colors.black,
-		                    ),
-		                    decoration: InputDecoration(
-			                    labelStyle: TextStyle(
-				                    color: Color.fromRGBO(202, 208, 215, 1.0),
-			                    ),
-			                    labelText: "Notes",
-			                    errorText: _errorEmail,
-			                    border: widget.id.isEmpty || isEdit
-					                    ? null
-					                    : InputBorder.none,
-		                    ),
-	                    )
-			                    : _notesController.text.isNotEmpty? Column(
-		                    children: <Widget>[
-		                    	Text(
-					                    "Notes",
-					                    textAlign: TextAlign.right,
-					                    style: textTheme.subtitle.copyWith(
-						                    fontWeight: FontWeight.w600,
-					                    ),
-				                    ),
-			                   Padding(padding: EdgeInsets.all(3),),
-			                   Text(
-					                    _notesController.text,
-					                    textAlign: TextAlign.left,
-				                    ),
-		                    ],
-	                    ):Container(),
+                              : Container(),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      widget.id.isEmpty || isEdit
+                          ? TextField(
+                              enabled: widget.id.isEmpty || isEdit,
+                              controller: _notesController,
+                              keyboardType: TextInputType.emailAddress,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                labelText: "Notes",
+                                errorText: _errorEmail,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
+                              ),
+                            )
+                          : _notesController.text.isNotEmpty
+                              ? Column(
+                                  children: <Widget>[
+                                    Text(
+                                      "Notes",
+                                      textAlign: TextAlign.right,
+                                      style: textTheme.subtitle.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(3),
+                                    ),
+                                    Text(
+                                      _notesController.text,
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ],
+                                )
+                              : Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -737,7 +759,7 @@ class _AddContactScreenState
                               TextEditingController();
                           final _dateToRememberDateController =
                               TextEditingController();
-                          final   _yearController= TextEditingController();
+                          final _yearController = TextEditingController();
                           _dateToRememberController.addListener(() {
                             data.type = _dateToRememberController.text;
                             _dateToRememberItems[index] = data;
@@ -750,14 +772,19 @@ class _AddContactScreenState
                           }
 
                           _dateToRememberController.text = data.type;
-                          
+
                           _dateToRememberDateController.text = data.date != null
                               ? formatDate(
                                   DateTime.fromMillisecondsSinceEpoch(
                                       data.date ?? 0),
-                                  [mm, '-', dd, ])
+                                  [
+                                      mm,
+                                      '-',
+                                      dd,
+                                    ])
                               : "";
-                          _yearController.text=data.year!=null?data.year:"";
+                          _yearController.text =
+                              data.year != null ? data.year : "";
                           return widget.id.isEmpty || isEdit
                               ? Column(
                                   crossAxisAlignment:
@@ -809,99 +836,111 @@ class _AddContactScreenState
                                           )
                                         : Container(),
                                     widget.id.isEmpty || isEdit
-                                        ? Row(children: <Widget>[
-                                          Expanded(child: GestureDetector(
-                                            onTap: () async {
-                                              final DateTime picked =
-                                              await showDatePicker(
-                                                  context: context,
-                                                  initialDate:
-                                                  DateTime.now(),
-                                                  firstDate:
-                                                  DateTime(2015, 8),
-                                                  lastDate: DateTime(2101));
-                                              if (picked != null)
-                                                setState(() {
-                                                  data.date = picked
-                                                      .millisecondsSinceEpoch;
-                                                  _dateToRememberDateController
-                                                      .text =
-                                                      formatDate(picked, [
-                                                        mm,
-                                                        '-',
-                                                        dd,
-                                                        
-                                                      ]);
-                                                  _dateToRememberItems[index] =
-                                                      data;
-                                                });
-                                            },
-                                            child: AbsorbPointer(
-                                              child: TextField(
-                                                enabled:
-                                                widget.id.isEmpty || isEdit,
-                                                controller:
-                                                _dateToRememberDateController,
-                                                textCapitalization:
-                                                TextCapitalization
-                                                    .sentences,
-                                                decoration: InputDecoration(
-                                                  labelStyle: TextStyle(
-                                                    color: Color.fromRGBO(
-                                                        202, 208, 215, 1.0),
+                                        ? Row(
+                                            children: <Widget>[
+                                              Expanded(
+                                                child: GestureDetector(
+                                                  onTap: () async {
+                                                    final DateTime picked =
+                                                        await showDatePicker(
+                                                            context: context,
+                                                            initialDate:
+                                                                DateTime.now(),
+                                                            firstDate: DateTime(
+                                                                2015, 8),
+                                                            lastDate:
+                                                                DateTime(2101));
+                                                    if (picked != null)
+                                                      setState(() {
+                                                        data.date = picked
+                                                            .millisecondsSinceEpoch;
+                                                        _dateToRememberDateController
+                                                                .text =
+                                                            formatDate(picked, [
+                                                          mm,
+                                                          '-',
+                                                          dd,
+                                                        ]);
+                                                        _dateToRememberItems[
+                                                            index] = data;
+                                                      });
+                                                  },
+                                                  child: AbsorbPointer(
+                                                    child: TextField(
+                                                      enabled:
+                                                          widget.id.isEmpty ||
+                                                              isEdit,
+                                                      controller:
+                                                          _dateToRememberDateController,
+                                                      textCapitalization:
+                                                          TextCapitalization
+                                                              .sentences,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        labelStyle: TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              202,
+                                                              208,
+                                                              215,
+                                                              1.0),
+                                                        ),
+                                                        labelText:
+                                                            widget.id.isEmpty ||
+                                                                    isEdit
+                                                                ? "Date"
+                                                                : "",
+                                                        border: widget.id
+                                                                    .isEmpty ||
+                                                                isEdit
+                                                            ? null
+                                                            : InputBorder.none,
+                                                      ),
+                                                      style: textTheme.subhead
+                                                          .copyWith(
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
                                                   ),
-                                                  labelText:
-                                                  widget.id.isEmpty ||
-                                                      isEdit
-                                                      ? "Date"
-                                                      : "",
-                                                  border: widget.id.isEmpty ||
-                                                      isEdit
-                                                      ? null
-                                                      : InputBorder.none,
                                                 ),
-                                                style:
-                                                textTheme.subhead.copyWith(
-                                                  color: Colors.black,
-                                                ),
-                                                
+                                                flex: 3,
                                               ),
-                                            ),
-                                          ),flex: 3,),
-                                      Padding(padding: EdgeInsets.only(left: 10)),
-                                      Expanded(
-                                        
-                                        child: TextField(enabled: true,
-                                          controller: _yearController,
-                                          style: textTheme.subhead.copyWith(
-                                            color: Colors.black
-                                          ),
-                                          decoration: InputDecoration(
-                                            labelStyle: TextStyle(
-                                              color: Color.fromRGBO(
-                                                  202, 208, 215, 1.0),
-                                            ),
-                                            labelText:
-                                            widget.id.isEmpty ||
-                                                isEdit
-                                                ? "Year(Optional)"
-                                                : "",
-                                            border: widget.id.isEmpty ||
-                                                isEdit
-                                                ? null
-                                                : InputBorder.none,
-                                          ),
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (text) {
-                                            data.year= text;
-                                            _dateToRememberItems[index] =
-                                                data;
-                                          },
-                                        ),
-                                        flex: 2,
-                                      )
-                                      
-                                    ],)
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 10)),
+                                              Expanded(
+                                                child: TextField(
+                                                  enabled: true,
+                                                  controller: _yearController,
+                                                  style: textTheme.subhead
+                                                      .copyWith(
+                                                          color: Colors.black),
+                                                  decoration: InputDecoration(
+                                                    labelStyle: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          202, 208, 215, 1.0),
+                                                    ),
+                                                    labelText:
+                                                        widget.id.isEmpty ||
+                                                                isEdit
+                                                            ? "Year(Optional)"
+                                                            : "",
+                                                    border: widget.id.isEmpty ||
+                                                            isEdit
+                                                        ? null
+                                                        : InputBorder.none,
+                                                  ),
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  onChanged: (text) {
+                                                    data.year = text;
+                                                    _dateToRememberItems[
+                                                        index] = data;
+                                                  },
+                                                ),
+                                                flex: 2,
+                                              )
+                                            ],
+                                          )
                                         : Text(
                                             _dateToRememberDateController.text)
                                   ],
@@ -928,13 +967,19 @@ class _AddContactScreenState
                                         ),
                                       ),
                                       Expanded(
-                                        child: _yearController.text.isNotEmpty?Text(
-                                          _dateToRememberDateController.text+"-"+_yearController.text,
-                                          textAlign: TextAlign.left,
-                                        ):Text(
-                                          _dateToRememberDateController.text,
-                                          textAlign: TextAlign.left,
-                                        ),
+                                        child: _yearController.text.isNotEmpty
+                                            ? Text(
+                                                _dateToRememberDateController
+                                                        .text +
+                                                    "-" +
+                                                    _yearController.text,
+                                                textAlign: TextAlign.left,
+                                              )
+                                            : Text(
+                                                _dateToRememberDateController
+                                                    .text,
+                                                textAlign: TextAlign.left,
+                                              ),
                                         flex: 5,
                                       )
                                     ],
@@ -983,17 +1028,19 @@ class _AddContactScreenState
                                     _isclicktoLikes = true;
                                   });
                                 },
-                                child:_isclicktoLikes?Text(
-                                  "Likes",
-                                  style: TextStyle(fontSize: 14,
-                                  fontWeight: FontWeight.bold
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ): Text(
-                                  "Click to see likes",
-                                  style: TextStyle(fontSize: 14),
-                                  textAlign: TextAlign.center,
-                                )),
+                                child: _isclicktoLikes
+                                    ? Text(
+                                        "Likes",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold),
+                                        textAlign: TextAlign.center,
+                                      )
+                                    : Text(
+                                        "Click to see likes",
+                                        style: TextStyle(fontSize: 14),
+                                        textAlign: TextAlign.center,
+                                      )),
                         delay: 1000,
                       ),
                       Padding(
@@ -1010,34 +1057,37 @@ class _AddContactScreenState
                                     String key =
                                         selectedLikesMap.keys.elementAt(index);
                                     String value = selectedLikesMap[key];
-                                    return value.isNotEmpty?Row(
-                                      children: <Widget>[
-                                        Expanded(
-                                          flex: 5,
-                                          child: Text(
-                                            key,
-                                            textAlign: TextAlign.right,
-                                            style: textTheme.subtitle.copyWith(
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex:1,
-                                          child: Text(
-                                            " - ",
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            value,
-                                            textAlign: TextAlign.left,
-                                          ),
-                                          flex: 5,
-                                        )
-                                      ],
-                                    ):Container();
+                                    return value.isNotEmpty
+                                        ? Row(
+                                            children: <Widget>[
+                                              Expanded(
+                                                flex: 5,
+                                                child: Text(
+                                                  key,
+                                                  textAlign: TextAlign.right,
+                                                  style: textTheme.subtitle
+                                                      .copyWith(
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                flex: 1,
+                                                child: Text(
+                                                  " - ",
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  value,
+                                                  textAlign: TextAlign.left,
+                                                ),
+                                                flex: 5,
+                                              )
+                                            ],
+                                          )
+                                        : Container();
                                   },
                                 )
                               : Container(),
@@ -1188,20 +1238,21 @@ class _AddContactScreenState
                                   borderRadius: BorderRadius.circular(18)),
                               textColor: Colors.white,
                               onPressed: () {
-	                              selectedLikesMap.forEach((key,value)=> {
-		                              if(value.isEmpty){
-			                              selectedLikesMap.remove(key)
-		                              }
-	                              });
+                                selectedLikesMap.forEach((key, value) => {
+                                      if (value.isEmpty)
+                                        {selectedLikesMap.remove(key)}
+                                    });
                                 setState(() {
                                   String nm = _nameController.text;
                                   String rel = _relationshipController.text;
                                   String ph = _phoneController.text;
                                   String txt = _textController.text;
                                   String em = _emailController.text;
-                                  String otherrelationShip= _otherRelationshipController.text;
-                                  String companyName= _companyNameController.text;
-                                  String notes= _notesController.text;
+                                  String otherrelationShip =
+                                      _otherRelationshipController.text;
+                                  String companyName =
+                                      _companyNameController.text;
+                                  String notes = _notesController.text;
                                   _errorEmail = null;
                                   _errorName = null;
                                   _errorPhone = null;
@@ -1213,19 +1264,21 @@ class _AddContactScreenState
                                     showLoading();
                                     Contacts contacts = new Contacts();
                                     contacts.name = nm;
-                                    contacts.id = id;
+                                    contacts.id = widget.id;
+                                    contacts.bandId = widget.bandId;
                                     contacts.relationship = rel;
                                     contacts.email = em;
                                     contacts.phone = ph;
                                     contacts.text = txt;
                                     contacts.files = files;
-                                
+
                                     contacts.likeadded = selectedLikesMap;
                                     contacts.dateToRemember =
                                         _dateToRememberItems;
-                                    contacts.otherrelationship= otherrelationShip;
-                                    contacts.companyName= companyName;
-                                    contacts.notes= notes;
+                                    contacts.otherrelationship =
+                                        otherrelationShip;
+                                    contacts.companyName = companyName;
+                                    contacts.notes = notes;
                                     //contacts.likeadded= selectedLikesMap;
                                     presenter.addContact(contacts);
                                   }
@@ -1261,8 +1314,8 @@ class _AddContactScreenState
               child: new Text("Camera"),
               onPressed: () async {
                 Navigator.of(context).pop();
-                var image =
-                    await ImagePicker.pickImage(source: ImageSource.camera,imageQuality: 50);
+                var image = await ImagePicker.pickImage(
+                    source: ImageSource.camera, imageQuality: 50);
 
                 setState(() {
                   if (image != null) files.add(image.path);
@@ -1298,13 +1351,10 @@ class _AddContactScreenState
     });
   }
 
-  String id;
-
   @override
   void getContactDetails(Contacts data) {
     hideLoading();
     setState(() {
-      id = data.id;
       files.clear();
       files.addAll(data.files);
       _dateToRememberItems.clear();
@@ -1317,25 +1367,24 @@ class _AddContactScreenState
       _textController.text = data.text;
       _relationshipType = data.relationship;
       selectedLikesMap = data.likeadded;
-      _otherRelationshipController.text= data.otherrelationship;
-      _companyNameController.text= data.companyName;
-      _notesController.text= data.notes;
-      if(data.companyName.isNotEmpty){
-      	setState(() {
-      	  _isCompanyName=true;
-      	});
-      }
-      if(data.phone.isNotEmpty){
-      	setState(() {
-      	  _isphoneNumber=true;
-      	});
-      }
-      if(data.relationship=="Other"){
+      _otherRelationshipController.text = data.otherrelationship;
+      _companyNameController.text = data.companyName;
+      _notesController.text = data.notes;
+      if (data.companyName.isNotEmpty) {
         setState(() {
-          _currentRelation=true;
+          _isCompanyName = true;
         });
       }
-
+      if (data.phone.isNotEmpty) {
+        setState(() {
+          _isphoneNumber = true;
+        });
+      }
+      if (data.relationship == "Other") {
+        setState(() {
+          _currentRelation = true;
+        });
+      }
     });
   }
 
@@ -1378,7 +1427,6 @@ class _AddContactScreenState
               onPressed: () {
                 Navigator.of(context).pop();
                 _showDialogConfirm();
-
               },
             ),
           ],
@@ -1386,6 +1434,7 @@ class _AddContactScreenState
       },
     );
   }
+
   void _showDialogConfirm() {
     // flutter defined function
 
@@ -1396,7 +1445,7 @@ class _AddContactScreenState
         return AlertDialog(
           contentPadding: EdgeInsets.all(15),
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           title: new Text(
             "Warning",
             textAlign: TextAlign.center,
@@ -1415,18 +1464,16 @@ class _AddContactScreenState
               textColor: Colors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
-              color:  Color.fromRGBO(191,52,44, 1.0),
+              color: Color.fromRGBO(191, 52, 44, 1.0),
               onPressed: () {
-                  if (id == null || id.isEmpty) {
-                    showMessage("Id cannot be null");
-                  } else {
-                    presenter.contactDelete(id);
-                    Navigator.of(context).popUntil(ModalRoute.withName(Screens.CONTACTLIST.toString()));
-                    //Navigator.of(context).pop();
-                  }
-
-
-
+                if (widget.id == null || widget.id.isEmpty) {
+                  showMessage("Id cannot be null");
+                } else {
+                  presenter.contactDelete(widget.id);
+                  Navigator.of(context).popUntil(
+                      ModalRoute.withName(Screens.CONTACTLIST.toString()));
+                  //Navigator.of(context).pop();
+                }
               },
             ),
           ],
@@ -1445,7 +1492,7 @@ class DateToRememberData {
     Map<String, dynamic> data = Map();
     data['type'] = type;
     data['date'] = date;
-    data['year']= year;
+    data['year'] = year;
     return data;
   }
 
@@ -1454,6 +1501,6 @@ class DateToRememberData {
   DateToRememberData.fromJSON(item) {
     type = item['type'];
     date = item['date'];
-    year=item['year'];
+    year = item['year'];
   }
 }

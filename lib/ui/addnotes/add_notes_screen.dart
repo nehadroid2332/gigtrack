@@ -13,8 +13,9 @@ import 'package:gigtrack/utils/showup.dart';
 class AddNotesScreen extends BaseScreen {
   final String id;
   final bool isParent;
-
-  AddNotesScreen(AppListener appListener, {this.id, this.isParent = false})
+  final String bandId;
+  AddNotesScreen(AppListener appListener,
+      {this.id, this.isParent = false, this.bandId})
       : super(appListener, title: "");
 
   @override
@@ -516,6 +517,7 @@ class _AddNotesScreenState
                                     }
                                     NotesTodo notesTodo = NotesTodo(
                                       description: desc,
+                                      bandId: widget.bandId,
                                       end_date:
                                           end?.millisecondsSinceEpoch ?? 0,
                                       start_date: selectedStartDate != null

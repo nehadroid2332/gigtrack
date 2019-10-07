@@ -9,7 +9,8 @@ import 'package:gigtrack/ui/activitieslist/activities_list_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 
 class ActivitiesListScreen extends BaseScreen {
-  ActivitiesListScreen(AppListener appListener)
+  final String bandId;
+  ActivitiesListScreen(AppListener appListener, {this.bandId})
       : super(appListener, title: "Activities");
 
   @override
@@ -25,7 +26,7 @@ class _ActivitiesListScreenState
   @override
   void initState() {
     super.initState();
-    list = presenter.getList();
+    list = presenter.getList(widget.bandId);
   }
 
   @override
@@ -43,7 +44,7 @@ class _ActivitiesListScreenState
         ),
       );
 
-  final _pageController = PageController();
+  // final _pageController = PageController();
 
   @override
   Widget buildBody() {
@@ -119,7 +120,7 @@ class _ActivitiesListScreenState
                                   widget.appListener.router.navigateTo(
                                       context,
                                       Screens.ADDACTIVITY.toString() +
-                                          "/${ac.type}/${ac.id}/${false}");
+                                          "/${ac.type}/${ac.id}/${false}/${widget.bandId}");
                                 });
                               },
                             )
@@ -143,7 +144,7 @@ class _ActivitiesListScreenState
                                   widget.appListener.router.navigateTo(
                                       context,
                                       Screens.ADDACTIVITY.toString() +
-                                          "/${ac.type}/${ac.id}/${false}");
+                                          "/${ac.type}/${ac.id}/${false}/${widget.bandId}");
                                 });
                               },
                             )
@@ -167,7 +168,7 @@ class _ActivitiesListScreenState
                                   widget.appListener.router.navigateTo(
                                       context,
                                       Screens.ADDACTIVITY.toString() +
-                                          "/${ac.type}/${ac.id}/${false}");
+                                          "/${ac.type}/${ac.id}/${false}/${widget.bandId}");
                                 });
                               },
                             )
@@ -322,7 +323,7 @@ class _ActivitiesListScreenState
               await widget.appListener.router.navigateTo(
                   context,
                   Screens.ADDACTIVITY.toString() +
-                      "/${Activites.TYPE_ACTIVITY}//");
+                      "/${Activites.TYPE_ACTIVITY}///${widget.bandId}");
             },
           ),
           SpeedDialChild(
@@ -333,7 +334,7 @@ class _ActivitiesListScreenState
               await widget.appListener.router.navigateTo(
                   context,
                   Screens.ADDACTIVITY.toString() +
-                      "/${Activites.TYPE_PERFORMANCE_SCHEDULE}//");
+                      "/${Activites.TYPE_PERFORMANCE_SCHEDULE}///${widget.bandId}");
             },
           ),
           SpeedDialChild(
@@ -344,7 +345,7 @@ class _ActivitiesListScreenState
               await widget.appListener.router.navigateTo(
                   context,
                   Screens.ADDACTIVITY.toString() +
-                      "/${Activites.TYPE_PRACTICE_SCHEDULE}//");
+                      "/${Activites.TYPE_PRACTICE_SCHEDULE}///${widget.bandId}");
             },
           ),
           SpeedDialChild(
@@ -352,8 +353,10 @@ class _ActivitiesListScreenState
             child: Icon(Icons.add),
             backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
             onTap: () async {
-              await widget.appListener.router.navigateTo(context,
-                  Screens.ADDACTIVITY.toString() + "/${Activites.TYPE_TASK}//");
+              await widget.appListener.router.navigateTo(
+                  context,
+                  Screens.ADDACTIVITY.toString() +
+                      "/${Activites.TYPE_TASK}///${widget.bandId}");
             },
           )
         ],

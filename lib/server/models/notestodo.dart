@@ -9,6 +9,7 @@ class NotesTodo extends BaseModel {
   String user_id;
   String note;
   int createdDate;
+  String bandId;
   List<NotesTodo> subNotes = [];
 
   NotesTodo(
@@ -16,6 +17,7 @@ class NotesTodo extends BaseModel {
       this.end_date,
       this.start_date,
       this.type,
+      this.bandId,
       this.id,
       this.note,
       this.createdDate});
@@ -27,6 +29,7 @@ class NotesTodo extends BaseModel {
     end_date = data['end_date'];
     id = data['id'];
     user_id = data['user_id'];
+    bandId = data['bandId'];
     note = data['note'];
     createdDate = data['createdDate'];
     if (data['subNotes'] != null) {
@@ -44,6 +47,7 @@ class NotesTodo extends BaseModel {
     data['start_date'] = start_date ?? 0;
     data['end_date'] = end_date ?? 0;
     data['id'] = id ?? "";
+    data['bandId'] = bandId;
     data['user_id'] = user_id ?? "";
     data['note'] = note ?? "";
     data['createdDate'] = createdDate ?? 0;

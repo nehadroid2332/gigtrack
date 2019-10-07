@@ -7,7 +7,9 @@ import 'package:gigtrack/ui/noteslist/notes_list_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 
 class NotesListScreen extends BaseScreen {
-  NotesListScreen(AppListener appListener) : super(appListener, title: "");
+  final String bandId;
+  NotesListScreen(AppListener appListener, {this.bandId})
+      : super(appListener, title: "");
 
   @override
   _NotesListScreenState createState() => _NotesListScreenState();
@@ -23,7 +25,7 @@ class _NotesListScreenState
   @override
   void initState() {
     super.initState();
-    list = presenter.getList();
+    list = presenter.getList(widget.bandId);
   }
 
   @override
@@ -53,9 +55,7 @@ class _NotesListScreenState
             Text(
               "Notes",
               style: textTheme.display1.copyWith(
-                color: Color.fromRGBO(22,102,237, 1.0),
-                fontSize: 28
-              ),
+                  color: Color.fromRGBO(22, 102, 237, 1.0), fontSize: 28),
             ),
             Padding(
               padding: EdgeInsets.all(4),
@@ -71,10 +71,9 @@ class _NotesListScreenState
                     itemCount: _notes.length,
                     itemBuilder: (BuildContext context, int index) {
                       final not = _notes[index];
-                      return buildNoteListItem(
-                          not, Colors.white, onTap: () {
-                        widget.appListener.router.navigateTo(
-                            context, Screens.ADDNOTE.toString() + "/${not.id}/");
+                      return buildNoteListItem(not, Colors.white, onTap: () {
+                        widget.appListener.router.navigateTo(context,
+                            Screens.ADDNOTE.toString() + "/${not.id}//${widget.bandId}");
                       });
                     },
                   );
@@ -86,32 +85,28 @@ class _NotesListScreenState
       ),
       floatingActionButton: SpeedDial(
         animatedIcon: AnimatedIcons.menu_close,
-        backgroundColor: Color.fromRGBO(22,102,237, 1.0),
+        backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
         children: [
           SpeedDialChild(
             label: "Ideas",
             child: Icon(Icons.add),
-            backgroundColor: Color.fromRGBO(22,102,237, 1.0),
-            onTap: () async {
-      
-            },
+            backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
+            onTap: () async {},
           ),
-          
           SpeedDialChild(
             label: " Note",
             child: Icon(Icons.add),
-            backgroundColor: Color.fromRGBO(22,102,237, 1.0),
+            backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
             onTap: () async {
-              await widget.appListener.router.navigateTo(context, Screens.ADDNOTE.toString() + "//");
+              await widget.appListener.router
+                  .navigateTo(context, Screens.ADDNOTE.toString() + "//");
             },
           ),
           SpeedDialChild(
             label: "Write your song",
             child: Icon(Icons.add),
-            backgroundColor: Color.fromRGBO(22,102,237, 1.0),
-            onTap: () async {
-      
-            },
+            backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
+            onTap: () async {},
           ),
         ],
       ),

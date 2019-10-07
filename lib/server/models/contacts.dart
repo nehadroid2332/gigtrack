@@ -18,6 +18,7 @@ class Contacts extends BaseModel {
   Map<String, String> likeadded = {};
   String companyName;
   String notes;
+  String bandId;
 
   Contacts();
 
@@ -28,6 +29,7 @@ class Contacts extends BaseModel {
     text = data['text'];
     email = data['email'];
     id = data['id'];
+    bandId = data['bandId'];
     user_id = data['user_id'];
     otherrelationship = data['other_relationship'];
     companyName = data['companyName'];
@@ -58,6 +60,7 @@ class Contacts extends BaseModel {
     data['phone'] = phone;
     data['text'] = text;
     data['email'] = email;
+    data['bandId'] = bandId;
     List<dynamic> dtR = [];
     for (var item in dateToRemember) {
       dtR.add(item.toMap());

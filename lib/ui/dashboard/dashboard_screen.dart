@@ -203,22 +203,22 @@ class _DashboardScreenState
                     onTap: () {
                       if (txt == "Activities")
                         widget.appListener.router.navigateTo(
-                            context, Screens.ACTIVITIESLIST.toString());
+                            context, Screens.ACTIVITIESLIST.toString() + "/");
                       else if (txt == "Notes")
                         widget.appListener.router.navigateTo(
-                            context, Screens.NOTETODOLIST.toString());
+                            context, Screens.NOTETODOLIST.toString() + "/");
                       else if (txt == "Band")
                         widget.appListener.router
                             .navigateTo(context, Screens.BANDLIST.toString());
                       else if (txt == "Equipment")
                         widget.appListener.router.navigateTo(
-                            context, Screens.INSTRUMENTLIST.toString());
+                            context, Screens.INSTRUMENTLIST.toString() + "/");
                       else if (txt == "Playing Style")
                         widget.appListener.router.navigateTo(
-                            context, Screens.PLAYINGSTYLELIST.toString());
+                            context, Screens.PLAYINGSTYLELIST.toString() + "/");
                       else if (txt == "Contacts")
                         widget.appListener.router.navigateTo(
-                            context, Screens.CONTACTLIST.toString());
+                            context, Screens.CONTACTLIST.toString() + "/");
                       else if (txt == "Bulletin Board")
                         widget.appListener.router.navigateTo(
                             context, Screens.BULLETINLISTLIST.toString());

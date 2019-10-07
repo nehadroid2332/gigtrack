@@ -12,27 +12,28 @@ class UserPlayingStyle extends BaseModel {
   String response;
   String education;
   String listSchool;
+  String bandId;
   String earn;
   List<String> experience = [];
   List<String> files = [];
   String viewerKnow;
 
-  UserPlayingStyle({
-    this.user_id,
-    this.id,
-    this.playing_styles,
-    this.instruments,
-    this.role,
-    this.degree,
-    this.age,
-    this.year,
-    this.education,
-    this.listSchool,
-    this.earn,
-    this.experience,
-    this.viewerKnow,
-    this.files
-  });
+  UserPlayingStyle(
+      {this.user_id,
+      this.id,
+      this.playing_styles,
+      this.instruments,
+      this.role,
+      this.degree,
+      this.age,
+      this.year,
+      this.education,
+      this.listSchool,
+      this.earn,
+      this.experience,
+      this.bandId,
+      this.viewerKnow,
+      this.files});
 
   UserPlayingStyle.fromJSON(dynamic data) {
     id = data['id'];
@@ -58,6 +59,7 @@ class UserPlayingStyle extends BaseModel {
     role = data['role'];
     degree = data['degree'];
     education = data['education'];
+    bandId = data['bandId'];
     listSchool = data['listSchool'];
     earn = data['earn'];
     viewerKnow = data['viewerKnow'];
@@ -76,6 +78,7 @@ class UserPlayingStyle extends BaseModel {
     data['playing_styles_ids'] = playing_styles;
     data['instruments_ids'] = instruments;
     data['role'] = role;
+    data['bandId'] = bandId;
     data['degree'] = degree;
     data['education'] = education;
     data['listSchool'] = listSchool;

@@ -221,9 +221,8 @@ class _AddBandScreenState
                           : Text(
                               "Band Name",
                               textAlign: TextAlign.center,
-                              style: textTheme.subhead.copyWith(
-                                fontWeight: FontWeight.w600
-                              ),
+                              style: textTheme.subhead
+                                  .copyWith(fontWeight: FontWeight.w600),
                             ),
                       widget.id.isEmpty || isEdit
                           ? TextField(
@@ -242,7 +241,6 @@ class _AddBandScreenState
                               ),
                               style: textTheme.subhead.copyWith(
                                 color: Colors.black,
-                                
                               ),
                             )
                           : Text(
@@ -294,7 +292,8 @@ class _AddBandScreenState
                                               color: _legalUserType == 0
                                                   ? Color.fromRGBO(
                                                       70, 206, 172, 1.0)
-                                                  :Color.fromRGBO(239, 181, 77, 1.0),
+                                                  : Color.fromRGBO(
+                                                      239, 181, 77, 1.0),
                                             ),
                                           ),
                                         ),
@@ -332,7 +331,8 @@ class _AddBandScreenState
                                               color: _legalUserType == 1
                                                   ? Color.fromRGBO(
                                                       70, 206, 172, 1.0)
-                                                  : Color.fromRGBO(239, 181, 77, 1.0),
+                                                  : Color.fromRGBO(
+                                                      239, 181, 77, 1.0),
                                             ),
                                           ),
                                         ),
@@ -447,9 +447,8 @@ class _AddBandScreenState
                           : Text(
                               "Date Started",
                               textAlign: TextAlign.center,
-                              style: textTheme.subhead.copyWith(
-                                fontWeight: FontWeight.w600
-                              ),
+                              style: textTheme.subhead
+                                  .copyWith(fontWeight: FontWeight.w600),
                             ),
                       widget.id.isEmpty || isEdit
                           ? InkWell(
@@ -524,9 +523,8 @@ class _AddBandScreenState
                           : Text(
                               "Website",
                               textAlign: TextAlign.center,
-                              style: textTheme.subhead.copyWith(
-                                fontWeight: FontWeight.w600
-                              ),
+                              style: textTheme.subhead
+                                  .copyWith(fontWeight: FontWeight.w600),
                             ),
                       widget.id.isEmpty || isEdit
                           ? TextField(
@@ -558,9 +556,8 @@ class _AddBandScreenState
                           : Text(
                               "Email Address",
                               textAlign: TextAlign.center,
-                              style: textTheme.subhead.copyWith(
-                                fontWeight: FontWeight.w600
-                              ),
+                              style: textTheme.subhead
+                                  .copyWith(fontWeight: FontWeight.w600),
                             ),
                       widget.id.isEmpty || isEdit
                           ? TextField(
@@ -587,8 +584,7 @@ class _AddBandScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                     
-                      
+
                       // widget.id.isNotEmpty || isEdit
                       //     ? Row(
                       //         children: <Widget>[
@@ -682,57 +678,67 @@ class _AddBandScreenState
                             ),
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : Text(
-                        "Activites/Schedule",
-                        textAlign: TextAlign.center,
-                        style: textTheme.subhead.copyWith(
-                            fontWeight: FontWeight.w600
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(8),),
+                          : FlatButton(
+                              child: Text(
+                                "Activites/Schedule",
+                                textAlign: TextAlign.center,
+                                style: textTheme.subhead
+                                    .copyWith(fontWeight: FontWeight.w600),
+                              ),
+                              onPressed: () {
+                                widget.appListener.router.navigateTo(
+                                    context,
+                                    Screens.ACTIVITIESLIST.toString() +
+                                        "/${widget.id}");
+                              },
+                            ),
+
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : InkWell(
-                        child:Text(
-                          "Contacts",
-                          textAlign: TextAlign.center,
-                          style: textTheme.subhead.copyWith(
-                              fontWeight: FontWeight.w600
-                          ),
-                        ) ,
-                      ),
-                      Padding(padding: EdgeInsets.all(8),),
+                          : FlatButton(
+                              child: Text(
+                                "Contacts",
+                                textAlign: TextAlign.center,
+                                style: textTheme.subhead
+                                    .copyWith(fontWeight: FontWeight.w600),
+                              ),
+                              onPressed: () {},
+                            ),
+
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : InkWell(child:Text(
-                        "EPK",
-                        textAlign: TextAlign.center,
-                        style: textTheme.subhead.copyWith(
-                            fontWeight: FontWeight.w600
-                        ),
-                      ), onTap: (){
-                            print("called");
-                      },),
-                      Padding(padding: EdgeInsets.all(8),),
+                          : FlatButton(
+                              child: Text(
+                                "EPK",
+                                textAlign: TextAlign.center,
+                                style: textTheme.subhead
+                                    .copyWith(fontWeight: FontWeight.w600),
+                              ),
+                              onPressed: () {},
+                            ),
+
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : Text(
-                        "Equipment",
-                        textAlign: TextAlign.center,
-                        style: textTheme.subhead.copyWith(
-                            fontWeight: FontWeight.w600
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(8),),
+                          : FlatButton(
+                              child: Text(
+                                "Equipment",
+                                textAlign: TextAlign.center,
+                                style: textTheme.subhead
+                                    .copyWith(fontWeight: FontWeight.w600),
+                              ),
+                              onPressed: () {},
+                            ),
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : Text(
-                        "Notes",
-                        textAlign: TextAlign.center,
-                        style: textTheme.subhead.copyWith(
-                            fontWeight: FontWeight.w600
-                        ),
-                      ),
+                          : FlatButton(
+                              child: Text(
+                                "Notes",
+                                textAlign: TextAlign.center,
+                                style: textTheme.subhead
+                                    .copyWith(fontWeight: FontWeight.w600),
+                              ),
+                              onPressed: () {},
+                            ),
                       widget.id.isEmpty
                           ? RaisedButton(
                               color: Color.fromRGBO(239, 181, 77, 1.0),
