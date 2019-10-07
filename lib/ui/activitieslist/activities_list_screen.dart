@@ -100,133 +100,210 @@ class _ActivitiesListScreenState
                     }
                   }
 
-                  return Column(
+                  return ListView(
                     children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: RaisedButton(
-                              color: Color.fromRGBO(32, 95, 139, 1.0),
-                              textColor: Colors.white,
-                              onPressed: () {
-                                _pageController.animateToPage(
-                                  0,
-                                  curve: Curves.easeIn,
-                                  duration: Duration(milliseconds: 450),
-                                );
-                              },
-                              child: Text("Current"),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(1),
-                          ),
-                          Expanded(
-                            child: RaisedButton(
-                              textColor: Colors.white,
-                              color: Color.fromRGBO(32, 95, 139, 1.0),
-                              onPressed: () {
-                                _pageController.animateToPage(
-                                  1,
-                                  curve: Curves.easeIn,
-                                  duration: Duration(milliseconds: 450),
-                                );
-                              },
-                              child: Text("Upcoming"),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(1),
-                          ),
-                          Expanded(
-                            child: RaisedButton(
-                              textColor: Colors.white,
-                              color: Color.fromRGBO(32, 95, 139, 1.0),
-                              onPressed: () {
-                                _pageController.animateToPage(
-                                  2,
-                                  curve: Curves.easeIn,
-                                  duration: Duration(milliseconds: 450),
-                                );
-                              },
-                              child: Text("Past"),
-                            ),
-                          ),
-                        ],
+                      RaisedButton(
+                        color: Color.fromRGBO(32, 95, 139, 1.0),
+                        textColor: Colors.white,
+                        onPressed: () {},
+                        child: Text("Current"),
                       ),
-                      Expanded(
-                        child: PageView.builder(
-                          controller: _pageController,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Column(
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: Container(
-                                        width: double.infinity,
-                                        color: index == 0
-                                            ? Colors.red
-                                            : Colors.white,
-                                        height: 1,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        width: double.infinity,
-                                        color: index == 1
-                                            ? Colors.red
-                                            : Colors.white,
-                                        height: 1,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        width: double.infinity,
-                                        color: index == 2
-                                            ? Colors.red
-                                            : Colors.white,
-                                        height: 1,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                Expanded(
-                                  child: ListView.builder(
-                                    padding: EdgeInsets.only(
-                                      bottom: 60,
-                                    ),
-                                    itemBuilder:
-                                        (BuildContext context, int index1) {
-                                      Activites ac = index == 0
-                                          ? current[index1]
-                                          : index == 1
-                                              ? upcoming[index1]
-                                              : index == 2
-                                                  ? past[index1]
-                                                  : null;
-                                      return buildActivityListItem(ac,
-                                          onTap: () {
-                                        widget.appListener.router.navigateTo(
-                                            context,
-                                            Screens.ADDACTIVITY.toString() +
-                                                "/${ac.type}/${ac.id}/${false}");
-                                      });
-                                    },
-                                    itemCount: index == 0
-                                        ? current.length
-                                        : index == 1
-                                            ? upcoming.length
-                                            : index == 2 ? past.length : 0,
-                                  ),
-                                )
-                              ],
-                            );
-                          },
-                        ),
-                      )
+                      current.length > 0
+                          ? ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: current.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                Activites ac = current[index];
+                                return buildActivityListItem(ac, onTap: () {
+                                  widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.ADDACTIVITY.toString() +
+                                          "/${ac.type}/${ac.id}/${false}");
+                                });
+                              },
+                            )
+                          : Center(
+                              child: Text("No Current Activities"),
+                            ),
+                      RaisedButton(
+                        color: Color.fromRGBO(32, 95, 139, 1.0),
+                        textColor: Colors.white,
+                        onPressed: () {},
+                        child: Text("Upcoming"),
+                      ),
+                      upcoming.length > 0
+                          ? ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: upcoming.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                Activites ac = upcoming[index];
+                                return buildActivityListItem(ac, onTap: () {
+                                  widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.ADDACTIVITY.toString() +
+                                          "/${ac.type}/${ac.id}/${false}");
+                                });
+                              },
+                            )
+                          : Center(
+                              child: Text("No Upcoming Activities"),
+                            ),
+                      RaisedButton(
+                        color: Color.fromRGBO(32, 95, 139, 1.0),
+                        textColor: Colors.white,
+                        onPressed: () {},
+                        child: Text("Past"),
+                      ),
+                      past.length > 0
+                          ? ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: past.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                Activites ac = past[index];
+                                return buildActivityListItem(ac, onTap: () {
+                                  widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.ADDACTIVITY.toString() +
+                                          "/${ac.type}/${ac.id}/${false}");
+                                });
+                              },
+                            )
+                          : Center(
+                              child: Text("No Past Activities"),
+                            )
                     ],
                   );
+
+                  // return Column(
+                  //   children: <Widget>[
+                  //     Row(
+                  //       children: <Widget>[
+                  //         Expanded(
+                  //           child: RaisedButton(
+                  //             color: Color.fromRGBO(32, 95, 139, 1.0),
+                  //             textColor: Colors.white,
+                  //             onPressed: () {
+                  //               _pageController.animateToPage(
+                  //                 0,
+                  //                 curve: Curves.easeIn,
+                  //                 duration: Duration(milliseconds: 450),
+                  //               );
+                  //             },
+                  //             child: Text("Current"),
+                  //           ),
+                  //         ),
+                  //         Padding(
+                  //           padding: EdgeInsets.all(1),
+                  //         ),
+                  //         Expanded(
+                  //           child: RaisedButton(
+                  //             textColor: Colors.white,
+                  //             color: Color.fromRGBO(32, 95, 139, 1.0),
+                  //             onPressed: () {
+                  //               _pageController.animateToPage(
+                  //                 1,
+                  //                 curve: Curves.easeIn,
+                  //                 duration: Duration(milliseconds: 450),
+                  //               );
+                  //             },
+                  //             child: Text("Upcoming"),
+                  //           ),
+                  //         ),
+                  //         Padding(
+                  //           padding: EdgeInsets.all(1),
+                  //         ),
+                  //         Expanded(
+                  //           child: RaisedButton(
+                  //             textColor: Colors.white,
+                  //             color: Color.fromRGBO(32, 95, 139, 1.0),
+                  //             onPressed: () {
+                  //               _pageController.animateToPage(
+                  //                 2,
+                  //                 curve: Curves.easeIn,
+                  //                 duration: Duration(milliseconds: 450),
+                  //               );
+                  //             },
+                  //             child: Text("Past"),
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //     // Expanded(
+                  //     //   child: PageView.builder(
+                  //     //     controller: _pageController,
+                  //     //     itemBuilder: (BuildContext context, int index) {
+                  //     //       return Column(
+                  //     //         children: <Widget>[
+                  //     //           Row(
+                  //     //             children: <Widget>[
+                  //     //               Expanded(
+                  //     //                 child: Container(
+                  //     //                   width: double.infinity,
+                  //     //                   color: index == 0
+                  //     //                       ? Colors.red
+                  //     //                       : Colors.white,
+                  //     //                   height: 1,
+                  //     //                 ),
+                  //     //               ),
+                  //     //               Expanded(
+                  //     //                 child: Container(
+                  //     //                   width: double.infinity,
+                  //     //                   color: index == 1
+                  //     //                       ? Colors.red
+                  //     //                       : Colors.white,
+                  //     //                   height: 1,
+                  //     //                 ),
+                  //     //               ),
+                  //     //               Expanded(
+                  //     //                 child: Container(
+                  //     //                   width: double.infinity,
+                  //     //                   color: index == 2
+                  //     //                       ? Colors.red
+                  //     //                       : Colors.white,
+                  //     //                   height: 1,
+                  //     //                 ),
+                  //     //               )
+                  //     //             ],
+                  //     //           ),
+                  //     //           Expanded(
+                  //     //             child: ListView.builder(
+                  //     //               padding: EdgeInsets.only(
+                  //     //                 bottom: 60,
+                  //     //               ),
+                  //     //               itemBuilder:
+                  //     //                   (BuildContext context, int index1) {
+                  //     //                 Activites ac = index == 0
+                  //     //                     ? current[index1]
+                  //     //                     : index == 1
+                  //     //                         ? upcoming[index1]
+                  //     //                         : index == 2
+                  //     //                             ? past[index1]
+                  //     //                             : null;
+                  //     //                 return buildActivityListItem(ac,
+                  //     //                     onTap: () {
+                  //     //                   widget.appListener.router.navigateTo(
+                  //     //                       context,
+                  //     //                       Screens.ADDACTIVITY.toString() +
+                  //     //                           "/${ac.type}/${ac.id}/${false}");
+                  //     //                 });
+                  //     //               },
+                  //     //               itemCount: index == 0
+                  //     //                   ? current.length
+                  //     //                   : index == 1
+                  //     //                       ? upcoming.length
+                  //     //                       : index == 2 ? past.length : 0,
+                  //     //             ),
+                  //     //           )
+                  //     //         ],
+                  //     //       );
+                  //     //     },
+                  //     //   ),
+                  //     // )
+                  //   ],
+                  // );
                 },
               ),
             )
