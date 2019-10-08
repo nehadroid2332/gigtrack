@@ -38,9 +38,9 @@ class _AddMemberToBandScreenState
       _errorOtherTalent,
       _errorEmail;
   final playingStylesList = <String>[
-    "Leader",
-    "Communications",
-    "Setup",
+    "Leader",//all access
+    "Communications",//only create/edit notes,rest only read     all users can read all
+    "Setup",// add bandmember,rest only read
     "Post Entries"
   ];
   final memberRoles = <String>[

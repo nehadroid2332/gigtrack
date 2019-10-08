@@ -702,7 +702,12 @@ class _AddBandScreenState
                                 style: textTheme.subhead
                                     .copyWith(fontWeight: FontWeight.w600),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                widget.appListener.router.navigateTo(
+                                    context,
+                                    Screens.CONTACTLIST.toString() +
+                                        "/${widget.id}");
+                              },
                             ),
 
                       widget.id.isEmpty || isEdit
@@ -714,7 +719,12 @@ class _AddBandScreenState
                                 style: textTheme.subhead
                                     .copyWith(fontWeight: FontWeight.w600),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                widget.appListener.router.navigateTo(
+                                    context,
+                                    Screens.PLAYINGSTYLELIST.toString() +
+                                        "/${widget.id}");
+                              },
                             ),
 
                       widget.id.isEmpty || isEdit
@@ -726,7 +736,12 @@ class _AddBandScreenState
                                 style: textTheme.subhead
                                     .copyWith(fontWeight: FontWeight.w600),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                widget.appListener.router.navigateTo(
+                                    context,
+                                    Screens.INSTRUMENTLIST.toString() +
+                                        "/${widget.id}");
+                              },
                             ),
                       widget.id.isEmpty || isEdit
                           ? Container()
@@ -737,7 +752,12 @@ class _AddBandScreenState
                                 style: textTheme.subhead
                                     .copyWith(fontWeight: FontWeight.w600),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                widget.appListener.router.navigateTo(
+                                    context,
+                                    Screens.NOTETODOLIST.toString() +
+                                        "/${widget.id}");
+                              },
                             ),
                       widget.id.isEmpty
                           ? RaisedButton(
