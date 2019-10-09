@@ -41,7 +41,7 @@ class _AddMemberToBandScreenState
     "Leader",//all access
     "Communications",//only create/edit notes,rest only read     all users can read all
     "Setup",// add bandmember,rest only read
-    "Post Entries"
+    // "Post Entries"
   ];
   final memberRoles = <String>[
     "Agent",
