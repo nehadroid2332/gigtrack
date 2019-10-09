@@ -10,8 +10,18 @@ import 'package:gigtrack/utils/common_app_utils.dart';
 
 class ActivitiesListScreen extends BaseScreen {
   final String bandId;
-  ActivitiesListScreen(AppListener appListener, {this.bandId})
-      : super(appListener, title: "Activities");
+  final bool isLeader;
+  final bool isComm;
+  final bool isSetUp;
+  final bool postEntries;
+  ActivitiesListScreen(
+    AppListener appListener, {
+    this.bandId,
+    this.isLeader,
+    this.isComm,
+    this.isSetUp,
+    this.postEntries,
+  }) : super(appListener, title: "Activities");
 
   @override
   _ActivitiesListScreenState createState() => _ActivitiesListScreenState();
@@ -311,56 +321,59 @@ class _ActivitiesListScreenState
           ],
         ),
       ),
-      floatingActionButton: SpeedDial(
-        animatedIcon: AnimatedIcons.menu_close,
-        backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
-        children: [
-          SpeedDialChild(
-            label: "Activities",
-            child: Icon(Icons.add),
-            backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
-            onTap: () async {
-              await widget.appListener.router.navigateTo(
-                  context,
-                  Screens.ADDACTIVITY.toString() +
-                      "/${Activites.TYPE_ACTIVITY}///${widget.bandId}");
-            },
-          ),
-          SpeedDialChild(
-            label: "Performance Schedule",
-            child: Icon(Icons.add),
-            backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
-            onTap: () async {
-              await widget.appListener.router.navigateTo(
-                  context,
-                  Screens.ADDACTIVITY.toString() +
-                      "/${Activites.TYPE_PERFORMANCE_SCHEDULE}///${widget.bandId}");
-            },
-          ),
-          SpeedDialChild(
-            label: "Practice Schedule",
-            backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
-            child: Icon(Icons.add),
-            onTap: () async {
-              await widget.appListener.router.navigateTo(
-                  context,
-                  Screens.ADDACTIVITY.toString() +
-                      "/${Activites.TYPE_PRACTICE_SCHEDULE}///${widget.bandId}");
-            },
-          ),
-          SpeedDialChild(
-            label: "Task",
-            child: Icon(Icons.add),
-            backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
-            onTap: () async {
-              await widget.appListener.router.navigateTo(
-                  context,
-                  Screens.ADDACTIVITY.toString() +
-                      "/${Activites.TYPE_TASK}///${widget.bandId}");
-            },
-          )
-        ],
-      ),
+      floatingActionButton:
+          (widget.bandId != null && widget.isLeader) || widget.bandId == null
+              ? SpeedDial(
+                  animatedIcon: AnimatedIcons.menu_close,
+                  backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
+                  children: [
+                    SpeedDialChild(
+                      label: "Activities",
+                      child: Icon(Icons.add),
+                      backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
+                      onTap: () async {
+                        await widget.appListener.router.navigateTo(
+                            context,
+                            Screens.ADDACTIVITY.toString() +
+                                "/${Activites.TYPE_ACTIVITY}///${widget.bandId}");
+                      },
+                    ),
+                    SpeedDialChild(
+                      label: "Performance Schedule",
+                      child: Icon(Icons.add),
+                      backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
+                      onTap: () async {
+                        await widget.appListener.router.navigateTo(
+                            context,
+                            Screens.ADDACTIVITY.toString() +
+                                "/${Activites.TYPE_PERFORMANCE_SCHEDULE}///${widget.bandId}");
+                      },
+                    ),
+                    SpeedDialChild(
+                      label: "Practice Schedule",
+                      backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
+                      child: Icon(Icons.add),
+                      onTap: () async {
+                        await widget.appListener.router.navigateTo(
+                            context,
+                            Screens.ADDACTIVITY.toString() +
+                                "/${Activites.TYPE_PRACTICE_SCHEDULE}///${widget.bandId}");
+                      },
+                    ),
+                    SpeedDialChild(
+                      label: "Task",
+                      child: Icon(Icons.add),
+                      backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
+                      onTap: () async {
+                        await widget.appListener.router.navigateTo(
+                            context,
+                            Screens.ADDACTIVITY.toString() +
+                                "/${Activites.TYPE_TASK}///${widget.bandId}");
+                      },
+                    )
+                  ],
+                )
+              : Container(),
     );
   }
 

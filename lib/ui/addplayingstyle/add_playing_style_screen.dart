@@ -14,8 +14,20 @@ import 'add_playing_style_presenter.dart';
 class AddPlayingStyleScreen extends BaseScreen {
   final String id;
   final String bandId;
-  AddPlayingStyleScreen(AppListener appListener, {this.id, this.bandId})
-      : super(appListener);
+  final bool isLeader;
+  final bool isComm;
+  final bool isSetUp;
+  final bool postEntries;
+
+  AddPlayingStyleScreen(
+    AppListener appListener, {
+    this.id,
+    this.bandId,
+    this.isLeader,
+    this.isComm,
+    this.isSetUp,
+    this.postEntries,
+  }) : super(appListener);
 
   @override
   _AddPlayingStyleScreenState createState() => _AddPlayingStyleScreenState();

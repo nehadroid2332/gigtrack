@@ -63,15 +63,26 @@ class MyApp extends StatelessWidget implements AppListener {
         id: id,
       );
     }));
-    _router.define(Screens.ADDINSTRUMENT.toString() + "/:id/:bandId", handler:
-        Handler(
+    _router.define(
+        Screens.ADDINSTRUMENT.toString() +
+            "/:id/:bandId/:isLeader/:isComm/:isSetUp/:postEntries",
+        handler: Handler(
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["id"][0];
       String bandId = params["bandId"][0];
+      bool isLeader = params['isLeader'][0] == "${true}";
+      bool isComm = params['isComm'][0] == "${true}";
+      bool isSetUp = params['isSetUp'][0] == "${true}";
+      bool postEntries = params['postEntries'][0] == "${true}";
+
       return AddInstrumentScreen(
         this,
         id: id,
         bandId: bandId,
+        isComm: isComm,
+        isLeader: isLeader,
+        isSetUp: isSetUp,
+        postEntries: postEntries,
       );
     }));
     _router.define(Screens.ADDSONG.toString(), handler: Handler(
@@ -82,22 +93,42 @@ class MyApp extends StatelessWidget implements AppListener {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return DashboardScreen(this);
     }));
-    _router.define(Screens.ACTIVITIESLIST.toString() + "/:bandid", handler:
-        Handler(
+    _router.define(
+        Screens.ACTIVITIESLIST.toString() +
+            "/:bandid/:isLeader/:isComm/:isSetUp/:postEntries",
+        handler: Handler(
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["bandid"][0];
+      bool isLeader = params['isLeader'][0] == "${true}";
+      bool isComm = params['isComm'][0] == "${true}";
+      bool isSetUp = params['isSetUp'][0] == "${true}";
+      bool postEntries = params['postEntries'][0] == "${true}";
       return ActivitiesListScreen(
         this,
         bandId: id,
+        isComm: isComm,
+        isLeader: isLeader,
+        isSetUp: isSetUp,
+        postEntries: postEntries,
       );
     }));
-    _router.define(Screens.NOTETODOLIST.toString() + "/:bandid", handler:
-        Handler(
+    _router.define(
+        Screens.NOTETODOLIST.toString() +
+            "/:bandid/:isLeader/:isComm/:isSetUp/:postEntries",
+        handler: Handler(
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["bandid"][0];
+      bool isLeader = params['isLeader'][0] == "${true}";
+      bool isComm = params['isComm'][0] == "${true}";
+      bool isSetUp = params['isSetUp'][0] == "${true}";
+      bool postEntries = params['postEntries'][0] == "${true}";
       return NotesListScreen(
         this,
         bandId: id,
+        isComm: isComm,
+        isLeader: isLeader,
+        isSetUp: isSetUp,
+        postEntries: postEntries,
       );
     }));
     _router.define(Screens.BULLETINLISTLIST.toString(), handler: Handler(
@@ -109,32 +140,52 @@ class MyApp extends StatelessWidget implements AppListener {
       return PrivacyScreen(this);
     }));
     _router.define(
-        Screens.ADDACTIVITY.toString() + "/:type/:id/:isParent/:bandId",
+        Screens.ADDACTIVITY.toString() +
+            "/:type/:id/:isParent/:bandId/:isLeader/:isComm/:isSetUp/:postEntries",
         handler: Handler(
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["id"][0];
       int type = int.parse(params["type"][0]);
       bool isParent = params["isParent"][0] == '${true}';
       String bandId = params['bandId'][0];
+      bool isLeader = params['isLeader'][0] == "${true}";
+      bool isComm = params['isComm'][0] == "${true}";
+      bool isSetUp = params['isSetUp'][0] == "${true}";
+      bool postEntries = params['postEntries'][0] == "${true}";
       return AddActivityScreen(
         this,
         id: id,
         type: type,
         bandId: bandId,
         isParent: isParent,
+        isComm: isComm,
+        isLeader: isLeader,
+        isSetUp: isSetUp,
+        postEntries: postEntries,
       );
     }));
-    _router.define(Screens.ADDNOTE.toString() + "/:id/:isParent/:bandId",
+    _router.define(
+        Screens.ADDNOTE.toString() +
+            "/:id/:isParent/:bandId/:isLeader/:isComm/:isSetUp/:postEntries",
         handler: Handler(
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["id"][0];
       String bandId = params["bandId"][0];
       bool isParent = params["isParent"][0] == '${true}';
+      bool isLeader = params['isLeader'][0] == "${true}";
+      bool isComm = params['isComm'][0] == "${true}";
+      bool isSetUp = params['isSetUp'][0] == "${true}";
+      bool postEntries = params['postEntries'][0] == "${true}";
+
       return AddNotesScreen(
         this,
         id: id,
         bandId: bandId,
         isParent: isParent,
+        isComm: isComm,
+        isLeader: isLeader,
+        isSetUp: isSetUp,
+        postEntries: postEntries,
       );
     }));
     _router.define(Screens.ADDBULLETIN.toString() + "/:id", handler: Handler(
@@ -149,61 +200,116 @@ class MyApp extends StatelessWidget implements AppListener {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return BandListScreen(this);
     }));
-    _router.define(Screens.CONTACTLIST.toString() + "/:bandid", handler:
-        Handler(
+    _router.define(
+        Screens.CONTACTLIST.toString() +
+            "/:bandid/:isLeader/:isComm/:isSetUp/:postEntries",
+        handler: Handler(
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["bandid"][0];
+      bool isLeader = params['isLeader'][0] == "${true}";
+      bool isComm = params['isComm'][0] == "${true}";
+      bool isSetUp = params['isSetUp'][0] == "${true}";
+      bool postEntries = params['postEntries'][0] == "${true}";
+
       return ContactListScreen(
         this,
         bandId: id,
+        isComm: isComm,
+        isLeader: isLeader,
+        isSetUp: isSetUp,
+        postEntries: postEntries,
       );
     }));
-    _router.define(Screens.INSTRUMENTLIST.toString() + "/:bandid", handler:
-        Handler(
+    _router.define(
+        Screens.INSTRUMENTLIST.toString() +
+            "/:bandid/:isLeader/:isComm/:isSetUp/:postEntries",
+        handler: Handler(
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["bandid"][0];
+      bool isLeader = params['isLeader'][0] == "${true}";
+      bool isComm = params['isComm'][0] == "${true}";
+      bool isSetUp = params['isSetUp'][0] == "${true}";
+      bool postEntries = params['postEntries'][0] == "${true}";
+
       return InstrumentListScreen(
         this,
         bandId: id,
+        isComm: isComm,
+        isLeader: isLeader,
+        isSetUp: isSetUp,
+        postEntries: postEntries,
       );
     }));
     _router.define(Screens.NOTIFICATION.toString(), handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return NotificationListScreens(this);
     }));
-    _router.define(Screens.PLAYINGSTYLELIST.toString() + "/:bandid", handler:
-        Handler(
+    _router.define(
+        Screens.PLAYINGSTYLELIST.toString() +
+            "/:bandid/:isLeader/:isComm/:isSetUp/:postEntries",
+        handler: Handler(
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["bandid"][0];
+      bool isLeader = params['isLeader'][0] == "${true}";
+      bool isComm = params['isComm'][0] == "${true}";
+      bool isSetUp = params['isSetUp'][0] == "${true}";
+      bool postEntries = params['postEntries'][0] == "${true}";
+
       return PlayingStyleListScreen(
         this,
         bandId: id,
+        isComm: isComm,
+        isLeader: isLeader,
+        isSetUp: isSetUp,
+        postEntries: postEntries,
       );
     }));
-    _router.define(Screens.ADDPLAYINGSTYLE.toString() + "/:id/:bandId", handler:
-        Handler(
+    _router.define(
+        Screens.ADDPLAYINGSTYLE.toString() +
+            "/:id/:bandId/:isLeader/:isComm/:isSetUp/:postEntries",
+        handler: Handler(
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["id"][0];
       String bandId = params["bandId"][0];
+      bool isLeader = params['isLeader'][0] == "${true}";
+      bool isComm = params['isComm'][0] == "${true}";
+      bool isSetUp = params['isSetUp'][0] == "${true}";
+      bool postEntries = params['postEntries'][0] == "${true}";
+
       return AddPlayingStyleScreen(
         this,
         bandId: bandId,
         id: id,
+        isComm: isComm,
+        isLeader: isLeader,
+        isSetUp: isSetUp,
+        postEntries: postEntries,
       );
     }));
     _router.define(Screens.FORGOTPASSWORD.toString(), handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return ForgotPasswordScreen(this);
     }));
-    _router.define(Screens.ADDCONTACT.toString() + "/:id/:bandId", handler:
-        Handler(
+    _router.define(
+        Screens.ADDCONTACT.toString() +
+            "/:id/:bandId/:isLeader/:isComm/:isSetUp/:postEntries",
+        handler: Handler(
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["id"][0];
       String bandId = params["bandId"][0];
+      bool isLeader = params['isLeader'][0] == "${true}";
+      bool isComm = params['isComm'][0] == "${true}";
+      bool isSetUp = params['isSetUp'][0] == "${true}";
+      bool postEntries = params['postEntries'][0] == "${true}";
+
       return AddContactScreen(
         this,
         id: id,
         bandId: bandId,
+        isComm: isComm,
+        isLeader: isLeader,
+        isSetUp: isSetUp,
+        postEntries: postEntries,
       );
     }));
     _router.define(Screens.ADDMEMBERTOBAND.toString() + "/:id", handler:

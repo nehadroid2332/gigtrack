@@ -16,8 +16,20 @@ import 'package:image_picker/image_picker.dart';
 class AddContactScreen extends BaseScreen {
   final String id;
   final String bandId;
-  AddContactScreen(AppListener appListener, {this.id, this.bandId})
-      : super(appListener, title: "");
+  final bool isLeader;
+  final bool isComm;
+  final bool isSetUp;
+  final bool postEntries;
+
+  AddContactScreen(
+    AppListener appListener, {
+    this.id,
+    this.bandId,
+    this.isLeader,
+    this.isComm,
+    this.isSetUp,
+    this.postEntries,
+  }) : super(appListener, title: "");
 
   @override
   _AddContactScreenState createState() => _AddContactScreenState();

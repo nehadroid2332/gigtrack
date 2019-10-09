@@ -14,9 +14,21 @@ class AddNotesScreen extends BaseScreen {
   final String id;
   final bool isParent;
   final String bandId;
-  AddNotesScreen(AppListener appListener,
-      {this.id, this.isParent = false, this.bandId})
-      : super(appListener, title: "");
+  final bool isLeader;
+  final bool isComm;
+  final bool isSetUp;
+  final bool postEntries;
+
+  AddNotesScreen(
+    AppListener appListener, {
+    this.id,
+    this.isParent = false,
+    this.bandId,
+    this.isLeader,
+    this.isComm,
+    this.isSetUp,
+    this.postEntries,
+  }) : super(appListener, title: "");
 
   @override
   _AddNotesScreenState createState() => _AddNotesScreenState();

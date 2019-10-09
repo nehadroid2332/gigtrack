@@ -6,8 +6,19 @@ import 'playing_style_list_presenter.dart';
 
 class PlayingStyleListScreen extends BaseScreen {
   final String bandId;
-  PlayingStyleListScreen(AppListener appListener, {this.bandId})
-      : super(appListener);
+  final bool isLeader;
+  final bool isComm;
+  final bool isSetUp;
+  final bool postEntries;
+
+  PlayingStyleListScreen(
+    AppListener appListener, {
+    this.bandId,
+    this.isLeader,
+    this.isComm,
+    this.isSetUp,
+    this.postEntries,
+  }) : super(appListener);
 
   @override
   _PlayingStyleListScreenState createState() => _PlayingStyleListScreenState();
@@ -110,12 +121,15 @@ class _PlayingStyleListScreenState
                             ),
                           ),
                         ),
-                        onTap: () async {
-                          await widget.appListener.router.navigateTo(
-                              context,
-                              Screens.ADDPLAYINGSTYLE.toString() +
-                                  "/${userPlayingStyle.id}/${widget.bandId}");
-                        },
+                        onTap: (widget.isLeader && widget.bandId != null) ||
+                                widget.bandId == null
+                            ? () async {
+                                await widget.appListener.router.navigateTo(
+                                    context,
+                                    Screens.ADDPLAYINGSTYLE.toString() +
+                                        "/${userPlayingStyle.id}/${widget.bandId}");
+                              }
+                            : null,
                       );
                     },
                     itemCount: playingStyleList.length,
@@ -126,14 +140,17 @@ class _PlayingStyleListScreenState
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await widget.appListener.router.navigateTo(context,
-              Screens.ADDPLAYINGSTYLE.toString() + "//${widget.bandId}");
-        },
-        child: Icon(Icons.add),
-        backgroundColor: Color.fromRGBO(124, 180, 97, 1.0),
-      ),
+      floatingActionButton: (widget.bandId != null && widget.isLeader) ||
+              widget.bandId == null
+          ? FloatingActionButton(
+              onPressed: () async {
+                await widget.appListener.router.navigateTo(context,
+                    Screens.ADDPLAYINGSTYLE.toString() + "//${widget.bandId}");
+              },
+              child: Icon(Icons.add),
+              backgroundColor: Color.fromRGBO(124, 180, 97, 1.0),
+            )
+          : Container(),
     );
   }
 

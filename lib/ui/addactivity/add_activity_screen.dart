@@ -17,10 +17,22 @@ class AddActivityScreen extends BaseScreen {
   final int type;
   final bool isParent;
   final String bandId;
+  final bool isLeader;
+  final bool isComm;
+  final bool isSetUp;
+  final bool postEntries;
 
-  AddActivityScreen(AppListener appListener,
-      {this.id, this.type = 0, this.isParent = false, this.bandId})
-      : super(appListener, title: "");
+  AddActivityScreen(
+    AppListener appListener, {
+    this.id,
+    this.type = 0,
+    this.isParent = false,
+    this.bandId,
+    this.isLeader,
+    this.isComm,
+    this.isSetUp,
+    this.postEntries,
+  }) : super(appListener, title: "");
 
   @override
   _AddActivityScreenState createState() => _AddActivityScreenState();

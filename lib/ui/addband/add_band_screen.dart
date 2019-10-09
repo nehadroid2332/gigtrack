@@ -145,11 +145,20 @@ class _AddBandScreenState
   @override
   Widget buildBody() {
     bool permission = false;
+    String permissionType;
     if (members != null && members.length > 0) {
       for (var item in members) {
-        if (item.permissions == "Leader" || item.permissions == "Setup") {
-          permission = item.email == presenter.serverAPI.currentUserEmail;
+        if (item.email == presenter.serverAPI.currentUserEmail) {
+          permissionType = item.permissions;
         }
+        if (item.permissions == "Leader" || item.permissions == "Setup") {
+          permission = (item.email == presenter.serverAPI.currentUserEmail);
+        }
+      }
+    }
+    if (permissionType == null) {
+      if (bandUserId == presenter.serverAPI.currentUserId) {
+        permissionType = "Leader";
       }
     }
 
@@ -689,7 +698,7 @@ class _AddBandScreenState
                                 widget.appListener.router.navigateTo(
                                     context,
                                     Screens.ACTIVITIESLIST.toString() +
-                                        "/${widget.id}");
+                                        "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
                               },
                             ),
 
@@ -706,7 +715,7 @@ class _AddBandScreenState
                                 widget.appListener.router.navigateTo(
                                     context,
                                     Screens.CONTACTLIST.toString() +
-                                        "/${widget.id}");
+                                        "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
                               },
                             ),
 
@@ -723,7 +732,7 @@ class _AddBandScreenState
                                 widget.appListener.router.navigateTo(
                                     context,
                                     Screens.PLAYINGSTYLELIST.toString() +
-                                        "/${widget.id}");
+                                        "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
                               },
                             ),
 
@@ -740,7 +749,7 @@ class _AddBandScreenState
                                 widget.appListener.router.navigateTo(
                                     context,
                                     Screens.INSTRUMENTLIST.toString() +
-                                        "/${widget.id}");
+                                        "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
                               },
                             ),
                       widget.id.isEmpty || isEdit
@@ -756,7 +765,7 @@ class _AddBandScreenState
                                 widget.appListener.router.navigateTo(
                                     context,
                                     Screens.NOTETODOLIST.toString() +
-                                        "/${widget.id}");
+                                        "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
                               },
                             ),
                       widget.id.isEmpty

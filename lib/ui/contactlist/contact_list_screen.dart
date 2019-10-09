@@ -6,8 +6,19 @@ import 'package:gigtrack/ui/contactlist/contact_list_presenter.dart';
 
 class ContactListScreen extends BaseScreen {
   final String bandId;
-  ContactListScreen(AppListener appListener, {this.bandId})
-      : super(appListener);
+  final bool isLeader;
+  final bool isComm;
+  final bool isSetUp;
+  final bool postEntries;
+
+  ContactListScreen(
+    AppListener appListener, {
+    this.bandId,
+    this.isLeader,
+    this.isComm,
+    this.isSetUp,
+    this.postEntries,
+  }) : super(appListener);
 
   @override
   _ContactListScreenState createState() => _ContactListScreenState();
@@ -114,12 +125,15 @@ class _ContactListScreenState
                               ],
                             ),
                           ),
-                          onTap: () {
-                            widget.appListener.router.navigateTo(
-                                context,
-                                Screens.ADDCONTACT.toString() +
-                                    "/${cnt.id}/${widget.bandId}");
-                          },
+                          onTap: (widget.isLeader && widget.bandId != null) ||
+                                  widget.bandId == null
+                              ? () {
+                                  widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.ADDCONTACT.toString() +
+                                          "/${cnt.id}/${widget.bandId}");
+                                }
+                              : null,
                         ),
                       );
                     },
@@ -130,14 +144,17 @@ class _ContactListScreenState
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await widget.appListener.router.navigateTo(
-              context, Screens.ADDCONTACT.toString() + "//${widget.bandId}");
-        },
-        child: Icon(Icons.add),
-        backgroundColor: Color.fromRGBO(60, 111, 54, 1.0),
-      ),
+      floatingActionButton:
+          (widget.isLeader && widget.bandId != null) || widget.bandId == null
+              ? FloatingActionButton(
+                  onPressed: () async {
+                    await widget.appListener.router.navigateTo(context,
+                        Screens.ADDCONTACT.toString() + "//${widget.bandId}");
+                  },
+                  child: Icon(Icons.add),
+                  backgroundColor: Color.fromRGBO(60, 111, 54, 1.0),
+                )
+              : Container(),
     );
   }
 

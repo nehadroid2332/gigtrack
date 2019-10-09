@@ -6,8 +6,19 @@ import 'package:gigtrack/ui/instrumentlist/instrument_list_presenter.dart';
 
 class InstrumentListScreen extends BaseScreen {
   final String bandId;
-  InstrumentListScreen(AppListener appListener, {this.bandId})
-      : super(appListener, title: "");
+  final bool isLeader;
+  final bool isComm;
+  final bool isSetUp;
+  final bool postEntries;
+
+  InstrumentListScreen(
+    AppListener appListener, {
+    this.bandId,
+    this.isLeader,
+    this.isComm,
+    this.isSetUp,
+    this.postEntries,
+  }) : super(appListener, title: "");
 
   @override
   _InstrumentListScreenState createState() => _InstrumentListScreenState();
@@ -137,12 +148,15 @@ class _InstrumentListScreenState
                               ],
                             ),
                           ),
-                          onTap: () {
-                            widget.appListener.router.navigateTo(
-                                context,
-                                Screens.ADDINSTRUMENT.toString() +
-                                    "/${instr.id}/${widget.bandId}");
-                          },
+                          onTap: (widget.isLeader && widget.bandId != null) ||
+                                  widget.bandId == null
+                              ? () {
+                                  widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.ADDINSTRUMENT.toString() +
+                                          "/${instr.id}/${widget.bandId}");
+                                }
+                              : null,
                         ),
                       );
                     },
@@ -153,14 +167,17 @@ class _InstrumentListScreenState
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await widget.appListener.router.navigateTo(
-              context, Screens.ADDINSTRUMENT.toString() + "//${widget.bandId}");
-        },
-        child: Icon(Icons.add),
-        backgroundColor: Color.fromRGBO(191, 53, 42, 1.0),
-      ),
+      floatingActionButton: (widget.bandId != null && widget.isLeader) ||
+              widget.bandId == null
+          ? FloatingActionButton(
+              onPressed: () async {
+                await widget.appListener.router.navigateTo(context,
+                    Screens.ADDINSTRUMENT.toString() + "//${widget.bandId}");
+              },
+              child: Icon(Icons.add),
+              backgroundColor: Color.fromRGBO(191, 53, 42, 1.0),
+            )
+          : Container(),
     );
   }
 

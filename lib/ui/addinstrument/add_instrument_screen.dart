@@ -17,9 +17,20 @@ import 'package:image_picker/image_picker.dart';
 class AddInstrumentScreen extends BaseScreen {
   final String id;
   final String bandId;
+  final bool isLeader;
+  final bool isComm;
+  final bool isSetUp;
+  final bool postEntries;
 
-  AddInstrumentScreen(AppListener appListener, {this.id, this.bandId})
-      : super(appListener, title: "");
+  AddInstrumentScreen(
+    AppListener appListener, {
+    this.id,
+    this.bandId,
+    this.isLeader,
+    this.isComm,
+    this.isSetUp,
+    this.postEntries,
+  }) : super(appListener, title: "");
 
   @override
   _AddInstrumentScreenState createState() => _AddInstrumentScreenState();

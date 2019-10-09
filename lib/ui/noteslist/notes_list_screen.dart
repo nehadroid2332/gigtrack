@@ -8,8 +8,18 @@ import 'package:gigtrack/utils/common_app_utils.dart';
 
 class NotesListScreen extends BaseScreen {
   final String bandId;
-  NotesListScreen(AppListener appListener, {this.bandId})
-      : super(appListener, title: "");
+  final bool isLeader;
+  final bool isComm;
+  final bool isSetUp;
+  final bool postEntries;
+  NotesListScreen(
+    AppListener appListener, {
+    this.bandId,
+    this.isLeader,
+    this.isComm,
+    this.isSetUp,
+    this.postEntries,
+  }) : super(appListener, title: "");
 
   @override
   _NotesListScreenState createState() => _NotesListScreenState();
@@ -71,10 +81,17 @@ class _NotesListScreenState
                     itemCount: _notes.length,
                     itemBuilder: (BuildContext context, int index) {
                       final not = _notes[index];
-                      return buildNoteListItem(not, Colors.white, onTap: () {
-                        widget.appListener.router.navigateTo(context,
-                            Screens.ADDNOTE.toString() + "/${not.id}//${widget.bandId}");
-                      });
+                      return buildNoteListItem(not, Colors.white,
+                          onTap: (widget.isLeader && widget.bandId != null) ||
+                                  widget.bandId == null ||
+                                  (widget.bandId != null && widget.isComm)
+                              ? () {
+                                  widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.ADDNOTE.toString() +
+                                          "/${not.id}//${widget.bandId}");
+                                }
+                              : null);
                     },
                   );
                 },
@@ -83,33 +100,37 @@ class _NotesListScreenState
           ],
         ),
       ),
-      floatingActionButton: SpeedDial(
-        animatedIcon: AnimatedIcons.menu_close,
-        backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
-        children: [
-          SpeedDialChild(
-            label: "Ideas",
-            child: Icon(Icons.add),
-            backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
-            onTap: () async {},
-          ),
-          SpeedDialChild(
-            label: " Note",
-            child: Icon(Icons.add),
-            backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
-            onTap: () async {
-              await widget.appListener.router
-                  .navigateTo(context, Screens.ADDNOTE.toString() + "//");
-            },
-          ),
-          SpeedDialChild(
-            label: "Write your song",
-            child: Icon(Icons.add),
-            backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
-            onTap: () async {},
-          ),
-        ],
-      ),
+      floatingActionButton: (widget.bandId != null && widget.isLeader) ||
+              widget.bandId == null ||
+              (widget.bandId != null && widget.isComm)
+          ? SpeedDial(
+              animatedIcon: AnimatedIcons.menu_close,
+              backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
+              children: [
+                SpeedDialChild(
+                  label: "Ideas",
+                  child: Icon(Icons.add),
+                  backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
+                  onTap: () async {},
+                ),
+                SpeedDialChild(
+                  label: " Note",
+                  child: Icon(Icons.add),
+                  backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
+                  onTap: () async {
+                    await widget.appListener.router
+                        .navigateTo(context, Screens.ADDNOTE.toString() + "//");
+                  },
+                ),
+                SpeedDialChild(
+                  label: "Write your song",
+                  child: Icon(Icons.add),
+                  backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
+                  onTap: () async {},
+                ),
+              ],
+            )
+          : Container(),
     );
   }
 
