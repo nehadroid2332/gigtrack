@@ -168,11 +168,11 @@ class _InstrumentListScreenState
         ),
       ),
       floatingActionButton: (widget.bandId != null && widget.isLeader) ||
-              widget.bandId == null
+              widget.bandId.isEmpty
           ? FloatingActionButton(
               onPressed: () async {
                 await widget.appListener.router.navigateTo(context,
-                    Screens.ADDINSTRUMENT.toString() + "//${widget.bandId}");
+                    Screens.ADDINSTRUMENT.toString() + "//${widget.bandId}////");
               },
               child: Icon(Icons.add),
               backgroundColor: Color.fromRGBO(191, 53, 42, 1.0),

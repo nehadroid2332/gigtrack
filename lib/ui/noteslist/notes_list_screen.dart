@@ -83,13 +83,13 @@ class _NotesListScreenState
                       final not = _notes[index];
                       return buildNoteListItem(not, Colors.white,
                           onTap: (widget.isLeader && widget.bandId != null) ||
-                                  widget.bandId == null ||
+                                  widget.bandId.isEmpty ||
                                   (widget.bandId != null && widget.isComm)
                               ? () {
                                   widget.appListener.router.navigateTo(
                                       context,
                                       Screens.ADDNOTE.toString() +
-                                          "/${not.id}//${widget.bandId}");
+                                          "/${not.id}//${widget.bandId}////");
                                 }
                               : null);
                     },
@@ -101,7 +101,7 @@ class _NotesListScreenState
         ),
       ),
       floatingActionButton: (widget.bandId != null && widget.isLeader) ||
-              widget.bandId == null ||
+              widget.bandId.isEmpty ||
               (widget.bandId != null && widget.isComm)
           ? SpeedDial(
               animatedIcon: AnimatedIcons.menu_close,
@@ -119,7 +119,7 @@ class _NotesListScreenState
                   backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
                   onTap: () async {
                     await widget.appListener.router
-                        .navigateTo(context, Screens.ADDNOTE.toString() + "//");
+                        .navigateTo(context, Screens.ADDNOTE.toString() + "///////");
                   },
                 ),
                 SpeedDialChild(

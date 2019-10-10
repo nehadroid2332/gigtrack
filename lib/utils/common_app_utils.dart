@@ -178,10 +178,10 @@ bool validateMobile(String value) {
 }
 
 Widget buildActivityListItem(Activites ac,
-    {bool showConfirm = false, onConfirmPressed, onTap}) {
+    {bool showConfirm = false, onConfirmPressed, onTap, bool isPast = false}) {
   DateTime dt = DateTime.fromMillisecondsSinceEpoch(ac.startDate);
   return Card(
-    color: dt.millisecondsSinceEpoch < DateTime.now().millisecondsSinceEpoch?Colors.grey:Color.fromRGBO(32, 95, 139, 1.0),
+    color: isPast ? Colors.grey : Color.fromRGBO(32, 95, 139, 1.0),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(12),
     ),
@@ -189,56 +189,56 @@ Widget buildActivityListItem(Activites ac,
       child: Column(
         children: <Widget>[
           Container(
-            padding: EdgeInsets.only(left: 5,right: 5,top: 10,bottom: 5),
-            child:
-          Row(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(
-                  left: 5,
+            padding: EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 5),
+            child: Row(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: 5,
+                  ),
                 ),
-              ),
-              Text(
-                "${formatDate(dt, [D, '-', mm, '/', dd, '/', yy, ' -'])}",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontStyle: FontStyle.italic,
-                  color: Color.fromRGBO(250, 250, 250, 0.8),
+                Text(
+                  "${formatDate(dt, [D, '-', mm, '/', dd, '/', yy, ' -'])}",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontStyle: FontStyle.italic,
+                    color: Color.fromRGBO(250, 250, 250, 0.8),
+                  ),
                 ),
-              ),
-              Text(
-                currentType(ac.type),
-                style: TextStyle(
-                  fontSize: 16,
-                  fontStyle: FontStyle.italic,
-                  color: Color.fromRGBO(250, 250, 250, 1.0),
+                Text(
+                  currentType(ac.type),
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontStyle: FontStyle.italic,
+                    color: Color.fromRGBO(250, 250, 250, 1.0),
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ), ),
-         
+              ],
+            ),
+          ),
           Padding(
             padding: EdgeInsets.all(5),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              
-              Expanded(child:  Padding(
-                padding: EdgeInsets.only(left: 13, right: 13, top: 0, bottom: 22),
-                child: Text(
-                  "${ac.title}",
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 23,
-                    color: Color.fromRGBO(250, 250, 250, 1.0),
+              Expanded(
+                child: Padding(
+                  padding:
+                      EdgeInsets.only(left: 13, right: 13, top: 0, bottom: 22),
+                  child: Text(
+                    "${ac.title}",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 23,
+                      color: Color.fromRGBO(250, 250, 250, 1.0),
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
                 ),
-              ) ,),
-            
+              ),
             ],
           ),
         ],

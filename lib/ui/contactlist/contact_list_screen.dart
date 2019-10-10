@@ -145,11 +145,11 @@ class _ContactListScreenState
         ),
       ),
       floatingActionButton:
-          (widget.isLeader && widget.bandId != null) || widget.bandId == null
+          (widget.isLeader && widget.bandId != null) || widget.bandId.isEmpty
               ? FloatingActionButton(
                   onPressed: () async {
                     await widget.appListener.router.navigateTo(context,
-                        Screens.ADDCONTACT.toString() + "//${widget.bandId}");
+                        Screens.ADDCONTACT.toString() + "//${widget.bandId}////");
                   },
                   child: Icon(Icons.add),
                   backgroundColor: Color.fromRGBO(60, 111, 54, 1.0),

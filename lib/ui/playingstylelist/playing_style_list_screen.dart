@@ -141,7 +141,7 @@ class _PlayingStyleListScreenState
         ),
       ),
       floatingActionButton: (widget.bandId != null && widget.isLeader) ||
-              widget.bandId == null
+              widget.bandId.isEmpty
           ? FloatingActionButton(
               onPressed: () async {
                 await widget.appListener.router.navigateTo(context,

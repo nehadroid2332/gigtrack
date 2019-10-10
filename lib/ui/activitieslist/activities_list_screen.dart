@@ -98,15 +98,20 @@ class _ActivitiesListScreenState
                   List<Activites> current = [];
                   List<Activites> upcoming = [];
                   List<Activites> past = [];
-                  int currentDate = DateTime.now().millisecondsSinceEpoch;
+                  int currentDate = DateTime.now().day;
                   for (var ac in activities) {
-                    if (currentDate >= ac.startDate &&
-                        currentDate <= (ac.endDate ?? 0)) {
+                    int startDate =
+                        DateTime.fromMillisecondsSinceEpoch(ac.startDate).day;
+                    int endDate =
+                        DateTime.fromMillisecondsSinceEpoch(ac.endDate).day;
+
+                    if (currentDate >= startDate &&
+                        currentDate <= (endDate ?? 0)) {
                       current.add(ac);
-                    } else if (currentDate > (ac.endDate ?? 0) ||
-                        currentDate > ac.startDate) {
+                    } else if (currentDate > (endDate ?? 0) ||
+                        currentDate > startDate) {
                       past.add(ac);
-                    } else if (currentDate < ac.startDate) {
+                    } else if (currentDate < startDate) {
                       upcoming.add(ac);
                     }
                   }
@@ -130,7 +135,7 @@ class _ActivitiesListScreenState
                                   widget.appListener.router.navigateTo(
                                       context,
                                       Screens.ADDACTIVITY.toString() +
-                                          "/${ac.type}/${ac.id}/${false}/${widget.bandId}");
+                                          "/${ac.type}/${ac.id}/${false}/${widget.bandId}////");
                                 });
                               },
                             )
@@ -154,7 +159,7 @@ class _ActivitiesListScreenState
                                   widget.appListener.router.navigateTo(
                                       context,
                                       Screens.ADDACTIVITY.toString() +
-                                          "/${ac.type}/${ac.id}/${false}/${widget.bandId}");
+                                          "/${ac.type}/${ac.id}/${false}/${widget.bandId}////");
                                 });
                               },
                             )
@@ -176,10 +181,11 @@ class _ActivitiesListScreenState
                                 Activites ac = past[index];
                                 return buildActivityListItem(ac, onTap: () {
                                   widget.appListener.router.navigateTo(
-                                      context,
-                                      Screens.ADDACTIVITY.toString() +
-                                          "/${ac.type}/${ac.id}/${false}/${widget.bandId}");
-                                });
+                                    context,
+                                    Screens.ADDACTIVITY.toString() +
+                                        "/${ac.type}/${ac.id}/${false}/${widget.bandId}////",
+                                  );
+                                }, isPast: true);
                               },
                             )
                           : Center(
@@ -322,7 +328,7 @@ class _ActivitiesListScreenState
         ),
       ),
       floatingActionButton:
-          (widget.bandId != null && widget.isLeader) || widget.bandId == null
+          widget.bandId.isEmpty || (widget.bandId != null && widget.isLeader)
               ? SpeedDial(
                   animatedIcon: AnimatedIcons.menu_close,
                   backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
@@ -335,7 +341,7 @@ class _ActivitiesListScreenState
                         await widget.appListener.router.navigateTo(
                             context,
                             Screens.ADDACTIVITY.toString() +
-                                "/${Activites.TYPE_ACTIVITY}///${widget.bandId}");
+                                "/${Activites.TYPE_ACTIVITY}///${widget.bandId}////");
                       },
                     ),
                     SpeedDialChild(
@@ -346,7 +352,7 @@ class _ActivitiesListScreenState
                         await widget.appListener.router.navigateTo(
                             context,
                             Screens.ADDACTIVITY.toString() +
-                                "/${Activites.TYPE_PERFORMANCE_SCHEDULE}///${widget.bandId}");
+                                "/${Activites.TYPE_PERFORMANCE_SCHEDULE}///${widget.bandId}////");
                       },
                     ),
                     SpeedDialChild(
@@ -357,7 +363,7 @@ class _ActivitiesListScreenState
                         await widget.appListener.router.navigateTo(
                             context,
                             Screens.ADDACTIVITY.toString() +
-                                "/${Activites.TYPE_PRACTICE_SCHEDULE}///${widget.bandId}");
+                                "/${Activites.TYPE_PRACTICE_SCHEDULE}///${widget.bandId}////");
                       },
                     ),
                     SpeedDialChild(
@@ -368,7 +374,7 @@ class _ActivitiesListScreenState
                         await widget.appListener.router.navigateTo(
                             context,
                             Screens.ADDACTIVITY.toString() +
-                                "/${Activites.TYPE_TASK}///${widget.bandId}");
+                                "/${Activites.TYPE_TASK}///${widget.bandId}////");
                       },
                     )
                   ],

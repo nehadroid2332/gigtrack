@@ -501,9 +501,6 @@ class _AddContactScreenState
                                     )
                                   ],
                                 ),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
                       widget.id.isEmpty || isEdit
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
@@ -570,7 +567,7 @@ class _AddContactScreenState
                                 },
                                 child: widget.id.isEmpty || isEdit
                                     ? Text(
-                                        "Click here to add phone number",
+                                        "Click here to add phone #",
                                         style: textTheme.display1.copyWith(
                                             color: widget
                                                 .appListener.primaryColorDark,
@@ -736,8 +733,10 @@ class _AddContactScreenState
                               ? Expanded(
                                   child: Text(
                                     "Dates to Remember",
-                                    style: textTheme.subtitle
-                                        .copyWith(fontWeight: FontWeight.bold),
+                                    style: textTheme.subtitle.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    ),
                                     textAlign: widget.id.isEmpty || isEdit
                                         ? TextAlign.left
                                         : TextAlign.center,
@@ -1194,9 +1193,6 @@ class _AddContactScreenState
                                 )
                               : Container()
                           : Container(),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
                       Row(
                         children: <Widget>[
                           Expanded(

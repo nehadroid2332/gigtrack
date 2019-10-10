@@ -468,7 +468,7 @@ class _AddBandScreenState
                                   textCapitalization:
                                       TextCapitalization.sentences,
                                   decoration: InputDecoration(
-                                    labelText: "Date Started",
+                                    labelText: "Date Established",
                                     labelStyle: TextStyle(
                                       color: Color.fromRGBO(202, 208, 215, 1.0),
                                     ),

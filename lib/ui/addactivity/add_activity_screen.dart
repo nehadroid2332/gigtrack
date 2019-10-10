@@ -10,6 +10,7 @@ import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/ui/addactivity/add_activity_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
+import 'package:gigtrack/utils/showup.dart';
 import 'package:google_places_picker/google_places_picker.dart';
 
 class AddActivityScreen extends BaseScreen {
@@ -51,6 +52,7 @@ class _AddActivityScreenState
       _locController = TextEditingController(),
       _startTimeController = TextEditingController(),
       _endTimeController = TextEditingController(),
+      _completionDateController = TextEditingController(),
       _taskCompletion = TextEditingController();
   final List<Band> bands = [];
   final List<User> members = [];
@@ -61,6 +63,7 @@ class _AddActivityScreenState
       _locError,
       _taskError,
       _startTimeError,
+      _errorCompletionDate,
       _endTimeError;
 
   DateTime startDate = DateTime.now();
@@ -71,6 +74,10 @@ class _AddActivityScreenState
   String _dateTxt = "";
 
   bool isRecurring = false;
+
+  bool hasCompletionDate = false;
+
+  DateTime completionDate;
 
   Future<Null> _selectDate(BuildContext context, int type) async {
     final DateTime picked = await showDatePicker(
@@ -241,7 +248,7 @@ class _AddActivityScreenState
                                         : widget.type ==
                                                 Activites
                                                     .TYPE_PERFORMANCE_SCHEDULE
-                                            ? "Special Event Instructions"
+                                            ? "Title"
                                             : (widget.type ==
                                                         Activites.TYPE_TASK) &&
                                                     (widget.id.isEmpty ||
@@ -452,7 +459,7 @@ class _AddActivityScreenState
                                   value: isRecurring,
                                 ),
                                 Text(
-                                  "Recurring same day of week and time",
+                                  "Recurring same day and time",
                                   style: TextStyle(fontSize: 14),
                                 )
                               ],
@@ -464,36 +471,35 @@ class _AddActivityScreenState
                                       Activites.TYPE_PERFORMANCE_SCHEDULE ||
                                   widget.type ==
                                       Activites.TYPE_PRACTICE_SCHEDULE)
-                          ? InkWell(
-                              onTap: () async {
-                                var place = await PluginGooglePlacePicker
-                                    .showAutocomplete(
-                                  mode: PlaceAutocompleteMode.MODE_OVERLAY,
-                                  countryCode: "US",
-                                  typeFilter: TypeFilter.ESTABLISHMENT,
-                                );
-                                _locController.text = place.address;
-                              },
-                              child: AbsorbPointer(
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                    labelText: widget.id.isEmpty || isEdit
-                                        ? "Location"
-                                        : "",
-                                    labelStyle: TextStyle(
-                                      color: Color.fromRGBO(202, 208, 215, 1.0),
-                                    ),
-                                    errorText: _locError,
-                                    border: widget.id.isEmpty || isEdit
-                                        ? null
-                                        : InputBorder.none,
-                                  ),
-                                  enabled: widget.id.isEmpty || isEdit,
-                                  controller: _locController,
-                                  style: textTheme.subhead.copyWith(
-                                    color: Colors.black,
-                                  ),
+                          ? TextField(
+                              decoration: InputDecoration(
+                                suffixIcon: IconButton(
+                                  icon: Icon(Icons.add),
+                                  onPressed: () async {
+                                    var place = await PluginGooglePlacePicker
+                                        .showAutocomplete(
+                                      mode: PlaceAutocompleteMode.MODE_OVERLAY,
+                                      countryCode: "US",
+                                      typeFilter: TypeFilter.ESTABLISHMENT,
+                                    );
+                                    _locController.text = place.address;
+                                  },
                                 ),
+                                labelText: widget.id.isEmpty || isEdit
+                                    ? "Location"
+                                    : "",
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                errorText: _locError,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
+                              ),
+                              enabled: widget.id.isEmpty || isEdit,
+                              controller: _locController,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
                               ),
                             )
                           : widget.type == Activites.TYPE_ACTIVITY ||
@@ -808,6 +814,71 @@ class _AddActivityScreenState
                                       textAlign: TextAlign.center,
                                     )
                           : Container(),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      (widget.id.isEmpty || isEdit) &&
+                              widget.type == Activites.TYPE_TASK &&
+                              !hasCompletionDate
+                          ? ShowUp(
+                              child: InkWell(
+                                child: Text("Is there a completion date?"),
+                                onTap: () {
+                                  setState(() {
+                                    hasCompletionDate = true;
+                                  });
+                                },
+                              ),
+                              delay: 1000,
+                            )
+                          : hasCompletionDate
+                              ? GestureDetector(
+                                  child: AbsorbPointer(
+                                    child: TextField(
+                                      enabled: widget.id.isEmpty || isEdit,
+                                      controller: _completionDateController,
+                                      decoration: InputDecoration(
+                                        labelText: "Completion Date",
+                                        labelStyle: TextStyle(
+                                          color: Color.fromRGBO(
+                                              202, 208, 215, 1.0),
+                                        ),
+                                        errorText: _errorCompletionDate,
+                                        border: widget.id.isEmpty || isEdit
+                                            ? null
+                                            : InputBorder.none,
+                                      ),
+                                      style: textTheme.subhead.copyWith(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  onTap: () async {
+                                    if (widget.id.isEmpty || isEdit) {
+                                      final DateTime picked =
+                                          await showDatePicker(
+                                        context: context,
+                                        firstDate: DateTime.now(),
+                                        initialDate: DateTime.now(),
+                                        lastDate: DateTime(2022),
+                                      );
+                                      if (picked != null) {
+                                        setState(() {
+                                          completionDate = picked;
+                                          _completionDateController.text =
+                                              "${formatDate(picked, [
+                                            mm,
+                                            '-',
+                                            dd,
+                                            '-',
+                                            yy
+                                          ])}";
+                                        });
+                                      }
+                                    }
+                                  },
+                                )
+                              : Container(),
                       widget.id.isEmpty || isEdit || widget.isParent
                           ? Container()
                           : ListView.builder(
@@ -939,6 +1010,8 @@ class _AddActivityScreenState
                                         id: widget.id,
                                         bandId: widget.bandId,
                                         description: desc,
+                                        taskCompleteDate: completionDate
+                                            ?.millisecondsSinceEpoch,
                                         isRecurring: isRecurring,
                                         startDate: widget.type ==
                                                     Activites

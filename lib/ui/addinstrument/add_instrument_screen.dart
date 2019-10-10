@@ -947,7 +947,7 @@ class _AddInstrumentScreenState
                           : Container(),
 
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: EdgeInsets.all(10),
                       ),
                       ShowUp(
                         child: !_isinsuranceInfo
