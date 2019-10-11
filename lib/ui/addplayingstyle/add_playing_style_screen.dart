@@ -104,6 +104,9 @@ class _AddPlayingStyleScreenState
   ];
   int isyearage;
   bool isEdit = false;
+  var _legalUserType;
+  bool showYear;
+  bool showage;
   final Map<String, String> inList = Map();
   final Map<String, String> exList = Map();
   final Set<String> psList = Set();
@@ -132,6 +135,20 @@ class _AddPlayingStyleScreenState
     });
   }
 
+  void _handleLegalUserValueChange(int value) {
+    setState(() {
+      _legalUserType = value;
+      if (_legalUserType == 1) {
+      showYear= true;
+      showage=false;
+      
+      } else if (_legalUserType == 0) {
+        showage=true;
+        showYear=false;
+      
+      }
+    });
+  }
   void _handleRelationshipValueChange(String value) {
     setState(() {
       _educationType = value;
@@ -459,24 +476,87 @@ class _AddPlayingStyleScreenState
                       widget.id.isEmpty || isEdit
                           ? Text("Select one")
                           : Container(),
+                      Padding(padding: EdgeInsets.all(6),),
+                      widget.id.isEmpty || isEdit
+                          ? Row(
+                        children: <Widget>[
+                          InkWell(
+                            onTap: widget.id.isEmpty || isEdit
+                                ? () {
+                              _handleLegalUserValueChange(0);
+                            }
+                                : null,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 14, vertical: 5),
+                              decoration: BoxDecoration(
+                                  color: _legalUserType == 0
+                                      ? Color.fromRGBO(
+                                      209, 244, 236, 1.0)
+                                      : Color.fromRGBO(
+                                      244, 246, 248, 1.0),
+                                  borderRadius:
+                                  BorderRadius.circular(15),
+                                  border: Border.all(
+                                      color: _legalUserType == 0
+                                          ? Color.fromRGBO(
+                                          70, 206, 172, 1.0)
+                                          : Color.fromRGBO(124, 180, 97, 1.0))),
+                              child: Text(
+                                'Age',
+                                style: new TextStyle(
+                                  fontSize: 16.0,
+                                  color: _legalUserType == 0
+                                      ? Color.fromRGBO(124, 180, 97, 1.0)
+                                      : Color.fromRGBO(124, 180, 97, 1.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(8),
+                          ),
+                          InkWell(
+                            onTap: widget.id.isEmpty || isEdit
+                                ? () {
+                              _handleLegalUserValueChange(1);
+                            }
+                                : null,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 14, vertical: 5),
+                              decoration: BoxDecoration(
+                                  color: _legalUserType == 1
+                                      ? Color.fromRGBO(
+                                      209, 244, 236, 1.0)
+                                      : Color.fromRGBO(
+                                      244, 246, 248, 1.0),
+                                  borderRadius:
+                                  BorderRadius.circular(15),
+                                  border: Border.all(
+                                      color: _legalUserType == 1
+                                          ? Color.fromRGBO(124, 180, 97, 1.0)
+                                          : Color.fromRGBO(124, 180, 97, 1.0))),
+                              child: Text(
+                                'Year',
+                                style: new TextStyle(
+                                  fontSize: 16.0,
+                                  color: _legalUserType == 1
+                                      ? Color.fromRGBO(124, 180, 97, 1.0)
+                                      : Color.fromRGBO(124, 180, 97, 1.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                          : Container(),
                       Row(
                         mainAxisAlignment: widget.id.isEmpty || isEdit
                             ? MainAxisAlignment.start
                             : MainAxisAlignment.center,
                         children: <Widget>[
-                          widget.id.isEmpty || isEdit
-                              ? Checkbox(
-                                  onChanged: widget.id.isEmpty || isEdit
-                                      ? (bool value) {
-                                          setState(() {
-                                            isyearage = 0;
-                                          });
-                                        }
-                                      : null,
-                                  value: isyearage == 0,
-                                )
-                              : Container(),
-                          widget.id.isEmpty || isEdit
+                       showage ==true ?   (widget.id.isEmpty || isEdit
                               ? Expanded(
                                   child: TextField(
                                     enabled: (widget.id.isEmpty || isEdit)
@@ -497,23 +577,8 @@ class _AddPlayingStyleScreenState
                                       "Age : ${_ageController.text}",
                                       textAlign: TextAlign.center,
                                     )
-                                  : Container(),
-                          Padding(
-                            padding: EdgeInsets.all(4),
-                          ),
-                          widget.id.isEmpty || isEdit
-                              ? Checkbox(
-                                  onChanged: widget.id.isEmpty || isEdit
-                                      ? (bool value) {
-                                          setState(() {
-                                            isyearage = 1;
-                                          });
-                                        }
-                                      : null,
-                                  value: isyearage == 1,
-                                )
-                              : Container(),
-                          widget.id.isEmpty || isEdit
+                                  : Container()):Container(),
+                        showYear==true ?  (widget.id.isEmpty || isEdit
                               ? Expanded(
                                   child: TextField(
                                     enabled: (widget.id.isEmpty || isEdit)
@@ -534,7 +599,7 @@ class _AddPlayingStyleScreenState
                                       "Year: ${_yearController.text}",
                                       textAlign: TextAlign.center,
                                     )
-                                  : Container(),
+                                  : Container()):Container(),
                         ],
                       ),
                       Padding(
@@ -571,7 +636,9 @@ class _AddPlayingStyleScreenState
                                         color:
                                             widget.appListener.primaryColorDark,
                                       ),
+	                                    
                                     ),
+	                                  maxLines: 2,
                                   ),
                                 )
                               : _responseController.text.isNotEmpty

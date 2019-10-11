@@ -122,7 +122,7 @@ class _ActivitiesListScreenState
                         color: Color.fromRGBO(32, 95, 139, 1.0),
                         textColor: Colors.white,
                         onPressed: () {},
-                        child: Text("Current"),
+                        child: Text("Today"),
                       ),
                       current.length > 0
                           ? ListView.builder(
