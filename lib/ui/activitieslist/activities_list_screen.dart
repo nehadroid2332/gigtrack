@@ -98,22 +98,43 @@ class _ActivitiesListScreenState
                   List<Activites> current = [];
                   List<Activites> upcoming = [];
                   List<Activites> past = [];
-                  int currentDate = DateTime.now().day;
+                  DateTime currentDate = DateTime.now();
                   for (var ac in activities) {
-                    int startDate =
-                        DateTime.fromMillisecondsSinceEpoch(ac.startDate).day;
-                    int endDate =
-                        DateTime.fromMillisecondsSinceEpoch(ac.endDate).day;
-
-                    if (currentDate >= startDate &&
-                        currentDate <= (endDate ?? 0)) {
-                      current.add(ac);
-                    } else if (currentDate > (endDate ?? 0) ||
-                        currentDate > startDate) {
-                      past.add(ac);
-                    } else if (currentDate < startDate) {
-                      upcoming.add(ac);
+                    DateTime startDate =
+                        DateTime.fromMillisecondsSinceEpoch(ac.startDate);
+                    DateTime endDate;
+                    if (ac.endDate != 0) {
+                      endDate = DateTime.fromMillisecondsSinceEpoch(ac.endDate);
                     }
+                    int days = currentDate.difference(startDate).inDays;
+                    int days2;
+                    if (endDate != null) {
+                      days2 = currentDate.difference(endDate).inDays;
+                    }
+                    if (days == 0 || (days2 != null && days2 == 0)) {
+                      current.add(ac);
+                    } else if (days.isNegative) {
+                      upcoming.add(ac);
+                    } else if (!days.isNegative) {
+                      if (days2 != null) {
+                        if (days2.isNegative) {
+                          current.add(ac);
+                        } else {
+                          past.add(ac);
+                        }
+                      } else {
+                        past.add(ac);
+                      }
+                    }
+                    // if (currentDate >= startDate &&
+                    //     currentDate <= (endDate ?? 0)) {
+                    //   current.add(ac);
+                    // } else if (currentDate > (endDate ?? 0) ||
+                    //     currentDate > startDate) {
+                    //   past.add(ac);
+                    // } else if (currentDate < startDate) {
+                    //   upcoming.add(ac);
+                    // }
                   }
 
                   return ListView(

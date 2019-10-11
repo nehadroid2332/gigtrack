@@ -80,6 +80,40 @@ class _AddNotesScreenState
           color: Colors.white, //change your color here
         ),
         elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () async {
+            if (isEdit) {
+              final check = await showDialog<bool>(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Your changes will not save.Are you sure?"),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text("Yes"),
+                        onPressed: () {
+                          Navigator.of(context).pop(true);
+                        },
+                      ),
+                      FlatButton(
+                        child: Text("No"),
+                        onPressed: () {
+                          Navigator.of(context).pop(false);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+              if (check) {
+                Navigator.of(context).pop();
+              }
+            } else {
+              Navigator.of(context).pop();
+            }
+          },
+        ),
         backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
         actions: <Widget>[
           widget.id.isEmpty || widget.isParent
@@ -281,10 +315,10 @@ class _AddNotesScreenState
                                           ? TextField(
                                               enabled: widget.id.isEmpty,
                                               decoration: InputDecoration(
-                                                labelText:
-                                                    widget.id.isEmpty || isEdit
-                                                        ? "Note Date"
-                                                        : "",
+                                                labelText: widget.id.isEmpty ||
+                                                        isEdit
+                                                    ? "Is there a Reminder Date?"
+                                                    : "",
                                                 labelStyle: TextStyle(
                                                     color: Color.fromRGBO(
                                                         202, 208, 215, 1.0),

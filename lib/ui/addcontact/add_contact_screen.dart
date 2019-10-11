@@ -567,7 +567,7 @@ class _AddContactScreenState
                                 },
                                 child: widget.id.isEmpty || isEdit
                                     ? Text(
-                                        "Click here to add phone #",
+                                        "Click here to add another phone #",
                                         style: textTheme.display1.copyWith(
                                             color: widget
                                                 .appListener.primaryColorDark,

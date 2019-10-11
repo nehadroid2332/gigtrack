@@ -127,7 +127,7 @@ class _PlayingStyleListScreenState
                                 await widget.appListener.router.navigateTo(
                                     context,
                                     Screens.ADDPLAYINGSTYLE.toString() +
-                                        "/${userPlayingStyle.id}/${widget.bandId}");
+                                        "/${userPlayingStyle.id}/${widget.bandId}////");
                               }
                             : null,
                       );
@@ -145,7 +145,7 @@ class _PlayingStyleListScreenState
           ? FloatingActionButton(
               onPressed: () async {
                 await widget.appListener.router.navigateTo(context,
-                    Screens.ADDPLAYINGSTYLE.toString() + "//${widget.bandId}");
+                    Screens.ADDPLAYINGSTYLE.toString() + "//${widget.bandId}////");
               },
               child: Icon(Icons.add),
               backgroundColor: Color.fromRGBO(124, 180, 97, 1.0),
