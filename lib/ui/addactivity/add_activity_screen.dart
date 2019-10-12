@@ -236,7 +236,9 @@ class _AddActivityScreenState
                 setState(() {
                   if (selectedBand == null)
                     selectedBand = s;
-                  else
+                  else if (selectedBand == s) {
+                    selectedBand = s;
+                  } else
                     selectedBand = null;
                 });
               }
@@ -246,7 +248,7 @@ class _AddActivityScreenState
     List<Widget> items2 = [];
     if (selectedBand != null) {
       for (BandMember s in selectedBand.bandmates.values) {
-        items.add(GestureDetector(
+        items2.add(GestureDetector(
           child: Container(
             child: Text(
               "${s.firstName} ${s.lastName}",
@@ -1024,9 +1026,15 @@ class _AddActivityScreenState
                               children: items,
                             )
                           : Container(),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
                       selectedBand != null && selectedBand.bandmates.length > 0
                           ? Text("Select Band Members")
                           : Container(),
+                      Padding(
+                        padding: EdgeInsets.all(3),
+                      ),
                       selectedBand != null
                           ? selectedBand.bandmates.length > 0
                               ? Wrap(
