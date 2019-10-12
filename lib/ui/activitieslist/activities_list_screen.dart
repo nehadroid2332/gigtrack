@@ -397,6 +397,17 @@ class _ActivitiesListScreenState
                             Screens.ADDACTIVITY.toString() +
                                 "/${Activites.TYPE_TASK}///${widget.bandId}////");
                       },
+                    ),
+                    SpeedDialChild(
+                      label: "Band Task",
+                      child: Icon(Icons.add),
+                      backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
+                      onTap: () async {
+                        await widget.appListener.router.navigateTo(
+                            context,
+                            Screens.ADDACTIVITY.toString() +
+                                "/${Activites.TYPE_BAND_TASK}///${widget.bandId}////");
+                      },
                     )
                   ],
                 )

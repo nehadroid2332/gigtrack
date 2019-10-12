@@ -105,10 +105,10 @@ class _DashboardScreenState
               crossAxisCount: 2,
               childAspectRatio: 1.42,
               children: [
-                "Activities",
                 "Band",
+                "Activities",
                 "Equipment",
-                "Playing Style",
+                "EPK",
                 "Contacts",
                 "Admin",
                 "Notes",
@@ -138,7 +138,7 @@ class _DashboardScreenState
                       //color = Color.fromRGBO(60, 111, 54, 1.0);
                       image = 'assets/images/equipment.png';
                       break;
-                    case "Playing Style":
+                    case "EPK":
                       //color=Color.fromRGBO(80, 54, 116, 1.0);
                       color = Color.fromRGBO(124, 180, 97, 1.0);
                       image = 'assets/images/playingstyle.png';
@@ -202,8 +202,8 @@ class _DashboardScreenState
                     ),
                     onTap: () {
                       if (txt == "Activities")
-                        widget.appListener.router.navigateTo(
-                            context, Screens.ACTIVITIESLIST.toString() + "/////");
+                        widget.appListener.router.navigateTo(context,
+                            Screens.ACTIVITIESLIST.toString() + "/////");
                       else if (txt == "Notes")
                         widget.appListener.router.navigateTo(
                             context, Screens.NOTETODOLIST.toString() + "/////");
@@ -211,11 +211,11 @@ class _DashboardScreenState
                         widget.appListener.router
                             .navigateTo(context, Screens.BANDLIST.toString());
                       else if (txt == "Equipment")
-                        widget.appListener.router.navigateTo(
-                            context, Screens.INSTRUMENTLIST.toString() + "/////");
-                      else if (txt == "Playing Style")
-                        widget.appListener.router.navigateTo(
-                            context, Screens.PLAYINGSTYLELIST.toString() + "/////");
+                        widget.appListener.router.navigateTo(context,
+                            Screens.INSTRUMENTLIST.toString() + "/////");
+                      else if (txt == "EPK")
+                        widget.appListener.router.navigateTo(context,
+                            Screens.PLAYINGSTYLELIST.toString() + "/////");
                       else if (txt == "Contacts")
                         widget.appListener.router.navigateTo(
                             context, Screens.CONTACTLIST.toString() + "/////");

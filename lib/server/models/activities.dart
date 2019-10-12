@@ -5,6 +5,7 @@ class Activites extends BaseModel {
   static const TYPE_PERFORMANCE_SCHEDULE = 1;
   static const TYPE_PRACTICE_SCHEDULE = 2;
   static const TYPE_TASK = 3;
+  static const TYPE_BAND_TASK = 4;
 
   int type;
   String title;
@@ -22,6 +23,8 @@ class Activites extends BaseModel {
   String parking;
   String other;
   String bandId;
+  String bandTaskId;
+  String bandTaskMemberId;
   bool isRecurring = false;
 
   List<Activites> subActivities = [];
@@ -39,7 +42,9 @@ class Activites extends BaseModel {
       this.taskCompleteDate,
       this.other,
       this.bandId,
-      this.title});
+      this.title,
+      this.bandTaskId,
+      this.bandTaskMemberId});
 
   Activites.fromJSON(dynamic data) {
     type = data['type'];
@@ -54,6 +59,8 @@ class Activites extends BaseModel {
     isRecurring = data['isRecurring'];
     other = data['other'];
     bandId = data['bandId'];
+    bandTaskId = data['bandTaskId'];
+    bandTaskMemberId = data['bandTaskMemberId'];
     notes = data['notes'];
     task = data['task'];
     taskCompleteDate = data['taskCompleteDate'];
@@ -76,6 +83,8 @@ class Activites extends BaseModel {
     data['task'] = task ?? "";
     data['travel'] = travel ?? "";
     data['notes'] = notes ?? "";
+    data['bandTaskMemberId'] = bandTaskMemberId ?? "";
+    data['bandTaskId'] = bandTaskId ?? "";
     data['title'] = title ?? "";
     data['id'] = id ?? "";
     data['bandId'] = bandId;

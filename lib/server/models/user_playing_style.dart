@@ -13,8 +13,10 @@ class UserPlayingStyle extends BaseModel {
   String education;
   String listSchool;
   String bandId;
+  String about;
   String earn;
   List<String> experience = [];
+  String otherExp;
   List<String> files = [];
   String viewerKnow;
 
@@ -27,9 +29,11 @@ class UserPlayingStyle extends BaseModel {
       this.degree,
       this.age,
       this.year,
+      this.otherExp,
       this.education,
       this.listSchool,
       this.earn,
+      this.about,
       this.experience,
       this.bandId,
       this.viewerKnow,
@@ -54,9 +58,11 @@ class UserPlayingStyle extends BaseModel {
         files.add(item);
       }
     }
+    otherExp = data['otherExp'];
     age = data['age'];
     year = data['year'];
     role = data['role'];
+    about = data['about'];
     degree = data['degree'];
     education = data['education'];
     bandId = data['bandId'];
@@ -75,9 +81,11 @@ class UserPlayingStyle extends BaseModel {
     Map<String, dynamic> data = super.toMap();
     data['id'] = id;
     data['user_id'] = user_id;
+    data['otherExp'] = otherExp;
     data['playing_styles_ids'] = playing_styles;
     data['instruments_ids'] = instruments;
     data['role'] = role;
+    data['about'] = about;
     data['bandId'] = bandId;
     data['degree'] = degree;
     data['education'] = education;

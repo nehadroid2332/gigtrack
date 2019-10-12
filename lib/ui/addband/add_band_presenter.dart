@@ -12,11 +12,12 @@ class AddBandPresenter extends BasePresenter {
   AddBandPresenter(BaseContract view) : super(view);
 
   void addBand(int dateStarted, String musicStyle, String bname, String blname,
-      String legalstructure, String email, String website,
+      String legalstructure, String email, String website, String contactInfo,
       {String id}) async {
     Band band = Band(
       dateStarted: dateStarted,
       email: email,
+      contactInfo: contactInfo,
       legalName: blname,
       legalStructure: legalstructure,
       musicStyle: musicStyle,

@@ -92,15 +92,18 @@ class _AddPlayingStyleScreenState
     "Other"
   ];
   final experience = <String>[
-    "Play on my own",
-    "Taking lessens",
-    "I am an instructor",
     "Garage Band",
-    "Music School band",
-    "Local Band",
-    "Local Touring Band",
-    "National Touring",
     "International Touring",
+    "Local Band",
+    "Local Bar Band",
+    "Local Touring Band",
+    "Music School band",
+    "National Band",
+    "Party Band - Casual",
+    "Party Band - Formal",
+    "Touring Band",
+    "Wedding Band",
+    "Other",
   ];
   int isyearage;
   bool isEdit = false;
@@ -118,6 +121,8 @@ class _AddPlayingStyleScreenState
   final _earnController = TextEditingController();
   final _responseController = TextEditingController();
   final _expController = TextEditingController();
+  final _otherExpController = TextEditingController();
+  final _aboutBandController = TextEditingController();
   String selectedEducation;
   var _educationType = "Select";
   var files = <String>[];
@@ -139,16 +144,15 @@ class _AddPlayingStyleScreenState
     setState(() {
       _legalUserType = value;
       if (_legalUserType == 1) {
-      showYear= true;
-      showage=false;
-      
+        showYear = true;
+        showage = false;
       } else if (_legalUserType == 0) {
-        showage=true;
-        showYear=false;
-      
+        showage = true;
+        showYear = false;
       }
     });
   }
+
   void _handleRelationshipValueChange(String value) {
     setState(() {
       _educationType = value;
@@ -463,7 +467,7 @@ class _AddPlayingStyleScreenState
                         padding: EdgeInsets.all(5),
                       ),
                       Text(
-                        "My Music Journey started",
+                        "Click here to add education",
                         textAlign: widget.id.isEmpty || isEdit
                             ? TextAlign.left
                             : TextAlign.center,
@@ -476,130 +480,135 @@ class _AddPlayingStyleScreenState
                       widget.id.isEmpty || isEdit
                           ? Text("Select one")
                           : Container(),
-                      Padding(padding: EdgeInsets.all(6),),
+                      Padding(
+                        padding: EdgeInsets.all(6),
+                      ),
                       widget.id.isEmpty || isEdit
                           ? Row(
-                        children: <Widget>[
-                          InkWell(
-                            onTap: widget.id.isEmpty || isEdit
-                                ? () {
-                              _handleLegalUserValueChange(0);
-                            }
-                                : null,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 14, vertical: 5),
-                              decoration: BoxDecoration(
-                                  color: _legalUserType == 0
-                                      ? Color.fromRGBO(
-                                      209, 244, 236, 1.0)
-                                      : Color.fromRGBO(
-                                      244, 246, 248, 1.0),
-                                  borderRadius:
-                                  BorderRadius.circular(15),
-                                  border: Border.all(
-                                      color: _legalUserType == 0
-                                          ? Color.fromRGBO(
-                                          70, 206, 172, 1.0)
-                                          : Color.fromRGBO(124, 180, 97, 1.0))),
-                              child: Text(
-                                'Age',
-                                style: new TextStyle(
-                                  fontSize: 16.0,
-                                  color: _legalUserType == 0
-                                      ? Color.fromRGBO(124, 180, 97, 1.0)
-                                      : Color.fromRGBO(124, 180, 97, 1.0),
+                              children: <Widget>[
+                                InkWell(
+                                  onTap: widget.id.isEmpty || isEdit
+                                      ? () {
+                                          _handleLegalUserValueChange(0);
+                                        }
+                                      : null,
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 14, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        color: _legalUserType == 0
+                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+                                            : Color.fromRGBO(
+                                                244, 246, 248, 1.0),
+                                        borderRadius: BorderRadius.circular(15),
+                                        border: Border.all(
+                                            color: _legalUserType == 0
+                                                ? Color.fromRGBO(
+                                                    70, 206, 172, 1.0)
+                                                : Color.fromRGBO(
+                                                    124, 180, 97, 1.0))),
+                                    child: Text(
+                                      'Age',
+                                      style: new TextStyle(
+                                        fontSize: 16.0,
+                                        color: _legalUserType == 0
+                                            ? Color.fromRGBO(124, 180, 97, 1.0)
+                                            : Color.fromRGBO(124, 180, 97, 1.0),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(8),
-                          ),
-                          InkWell(
-                            onTap: widget.id.isEmpty || isEdit
-                                ? () {
-                              _handleLegalUserValueChange(1);
-                            }
-                                : null,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 14, vertical: 5),
-                              decoration: BoxDecoration(
-                                  color: _legalUserType == 1
-                                      ? Color.fromRGBO(
-                                      209, 244, 236, 1.0)
-                                      : Color.fromRGBO(
-                                      244, 246, 248, 1.0),
-                                  borderRadius:
-                                  BorderRadius.circular(15),
-                                  border: Border.all(
-                                      color: _legalUserType == 1
-                                          ? Color.fromRGBO(124, 180, 97, 1.0)
-                                          : Color.fromRGBO(124, 180, 97, 1.0))),
-                              child: Text(
-                                'Year',
-                                style: new TextStyle(
-                                  fontSize: 16.0,
-                                  color: _legalUserType == 1
-                                      ? Color.fromRGBO(124, 180, 97, 1.0)
-                                      : Color.fromRGBO(124, 180, 97, 1.0),
+                                Padding(
+                                  padding: EdgeInsets.all(8),
                                 ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
+                                InkWell(
+                                  onTap: widget.id.isEmpty || isEdit
+                                      ? () {
+                                          _handleLegalUserValueChange(1);
+                                        }
+                                      : null,
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 14, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        color: _legalUserType == 1
+                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+                                            : Color.fromRGBO(
+                                                244, 246, 248, 1.0),
+                                        borderRadius: BorderRadius.circular(15),
+                                        border: Border.all(
+                                            color: _legalUserType == 1
+                                                ? Color.fromRGBO(
+                                                    124, 180, 97, 1.0)
+                                                : Color.fromRGBO(
+                                                    124, 180, 97, 1.0))),
+                                    child: Text(
+                                      'Year',
+                                      style: new TextStyle(
+                                        fontSize: 16.0,
+                                        color: _legalUserType == 1
+                                            ? Color.fromRGBO(124, 180, 97, 1.0)
+                                            : Color.fromRGBO(124, 180, 97, 1.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
                           : Container(),
                       Row(
                         mainAxisAlignment: widget.id.isEmpty || isEdit
                             ? MainAxisAlignment.start
                             : MainAxisAlignment.center,
                         children: <Widget>[
-                       showage ==true ?   (widget.id.isEmpty || isEdit
-                              ? Expanded(
-                                  child: TextField(
-                                    enabled: (widget.id.isEmpty || isEdit)
-                                        ? isyearage == 0
-                                        : false,
-                                    controller: _ageController,
-                                    decoration: InputDecoration(
-                                      labelText: "Enter Age",
-                                      labelStyle: TextStyle(
-                                        color:
-                                            widget.appListener.primaryColorDark,
+                          showage == true
+                              ? (widget.id.isEmpty || isEdit
+                                  ? Expanded(
+                                      child: TextField(
+                                        enabled: (widget.id.isEmpty || isEdit)
+                                            ? isyearage == 0
+                                            : false,
+                                        controller: _ageController,
+                                        decoration: InputDecoration(
+                                          labelText: "Enter Age",
+                                          labelStyle: TextStyle(
+                                            color: widget
+                                                .appListener.primaryColorDark,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                )
-                              : _ageController.text.isNotEmpty
-                                  ? Text(
-                                      "Age : ${_ageController.text}",
-                                      textAlign: TextAlign.center,
                                     )
-                                  : Container()):Container(),
-                        showYear==true ?  (widget.id.isEmpty || isEdit
-                              ? Expanded(
-                                  child: TextField(
-                                    enabled: (widget.id.isEmpty || isEdit)
-                                        ? isyearage == 1
-                                        : false,
-                                    controller: _yearController,
-                                    decoration: InputDecoration(
-                                      labelText: "Enter Year",
-                                      labelStyle: TextStyle(
-                                        color:
-                                            widget.appListener.primaryColorDark,
+                                  : _ageController.text.isNotEmpty
+                                      ? Text(
+                                          "Age : ${_ageController.text}",
+                                          textAlign: TextAlign.center,
+                                        )
+                                      : Container())
+                              : Container(),
+                          showYear == true
+                              ? (widget.id.isEmpty || isEdit
+                                  ? Expanded(
+                                      child: TextField(
+                                        enabled: (widget.id.isEmpty || isEdit)
+                                            ? isyearage == 1
+                                            : false,
+                                        controller: _yearController,
+                                        decoration: InputDecoration(
+                                          labelText: "Enter Year",
+                                          labelStyle: TextStyle(
+                                            color: widget
+                                                .appListener.primaryColorDark,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                )
-                              : _yearController.text.isNotEmpty
-                                  ? Text(
-                                      "Year: ${_yearController.text}",
-                                      textAlign: TextAlign.center,
                                     )
-                                  : Container()):Container(),
+                                  : _yearController.text.isNotEmpty
+                                      ? Text(
+                                          "Year: ${_yearController.text}",
+                                          textAlign: TextAlign.center,
+                                        )
+                                      : Container())
+                              : Container(),
                         ],
                       ),
                       Padding(
@@ -636,9 +645,8 @@ class _AddPlayingStyleScreenState
                                         color:
                                             widget.appListener.primaryColorDark,
                                       ),
-	                                    
                                     ),
-	                                  maxLines: 2,
+                                    maxLines: 2,
                                   ),
                                 )
                               : _responseController.text.isNotEmpty
@@ -820,6 +828,15 @@ class _AddPlayingStyleScreenState
                               expss,
                               textAlign: TextAlign.center,
                             ),
+                      (widget.id.isEmpty || isEdit)
+                          ? exList.containsKey("Other")
+                              ? TextField(
+                                  controller: _otherExpController,
+                                )
+                              : Container()
+                          : expss.contains("Other")
+                              ? Text(_otherExpController.text)
+                              : Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -891,6 +908,20 @@ class _AddPlayingStyleScreenState
                                 )
                               : Container()
                           : Container(),
+                      widget.id.isEmpty || isEdit
+                          ? Container()
+                          : Text("About the Band"),
+                      widget.id.isEmpty || isEdit
+                          ? TextField(
+                              controller: _aboutBandController,
+                              decoration: InputDecoration(
+                                hintText: "About the Band",
+                              ),
+                            )
+                          : Text(_aboutBandController.text),
+                      Padding(
+                        padding: EdgeInsets.all(4),
+                      ),
                       ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
@@ -1092,8 +1123,10 @@ class _AddPlayingStyleScreenState
                                     role: _roleController.text,
                                     bandId: widget.bandId,
                                     degree: _degreeController.text,
+                                    about: _aboutBandController.text,
                                     playing_styles: List.from(psList),
                                     earn: _earnController.text,
+                                    otherExp: _otherExpController.text,
                                     education: selectedEducation,
                                     age: _ageController.text,
                                     year: _yearController.text,
@@ -1185,6 +1218,8 @@ class _AddPlayingStyleScreenState
     setState(() {
       files.clear();
       files.addAll(userPlayingStyle.files);
+      _aboutBandController.text = userPlayingStyle.about;
+      _otherExpController.text = userPlayingStyle.otherExp;
       _degreeController.text = userPlayingStyle.degree;
       _earnController.text = userPlayingStyle.earn;
       _expController.text = userPlayingStyle.viewerKnow;

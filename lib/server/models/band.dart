@@ -11,6 +11,7 @@ class Band extends BaseModel {
   String musicStyle;
   String email;
   String website;
+  String contactInfo;
 
   String id;
   String userId;
@@ -24,6 +25,7 @@ class Band extends BaseModel {
       this.legalStructure,
       this.musicStyle,
       this.name,
+      this.contactInfo,
       this.website});
 
   Band.fromJSON(dynamic data) {
@@ -34,6 +36,7 @@ class Band extends BaseModel {
     musicStyle = data['music_style'];
     email = data['email'];
     website = data['website'];
+    contactInfo = data['contactInfo'];
     id = data['id'];
     userId = data['user_id'];
     if (data['bandmates'] != null) {
@@ -55,6 +58,7 @@ class Band extends BaseModel {
     data['music_style'] = musicStyle ?? "";
     data['user_id'] = userId;
     data['email'] = email ?? "";
+    data['contactInfo'] = contactInfo;
     data['website'] = website ?? "";
     data['id'] = id;
     Map<String, dynamic> bnds = {};

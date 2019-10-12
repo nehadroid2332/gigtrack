@@ -1,12 +1,13 @@
 import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/activities.dart';
+import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/error_response.dart';
 import 'package:gigtrack/server/models/update_activity_bandmember_status.dart';
 
 abstract class AddActivityContract extends BaseContract {
   void onSuccess();
   void getActivityDetails(Activites activities);
-
+  void getUserBands(List<Band> bands);
   void onActivitySuccess();
 
   void onUpdate();
@@ -85,5 +86,24 @@ class AddActivityPresenter extends BasePresenter {
         view.showMessage(res2.message);
       }
     }
+  }
+
+  void getUserBands() async {
+    final res = await serverAPI.bandDB
+        .orderByChild('user_id')
+        .equalTo(serverAPI.currentUserId)
+        .once();
+    Map mp = res.value;
+    if (mp == null) return null;
+    List<Band> acc = [];
+    for (var d in mp.values) {
+      Band band = Band.fromJSON(d);
+      if (band.userId == serverAPI.currentUserId ||
+          band.bandmates.keys
+              .contains(serverAPI.currentUserEmail.replaceAll(".", ""))) {
+        acc.add(band);
+      }
+    }
+    (view as AddActivityContract).getUserBands(acc);
   }
 }
