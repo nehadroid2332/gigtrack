@@ -1013,7 +1013,7 @@ class _AddActivityScreenState
                                 )
                               : Container(),
                       (widget.type == Activites.TYPE_BAND_TASK)
-                          ? Text("Bands")
+                          ? Text("Select Bands")
                           : Container(),
                       Padding(
                         padding: EdgeInsets.all(3),
@@ -1023,6 +1023,9 @@ class _AddActivityScreenState
                           ? Wrap(
                               children: items,
                             )
+                          : Container(),
+                      selectedBand != null && selectedBand.bandmates.length > 0
+                          ? Text("Select Band Members")
                           : Container(),
                       selectedBand != null
                           ? selectedBand.bandmates.length > 0
@@ -1137,6 +1140,11 @@ class _AddActivityScreenState
                                         widget.type ==
                                             Activites.TYPE_ACTIVITY) {
                                       _locError = "Cannot be Empty";
+                                    } else if (widget.type ==
+                                            Activites.TYPE_BAND_TASK &&
+                                        selectedBandMember == null) {
+                                      showMessage(
+                                          "Please select a band member");
                                     } else {
                                       DateTime dateTime, dateTime2;
                                       if (widget.type ==
