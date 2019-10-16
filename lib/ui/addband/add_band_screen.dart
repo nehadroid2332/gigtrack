@@ -528,6 +528,22 @@ class _AddBandScreenState
                                         "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
                               },
                             ),
+                      widget.id.isEmpty || isEdit
+                          ? Container()
+                          : FlatButton(
+                              child: Text(
+                                "Band Task",
+                                textAlign: TextAlign.center,
+                                style: textTheme.subhead
+                                    .copyWith(fontWeight: FontWeight.w600),
+                              ),
+                              onPressed: () {
+                                widget.appListener.router.navigateTo(
+                                    context,
+                                    Screens.ACTIVITIESLIST.toString() +
+                                        "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                              },
+                            ),
 
                       widget.id.isEmpty || isEdit
                           ? Container()
@@ -561,7 +577,7 @@ class _AddBandScreenState
                                         "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
                               },
                             ),
-                      widget.id.isEmpty
+                      widget.id.isEmpty || isEdit
                           ? RaisedButton(
                               color: Color.fromRGBO(239, 181, 77, 1.0),
                               shape: RoundedRectangleBorder(
@@ -579,7 +595,8 @@ class _AddBandScreenState
                                       _legalStructureController.text;
                                   String email = _emailController.text;
                                   String website = _websiteController.text;
-                                  String cntInfo=_bandContactInfoController.text;
+                                  String cntInfo =
+                                      _bandContactInfoController.text;
                                   _errorBandLegalName = null;
                                   _errorBandName = null;
                                   _errorDateStarted = null;

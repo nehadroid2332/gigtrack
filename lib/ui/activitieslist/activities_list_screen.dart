@@ -98,6 +98,8 @@ class _ActivitiesListScreenState
                   List<Activites> current = [];
                   List<Activites> upcoming = [];
                   List<Activites> past = [];
+                  List<Activites> recurring = [];
+
                   DateTime currentDate = DateTime.now();
                   for (var ac in activities) {
                     DateTime startDate =
@@ -111,7 +113,9 @@ class _ActivitiesListScreenState
                     if (endDate != null) {
                       days2 = currentDate.difference(endDate).inDays;
                     }
-                    if (days == 0 || (days2 != null && days2 == 0)) {
+                    if (ac.isRecurring) {
+                      recurring.add(ac);
+                    } else if (days == 0 || (days2 != null && days2 == 0)) {
                       current.add(ac);
                     } else if (days.isNegative) {
                       upcoming.add(ac);
@@ -206,11 +210,40 @@ class _ActivitiesListScreenState
                                     Screens.ADDACTIVITY.toString() +
                                         "/${ac.type}/${ac.id}/${false}/${widget.bandId}////",
                                   );
-                                }, isPast: true);
+                                },
+                                    isPast: (ac.type == Activites.TYPE_TASK &&
+                                        ac.taskCompleteDate <
+                                            currentDate
+                                                .millisecondsSinceEpoch));
                               },
                             )
                           : Center(
                               child: Text("No Past Activities"),
+                            ),
+                      RaisedButton(
+                        color: Color.fromRGBO(32, 95, 139, 1.0),
+                        textColor: Colors.white,
+                        onPressed: () {},
+                        child: Text("Recurring"),
+                      ),
+                      recurring.length > 0
+                          ? ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: recurring.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                Activites ac = recurring[index];
+                                return buildActivityListItem(ac, onTap: () {
+                                  widget.appListener.router.navigateTo(
+                                    context,
+                                    Screens.ADDACTIVITY.toString() +
+                                        "/${ac.type}/${ac.id}/${false}/${widget.bandId}////",
+                                  );
+                                }, isPast: false);
+                              },
+                            )
+                          : Center(
+                              child: Text("No Recurring Activities"),
                             )
                     ],
                   );
