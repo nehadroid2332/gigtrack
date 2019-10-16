@@ -122,6 +122,10 @@ class _AddPlayingStyleScreenState
   final _responseController = TextEditingController();
   final _expController = TextEditingController();
   final _otherExpController = TextEditingController();
+  final _emailBandController = TextEditingController();
+  final _websiteBandController = TextEditingController();
+  final _nameBandController = TextEditingController();
+  final _contactBandController = TextEditingController();
   final _aboutBandController = TextEditingController();
   String selectedEducation;
   var _educationType = "Select";
@@ -142,6 +146,7 @@ class _AddPlayingStyleScreenState
 
   void _handleLegalUserValueChange(int value) {
     setState(() {
+      isyearage = value;
       _legalUserType = value;
       if (_legalUserType == 1) {
         showYear = true;
@@ -634,9 +639,7 @@ class _AddPlayingStyleScreenState
                           widget.id.isEmpty || isEdit
                               ? Expanded(
                                   child: TextField(
-                                    enabled: (widget.id.isEmpty || isEdit)
-                                        ? (isyearage == 2)
-                                        : false,
+                                    enabled: (widget.id.isEmpty || isEdit),
                                     controller: _responseController,
                                     decoration: InputDecoration(
                                       labelText:
@@ -910,15 +913,95 @@ class _AddPlayingStyleScreenState
                           : Container(),
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : Text("About the Band"),
+                          : Text(
+                              "Band Contact Info",
+                              textAlign: TextAlign.center,
+                              style: textTheme.subhead
+                                  .copyWith(fontWeight: FontWeight.bold),
+                            ),
+                      widget.bandId.isNotEmpty
+                          ? (widget.id.isEmpty || isEdit)
+                              ? TextField(
+                                  controller: _nameBandController,
+                                  decoration: InputDecoration(
+                                    hintText: "Band Name",
+                                  ),
+                                )
+                              : Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 4),
+                                  child: Text(
+                                    "${_nameBandController.text} - ${_contactBandController.text}",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                )
+                          : Container(),
+                      widget.bandId.isNotEmpty
+                          ? (widget.id.isEmpty || isEdit)
+                              ? TextField(
+                                  controller: _emailBandController,
+                                  decoration: InputDecoration(
+                                    hintText: "Band Email",
+                                  ),
+                                )
+                              : Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 4),
+                                  child: Text(
+                                    _emailBandController.text,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                )
+                          : Container(),
+                      widget.bandId.isNotEmpty
+                          ? (widget.id.isEmpty || isEdit)
+                              ? TextField(
+                                  controller: _websiteBandController,
+                                  decoration: InputDecoration(
+                                    hintText: "Band Website",
+                                  ),
+                                )
+                              : Padding(
+                                  child: Text(
+                                    _websiteBandController.text,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  padding: EdgeInsets.symmetric(vertical: 4),
+                                )
+                          : Container(),
                       widget.id.isEmpty || isEdit
-                          ? TextField(
-                              controller: _aboutBandController,
-                              decoration: InputDecoration(
-                                hintText: "About the Band",
+                          ? Container()
+                          : Padding(
+                              padding: EdgeInsets.symmetric(vertical: 6),
+                              child: Text(
+                                "About the Band",
+                                textAlign: TextAlign.center,
+                                style: textTheme.subhead
+                                    .copyWith(fontWeight: FontWeight.bold),
                               ),
-                            )
-                          : Text(_aboutBandController.text),
+                            ),
+                      widget.bandId.isNotEmpty
+                          ? (widget.id.isEmpty || isEdit)
+                              ? TextField(
+                                  controller: _aboutBandController,
+                                  decoration: InputDecoration(
+                                    hintText: "About the Band",
+                                  ),
+                                )
+                              : Text(
+                                  _aboutBandController.text,
+                                  textAlign: TextAlign.center,
+                                )
+                          : Container(),
+
+                      widget.bandId.isNotEmpty
+                          ? (widget.id.isEmpty || isEdit)
+                              ? TextField(
+                                  controller: _contactBandController,
+                                  decoration: InputDecoration(
+                                    hintText: "Band Contact",
+                                  ),
+                                )
+                              : Container()
+                          : Container(),
                       Padding(
                         padding: EdgeInsets.all(4),
                       ),
@@ -1128,6 +1211,11 @@ class _AddPlayingStyleScreenState
                                     earn: _earnController.text,
                                     otherExp: _otherExpController.text,
                                     education: selectedEducation,
+                                    aboutBand: _aboutBandController.text,
+                                    bandContacts: _contactBandController.text,
+                                    bandEmail: _emailBandController.text,
+                                    bandName: _nameBandController.text,
+                                    bandWebsite: _websiteBandController.text,
                                     age: _ageController.text,
                                     year: _yearController.text,
                                     experience: List.from(exList.keys),
@@ -1228,16 +1316,23 @@ class _AddPlayingStyleScreenState
       _roleController.text = userPlayingStyle.role;
       _yearController.text = userPlayingStyle.year;
       _ageController.text = userPlayingStyle.age;
+      _aboutBandController.text = userPlayingStyle.aboutBand;
+      _emailBandController.text = userPlayingStyle.bandEmail;
+      _nameBandController.text = userPlayingStyle.bandName;
+      _contactBandController.text = userPlayingStyle.bandContacts;
+      _websiteBandController.text = userPlayingStyle.bandWebsite;
       isEducation = true;
 
       for (String item in userPlayingStyle.experience) {
         exList[item] = null;
       }
-      selectedEducation = userPlayingStyle.education;
+      selectedEducation = userPlayingStyle.education ?? "";
       if (userPlayingStyle.age != null) {
         isyearage = 0;
+        showage = true;
       } else if (userPlayingStyle.year != null) {
         isyearage = 1;
+        showYear = true;
       } else if (userPlayingStyle.response != null) {
         isyearage = 2;
       }

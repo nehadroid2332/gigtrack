@@ -19,6 +19,11 @@ class UserPlayingStyle extends BaseModel {
   String otherExp;
   List<String> files = [];
   String viewerKnow;
+  String aboutBand;
+  String bandName;
+  String bandEmail;
+  String bandWebsite;
+  String bandContacts;
 
   UserPlayingStyle(
       {this.user_id,
@@ -37,7 +42,13 @@ class UserPlayingStyle extends BaseModel {
       this.experience,
       this.bandId,
       this.viewerKnow,
-      this.files});
+      this.files,
+      this.aboutBand,
+      this.bandContacts,
+      this.bandEmail,
+      this.bandName,
+      this.bandWebsite,
+      this.response});
 
   UserPlayingStyle.fromJSON(dynamic data) {
     id = data['id'];
@@ -61,6 +72,11 @@ class UserPlayingStyle extends BaseModel {
     otherExp = data['otherExp'];
     age = data['age'];
     year = data['year'];
+    aboutBand = data['aboutBand'];
+    bandName = data['bandName'];
+    bandEmail = data['bandEmail'];
+    bandWebsite = data['bandWebsite'];
+    bandContacts = data['bandContacts'];
     role = data['role'];
     about = data['about'];
     degree = data['degree'];
@@ -96,6 +112,11 @@ class UserPlayingStyle extends BaseModel {
     data['viewerKnow'] = viewerKnow;
     data['experience'] = experience;
     data['files'] = files;
+    data['aboutBand'] = aboutBand;
+    data['bandName'] = bandName;
+    data['bandEmail'] = bandEmail;
+    data['bandWebsite'] = bandWebsite;
+    data['bandContacts'] = bandContacts;
     return data;
   }
 }
