@@ -1223,7 +1223,7 @@ class _AddContactScreenState
                       Padding(
                         padding: EdgeInsets.all(6),
                       ),
-                      _adddefaultlikes || isEdit
+                      _adddefaultlikes || (isEdit || widget.id.isEmpty)
                           ? Wrap(
                               children: items2,
                             )

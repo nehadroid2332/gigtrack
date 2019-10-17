@@ -27,7 +27,7 @@ class ServerAPI {
   StorageReference equipmentRef;
 
   StorageReference contactsRef;
-  
+
   StorageReference playingstyleRef;
 
   DatabaseReference notesDB, bulletinDB;
@@ -57,7 +57,7 @@ class ServerAPI {
     StorageReference storageRef = FirebaseStorage.instance.ref();
     equipmentRef = storageRef.child("Equipments");
     contactsRef = storageRef.child("Contacts");
-    playingstyleRef=storageRef.child("PlayingStyle");
+    playingstyleRef = storageRef.child("PlayingStyle");
     DatabaseReference _mainFirebaseDatabase =
         FirebaseDatabase.instance.reference().child("Gigtrack");
     userDB = _mainFirebaseDatabase.child("users");
@@ -349,6 +349,7 @@ class ServerAPI {
           await contactDB.orderByChild("user_id").equalTo(currentUserId).once();
       Map mp = res.value;
       List<Contacts> acc = [];
+      if (mp == null) return acc;
       for (var d in mp.values) {
         Contacts user = Contacts.fromJSON(d);
         if (user.name.toLowerCase().contains(name.toLowerCase())) {

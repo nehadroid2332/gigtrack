@@ -446,7 +446,7 @@ class _AddNotesScreenState
                                   await widget.appListener.router.navigateTo(
                                       context,
                                       Screens.ADDNOTE.toString() +
-                                          "/${widget.id}/${true}");
+                                          "/${widget.id}/true/${widget.bandId}////");
                                   getDetails();
                                 },
                                 child: Text(

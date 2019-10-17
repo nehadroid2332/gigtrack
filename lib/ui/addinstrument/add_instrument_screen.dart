@@ -289,7 +289,7 @@ class _AddInstrumentScreenState
                                       MediaQuery.of(context).size.height / 2.4,
                                   width: 90,
                                   child: Image.network(
-                                    files[0],
+                                    File(files[0]).path,
                                     fit: BoxFit.cover,
                                   ),
                                 )

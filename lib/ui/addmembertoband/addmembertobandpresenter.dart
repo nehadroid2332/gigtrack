@@ -3,7 +3,6 @@ import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/band_member.dart';
 import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/server/models/error_response.dart';
-import 'package:gigtrack/server/models/user.dart';
 
 abstract class AddMemberToBandContract extends BaseContract {
   void onSearchUser(List<Contacts> users);

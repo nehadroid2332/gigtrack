@@ -437,7 +437,8 @@ class _AddActivityScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      widget.type == Activites.TYPE_ACTIVITY
+                      widget.type == Activites.TYPE_ACTIVITY &&
+                              (widget.id.isEmpty || isEdit)
                           ? ShowUp(
                               child: !setTime
                                   ? new GestureDetector(
@@ -1123,9 +1124,7 @@ class _AddActivityScreenState
                                             Activites.TYPE_PRACTICE_SCHEDULE ||
                                         widget.type ==
                                             Activites
-                                                .TYPE_PERFORMANCE_SCHEDULE ||
-                                        widget.type ==
-                                            Activites.TYPE_ACTIVITY) &&
+                                                .TYPE_PERFORMANCE_SCHEDULE) &&
                                     endTime.hourOfPeriod <=
                                         startTime.hourOfPeriod) {
                                   showMessage(

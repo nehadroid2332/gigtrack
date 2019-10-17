@@ -121,8 +121,8 @@ class _PlayingStyleListScreenState
                             ),
                           ),
                         ),
-                        onTap: (widget.isLeader && widget.bandId != null) ||
-                                widget.bandId == null
+                        onTap: (widget.isLeader && widget.bandId.isNotEmpty) ||
+                                widget.bandId.isEmpty
                             ? () async {
                                 await widget.appListener.router.navigateTo(
                                     context,
@@ -140,17 +140,19 @@ class _PlayingStyleListScreenState
           ],
         ),
       ),
-      floatingActionButton: (widget.bandId != null && widget.isLeader) ||
-              widget.bandId.isEmpty
-          ? FloatingActionButton(
-              onPressed: () async {
-                await widget.appListener.router.navigateTo(context,
-                    Screens.ADDPLAYINGSTYLE.toString() + "//${widget.bandId}////");
-              },
-              child: Icon(Icons.add),
-              backgroundColor: Color.fromRGBO(124, 180, 97, 1.0),
-            )
-          : Container(),
+      floatingActionButton:
+          (widget.bandId != null && widget.isLeader) || widget.bandId.isEmpty
+              ? FloatingActionButton(
+                  onPressed: () async {
+                    await widget.appListener.router.navigateTo(
+                        context,
+                        Screens.ADDPLAYINGSTYLE.toString() +
+                            "//${widget.bandId}////");
+                  },
+                  child: Icon(Icons.add),
+                  backgroundColor: Color.fromRGBO(124, 180, 97, 1.0),
+                )
+              : Container(),
     );
   }
 

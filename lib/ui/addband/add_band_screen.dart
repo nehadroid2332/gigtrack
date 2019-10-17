@@ -698,6 +698,7 @@ class _AddBandScreenState
     hideLoading();
     setState(() {
       bandUserId = band.userId;
+      _bandContactInfoController.text = band.contactInfo;
       _musicStyleController.text = band.musicStyle;
       _bandlegalNameController.text = band.legalName;
       _bandNameController.text = band.name;

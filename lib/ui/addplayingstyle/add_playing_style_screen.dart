@@ -838,7 +838,20 @@ class _AddPlayingStyleScreenState
                                 )
                               : Container()
                           : expss.contains("Other")
-                              ? Text(_otherExpController.text)
+                              ? RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                          text: "\nOther:\n",
+                                          style: textTheme.subhead),
+                                      TextSpan(
+                                        text: _otherExpController.text,
+                                        style: textTheme.caption,
+                                      )
+                                    ],
+                                  ),
+                                )
                               : Container(),
                       Padding(
                         padding: EdgeInsets.all(5),

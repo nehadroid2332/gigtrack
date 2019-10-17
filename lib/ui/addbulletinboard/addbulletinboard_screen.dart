@@ -89,7 +89,7 @@ class _AddBulletInBoardScreenState
     "Advertise",
     "Used Equipment"
   ];
-  String type;
+  String type = "";
 
   @override
   Widget buildBody() {
@@ -199,37 +199,39 @@ class _AddBulletInBoardScreenState
                         textAlign: widget.id.isEmpty || isEdit
                             ? TextAlign.left
                             : TextAlign.center,
-                        style: textTheme.title.copyWith(
-                          fontWeight: FontWeight.w600
-                        ),
-                        
+                        style: textTheme.title
+                            .copyWith(fontWeight: FontWeight.w600),
                       ),
-                      Padding(padding: EdgeInsets.all(3),),
+                      Padding(
+                        padding: EdgeInsets.all(3),
+                      ),
                       widget.id.isEmpty || isEdit
                           ? Wrap(
                               children: items,
                             )
-                          : type.length.isNaN?Text(
-                              type,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 17
-                              ),
-                            ):Container(),
+                          : type.isNotEmpty
+                              ? Text(
+                                  type,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 17),
+                                )
+                              : Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      widget.id.isNotEmpty?
-                      Text(
-                        isEdit?"":"Description",
-                        textAlign: widget.id.isEmpty || isEdit
-                            ? TextAlign.left
-                            : TextAlign.center,
-                        style: textTheme.title.copyWith(
-                          fontWeight: FontWeight.w600
-                        ),
-                      ):Container(),
-                      Padding(padding: EdgeInsets.all(3),),
+                      widget.id.isNotEmpty
+                          ? Text(
+                              isEdit ? "" : "Description",
+                              textAlign: widget.id.isEmpty || isEdit
+                                  ? TextAlign.left
+                                  : TextAlign.center,
+                              style: textTheme.title
+                                  .copyWith(fontWeight: FontWeight.w600),
+                            )
+                          : Container(),
+                      Padding(
+                        padding: EdgeInsets.all(3),
+                      ),
                       widget.id.isEmpty || isEdit
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
@@ -292,12 +294,12 @@ class _AddBulletInBoardScreenState
                                                   child: Text(
                                                     "Post Date",
                                                     textAlign: TextAlign.right,
-                                                    style: textTheme.title
-                                                        .copyWith(
-                                                      fontSize: 18,
-                                                            fontWeight: FontWeight.w600
-                                                            //fontWeight: FontWeight.w600,
-                                                            ),
+                                                    style: textTheme.title.copyWith(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w600
+                                                        //fontWeight: FontWeight.w600,
+                                                        ),
                                                   ),
                                                 ),
                                                 Expanded(
@@ -310,9 +312,8 @@ class _AddBulletInBoardScreenState
                                                   child: Text(
                                                     _startDateController.text,
                                                     textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                      fontSize: 17
-                                                    ),
+                                                    style:
+                                                        TextStyle(fontSize: 17),
                                                   ),
                                                   flex: 5,
                                                 )

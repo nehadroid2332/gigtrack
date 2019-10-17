@@ -125,15 +125,16 @@ class _ContactListScreenState
                               ],
                             ),
                           ),
-                          onTap: (widget.isLeader && widget.bandId != null) ||
-                                  widget.bandId == null
-                              ? () {
-                                  widget.appListener.router.navigateTo(
-                                      context,
-                                      Screens.ADDCONTACT.toString() +
-                                          "/${cnt.id}/${widget.bandId}");
-                                }
-                              : null,
+                          onTap:
+                              (widget.isLeader && widget.bandId.isNotEmpty) ||
+                                      widget.bandId.isEmpty
+                                  ? () {
+                                      widget.appListener.router.navigateTo(
+                                          context,
+                                          Screens.ADDCONTACT.toString() +
+                                              "/${cnt.id}/${widget.bandId}////");
+                                    }
+                                  : null,
                         ),
                       );
                     },
@@ -144,17 +145,17 @@ class _ContactListScreenState
           ],
         ),
       ),
-      floatingActionButton:
-          (widget.isLeader && widget.bandId != null) || widget.bandId.isEmpty
-              ? FloatingActionButton(
-                  onPressed: () async {
-                    await widget.appListener.router.navigateTo(context,
-                        Screens.ADDCONTACT.toString() + "//${widget.bandId}////");
-                  },
-                  child: Icon(Icons.add),
-                  backgroundColor: Color.fromRGBO(60, 111, 54, 1.0),
-                )
-              : Container(),
+      floatingActionButton: (widget.isLeader && widget.bandId.isNotEmpty) ||
+              widget.bandId.isEmpty
+          ? FloatingActionButton(
+              onPressed: () async {
+                await widget.appListener.router.navigateTo(context,
+                    Screens.ADDCONTACT.toString() + "//${widget.bandId}////");
+              },
+              child: Icon(Icons.add),
+              backgroundColor: Color.fromRGBO(60, 111, 54, 1.0),
+            )
+          : Container(),
     );
   }
 
