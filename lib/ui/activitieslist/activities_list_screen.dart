@@ -130,6 +130,7 @@ class _ActivitiesListScreenState
                         past.add(ac);
                       }
                     }
+
                     // if (currentDate >= startDate &&
                     //     currentDate <= (endDate ?? 0)) {
                     //   current.add(ac);
@@ -140,6 +141,8 @@ class _ActivitiesListScreenState
                     //   upcoming.add(ac);
                     // }
                   }
+                  past.sort((a, b) =>
+                      a.taskCompleteDate.compareTo(b.taskCompleteDate));
 
                   return ListView(
                     children: <Widget>[
