@@ -253,6 +253,7 @@ class _AddPlayingStyleScreenState
                   showLoading();
                   presenter.deletePlayingStyle(widget.id);
                   //Navigator.of(context).pop();
+                  Navigator.of(context).popUntil(ModalRoute.withName(Screens.PLAYINGSTYLELIST.toString()+"/////"));
                 }
               },
             ),
@@ -438,7 +439,7 @@ class _AddPlayingStyleScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Playing Style",
+                "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} EPK",
                 style: textTheme.display1
                     .copyWith(color: Colors.white, fontSize: 28),
               ),

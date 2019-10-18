@@ -341,72 +341,72 @@ class _AddBandScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty || isEdit
-                          ? Container()
-                          : Text(
-                              "Website",
-                              textAlign: TextAlign.center,
-                              style: textTheme.subhead
-                                  .copyWith(fontWeight: FontWeight.w600),
-                            ),
-                      widget.id.isEmpty || isEdit
-                          ? TextField(
-                              enabled: widget.id.isEmpty || isEdit,
-                              controller: _websiteController,
-                              style: textTheme.subhead.copyWith(
-                                color: Colors.black,
-                              ),
-                              decoration: InputDecoration(
-                                labelText: "Website",
-                                labelStyle: TextStyle(
-                                  color: Color.fromRGBO(202, 208, 215, 1.0),
-                                ),
-                                errorText: _errorWebsite,
-                                border: widget.id.isEmpty || isEdit
-                                    ? null
-                                    : InputBorder.none,
-                              ),
-                            )
-                          : Text(
-                              _websiteController.text,
-                              textAlign: TextAlign.center,
-                            ),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
-                      widget.id.isEmpty || isEdit
-                          ? Container()
-                          : Text(
-                              "Email Address",
-                              textAlign: TextAlign.center,
-                              style: textTheme.subhead
-                                  .copyWith(fontWeight: FontWeight.w600),
-                            ),
-                      widget.id.isEmpty || isEdit
-                          ? TextField(
-                              enabled: widget.id.isEmpty || isEdit,
-                              controller: _emailController,
-                              style: textTheme.subhead.copyWith(
-                                color: Colors.black,
-                              ),
-                              decoration: InputDecoration(
-                                labelText: "Email Address",
-                                labelStyle: TextStyle(
-                                  color: Color.fromRGBO(202, 208, 215, 1.0),
-                                ),
-                                errorText: _errorEmail,
-                                border: widget.id.isEmpty || isEdit
-                                    ? null
-                                    : InputBorder.none,
-                              ),
-                            )
-                          : Text(
-                              _emailController.text,
-                              textAlign: TextAlign.center,
-                            ),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
+//                      widget.id.isEmpty || isEdit
+//                          ? Container()
+//                          : Text(
+//                              "Website",
+//                              textAlign: TextAlign.center,
+//                              style: textTheme.subhead
+//                                  .copyWith(fontWeight: FontWeight.w600),
+//                            ),
+//                      widget.id.isEmpty || isEdit
+//                          ? TextField(
+//                              enabled: widget.id.isEmpty || isEdit,
+//                              controller: _websiteController,
+//                              style: textTheme.subhead.copyWith(
+//                                color: Colors.black,
+//                              ),
+//                              decoration: InputDecoration(
+//                                labelText: "Website",
+//                                labelStyle: TextStyle(
+//                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+//                                ),
+//                                errorText: _errorWebsite,
+//                                border: widget.id.isEmpty || isEdit
+//                                    ? null
+//                                    : InputBorder.none,
+//                              ),
+//                            )
+//                          : Text(
+//                              _websiteController.text,
+//                              textAlign: TextAlign.center,
+//                            ),
+//                      Padding(
+//                        padding: EdgeInsets.all(5),
+//                      ),
+//                      widget.id.isEmpty || isEdit
+//                          ? Container()
+//                          : Text(
+//                              "Email Address",
+//                              textAlign: TextAlign.center,
+//                              style: textTheme.subhead
+//                                  .copyWith(fontWeight: FontWeight.w600),
+//                            ),
+//                      widget.id.isEmpty || isEdit
+//                          ? TextField(
+//                              enabled: widget.id.isEmpty || isEdit,
+//                              controller: _emailController,
+//                              style: textTheme.subhead.copyWith(
+//                                color: Colors.black,
+//                              ),
+//                              decoration: InputDecoration(
+//                                labelText: "Email Address",
+//                                labelStyle: TextStyle(
+//                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+//                                ),
+//                                errorText: _errorEmail,
+//                                border: widget.id.isEmpty || isEdit
+//                                    ? null
+//                                    : InputBorder.none,
+//                              ),
+//                            )
+//                          : Text(
+//                              _emailController.text,
+//                              textAlign: TextAlign.center,
+//                            ),
+//                      Padding(
+//                        padding: EdgeInsets.all(5),
+//                      ),
 
                       Padding(
                         padding: EdgeInsets.only(

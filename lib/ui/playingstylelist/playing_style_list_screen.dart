@@ -72,7 +72,7 @@ class _PlayingStyleListScreenState
                   padding: EdgeInsets.only(left: 15),
                 ),
                 Text(
-                  "Playing Style List",
+                  "EPK List",
                   style: textTheme.display1.copyWith(
                       color: Color.fromRGBO(60, 111, 54, 1.0),
                       fontSize: 28,

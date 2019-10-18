@@ -567,7 +567,7 @@ class _AddContactScreenState
                                 },
                                 child: widget.id.isEmpty || isEdit
                                     ? Text(
-                                        "Click here to add another phone #",
+                                        "Click here to add a phone#",
                                         style: textTheme.display1.copyWith(
                                             color: widget
                                                 .appListener.primaryColorDark,
@@ -587,6 +587,11 @@ class _AddContactScreenState
                               style: textTheme.subhead.copyWith(
                                 color: Colors.black,
                               ),
+                              inputFormatters: [
+                              WhitelistingTextInputFormatter.digitsOnly,
+                              // Fit the validating format.
+                              _phoneNumberFormatter,
+    ],
                               decoration: InputDecoration(
                                 labelStyle: TextStyle(
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
@@ -1479,7 +1484,7 @@ class _AddContactScreenState
                 } else {
                   presenter.contactDelete(widget.id);
                   Navigator.of(context).popUntil(
-                      ModalRoute.withName(Screens.CONTACTLIST.toString()));
+                      ModalRoute.withName(Screens.CONTACTLIST.toString()+"/////"));
                   //Navigator.of(context).pop();
                 }
               },

@@ -131,7 +131,7 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
-  - Flutter (from `.symlinks/flutter/ios`)
+  - Flutter (from `.symlinks/flutter/ios-release`)
   - flutter_image_compress (from `.symlinks/plugins/flutter_image_compress/ios`)
   - google_places_picker (from `.symlinks/plugins/google_places_picker/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
@@ -171,7 +171,7 @@ EXTERNAL SOURCES:
   firebase_storage:
     :path: ".symlinks/plugins/firebase_storage/ios"
   Flutter:
-    :path: ".symlinks/flutter/ios"
+    :path: ".symlinks/flutter/ios-release"
   flutter_image_compress:
     :path: ".symlinks/plugins/flutter_image_compress/ios"
   google_places_picker:
@@ -208,12 +208,12 @@ SPEC CHECKSUMS:
   GooglePlaces: be6f19fe8aa6ff0b5bcccfa1b8805cc977ea1450
   GoogleUtilities: f895fde57977df4e0233edda0dbeac490e3703b6
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
-  image_picker: 16e5fec1fbc87fd3b297c53e4048521eaf17cd06
+  image_picker: e3eacd46b94694dde7cf2705955cece853aa1a8f
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   Mantle: 2fa750afa478cd625a94230fbf1c13462f29395b
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
-  shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
-  webview_flutter: 1aa7604e6cdb451a9b7ed2c37d5454c0b440246b
+  shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
+  webview_flutter: db3aba222b23e4dc432e0c5882834123dc50ff9f
 
 PODFILE CHECKSUM: bc997ba001dfc58b4ba4ef28695ddebcfbf03fdd
 

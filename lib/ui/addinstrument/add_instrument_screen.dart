@@ -1387,7 +1387,7 @@ class _AddInstrumentScreenState
                 } else {
                   presenter.instrumentDelete(id);
                   Navigator.of(context).popUntil(
-                      ModalRoute.withName(Screens.INSTRUMENTLIST.toString()));
+                      ModalRoute.withName(Screens.INSTRUMENTLIST.toString()+"/////"));
                   //Navigator.of(context).pop();
                 }
               },

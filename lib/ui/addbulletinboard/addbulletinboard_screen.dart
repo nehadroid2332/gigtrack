@@ -514,7 +514,7 @@ class _AddBulletInBoardScreenState
                 } else {
                   presenter.bulletinboardDelete(widget.id);
                   Navigator.of(context).popUntil(
-                      ModalRoute.withName(Screens.NOTETODOLIST.toString()));
+                      ModalRoute.withName(Screens.NOTETODOLIST.toString()+"/////"));
                 }
               },
             ),

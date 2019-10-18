@@ -127,8 +127,11 @@ class _ActivitiesListScreenState
                           past.add(ac);
                         }
                       } else {
+                        
                         past.add(ac);
+                        
                       }
+                  //  past =  past.sort((b, a) => a.compareTo(b));
                     }
 
                     // if (currentDate >= startDate &&
@@ -434,7 +437,7 @@ class _ActivitiesListScreenState
                                 "/${Activites.TYPE_TASK}///${widget.bandId}////");
                       },
                     ),
-                    SpeedDialChild(
+                    widget.bandId.isNotEmpty? SpeedDialChild(
                       label: "Band Task",
                       child: Icon(Icons.add),
                       backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
@@ -444,7 +447,7 @@ class _ActivitiesListScreenState
                             Screens.ADDACTIVITY.toString() +
                                 "/${Activites.TYPE_BAND_TASK}///${widget.bandId}////");
                       },
-                    )
+                    ):SpeedDialChild(backgroundColor: Colors.white.withOpacity(0.0))
                   ],
                 )
               : Container(),

@@ -615,7 +615,7 @@ class _AddActivityScreenState
                                   },
                                 ),
                                 labelText: widget.id.isEmpty || isEdit
-                                    ? "Location"
+                                    ? "Location(Click + to use maps)"
                                     : "",
                                 labelStyle: TextStyle(
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
@@ -1421,7 +1421,7 @@ class _AddActivityScreenState
                 } else {
                   presenter.activityDelete(widget.id);
                   Navigator.of(context).popUntil(
-                      ModalRoute.withName(Screens.ACTIVITIESLIST.toString()));
+                      ModalRoute.withName(Screens.ACTIVITIESLIST.toString()+"/////"));
                 }
               },
             ),
