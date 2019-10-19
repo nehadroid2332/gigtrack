@@ -339,7 +339,7 @@ class _AddNotesScreenState
                                                       Expanded(
                                                         flex: 5,
                                                         child: Text(
-                                                          "Date of Note",
+                                                          "Note Date",
                                                           textAlign:
                                                               TextAlign.right,
                                                           style: textTheme
