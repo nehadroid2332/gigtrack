@@ -177,7 +177,7 @@ class _AddNotesScreenState
                     padding: EdgeInsets.all(20),
                     children: <Widget>[
                       Padding(
-                        padding: widget.id.isEmpty || isEdit || widget.isParent
+                        padding: widget.id.isEmpty || isEdit
                             ? EdgeInsets.all(5)
                             : EdgeInsets.all(0),
                       ),
@@ -192,22 +192,18 @@ class _AddNotesScreenState
                       //                      )
                       //                          : Container(),
                       Padding(
-                        padding: widget.id.isEmpty || isEdit || widget.isParent
+                        padding: widget.id.isEmpty || isEdit
                             ? EdgeInsets.all(0)
                             : EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty || isEdit || widget.isParent
+                      widget.id.isEmpty || isEdit
                           ? TextField(
-                              enabled: widget.id.isEmpty ||
-                                  isEdit ||
-                                  widget.isParent,
+                              enabled: widget.id.isEmpty || isEdit,
                               style: textTheme.title,
                               textCapitalization: TextCapitalization.sentences,
                               decoration: InputDecoration(
                                 errorText: _noteError,
-                                labelText: widget.id.isEmpty ||
-                                        isEdit ||
-                                        widget.isParent
+                                labelText: widget.id.isEmpty || isEdit
                                     ? "Note is about"
                                     : "",
                                 labelStyle: TextStyle(
@@ -258,7 +254,7 @@ class _AddNotesScreenState
                                 labelText: widget.id.isEmpty ||
                                         isEdit ||
                                         widget.isParent
-                                    ? "Add Description here"
+                                    ? "Add Additional Note"
                                     : "",
                                 labelStyle: TextStyle(
                                     color: Color.fromRGBO(202, 208, 215, 1.0),
@@ -316,10 +312,10 @@ class _AddNotesScreenState
                                           ? TextField(
                                               enabled: widget.id.isEmpty,
                                               decoration: InputDecoration(
-                                                labelText: widget.id.isEmpty ||
-                                                        isEdit
-                                                    ? "Enter Reminder Date"
-                                                    : "",
+                                                labelText:
+                                                    widget.id.isEmpty || isEdit
+                                                        ? "Enter Reminder Date"
+                                                        : "",
                                                 labelStyle: TextStyle(
                                                     color: Color.fromRGBO(
                                                         202, 208, 215, 1.0),
@@ -747,19 +743,19 @@ class _AddNotesScreenState
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
               color: Color.fromRGBO(239, 181, 77, 1.0),
-              onPressed: () async{
+              onPressed: () async {
                 if (widget.id == null || widget.id.isEmpty) {
                   showMessage("Id cannot be null");
                 } else {
                   presenter.notesDelete(widget.id);
-                Future.delayed(Duration.zero, () {
-                  Navigator.of(context).popUntil(ModalRoute.withName(Screens.NOTETODOLIST.toString()+"/////"));
-                });
+                  Future.delayed(Duration.zero, () {
+                    Navigator.of(context).popUntil(ModalRoute.withName(
+                        Screens.NOTETODOLIST.toString() + "/////"));
+                  });
 //                SchedulerBinding.instance.addPostFrameCallback((_) {
 //                  Navigator.of(context).popUntil(ModalRoute.withName(Screens.NOTETODOLIST.toString()));
 //                });
-                
-                 
+
                 }
               },
             ),

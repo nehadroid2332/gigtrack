@@ -349,7 +349,10 @@ class _AddActivityScreenState
                                                     (widget.id.isEmpty ||
                                                         widget.id.isNotEmpty)
                                                 ? "What is the Task"
-                                                : "Title"
+                                                : widget.type ==
+                                                        Activites.TYPE_ACTIVITY
+                                                    ? "List Activity"
+                                                    : "Title"
                                     : "",
                                 labelStyle: textTheme.headline.copyWith(
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
@@ -519,7 +522,11 @@ class _AddActivityScreenState
                                               )
                                             : Container(),
                                     Padding(
-                                      padding: EdgeInsets.only(left: 10),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 10),
+                                      child: (widget.id.isEmpty || isEdit)
+                                          ? Container()
+                                          : Text("to"),
                                     ),
                                     (widget.id.isEmpty || isEdit)
                                         ? Expanded(
@@ -576,22 +583,29 @@ class _AddActivityScreenState
                                 )
                           : Container(),
                       widget.type == Activites.TYPE_PRACTICE_SCHEDULE
-                          ? Row(
-                              children: <Widget>[
-                                Checkbox(
-                                  onChanged: (bool value) {
-                                    setState(() {
-                                      isRecurring = value;
-                                    });
-                                  },
-                                  value: isRecurring,
-                                ),
-                                Text(
-                                  "Recurring same day and time",
-                                  style: TextStyle(fontSize: 14),
+                          ? widget.id.isEmpty || isEdit
+                              ? Row(
+                                  children: <Widget>[
+                                    Checkbox(
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          isRecurring = value;
+                                        });
+                                      },
+                                      value: isRecurring,
+                                    ),
+                                    Text(
+                                      "Recurring same day and time",
+                                      style: TextStyle(fontSize: 14),
+                                    )
+                                  ],
                                 )
-                              ],
-                            )
+                              : Text(
+                                  isRecurring
+                                      ? "Recurring Practice ${_startTimeController.text} to ${_endTimeController.text}"
+                                      : "Not Recurring",
+                                  textAlign: TextAlign.center,
+                                )
                           : Container(),
                       (widget.id.isEmpty || isEdit) &&
                               (widget.type == Activites.TYPE_ACTIVITY ||
@@ -614,7 +628,7 @@ class _AddActivityScreenState
                                   },
                                 ),
                                 labelText: widget.id.isEmpty || isEdit
-                                    ? "Location(Click + to use maps)"
+                                    ? "Location(Click + for maps)"
                                     : "",
                                 labelStyle: TextStyle(
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
@@ -849,6 +863,26 @@ class _AddActivityScreenState
                                   textAlign: TextAlign.center,
                                 )
                               : Container(),
+                      Padding(
+                        padding: EdgeInsets.only(top: 5),
+                        child: (widget.id.isEmpty || isEdit) &&
+                                (widget.type ==
+                                    Activites.TYPE_PERFORMANCE_SCHEDULE)
+                            ? Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Text("Travel"),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.add),
+                                    onPressed: () {
+                                      showDialogConfirm();
+                                    },
+                                  )
+                                ],
+                              )
+                            : Container(),
+                      ),
                       widget.id.isEmpty || isEdit
                           ? Container()
                           : (widget.type == Activites.TYPE_ACTIVITY ||
@@ -984,7 +1018,12 @@ class _AddActivityScreenState
                           ? ShowUp(
                               child: InkWell(
                                 child: Text(
-                                    "Is there an estimated completion date?"),
+                                  "Click to add Est. Complete Date",
+                                  style: textTheme.caption.copyWith(
+                                    fontSize: 13,
+                                    color: Colors.red,
+                                  ),
+                                ),
                                 onTap: () {
                                   setState(() {
                                     hasCompletionDate = true;
@@ -1075,7 +1114,8 @@ class _AddActivityScreenState
                       widget.id.isEmpty || isEdit || widget.isParent
                           ? Container()
                           : Text(
-                              "Task Notes",
+                              "Activities Notes",
+                              textAlign: TextAlign.center,
                               style: textTheme.title,
                             ),
                       Padding(
@@ -1139,8 +1179,8 @@ class _AddActivityScreenState
                                               yy
                                             ])}",
                                             textAlign: TextAlign.center,
-                                            style: textTheme.caption.copyWith(
-                                                color: Colors.white),
+                                            style: textTheme.caption
+                                                .copyWith(color: Colors.white),
                                           ),
                                         )
                                       ],
@@ -1465,6 +1505,43 @@ class _AddActivityScreenState
                   Navigator.of(context).popUntil(ModalRoute.withName(
                       Screens.ACTIVITIESLIST.toString() + "/////"));
                 }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  showDialogConfirm() {
+    // flutter defined function
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          contentPadding: EdgeInsets.all(15),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          title: new Text(
+            "Information!",
+            textAlign: TextAlign.center,
+          ),
+          content: Text("In development..."),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new RaisedButton(
+              child: new Text(
+                "Dismiss",
+                textAlign: TextAlign.center,
+              ),
+              textColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6)),
+              color: Color.fromRGBO(22, 102, 237, 1.0),
+              onPressed: () {
+                Navigator.of(context).pop();
               },
             ),
           ],
