@@ -111,7 +111,9 @@ class _NotesListScreenState
                   label: "Ideas",
                   child: Icon(Icons.add),
                   backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
-                  onTap: () async {},
+                  onTap: () async {
+                    showDialogConfirm();
+                  },
                 ),
                 SpeedDialChild(
                   label: " Note",
@@ -126,7 +128,9 @@ class _NotesListScreenState
                   label: "Write your song",
                   child: Icon(Icons.add),
                   backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
-                  onTap: () async {},
+                  onTap: () async {
+                    showDialogConfirm();
+                  },
                 ),
               ],
             )
@@ -134,6 +138,41 @@ class _NotesListScreenState
     );
   }
 
+   showDialogConfirm() {
+    // flutter defined function
+  
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          contentPadding: EdgeInsets.all(15),
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          title: new Text(
+            "Information!",
+            textAlign: TextAlign.center,
+          ),
+          content: Text("Release date would be coming soon..."),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new RaisedButton(
+              child: new Text("Dismiss",
+              textAlign: TextAlign.center,),
+              textColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6)),
+              color: Color.fromRGBO(22, 102, 237, 1.0),
+              onPressed: () {
+              Navigator.of(context).pop();
+              },
+            ),
+           
+          ],
+        );
+      },
+    );
+  }
   @override
   NotesListPresenter get presenter => NotesListPresenter(this);
 }
