@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
+import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/user_playing_style.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:gigtrack/utils/showup.dart';
@@ -140,6 +141,8 @@ class _AddPlayingStyleScreenState
       if (widget.id.isNotEmpty) {
         showLoading();
         presenter.getPlayingStyleDetails(widget.id);
+      } else if (widget.bandId.isNotEmpty) {
+        presenter.getbandDetails(widget.bandId);
       }
     });
   }
@@ -1019,12 +1022,7 @@ class _AddPlayingStyleScreenState
                               : Container(),
                       widget.bandId.isNotEmpty
                           ? (widget.id.isEmpty || isEdit)
-                              ? TextField(
-                                  controller: _nameBandController,
-                                  decoration: InputDecoration(
-                                    hintText: "Band Name",
-                                  ),
-                                )
+                              ? Container()
                               : Padding(
                                   padding: EdgeInsets.symmetric(vertical: 4),
                                   child: Text(
@@ -1080,27 +1078,11 @@ class _AddPlayingStyleScreenState
                               : Container(),
                       widget.bandId.isNotEmpty
                           ? (widget.id.isEmpty || isEdit)
-                              ? TextField(
-                                  controller: _aboutBandController,
-                                  decoration: InputDecoration(
-                                    hintText: "About the Band",
-                                  ),
-                                )
+                              ? Container()
                               : Text(
                                   _aboutBandController.text,
                                   textAlign: TextAlign.center,
                                 )
-                          : Container(),
-
-                      widget.bandId.isNotEmpty
-                          ? (widget.id.isEmpty || isEdit)
-                              ? TextField(
-                                  controller: _contactBandController,
-                                  decoration: InputDecoration(
-                                    hintText: "Band Contact",
-                                  ),
-                                )
-                              : Container()
                           : Container(),
                       Padding(
                         padding: EdgeInsets.all(4),
@@ -1237,7 +1219,11 @@ class _AddPlayingStyleScreenState
                                     earn: _earnController.text,
                                     otherExp: _otherExpController.text,
                                     education: selectedEducation,
-                                    aboutBand: _aboutBandController.text,
+                                    aboutBand: _nameBandController.text +
+                                        "\n" +
+                                        _emailBandController.text +
+                                        "\n" +
+                                        _websiteBandController.text,
                                     bandContacts: _contactBandController.text,
                                     bandEmail: _emailBandController.text,
                                     bandName: _nameBandController.text,
@@ -1372,5 +1358,13 @@ class _AddPlayingStyleScreenState
   @override
   void onDelete() {
     Navigator.of(context).pop();
+  }
+
+  @override
+  void getBandDetails(Band res) {
+    setState(() {
+      _contactBandController.text = res.contactInfo;
+      _nameBandController.text = res.name;
+    });
   }
 }
