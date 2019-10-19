@@ -1009,12 +1009,14 @@ class _AddPlayingStyleScreenState
                       ),
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : Text(
-                              "Band Contact Info",
-                              textAlign: TextAlign.center,
-                              style: textTheme.subhead
-                                  .copyWith(fontWeight: FontWeight.bold),
-                            ),
+                          : widget.bandId.isNotEmpty
+                              ? Text(
+                                  "Band Contact Info",
+                                  textAlign: TextAlign.center,
+                                  style: textTheme.subhead
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                )
+                              : Container(),
                       widget.bandId.isNotEmpty
                           ? (widget.id.isEmpty || isEdit)
                               ? TextField(
@@ -1063,17 +1065,19 @@ class _AddPlayingStyleScreenState
                                   padding: EdgeInsets.symmetric(vertical: 4),
                                 )
                           : Container(),
-                      widget.id.isEmpty || isEdit
+                      (widget.id.isEmpty || isEdit)
                           ? Container()
-                          : Padding(
-                              padding: EdgeInsets.symmetric(vertical: 6),
-                              child: Text(
-                                "About the Band",
-                                textAlign: TextAlign.center,
-                                style: textTheme.subhead
-                                    .copyWith(fontWeight: FontWeight.bold),
-                              ),
-                            ),
+                          : widget.bandId.isNotEmpty
+                              ? Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 6),
+                                  child: Text(
+                                    "About the Band",
+                                    textAlign: TextAlign.center,
+                                    style: textTheme.subhead
+                                        .copyWith(fontWeight: FontWeight.bold),
+                                  ),
+                                )
+                              : Container(),
                       widget.bandId.isNotEmpty
                           ? (widget.id.isEmpty || isEdit)
                               ? TextField(
