@@ -253,7 +253,8 @@ class _AddPlayingStyleScreenState
                   showLoading();
                   presenter.deletePlayingStyle(widget.id);
                   //Navigator.of(context).pop();
-                  Navigator.of(context).popUntil(ModalRoute.withName(Screens.PLAYINGSTYLELIST.toString()+"/////"));
+                  Navigator.of(context).popUntil(ModalRoute.withName(
+                      Screens.PLAYINGSTYLELIST.toString() + "/////"));
                 }
               },
             ),
@@ -472,14 +473,16 @@ class _AddPlayingStyleScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      Text(
-                        "Click here to add education",
-                        textAlign: widget.id.isEmpty || isEdit
-                            ? TextAlign.left
-                            : TextAlign.center,
-                        style: textTheme.title
-                            .copyWith(color: Color.fromRGBO(124, 180, 97, 1.0)),
-                      ),
+                      widget.id.isEmpty || isEdit
+                          ? Text(
+                              "My Music Journey Started",
+                              textAlign: widget.id.isEmpty || isEdit
+                                  ? TextAlign.left
+                                  : TextAlign.center,
+                              style: textTheme.title.copyWith(
+                                  color: Color.fromRGBO(124, 180, 97, 1.0)),
+                            )
+                          : Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -909,6 +912,7 @@ class _AddPlayingStyleScreenState
                               children: items2,
                             )
                           : Container(),
+
                       Padding(
                         padding: widget.id.isNotEmpty
                             ? EdgeInsets.all(0)
@@ -925,6 +929,84 @@ class _AddPlayingStyleScreenState
                                 )
                               : Container()
                           : Container(),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: inList.keys.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          String key = inList.keys.elementAt(index);
+                          String val = inList[key];
+                          return widget.id.isEmpty || isEdit
+                              ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(key),
+                                    Padding(
+                                      padding: EdgeInsets.all(5),
+                                    ),
+                                    widget.id.isEmpty || isEdit
+                                        ? DropdownButton<String>(
+                                            items: <String>[
+                                              'Beginner',
+                                              'Intermediate',
+                                              "Professional"
+                                            ].map((String value) {
+                                              return new DropdownMenuItem<
+                                                  String>(
+                                                value: value,
+                                                child: new Text(
+                                                  value,
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              );
+                                            }).toList(),
+                                            value: val,
+                                            onChanged: (v) {
+                                              setState(() {
+                                                inList[key] = v;
+                                              });
+                                            },
+                                          )
+                                        : Text("-" + val),
+                                  ],
+                                )
+                              : Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      flex: 5,
+                                      child: Text(
+                                        "$key",
+                                        textAlign: TextAlign.right,
+                                        style: textTheme.subtitle.copyWith(),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                        " - ",
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        "$val",
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      flex: 5,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(4),
+                                    )
+                                  ],
+                                );
+                        },
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
                       widget.id.isEmpty || isEdit
                           ? Container()
                           : Text(
@@ -1019,81 +1101,7 @@ class _AddPlayingStyleScreenState
                       Padding(
                         padding: EdgeInsets.all(4),
                       ),
-                      ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: inList.keys.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          String key = inList.keys.elementAt(index);
-                          String val = inList[key];
-                          return widget.id.isEmpty || isEdit
-                              ? Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(key),
-//                              Expanded(
-//                                child: Container(),
-//                              ),
-                                    Padding(
-                                      padding: EdgeInsets.all(5),
-                                    ),
-                                    widget.id.isEmpty || isEdit
-                                        ? DropdownButton<String>(
-                                            items: <String>[
-                                              'Beginner',
-                                              'Intermediate',
-                                              "Professional"
-                                            ].map((String value) {
-                                              return new DropdownMenuItem<
-                                                  String>(
-                                                value: value,
-                                                child: new Text(
-                                                  value,
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              );
-                                            }).toList(),
-                                            value: val,
-                                            onChanged: (v) {
-                                              setState(() {
-                                                inList[key] = v;
-                                              });
-                                            },
-                                          )
-                                        : Text("-" + val),
-                                  ],
-                                )
-                              : Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      flex: 5,
-                                      child: Text(
-                                        "$key",
-                                        textAlign: TextAlign.right,
-                                        style: textTheme.subtitle.copyWith(),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: Text(
-                                        " - ",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        "$val",
-                                        textAlign: TextAlign.left,
-                                      ),
-                                      flex: 5,
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.all(4),
-                                    )
-                                  ],
-                                );
-                        },
-                      ),
+
                       Row(
                         children: <Widget>[
                           Expanded(
