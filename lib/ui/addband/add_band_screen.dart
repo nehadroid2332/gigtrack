@@ -606,11 +606,14 @@ class _AddBandScreenState
                                   _errorWebsite = null;
                                   if (bname.isEmpty) {
                                     _errorBandName = "Cannot be empty";
-                                  } else if (email.isEmpty) {
-                                    _errorEmail = "Cannot be empty";
-                                  } else if (validateEmail(email)) {
-                                    _errorEmail = "Not a Valid Email";
-                                  } else {
+                                  }
+//                                  else if (email.isEmpty) {
+//                                    _errorEmail = "Cannot be empty";
+//                                  }
+//                                  else if (validateEmail(email)) {
+//                                    _errorEmail = "Not a Valid Email";
+//                                  }
+                                  else {
                                     showLoading();
                                     presenter.addBand(
                                         selectedStartDate

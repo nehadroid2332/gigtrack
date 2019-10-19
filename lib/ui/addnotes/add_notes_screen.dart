@@ -318,7 +318,7 @@ class _AddNotesScreenState
                                               decoration: InputDecoration(
                                                 labelText: widget.id.isEmpty ||
                                                         isEdit
-                                                    ? "Is there a Reminder Date?"
+                                                    ? "Enter Reminder Date"
                                                     : "",
                                                 labelStyle: TextStyle(
                                                     color: Color.fromRGBO(
@@ -451,7 +451,7 @@ class _AddNotesScreenState
                                   getDetails();
                                 },
                                 child: Text(
-                                  "Click here to add more notes",
+                                  "Click here to add notes",
                                   textAlign: TextAlign.center,
                                   style: textTheme.display1.copyWith(
                                       color: Colors.red, fontSize: 14),
