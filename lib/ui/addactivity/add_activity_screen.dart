@@ -68,7 +68,7 @@ class _AddActivityScreenState
       _errorCompletionDate,
       _endTimeError;
 
-  DateTime startDate = DateTime.now();
+  DateTime startDate = DateTime.now().toUtc();
   TimeOfDay startTime = TimeOfDay(hour: DateTime.now().hour, minute: 0);
   TimeOfDay endTime = TimeOfDay(hour: DateTime.now().hour, minute: 0);
   bool isVisible = false, isEdit = false;
@@ -96,7 +96,6 @@ class _AddActivityScreenState
         lastDate: DateTime(2101));
     if (picked != null && picked != startDate)
       setState(() {
-        startDate = picked;
         startDate = picked;
         _dateController.text = formatDate(startDate, [mm, '-', dd, '-', yy]);
         // !isVisible ? _showDialog() : "";
@@ -1163,17 +1162,19 @@ class _AddActivityScreenState
                                           widget.type ==
                                               Activites.TYPE_ACTIVITY) {
                                         dateTime = DateTime(
-                                            startDate.year,
-                                            startDate.month,
-                                            startDate.day,
-                                            startTime.hour,
-                                            startTime.minute);
+                                                startDate.year,
+                                                startDate.month,
+                                                startDate.day,
+                                                startTime.hour,
+                                                startTime.minute)
+                                            .toUtc();
                                         dateTime2 = DateTime(
-                                            startDate.year,
-                                            startDate.month,
-                                            startDate.day,
-                                            endTime.hour,
-                                            endTime.minute);
+                                                startDate.year,
+                                                startDate.month,
+                                                startDate.day,
+                                                endTime.hour,
+                                                endTime.minute)
+                                            .toUtc();
                                       }
                                       Activites activities = Activites(
                                         title: title,
@@ -1184,6 +1185,7 @@ class _AddActivityScreenState
                                         bandTaskMemberId:
                                             selectedBandMember?.id,
                                         taskCompleteDate: completionDate
+                                            ?.toUtc()
                                             ?.millisecondsSinceEpoch,
                                         isRecurring: isRecurring,
                                         startDate: widget.type ==
@@ -1195,9 +1197,12 @@ class _AddActivityScreenState
                                                 widget.type ==
                                                     Activites.TYPE_ACTIVITY
                                             ? dateTime
+                                                    ?.toUtc()
                                                     ?.millisecondsSinceEpoch ??
                                                 0
-                                            : startDate.millisecondsSinceEpoch,
+                                            : startDate
+                                                .toUtc()
+                                                .millisecondsSinceEpoch,
                                         endDate: widget.type ==
                                                     Activites
                                                         .TYPE_PRACTICE_SCHEDULE ||
@@ -1207,6 +1212,7 @@ class _AddActivityScreenState
                                                 widget.type ==
                                                     Activites.TYPE_ACTIVITY
                                             ? dateTime2
+                                                    ?.toUtc()
                                                     ?.millisecondsSinceEpoch ??
                                                 0
                                             : 0,
@@ -1420,8 +1426,8 @@ class _AddActivityScreenState
                   showMessage("Id cannot be null");
                 } else {
                   presenter.activityDelete(widget.id);
-                  Navigator.of(context).popUntil(
-                      ModalRoute.withName(Screens.ACTIVITIESLIST.toString()+"/////"));
+                  Navigator.of(context).popUntil(ModalRoute.withName(
+                      Screens.ACTIVITIESLIST.toString() + "/////"));
                 }
               },
             ),

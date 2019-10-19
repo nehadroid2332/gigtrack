@@ -100,13 +100,15 @@ class _ActivitiesListScreenState
                   List<Activites> past = [];
                   List<Activites> recurring = [];
 
-                  DateTime currentDate = DateTime.now();
+                  DateTime currentDate = DateTime.now().toLocal();
                   for (var ac in activities) {
                     DateTime startDate =
-                        DateTime.fromMillisecondsSinceEpoch(ac.startDate);
+                        DateTime.fromMillisecondsSinceEpoch(ac.startDate)
+                            .toLocal();
                     DateTime endDate;
                     if (ac.endDate != 0) {
-                      endDate = DateTime.fromMillisecondsSinceEpoch(ac.endDate);
+                      endDate = DateTime.fromMillisecondsSinceEpoch(ac.endDate)
+                          .toLocal();
                     }
                     int days = currentDate.difference(startDate).inDays;
                     int days2;
@@ -127,11 +129,9 @@ class _ActivitiesListScreenState
                           past.add(ac);
                         }
                       } else {
-                        
                         past.add(ac);
-                        
                       }
-                  //  past =  past.sort((b, a) => a.compareTo(b));
+                      //  past =  past.sort((b, a) => a.compareTo(b));
                     }
 
                     // if (currentDate >= startDate &&
@@ -437,17 +437,20 @@ class _ActivitiesListScreenState
                                 "/${Activites.TYPE_TASK}///${widget.bandId}////");
                       },
                     ),
-                    widget.bandId.isNotEmpty? SpeedDialChild(
-                      label: "Band Task",
-                      child: Icon(Icons.add),
-                      backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
-                      onTap: () async {
-                        await widget.appListener.router.navigateTo(
-                            context,
-                            Screens.ADDACTIVITY.toString() +
-                                "/${Activites.TYPE_BAND_TASK}///${widget.bandId}////");
-                      },
-                    ):SpeedDialChild(backgroundColor: Colors.white.withOpacity(0.0))
+                    widget.bandId.isNotEmpty
+                        ? SpeedDialChild(
+                            label: "Band Task",
+                            child: Icon(Icons.add),
+                            backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
+                            onTap: () async {
+                              await widget.appListener.router.navigateTo(
+                                  context,
+                                  Screens.ADDACTIVITY.toString() +
+                                      "/${Activites.TYPE_BAND_TASK}///${widget.bandId}////");
+                            },
+                          )
+                        : SpeedDialChild(
+                            backgroundColor: Colors.white.withOpacity(0.0))
                   ],
                 )
               : Container(),

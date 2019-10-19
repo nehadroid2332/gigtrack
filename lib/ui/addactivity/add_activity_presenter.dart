@@ -78,7 +78,7 @@ class AddActivityPresenter extends BasePresenter {
     final res1 = await serverAPI.getActivityDetails(id);
     if (res1 is Activites) {
       res1.userId = serverAPI.currentUserId;
-      res1.taskCompleteDate = DateTime.now().millisecondsSinceEpoch;
+      res1.taskCompleteDate = DateTime.now().toUtc().millisecondsSinceEpoch;
       final res2 = await serverAPI.addActivities(res1);
       if (res2 is bool) {
         (view as AddActivityContract).onUpdate();
