@@ -922,11 +922,26 @@ class _AddActivityScreenState
                               widget.type == Activites.TYPE_BAND_TASK
                           ? widget.id.isEmpty || isEdit || widget.isParent
                               ? Container()
-                              : Text(
-                                  "Date of Note - $_dateTxt",
-                                  textAlign: TextAlign.center,
+                              : Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Text(
+                                        "Task Date - ",
+                                        textAlign: TextAlign.right,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        _dateTxt,
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    )
+                                  ],
                                 )
                           : Container(),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
                       widget.type == Activites.TYPE_TASK ||
                               widget.type == Activites.TYPE_BAND_TASK
                           ? widget.id.isEmpty || isEdit || widget.isParent
@@ -936,17 +951,28 @@ class _AddActivityScreenState
                                       textColor:
                                           Color.fromRGBO(235, 84, 99, 1.0),
                                       child: Text(
-                                          "Click here when task is completed"),
+                                          "Click here if task is completed"),
                                       onPressed: () {
                                         isEdit = true;
                                         presenter
                                             .updateTaskCompleteDate(widget.id);
                                       },
                                     )
-                                  : Text(
-                                      "Date of Completion - " +
-                                          _taskCompletion.text,
-                                      textAlign: TextAlign.center,
+                                  : Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Text(
+                                            "Date Completed - ",
+                                            textAlign: TextAlign.right,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            _taskCompletion.text,
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        )
+                                      ],
                                     )
                           : Container(),
                       Padding(
@@ -957,7 +983,8 @@ class _AddActivityScreenState
                               !hasCompletionDate
                           ? ShowUp(
                               child: InkWell(
-                                child: Text("Is there a completion date?"),
+                                child: Text(
+                                    "Is there an estimated completion date?"),
                                 onTap: () {
                                   setState(() {
                                     hasCompletionDate = true;
@@ -1047,6 +1074,15 @@ class _AddActivityScreenState
                           : Container(),
                       widget.id.isEmpty || isEdit || widget.isParent
                           ? Container()
+                          : Text(
+                              "Task Notes",
+                              style: textTheme.title,
+                            ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      widget.id.isEmpty || isEdit || widget.isParent
+                          ? Container()
                           : ListView.builder(
                               itemCount: subActivities.length,
                               shrinkWrap: true,
@@ -1063,7 +1099,7 @@ class _AddActivityScreenState
                                   contentPadding: EdgeInsets.all(5),
                                   leading: CircleAvatar(
                                     backgroundColor:
-                                        Color.fromRGBO(239, 181, 77, 1.0),
+                                        Color.fromRGBO(32, 95, 139, 1.0),
                                     radius: 35,
                                     child: Row(
                                       crossAxisAlignment:
@@ -1082,7 +1118,7 @@ class _AddActivityScreenState
                                               textAlign: TextAlign.center,
                                               style:
                                                   textTheme.headline.copyWith(
-                                                color: Colors.black,
+                                                color: Colors.white,
                                                 fontSize: 16,
                                               ),
                                             ),
@@ -1090,7 +1126,7 @@ class _AddActivityScreenState
                                               "${formatDate(dateTime, [M])}",
                                               textAlign: TextAlign.center,
                                               style: textTheme.caption.copyWith(
-                                                color: Colors.black,
+                                                color: Colors.white,
                                               ),
                                             ),
                                           ],
@@ -1104,7 +1140,7 @@ class _AddActivityScreenState
                                             ])}",
                                             textAlign: TextAlign.center,
                                             style: textTheme.caption.copyWith(
-                                                color: Colors.black87),
+                                                color: Colors.white),
                                           ),
                                         )
                                       ],
@@ -1320,7 +1356,7 @@ class _AddActivityScreenState
             DateTime.fromMillisecondsSinceEpoch(activities.taskCompleteDate);
 
         _taskCompletion.text =
-            formatDate(completionDate, [mm, '-', dd, '-', yy]);
+            formatDate(completionDate, [D, ', ', mm, '-', dd, '-', yy]);
       }
       subActivities.clear();
       subActivities.addAll(activities.subActivities);
