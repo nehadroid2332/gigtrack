@@ -913,7 +913,7 @@ class _AddActivityScreenState
                                     await widget.appListener.router.navigateTo(
                                         context,
                                         Screens.ADDACTIVITY.toString() +
-                                            "/${widget.type}/${widget.id}/${true}");
+                                            "/${widget.type}/${widget.id}/${true}/////");
                                     getData();
                                   },
                                 )
