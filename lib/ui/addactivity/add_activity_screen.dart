@@ -74,7 +74,7 @@ class _AddActivityScreenState
   bool isVisible = false, isEdit = false;
   bool setTime = false;
 
-  String _dateTxt = "";
+  String _dateTxt = "", _estDateTxt = "";
 
   bool isRecurring = false;
 
@@ -302,7 +302,7 @@ class _AddActivityScreenState
           child: Column(
             children: <Widget>[
               Text(
-                "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} ${widget.type == Activites.TYPE_ACTIVITY ? "Activity" : widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? "Performance Schedule" : widget.type == Activites.TYPE_PRACTICE_SCHEDULE ? "Practice Schedule" : widget.type == Activites.TYPE_TASK ? widget.isParent ? "Add Sub Task" : "Task" : widget.type == Activites.TYPE_BAND_TASK ? "Band Task" : ""}",
+                "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} ${widget.type == Activites.TYPE_ACTIVITY ? "Activity" : widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? "Performance Schedule" : widget.type == Activites.TYPE_PRACTICE_SCHEDULE ? "Practice Schedule" : widget.type == Activites.TYPE_TASK ? widget.isParent ? "Add Task Notes" : "Task" : widget.type == Activites.TYPE_BAND_TASK ? "Band Task" : ""}",
                 style: textTheme.display1
                     .copyWith(color: Colors.white, fontSize: 30),
               ),
@@ -335,7 +335,7 @@ class _AddActivityScreenState
                                                     Activites.TYPE_BAND_TASK) &&
                                             widget.isParent &&
                                             widget.id.isNotEmpty)
-                                        ? "Describe Task?"
+                                        ? "Add Note"
                                         : widget.type ==
                                                 Activites
                                                     .TYPE_PERFORMANCE_SCHEDULE
@@ -974,6 +974,32 @@ class _AddActivityScreenState
                                 )
                           : Container(),
                       Padding(
+                        padding: EdgeInsets.all(6),
+                      ),
+                      widget.type == Activites.TYPE_TASK ||
+                              widget.type == Activites.TYPE_BAND_TASK
+                          ? widget.id.isEmpty || isEdit || widget.isParent
+                              ? Container()
+                              : _estDateTxt.isEmpty
+                                  ? Container()
+                                  : Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Text(
+                                            "Est. Completion Date - ",
+                                            textAlign: TextAlign.right,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            _estDateTxt,
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        )
+                                      ],
+                                    )
+                          : Container(),
+                      Padding(
                         padding: EdgeInsets.all(5),
                       ),
                       widget.type == Activites.TYPE_TASK ||
@@ -1114,7 +1140,7 @@ class _AddActivityScreenState
                       widget.id.isEmpty || isEdit || widget.isParent
                           ? Container()
                           : Text(
-                              "Activities Notes",
+                              "Task Notes",
                               textAlign: TextAlign.center,
                               style: textTheme.title,
                             ),
@@ -1263,7 +1289,7 @@ class _AddActivityScreenState
                                         bandTaskId: selectedBand?.id,
                                         bandTaskMemberId:
                                             selectedBandMember?.id,
-                                        taskCompleteDate: completionDate
+                                        estCompleteDate: completionDate
                                             ?.toUtc()
                                             ?.millisecondsSinceEpoch,
                                         isRecurring: isRecurring,
@@ -1409,6 +1435,12 @@ class _AddActivityScreenState
       //_type = activities.action_type;
       startDate = DateTime.fromMillisecondsSinceEpoch(activities.startDate);
       _dateTxt = formatDate(startDate, [D, ', ', mm, '-', dd, '-', yy]);
+      if (activities.estCompleteDate != null &&
+          activities.estCompleteDate > 0) {
+        _estDateTxt = formatDate(
+            DateTime.fromMillisecondsSinceEpoch(activities.estCompleteDate),
+            [D, ', ', mm, '-', dd, '-', yy]);
+      }
       _dateController.text = formatDate(startDate, [mm, '-', dd, '-', yy]);
       _startTimeController.text = formatDate(startDate, [hh, ':', nn, ' ', am]);
       selectedBandId = activities.bandTaskId;
@@ -1488,12 +1520,7 @@ class _AddActivityScreenState
           content: Text("Are you sure you want to delete?"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("No"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
+
             new RaisedButton(
               child: new Text("Yes"),
               textColor: Colors.white,
@@ -1508,6 +1535,12 @@ class _AddActivityScreenState
                   Navigator.of(context).popUntil(ModalRoute.withName(
                       Screens.ACTIVITIESLIST.toString() + "/////"));
                 }
+              },
+            ),
+            new FlatButton(
+              child: new Text("No"),
+              onPressed: () {
+                Navigator.of(context).pop();
               },
             ),
           ],

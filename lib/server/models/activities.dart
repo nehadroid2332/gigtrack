@@ -13,6 +13,7 @@ class Activites extends BaseModel {
   int startDate;
   int endDate;
   int taskCompleteDate;
+  int estCompleteDate;
   String location;
   String notes = "";
   String travel = "";
@@ -42,6 +43,7 @@ class Activites extends BaseModel {
       this.taskCompleteDate,
       this.other,
       this.bandId,
+      this.estCompleteDate,
       this.title,
       this.bandTaskId,
       this.bandTaskMemberId});
@@ -54,6 +56,7 @@ class Activites extends BaseModel {
     location = data['location'];
     title = data['title'];
     travel = data['travel'];
+    estCompleteDate = data['estCompleteDate'];
     wardrobe = data['wardrobe'];
     parking = data['parking'];
     isRecurring = data['isRecurring'];
@@ -82,6 +85,7 @@ class Activites extends BaseModel {
     data['location'] = location ?? "";
     data['task'] = task ?? "";
     data['travel'] = travel ?? "";
+    data['estCompleteDate'] = estCompleteDate;
     data['notes'] = notes ?? "";
     data['bandTaskMemberId'] = bandTaskMemberId ?? "";
     data['bandTaskId'] = bandTaskId ?? "";

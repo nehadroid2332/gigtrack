@@ -206,6 +206,44 @@ class _ActivitiesListScreenState
                     //   upcoming.add(ac);
                     // }
                   }
+                  current.sort((a, b) => a.startDate.compareTo(b.startDate));
+                  current.sort((a, b) {
+                    DateTime aD =
+                        DateTime.fromMillisecondsSinceEpoch(a.startDate);
+                    DateTime bD =
+                        DateTime.fromMillisecondsSinceEpoch(b.startDate);
+                    if (aD.day == bD.day && aD.month == bD.month) {
+                      return a.title.compareTo(b.title);
+                    }
+                    return 0;
+                  });
+
+                  upcoming.sort((a, b) => a.startDate.compareTo(b.startDate));
+                  upcoming.sort((a, b) {
+                    DateTime aD =
+                        DateTime.fromMillisecondsSinceEpoch(a.startDate);
+                    DateTime bD =
+                        DateTime.fromMillisecondsSinceEpoch(b.startDate);
+                    if (aD.day == bD.day && aD.month == bD.month) {
+                      return a.title.compareTo(b.title);
+                    }
+                    return 0;
+                  });
+
+                  recurring.sort((a, b) => a.startDate.compareTo(b.startDate));
+                  recurring.sort((a, b) {
+                    DateTime aD =
+                        DateTime.fromMillisecondsSinceEpoch(a.startDate)
+                            .toLocal();
+                    DateTime bD =
+                        DateTime.fromMillisecondsSinceEpoch(b.startDate)
+                            .toLocal();
+                    if (aD.day == bD.day && aD.month == bD.month) {
+                      return a.title.compareTo(b.title);
+                    }
+                    return 0;
+                  });
+
                   past.sort((a, b) =>
                       a.taskCompleteDate.compareTo(b.taskCompleteDate));
 
