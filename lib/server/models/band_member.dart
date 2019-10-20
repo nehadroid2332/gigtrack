@@ -9,12 +9,13 @@ class BandMember extends BaseModel {
   String mobileText;
   String permissions;
   String payInfo;
-  List<String> memberRole=[];
+  List<String> memberRole = [];
   String instrument;
   String other;
   String otherTalent;
   String notes;
   String pay;
+  String primaryContact;
   int status = 0;
 
   BandMember(
@@ -28,6 +29,7 @@ class BandMember extends BaseModel {
       this.mobileText,
       this.memberRole,
       this.instrument,
+      this.primaryContact,
       this.other,
       this.id,
       this.status,
@@ -41,6 +43,7 @@ class BandMember extends BaseModel {
     firstName = data['firstName'];
     lastName = data['lastName'];
     mobileText = data['mobileText'];
+    primaryContact = data['primaryContact'];
     notes = data['notes'];
     pay = data['pay'];
     otherTalent = data['otherTalent'];
@@ -66,6 +69,7 @@ class BandMember extends BaseModel {
     data['lastName'] = lastName;
     data['mobileText'] = mobileText;
     data['otherTalent'] = otherTalent;
+    data['primaryContact'] = primaryContact;
     data['pay'] = pay;
     data['status'] = status;
     data['notes'] = notes;

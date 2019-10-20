@@ -58,6 +58,68 @@ class _ActivitiesListScreenState
 
   @override
   Widget buildBody() {
+    List<SpeedDialChild> items = [
+      SpeedDialChild(
+        label: "Activities",
+        child: Icon(Icons.add),
+        backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
+        onTap: () async {
+          await widget.appListener.router.navigateTo(
+              context,
+              Screens.ADDACTIVITY.toString() +
+                  "/${Activites.TYPE_ACTIVITY}///${widget.bandId}////");
+        },
+      ),
+      SpeedDialChild(
+        label: "Performance Schedule",
+        child: Icon(Icons.add),
+        backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
+        onTap: () async {
+          await widget.appListener.router.navigateTo(
+              context,
+              Screens.ADDACTIVITY.toString() +
+                  "/${Activites.TYPE_PERFORMANCE_SCHEDULE}///${widget.bandId}////");
+        },
+      ),
+      SpeedDialChild(
+        label: "Practice Schedule",
+        backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
+        child: Icon(Icons.add),
+        onTap: () async {
+          await widget.appListener.router.navigateTo(
+              context,
+              Screens.ADDACTIVITY.toString() +
+                  "/${Activites.TYPE_PRACTICE_SCHEDULE}///${widget.bandId}////");
+        },
+      ),
+    ];
+
+    if (widget.bandId.isEmpty) {
+      items.add(SpeedDialChild(
+        label: "Task",
+        child: Icon(Icons.add),
+        backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
+        onTap: () async {
+          await widget.appListener.router.navigateTo(
+              context,
+              Screens.ADDACTIVITY.toString() +
+                  "/${Activites.TYPE_TASK}///${widget.bandId}////");
+        },
+      ));
+    } else if (widget.bandId.isNotEmpty) {
+      items.add(SpeedDialChild(
+        label: "Band Task",
+        child: Icon(Icons.add),
+        backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
+        onTap: () async {
+          await widget.appListener.router.navigateTo(
+              context,
+              Screens.ADDACTIVITY.toString() +
+                  "/${Activites.TYPE_BAND_TASK}///${widget.bandId}////");
+        },
+      ));
+    }
+
     return Scaffold(
       backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
       body: Padding(
@@ -149,16 +211,16 @@ class _ActivitiesListScreenState
 
                   return ListView(
                     children: <Widget>[
-                      RaisedButton(
-                        color: Color.fromRGBO(32, 95, 139, 1.0),
-                        textColor: Colors.white,
-                        onPressed: () {},
-                        child: Text("Today"),
+                      Text(
+                        "Today",
+                        style: textTheme.display1.copyWith(fontSize: 28),
+                        textAlign: TextAlign.center,
                       ),
                       current.length > 0
                           ? ListView.builder(
                               physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
+                              padding: EdgeInsets.symmetric(vertical: 10),
                               itemCount: current.length,
                               itemBuilder: (BuildContext context, int index) {
                                 Activites ac = current[index];
@@ -170,19 +232,22 @@ class _ActivitiesListScreenState
                                 });
                               },
                             )
-                          : Center(
-                              child: Text("No Current Activities"),
+                          : Padding(
+                              child: Center(
+                                child: Text("No Current Activities"),
+                              ),
+                              padding: EdgeInsets.all(10),
                             ),
-                      RaisedButton(
-                        color: Color.fromRGBO(32, 95, 139, 1.0),
-                        textColor: Colors.white,
-                        onPressed: () {},
-                        child: Text("Upcoming"),
+                      Text(
+                        "Upcoming",
+                        style: textTheme.display1.copyWith(fontSize: 28),
+                        textAlign: TextAlign.center,
                       ),
                       upcoming.length > 0
                           ? ListView.builder(
                               physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
+                              padding: EdgeInsets.symmetric(vertical: 10),
                               itemCount: upcoming.length,
                               itemBuilder: (BuildContext context, int index) {
                                 Activites ac = upcoming[index];
@@ -194,19 +259,22 @@ class _ActivitiesListScreenState
                                 });
                               },
                             )
-                          : Center(
-                              child: Text("No Upcoming Activities"),
+                          : Padding(
+                              child: Center(
+                                child: Text("No Upcoming Activities"),
+                              ),
+                              padding: EdgeInsets.all(10),
                             ),
-                      RaisedButton(
-                        color: Color.fromRGBO(32, 95, 139, 1.0),
-                        textColor: Colors.white,
-                        onPressed: () {},
-                        child: Text("Past"),
+                      Text(
+                        "Past",
+                        style: textTheme.display1.copyWith(fontSize: 28),
+                        textAlign: TextAlign.center,
                       ),
                       past.length > 0
                           ? ListView.builder(
                               physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
+                              padding: EdgeInsets.all(10),
                               itemCount: past.length,
                               itemBuilder: (BuildContext context, int index) {
                                 Activites ac = past[index];
@@ -223,14 +291,16 @@ class _ActivitiesListScreenState
                                                 .millisecondsSinceEpoch));
                               },
                             )
-                          : Center(
-                              child: Text("No Past Activities"),
+                          : Padding(
+                              child: Center(
+                                child: Text("No Past Activities"),
+                              ),
+                              padding: EdgeInsets.symmetric(vertical: 10),
                             ),
-                      RaisedButton(
-                        color: Color.fromRGBO(32, 95, 139, 1.0),
-                        textColor: Colors.white,
-                        onPressed: () {},
-                        child: Text("Recurring"),
+                      Text(
+                        "Recurring",
+                        style: textTheme.display1.copyWith(fontSize: 28),
+                        textAlign: TextAlign.center,
                       ),
                       recurring.length > 0
                           ? ListView.builder(
@@ -248,8 +318,11 @@ class _ActivitiesListScreenState
                                 }, isPast: false);
                               },
                             )
-                          : Center(
-                              child: Text("No Recurring Activities"),
+                          : Padding(
+                              child: Center(
+                                child: Text("No Recurring Activities"),
+                              ),
+                              padding: EdgeInsets.symmetric(vertical: 10),
                             )
                     ],
                   );
@@ -392,66 +465,7 @@ class _ActivitiesListScreenState
               ? SpeedDial(
                   animatedIcon: AnimatedIcons.menu_close,
                   backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
-                  children: [
-                    SpeedDialChild(
-                      label: "Activities",
-                      child: Icon(Icons.add),
-                      backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
-                      onTap: () async {
-                        await widget.appListener.router.navigateTo(
-                            context,
-                            Screens.ADDACTIVITY.toString() +
-                                "/${Activites.TYPE_ACTIVITY}///${widget.bandId}////");
-                      },
-                    ),
-                    SpeedDialChild(
-                      label: "Performance Schedule",
-                      child: Icon(Icons.add),
-                      backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
-                      onTap: () async {
-                        await widget.appListener.router.navigateTo(
-                            context,
-                            Screens.ADDACTIVITY.toString() +
-                                "/${Activites.TYPE_PERFORMANCE_SCHEDULE}///${widget.bandId}////");
-                      },
-                    ),
-                    SpeedDialChild(
-                      label: "Practice Schedule",
-                      backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
-                      child: Icon(Icons.add),
-                      onTap: () async {
-                        await widget.appListener.router.navigateTo(
-                            context,
-                            Screens.ADDACTIVITY.toString() +
-                                "/${Activites.TYPE_PRACTICE_SCHEDULE}///${widget.bandId}////");
-                      },
-                    ),
-                    SpeedDialChild(
-                      label: "Task",
-                      child: Icon(Icons.add),
-                      backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
-                      onTap: () async {
-                        await widget.appListener.router.navigateTo(
-                            context,
-                            Screens.ADDACTIVITY.toString() +
-                                "/${Activites.TYPE_TASK}///${widget.bandId}////");
-                      },
-                    ),
-                    widget.bandId.isNotEmpty
-                        ? SpeedDialChild(
-                            label: "Band Task",
-                            child: Icon(Icons.add),
-                            backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
-                            onTap: () async {
-                              await widget.appListener.router.navigateTo(
-                                  context,
-                                  Screens.ADDACTIVITY.toString() +
-                                      "/${Activites.TYPE_BAND_TASK}///${widget.bandId}////");
-                            },
-                          )
-                        : SpeedDialChild(
-                            backgroundColor: Colors.white.withOpacity(0.0))
-                  ],
+                  children: items,
                 )
               : Container(),
     );

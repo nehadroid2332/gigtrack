@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/band_member.dart';
 import 'package:gigtrack/server/models/contacts.dart';
+import 'package:gigtrack/utils/common_app_utils.dart';
 
 import 'addmembertobandpresenter.dart';
 
@@ -27,12 +29,14 @@ class _AddMemberToBandScreenState
       _otherTalentController = TextEditingController(),
       _mobileTextController = TextEditingController(),
       _notesController = TextEditingController(),
+      _primaryContactTextController = TextEditingController(),
       _payController = TextEditingController();
   bool isSearching = false;
   Contacts itemSelect;
   String _errorFirstName,
       _errorLastName,
       _errorMobileText,
+      _errorPrimaryContact,
       _errorPay,
       _errorNotes,
       _errorOtherTalent,
@@ -308,6 +312,16 @@ class _AddMemberToBandScreenState
                             ),
                           ),
                           TextField(
+                            controller: _primaryContactTextController,
+                            decoration: InputDecoration(
+                              labelText: "Primary Contact",
+                              labelStyle: TextStyle(
+                                color: Color.fromRGBO(169, 176, 187, 1.0),
+                              ),
+                              errorText: _errorPrimaryContact,
+                            ),
+                          ),
+                          TextField(
                             controller: _emailController,
                             decoration: InputDecoration(
                               labelText: "Email",
@@ -442,6 +456,8 @@ class _AddMemberToBandScreenState
                                     email: _emailController.text,
                                     mobileText: _mobileTextController.text,
                                     other: oList,
+                                    primaryContact:
+                                        _primaryContactTextController.text,
                                     payInfo: null,
                                     pay: _payController.text,
                                     otherTalent: _otherTalentController.text,

@@ -46,4 +46,8 @@ class AddBandPresenter extends BasePresenter {
       view.showMessage(res.message);
     }
   }
+
+  void deleteBand(String id) async {
+    serverAPI.deleteBand(id);
+  }
 }

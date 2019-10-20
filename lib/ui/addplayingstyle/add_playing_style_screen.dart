@@ -423,11 +423,12 @@ class _AddPlayingStyleScreenState
     for (String s in exList.keys) {
       expss += s + ",";
     }
+    if (expss.isNotEmpty) expss = expss.substring(0, expss.length - 1);
     String plyss = "";
     for (String s in psList) {
       plyss += s + ",";
     }
-
+    if (plyss.isNotEmpty) plyss = plyss.substring(0, plyss.length - 1);
     return Stack(
       children: <Widget>[
         ClipPath(
@@ -665,161 +666,6 @@ class _AddPlayingStyleScreenState
                                   : Container(),
                         ],
                       ),
-                      Padding(padding: EdgeInsets.all(8)),
-                      ShowUp(
-                        child: !isEducation
-                            ? new GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    isEducation = true;
-                                  });
-                                },
-                                child: widget.id.isEmpty || isEdit
-                                    ? Text(
-                                        "Click here to add education",
-                                        style: textTheme.display1.copyWith(
-                                            color: widget
-                                                .appListener.primaryColorDark,
-                                            fontSize: 14),
-                                      )
-                                    : Container(),
-                              )
-                            : Container(),
-                        delay: 1000,
-                      ),
-
-                      isEducation
-                          ? Text(
-                              "Education",
-                              textAlign: widget.id.isEmpty || isEdit
-                                  ? TextAlign.left
-                                  : TextAlign.center,
-                              style: textTheme.title.copyWith(
-                                  color: Color.fromRGBO(124, 180, 97, 1.0)),
-                            )
-                          : Container(),
-                      Padding(
-                        padding: EdgeInsets.all(3),
-                      ),
-                      isEducation
-                          ? widget.id.isEmpty || isEdit
-                              ? DropdownButton<String>(
-                                  items: education.map((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(
-                                        value,
-                                        style: TextStyle(
-                                            color: widget
-                                                .appListener.primaryColorDark),
-                                      ),
-                                    );
-                                  }).toList(),
-                                  onChanged: _handleRelationshipValueChange,
-                                  value: _educationType,
-                                )
-                              : selectedEducation == "Other"
-                                  ? Container()
-                                  : Text(
-                                      selectedEducation,
-                                      textAlign: TextAlign.center,
-                                    )
-                          : Container(),
-//                      isEducation
-//                          ? widget.id.isEmpty || isEdit
-//                              ? Wrap(
-//                                  children: edcs,
-//                                )
-//                              : Text(
-//                                  selectedEducation,
-//                                  textAlign: TextAlign.center,
-//                                )
-//                          : Container(),
-                      selectedEducation == "Other"
-                          ? Column(
-                              children: <Widget>[
-                                widget.id.isEmpty || isEdit
-                                    ? TextField(
-                                        enabled: widget.id.isEmpty || isEdit,
-                                        controller: _listSchoolController,
-                                        decoration: InputDecoration(
-                                          labelText: "List School",
-                                          labelStyle: TextStyle(
-                                            color: widget
-                                                .appListener.primaryColorDark,
-                                          ),
-                                        ),
-                                      )
-                                    : Row(
-                                        children: <Widget>[
-                                          Expanded(
-                                            flex: 5,
-                                            child: Text(
-                                              "School",
-                                              textAlign: TextAlign.right,
-                                              style:
-                                                  textTheme.subtitle.copyWith(),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 1,
-                                            child: Text(
-                                              " - ",
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              _listSchoolController.text,
-                                              textAlign: TextAlign.left,
-                                            ),
-                                            flex: 5,
-                                          )
-                                        ],
-                                      ),
-                                widget.id.isEmpty || isEdit
-                                    ? TextField(
-                                        enabled: widget.id.isEmpty || isEdit,
-                                        controller: _earnController,
-                                        decoration: InputDecoration(
-                                          labelText:
-                                              "What did you earn your academic degree in",
-                                          labelStyle: TextStyle(
-                                            color: widget
-                                                .appListener.primaryColorDark,
-                                          ),
-                                        ),
-                                      )
-                                    : Row(
-                                        children: <Widget>[
-                                          Expanded(
-                                            flex: 5,
-                                            child: Text(
-                                              "Degree",
-                                              textAlign: TextAlign.right,
-                                              style:
-                                                  textTheme.subtitle.copyWith(),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 1,
-                                            child: Text(
-                                              " - ",
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              _earnController.text,
-                                              textAlign: TextAlign.left,
-                                            ),
-                                            flex: 5,
-                                          )
-                                        ],
-                                      )
-                              ],
-                            )
-                          : Container(),
                       Padding(padding: EdgeInsets.all(5)),
                       Text(
                         "Experience",
@@ -916,6 +762,157 @@ class _AddPlayingStyleScreenState
                             )
                           : Container(),
 
+                      Padding(padding: EdgeInsets.all(8)),
+                      ShowUp(
+                        child: !isEducation
+                            ? new GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    isEducation = true;
+                                  });
+                                },
+                                child: widget.id.isEmpty || isEdit
+                                    ? Text(
+                                        "Click here to add education",
+                                        style: textTheme.display1.copyWith(
+                                            color: widget
+                                                .appListener.primaryColorDark,
+                                            fontSize: 14),
+                                      )
+                                    : Container(),
+                              )
+                            : Container(),
+                        delay: 1000,
+                      ),
+
+                      isEducation
+                          ? Text(
+                              "Education",
+                              textAlign: widget.id.isEmpty || isEdit
+                                  ? TextAlign.left
+                                  : TextAlign.center,
+                              style: textTheme.title.copyWith(
+                                  color: Color.fromRGBO(124, 180, 97, 1.0)),
+                            )
+                          : Container(),
+                      Padding(
+                        padding: EdgeInsets.all(3),
+                      ),
+                      isEducation
+                          ? widget.id.isEmpty || isEdit
+                              ? DropdownButton<String>(
+                                  items: education.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                        style: TextStyle(
+                                            color: widget
+                                                .appListener.primaryColorDark),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: _handleRelationshipValueChange,
+                                  value: _educationType,
+                                )
+                              : selectedEducation == "Other"
+                                  ? Container()
+                                  : Text(
+                                      selectedEducation,
+                                      textAlign: TextAlign.center,
+                                    )
+                          : Container(),
+//                      isEducation
+//                          ? widget.id.isEmpty || isEdit
+//                              ? Wrap(
+//                                  children: edcs,
+//                                )
+//                              : Text(
+//                                  selectedEducation,
+//                                  textAlign: TextAlign.center,
+//                                )
+//                          : Container(),
+                      Column(
+                        children: <Widget>[
+                          widget.id.isEmpty || isEdit
+                              ? TextField(
+                                  enabled: widget.id.isEmpty || isEdit,
+                                  controller: _listSchoolController,
+                                  decoration: InputDecoration(
+                                    labelText: "List School",
+                                    labelStyle: TextStyle(
+                                      color:
+                                          widget.appListener.primaryColorDark,
+                                    ),
+                                  ),
+                                )
+                              : Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      flex: 5,
+                                      child: Text(
+                                        "School",
+                                        textAlign: TextAlign.right,
+                                        style: textTheme.subtitle.copyWith(),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                        " - ",
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        _listSchoolController.text,
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      flex: 5,
+                                    )
+                                  ],
+                                ),
+                          widget.id.isEmpty || isEdit
+                              ? TextField(
+                                  enabled: widget.id.isEmpty || isEdit,
+                                  controller: _earnController,
+                                  decoration: InputDecoration(
+                                    labelText:
+                                        "What did you earn your academic degree in",
+                                    labelStyle: TextStyle(
+                                      color:
+                                          widget.appListener.primaryColorDark,
+                                    ),
+                                  ),
+                                )
+                              : Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      flex: 5,
+                                      child: Text(
+                                        "Degree",
+                                        textAlign: TextAlign.right,
+                                        style: textTheme.subtitle.copyWith(),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                        " - ",
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        _earnController.text,
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      flex: 5,
+                                    )
+                                  ],
+                                )
+                        ],
+                      ),
                       Padding(
                         padding: widget.id.isNotEmpty
                             ? EdgeInsets.all(0)

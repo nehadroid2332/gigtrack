@@ -38,7 +38,6 @@ class AddContactScreen extends BaseScreen {
 class _AddContactScreenState
     extends BaseScreenState<AddContactScreen, AddContactPresenter>
     implements AddContactContract {
-  NumberTextInputFormatter _phoneNumberFormatter = NumberTextInputFormatter(1);
   final relationships = [
     "Select",
     "Agent",
@@ -513,7 +512,7 @@ class _AddContactScreenState
                               inputFormatters: [
                                 WhitelistingTextInputFormatter.digitsOnly,
                                 // Fit the validating format.
-                                _phoneNumberFormatter,
+                                phoneNumberFormatter,
                               ],
                               decoration: InputDecoration(
                                 labelStyle: TextStyle(
@@ -588,10 +587,10 @@ class _AddContactScreenState
                                 color: Colors.black,
                               ),
                               inputFormatters: [
-                              WhitelistingTextInputFormatter.digitsOnly,
-                              // Fit the validating format.
-                              _phoneNumberFormatter,
-    ],
+                                WhitelistingTextInputFormatter.digitsOnly,
+                                // Fit the validating format.
+                                phoneNumberFormatter,
+                              ],
                               decoration: InputDecoration(
                                 labelStyle: TextStyle(
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
@@ -1483,8 +1482,8 @@ class _AddContactScreenState
                   showMessage("Id cannot be null");
                 } else {
                   presenter.contactDelete(widget.id);
-                  Navigator.of(context).popUntil(
-                      ModalRoute.withName(Screens.CONTACTLIST.toString()+"/////"));
+                  Navigator.of(context).popUntil(ModalRoute.withName(
+                      Screens.CONTACTLIST.toString() + "/////"));
                   //Navigator.of(context).pop();
                 }
               },

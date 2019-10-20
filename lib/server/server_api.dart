@@ -469,4 +469,8 @@ class ServerAPI {
       return ErrorResponse.fromJSON(e.message);
     }
   }
+
+  void deleteBand(String id) async {
+    await bandDB.child(id).remove();
+  }
 }

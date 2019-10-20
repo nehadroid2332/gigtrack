@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:gigtrack/server/models/activities.dart';
 import 'package:gigtrack/server/models/bulletinboard.dart';
 import 'package:gigtrack/server/models/notestodo.dart';
+import 'package:gigtrack/utils/NumberTextInputFormatter.dart';
+
+NumberTextInputFormatter phoneNumberFormatter = NumberTextInputFormatter(1);
 
 class AppButton extends StatelessWidget {
   final String title;
@@ -254,10 +257,11 @@ String currentType(int type) {
   } else if (type == 1) {
     return "Performance";
   } else if (type == 2) {
-    return "Schedule";
+    return "Rehearsal";
   } else if (type == 3) {
     return "Task";
   }
+  return "";
 }
 
 Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
