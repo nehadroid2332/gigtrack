@@ -15,7 +15,6 @@ class PlayingStyleListPresenter extends BasePresenter {
           .map((a) {
         Map mp = a.snapshot.value;
         if (mp == null) return null;
-
         List<UserPlayingStyle> acc = [];
         for (var d in mp.values) {
           acc.add(UserPlayingStyle.fromJSON(d));
@@ -30,7 +29,6 @@ class PlayingStyleListPresenter extends BasePresenter {
           .map((a) {
         Map mp = a.snapshot.value;
         if (mp == null) return null;
-
         List<UserPlayingStyle> acc = [];
         for (var d in mp.values) {
           acc.add(UserPlayingStyle.fromJSON(d));

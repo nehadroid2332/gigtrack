@@ -1,6 +1,7 @@
 import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/error_response.dart';
+import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/server/models/user_playing_style.dart';
 
 abstract class AddPlayingStyleContract extends BaseContract {
@@ -11,6 +12,8 @@ abstract class AddPlayingStyleContract extends BaseContract {
   void onDelete();
 
   void getBandDetails(Band res);
+
+  void onUserDetailsSuccess(User res);
 }
 
 class AddPlayingStylePresenter extends BasePresenter {
@@ -50,5 +53,14 @@ class AddPlayingStylePresenter extends BasePresenter {
   void deletePlayingStyle(String id) async {
     await serverAPI.deletePlayingStyle(id);
     (view as AddPlayingStyleContract).onDelete();
+  }
+
+  void getUserProfile() async {
+    final res = await serverAPI.getSingleUserById(serverAPI.currentUserId);
+    if (res is User) {
+      (view as AddPlayingStyleContract).onUserDetailsSuccess(res);
+    } else if (res is ErrorResponse) {
+      view.showMessage(res.message);
+    }
   }
 }

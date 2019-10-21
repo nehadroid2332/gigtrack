@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
+import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/server/models/user_playing_style.dart';
 import 'playing_style_list_presenter.dart';
 
@@ -140,19 +141,20 @@ class _PlayingStyleListScreenState
           ],
         ),
       ),
-      floatingActionButton:
-          (widget.bandId != null && widget.isLeader) || widget.bandId.isEmpty
-              ? FloatingActionButton(
-                  onPressed: () async {
-                    await widget.appListener.router.navigateTo(
-                        context,
-                        Screens.ADDPLAYINGSTYLE.toString() +
-                            "//${widget.bandId}////");
-                  },
-                  child: Icon(Icons.add),
-                  backgroundColor: Color.fromRGBO(124, 180, 97, 1.0),
-                )
-              : Container(),
+      floatingActionButton: ((widget.bandId != null && widget.isLeader) ||
+                  widget.bandId.isEmpty) &&
+              playingStyleList.length < 1
+          ? FloatingActionButton(
+              onPressed: () async {
+                await widget.appListener.router.navigateTo(
+                    context,
+                    Screens.ADDPLAYINGSTYLE.toString() +
+                        "//${widget.bandId}////");
+              },
+              child: Icon(Icons.add),
+              backgroundColor: Color.fromRGBO(124, 180, 97, 1.0),
+            )
+          : Container(),
     );
   }
 
