@@ -515,7 +515,7 @@ class _AddActivityScreenState
                                             ? Expanded(
                                                 flex: 2,
                                                 child: Text(
-                                                  "Start time -" +
+                                                  //"Start time -" +
                                                       _startTimeController.text,
                                                   textAlign: TextAlign.right,
                                                 ),
@@ -573,7 +573,7 @@ class _AddActivityScreenState
                                             ? Expanded(
                                                 flex: 2,
                                                 child: Text(
-                                                  "End time - " +
+                                                 // "End time - " +
                                                       _endTimeController.text,
                                                   textAlign: TextAlign.left,
                                                 ),
@@ -628,7 +628,7 @@ class _AddActivityScreenState
                                   },
                                 ),
                                 labelText: widget.id.isEmpty || isEdit
-                                    ? "Location(Click + for maps)"
+                                    ? "Location (Click + for maps)"
                                     : "",
                                 labelStyle: TextStyle(
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
@@ -1442,12 +1442,12 @@ class _AddActivityScreenState
             [D, ', ', mm, '-', dd, '-', yy]);
       }
       _dateController.text = formatDate(startDate, [mm, '-', dd, '-', yy]);
-      _startTimeController.text = formatDate(startDate, [hh, ':', nn, ' ', am]);
+      _startTimeController.text = formatDate(startDate, [h, ':', nn, ' ', am]);
       selectedBandId = activities.bandTaskId;
       selectedBandMemberId = activities.bandTaskMemberId;
       DateTime dateTime =
           DateTime.fromMillisecondsSinceEpoch(activities.endDate ?? 0);
-      _endTimeController.text = formatDate(dateTime, [hh, ':', nn, ' ', am]);
+      _endTimeController.text = formatDate(dateTime, [h, ':', nn, ' ', am]);
 
       _locController.text = activities.location;
       _parkingController.text = activities.parking;
@@ -1521,12 +1521,9 @@ class _AddActivityScreenState
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
 
-            new RaisedButton(
+            new FlatButton(
               child: new Text("Yes"),
-              textColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6)),
-              color: Color.fromRGBO(32, 95, 139, 1.0),
+             
               onPressed: () {
                 if (widget.id == null || widget.id.isEmpty) {
                   showMessage("Id cannot be null");
@@ -1539,6 +1536,10 @@ class _AddActivityScreenState
             ),
             new FlatButton(
               child: new Text("No"),
+              textColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6)),
+              color: Color.fromRGBO(32, 95, 139, 1.0),
               onPressed: () {
                 Navigator.of(context).pop();
               },

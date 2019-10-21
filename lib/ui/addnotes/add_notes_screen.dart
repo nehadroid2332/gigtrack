@@ -254,7 +254,7 @@ class _AddNotesScreenState
                                 labelText: widget.id.isEmpty ||
                                         isEdit ||
                                         widget.isParent
-                                    ? "Add Additional Note"
+                                    ? "Add Note"
                                     : "",
                                 labelStyle: TextStyle(
                                     color: Color.fromRGBO(202, 208, 215, 1.0),
