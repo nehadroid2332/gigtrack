@@ -71,6 +71,14 @@ class _ActivitiesListScreenState
         },
       ),
       SpeedDialChild(
+        label: "Appointment",
+        child: Icon(Icons.add),
+        backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
+        onTap: () async {
+          showDialogConfirm();
+        },
+      ),
+      SpeedDialChild(
         label: "Performance Schedule",
         child: Icon(Icons.add),
         backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
@@ -506,6 +514,41 @@ class _ActivitiesListScreenState
                   children: items,
                 )
               : Container(),
+    );
+  }
+  showDialogConfirm() {
+    // flutter defined function
+  
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          contentPadding: EdgeInsets.all(15),
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          title: new Text(
+            "Information!",
+            textAlign: TextAlign.center,
+          ),
+          content: Text("Release date would be coming soon..."),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new RaisedButton(
+              child: new Text("Dismiss",
+                textAlign: TextAlign.center,),
+              textColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6)),
+              color: Color.fromRGBO(32, 95, 139, 1.0),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+        
+          ],
+        );
+      },
     );
   }
 

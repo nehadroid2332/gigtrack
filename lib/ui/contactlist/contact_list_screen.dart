@@ -162,9 +162,13 @@ class _ContactListScreenState
   String getNameOrder(String name) {
     List traversedname = name.split(" ");
     int namelength = traversedname.length;
+    if(traversedname.length>1){
     String lastname = "" + traversedname.last + ", ";
     traversedname.removeLast();
-    return lastname + "" + traversedname.join(' ');
+    return lastname + "" + traversedname.join(' ');}
+    else{
+      return traversedname.last;
+    }
   }
 
   @override

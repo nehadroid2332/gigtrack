@@ -93,10 +93,14 @@ class _BandListScreenState
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  "${bnd.name}",
+                                  "${bnd.name.toString()}",
                                   style: textTheme.headline.copyWith(
                                       color: Color.fromRGBO(135, 67, 125, 1.0),
-                                      fontSize: 18),
+                                      fontSize: 18,
+                                    
+                                  ),
+                                  
+                                  
                                 ),
                                 Padding(
                                   padding: EdgeInsets.all(0),

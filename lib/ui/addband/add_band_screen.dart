@@ -283,27 +283,7 @@ class _AddBandScreenState
                         Padding(
                           padding: EdgeInsets.all(5),
                         ),
-                        widget.id.isEmpty || isEdit
-                            ? Container()
-                            : Text(
-                                "Band Contact Info",
-                                textAlign: TextAlign.center,
-                                style: textTheme.subhead
-                                    .copyWith(fontWeight: FontWeight.w600),
-                              ),
-                        Padding(
-                          padding: EdgeInsets.all(5),
-                        ),
-                        widget.id.isEmpty || isEdit
-                            ? Container()
-                            : contactInfo.isEmpty
-                                ? Text("No Member Yet")
-                                : Column(
-                                    children: contactInfo,
-                                  ),
-                        Padding(
-                          padding: EdgeInsets.all(4),
-                        ),
+                    
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : Text(
@@ -316,7 +296,7 @@ class _AddBandScreenState
                             ? TextField(
                                 enabled: widget.id.isEmpty || isEdit,
                                 textCapitalization:
-                                    TextCapitalization.sentences,
+                                    TextCapitalization.words,
                                 controller: _bandNameController,
                                 decoration: InputDecoration(
                                   labelStyle: TextStyle(
@@ -560,6 +540,28 @@ class _AddBandScreenState
                                   );
                                 },
                               ),
+                        Padding(padding: EdgeInsets.all(5),),
+                        widget.id.isEmpty || isEdit
+                            ? Container()
+                            : Text(
+                          "Band Contact Info",
+                          textAlign: TextAlign.center,
+                          style: textTheme.subhead
+                              .copyWith(fontWeight: FontWeight.w600),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(3),
+                        ),
+                        widget.id.isEmpty || isEdit
+                            ? Container()
+                            : contactInfo.isEmpty
+                            ? Text("No Member Yet")
+                            : Column(
+                          children: contactInfo,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(4),
+                        ),
 
                         widget.id.isEmpty || isEdit
                             ? RaisedButton(
@@ -635,7 +637,7 @@ class _AddBandScreenState
               backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
               children: [
                 SpeedDialChild(
-                  label: "Activities",
+                  label: "Band Activities",
                   child: Icon(Icons.add),
                   backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
                   onTap: () async {
@@ -646,7 +648,7 @@ class _AddBandScreenState
                   },
                 ),
                 SpeedDialChild(
-                  label: "Contacts",
+                  label: "Band Contacts",
                   child: Icon(Icons.add),
                   backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
                   onTap: () async {
@@ -657,7 +659,7 @@ class _AddBandScreenState
                   },
                 ),
                 SpeedDialChild(
-                  label: "EPK",
+                  label: "Band EPK",
                   child: Icon(Icons.add),
                   backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
                   onTap: () async {
@@ -679,7 +681,7 @@ class _AddBandScreenState
                   },
                 ),
                 SpeedDialChild(
-                  label: "Equipment",
+                  label: "Band Equipment",
                   child: Icon(Icons.add),
                   backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
                   onTap: () async {
@@ -690,7 +692,7 @@ class _AddBandScreenState
                   },
                 ),
                 SpeedDialChild(
-                  label: "Notes",
+                  label: "Band Notes",
                   child: Icon(Icons.add),
                   backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
                   onTap: () async {
