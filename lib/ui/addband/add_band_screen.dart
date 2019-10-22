@@ -562,6 +562,105 @@ class _AddBandScreenState
                         Padding(
                           padding: EdgeInsets.all(4),
                         ),
+                        widget.id.isEmpty || isEdit
+                            ? Container()
+                            : FlatButton(
+                          child: Text(
+                            "Activites/Schedule",
+                            textAlign: TextAlign.center,
+                            style: textTheme.subhead
+                                .copyWith(fontWeight: FontWeight.w600),
+                          ),
+                          onPressed: () {
+                            widget.appListener.router.navigateTo(
+                                context,
+                                Screens.ACTIVITIESLIST.toString() +
+                                    "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                          },
+                        ),
+  
+                        widget.id.isEmpty || isEdit
+                            ? Container()
+                            : FlatButton(
+                          child: Text(
+                            "Contacts",
+                            textAlign: TextAlign.center,
+                            style: textTheme.subhead
+                                .copyWith(fontWeight: FontWeight.w600),
+                          ),
+                          onPressed: () {
+                            widget.appListener.router.navigateTo(
+                                context,
+                                Screens.CONTACTLIST.toString() +
+                                    "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                          },
+                        ),
+  
+                        widget.id.isEmpty || isEdit
+                            ? Container()
+                            : FlatButton(
+                          child: Text(
+                            "EPK",
+                            textAlign: TextAlign.center,
+                            style: textTheme.subhead
+                                .copyWith(fontWeight: FontWeight.w600),
+                          ),
+                          onPressed: () {
+                            widget.appListener.router.navigateTo(
+                                context,
+                                Screens.PLAYINGSTYLELIST.toString() +
+                                    "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                          },
+                        ),
+                        widget.id.isEmpty || isEdit
+                            ? Container()
+                            : FlatButton(
+                          child: Text(
+                            "Band Task",
+                            textAlign: TextAlign.center,
+                            style: textTheme.subhead
+                                .copyWith(fontWeight: FontWeight.w600),
+                          ),
+                          onPressed: () {
+                            widget.appListener.router.navigateTo(
+                                context,
+                                Screens.ACTIVITIESLIST.toString() +
+                                    "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                          },
+                        ),
+  
+                        widget.id.isEmpty || isEdit
+                            ? Container()
+                            : FlatButton(
+                          child: Text(
+                            "Equipment",
+                            textAlign: TextAlign.center,
+                            style: textTheme.subhead
+                                .copyWith(fontWeight: FontWeight.w600),
+                          ),
+                          onPressed: () {
+                            widget.appListener.router.navigateTo(
+                                context,
+                                Screens.INSTRUMENTLIST.toString() +
+                                    "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                          },
+                        ),
+                        widget.id.isEmpty || isEdit
+                            ? Container()
+                            : FlatButton(
+                          child: Text(
+                            "Notes",
+                            textAlign: TextAlign.center,
+                            style: textTheme.subhead
+                                .copyWith(fontWeight: FontWeight.w600),
+                          ),
+                          onPressed: () {
+                            widget.appListener.router.navigateTo(
+                                context,
+                                Screens.NOTETODOLIST.toString() +
+                                    "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                          },
+                        ),
 
                         widget.id.isEmpty || isEdit
                             ? RaisedButton(
@@ -629,81 +728,81 @@ class _AddBandScreenState
           )
         ],
       ),
-      floatingActionButton: widget.id.isEmpty || isEdit
-          ? Container()
-          : SpeedDial(
-              marginRight: 35,
-              animatedIcon: AnimatedIcons.menu_close,
-              backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
-              children: [
-                SpeedDialChild(
-                  label: "Band Activities",
-                  child: Icon(Icons.add),
-                  backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
-                  onTap: () async {
-                    widget.appListener.router.navigateTo(
-                        context,
-                        Screens.ACTIVITIESLIST.toString() +
-                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-                  },
-                ),
-                SpeedDialChild(
-                  label: "Band Contacts",
-                  child: Icon(Icons.add),
-                  backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
-                  onTap: () async {
-                    widget.appListener.router.navigateTo(
-                        context,
-                        Screens.CONTACTLIST.toString() +
-                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-                  },
-                ),
-                SpeedDialChild(
-                  label: "Band EPK",
-                  child: Icon(Icons.add),
-                  backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
-                  onTap: () async {
-                    widget.appListener.router.navigateTo(
-                        context,
-                        Screens.PLAYINGSTYLELIST.toString() +
-                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-                  },
-                ),
-                SpeedDialChild(
-                  label: "Band Task",
-                  child: Icon(Icons.add),
-                  backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
-                  onTap: () async {
-                    widget.appListener.router.navigateTo(
-                        context,
-                        Screens.ACTIVITIESLIST.toString() +
-                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-                  },
-                ),
-                SpeedDialChild(
-                  label: "Band Equipment",
-                  child: Icon(Icons.add),
-                  backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
-                  onTap: () async {
-                    widget.appListener.router.navigateTo(
-                        context,
-                        Screens.INSTRUMENTLIST.toString() +
-                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-                  },
-                ),
-                SpeedDialChild(
-                  label: "Band Notes",
-                  child: Icon(Icons.add),
-                  backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
-                  onTap: () async {
-                    widget.appListener.router.navigateTo(
-                        context,
-                        Screens.NOTETODOLIST.toString() +
-                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-                  },
-                ),
-              ],
-            ),
+//      floatingActionButton: widget.id.isEmpty || isEdit
+//          ? Container()
+//          : SpeedDial(
+//              marginRight: 35,
+//              animatedIcon: AnimatedIcons.menu_close,
+//              backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
+//              children: [
+//                SpeedDialChild(
+//                  label: "Band Activities",
+//                  child: Icon(Icons.add),
+//                  backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
+//                  onTap: () async {
+//                    widget.appListener.router.navigateTo(
+//                        context,
+//                        Screens.ACTIVITIESLIST.toString() +
+//                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+//                  },
+//                ),
+//                SpeedDialChild(
+//                  label: "Band Contacts",
+//                  child: Icon(Icons.add),
+//                  backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
+//                  onTap: () async {
+//                    widget.appListener.router.navigateTo(
+//                        context,
+//                        Screens.CONTACTLIST.toString() +
+//                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+//                  },
+//                ),
+//                SpeedDialChild(
+//                  label: "Band EPK",
+//                  child: Icon(Icons.add),
+//                  backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
+//                  onTap: () async {
+//                    widget.appListener.router.navigateTo(
+//                        context,
+//                        Screens.PLAYINGSTYLELIST.toString() +
+//                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+//                  },
+//                ),
+//                SpeedDialChild(
+//                  label: "Band Task",
+//                  child: Icon(Icons.add),
+//                  backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
+//                  onTap: () async {
+//                    widget.appListener.router.navigateTo(
+//                        context,
+//                        Screens.ACTIVITIESLIST.toString() +
+//                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+//                  },
+//                ),
+//                SpeedDialChild(
+//                  label: "Band Equipment",
+//                  child: Icon(Icons.add),
+//                  backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
+//                  onTap: () async {
+//                    widget.appListener.router.navigateTo(
+//                        context,
+//                        Screens.INSTRUMENTLIST.toString() +
+//                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+//                  },
+//                ),
+//                SpeedDialChild(
+//                  label: "Band Notes",
+//                  child: Icon(Icons.add),
+//                  backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
+//                  onTap: () async {
+//                    widget.appListener.router.navigateTo(
+//                        context,
+//                        Screens.NOTETODOLIST.toString() +
+//                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+//                  },
+//                ),
+//              ],
+//            ),
     );
   }
 

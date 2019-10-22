@@ -93,7 +93,7 @@ class Activites extends BaseModel {
     data['id'] = id ?? "";
     data['bandId'] = bandId;
     data['isRecurring'] = isRecurring;
-    data['taskCompleteDate'] = taskCompleteDate;
+    data['taskCompleteDate'] = taskCompleteDate ?? 0;
     data['parking'] = parking;
     data['wardrobe'] = wardrobe;
     data['other'] = other;

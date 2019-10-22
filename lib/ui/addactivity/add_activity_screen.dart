@@ -1222,18 +1222,17 @@ class _AddActivityScreenState
                           ? RaisedButton(
                               onPressed: () {
                                 if ((widget.type ==
-                                        Activites.TYPE_PRACTICE_SCHEDULE ||
-                                    widget.type ==
-                                        Activites.TYPE_PERFORMANCE_SCHEDULE)) {
-                                  if (_startTimeController.text.isEmpty)
+                                        Activites.TYPE_PRACTICE_SCHEDULE) ||( widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE)) {
+                                  if (_startTimeController.text.isEmpty) {
                                     showMessage(
                                         "Please select at least start time");
+                                  }
                                   else if (endTime.hourOfPeriod <
                                       startTime.hourOfPeriod) {
                                     showMessage(
                                         "End Time cannot be greater than Start Time");
                                   }
-                                } else {
+                                }
                                   String title = _titleController.text;
                                   String desc = _descController.text;
                                   String loc = _locController.text;
@@ -1332,7 +1331,7 @@ class _AddActivityScreenState
                                           activities, widget.isParent);
                                     }
                                   });
-                                }
+                                
                               },
                               color: Color.fromRGBO(32, 95, 139, 1.0),
                               child: Text("Submit"),

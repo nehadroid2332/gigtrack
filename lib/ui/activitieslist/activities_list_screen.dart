@@ -251,9 +251,8 @@ class _ActivitiesListScreenState
                     }
                     return 0;
                   });
-
-                  past.sort((a, b) =>
-                      a.taskCompleteDate.compareTo(b.taskCompleteDate));
+                  
+                  past.sort((a, b) => a.taskCompleteDate?? 0.compareTo(b.taskCompleteDate?? 0));
 
                   return ListView(
                     children: <Widget>[
@@ -332,9 +331,7 @@ class _ActivitiesListScreenState
                                   );
                                 },
                                     isPast: (ac.type == Activites.TYPE_TASK &&
-                                        ac.taskCompleteDate <
-                                            currentDate
-                                                .millisecondsSinceEpoch));
+                                        (past[index].taskCompleteDate!=null?  ac.taskCompleteDate:0) < currentDate.millisecondsSinceEpoch));
                               },
                             )
                           : Padding(
