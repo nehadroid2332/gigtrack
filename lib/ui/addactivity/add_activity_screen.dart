@@ -516,7 +516,7 @@ class _AddActivityScreenState
                                                 flex: 2,
                                                 child: Text(
                                                   //"Start time -" +
-                                                      _startTimeController.text,
+                                                  _startTimeController.text,
                                                   textAlign: TextAlign.right,
                                                 ),
                                               )
@@ -573,8 +573,8 @@ class _AddActivityScreenState
                                             ? Expanded(
                                                 flex: 2,
                                                 child: Text(
-                                                 // "End time - " +
-                                                      _endTimeController.text,
+                                                  // "End time - " +
+                                                  _endTimeController.text,
                                                   textAlign: TextAlign.left,
                                                 ),
                                               )
@@ -1027,11 +1027,25 @@ class _AddActivityScreenState
                                           ),
                                         ),
                                         Expanded(
-                                          child: Text(
-                                            _taskCompletion.text,
-                                            textAlign: TextAlign.left,
+                                          child: Row(
+                                            children: <Widget>[
+                                              Text(
+                                                _taskCompletion.text,
+                                                textAlign: TextAlign.left,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.all(2),
+                                              ),
+                                              InkWell(
+                                                child: Icon(Icons.delete),
+                                                onTap: () {
+                                                  presenter.removeDateCompleted(
+                                                      widget.id);
+                                                },
+                                              )
+                                            ],
                                           ),
-                                        )
+                                        ),
                                       ],
                                     )
                           : Container(),
@@ -1222,116 +1236,112 @@ class _AddActivityScreenState
                           ? RaisedButton(
                               onPressed: () {
                                 if ((widget.type ==
-                                        Activites.TYPE_PRACTICE_SCHEDULE) ||( widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE)) {
+                                        Activites.TYPE_PRACTICE_SCHEDULE) ||
+                                    (widget.type ==
+                                        Activites.TYPE_PERFORMANCE_SCHEDULE)) {
                                   if (_startTimeController.text.isEmpty) {
                                     showMessage(
                                         "Please select at least start time");
-                                  }
-                                  else if (endTime.hourOfPeriod <
+                                  } else if (endTime.hourOfPeriod <
                                       startTime.hourOfPeriod) {
                                     showMessage(
                                         "End Time cannot be greater than Start Time");
                                   }
                                 }
-                                  String title = _titleController.text;
-                                  String desc = _descController.text;
-                                  String loc = _locController.text;
-                                  String ward = _taskController.text;
-                                  String park = _parkingController.text;
-                                  String other = _otherController.text;
-                                  setState(() {
-                                    _titleError = null;
-                                    _descError = null;
-                                    _locError = null;
-                                    _dateError = null;
-                                    if (title.isEmpty) {
-                                      _titleError = "Cannot be Empty";
-                                    } else if (loc.isEmpty &&
+                                String title = _titleController.text;
+                                String desc = _descController.text;
+                                String loc = _locController.text;
+                                String ward = _taskController.text;
+                                String park = _parkingController.text;
+                                String other = _otherController.text;
+                                setState(() {
+                                  _titleError = null;
+                                  _descError = null;
+                                  _locError = null;
+                                  _dateError = null;
+                                  if (title.isEmpty) {
+                                    _titleError = "Cannot be Empty";
+                                  } else if (loc.isEmpty &&
+                                      widget.type == Activites.TYPE_ACTIVITY) {
+                                    _locError = "Cannot be Empty";
+                                  } else if (widget.type ==
+                                          Activites.TYPE_BAND_TASK &&
+                                      selectedBandMember == null) {
+                                    showMessage("Please select a band member");
+                                  } else {
+                                    DateTime dateTime, dateTime2;
+                                    if (widget.type ==
+                                            Activites.TYPE_PRACTICE_SCHEDULE ||
+                                        widget.type ==
+                                            Activites
+                                                .TYPE_PERFORMANCE_SCHEDULE ||
                                         widget.type ==
                                             Activites.TYPE_ACTIVITY) {
-                                      _locError = "Cannot be Empty";
-                                    } else if (widget.type ==
-                                            Activites.TYPE_BAND_TASK &&
-                                        selectedBandMember == null) {
-                                      showMessage(
-                                          "Please select a band member");
-                                    } else {
-                                      DateTime dateTime, dateTime2;
-                                      if (widget.type ==
-                                              Activites
-                                                  .TYPE_PRACTICE_SCHEDULE ||
-                                          widget.type ==
-                                              Activites
-                                                  .TYPE_PERFORMANCE_SCHEDULE ||
-                                          widget.type ==
-                                              Activites.TYPE_ACTIVITY) {
-                                        dateTime = DateTime(
-                                                startDate.year,
-                                                startDate.month,
-                                                startDate.day,
-                                                startTime.hour,
-                                                startTime.minute)
-                                            .toUtc();
-                                        dateTime2 = DateTime(
-                                                startDate.year,
-                                                startDate.month,
-                                                startDate.day,
-                                                endTime.hour,
-                                                endTime.minute)
-                                            .toUtc();
-                                      }
-                                      Activites activities = Activites(
-                                        title: title,
-                                        id: widget.id,
-                                        bandId: widget.bandId,
-                                        description: desc,
-                                        bandTaskId: selectedBand?.id,
-                                        bandTaskMemberId:
-                                            selectedBandMember?.id,
-                                        estCompleteDate: completionDate
-                                            ?.toUtc()
-                                            ?.millisecondsSinceEpoch,
-                                        isRecurring: isRecurring,
-                                        startDate: widget.type ==
-                                                    Activites
-                                                        .TYPE_PRACTICE_SCHEDULE ||
-                                                widget.type ==
-                                                    Activites
-                                                        .TYPE_PERFORMANCE_SCHEDULE ||
-                                                widget.type ==
-                                                    Activites.TYPE_ACTIVITY
-                                            ? dateTime
-                                                    ?.toUtc()
-                                                    ?.millisecondsSinceEpoch ??
-                                                0
-                                            : startDate
-                                                .toUtc()
-                                                .millisecondsSinceEpoch,
-                                        endDate: widget.type ==
-                                                    Activites
-                                                        .TYPE_PRACTICE_SCHEDULE ||
-                                                widget.type ==
-                                                    Activites
-                                                        .TYPE_PERFORMANCE_SCHEDULE ||
-                                                widget.type ==
-                                                    Activites.TYPE_ACTIVITY
-                                            ? dateTime2
-                                                    ?.toUtc()
-                                                    ?.millisecondsSinceEpoch ??
-                                                0
-                                            : 0,
-                                        location: loc,
-                                        type: widget.type,
-                                        parking: park,
-                                        wardrobe: ward,
-                                        other: other,
-                                      );
-                                      showLoading();
-                                      presenter.addActivity(
-                                          activities, widget.isParent);
+                                      dateTime = DateTime(
+                                              startDate.year,
+                                              startDate.month,
+                                              startDate.day,
+                                              startTime.hour,
+                                              startTime.minute)
+                                          .toUtc();
+                                      dateTime2 = DateTime(
+                                              startDate.year,
+                                              startDate.month,
+                                              startDate.day,
+                                              endTime.hour,
+                                              endTime.minute)
+                                          .toUtc();
                                     }
-                                  });
-                                
+                                    Activites activities = Activites(
+                                      title: title,
+                                      id: widget.id,
+                                      bandId: widget.bandId,
+                                      description: desc,
+                                      bandTaskId: selectedBand?.id,
+                                      bandTaskMemberId: selectedBandMember?.id,
+                                      estCompleteDate: completionDate
+                                          ?.toUtc()
+                                          ?.millisecondsSinceEpoch,
+                                      isRecurring: isRecurring,
+                                      startDate: widget.type ==
+                                                  Activites
+                                                      .TYPE_PRACTICE_SCHEDULE ||
+                                              widget.type ==
+                                                  Activites
+                                                      .TYPE_PERFORMANCE_SCHEDULE ||
+                                              widget.type ==
+                                                  Activites.TYPE_ACTIVITY
+                                          ? dateTime
+                                                  ?.toUtc()
+                                                  ?.millisecondsSinceEpoch ??
+                                              0
+                                          : startDate
+                                              .toUtc()
+                                              .millisecondsSinceEpoch,
+                                      endDate: widget.type ==
+                                                  Activites
+                                                      .TYPE_PRACTICE_SCHEDULE ||
+                                              widget.type ==
+                                                  Activites
+                                                      .TYPE_PERFORMANCE_SCHEDULE ||
+                                              widget.type ==
+                                                  Activites.TYPE_ACTIVITY
+                                          ? dateTime2
+                                                  ?.toUtc()
+                                                  ?.millisecondsSinceEpoch ??
+                                              0
+                                          : 0,
+                                      location: loc,
+                                      type: widget.type,
+                                      parking: park,
+                                      wardrobe: ward,
+                                      other: other,
+                                    );
+                                    showLoading();
+                                    presenter.addActivity(
+                                        activities, widget.isParent);
+                                  }
+                                });
                               },
                               color: Color.fromRGBO(32, 95, 139, 1.0),
                               child: Text("Submit"),
@@ -1419,7 +1429,8 @@ class _AddActivityScreenState
   void getActivityDetails(Activites activities) {
     hideLoading();
     setState(() {
-      if (activities.taskCompleteDate != null) {
+      if (activities.taskCompleteDate != null &&
+          activities.taskCompleteDate != 0) {
         DateTime completionDate =
             DateTime.fromMillisecondsSinceEpoch(activities.taskCompleteDate);
 
@@ -1522,7 +1533,6 @@ class _AddActivityScreenState
 
             new FlatButton(
               child: new Text("Yes"),
-             
               onPressed: () {
                 if (widget.id == null || widget.id.isEmpty) {
                   showMessage("Id cannot be null");

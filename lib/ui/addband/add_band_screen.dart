@@ -283,7 +283,7 @@ class _AddBandScreenState
                         Padding(
                           padding: EdgeInsets.all(5),
                         ),
-                    
+
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : Text(
@@ -295,8 +295,7 @@ class _AddBandScreenState
                         widget.id.isEmpty || isEdit
                             ? TextField(
                                 enabled: widget.id.isEmpty || isEdit,
-                                textCapitalization:
-                                    TextCapitalization.words,
+                                textCapitalization: TextCapitalization.words,
                                 controller: _bandNameController,
                                 decoration: InputDecoration(
                                   labelStyle: TextStyle(
@@ -529,138 +528,140 @@ class _AddBandScreenState
                                     subtitle: Padding(
                                       padding: EdgeInsets.only(top: 5),
                                       child: Text(
-                                        "Role - ${user.memberRole}\nPermission - $permission",
+                                        "Role - ${user.memberRole.join(',')} Permission - $permission",
                                         style: textTheme.subhead.copyWith(
                                           color:
                                               Color.fromRGBO(135, 67, 125, 1.0),
-                                          fontSize: 14,
+                                          fontSize: 12,
                                         ),
                                       ),
                                     ),
                                   );
                                 },
                               ),
-                        Padding(padding: EdgeInsets.all(5),),
+                        Padding(
+                          padding: EdgeInsets.all(5),
+                        ),
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : Text(
-                          "Band Contact Info",
-                          textAlign: TextAlign.center,
-                          style: textTheme.subhead
-                              .copyWith(fontWeight: FontWeight.w600),
-                        ),
+                                "Band Contact Info",
+                                textAlign: TextAlign.center,
+                                style: textTheme.subhead
+                                    .copyWith(fontWeight: FontWeight.w600),
+                              ),
                         Padding(
                           padding: EdgeInsets.all(3),
                         ),
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : contactInfo.isEmpty
-                            ? Text("No Member Yet")
-                            : Column(
-                          children: contactInfo,
-                        ),
+                                ? Text("No Member Yet")
+                                : Column(
+                                    children: contactInfo,
+                                  ),
                         Padding(
                           padding: EdgeInsets.all(4),
                         ),
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : FlatButton(
-                          child: Text(
-                            "Activites/Schedule",
-                            textAlign: TextAlign.center,
-                            style: textTheme.subhead
-                                .copyWith(fontWeight: FontWeight.w600),
-                          ),
-                          onPressed: () {
-                            widget.appListener.router.navigateTo(
-                                context,
-                                Screens.ACTIVITIESLIST.toString() +
-                                    "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-                          },
-                        ),
-  
+                                child: Text(
+                                  "Activites/Schedule",
+                                  textAlign: TextAlign.center,
+                                  style: textTheme.subhead
+                                      .copyWith(fontWeight: FontWeight.w600),
+                                ),
+                                onPressed: () {
+                                  widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.ACTIVITIESLIST.toString() +
+                                          "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                                },
+                              ),
+
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : FlatButton(
-                          child: Text(
-                            "Contacts",
-                            textAlign: TextAlign.center,
-                            style: textTheme.subhead
-                                .copyWith(fontWeight: FontWeight.w600),
-                          ),
-                          onPressed: () {
-                            widget.appListener.router.navigateTo(
-                                context,
-                                Screens.CONTACTLIST.toString() +
-                                    "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-                          },
-                        ),
-  
+                                child: Text(
+                                  "Contacts",
+                                  textAlign: TextAlign.center,
+                                  style: textTheme.subhead
+                                      .copyWith(fontWeight: FontWeight.w600),
+                                ),
+                                onPressed: () {
+                                  widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.CONTACTLIST.toString() +
+                                          "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                                },
+                              ),
+
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : FlatButton(
-                          child: Text(
-                            "EPK",
-                            textAlign: TextAlign.center,
-                            style: textTheme.subhead
-                                .copyWith(fontWeight: FontWeight.w600),
-                          ),
-                          onPressed: () {
-                            widget.appListener.router.navigateTo(
-                                context,
-                                Screens.PLAYINGSTYLELIST.toString() +
-                                    "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-                          },
-                        ),
+                                child: Text(
+                                  "EPK",
+                                  textAlign: TextAlign.center,
+                                  style: textTheme.subhead
+                                      .copyWith(fontWeight: FontWeight.w600),
+                                ),
+                                onPressed: () {
+                                  widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.PLAYINGSTYLELIST.toString() +
+                                          "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                                },
+                              ),
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : FlatButton(
-                          child: Text(
-                            "Band Task",
-                            textAlign: TextAlign.center,
-                            style: textTheme.subhead
-                                .copyWith(fontWeight: FontWeight.w600),
-                          ),
-                          onPressed: () {
-                            widget.appListener.router.navigateTo(
-                                context,
-                                Screens.ACTIVITIESLIST.toString() +
-                                    "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-                          },
-                        ),
-  
+                                child: Text(
+                                  "Band Task",
+                                  textAlign: TextAlign.center,
+                                  style: textTheme.subhead
+                                      .copyWith(fontWeight: FontWeight.w600),
+                                ),
+                                onPressed: () {
+                                  widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.ACTIVITIESLIST.toString() +
+                                          "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                                },
+                              ),
+
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : FlatButton(
-                          child: Text(
-                            "Equipment",
-                            textAlign: TextAlign.center,
-                            style: textTheme.subhead
-                                .copyWith(fontWeight: FontWeight.w600),
-                          ),
-                          onPressed: () {
-                            widget.appListener.router.navigateTo(
-                                context,
-                                Screens.INSTRUMENTLIST.toString() +
-                                    "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-                          },
-                        ),
+                                child: Text(
+                                  "Equipment",
+                                  textAlign: TextAlign.center,
+                                  style: textTheme.subhead
+                                      .copyWith(fontWeight: FontWeight.w600),
+                                ),
+                                onPressed: () {
+                                  widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.INSTRUMENTLIST.toString() +
+                                          "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                                },
+                              ),
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : FlatButton(
-                          child: Text(
-                            "Notes",
-                            textAlign: TextAlign.center,
-                            style: textTheme.subhead
-                                .copyWith(fontWeight: FontWeight.w600),
-                          ),
-                          onPressed: () {
-                            widget.appListener.router.navigateTo(
-                                context,
-                                Screens.NOTETODOLIST.toString() +
-                                    "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-                          },
-                        ),
+                                child: Text(
+                                  "Notes",
+                                  textAlign: TextAlign.center,
+                                  style: textTheme.subhead
+                                      .copyWith(fontWeight: FontWeight.w600),
+                                ),
+                                onPressed: () {
+                                  widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.NOTETODOLIST.toString() +
+                                          "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                                },
+                              ),
 
                         widget.id.isEmpty || isEdit
                             ? RaisedButton(

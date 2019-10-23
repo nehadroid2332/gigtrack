@@ -106,4 +106,13 @@ class AddActivityPresenter extends BasePresenter {
     }
     (view as AddActivityContract).getUserBands(acc);
   }
+
+  void removeDateCompleted(String id) async {
+    final res = await serverAPI.getActivityDetails(id);
+    if (res is Activites) {
+      res.taskCompleteDate = null;
+      await serverAPI.addActivities(res);
+      getActivityDetails(id);
+    }
+  }
 }

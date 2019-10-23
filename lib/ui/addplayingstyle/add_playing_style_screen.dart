@@ -429,13 +429,12 @@ class _AddPlayingStyleScreenState
     }
     if (expss.isNotEmpty) expss = expss.substring(0, expss.length - 1);
     String plyss = "";
-  
-    if (plyss.isNotEmpty) plyss = plyss.substring(0, plyss.length - 1 );
+
+    if (plyss.isNotEmpty) plyss = plyss.substring(0, plyss.length - 1);
     psList.join(",");
-    
+
     for (String s in psList) {
       plyss += s + " , ";
-      
     }
     return Stack(
       children: <Widget>[
@@ -506,13 +505,19 @@ class _AddPlayingStyleScreenState
                       ),
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : user != null
+                          : widget.bandId.isNotEmpty
                               ? Text(
-                                  "${user?.firstName} ${user?.lastName}",
+                                  "${_nameBandController.text}",
                                   textAlign: TextAlign.center,
                                   style: textTheme.headline,
                                 )
-                              : Container(),
+                              : user != null
+                                  ? Text(
+                                      "${user?.firstName} ${user?.lastName}",
+                                      textAlign: TextAlign.center,
+                                      style: textTheme.headline,
+                                    )
+                                  : Container(),
                       Padding(
                         padding: EdgeInsets.all(4),
                       ),
@@ -611,7 +616,8 @@ class _AddPlayingStyleScreenState
                                         ),
                                       ),
                                     )
-                                  : _ageController.text.isNotEmpty
+                                  : _ageController.text.isNotEmpty &&
+                                          widget.bandId.isEmpty
                                       ? Text(
                                           "Playing since age  ${_ageController.text}",
                                           textAlign: TextAlign.center,
@@ -1001,7 +1007,7 @@ class _AddPlayingStyleScreenState
                                     ),
                                     Expanded(
                                       child: Text(
-                                        selectedEducation,
+                                        selectedEducation ?? "",
                                         textAlign: TextAlign.left,
                                       ),
                                       flex: 5,
