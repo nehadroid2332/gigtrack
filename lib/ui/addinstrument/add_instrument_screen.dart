@@ -381,7 +381,7 @@ class _AddInstrumentScreenState
                             )
                           : Container(),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding:_instrumentNickNameController.text.isEmpty?EdgeInsets.all(0): EdgeInsets.all(5),
                       ),
                       widget.id.isEmpty || isEdit ? Container() : Container(),
                       widget.id.isEmpty || isEdit
@@ -421,6 +421,7 @@ class _AddInstrumentScreenState
                                       child: Text(
                                         " - ",
                                         textAlign: TextAlign.center,
+                                        
                                       ),
                                       flex: 1,
                                     ),
@@ -434,9 +435,9 @@ class _AddInstrumentScreenState
                                   ],
                                 ),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: _wherePurchaseController.text.isEmpty?EdgeInsets.all(0): EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty || isEdit ? Container() : Container(),
+                      widget.id.isEmpty || isEdit ?
                       ShowUp(
                         child: !_ispurchaseDate
                             ? new GestureDetector(
@@ -457,7 +458,7 @@ class _AddInstrumentScreenState
                               )
                             : Container(),
                         delay: 1000,
-                      ),
+                      ):Container(),
                       _ispurchaseDate || widget.id.isNotEmpty
                           ? Container(
                               child: Column(
@@ -477,7 +478,7 @@ class _AddInstrumentScreenState
                                         )
                                       : Container(),
                                   Padding(
-                                    padding: EdgeInsets.all(3),
+                                    padding:_purchaseDateController.text.isEmpty?EdgeInsets.all(0): EdgeInsets.all(3),
                                   ),
                                   widget.id.isEmpty || isEdit
                                       ? GestureDetector(
@@ -581,7 +582,7 @@ class _AddInstrumentScreenState
                           : Container(),
 
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding:_purchaseDateController.text.isEmpty?EdgeInsets.all(0): EdgeInsets.all(5),
                       ),
                       widget.id.isEmpty || isEdit
                           ? TextField(
@@ -634,7 +635,7 @@ class _AddInstrumentScreenState
                                   ],
                                 ),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: _costController.text.isEmpty?EdgeInsets.all(0):EdgeInsets.all(5),
                       ),
                       widget.id.isEmpty || isEdit ? Container() : Container(),
 //                      Text(
@@ -663,7 +664,7 @@ class _AddInstrumentScreenState
                                 color: Colors.black,
                               ),
                             )
-                          : Row(
+                          :_serialNumberController.text.isEmpty?Container(): Row(
                               children: <Widget>[
                                 Expanded(
                                   flex: 5,
@@ -692,7 +693,7 @@ class _AddInstrumentScreenState
                               ],
                             ),
                       Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: _serialNumberController.text.isEmpty?EdgeInsets.all(0):EdgeInsets.all(10),
                       ),
                       widget.id.isEmpty || isEdit ? Container() : Container(),
                       ShowUp(
@@ -775,7 +776,7 @@ class _AddInstrumentScreenState
                                               ],
                                             ),
                                   Padding(
-                                    padding: EdgeInsets.all(5),
+                                    padding:_warrantyController.text.isEmpty?EdgeInsets.all(0): EdgeInsets.all(5),
                                   ),
                                   ShowUp(
                                     child: !_iswarrantydate
@@ -939,7 +940,7 @@ class _AddInstrumentScreenState
                                       : Container(),
                                   Padding(
                                     padding:
-                                        EdgeInsets.all(_eDateType == 0 ? 5 : 5),
+                                    _warrantyEndController.text.isEmpty?EdgeInsets.all(0):EdgeInsets.all(_eDateType == 0 ? 5 : 5),
                                   ),
                                 ],
                               ),
@@ -947,7 +948,7 @@ class _AddInstrumentScreenState
                           : Container(),
 
                       Padding(
-                        padding: EdgeInsets.all(10),
+                        padding:_warrantyEndController.text.isEmpty?EdgeInsets.all(0): EdgeInsets.all(10),
                       ),
                       ShowUp(
                         child: !_isinsuranceInfo
@@ -1024,7 +1025,7 @@ class _AddInstrumentScreenState
                                   : Container()
                           : Container(),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding:_insuredController.text.isEmpty?EdgeInsets.all(0): EdgeInsets.all(5),
                       ),
                       _isinsuranceInfo || widget.id.isNotEmpty
                           ? widget.id.isEmpty || isEdit

@@ -144,7 +144,7 @@ class _PlayingStyleListScreenState
       floatingActionButton: ((widget.bandId != null && widget.isLeader) ||
                   widget.bandId.isEmpty) &&
               playingStyleList.length < 1
-          ? FloatingActionButton(
+          ? list.isEmpty==true?FloatingActionButton(
               onPressed: () async {
                 await widget.appListener.router.navigateTo(
                     context,
@@ -153,7 +153,7 @@ class _PlayingStyleListScreenState
               },
               child: Icon(Icons.add),
               backgroundColor: Color.fromRGBO(124, 180, 97, 1.0),
-            )
+            ):Container()
           : Container(),
     );
   }

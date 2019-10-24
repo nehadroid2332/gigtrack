@@ -584,39 +584,6 @@ class _AddBandScreenState
                             ? Container()
                             : FlatButton(
                                 child: Text(
-                                  "Contacts",
-                                  textAlign: TextAlign.center,
-                                  style: textTheme.subhead
-                                      .copyWith(fontWeight: FontWeight.w600),
-                                ),
-                                onPressed: () {
-                                  widget.appListener.router.navigateTo(
-                                      context,
-                                      Screens.CONTACTLIST.toString() +
-                                          "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-                                },
-                              ),
-
-                        widget.id.isEmpty || isEdit
-                            ? Container()
-                            : FlatButton(
-                                child: Text(
-                                  "EPK",
-                                  textAlign: TextAlign.center,
-                                  style: textTheme.subhead
-                                      .copyWith(fontWeight: FontWeight.w600),
-                                ),
-                                onPressed: () {
-                                  widget.appListener.router.navigateTo(
-                                      context,
-                                      Screens.PLAYINGSTYLELIST.toString() +
-                                          "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-                                },
-                              ),
-                        widget.id.isEmpty || isEdit
-                            ? Container()
-                            : FlatButton(
-                                child: Text(
                                   "Band Task",
                                   textAlign: TextAlign.center,
                                   style: textTheme.subhead
@@ -629,6 +596,23 @@ class _AddBandScreenState
                                           "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
                                 },
                               ),
+  
+                        widget.id.isEmpty || isEdit
+                            ? Container()
+                            : FlatButton(
+                          child: Text(
+                            "Contacts",
+                            textAlign: TextAlign.center,
+                            style: textTheme.subhead
+                                .copyWith(fontWeight: FontWeight.w600),
+                          ),
+                          onPressed: () {
+                            widget.appListener.router.navigateTo(
+                                context,
+                                Screens.CONTACTLIST.toString() +
+                                    "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                          },
+                        ),
 
                         widget.id.isEmpty || isEdit
                             ? Container()
@@ -646,6 +630,23 @@ class _AddBandScreenState
                                           "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
                                 },
                               ),
+  
+                        widget.id.isEmpty || isEdit
+                            ? Container()
+                            : FlatButton(
+                          child: Text(
+                            "EPK",
+                            textAlign: TextAlign.center,
+                            style: textTheme.subhead
+                                .copyWith(fontWeight: FontWeight.w600),
+                          ),
+                          onPressed: () {
+                            widget.appListener.router.navigateTo(
+                                context,
+                                Screens.PLAYINGSTYLELIST.toString() +
+                                    "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                          },
+                        ),
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : FlatButton(
@@ -662,6 +663,19 @@ class _AddBandScreenState
                                           "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
                                 },
                               ),
+                        widget.id.isEmpty || isEdit
+                            ? Container()
+                            : FlatButton(
+                          child: Text(
+                            "Stage Plot & DI Set up",
+                            textAlign: TextAlign.center,
+                            style: textTheme.subhead
+                                .copyWith(fontWeight: FontWeight.w600),
+                          ),
+                          onPressed: () {
+                          
+                          },
+                        ),
 
                         widget.id.isEmpty || isEdit
                             ? RaisedButton(

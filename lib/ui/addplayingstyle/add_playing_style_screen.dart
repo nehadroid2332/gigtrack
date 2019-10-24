@@ -429,12 +429,13 @@ class _AddPlayingStyleScreenState
     }
     if (expss.isNotEmpty) expss = expss.substring(0, expss.length - 1);
     String plyss = "";
-
-    if (plyss.isNotEmpty) plyss = plyss.substring(0, plyss.length - 1);
+  
+    if (plyss.isNotEmpty) plyss = plyss.substring(0, plyss.length - 1 );
     psList.join(",");
-
+    
     for (String s in psList) {
       plyss += s + " , ";
+      
     }
     return Stack(
       children: <Widget>[
@@ -505,19 +506,13 @@ class _AddPlayingStyleScreenState
                       ),
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : widget.bandId.isNotEmpty
+                          : user != null
                               ? Text(
-                                  "${_nameBandController.text}",
+                                  "${user?.firstName} ${user?.lastName}",
                                   textAlign: TextAlign.center,
                                   style: textTheme.headline,
                                 )
-                              : user != null
-                                  ? Text(
-                                      "${user?.firstName} ${user?.lastName}",
-                                      textAlign: TextAlign.center,
-                                      style: textTheme.headline,
-                                    )
-                                  : Container(),
+                              : Container(),
                       Padding(
                         padding: EdgeInsets.all(4),
                       ),
@@ -616,8 +611,7 @@ class _AddPlayingStyleScreenState
                                         ),
                                       ),
                                     )
-                                  : _ageController.text.isNotEmpty &&
-                                          widget.bandId.isEmpty
+                                  : _ageController.text.isNotEmpty
                                       ? Text(
                                           "Playing since age  ${_ageController.text}",
                                           textAlign: TextAlign.center,
@@ -987,13 +981,24 @@ class _AddPlayingStyleScreenState
                                   ],
                                 ),
                           widget.id.isEmpty || isEdit
-                              ? Container()
+                              ? TextField(
+                            enabled: widget.id.isEmpty || isEdit,
+                            controller: _earnController,
+                            decoration: InputDecoration(
+                              labelText:
+                              "What did you earn your academic degree in",
+                              labelStyle: TextStyle(
+                                color:
+                                widget.appListener.primaryColorDark,
+                              ),
+                            ),
+                          )
                               : Row(
                                   children: <Widget>[
                                     Expanded(
                                       flex: 5,
                                       child: Text(
-                                        "Degree",
+                                        selectedEducation,
                                         textAlign: TextAlign.right,
                                         style: textTheme.subtitle.copyWith(),
                                       ),
@@ -1007,7 +1012,7 @@ class _AddPlayingStyleScreenState
                                     ),
                                     Expanded(
                                       child: Text(
-                                        selectedEducation ?? "",
+                                        _earnController.text,
                                         textAlign: TextAlign.left,
                                       ),
                                       flex: 5,
