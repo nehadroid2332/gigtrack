@@ -556,6 +556,8 @@ class _ActivitiesListScreenState
               ? SpeedDial(
                   animatedIcon: AnimatedIcons.menu_close,
                   backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
+                  overlayColor: Colors.white,
+                  overlayOpacity: 1.0,
                   children: items,
                 )
               : Container(),
