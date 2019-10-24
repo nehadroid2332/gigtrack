@@ -1,7 +1,9 @@
 import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/user_playing_style.dart';
 
-abstract class PlayingStyleListContract extends BaseContract {}
+abstract class PlayingStyleListContract extends BaseContract {
+  void onData(List<UserPlayingStyle> acc);
+}
 
 class PlayingStyleListPresenter extends BasePresenter {
   PlayingStyleListPresenter(BaseContract view) : super(view);
@@ -19,6 +21,7 @@ class PlayingStyleListPresenter extends BasePresenter {
         for (var d in mp.values) {
           acc.add(UserPlayingStyle.fromJSON(d));
         }
+        (view as PlayingStyleListContract).onData(acc);
         return acc;
       });
     else
@@ -33,6 +36,7 @@ class PlayingStyleListPresenter extends BasePresenter {
         for (var d in mp.values) {
           acc.add(UserPlayingStyle.fromJSON(d));
         }
+        (view as PlayingStyleListContract).onData(acc);
         return acc;
       });
   }

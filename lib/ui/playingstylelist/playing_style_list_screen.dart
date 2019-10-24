@@ -32,6 +32,8 @@ class _PlayingStyleListScreenState
 
   Stream<List<UserPlayingStyle>> list;
 
+  int count = 0;
+
   @override
   void initState() {
     super.initState();
@@ -143,7 +145,7 @@ class _PlayingStyleListScreenState
       ),
       floatingActionButton: ((widget.bandId != null && widget.isLeader) ||
                   widget.bandId.isEmpty) &&
-              playingStyleList.length < 1
+              count < 1
           ? FloatingActionButton(
               onPressed: () async {
                 await widget.appListener.router.navigateTo(
@@ -160,4 +162,21 @@ class _PlayingStyleListScreenState
 
   @override
   PlayingStyleListPresenter get presenter => PlayingStyleListPresenter(this);
+
+  @override
+  void onData(List<UserPlayingStyle> acc) {
+    setState(() {
+      count = acc.length;
+    });
+    if (count > 0) {
+      if ((widget.isLeader && widget.bandId.isNotEmpty) ||
+          widget.bandId.isEmpty) {
+        UserPlayingStyle userPlayingStyle = acc[0];
+        widget.appListener.router.navigateTo(
+            context,
+            Screens.ADDPLAYINGSTYLE.toString() +
+                "/${userPlayingStyle.id}/${widget.bandId}////");
+      }
+    }
+  }
 }

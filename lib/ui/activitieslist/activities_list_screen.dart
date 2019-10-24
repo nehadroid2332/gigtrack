@@ -5,6 +5,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/activities.dart';
+import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/ui/activitieslist/activities_list_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 
@@ -33,9 +34,12 @@ class _ActivitiesListScreenState
   List<Activites> activities = <Activites>[];
   Stream<List<Activites>> list;
 
+  List<Band> myBands = [];
+
   @override
   void initState() {
     super.initState();
+    presenter.getBands();
     list = presenter.getList(widget.bandId);
   }
 
@@ -169,6 +173,7 @@ class _ActivitiesListScreenState
                   List<Activites> upcoming = [];
                   List<Activites> past = [];
                   List<Activites> recurring = [];
+                  List<Activites> bandActivities = [];
 
                   DateTime currentDate = DateTime.now().toLocal();
                   for (var ac in activities) {
@@ -185,7 +190,12 @@ class _ActivitiesListScreenState
                     if (endDate != null) {
                       days2 = currentDate.difference(endDate).inDays;
                     }
-                    if (ac.isRecurring) {
+                    bool check = myBands.any((a) {
+                      return a.id == ac.bandId;
+                    });
+                    if (check) {
+                      bandActivities.add(ac);
+                    } else if (ac.isRecurring) {
                       recurring.add(ac);
                     } else if (days == 0 || (days2 != null && days2 == 0)) {
                       current.add(ac);
@@ -251,8 +261,10 @@ class _ActivitiesListScreenState
                     }
                     return 0;
                   });
-                  
-                  past.sort((a, b) => a.taskCompleteDate?? 0.compareTo(b.taskCompleteDate?? 0));
+
+                  past.sort((a, b) =>
+                      a.taskCompleteDate ??
+                      0.compareTo(b.taskCompleteDate ?? 0));
 
                   return ListView(
                     children: <Widget>[
@@ -331,7 +343,11 @@ class _ActivitiesListScreenState
                                   );
                                 },
                                     isPast: (ac.type == Activites.TYPE_TASK &&
-                                        (past[index].taskCompleteDate!=null?  ac.taskCompleteDate:0) < currentDate.millisecondsSinceEpoch));
+                                        (past[index].taskCompleteDate != null
+                                                ? ac.taskCompleteDate
+                                                : 0) <
+                                            currentDate
+                                                .millisecondsSinceEpoch));
                               },
                             )
                           : Padding(
@@ -366,7 +382,39 @@ class _ActivitiesListScreenState
                                 child: Text("No Recurring Activities"),
                               ),
                               padding: EdgeInsets.symmetric(vertical: 10),
+                            ),
+                      widget.bandId.isEmpty
+                          ? Text(
+                              "Band Activities",
+                              style: textTheme.display1.copyWith(fontSize: 28),
+                              textAlign: TextAlign.center,
                             )
+                          : Container(),
+                      widget.bandId.isEmpty
+                          ? bandActivities.length > 0
+                              ? ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: bandActivities.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    Activites ac = bandActivities[index];
+                                    return buildActivityListItem(ac, onTap: () {
+                                      widget.appListener.router.navigateTo(
+                                        context,
+                                        Screens.ADDACTIVITY.toString() +
+                                            "/${ac.type}/${ac.id}/${false}/${widget.bandId}////",
+                                      );
+                                    }, isPast: false);
+                                  },
+                                )
+                              : Padding(
+                                  child: Center(
+                                    child: Text("No Band Activities"),
+                                  ),
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                )
+                          : Container()
                     ],
                   );
 
@@ -513,9 +561,10 @@ class _ActivitiesListScreenState
               : Container(),
     );
   }
+
   showDialogConfirm() {
     // flutter defined function
-  
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -523,7 +572,7 @@ class _ActivitiesListScreenState
         return AlertDialog(
           contentPadding: EdgeInsets.all(15),
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           title: new Text(
             "Information!",
             textAlign: TextAlign.center,
@@ -532,8 +581,10 @@ class _ActivitiesListScreenState
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new RaisedButton(
-              child: new Text("Dismiss",
-                textAlign: TextAlign.center,),
+              child: new Text(
+                "Dismiss",
+                textAlign: TextAlign.center,
+              ),
               textColor: Colors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
@@ -542,7 +593,6 @@ class _ActivitiesListScreenState
                 Navigator.of(context).pop();
               },
             ),
-        
           ],
         );
       },
@@ -551,4 +601,11 @@ class _ActivitiesListScreenState
 
   @override
   ActivitiesListPresenter get presenter => ActivitiesListPresenter(this);
+
+  @override
+  void getBands(List<Band> acc) {
+    setState(() {
+      myBands = acc;
+    });
+  }
 }

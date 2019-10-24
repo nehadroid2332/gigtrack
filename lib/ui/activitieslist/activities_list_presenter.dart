@@ -1,13 +1,17 @@
 import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/activities.dart';
+import 'package:gigtrack/server/models/band.dart';
+import 'package:gigtrack/server/models/user.dart';
 
-abstract class ActivitiesListContract extends BaseContract {}
+abstract class ActivitiesListContract extends BaseContract {
+  void getBands(List<Band> acc);
+}
 
 class ActivitiesListPresenter extends BasePresenter {
   ActivitiesListPresenter(BaseContract view) : super(view);
 
   Stream<List<Activites>> getList(String bandId) {
-    if (bandId != null)
+    if (bandId != null) {
       return serverAPI.activitiesDB
           .orderByChild('bandId')
           .equalTo(bandId)
@@ -21,7 +25,7 @@ class ActivitiesListPresenter extends BasePresenter {
         }
         return acc;
       });
-    else
+    } else {
       return serverAPI.activitiesDB
           .orderByChild('user_id')
           .equalTo(serverAPI.currentUserId)
@@ -35,5 +39,23 @@ class ActivitiesListPresenter extends BasePresenter {
         }
         return acc;
       });
+    }
+  }
+
+  void getBands() async {
+    final res = await serverAPI.bandDB.orderByChild("key").once();
+    Map mp = res.value;
+    List<Band> acc = [];
+    if (mp != null) {
+      for (var d in mp.values) {
+        Band band = Band.fromJSON(d);
+        if (band.userId == serverAPI.currentUserId ||
+            band.bandmates.keys
+                .contains(serverAPI.currentUserEmail.replaceAll(".", ""))) {
+          acc.add(band);
+        }
+      }
+    }
+    (view as ActivitiesListContract).getBands(acc);
   }
 }
