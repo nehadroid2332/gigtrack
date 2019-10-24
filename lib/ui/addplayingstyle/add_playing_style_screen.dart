@@ -1237,8 +1237,9 @@ class _AddPlayingStyleScreenState
                                     bandEmail: _emailBandController.text,
                                     bandName: _nameBandController.text,
                                     bandWebsite: _websiteBandController.text,
-                                    age: _ageController.text,
-                                    year: _yearController.text,
+                                    age: showage ? _ageController.text : null,
+                                    year:
+                                        showYear ? _yearController.text : null,
                                     experience: List.from(exList.keys),
                                     listSchool: _listSchoolController.text,
                                     viewerKnow: _expController.text,

@@ -383,38 +383,38 @@ class _ActivitiesListScreenState
                               ),
                               padding: EdgeInsets.symmetric(vertical: 10),
                             ),
-                      widget.bandId.isEmpty
-                          ? Text(
-                              "Band Activities",
-                              style: textTheme.display1.copyWith(fontSize: 28),
-                              textAlign: TextAlign.center,
-                            )
-                          : Container(),
-                      widget.bandId.isEmpty
-                          ? bandActivities.length > 0
-                              ? ListView.builder(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: bandActivities.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    Activites ac = bandActivities[index];
-                                    return buildActivityListItem(ac, onTap: () {
-                                      widget.appListener.router.navigateTo(
-                                        context,
-                                        Screens.ADDACTIVITY.toString() +
-                                            "/${ac.type}/${ac.id}/${false}/${widget.bandId}////",
-                                      );
-                                    }, isPast: false);
-                                  },
-                                )
-                              : Padding(
-                                  child: Center(
-                                    child: Text("No Band Activities"),
-                                  ),
-                                  padding: EdgeInsets.symmetric(vertical: 10),
-                                )
-                          : Container()
+                      // widget.bandId.isEmpty
+                      //     ? Text(
+                      //         "Band Activities",
+                      //         style: textTheme.display1.copyWith(fontSize: 28),
+                      //         textAlign: TextAlign.center,
+                      //       )
+                      //     : Container(),
+                      // widget.bandId.isEmpty
+                      //     ? bandActivities.length > 0
+                      //         ? ListView.builder(
+                      //             physics: NeverScrollableScrollPhysics(),
+                      //             shrinkWrap: true,
+                      //             itemCount: bandActivities.length,
+                      //             itemBuilder:
+                      //                 (BuildContext context, int index) {
+                      //               Activites ac = bandActivities[index];
+                      //               return buildActivityListItem(ac, onTap: () {
+                      //                 widget.appListener.router.navigateTo(
+                      //                   context,
+                      //                   Screens.ADDACTIVITY.toString() +
+                      //                       "/${ac.type}/${ac.id}/${false}/${widget.bandId}////",
+                      //                 );
+                      //               }, isPast: false);
+                      //             },
+                      //           )
+                      //         : Padding(
+                      //             child: Center(
+                      //               child: Text("No Band Activities"),
+                      //             ),
+                      //             padding: EdgeInsets.symmetric(vertical: 10),
+                      //           )
+                      //     : Container()
                     ],
                   );
 
