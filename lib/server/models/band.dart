@@ -1,7 +1,5 @@
 import 'package:gigtrack/base/base_model.dart';
 import 'package:gigtrack/server/models/band_member.dart';
-import 'package:gigtrack/server/models/contacts.dart';
-import 'package:gigtrack/server/models/user.dart';
 
 class Band extends BaseModel {
   String name;

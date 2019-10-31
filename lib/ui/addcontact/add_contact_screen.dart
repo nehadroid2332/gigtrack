@@ -446,27 +446,62 @@ class _AddContactScreenState
                       ),
                       _currentRelation || isEdit
                           ? _relationshipType == "Other"
-                              ? TextField(
-                                  enabled: widget.id.isEmpty || isEdit,
-                                  controller: _otherRelationshipController,
-                                  textCapitalization:
-                                      TextCapitalization.sentences,
-                                  decoration: InputDecoration(
-                                    labelStyle: TextStyle(
-                                      color: Color.fromRGBO(202, 208, 215, 1.0),
-                                    ),
-                                    labelText: widget.id.isNotEmpty
-                                        ? ""
-                                        : "Other info here",
-                                    errorText: _errorRelationship,
-                                    border: widget.id.isEmpty || isEdit
-                                        ? null
-                                        : InputBorder.none,
-                                  ),
-                                  style: textTheme.subhead.copyWith(
-                                    color: Colors.black,
-                                  ),
-                                )
+                              ? widget.id.isEmpty || isEdit
+                                  ? TextField(
+                                      enabled: widget.id.isEmpty || isEdit,
+                                      controller: _otherRelationshipController,
+                                      textCapitalization:
+                                          TextCapitalization.sentences,
+                                      decoration: InputDecoration(
+                                        labelStyle: TextStyle(
+                                          color: Color.fromRGBO(
+                                              202, 208, 215, 1.0),
+                                        ),
+                                        labelText: widget.id.isNotEmpty
+                                            ? ""
+                                            : "Other info here",
+                                        errorText: _errorRelationship,
+                                        border: widget.id.isEmpty || isEdit
+                                            ? null
+                                            : InputBorder.none,
+                                      ),
+                                      style: textTheme.subhead.copyWith(
+                                        color: Colors.black,
+                                      ),
+                                    )
+                                  : Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 5,
+                                          child: Text(
+                                            "Relationship",
+                                            textAlign: TextAlign.right,
+                                            style: textTheme.subtitle.copyWith(
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Text(
+                                            " - ",
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            _relationshipController
+                                                        .text ==
+                                                    "Other"
+                                                ? _otherRelationshipController
+                                                    .text
+                                                : _relationshipController.text,
+                                            textAlign: TextAlign.left,
+                                          ),
+                                          flex: 5,
+                                        )
+                                      ],
+                                    )
                               : Container()
                           : widget.id.isEmpty || isEdit
                               ? Container()
@@ -500,6 +535,9 @@ class _AddContactScreenState
                                     )
                                   ],
                                 ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
                       widget.id.isEmpty || isEdit
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
