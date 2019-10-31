@@ -167,6 +167,51 @@ class _AddBulletInBoardScreenState
                             ? EdgeInsets.all(0)
                             : EdgeInsets.all(5),
                       ),
+                      !(widget.id.isEmpty || isEdit)
+                          ? Container(
+                              margin: EdgeInsets.all(5),
+                              child: Column(
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.all(10),
+                                      ),
+                                      Expanded(
+                                        flex: 5,
+                                        child: Text(
+                                          "Post Date",
+                                          textAlign: TextAlign.right,
+                                          style: textTheme.title.copyWith(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600
+                                              //fontWeight: FontWeight.w600,
+                                              ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          " - ",
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          _startDateController.text,
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(fontSize: 17),
+                                        ),
+                                        flex: 5,
+                                      )
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(1),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Container(),
                       widget.id.isEmpty || isEdit
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
@@ -264,68 +309,25 @@ class _AddBulletInBoardScreenState
                           Expanded(
                             child: InkWell(
                               child: AbsorbPointer(
-                                child: widget.id.isEmpty || isEdit
-                                    ? TextField(
-                                        enabled: widget.id.isEmpty,
-                                        decoration: InputDecoration(
-                                          labelText: widget.id.isEmpty || isEdit
-                                              ? "Date"
-                                              : "",
-                                          labelStyle: TextStyle(
-                                              color: Color.fromRGBO(
-                                                  202, 208, 215, 1.0),
-                                              fontSize: 18),
-                                          border: widget.id.isEmpty || isEdit
-                                              ? null
-                                              : InputBorder.none,
-                                        ),
-                                        controller: _startDateController,
-                                      )
-                                    : Container(
-                                        child: Column(
-                                          children: <Widget>[
-                                            Row(
-                                              children: <Widget>[
-                                                Padding(
-                                                  padding: EdgeInsets.all(10),
-                                                ),
-                                                Expanded(
-                                                  flex: 5,
-                                                  child: Text(
-                                                    "Post Date",
-                                                    textAlign: TextAlign.right,
-                                                    style: textTheme.title.copyWith(
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.w600
-                                                        //fontWeight: FontWeight.w600,
-                                                        ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Text(
-                                                    " - ",
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Text(
-                                                    _startDateController.text,
-                                                    textAlign: TextAlign.left,
-                                                    style:
-                                                        TextStyle(fontSize: 17),
-                                                  ),
-                                                  flex: 5,
-                                                )
-                                              ],
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.all(1),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                              ),
+                                  child: widget.id.isEmpty || isEdit
+                                      ? TextField(
+                                          enabled: widget.id.isEmpty,
+                                          decoration: InputDecoration(
+                                            labelText:
+                                                widget.id.isEmpty || isEdit
+                                                    ? "Date"
+                                                    : "",
+                                            labelStyle: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    202, 208, 215, 1.0),
+                                                fontSize: 18),
+                                            border: widget.id.isEmpty || isEdit
+                                                ? null
+                                                : InputBorder.none,
+                                          ),
+                                          controller: _startDateController,
+                                        )
+                                      : Container()),
                               onTap: () {
                                 if (widget.id.isEmpty || isEdit)
                                   _selectDate(context, true);
@@ -513,8 +515,8 @@ class _AddBulletInBoardScreenState
                   showMessage("Id cannot be null");
                 } else {
                   presenter.bulletinboardDelete(widget.id);
-                  Navigator.of(context).popUntil(
-                      ModalRoute.withName(Screens.NOTETODOLIST.toString()+"/////"));
+                  Navigator.of(context).popUntil(ModalRoute.withName(
+                      Screens.NOTETODOLIST.toString() + "/////"));
                 }
               },
             ),

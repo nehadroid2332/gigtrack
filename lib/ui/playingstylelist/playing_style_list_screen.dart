@@ -175,7 +175,8 @@ class _PlayingStyleListScreenState
         widget.appListener.router.navigateTo(
             context,
             Screens.ADDPLAYINGSTYLE.toString() +
-                "/${userPlayingStyle.id}/${widget.bandId}////");
+                "/${userPlayingStyle.id}/${widget.bandId}////",
+            replace: true);
       }
     }
   }

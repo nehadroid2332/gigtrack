@@ -190,12 +190,13 @@ class _ActivitiesListScreenState
                     if (endDate != null) {
                       days2 = currentDate.difference(endDate).inDays;
                     }
-                    bool check = myBands.any((a) {
-                      return a.id == ac.bandId;
-                    });
-                    if (check) {
-                      bandActivities.add(ac);
-                    } else if (ac.isRecurring) {
+                    // bool check = myBands.any((a) {
+                    //   return a.id == ac.bandId;
+                    // });
+                    // if (check) {
+                    //   bandActivities.add(ac);
+                    // } else
+                    if (ac.isRecurring) {
                       recurring.add(ac);
                     } else if (days == 0 || (days2 != null && days2 == 0)) {
                       current.add(ac);

@@ -1,7 +1,6 @@
 import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/activities.dart';
 import 'package:gigtrack/server/models/band.dart';
-import 'package:gigtrack/server/models/user.dart';
 
 abstract class ActivitiesListContract extends BaseContract {
   void getBands(List<Band> acc);
