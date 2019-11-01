@@ -157,10 +157,12 @@ class _AddPlayingStyleScreenState
       _legalUserType = value;
       if (_legalUserType == 1) {
         showYear = true;
+        _ageController.text='';
         showage = false;
       } else if (_legalUserType == 0) {
         showage = true;
         showYear = false;
+        _yearController.text='';
       }
     });
   }
@@ -1359,9 +1361,11 @@ class _AddPlayingStyleScreenState
       if (userPlayingStyle.age != null) {
         isyearage = 0;
         showage = true;
+        _legalUserType=0;
       } else if (userPlayingStyle.year != null) {
         isyearage = 1;
         showYear = true;
+        _legalUserType=1;
       } else if (userPlayingStyle.response != null) {
         isyearage = 2;
       }
