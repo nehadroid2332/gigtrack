@@ -132,6 +132,7 @@ class _AddPlayingStyleScreenState
   String selectedEducation;
   var _educationType = "Select";
   var files = <String>[];
+  List<String> aboutBandList = [""];
 
   bool isEducation = false;
 
@@ -157,12 +158,12 @@ class _AddPlayingStyleScreenState
       _legalUserType = value;
       if (_legalUserType == 1) {
         showYear = true;
-        _ageController.text='';
+        _ageController.text = '';
         showage = false;
       } else if (_legalUserType == 0) {
         showage = true;
         showYear = false;
-        _yearController.text='';
+        _yearController.text = '';
       }
     });
   }
@@ -486,7 +487,7 @@ class _AddPlayingStyleScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty || isEdit
+                      (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                           ? Text(
                               "My Music Journey Started",
                               textAlign: widget.id.isEmpty || isEdit
@@ -499,7 +500,7 @@ class _AddPlayingStyleScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty || isEdit
+                      (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                           ? Text("Select one")
                           : Container(),
                       Padding(
@@ -518,6 +519,17 @@ class _AddPlayingStyleScreenState
                         padding: EdgeInsets.all(4),
                       ),
                       widget.id.isEmpty || isEdit
+                          ? Container()
+                          : Padding(
+                              child: Text(
+                                aboutBandList.isEmpty
+                                    ? ""
+                                    : aboutBandList.join("\n"),
+                                textAlign: TextAlign.center,
+                              ),
+                              padding: EdgeInsets.symmetric(vertical: 4),
+                            ),
+                      (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                           ? Row(
                               children: <Widget>[
                                 InkWell(
@@ -596,7 +608,8 @@ class _AddPlayingStyleScreenState
                             : MainAxisAlignment.center,
                         children: <Widget>[
                           showage == true
-                              ? (widget.id.isEmpty || isEdit
+                              ? (widget.id.isEmpty || isEdit) &&
+                                      widget.bandId.isEmpty
                                   ? Expanded(
                                       child: TextField(
                                         enabled: (widget.id.isEmpty || isEdit)
@@ -612,15 +625,17 @@ class _AddPlayingStyleScreenState
                                         ),
                                       ),
                                     )
-                                  : _ageController.text.isNotEmpty
+                                  : _ageController.text.isNotEmpty &&
+                                          widget.bandId.isEmpty
                                       ? Text(
                                           "Playing since age  ${_ageController.text}",
                                           textAlign: TextAlign.center,
                                         )
-                                      : Container())
+                                      : Container()
                               : Container(),
                           showYear == true
-                              ? (widget.id.isEmpty || isEdit
+                              ? ((widget.id.isEmpty || isEdit) &&
+                                      widget.bandId.isEmpty
                                   ? Expanded(
                                       child: TextField(
                                         enabled: (widget.id.isEmpty || isEdit)
@@ -646,7 +661,7 @@ class _AddPlayingStyleScreenState
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: EdgeInsets.all(widget.bandId.isEmpty ? 0 : 5),
                       ),
                       Row(
                         mainAxisAlignment: widget.id.isEmpty || isEdit
@@ -665,7 +680,7 @@ class _AddPlayingStyleScreenState
 //                                  value: isyearage == 2,
 //                                )
 //                              : Container(),
-                          widget.id.isEmpty || isEdit
+                          (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                               ? Expanded(
                                   child: TextField(
                                     enabled: (widget.id.isEmpty || isEdit),
@@ -687,7 +702,9 @@ class _AddPlayingStyleScreenState
                                   : Container(),
                         ],
                       ),
-                      Padding(padding: EdgeInsets.all(5)),
+                      Padding(
+                          padding:
+                              EdgeInsets.all(widget.bandId.isEmpty ? 0 : 5)),
                       Text(
                         "Experience",
                         textAlign: widget.id.isEmpty || isEdit
@@ -766,30 +783,36 @@ class _AddPlayingStyleScreenState
                               psList.join(" , "),
                               textAlign: TextAlign.center,
                             ),
-                      Padding(padding: EdgeInsets.all(10)),
-                      Text(
-                        "Instruments",
-                        style: textTheme.title.copyWith(
-                          color: Color.fromRGBO(124, 180, 97, 1.0),
-                        ),
-                        textAlign: widget.id.isEmpty || isEdit
-                            ? TextAlign.left
-                            : TextAlign.center,
-                      ),
-                      Padding(padding: EdgeInsets.all(5)),
-                      widget.id.isEmpty || isEdit
+                      Padding(
+                          padding:
+                              EdgeInsets.all(widget.bandId.isEmpty ? 5 : 0)),
+                      widget.bandId.isEmpty
+                          ? Text(
+                              "Instruments",
+                              style: textTheme.title.copyWith(
+                                color: Color.fromRGBO(124, 180, 97, 1.0),
+                              ),
+                              textAlign: widget.id.isEmpty || isEdit
+                                  ? TextAlign.left
+                                  : TextAlign.center,
+                            )
+                          : Container(),
+                      Padding(
+                          padding:
+                              EdgeInsets.all(widget.bandId.isEmpty ? 5 : 0)),
+                      (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                           ? Wrap(
                               children: items2,
                             )
                           : Container(),
-
                       Padding(
                         padding: widget.id.isNotEmpty
                             ? EdgeInsets.all(0)
-                            : EdgeInsets.all(5),
+                            : EdgeInsets.all(widget.bandId.isEmpty ? 5 : 0),
                       ),
                       inList.length > 0
-                          ? widget.id.isEmpty || isEdit
+                          ? (widget.id.isEmpty || isEdit) &&
+                                  widget.bandId.isEmpty
                               ? Text(
                                   "Select your expertise level :",
                                   textAlign: TextAlign.left,
@@ -800,104 +823,114 @@ class _AddPlayingStyleScreenState
                               : Container()
                           : Container(),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: EdgeInsets.all(widget.bandId.isEmpty ? 0 : 5),
                       ),
-                      ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: inList.keys.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          String key = inList.keys.elementAt(index);
-                          String val = inList[key];
-                          return widget.id.isEmpty || isEdit
-                              ? Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(key),
-                                    Padding(
-                                      padding: EdgeInsets.all(5),
-                                    ),
-                                    widget.id.isEmpty || isEdit
-                                        ? DropdownButton<String>(
-                                            items: <String>[
-                                              'Beginner',
-                                              'Intermediate',
-                                              "Professional"
-                                            ].map((String value) {
-                                              return new DropdownMenuItem<
-                                                  String>(
-                                                value: value,
-                                                child: new Text(
-                                                  value,
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              );
-                                            }).toList(),
-                                            value: val,
-                                            onChanged: (v) {
-                                              setState(() {
-                                                inList[key] = v;
-                                              });
-                                            },
-                                          )
-                                        : Text("-" + val),
-                                  ],
-                                )
-                              : Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      flex: 5,
-                                      child: Text(
-                                        "$key",
-                                        textAlign: TextAlign.right,
-                                        style: textTheme.subtitle.copyWith(),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: Text(
-                                        " - ",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        "$val",
-                                        textAlign: TextAlign.left,
-                                      ),
-                                      flex: 5,
-                                    ),
+                      widget.bandId.isEmpty
+                          ? ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: inList.keys.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                String key = inList.keys.elementAt(index);
+                                String val = inList[key];
+                                return widget.id.isEmpty || isEdit
+                                    ? Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Text(key),
+                                          Padding(
+                                            padding: EdgeInsets.all(5),
+                                          ),
+                                          widget.id.isEmpty || isEdit
+                                              ? DropdownButton<String>(
+                                                  items: <String>[
+                                                    'Beginner',
+                                                    'Intermediate',
+                                                    "Professional"
+                                                  ].map((String value) {
+                                                    return new DropdownMenuItem<
+                                                        String>(
+                                                      value: value,
+                                                      child: new Text(
+                                                        value,
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    );
+                                                  }).toList(),
+                                                  value: val,
+                                                  onChanged: (v) {
+                                                    setState(() {
+                                                      inList[key] = v;
+                                                    });
+                                                  },
+                                                )
+                                              : Text("-" + val),
+                                        ],
+                                      )
+                                    : Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            flex: 5,
+                                            child: Text(
+                                              "$key",
+                                              textAlign: TextAlign.right,
+                                              style:
+                                                  textTheme.subtitle.copyWith(),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 1,
+                                            child: Text(
+                                              " - ",
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              "$val",
+                                              textAlign: TextAlign.left,
+                                            ),
+                                            flex: 5,
+                                          ),
 //                                    Padding(
 //                                      padding: EdgeInsets.all(4),
 //                                    )
-                                  ],
-                                );
-                        },
-                      ),
-                      Padding(padding: EdgeInsets.all(5)),
-                      ShowUp(
-                        child: !isEducation
-                            ? new GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    isEducation = true;
-                                  });
-                                },
-                                child: widget.id.isEmpty || isEdit
-                                    ? Text(
-                                        "Click here to add education",
-                                        style: textTheme.display1.copyWith(
-                                            color: widget
-                                                .appListener.primaryColorDark,
-                                            fontSize: 14),
-                                      )
-                                    : Container(),
-                              )
-                            : Container(),
-                        delay: 1000,
-                      ),
+                                        ],
+                                      );
+                              },
+                            )
+                          : Container(),
+                      Padding(
+                          padding:
+                              EdgeInsets.all(widget.bandId.isEmpty ? 0 : 5)),
+                      widget.bandId.isEmpty
+                          ? ShowUp(
+                              child: !isEducation
+                                  ? new GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          isEducation = true;
+                                        });
+                                      },
+                                      child: widget.id.isEmpty || isEdit
+                                          ? Text(
+                                              "Click here to add education",
+                                              style: textTheme.display1
+                                                  .copyWith(
+                                                      color: widget.appListener
+                                                          .primaryColorDark,
+                                                      fontSize: 14),
+                                            )
+                                          : Container(),
+                                    )
+                                  : Container(),
+                              delay: 1000,
+                            )
+                          : Container(),
 
-                      isEducation
+                      isEducation && widget.bandId.isEmpty
                           ? Text(
                               "Education",
                               textAlign: widget.id.isEmpty || isEdit
@@ -908,10 +941,11 @@ class _AddPlayingStyleScreenState
                             )
                           : Container(),
                       Padding(
-                        padding: EdgeInsets.all(3),
+                        padding: EdgeInsets.all(widget.bandId.isEmpty ? 0 : 3),
                       ),
                       isEducation
-                          ? widget.id.isEmpty || isEdit
+                          ? (widget.id.isEmpty || isEdit) &&
+                                  widget.bandId.isEmpty
                               ? DropdownButton<String>(
                                   items: education.map((String value) {
                                     return DropdownMenuItem<String>(
@@ -943,7 +977,7 @@ class _AddPlayingStyleScreenState
 //                          : Container(),
                       Column(
                         children: <Widget>[
-                          widget.id.isEmpty || isEdit
+                          (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                               ? TextField(
                                   enabled: widget.id.isEmpty || isEdit,
                                   controller: _listSchoolController,
@@ -955,33 +989,36 @@ class _AddPlayingStyleScreenState
                                     ),
                                   ),
                                 )
-                              : Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      flex: 5,
-                                      child: Text(
-                                        "School",
-                                        textAlign: TextAlign.right,
-                                        style: textTheme.subtitle.copyWith(),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: Text(
-                                        " - ",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        _listSchoolController.text,
-                                        textAlign: TextAlign.left,
-                                      ),
-                                      flex: 5,
+                              : widget.bandId.isEmpty
+                                  ? Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 5,
+                                          child: Text(
+                                            "School",
+                                            textAlign: TextAlign.right,
+                                            style:
+                                                textTheme.subtitle.copyWith(),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Text(
+                                            " - ",
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            _listSchoolController.text,
+                                            textAlign: TextAlign.left,
+                                          ),
+                                          flex: 5,
+                                        )
+                                      ],
                                     )
-                                  ],
-                                ),
-                          widget.id.isEmpty || isEdit
+                                  : Container(),
+                          (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                               ? TextField(
                                   enabled: widget.id.isEmpty || isEdit,
                                   controller: _earnController,
@@ -994,36 +1031,39 @@ class _AddPlayingStyleScreenState
                                     ),
                                   ),
                                 )
-                              : Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      flex: 5,
-                                      child: Text(
-                                        selectedEducation ?? "",
-                                        textAlign: TextAlign.right,
-                                        style: textTheme.subtitle.copyWith(),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: Text(
-                                        " - ",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        _earnController.text,
-                                        textAlign: TextAlign.left,
-                                      ),
-                                      flex: 5,
+                              : widget.bandId.isEmpty
+                                  ? Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 5,
+                                          child: Text(
+                                            selectedEducation ?? "",
+                                            textAlign: TextAlign.right,
+                                            style:
+                                                textTheme.subtitle.copyWith(),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Text(
+                                            " - ",
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            _earnController.text,
+                                            textAlign: TextAlign.left,
+                                          ),
+                                          flex: 5,
+                                        )
+                                      ],
                                     )
-                                  ],
-                                )
+                                  : Container()
                         ],
                       ),
-                    Padding(
-                        padding: EdgeInsets.all(5),
+                      Padding(
+                        padding: EdgeInsets.all(widget.bandId.isEmpty ? 0 : 5),
                       ),
                       widget.id.isEmpty || isEdit
                           ? Container()
@@ -1077,6 +1117,47 @@ class _AddPlayingStyleScreenState
                                   ),
                                   padding: EdgeInsets.symmetric(vertical: 4),
                                 )
+                          : Container(),
+                      widget.bandId.isNotEmpty
+                          ? (widget.id.isEmpty || isEdit)
+                              ? ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: aboutBandList.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    final _aboutBandsController =
+                                        TextEditingController();
+                                    _aboutBandsController.text =
+                                        aboutBandList[index];
+                                    _aboutBandsController.addListener(() {
+                                      aboutBandList[index] =
+                                          _aboutBandsController.text;
+                                    });
+                                    return TextField(
+                                      controller: _aboutBandsController,
+                                      decoration: InputDecoration(
+                                          hintText:
+                                              "About the band ${index + 1}",
+                                          suffixIcon: aboutBandList.length < 3
+                                              ? IconButton(
+                                                  icon: Icon(Icons.add),
+                                                  onPressed: () {
+                                                    if (aboutBandList.length <
+                                                        3) {
+                                                      setState(() {
+                                                        aboutBandList.add("");
+                                                      });
+                                                    }
+                                                  },
+                                                )
+                                              : null),
+                                      maxLength: 50,
+                                      maxLines: 1,
+                                    );
+                                  },
+                                )
+                              : Container()
                           : Container(),
                       (widget.id.isEmpty || isEdit)
                           ? Container()
@@ -1228,6 +1309,7 @@ class _AddPlayingStyleScreenState
                                     id: widget.id,
                                     role: _roleController.text,
                                     bandId: widget.bandId,
+                                    aboutTheBands: aboutBandList,
                                     degree: _degreeController.text,
                                     about: _aboutBandController.text,
                                     playing_styles: List.from(psList),
@@ -1337,6 +1419,7 @@ class _AddPlayingStyleScreenState
     setState(() {
       files.clear();
       files.addAll(userPlayingStyle.files);
+      aboutBandList = userPlayingStyle.aboutTheBands;
       _aboutBandController.text = userPlayingStyle.about;
       _otherExpController.text = userPlayingStyle.otherExp;
       _degreeController.text = userPlayingStyle.degree;
@@ -1361,11 +1444,11 @@ class _AddPlayingStyleScreenState
       if (userPlayingStyle.age != null) {
         isyearage = 0;
         showage = true;
-        _legalUserType=0;
+        _legalUserType = 0;
       } else if (userPlayingStyle.year != null) {
         isyearage = 1;
         showYear = true;
-        _legalUserType=1;
+        _legalUserType = 1;
       } else if (userPlayingStyle.response != null) {
         isyearage = 2;
       }

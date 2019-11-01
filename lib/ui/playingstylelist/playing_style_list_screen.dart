@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
-import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/server/models/user_playing_style.dart';
 import 'playing_style_list_presenter.dart';
 
@@ -34,9 +33,12 @@ class _PlayingStyleListScreenState
 
   int count = 0;
 
+  bool _isLoading = false;
+
   @override
   void initState() {
     super.initState();
+    _isLoading = true;
     list = presenter.getList(widget.bandId);
   }
 
@@ -87,6 +89,11 @@ class _PlayingStyleListScreenState
             Padding(
               padding: EdgeInsets.all(4),
             ),
+            _isLoading
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Container(),
             Expanded(
               child: StreamBuilder<List<UserPlayingStyle>>(
                 stream: list,
@@ -166,6 +173,7 @@ class _PlayingStyleListScreenState
   @override
   void onData(List<UserPlayingStyle> acc) {
     setState(() {
+      _isLoading = false;
       count = acc.length;
     });
     if (count > 0) {

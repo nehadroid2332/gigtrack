@@ -1,5 +1,6 @@
 import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/band.dart';
+import 'package:gigtrack/server/models/band_member.dart';
 import 'package:gigtrack/server/models/error_response.dart';
 
 abstract class AddBandContract extends BaseContract {
@@ -11,9 +12,20 @@ abstract class AddBandContract extends BaseContract {
 class AddBandPresenter extends BasePresenter {
   AddBandPresenter(BaseContract view) : super(view);
 
-  void addBand(int dateStarted, String musicStyle, String bname, String blname,
-      String legalstructure, String email, String website, String contactInfo,
-      {String id}) async {
+  void addBand(
+      int dateStarted,
+      String musicStyle,
+      String bname,
+      String blname,
+      String legalstructure,
+      String email,
+      String website,
+      String contactInfo,
+      String city,
+      String state,
+      String zip,
+      {String id,
+      Map<String, BandMember> bandmates}) async {
     Band band = Band(
       dateStarted: dateStarted,
       email: email,
@@ -23,6 +35,10 @@ class AddBandPresenter extends BasePresenter {
       musicStyle: musicStyle,
       name: bname,
       website: website,
+      city: city,
+      state: state,
+      zip: zip,
+      bandmates: bandmates,
     );
     band.userId = serverAPI.currentUserId;
     if (id != null) {

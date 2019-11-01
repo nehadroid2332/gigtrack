@@ -4,13 +4,10 @@ import 'dart:io';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/band_member.dart';
-import 'package:gigtrack/server/models/contacts.dart';
-import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/ui/addband/add_band_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:image_picker/image_picker.dart';
@@ -31,6 +28,9 @@ class _AddBandScreenState
   final _dateStartedController = TextEditingController(),
       _musicStyleController = TextEditingController(),
       _bandNameController = TextEditingController(),
+      _bandCityController = TextEditingController(),
+      _bandStateController = TextEditingController(),
+      _bandZipController = TextEditingController(),
       _bandlegalNameController = TextEditingController(),
       _structureController = TextEditingController(),
       _legalStructureController = TextEditingController(),
@@ -38,7 +38,12 @@ class _AddBandScreenState
       _emailController = TextEditingController(),
       _websiteController = TextEditingController();
   String _errorDateStarted, _errorMusicStyle, _errorStructure, _errorWebsite;
-  String _errorBandName, _errorBandLegalName, _errorEmail;
+  String _errorBandName,
+      _errorBandCity,
+      _errorBandZip,
+      _errorBandState,
+      _errorBandLegalName,
+      _errorEmail;
   List<BandMember> members = [];
   final legalStructure = [
     "Corporation",
@@ -56,6 +61,8 @@ class _AddBandScreenState
   var _structuretype = "Corporation";
 
   String bandUserId;
+
+  Map<String, BandMember> bandmates = {};
 
   Future getImage() async {
     showDialog(
@@ -240,7 +247,7 @@ class _AddBandScreenState
           ),
           Text(" - "),
           Expanded(
-            child: Text("${mem.primaryContact}"),
+            child: Text("${mem.primaryContact ?? 'No Contact Added'}"),
           )
         ],
       ));
@@ -360,6 +367,102 @@ class _AddBandScreenState
                                 _dateStartedController.text,
                                 textAlign: TextAlign.center,
                               ),
+
+                        widget.id.isEmpty || isEdit
+                            ? Container()
+                            : Text(
+                                "City",
+                                textAlign: TextAlign.center,
+                                style: textTheme.subhead
+                                    .copyWith(fontWeight: FontWeight.w600),
+                              ),
+                        widget.id.isEmpty || isEdit
+                            ? TextField(
+                                enabled: widget.id.isEmpty || isEdit,
+                                textCapitalization: TextCapitalization.words,
+                                controller: _bandCityController,
+                                decoration: InputDecoration(
+                                  labelStyle: TextStyle(
+                                    color: Color.fromRGBO(202, 208, 215, 1.0),
+                                  ),
+                                  labelText: "City",
+                                  errorText: _errorBandCity,
+                                  border: widget.id.isEmpty || isEdit
+                                      ? null
+                                      : InputBorder.none,
+                                ),
+                                style: textTheme.subhead.copyWith(
+                                  color: Colors.black,
+                                ),
+                              )
+                            : Text(
+                                _bandCityController.text,
+                                textAlign: TextAlign.center,
+                              ),
+
+                        widget.id.isEmpty || isEdit
+                            ? Container()
+                            : Text(
+                                "State",
+                                textAlign: TextAlign.center,
+                                style: textTheme.subhead
+                                    .copyWith(fontWeight: FontWeight.w600),
+                              ),
+                        widget.id.isEmpty || isEdit
+                            ? TextField(
+                                enabled: widget.id.isEmpty || isEdit,
+                                textCapitalization: TextCapitalization.words,
+                                controller: _bandStateController,
+                                decoration: InputDecoration(
+                                  labelStyle: TextStyle(
+                                    color: Color.fromRGBO(202, 208, 215, 1.0),
+                                  ),
+                                  labelText: "State",
+                                  errorText: _errorBandState,
+                                  border: widget.id.isEmpty || isEdit
+                                      ? null
+                                      : InputBorder.none,
+                                ),
+                                style: textTheme.subhead.copyWith(
+                                  color: Colors.black,
+                                ),
+                              )
+                            : Text(
+                                _bandStateController.text,
+                                textAlign: TextAlign.center,
+                              ),
+                        widget.id.isEmpty || isEdit
+                            ? Container()
+                            : Text(
+                                "ZIP",
+                                textAlign: TextAlign.center,
+                                style: textTheme.subhead
+                                    .copyWith(fontWeight: FontWeight.w600),
+                              ),
+                        widget.id.isEmpty || isEdit
+                            ? TextField(
+                                enabled: widget.id.isEmpty || isEdit,
+                                textCapitalization: TextCapitalization.words,
+                                controller: _bandZipController,
+                                decoration: InputDecoration(
+                                  labelStyle: TextStyle(
+                                    color: Color.fromRGBO(202, 208, 215, 1.0),
+                                  ),
+                                  labelText: "ZIP",
+                                  errorText: _errorBandZip,
+                                  border: widget.id.isEmpty || isEdit
+                                      ? null
+                                      : InputBorder.none,
+                                ),
+                                style: textTheme.subhead.copyWith(
+                                  color: Colors.black,
+                                ),
+                              )
+                            : Text(
+                                _bandZipController.text,
+                                textAlign: TextAlign.center,
+                              ),
+
 //                      Padding(
 //                        padding: EdgeInsets.all(5),
 //                      ),
@@ -512,23 +615,20 @@ class _AddBandScreenState
                                 itemCount: members.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   BandMember user = members[index];
-                                  String permission;
+                                  String permission = "";
                                   if (user.permissions != null) {
                                     permission = user.permissions;
                                   }
-                                  return Row(
-                                    children: <Widget>[
-                                      
-                                      Padding(padding: EdgeInsets.only(top: 5,bottom: 5),
-                                      child:Text(
-                                        " ${user.firstName} ${user.lastName} -Role - ${user.memberRole.join(',')} Permission - $permission",
-                                        style: textTheme.subhead.copyWith(
-                                          color:
-                                          Color.fromRGBO(135, 67, 125, 1.0),
-                                          fontSize: 12.3,
-                                        ),
-                                      ) ,)
-                                    ],
+                                  return Padding(
+                                    padding: EdgeInsets.only(top: 5, bottom: 5),
+                                    child: Text(
+                                      "${user.firstName} ${user.lastName} - ${user.memberRole?.join(',') ?? ''} - $permission",
+                                      style: textTheme.subhead.copyWith(
+                                        color:
+                                            Color.fromRGBO(135, 67, 125, 1.0),
+                                        fontSize: 12.3,
+                                      ),
+                                    ),
                                   );
                                 },
                               ),
@@ -589,23 +689,23 @@ class _AddBandScreenState
                                           "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
                                 },
                               ),
-  
+
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : FlatButton(
-                          child: Text(
-                            "Contacts",
-                            textAlign: TextAlign.center,
-                            style: textTheme.subhead
-                                .copyWith(fontWeight: FontWeight.w600),
-                          ),
-                          onPressed: () {
-                            widget.appListener.router.navigateTo(
-                                context,
-                                Screens.CONTACTLIST.toString() +
-                                    "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-                          },
-                        ),
+                                child: Text(
+                                  "Contacts",
+                                  textAlign: TextAlign.center,
+                                  style: textTheme.subhead
+                                      .copyWith(fontWeight: FontWeight.w600),
+                                ),
+                                onPressed: () {
+                                  widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.CONTACTLIST.toString() +
+                                          "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                                },
+                              ),
 
                         widget.id.isEmpty || isEdit
                             ? Container()
@@ -623,23 +723,23 @@ class _AddBandScreenState
                                           "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
                                 },
                               ),
-  
+
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : FlatButton(
-                          child: Text(
-                            "EPK",
-                            textAlign: TextAlign.center,
-                            style: textTheme.subhead
-                                .copyWith(fontWeight: FontWeight.w600),
-                          ),
-                          onPressed: () {
-                            widget.appListener.router.navigateTo(
-                                context,
-                                Screens.PLAYINGSTYLELIST.toString() +
-                                    "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-                          },
-                        ),
+                                child: Text(
+                                  "EPK",
+                                  textAlign: TextAlign.center,
+                                  style: textTheme.subhead
+                                      .copyWith(fontWeight: FontWeight.w600),
+                                ),
+                                onPressed: () {
+                                  widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.PLAYINGSTYLELIST.toString() +
+                                          "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                                },
+                              ),
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : FlatButton(
@@ -659,16 +759,14 @@ class _AddBandScreenState
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : FlatButton(
-                          child: Text(
-                            "Stage Plot & DI Set up",
-                            textAlign: TextAlign.center,
-                            style: textTheme.subhead
-                                .copyWith(fontWeight: FontWeight.w600),
-                          ),
-                          onPressed: () {
-                          
-                          },
-                        ),
+                                child: Text(
+                                  "Stage Plot & DI Set up",
+                                  textAlign: TextAlign.center,
+                                  style: textTheme.subhead
+                                      .copyWith(fontWeight: FontWeight.w600),
+                                ),
+                                onPressed: () {},
+                              ),
 
                         widget.id.isEmpty || isEdit
                             ? RaisedButton(
@@ -717,7 +815,11 @@ class _AddBandScreenState
                                           email,
                                           website,
                                           "",
-                                          id: widget.id);
+                                          _bandCityController.text,
+                                          _bandStateController.text,
+                                          _bandZipController.text,
+                                          id: widget.id,
+                                          bandmates: bandmates);
                                     }
                                   });
                                 },
@@ -875,6 +977,9 @@ class _AddBandScreenState
       _emailController.text = band.email;
       _legalStructureController.text = band.legalStructure;
       _websiteController.text = band.website;
+      _bandCityController.text = band.city;
+      _bandStateController.text = band.state;
+      _bandZipController.text = band.zip;
       _legalUserType = (band.legalName?.isEmpty ?? false) ? 1 : 0;
       showLegalName = _legalUserType == 0 ? true : false;
       DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(band.dateStarted);
@@ -882,6 +987,7 @@ class _AddBandScreenState
           formatDate(dateTime, [yyyy, '-', mm, '-', dd]);
       members.clear();
       members.addAll(band.bandmates.values);
+      bandmates = band.bandmates;
     });
   }
 

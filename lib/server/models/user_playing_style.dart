@@ -16,6 +16,7 @@ class UserPlayingStyle extends BaseModel {
   String about;
   String earn;
   List<String> experience = [];
+  List<String> aboutTheBands = [];
   String otherExp;
   List<String> files = [];
   String viewerKnow;
@@ -46,6 +47,7 @@ class UserPlayingStyle extends BaseModel {
       this.aboutBand,
       this.bandContacts,
       this.bandEmail,
+      this.aboutTheBands,
       this.bandName,
       this.bandWebsite,
       this.response});
@@ -90,6 +92,11 @@ class UserPlayingStyle extends BaseModel {
         experience.add(item.toString());
       }
     }
+    if (data['aboutTheBands'] != null) {
+      for (var item in data['aboutTheBands']) {
+        aboutTheBands.add(item.toString());
+      }
+    }
   }
 
   @override
@@ -111,6 +118,7 @@ class UserPlayingStyle extends BaseModel {
     data['year'] = year;
     data['viewerKnow'] = viewerKnow;
     data['experience'] = experience;
+    data['aboutTheBands'] = aboutTheBands;
     data['files'] = files;
     data['aboutBand'] = aboutBand;
     data['bandName'] = bandName;

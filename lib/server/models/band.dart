@@ -10,6 +10,9 @@ class Band extends BaseModel {
   String email;
   String website;
   String contactInfo;
+  String city;
+  String state;
+  String zip;
 
   String id;
   String userId;
@@ -23,6 +26,10 @@ class Band extends BaseModel {
       this.legalStructure,
       this.musicStyle,
       this.name,
+      this.city,
+      this.state,
+      this.bandmates,
+      this.zip,
       this.contactInfo,
       this.website});
 
@@ -35,6 +42,9 @@ class Band extends BaseModel {
     email = data['email'];
     website = data['website'];
     contactInfo = data['contactInfo'];
+    city = data['city'];
+    state = data['state'];
+    zip = data['zip'];
     id = data['id'];
     userId = data['user_id'];
     if (data['bandmates'] != null) {
@@ -58,6 +68,9 @@ class Band extends BaseModel {
     data['email'] = email ?? "";
     data['contactInfo'] = contactInfo;
     data['website'] = website ?? "";
+    data['city'] = city;
+    data['state'] = state;
+    data['zip'] = zip;
     data['id'] = id;
     Map<String, dynamic> bnds = {};
     for (var key in bandmates.keys) {
