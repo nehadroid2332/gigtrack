@@ -312,7 +312,7 @@ class _AddInstrumentScreenState
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
                               controller: _instrumentNameController,
-                              textCapitalization: TextCapitalization.sentences,
+                              textCapitalization: TextCapitalization.words,
                               style: textTheme.subhead.copyWith(
                                 color: Colors.black,
                               ),
@@ -362,7 +362,7 @@ class _AddInstrumentScreenState
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
                               controller: _instrumentNickNameController,
-                              textCapitalization: TextCapitalization.sentences,
+                              textCapitalization: TextCapitalization.words,
                               style: textTheme.subhead.copyWith(
                                 color: Colors.black,
                               ),
@@ -381,14 +381,16 @@ class _AddInstrumentScreenState
                             )
                           : Container(),
                       Padding(
-                        padding:_instrumentNickNameController.text.isEmpty?EdgeInsets.all(0): EdgeInsets.all(5),
+                        padding: _instrumentNickNameController.text.isEmpty
+                            ? EdgeInsets.all(0)
+                            : EdgeInsets.all(5),
                       ),
                       widget.id.isEmpty || isEdit ? Container() : Container(),
                       widget.id.isEmpty || isEdit
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
                               controller: _wherePurchaseController,
-                              textCapitalization: TextCapitalization.sentences,
+                              textCapitalization: TextCapitalization.words,
                               style: textTheme.subhead.copyWith(
                                 color: Colors.black,
                               ),
@@ -421,7 +423,6 @@ class _AddInstrumentScreenState
                                       child: Text(
                                         " - ",
                                         textAlign: TextAlign.center,
-                                        
                                       ),
                                       flex: 1,
                                     ),
@@ -435,30 +436,34 @@ class _AddInstrumentScreenState
                                   ],
                                 ),
                       Padding(
-                        padding: _wherePurchaseController.text.isEmpty?EdgeInsets.all(0): EdgeInsets.all(5),
+                        padding: _wherePurchaseController.text.isEmpty
+                            ? EdgeInsets.all(0)
+                            : EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty || isEdit ?
-                      ShowUp(
-                        child: !_ispurchaseDate
-                            ? new GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _ispurchaseDate = true;
-                                  });
-                                },
-                                child: widget.id.isEmpty
-                                    ? Text(
-                                        "Click here to add purchase date",
-                                        style: textTheme.display1.copyWith(
-                                            color: widget
-                                                .appListener.primaryColorDark,
-                                            fontSize: 14),
-                                      )
-                                    : Container(),
-                              )
-                            : Container(),
-                        delay: 1000,
-                      ):Container(),
+                      widget.id.isEmpty || isEdit
+                          ? ShowUp(
+                              child: !_ispurchaseDate
+                                  ? new GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _ispurchaseDate = true;
+                                        });
+                                      },
+                                      child: widget.id.isEmpty
+                                          ? Text(
+                                              "Click here to add purchase date",
+                                              style: textTheme.display1
+                                                  .copyWith(
+                                                      color: widget.appListener
+                                                          .primaryColorDark,
+                                                      fontSize: 14),
+                                            )
+                                          : Container(),
+                                    )
+                                  : Container(),
+                              delay: 1000,
+                            )
+                          : Container(),
                       _ispurchaseDate || widget.id.isNotEmpty
                           ? Container(
                               child: Column(
@@ -478,7 +483,10 @@ class _AddInstrumentScreenState
                                         )
                                       : Container(),
                                   Padding(
-                                    padding:_purchaseDateController.text.isEmpty?EdgeInsets.all(0): EdgeInsets.all(3),
+                                    padding:
+                                        _purchaseDateController.text.isEmpty
+                                            ? EdgeInsets.all(0)
+                                            : EdgeInsets.all(3),
                                   ),
                                   widget.id.isEmpty || isEdit
                                       ? GestureDetector(
@@ -582,13 +590,15 @@ class _AddInstrumentScreenState
                           : Container(),
 
                       Padding(
-                        padding:_purchaseDateController.text.isEmpty?EdgeInsets.all(0): EdgeInsets.all(5),
+                        padding: _purchaseDateController.text.isEmpty
+                            ? EdgeInsets.all(0)
+                            : EdgeInsets.all(5),
                       ),
                       widget.id.isEmpty || isEdit
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
                               controller: _costController,
-                              textCapitalization: TextCapitalization.sentences,
+                              textCapitalization: TextCapitalization.words,
                               style: textTheme.subhead.copyWith(
                                 color: Colors.black,
                               ),
@@ -635,7 +645,9 @@ class _AddInstrumentScreenState
                                   ],
                                 ),
                       Padding(
-                        padding: _costController.text.isEmpty?EdgeInsets.all(0):EdgeInsets.all(5),
+                        padding: _costController.text.isEmpty
+                            ? EdgeInsets.all(0)
+                            : EdgeInsets.all(5),
                       ),
                       widget.id.isEmpty || isEdit ? Container() : Container(),
 //                      Text(
@@ -649,7 +661,7 @@ class _AddInstrumentScreenState
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
                               controller: _serialNumberController,
-                              textCapitalization: TextCapitalization.sentences,
+                              textCapitalization: TextCapitalization.words,
                               decoration: InputDecoration(
                                 labelText: "Serial Number",
                                 labelStyle: TextStyle(
@@ -664,36 +676,40 @@ class _AddInstrumentScreenState
                                 color: Colors.black,
                               ),
                             )
-                          :_serialNumberController.text.isEmpty?Container(): Row(
-                              children: <Widget>[
-                                Expanded(
-                                  flex: 5,
-                                  child: Text(
-                                    "SN#",
-                                    textAlign: TextAlign.right,
-                                    style: textTheme.subtitle.copyWith(
-                                      fontWeight: FontWeight.w600,
+                          : _serialNumberController.text.isEmpty
+                              ? Container()
+                              : Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      flex: 5,
+                                      child: Text(
+                                        "SN#",
+                                        textAlign: TextAlign.right,
+                                        style: textTheme.subtitle.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    Expanded(
+                                      child: Text(
+                                        " - ",
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      flex: 1,
+                                    ),
+                                    Expanded(
+                                      flex: 5,
+                                      child: Text(
+                                        _serialNumberController.text,
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Expanded(
-                                  child: Text(
-                                    " - ",
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  flex: 1,
-                                ),
-                                Expanded(
-                                  flex: 5,
-                                  child: Text(
-                                    _serialNumberController.text,
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                              ],
-                            ),
                       Padding(
-                        padding: _serialNumberController.text.isEmpty?EdgeInsets.all(0):EdgeInsets.all(10),
+                        padding: _serialNumberController.text.isEmpty
+                            ? EdgeInsets.all(0)
+                            : EdgeInsets.all(10),
                       ),
                       widget.id.isEmpty || isEdit ? Container() : Container(),
                       ShowUp(
@@ -727,7 +743,7 @@ class _AddInstrumentScreenState
                                           enabled: widget.id.isEmpty || isEdit,
                                           controller: _warrantyController,
                                           textCapitalization:
-                                              TextCapitalization.sentences,
+                                              TextCapitalization.words,
                                           decoration: InputDecoration(
                                             labelText: "Warranty",
                                             labelStyle: TextStyle(
@@ -776,7 +792,9 @@ class _AddInstrumentScreenState
                                               ],
                                             ),
                                   Padding(
-                                    padding:_warrantyController.text.isEmpty?EdgeInsets.all(0): EdgeInsets.all(5),
+                                    padding: _warrantyController.text.isEmpty
+                                        ? EdgeInsets.all(0)
+                                        : EdgeInsets.all(5),
                                   ),
                                   ShowUp(
                                     child: !_iswarrantydate
@@ -811,7 +829,7 @@ class _AddInstrumentScreenState
                                             children: <Widget>[
                                               widget.id.isEmpty || isEdit
                                                   ? Text(
-                                                      "Warranty EndDate",
+                                                      "Warranty End Date",
                                                       textAlign: widget
                                                                   .id.isEmpty ||
                                                               isEdit
@@ -939,8 +957,10 @@ class _AddInstrumentScreenState
                                         )
                                       : Container(),
                                   Padding(
-                                    padding:
-                                    _warrantyEndController.text.isEmpty?EdgeInsets.all(0):EdgeInsets.all(_eDateType == 0 ? 5 : 5),
+                                    padding: _warrantyEndController.text.isEmpty
+                                        ? EdgeInsets.all(0)
+                                        : EdgeInsets.all(
+                                            _eDateType == 0 ? 5 : 5),
                                   ),
                                 ],
                               ),
@@ -948,7 +968,9 @@ class _AddInstrumentScreenState
                           : Container(),
 
                       Padding(
-                        padding:_warrantyEndController.text.isEmpty?EdgeInsets.all(0): EdgeInsets.all(10),
+                        padding: _warrantyEndController.text.isEmpty
+                            ? EdgeInsets.all(0)
+                            : EdgeInsets.all(10),
                       ),
                       ShowUp(
                         child: !_isinsuranceInfo
@@ -977,8 +999,7 @@ class _AddInstrumentScreenState
                               ? TextField(
                                   enabled: widget.id.isEmpty || isEdit,
                                   controller: _insuredController,
-                                  textCapitalization:
-                                      TextCapitalization.sentences,
+                                  textCapitalization: TextCapitalization.words,
                                   style: textTheme.subhead.copyWith(
                                     color: Colors.black,
                                   ),
@@ -1025,15 +1046,16 @@ class _AddInstrumentScreenState
                                   : Container()
                           : Container(),
                       Padding(
-                        padding:_insuredController.text.isEmpty?EdgeInsets.all(0): EdgeInsets.all(5),
+                        padding: _insuredController.text.isEmpty
+                            ? EdgeInsets.all(0)
+                            : EdgeInsets.all(5),
                       ),
                       _isinsuranceInfo || widget.id.isNotEmpty
                           ? widget.id.isEmpty || isEdit
                               ? TextField(
                                   enabled: widget.id.isEmpty || isEdit,
                                   controller: _policyController,
-                                  textCapitalization:
-                                      TextCapitalization.sentences,
+                                  textCapitalization: TextCapitalization.words,
                                   style: textTheme.subhead.copyWith(
                                     color: Colors.black,
                                   ),
@@ -1387,8 +1409,8 @@ class _AddInstrumentScreenState
                   showMessage("Id cannot be null");
                 } else {
                   presenter.instrumentDelete(id);
-                  Navigator.of(context).popUntil(
-                      ModalRoute.withName(Screens.INSTRUMENTLIST.toString()+"/////"));
+                  Navigator.of(context).popUntil(ModalRoute.withName(
+                      Screens.INSTRUMENTLIST.toString() + "/////"));
                   //Navigator.of(context).pop();
                 }
               },
