@@ -516,31 +516,24 @@ class _AddBandScreenState
                                   if (user.permissions != null) {
                                     permission = user.permissions;
                                   }
-                                  return ListTile(
-                                    title: Text(
-                                      "${user.firstName} ${user.lastName}"
-                                          .trim(),
-                                      style: textTheme.subhead.copyWith(
-                                        color: Colors.black,
-                                        fontSize: 17,
-                                      ),
-                                    ),
-                                    subtitle: Padding(
-                                      padding: EdgeInsets.only(top: 5),
-                                      child: Text(
-                                        "Role - ${user.memberRole.join(',')} Permission - $permission",
+                                  return Row(
+                                    children: <Widget>[
+                                      
+                                      Padding(padding: EdgeInsets.only(top: 5,bottom: 5),
+                                      child:Text(
+                                        " ${user.firstName} ${user.lastName} -Role - ${user.memberRole.join(',')} Permission - $permission",
                                         style: textTheme.subhead.copyWith(
                                           color:
-                                              Color.fromRGBO(135, 67, 125, 1.0),
-                                          fontSize: 12,
+                                          Color.fromRGBO(135, 67, 125, 1.0),
+                                          fontSize: 12.3,
                                         ),
-                                      ),
-                                    ),
+                                      ) ,)
+                                    ],
                                   );
                                 },
                               ),
                         Padding(
-                          padding: EdgeInsets.all(5),
+                          padding: EdgeInsets.all(3),
                         ),
                         widget.id.isEmpty || isEdit
                             ? Container()

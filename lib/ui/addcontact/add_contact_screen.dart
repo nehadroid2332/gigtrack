@@ -332,8 +332,7 @@ class _AddContactScreenState
                               ],
                             ),
                       Padding(
-                        padding:
-                            EdgeInsets.all(widget.id.isEmpty || isEdit ? 5 : 2),
+                        padding:(widget.id.isNotEmpty) && (_companyNameController.text.isEmpty) && !isEdit ?EdgeInsets.all(0): EdgeInsets.all(widget.id.isEmpty || isEdit ? 4 : 4),
                       ),
                       ShowUp(
                         child: !_isCompanyName
@@ -408,7 +407,7 @@ class _AddContactScreenState
                                 ),
                       Padding(
                         padding: widget.id.isNotEmpty
-                            ? EdgeInsets.all(0)
+                            ? EdgeInsets.all(4)
                             : EdgeInsets.all(6),
                       ),
                       widget.id.isEmpty || isEdit
@@ -423,8 +422,8 @@ class _AddContactScreenState
                             )
                           : Container(),
                       Padding(
-                        padding:
-                            EdgeInsets.all(widget.id.isEmpty || isEdit ? 5 : 0),
+                        padding:_relationshipController.text.isEmpty?EdgeInsets.all(0):
+                            EdgeInsets.all(widget.id.isEmpty || isEdit ? 0 : 0),
                       ),
                       widget.id.isEmpty || isEdit
                           ? DropdownButton<String>(
@@ -442,66 +441,31 @@ class _AddContactScreenState
                             )
                           : Container(),
                       Padding(
-                        padding: EdgeInsets.all(3),
+                        padding: _relationshipController.text.isEmpty?EdgeInsets.all(0):EdgeInsets.all(0),
                       ),
                       _currentRelation || isEdit
                           ? _relationshipType == "Other"
-                              ? widget.id.isEmpty || isEdit
-                                  ? TextField(
-                                      enabled: widget.id.isEmpty || isEdit,
-                                      controller: _otherRelationshipController,
-                                      textCapitalization:
-                                          TextCapitalization.sentences,
-                                      decoration: InputDecoration(
-                                        labelStyle: TextStyle(
-                                          color: Color.fromRGBO(
-                                              202, 208, 215, 1.0),
-                                        ),
-                                        labelText: widget.id.isNotEmpty
-                                            ? ""
-                                            : "Other info here",
-                                        errorText: _errorRelationship,
-                                        border: widget.id.isEmpty || isEdit
-                                            ? null
-                                            : InputBorder.none,
-                                      ),
-                                      style: textTheme.subhead.copyWith(
-                                        color: Colors.black,
-                                      ),
-                                    )
-                                  : Row(
-                                      children: <Widget>[
-                                        Expanded(
-                                          flex: 5,
-                                          child: Text(
-                                            "Relationship",
-                                            textAlign: TextAlign.right,
-                                            style: textTheme.subtitle.copyWith(
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: Text(
-                                            " - ",
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            _relationshipController
-                                                        .text ==
-                                                    "Other"
-                                                ? _otherRelationshipController
-                                                    .text
-                                                : _relationshipController.text,
-                                            textAlign: TextAlign.left,
-                                          ),
-                                          flex: 5,
-                                        )
-                                      ],
-                                    )
+                              ? TextField(
+                                  enabled: widget.id.isEmpty || isEdit,
+                                  controller: _otherRelationshipController,
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
+                                  decoration: InputDecoration(
+                                    labelStyle: TextStyle(
+                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+                                    ),
+                                    labelText: widget.id.isNotEmpty
+                                        ? ""
+                                        : "Other info here",
+                                    errorText: _errorRelationship,
+                                    border: widget.id.isEmpty || isEdit
+                                        ? null
+                                        : InputBorder.none,
+                                  ),
+                                  style: textTheme.subhead.copyWith(
+                                    color: Colors.black,
+                                  ),
+                                )
                               : Container()
                           : widget.id.isEmpty || isEdit
                               ? Container()
@@ -526,7 +490,7 @@ class _AddContactScreenState
                                     ),
                                     Expanded(
                                       child: Text(
-                                        _relationshipController.text == "Other"
+                                        _relationshipController.text.contains("Other")
                                             ? _otherRelationshipController.text
                                             : _relationshipController.text,
                                         textAlign: TextAlign.left,
@@ -535,9 +499,7 @@ class _AddContactScreenState
                                     )
                                   ],
                                 ),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
+                      Padding(padding:_textController.text.isEmpty?EdgeInsets.all(0): EdgeInsets.all(5),),
                       widget.id.isEmpty || isEdit
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
@@ -592,7 +554,7 @@ class _AddContactScreenState
                               ],
                             ),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: _phoneController.text.isEmpty?EdgeInsets.all(0):EdgeInsets.all(4),
                       ),
                       ShowUp(
                         child: !_isphoneNumber
@@ -1432,7 +1394,7 @@ class _AddContactScreenState
       }
       if (data.relationship == "Other") {
         setState(() {
-          _currentRelation = true;
+        //  _currentRelation = true;
         });
       }
     });
