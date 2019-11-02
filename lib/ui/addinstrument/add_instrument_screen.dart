@@ -437,7 +437,7 @@ class _AddInstrumentScreenState
                                 ),
                       Padding(
                         padding: _wherePurchaseController.text.isEmpty
-                            ? EdgeInsets.all(0)
+                            ? EdgeInsets.all(3)
                             : EdgeInsets.all(5),
                       ),
                       widget.id.isEmpty || isEdit
@@ -708,7 +708,7 @@ class _AddInstrumentScreenState
                                 ),
                       Padding(
                         padding: _serialNumberController.text.isEmpty
-                            ? EdgeInsets.all(0)
+                            ? EdgeInsets.all(3)
                             : EdgeInsets.all(10),
                       ),
                       widget.id.isEmpty || isEdit ? Container() : Container(),
@@ -969,7 +969,7 @@ class _AddInstrumentScreenState
 
                       Padding(
                         padding: _warrantyEndController.text.isEmpty
-                            ? EdgeInsets.all(0)
+                            ? EdgeInsets.all(3)
                             : EdgeInsets.all(10),
                       ),
                       ShowUp(

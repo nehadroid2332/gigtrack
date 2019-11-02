@@ -293,12 +293,14 @@ class _AddBandScreenState
 
                         widget.id.isEmpty || isEdit
                             ? Container()
-                            : Text(
-                                "Name",
-                                textAlign: TextAlign.center,
-                                style: textTheme.subhead
-                                    .copyWith(fontWeight: FontWeight.w600),
-                              ),
+                            : Container(),
+//                        Text(
+//                                "Name",
+//                                textAlign: TextAlign.center,
+//                                style: textTheme.subhead
+//                                    .copyWith(fontWeight: FontWeight.w600),
+//                              ),
+                        Padding(padding: EdgeInsets.all(3),),
                         widget.id.isEmpty || isEdit
                             ? TextField(
                                 enabled: widget.id.isEmpty || isEdit,
@@ -321,19 +323,127 @@ class _AddBandScreenState
                             : Text(
                                 _bandNameController.text,
                                 textAlign: TextAlign.center,
+                          style: textTheme.subtitle.copyWith(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16
+                          ),
                               ),
 
-                        Padding(
-                          padding: EdgeInsets.all(5),
-                        ),
+                      
+                        Padding(padding: EdgeInsets.all(1),),
                         widget.id.isEmpty || isEdit
                             ? Container()
+                            : Container(),
+//                        Text(
+//                                "City",
+//                                textAlign: TextAlign.center,
+//                                style: textTheme.subhead
+//                                    .copyWith(fontWeight: FontWeight.w600),
+//                              ),
+                        //Padding(padding: EdgeInsets.all(3),),
+                        widget.id.isEmpty || isEdit
+                            ? TextField(
+                          enabled: widget.id.isEmpty || isEdit,
+                          textCapitalization: TextCapitalization.words,
+                          controller: _bandCityController,
+                          decoration: InputDecoration(
+                            labelStyle: TextStyle(
+                              color: Color.fromRGBO(202, 208, 215, 1.0),
+                            ),
+                            labelText: "City",
+                            errorText: _errorBandCity,
+                            border: widget.id.isEmpty || isEdit
+                                ? null
+                                : InputBorder.none,
+                          ),
+                          style: textTheme.subhead.copyWith(
+                            color: Colors.black,
+                          ),
+                        )
                             : Text(
-                                "Date Established",
-                                textAlign: TextAlign.center,
-                                style: textTheme.subhead
-                                    .copyWith(fontWeight: FontWeight.w600),
-                              ),
+                          "${_bandCityController.text} , ${_bandStateController.text}",
+                          textAlign: TextAlign.center,
+                        ),
+                      //  Padding(padding: EdgeInsets.all(5),),
+                        widget.id.isEmpty || isEdit
+                            ? Container()
+                            :Container(),
+//                        Text(
+//                                "State",
+//                                textAlign: TextAlign.center,
+//                                style: textTheme.subhead
+//                                    .copyWith(fontWeight: FontWeight.w600),
+//                              ),
+                       // Padding(padding: EdgeInsets.all(3),),
+                        widget.id.isEmpty || isEdit
+                            ? TextField(
+                          enabled: widget.id.isEmpty || isEdit,
+                          textCapitalization: TextCapitalization.words,
+                          controller: _bandStateController,
+                          decoration: InputDecoration(
+                            labelStyle: TextStyle(
+                              color: Color.fromRGBO(202, 208, 215, 1.0),
+                            ),
+                            labelText: "State",
+                            errorText: _errorBandState,
+                            border: widget.id.isEmpty || isEdit
+                                ? null
+                                : InputBorder.none,
+                          ),
+                          style: textTheme.subhead.copyWith(
+                            color: Colors.black,
+                          ),
+                        )
+                            : Container(),
+//                        Text(
+//                          _bandStateController.text,
+//                          textAlign: TextAlign.center,
+//                        ),
+                      //  Padding(padding: EdgeInsets.all(5),),
+                        widget.id.isEmpty || isEdit
+                            ? Container()
+                            : Container(),
+//                        Text(
+//                                "ZIP",
+//                                textAlign: TextAlign.center,
+//                                style: textTheme.subhead
+//                                    .copyWith(fontWeight: FontWeight.w600),
+//                              ),
+                        //Padding(padding: EdgeInsets.all(3),),
+                        widget.id.isEmpty || isEdit
+                            ? TextField(
+                          enabled: widget.id.isEmpty || isEdit,
+                          textCapitalization: TextCapitalization.words,
+                          controller: _bandZipController,
+                          decoration: InputDecoration(
+                            labelStyle: TextStyle(
+                              color: Color.fromRGBO(202, 208, 215, 1.0),
+                            ),
+                            labelText: "ZIP",
+                            errorText: _errorBandZip,
+                            border: widget.id.isEmpty || isEdit
+                                ? null
+                                : InputBorder.none,
+                          ),
+                          style: textTheme.subhead.copyWith(
+                            color: Colors.black,
+                          ),
+                        )
+                            :Container(),
+//                        Text(
+//                          _bandZipController.text,
+//                          textAlign: TextAlign.center,
+//                        ),
+                        widget.id.isEmpty || isEdit
+                            ? Container()
+                            : Container(),
+//                        Text(
+//                                "Date Established",
+//                                textAlign: TextAlign.center,
+//                                style: textTheme.subhead
+//                                    .copyWith(fontWeight: FontWeight.w600),
+//                              ),
+                        Padding(padding: EdgeInsets.all(1),),
                         widget.id.isEmpty || isEdit
                             ? InkWell(
                                 child: AbsorbPointer(
@@ -363,105 +473,39 @@ class _AddBandScreenState
                                     _selectDate(context, true);
                                 },
                               )
-                            : Text(
+                            :Row(
+                          children: <Widget>[
+                            Expanded(
+                              flex: 5,
+                              child: Text(
+                                "Date est",
+                                textAlign: TextAlign.right,
+//                                style: textTheme.subtitle.copyWith(
+//                                  fontWeight: FontWeight.w600,
+//                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Text(
+                                " - ",
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
                                 _dateStartedController.text,
-                                textAlign: TextAlign.center,
+                                textAlign: TextAlign.left,
                               ),
+                              flex: 5,
+                            )
+                          ],
+                        ),
+//                        Text(
+//                                _dateStartedController.text,
+//                                textAlign: TextAlign.center,
+//                              ),
 
-                        widget.id.isEmpty || isEdit
-                            ? Container()
-                            : Text(
-                                "City",
-                                textAlign: TextAlign.center,
-                                style: textTheme.subhead
-                                    .copyWith(fontWeight: FontWeight.w600),
-                              ),
-                        widget.id.isEmpty || isEdit
-                            ? TextField(
-                                enabled: widget.id.isEmpty || isEdit,
-                                textCapitalization: TextCapitalization.words,
-                                controller: _bandCityController,
-                                decoration: InputDecoration(
-                                  labelStyle: TextStyle(
-                                    color: Color.fromRGBO(202, 208, 215, 1.0),
-                                  ),
-                                  labelText: "City",
-                                  errorText: _errorBandCity,
-                                  border: widget.id.isEmpty || isEdit
-                                      ? null
-                                      : InputBorder.none,
-                                ),
-                                style: textTheme.subhead.copyWith(
-                                  color: Colors.black,
-                                ),
-                              )
-                            : Text(
-                                _bandCityController.text,
-                                textAlign: TextAlign.center,
-                              ),
-
-                        widget.id.isEmpty || isEdit
-                            ? Container()
-                            : Text(
-                                "State",
-                                textAlign: TextAlign.center,
-                                style: textTheme.subhead
-                                    .copyWith(fontWeight: FontWeight.w600),
-                              ),
-                        widget.id.isEmpty || isEdit
-                            ? TextField(
-                                enabled: widget.id.isEmpty || isEdit,
-                                textCapitalization: TextCapitalization.words,
-                                controller: _bandStateController,
-                                decoration: InputDecoration(
-                                  labelStyle: TextStyle(
-                                    color: Color.fromRGBO(202, 208, 215, 1.0),
-                                  ),
-                                  labelText: "State",
-                                  errorText: _errorBandState,
-                                  border: widget.id.isEmpty || isEdit
-                                      ? null
-                                      : InputBorder.none,
-                                ),
-                                style: textTheme.subhead.copyWith(
-                                  color: Colors.black,
-                                ),
-                              )
-                            : Text(
-                                _bandStateController.text,
-                                textAlign: TextAlign.center,
-                              ),
-                        widget.id.isEmpty || isEdit
-                            ? Container()
-                            : Text(
-                                "ZIP",
-                                textAlign: TextAlign.center,
-                                style: textTheme.subhead
-                                    .copyWith(fontWeight: FontWeight.w600),
-                              ),
-                        widget.id.isEmpty || isEdit
-                            ? TextField(
-                                enabled: widget.id.isEmpty || isEdit,
-                                textCapitalization: TextCapitalization.words,
-                                controller: _bandZipController,
-                                decoration: InputDecoration(
-                                  labelStyle: TextStyle(
-                                    color: Color.fromRGBO(202, 208, 215, 1.0),
-                                  ),
-                                  labelText: "ZIP",
-                                  errorText: _errorBandZip,
-                                  border: widget.id.isEmpty || isEdit
-                                      ? null
-                                      : InputBorder.none,
-                                ),
-                                style: textTheme.subhead.copyWith(
-                                  color: Colors.black,
-                                ),
-                              )
-                            : Text(
-                                _bandZipController.text,
-                                textAlign: TextAlign.center,
-                              ),
 
 //                      Padding(
 //                        padding: EdgeInsets.all(5),
@@ -649,7 +693,8 @@ class _AddBandScreenState
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : contactInfo.isEmpty
-                                ? Text("No Member Yet")
+                                ? Text("No Member Yet",
+                        textAlign: TextAlign.center,)
                                 : Column(
                                     children: contactInfo,
                                   ),

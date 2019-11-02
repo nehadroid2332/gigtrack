@@ -157,7 +157,7 @@ class _NotesListScreenState
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new RaisedButton(
-              child: new Text("Dismiss",
+              child: new Text("Okay",
               textAlign: TextAlign.center,),
               textColor: Colors.white,
               shape: RoundedRectangleBorder(

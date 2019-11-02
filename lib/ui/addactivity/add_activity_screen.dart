@@ -1579,7 +1579,7 @@ class _AddActivityScreenState
             // usually buttons at the bottom of the dialog
             new RaisedButton(
               child: new Text(
-                "Dismiss",
+                "Okay",
                 textAlign: TextAlign.center,
               ),
               textColor: Colors.white,

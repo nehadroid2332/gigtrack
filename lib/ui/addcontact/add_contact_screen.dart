@@ -554,7 +554,7 @@ class _AddContactScreenState
                               ],
                             ),
                       Padding(
-                        padding: _phoneController.text.isEmpty?EdgeInsets.all(0):EdgeInsets.all(4),
+                        padding: _phoneController.text.isEmpty?EdgeInsets.all(2):EdgeInsets.all(4),
                       ),
                       ShowUp(
                         child: !_isphoneNumber

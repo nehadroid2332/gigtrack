@@ -661,7 +661,7 @@ class _AddPlayingStyleScreenState
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.all(widget.bandId.isEmpty ? 0 : 5),
+                        padding: EdgeInsets.all(widget.bandId.isEmpty ? 0 : 0),
                       ),
                       Row(
                         mainAxisAlignment: widget.id.isEmpty || isEdit
@@ -704,7 +704,7 @@ class _AddPlayingStyleScreenState
                       ),
                       Padding(
                           padding:
-                              EdgeInsets.all(widget.bandId.isEmpty ? 0 : 5)),
+                              EdgeInsets.all(widget.bandId.isEmpty ? 2 : 0)),
                       Text(
                         "Experience",
                         textAlign: widget.id.isEmpty || isEdit
@@ -823,7 +823,7 @@ class _AddPlayingStyleScreenState
                               : Container()
                           : Container(),
                       Padding(
-                        padding: EdgeInsets.all(widget.bandId.isEmpty ? 0 : 5),
+                        padding: EdgeInsets.all(widget.bandId.isEmpty ? 0 : 0),
                       ),
                       widget.bandId.isEmpty
                           ? ListView.builder(
@@ -929,7 +929,7 @@ class _AddPlayingStyleScreenState
                               delay: 1000,
                             )
                           : Container(),
-
+                      Padding(padding: EdgeInsets.all(5),),
                       isEducation && widget.bandId.isEmpty
                           ? Text(
                               "Education",
@@ -941,7 +941,7 @@ class _AddPlayingStyleScreenState
                             )
                           : Container(),
                       Padding(
-                        padding: EdgeInsets.all(widget.bandId.isEmpty ? 0 : 3),
+                        padding: EdgeInsets.all(widget.bandId.isEmpty ? 1 : 3),
                       ),
                       isEducation
                           ? (widget.id.isEmpty || isEdit) &&
@@ -1071,8 +1071,10 @@ class _AddPlayingStyleScreenState
                               ? Text(
                                   "Band Contact Info",
                                   textAlign: TextAlign.center,
-                                  style: textTheme.subhead
-                                      .copyWith(fontWeight: FontWeight.bold),
+                                  style: textTheme.title
+                                      .copyWith(fontSize: 19,
+                                  color: Color.fromRGBO(124, 180, 97, 1.0),
+                                  ),
                                 )
                               : Container(),
                       widget.bandId.isNotEmpty
@@ -1167,8 +1169,10 @@ class _AddPlayingStyleScreenState
                                   child: Text(
                                     "About the Band",
                                     textAlign: TextAlign.center,
-                                    style: textTheme.subhead
-                                        .copyWith(fontWeight: FontWeight.bold),
+                                    style: textTheme.title
+                                        .copyWith(fontSize: 19,
+                                        color:Color.fromRGBO(124, 180, 97, 1.0)
+                                    ),
                                   ),
                                 )
                               : Container(),
