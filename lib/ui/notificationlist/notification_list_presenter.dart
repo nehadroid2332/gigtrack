@@ -58,4 +58,21 @@ class NotificationListPresenter extends BasePresenter {
       return acc;
     });
   }
+
+  Stream<List<NotesTodo>> getNotificationList() {
+    return serverAPI.notificationDB
+        .orderByChild('user_id')
+        .equalTo(serverAPI.currentUserId)
+        .onValue
+        .map((a) {
+      Map mp = a.snapshot.value;
+      if (mp == null) return null;
+
+      List<NotesTodo> acc = [];
+      for (var d in mp.values) {
+        acc.add(NotesTodo.fromJSON(d));
+      }
+      return acc;
+    });
+  }
 }

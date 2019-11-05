@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:mailer/mailer.dart' as mailer;
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:gigtrack/server/models/activities.dart';
 import 'package:gigtrack/server/models/band.dart';
@@ -10,9 +11,12 @@ import 'package:gigtrack/server/models/bulletinboard.dart';
 import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/server/models/error_response.dart';
 import 'package:gigtrack/server/models/notestodo.dart';
+import 'package:gigtrack/server/models/notifications.dart';
 import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/server/models/user_playing_style.dart';
 import 'package:gigtrack/utils/network_utils.dart';
+import 'package:mailer/smtp_server.dart';
+import 'package:mailer/smtp_server/gmail.dart';
 import 'package:path/path.dart';
 import 'models/band_member_add_response.dart';
 import 'models/notification_list_response.dart';
@@ -29,6 +33,8 @@ class ServerAPI {
   StorageReference playingstyleRef;
 
   DatabaseReference notesDB, bulletinDB;
+
+  SmtpServer smtpServer;
 
   factory ServerAPI() {
     return _serverApi;
@@ -47,7 +53,8 @@ class ServerAPI {
       bandDB,
       equipmentsDB,
       contactDB,
-      playingStyleDB;
+      playingStyleDB,
+      notificationDB;
   String currentUserId, currentUserEmail;
 
   ServerAPI._internal() {
@@ -66,6 +73,7 @@ class ServerAPI {
     notesDB = _mainFirebaseDatabase.child("notes");
     bulletinDB = _mainFirebaseDatabase.child("bulletIn");
     playingStyleDB = _mainFirebaseDatabase.child("playingStyle");
+    notificationDB = _mainFirebaseDatabase.child("notifications");
     getCurrentUser();
   }
 
@@ -165,6 +173,21 @@ class ServerAPI {
       DataSnapshot dataSnapshot = await bandDB.child(id).once();
       Band band = Band.fromJSON(dataSnapshot.value);
       return band;
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
+  Future<dynamic> addNotification(Notification notification) async {
+    try {
+      bool isUpdate = true;
+      if (notification.id == null || notification.id.isEmpty) {
+        String id = notesDB.push().key;
+        notification.id = id;
+        isUpdate = false;
+      }
+      await notificationDB.child(notification.id).set(notification.toMap());
+      return isUpdate;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }
@@ -355,6 +378,28 @@ class ServerAPI {
         }
       }
       return acc;
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
+  Future<dynamic> sendEmail(
+      String bandName, String bandAdminName, String emailReciptant) async {
+    try {
+      SmtpServer smtpServer =
+          gmail("honeyverma.india@gmail.com", "SHIVAMverma1992");
+
+      final message = new mailer.Message()
+        ..from =
+            new mailer.Address('nehadroid23@gmail.com', 'Irrigation Mangement')
+        ..recipients.add("$emailReciptant")
+        ..subject = 'Band Invitation'
+        ..text =
+            'You have been invited to be the member of the band($bandName) by $bandAdminName';
+
+      final sendReports = await mailer.send(message, smtpServer);
+      print("SD-> " + sendReports.toString());
+      return "Success";
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }

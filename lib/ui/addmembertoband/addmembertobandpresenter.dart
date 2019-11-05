@@ -3,6 +3,8 @@ import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/band_member.dart';
 import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/server/models/error_response.dart';
+import 'package:gigtrack/server/models/notifications.dart';
+import 'package:gigtrack/server/models/user.dart';
 
 abstract class AddMemberToBandContract extends BaseContract {
   void onSearchUser(List<Contacts> users);
@@ -44,6 +46,27 @@ class AddMemberToBandPresenter extends BasePresenter {
       res.bandmates[bandMember.email.replaceAll(".", "")] = bandMember;
       final res2 = await serverAPI.addBand(res);
       if (res2 is bool) {
+        final resss = await serverAPI.getSingleUserById(res.userId);
+        if (resss is User) {
+          final resM = await serverAPI.sendEmail(res.name,
+              resss.firstName + " " + resss.lastName, bandMember.email);
+          if (resM is String) {
+            print("Email sent");
+          } else if (resM is ErrorResponse) {
+            view.showMessage(resM.message);
+          }
+        }
+        // for (var mem in res.bandmates.keys) {
+        //   BandMember bandMember = res.bandmates[mem];
+        //   await serverAPI.addNotification(Notification(
+        //     bandId: res.id,
+        //     created: DateTime.now().millisecondsSinceEpoch,
+        //     status: false,
+        //     text: "A new member has been added in the band",
+        //     type: 6,
+        //     userId: bandMember.user_id
+        //   ));
+        // }
         (view as AddMemberToBandContract).onMemberAdd();
       } else if (res2 is ErrorResponse) {
         view.showMessage(res2.message);
