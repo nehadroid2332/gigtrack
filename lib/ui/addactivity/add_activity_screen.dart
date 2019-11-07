@@ -127,48 +127,48 @@ class _AddActivityScreenState
   }
 
   // user defined function
-  void _showDialog() {
-    // flutter defined function
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          contentPadding: EdgeInsets.all(15),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          title: new Text(
-            "Select EndDate",
-            textAlign: TextAlign.center,
-          ),
-          content:
-              new Text("Do you want to select end date for activity/schedule?"),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("No"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            new RaisedButton(
-              child: new Text("Yes"),
-              textColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6)),
-              color: Color.fromRGBO(22, 102, 237, 1.0),
-              onPressed: () {
-                setState(() {
-                  isVisible = true;
-                });
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // void _showDialog() {
+  //   // flutter defined function
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       // return object of type Dialog
+  //       return AlertDialog(
+  //         contentPadding: EdgeInsets.all(15),
+  //         shape:
+  //             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+  //         title: new Text(
+  //           "Select EndDate",
+  //           textAlign: TextAlign.center,
+  //         ),
+  //         content:
+  //             new Text("Do you want to select end date for activity/schedule?"),
+  //         actions: <Widget>[
+  //           // usually buttons at the bottom of the dialog
+  //           new FlatButton(
+  //             child: new Text("No"),
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //           new RaisedButton(
+  //             child: new Text("Yes"),
+  //             textColor: Colors.white,
+  //             shape: RoundedRectangleBorder(
+  //                 borderRadius: BorderRadius.circular(6)),
+  //             color: Color.fromRGBO(22, 102, 237, 1.0),
+  //             onPressed: () {
+  //               setState(() {
+  //                 isVisible = true;
+  //               });
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   void initState() {

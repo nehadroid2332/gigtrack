@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
-import 'package:gigtrack/server/models/notestodo.dart';
 import 'package:gigtrack/ui/noteslist/notes_list_presenter.dart';
-import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PrivacyScreen extends BaseScreen {

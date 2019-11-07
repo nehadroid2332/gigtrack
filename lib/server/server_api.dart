@@ -99,14 +99,14 @@ class ServerAPI {
 
   Future<dynamic> register(User user, File file) async {
     try {
-      AuthResult authResult = await _auth.createUserWithEmailAndPassword(
+      await _auth.createUserWithEmailAndPassword(
           email: user.email, password: user.password);
       AuthResult authResult1 = await _auth.signInWithEmailAndPassword(
           email: user.email, password: user.password);
       user.id = authResult1.user.uid;
       await userDB.child(user.id).set(user.toMap());
       final snapshot = await bandDB.once();
-      
+
       Map mp = snapshot.value;
       for (var d in mp.values) {
         final band = Band.fromJSON(d);

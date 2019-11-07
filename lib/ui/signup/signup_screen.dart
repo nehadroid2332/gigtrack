@@ -7,7 +7,6 @@ import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/ui/signup/signup_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
-import 'package:gigtrack/utils/privacy.dart';
 import 'package:image_picker/image_picker.dart';
 
 

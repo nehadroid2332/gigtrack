@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
-import 'package:gigtrack/utils/common_app_utils.dart';
 
 import 'splash_presenter.dart';
 

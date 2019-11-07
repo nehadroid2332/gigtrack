@@ -8,7 +8,6 @@ import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/ui/addcontact/add_contact_presenter.dart';
-import 'package:gigtrack/utils/NumberTextInputFormatter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:gigtrack/utils/showup.dart';
 import 'package:image_picker/image_picker.dart';

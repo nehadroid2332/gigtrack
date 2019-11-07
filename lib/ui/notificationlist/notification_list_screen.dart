@@ -3,7 +3,6 @@ import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/activities.dart';
 import 'package:gigtrack/server/models/notestodo.dart';
-import 'package:gigtrack/server/models/notification_list_response.dart';
 import 'package:gigtrack/server/models/user_instrument.dart';
 import 'package:gigtrack/ui/notificationlist/notification_list_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';

@@ -6,10 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/bulletinboard.dart';
-import 'package:gigtrack/server/models/notestodo.dart';
 import 'package:gigtrack/ui/addbulletinboard/addbulletinboard_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
-import 'package:gigtrack/utils/showup.dart';
 
 class AddBulletInBoardScreen extends BaseScreen {
   final String id;

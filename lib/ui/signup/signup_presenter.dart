@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/error_response.dart';
-import 'package:gigtrack/server/models/register_response.dart';
 import 'package:gigtrack/server/models/user.dart';
 
 abstract class SignUpContract extends BaseContract {

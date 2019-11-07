@@ -136,23 +136,23 @@ class _AddInstrumentScreenState
 
   int _userType = 0;
 
-  void _handleUserTypeValueChange(int value) {
-    setState(() {
-      _userType = value;
-    });
-  }
+  // void _handleUserTypeValueChange(int value) {
+  //   setState(() {
+  //     _userType = value;
+  //   });
+  // }
 
-  void _handlePDateTypeValueChange(int value) {
-    setState(() {
-      _pDateType = value;
-    });
-  }
+  // void _handlePDateTypeValueChange(int value) {
+  //   setState(() {
+  //     _pDateType = value;
+  //   });
+  // }
 
-  void _handleEDateTypeValueChange(int value) {
-    setState(() {
-      _eDateType = value;
-    });
-  }
+  // void _handleEDateTypeValueChange(int value) {
+  //   setState(() {
+  //     _eDateType = value;
+  //   });
+  // }
 
   Band selectedBand;
   List<Band> _bands = <Band>[];

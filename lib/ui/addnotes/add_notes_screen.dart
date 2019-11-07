@@ -3,7 +3,6 @@ import 'dart:core';
 
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/notestodo.dart';
