@@ -12,8 +12,8 @@ class LoginPresenter extends BasePresenter {
 
   void loginUser(String email, String password) async {
     final res = await serverAPI.login(email, password);
-    print("REs--> $res");
     if (res is FirebaseUser) {
+      serverAPI.firebaseMessaging.subscribeToTopic(res.uid);
       (view as LoginContract).loginSuccess(res.uid);
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);

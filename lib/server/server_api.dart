@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:gigtrack/server/models/band_member.dart';
 import 'package:mailer/mailer.dart' as mailer;
@@ -58,6 +59,8 @@ class ServerAPI {
       notificationDB;
   String currentUserId, currentUserEmail;
 
+  final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+
   ServerAPI._internal() {
     _auth = FirebaseAuth.instance;
     StorageReference storageRef = FirebaseStorage.instance.ref();
@@ -76,6 +79,35 @@ class ServerAPI {
     playingStyleDB = _mainFirebaseDatabase.child("playingStyle");
     notificationDB = _mainFirebaseDatabase.child("notifications");
     getCurrentUser();
+    firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+      },
+      // onBackgroundMessage: myBackgroundMessageHandler,
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+      },
+    );
+  }
+
+  Future<dynamic> myBackgroundMessageHandler(
+      Map<String, dynamic> message) async {
+    print("SD-> ${message}");
+    if (message.containsKey('data')) {
+      // Handle data message
+      final dynamic data = message['data'];
+    }
+
+    if (message.containsKey('notification')) {
+      // Handle notification message
+      final dynamic notification = message['notification'];
+    }
+
+    // Or do other work.
+    return "";
   }
 
   Future<FirebaseUser> getCurrentUser() async {
