@@ -32,9 +32,9 @@ class _AddBandScreenState
       _bandStateController = TextEditingController(),
       _bandZipController = TextEditingController(),
       _bandlegalNameController = TextEditingController(),
-      _structureController = TextEditingController(),
+      // _structureController = TextEditingController(),
       _legalStructureController = TextEditingController(),
-      _zipController = TextEditingController(),
+      // _zipController = TextEditingController(),
       _emailController = TextEditingController(),
       _websiteController = TextEditingController();
   String _errorDateStarted, _errorMusicStyle, _errorStructure, _errorWebsite;

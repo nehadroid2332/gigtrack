@@ -45,7 +45,7 @@ class _AddActivityScreenState
     implements AddActivityContract {
   final _titleController = TextEditingController(),
       _dateController = TextEditingController(),
-      _timeController = TextEditingController(),
+      // _timeController = TextEditingController(),
       _descController = TextEditingController(),
       _taskController = TextEditingController(),
       _parkingController = TextEditingController(),
@@ -1412,7 +1412,7 @@ class _AddActivityScreenState
     if (!mounted) return;
     hideLoading();
     showMessage("Added Successfully");
-    Timer timer = new Timer(new Duration(seconds: 2), () {
+    Timer(new Duration(seconds: 2), () {
       Navigator.pop(context);
     });
   }

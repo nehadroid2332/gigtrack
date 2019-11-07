@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:gigtrack/server/models/band_member.dart';
 import 'package:mailer/mailer.dart' as mailer;
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:gigtrack/server/models/activities.dart';
@@ -103,7 +104,24 @@ class ServerAPI {
       AuthResult authResult1 = await _auth.signInWithEmailAndPassword(
           email: user.email, password: user.password);
       user.id = authResult1.user.uid;
-      final res = await userDB.child(user.id).set(user.toMap());
+      await userDB.child(user.id).set(user.toMap());
+      final snapshot = await bandDB.once();
+      
+      Map mp = snapshot.value;
+      for (var d in mp.values) {
+        final band = Band.fromJSON(d);
+        if (band != null) {
+          for (var mem in band.bandmates.keys) {
+            BandMember bandMember = band.bandmates[mem];
+            if (bandMember.email == user.email) {
+              if (bandMember.user_id == null || bandMember.user_id.isEmpty) {
+                bandMember.user_id = user.id;
+              }
+            }
+          }
+        }
+        await addBand(band);
+      }
       await _auth.signOut();
       return "Success";
     } catch (e) {

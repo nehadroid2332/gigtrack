@@ -173,7 +173,7 @@ class _ActivitiesListScreenState
                   List<Activites> upcoming = [];
                   List<Activites> past = [];
                   List<Activites> recurring = [];
-                  List<Activites> bandActivities = [];
+                  // List<Activites> bandActivities = [];
 
                   DateTime currentDate = DateTime.now().toLocal();
                   for (var ac in activities) {
