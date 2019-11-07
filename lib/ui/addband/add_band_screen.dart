@@ -697,6 +697,27 @@ class _AddBandScreenState
                         ),
                         widget.id.isEmpty || isEdit
                             ? Container()
+                            : Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Text(
+                                      "Set-List",
+                                      style: textTheme.subhead.copyWith(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.add,
+                                      color: widget.appListener.accentColor,
+                                    ),
+                                    onPressed: () {},
+                                  )
+                                ],
+                              ),
+                        widget.id.isEmpty || isEdit
+                            ? Container()
                             : FlatButton(
                                 child: Text(
                                   "Activites/Schedule",
@@ -1023,7 +1044,7 @@ class _AddBandScreenState
       showLegalName = _legalUserType == 0 ? true : false;
       DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(band.dateStarted);
       _dateStartedController.text =
-          formatDate(dateTime, [yyyy, '-', mm, '-', dd]);
+          formatDate(dateTime, [mm, '-', dd, '-', yy]);
       members.clear();
       members.addAll(band.bandmates.values);
       bandmates = band.bandmates;

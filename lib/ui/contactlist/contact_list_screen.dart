@@ -115,13 +115,15 @@ class _ContactListScreenState
                                 Padding(
                                   padding: EdgeInsets.all(0),
                                 ),
-//                            Text(
-//                              "${bnd.musicStyle}",
-//                              style: TextStyle(
-//                                fontSize: 14,
-//                                color: Color.fromRGBO(149, 121, 218, 1.0),
-//                              ),
-//                            ),
+                                cnt.companyName.isNotEmpty
+                                    ? Text(
+                                        "${cnt.companyName}",
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : Container(),
                               ],
                             ),
                           ),
@@ -162,11 +164,11 @@ class _ContactListScreenState
   String getNameOrder(String name) {
     List traversedname = name.split(" ");
     int namelength = traversedname.length;
-    if(traversedname.length>1){
-    String lastname = "" + traversedname.last + ", ";
-    traversedname.removeLast();
-    return lastname + "" + traversedname.join(' ');}
-    else{
+    if (traversedname.length > 1) {
+      String lastname = "" + traversedname.last + ", ";
+      traversedname.removeLast();
+      return lastname + "" + traversedname.join(' ');
+    } else {
       return traversedname.last;
     }
   }

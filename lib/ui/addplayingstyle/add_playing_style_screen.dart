@@ -480,7 +480,7 @@ class _AddPlayingStyleScreenState
                                   width: 90,
                                   child: Image.network(
                                     files[0],
-                                    fit: BoxFit.cover,
+                                    fit: BoxFit.fill,
                                   ),
                                 )
                               : Container(),

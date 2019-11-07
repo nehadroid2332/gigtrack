@@ -305,12 +305,8 @@ class ServerAPI {
     var result = await FlutterImageCompress.compressAndGetFile(
       file.absolute.path,
       targetPath,
-      quality: 60,
+      quality: 40,
     );
-
-    print(file.lengthSync());
-    print(result.lengthSync());
-
     return result;
   }
 

@@ -192,7 +192,7 @@ Widget buildActivityListItem(Activites ac,
       child: Column(
         children: <Widget>[
           Container(
-            padding: EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 5),
+            padding: EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
             child: Row(
               children: <Widget>[
                 Padding(
@@ -221,7 +221,7 @@ Widget buildActivityListItem(Activites ac,
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(5),
+            padding: EdgeInsets.all(3),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -229,7 +229,7 @@ Widget buildActivityListItem(Activites ac,
               Expanded(
                 child: Padding(
                   padding:
-                      EdgeInsets.only(left: 13, right: 13, top: 0, bottom: 22),
+                      EdgeInsets.only(left: 13, right: 13, top: 0, bottom: 15),
                   child: Text(
                     "${ac.title}",
                     maxLines: 1,
