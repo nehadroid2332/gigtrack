@@ -67,7 +67,9 @@ class _NotificationListScreensState
                   Activites ac = _activities[index];
                   return buildActivityListItem(ac, onTap: () {
                     widget.appListener.router.navigateTo(
-                        context, Screens.ADDACTIVITY.toString() + "/${ac.id}");
+                        context,
+                        Screens.ADDACTIVITY.toString() +
+                            "/${ac.type}/${ac.id}/${false}/////");
                   });
                 },
               );
@@ -100,7 +102,9 @@ class _NotificationListScreensState
                     return buildNoteListItem(
                         todo, widget.appListener.primaryColor, onTap: () {
                       widget.appListener.router.navigateTo(
-                          context, Screens.ADDNOTE.toString() + "/${todo.id}");
+                          context,
+                          Screens.ADDNOTE.toString() +
+                              "/${todo.id}//////");
                     });
                   },
                 );
