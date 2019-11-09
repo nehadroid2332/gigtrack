@@ -10,7 +10,7 @@ class ActivitiesListPresenter extends BasePresenter {
   ActivitiesListPresenter(BaseContract view) : super(view);
 
   Stream<List<Activites>> getList(String bandId) {
-    if (bandId != null) {
+    if (bandId != null && bandId.isNotEmpty) {
       return serverAPI.activitiesDB
           .orderByChild('bandId')
           .equalTo(bandId)
