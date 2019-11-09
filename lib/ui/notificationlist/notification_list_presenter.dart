@@ -19,7 +19,12 @@ class NotificationListPresenter extends BasePresenter {
 
       List<Activites> acc = [];
       for (var d in mp.values) {
-        acc.add(Activites.fromJSON(d));
+        Activites activites = Activites.fromJSON(d);
+        final difference = DateTime.now()
+            .difference(
+                DateTime.fromMillisecondsSinceEpoch(activites.startDate))
+            .inDays;
+        if (difference == 0) acc.add(activites);
       }
       return acc;
     });
