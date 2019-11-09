@@ -15,10 +15,15 @@ class BandListPresenter extends BasePresenter {
       List<Band> acc = [];
       for (var d in mp.values) {
         Band band = Band.fromJSON(d);
-        if (band.userId == serverAPI.currentUserId ||
-            band.bandmates.keys
-                .contains(serverAPI.currentUserEmail.replaceAll(".", ""))) {
+        if (band.userId == serverAPI.currentUserId) {
           acc.add(band);
+        } else {
+          for (var key in band.bandmates.keys) {
+            if (key.toLowerCase() ==
+                serverAPI.currentUserEmail.replaceAll(".", "").toLowerCase()) {
+              acc.add(band);
+            }
+          }
         }
       }
       return acc;

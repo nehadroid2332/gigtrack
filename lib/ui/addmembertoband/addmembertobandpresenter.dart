@@ -47,13 +47,13 @@ class AddMemberToBandPresenter extends BasePresenter {
       if (res2 is bool) {
         final resss = await serverAPI.getSingleUserById(res.userId);
         if (resss is User) {
-          final resM = await serverAPI.sendEmail(res.name,
-              resss.firstName + " " + resss.lastName, bandMember.email);
-          if (resM is String) {
-            print("Email sent");
-          } else if (resM is ErrorResponse) {
-            view.showMessage(resM.message);
-          }
+          // final resM = await serverAPI.sendEmail(res.name,
+          //     resss.firstName + " " + resss.lastName, bandMember.email);
+          // if (resM is String) {
+          //   print("Email sent");
+          // } else if (resM is ErrorResponse) {
+          //   view.showMessage(resM.message);
+          // }
         }
         // for (var mem in res.bandmates.keys) {
         //   BandMember bandMember = res.bandmates[mem];
