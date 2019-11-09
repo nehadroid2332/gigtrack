@@ -699,7 +699,9 @@ class _AddActivityScreenState
                                 widget.type == Activites.TYPE_TASK ||
                                         widget.type == Activites.TYPE_BAND_TASK
                                     ? "Description"
-                                    : "Notes",
+                                    : _descController.text.isEmpty
+                                        ? ""
+                                        : "Notes",
                                 style: textTheme.subhead.copyWith(
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -779,7 +781,9 @@ class _AddActivityScreenState
                                                 Activites
                                                     .TYPE_PERFORMANCE_SCHEDULE ||
                                             widget.id.isNotEmpty)
-                                        ? "Wardrobe"
+                                        ? _taskController.text.isEmpty
+                                            ? ""
+                                            : "Wardrobe"
                                         : "Task",
                                     style: textTheme.subhead.copyWith(
                                       fontWeight: FontWeight.w700,
@@ -835,7 +839,9 @@ class _AddActivityScreenState
                                                 Activites
                                                     .TYPE_PERFORMANCE_SCHEDULE ||
                                             widget.id.isNotEmpty)
-                                        ? "Parking"
+                                        ? _parkingController.text.isEmpty
+                                            ? ""
+                                            : "Parking"
                                         : "",
                                     style: textTheme.subhead.copyWith(
                                       fontWeight: FontWeight.w700,
@@ -908,7 +914,9 @@ class _AddActivityScreenState
                                                 Activites
                                                     .TYPE_PERFORMANCE_SCHEDULE ||
                                             widget.id.isNotEmpty)
-                                        ? "Other Instructions"
+                                        ? _otherController.text.isEmpty
+                                            ? ""
+                                            : "Other Instructions"
                                         : "",
                                     style: textTheme.subhead.copyWith(
                                       fontWeight: FontWeight.w700,
