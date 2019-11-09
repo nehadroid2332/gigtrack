@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/error_response.dart';
-import 'package:gigtrack/server/models/login_response.dart';
 
 abstract class LoginContract extends BaseContract {
   void loginSuccess(String userId);

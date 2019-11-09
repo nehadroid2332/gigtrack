@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -617,11 +618,12 @@ class ServerAPI {
   }
 
   void sendPushNotification(Notification notification) async {
-    await http.post('https://fcm.googleapis.com/fcm/send', headers: {
-      "Content-Type": "application/json",
+    Map<String, String> header = {
+      HttpHeaders.contentTypeHeader: "application/json",
       "Authorization":
           "key=AAAAb5VdN_k:APA91bEYcKIabKkmhDwfUb2QxCCTfDlT7AHfKWCbL2uUfm4GZaP7Rj3UikHyLcj5sM0A2dFQTLxENfbe8yT6JNOccE25TgtQLj1SJwYFFPUqGcL9FAdEiVwJPoYGZb5KW4Ev5zRcDEa9"
-    }, body: {
+    };
+    final body = jsonEncode({
       "notification": {"body": notification.text, "title": "GigTrack"},
       "priority": "high",
       "data": {
@@ -632,5 +634,11 @@ class ServerAPI {
       },
       "to": "/topics/${notification.userId}"
     });
+    final res = await http.post(
+      'https://fcm.googleapis.com/fcm/send',
+      headers: header,
+      body: body,
+    );
+    print("RES-> $res");
   }
 }
