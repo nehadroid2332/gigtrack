@@ -655,14 +655,26 @@ class _AddBandScreenState
                                   if (user.permissions != null) {
                                     permission = user.permissions;
                                   }
-                                  return Padding(
-                                    padding: EdgeInsets.only(top: 5, bottom: 5),
-                                    child: Text(
-                                      "${user.firstName} ${user.lastName} - ${user.memberRole?.join(',') ?? ''} - $permission",
-                                      style: textTheme.subhead.copyWith(
-                                        color:
-                                            Color.fromRGBO(135, 67, 125, 1.0),
-                                        fontSize: 12.3,
+                                  return InkWell(
+                                    onTap: () async {
+                                      await widget.appListener.router
+                                          .navigateTo(
+                                              context,
+                                              Screens.ADDMEMBERTOBAND
+                                                      .toString() +
+                                                  "/${user.email}/${widget.id}");
+                                    },
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.only(top: 5, bottom: 5),
+                                      child: Text(
+                                        "${user.firstName} ${user.lastName} - ${user.memberRole?.join(',') ?? ''}\n$permission",
+                                        style: textTheme.subhead.copyWith(
+                                          color:
+                                              Color.fromRGBO(135, 67, 125, 1.0),
+                                          fontSize: 12.3,
+                                        ),
+                                        textAlign: TextAlign.center,
                                       ),
                                     ),
                                   );

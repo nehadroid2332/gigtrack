@@ -7,9 +7,10 @@ import 'package:gigtrack/server/models/contacts.dart';
 import 'addmembertobandpresenter.dart';
 
 class AddMemberToBandScreen extends BaseScreen {
+  final String bandId;
   final String id;
 
-  AddMemberToBandScreen(AppListener appListener, {this.id})
+  AddMemberToBandScreen(AppListener appListener, {this.bandId, this.id})
       : super(appListener, title: "Add band Member");
 
   @override
@@ -69,40 +70,69 @@ class _AddMemberToBandScreenState
   final Set<String> mList = Set();
   String psList, iList, oList;
 
+  bool isEdit = false;
+
+  @override
+  AppBar get appBar => AppBar(
+        elevation: 0,
+        actions: <Widget>[
+          widget.id.isEmpty
+              ? Container()
+              : IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    setState(() {
+                      isEdit = !isEdit;
+                    });
+                  },
+                ),
+        ],
+      );
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.id != null && widget.id.isNotEmpty) {
+      showLoading();
+      presenter.getBandDetails(widget.bandId, widget.id);
+    }
+  }
+
   @override
   Widget buildBody() {
     List<Widget> items = [];
     for (String s in playingStylesList) {
       items.add(GestureDetector(
-        child: Container(
-          child: Text(
-            s,
-            style: textTheme.subtitle.copyWith(
-                color: psList == (s)
-                    ? Colors.white
-                    : widget.appListener.primaryColorDark),
-          ),
-          margin: EdgeInsets.all(5),
-          padding: EdgeInsets.symmetric(
-            horizontal: 10,
-            vertical: 8,
-          ),
-          decoration: BoxDecoration(
-            color: psList == s
-                ? widget.appListener.primaryColorDark
-                : Color.fromRGBO(244, 246, 248, 1.0),
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(
-              color: Color.fromRGBO(228, 232, 235, 1.0),
+          child: Container(
+            child: Text(
+              s,
+              style: textTheme.subtitle.copyWith(
+                  color: psList == (s)
+                      ? Colors.white
+                      : widget.appListener.primaryColorDark),
+            ),
+            margin: EdgeInsets.all(5),
+            padding: EdgeInsets.symmetric(
+              horizontal: 10,
+              vertical: 8,
+            ),
+            decoration: BoxDecoration(
+              color: psList == s
+                  ? widget.appListener.primaryColorDark
+                  : Color.fromRGBO(244, 246, 248, 1.0),
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(
+                color: Color.fromRGBO(228, 232, 235, 1.0),
+              ),
             ),
           ),
-        ),
-        onTap: () {
-          setState(() {
-            psList = s;
-          });
-        },
-      ));
+          onTap: widget.id.isEmpty || isEdit
+              ? () {
+                  setState(() {
+                    psList = s;
+                  });
+                }
+              : null));
     }
     List<Widget> items2 = [];
     for (String s in memberRoles) {
@@ -130,14 +160,16 @@ class _AddMemberToBandScreenState
             ),
           ),
         ),
-        onTap: () {
-          setState(() {
-            if (mList.contains(s)) {
-              mList.remove(s);
-            } else
-              mList.add(s);
-          });
-        },
+        onTap: widget.id.isEmpty || isEdit
+            ? () {
+                setState(() {
+                  if (mList.contains(s)) {
+                    mList.remove(s);
+                  } else
+                    mList.add(s);
+                });
+              }
+            : null,
       ));
     }
     List<Widget> items3 = [];
@@ -166,11 +198,13 @@ class _AddMemberToBandScreenState
             ),
           ),
         ),
-        onTap: () {
-          setState(() {
-            iList = s;
-          });
-        },
+        onTap: widget.id.isEmpty || isEdit
+            ? () {
+                setState(() {
+                  iList = s;
+                });
+              }
+            : null,
       ));
     }
     List<Widget> items4 = [];
@@ -199,11 +233,13 @@ class _AddMemberToBandScreenState
             ),
           ),
         ),
-        onTap: () {
-          setState(() {
-            oList = s;
-          });
-        },
+        onTap: widget.id.isEmpty || isEdit
+            ? () {
+                setState(() {
+                  oList = s;
+                });
+              }
+            : null,
       ));
     }
     return Padding(
@@ -281,6 +317,7 @@ class _AddMemberToBandScreenState
                         children: <Widget>[
                           TextField(
                             controller: _firstNameController,
+                            enabled: widget.id.isEmpty || isEdit,
                             decoration: InputDecoration(
                               labelText: "First Name",
                               labelStyle: TextStyle(
@@ -291,6 +328,7 @@ class _AddMemberToBandScreenState
                           ),
                           TextField(
                             controller: _lastNameController,
+                            enabled: widget.id.isEmpty || isEdit,
                             decoration: InputDecoration(
                               labelText: "Last Name",
                               labelStyle: TextStyle(
@@ -301,6 +339,7 @@ class _AddMemberToBandScreenState
                           ),
                           TextField(
                             controller: _mobileTextController,
+                            enabled: widget.id.isEmpty || isEdit,
                             decoration: InputDecoration(
                               labelText: "Mobile/Text",
                               labelStyle: TextStyle(
@@ -311,6 +350,7 @@ class _AddMemberToBandScreenState
                           ),
                           TextField(
                             controller: _primaryContactTextController,
+                            enabled: widget.id.isEmpty || isEdit,
                             decoration: InputDecoration(
                               labelText: "Primary Contact",
                               labelStyle: TextStyle(
@@ -321,6 +361,7 @@ class _AddMemberToBandScreenState
                           ),
                           TextField(
                             controller: _emailController,
+                            enabled: widget.id.isEmpty,
                             decoration: InputDecoration(
                               labelText: "Email",
                               labelStyle: TextStyle(
@@ -462,7 +503,7 @@ class _AddMemberToBandScreenState
                                     notes: _notesController.text,
                                     permissions: (psList),
                                   ),
-                                  widget.id);
+                                  widget.bandId);
                             },
                             child: Text(
                               "Submit",
@@ -498,6 +539,25 @@ class _AddMemberToBandScreenState
       if (users.length == 0) {
         showMessage("No User Found");
       }
+    });
+  }
+
+  @override
+  void bandMemberDetails(BandMember bandMember) {
+    setState(() {
+      hideLoading();
+      itemSelect = Contacts();
+      _firstNameController.text = bandMember.firstName;
+      _lastNameController.text = bandMember.lastName;
+      _mobileTextController.text = bandMember.mobileText;
+      _notesController.text = bandMember.notes;
+      _emailController.text = bandMember.email;
+      _otherTalentController.text = bandMember.otherTalent;
+      _payController.text = bandMember.pay;
+      _primaryContactTextController.text = bandMember.primaryContact;
+      psList = bandMember.permissions;
+      iList = bandMember.instrument;
+      mList.addAll(bandMember.memberRole);
     });
   }
 }

@@ -312,11 +312,12 @@ class MyApp extends StatelessWidget implements AppListener {
         postEntries: postEntries,
       );
     }));
-    _router.define(Screens.ADDMEMBERTOBAND.toString() + "/:id", handler:
+    _router.define(Screens.ADDMEMBERTOBAND.toString() + "/:id/:bandId", handler:
         Handler(
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["id"][0];
-      return AddMemberToBandScreen(this, id: id);
+      String bandId = params["bandId"][0];
+      return AddMemberToBandScreen(this, id: id,bandId: bandId,);
     }));
     // _router.define(Screens.COURSEDETAILS.toString() + "/:id/:id2", handler:
     //     Handler(

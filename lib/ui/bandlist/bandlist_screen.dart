@@ -80,7 +80,7 @@ class _BandListScreenState
                   return ListView.builder(
                     itemCount: _bands.length,
                     itemBuilder: (BuildContext context, int index) {
-                      final bnd = _bands[index];
+                      Band bnd = _bands[index];
                       return Card(
                         margin: EdgeInsets.all(6),
                         color: Color.fromRGBO(239,181, 77, 1.0),

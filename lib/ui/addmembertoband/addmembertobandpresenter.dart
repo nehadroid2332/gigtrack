@@ -7,7 +7,7 @@ import 'package:gigtrack/server/models/user.dart';
 
 abstract class AddMemberToBandContract extends BaseContract {
   void onSearchUser(List<Contacts> users);
-
+  void bandMemberDetails(BandMember bandMember);
   void onMemberAdd();
 }
 
@@ -18,6 +18,22 @@ class AddMemberToBandPresenter extends BasePresenter {
     final res = await serverAPI.searchUser(text);
     if (res is List<Contacts>) {
       (view as AddMemberToBandContract).onSearchUser(res);
+    } else if (res is ErrorResponse) {
+      view.showMessage(res.message);
+    }
+  }
+
+  void getBandDetails(String bandId, String id) async {
+    final res = await serverAPI.getBandDetails(bandId);
+    if (res is Band) {
+      for (var key in res.bandmates.keys) {
+        BandMember bandMember = res.bandmates[key];
+        if (bandMember.email == id) {
+          (view as AddMemberToBandContract).bandMemberDetails(bandMember);
+          return;
+        }
+      }
+       view.showMessage("No Data");
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
     }
