@@ -27,6 +27,8 @@ class Activites extends BaseModel {
   String bandTaskId;
   String bandTaskMemberId;
   bool isRecurring = false;
+  double latitude = 0;
+  double longitude = 0;
 
   List<Activites> subActivities = [];
 
@@ -44,6 +46,8 @@ class Activites extends BaseModel {
       this.other,
       this.bandId,
       this.estCompleteDate,
+      this.latitude,
+      this.longitude,
       this.title,
       this.bandTaskId,
       this.bandTaskMemberId});
@@ -54,6 +58,8 @@ class Activites extends BaseModel {
     startDate = data['start_date'];
     endDate = data['end_date'];
     location = data['location'];
+    latitude = data['latitude'];
+    longitude = data['longitude'];
     title = data['title'];
     travel = data['travel'];
     estCompleteDate = data['estCompleteDate'];
@@ -83,6 +89,8 @@ class Activites extends BaseModel {
     data['start_date'] = startDate ?? 0;
     data['end_date'] = endDate ?? 0;
     data['location'] = location ?? "";
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
     data['task'] = task ?? "";
     data['travel'] = travel ?? "";
     data['estCompleteDate'] = estCompleteDate;

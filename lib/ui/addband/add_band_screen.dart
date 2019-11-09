@@ -105,12 +105,7 @@ class _AddBandScreenState
   @override
   void initState() {
     super.initState();
-    if (widget.id.isNotEmpty) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        showLoading();
-        presenter.getBandDetails(widget.id);
-      });
-    }
+    getData();
   }
 
   @override
@@ -292,12 +287,12 @@ class _AddBandScreenState
                         ),
 
                         widget.id.isEmpty || isEdit ? Container() : Container(),
-//                        Text(
-//                                "Name",
-//                                textAlign: TextAlign.center,
-//                                style: textTheme.subhead
-//                                    .copyWith(fontWeight: FontWeight.w600),
-//                              ),
+                        //                        Text(
+                        //                                "Name",
+                        //                                textAlign: TextAlign.center,
+                        //                                style: textTheme.subhead
+                        //                                    .copyWith(fontWeight: FontWeight.w600),
+                        //                              ),
                         Padding(
                           padding: EdgeInsets.all(3),
                         ),
@@ -331,12 +326,12 @@ class _AddBandScreenState
                           padding: EdgeInsets.all(1),
                         ),
                         widget.id.isEmpty || isEdit ? Container() : Container(),
-//                        Text(
-//                                "City",
-//                                textAlign: TextAlign.center,
-//                                style: textTheme.subhead
-//                                    .copyWith(fontWeight: FontWeight.w600),
-//                              ),
+                        //                        Text(
+                        //                                "City",
+                        //                                textAlign: TextAlign.center,
+                        //                                style: textTheme.subhead
+                        //                                    .copyWith(fontWeight: FontWeight.w600),
+                        //                              ),
                         //Padding(padding: EdgeInsets.all(3),),
                         widget.id.isEmpty || isEdit
                             ? TextField(
@@ -363,12 +358,12 @@ class _AddBandScreenState
                               ),
                         //  Padding(padding: EdgeInsets.all(5),),
                         widget.id.isEmpty || isEdit ? Container() : Container(),
-//                        Text(
-//                                "State",
-//                                textAlign: TextAlign.center,
-//                                style: textTheme.subhead
-//                                    .copyWith(fontWeight: FontWeight.w600),
-//                              ),
+                        //                        Text(
+                        //                                "State",
+                        //                                textAlign: TextAlign.center,
+                        //                                style: textTheme.subhead
+                        //                                    .copyWith(fontWeight: FontWeight.w600),
+                        //                              ),
                         // Padding(padding: EdgeInsets.all(3),),
                         widget.id.isEmpty || isEdit
                             ? TextField(
@@ -390,18 +385,18 @@ class _AddBandScreenState
                                 ),
                               )
                             : Container(),
-//                        Text(
-//                          _bandStateController.text,
-//                          textAlign: TextAlign.center,
-//                        ),
+                        //                        Text(
+                        //                          _bandStateController.text,
+                        //                          textAlign: TextAlign.center,
+                        //                        ),
                         //  Padding(padding: EdgeInsets.all(5),),
                         widget.id.isEmpty || isEdit ? Container() : Container(),
-//                        Text(
-//                                "ZIP",
-//                                textAlign: TextAlign.center,
-//                                style: textTheme.subhead
-//                                    .copyWith(fontWeight: FontWeight.w600),
-//                              ),
+                        //                        Text(
+                        //                                "ZIP",
+                        //                                textAlign: TextAlign.center,
+                        //                                style: textTheme.subhead
+                        //                                    .copyWith(fontWeight: FontWeight.w600),
+                        //                              ),
                         //Padding(padding: EdgeInsets.all(3),),
                         widget.id.isEmpty || isEdit
                             ? TextField(
@@ -423,17 +418,17 @@ class _AddBandScreenState
                                 ),
                               )
                             : Container(),
-//                        Text(
-//                          _bandZipController.text,
-//                          textAlign: TextAlign.center,
-//                        ),
+                        //                        Text(
+                        //                          _bandZipController.text,
+                        //                          textAlign: TextAlign.center,
+                        //                        ),
                         widget.id.isEmpty || isEdit ? Container() : Container(),
-//                        Text(
-//                                "Date Established",
-//                                textAlign: TextAlign.center,
-//                                style: textTheme.subhead
-//                                    .copyWith(fontWeight: FontWeight.w600),
-//                              ),
+                        //                        Text(
+                        //                                "Date Established",
+                        //                                textAlign: TextAlign.center,
+                        //                                style: textTheme.subhead
+                        //                                    .copyWith(fontWeight: FontWeight.w600),
+                        //                              ),
                         Padding(
                           padding: EdgeInsets.all(1),
                         ),
@@ -473,9 +468,9 @@ class _AddBandScreenState
                                     child: Text(
                                       "Date est",
                                       textAlign: TextAlign.right,
-//                                style: textTheme.subtitle.copyWith(
-//                                  fontWeight: FontWeight.w600,
-//                                ),
+                                      //                                style: textTheme.subtitle.copyWith(
+                                      //                                  fontWeight: FontWeight.w600,
+                                      //                                ),
                                     ),
                                   ),
                                   Expanded(
@@ -494,113 +489,113 @@ class _AddBandScreenState
                                   )
                                 ],
                               ),
-//                        Text(
-//                                _dateStartedController.text,
-//                                textAlign: TextAlign.center,
-//                              ),
+                        //                        Text(
+                        //                                _dateStartedController.text,
+                        //                                textAlign: TextAlign.center,
+                        //                              ),
 
-//                      Padding(
-//                        padding: EdgeInsets.all(5),
-//                      ),
-//                      widget.id.isEmpty || isEdit
-//                          ? Container()
-//                          : Text(
-//                              "Music Style",
-//                              textAlign: TextAlign.center,
-//                              style: textTheme.subhead,
-//                            ),
-//                      widget.id.isEmpty || isEdit
-//                          ? TextField(
-//                              enabled: widget.id.isEmpty || isEdit,
-//                              controller: _musicStyleController,
-//                              textCapitalization: TextCapitalization.sentences,
-//                              decoration: InputDecoration(
-//                                labelStyle: TextStyle(
-//                                  color: Color.fromRGBO(202, 208, 215, 1.0),
-//                                ),
-//                                labelText: "Music Style",
-//                                errorText: _errorMusicStyle,
-//                                border: widget.id.isEmpty || isEdit
-//                                    ? null
-//                                    : InputBorder.none,
-//                              ),
-//                              style: textTheme.subhead.copyWith(
-//                                color: Colors.black,
-//                              ),
-//                            )
-//                          : Text(
-//                              _musicStyleController.text,
-//                              textAlign: TextAlign.center,
-//                            ),
+                        //                      Padding(
+                        //                        padding: EdgeInsets.all(5),
+                        //                      ),
+                        //                      widget.id.isEmpty || isEdit
+                        //                          ? Container()
+                        //                          : Text(
+                        //                              "Music Style",
+                        //                              textAlign: TextAlign.center,
+                        //                              style: textTheme.subhead,
+                        //                            ),
+                        //                      widget.id.isEmpty || isEdit
+                        //                          ? TextField(
+                        //                              enabled: widget.id.isEmpty || isEdit,
+                        //                              controller: _musicStyleController,
+                        //                              textCapitalization: TextCapitalization.sentences,
+                        //                              decoration: InputDecoration(
+                        //                                labelStyle: TextStyle(
+                        //                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                        //                                ),
+                        //                                labelText: "Music Style",
+                        //                                errorText: _errorMusicStyle,
+                        //                                border: widget.id.isEmpty || isEdit
+                        //                                    ? null
+                        //                                    : InputBorder.none,
+                        //                              ),
+                        //                              style: textTheme.subhead.copyWith(
+                        //                                color: Colors.black,
+                        //                              ),
+                        //                            )
+                        //                          : Text(
+                        //                              _musicStyleController.text,
+                        //                              textAlign: TextAlign.center,
+                        //                            ),
                         Padding(
                           padding: EdgeInsets.all(5),
                         ),
-//                      widget.id.isEmpty || isEdit
-//                          ? Container()
-//                          : Text(
-//                              "Website",
-//                              textAlign: TextAlign.center,
-//                              style: textTheme.subhead
-//                                  .copyWith(fontWeight: FontWeight.w600),
-//                            ),
-//                      widget.id.isEmpty || isEdit
-//                          ? TextField(
-//                              enabled: widget.id.isEmpty || isEdit,
-//                              controller: _websiteController,
-//                              style: textTheme.subhead.copyWith(
-//                                color: Colors.black,
-//                              ),
-//                              decoration: InputDecoration(
-//                                labelText: "Website",
-//                                labelStyle: TextStyle(
-//                                  color: Color.fromRGBO(202, 208, 215, 1.0),
-//                                ),
-//                                errorText: _errorWebsite,
-//                                border: widget.id.isEmpty || isEdit
-//                                    ? null
-//                                    : InputBorder.none,
-//                              ),
-//                            )
-//                          : Text(
-//                              _websiteController.text,
-//                              textAlign: TextAlign.center,
-//                            ),
-//                      Padding(
-//                        padding: EdgeInsets.all(5),
-//                      ),
-//                      widget.id.isEmpty || isEdit
-//                          ? Container()
-//                          : Text(
-//                              "Email Address",
-//                              textAlign: TextAlign.center,
-//                              style: textTheme.subhead
-//                                  .copyWith(fontWeight: FontWeight.w600),
-//                            ),
-//                      widget.id.isEmpty || isEdit
-//                          ? TextField(
-//                              enabled: widget.id.isEmpty || isEdit,
-//                              controller: _emailController,
-//                              style: textTheme.subhead.copyWith(
-//                                color: Colors.black,
-//                              ),
-//                              decoration: InputDecoration(
-//                                labelText: "Email Address",
-//                                labelStyle: TextStyle(
-//                                  color: Color.fromRGBO(202, 208, 215, 1.0),
-//                                ),
-//                                errorText: _errorEmail,
-//                                border: widget.id.isEmpty || isEdit
-//                                    ? null
-//                                    : InputBorder.none,
-//                              ),
-//                            )
-//                          : Text(
-//                              _emailController.text,
-//                              textAlign: TextAlign.center,
-//                            ),
-//                      Padding(
-//                        padding: EdgeInsets.all(5),
-//                      ),
+                        //                      widget.id.isEmpty || isEdit
+                        //                          ? Container()
+                        //                          : Text(
+                        //                              "Website",
+                        //                              textAlign: TextAlign.center,
+                        //                              style: textTheme.subhead
+                        //                                  .copyWith(fontWeight: FontWeight.w600),
+                        //                            ),
+                        //                      widget.id.isEmpty || isEdit
+                        //                          ? TextField(
+                        //                              enabled: widget.id.isEmpty || isEdit,
+                        //                              controller: _websiteController,
+                        //                              style: textTheme.subhead.copyWith(
+                        //                                color: Colors.black,
+                        //                              ),
+                        //                              decoration: InputDecoration(
+                        //                                labelText: "Website",
+                        //                                labelStyle: TextStyle(
+                        //                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                        //                                ),
+                        //                                errorText: _errorWebsite,
+                        //                                border: widget.id.isEmpty || isEdit
+                        //                                    ? null
+                        //                                    : InputBorder.none,
+                        //                              ),
+                        //                            )
+                        //                          : Text(
+                        //                              _websiteController.text,
+                        //                              textAlign: TextAlign.center,
+                        //                            ),
+                        //                      Padding(
+                        //                        padding: EdgeInsets.all(5),
+                        //                      ),
+                        //                      widget.id.isEmpty || isEdit
+                        //                          ? Container()
+                        //                          : Text(
+                        //                              "Email Address",
+                        //                              textAlign: TextAlign.center,
+                        //                              style: textTheme.subhead
+                        //                                  .copyWith(fontWeight: FontWeight.w600),
+                        //                            ),
+                        //                      widget.id.isEmpty || isEdit
+                        //                          ? TextField(
+                        //                              enabled: widget.id.isEmpty || isEdit,
+                        //                              controller: _emailController,
+                        //                              style: textTheme.subhead.copyWith(
+                        //                                color: Colors.black,
+                        //                              ),
+                        //                              decoration: InputDecoration(
+                        //                                labelText: "Email Address",
+                        //                                labelStyle: TextStyle(
+                        //                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                        //                                ),
+                        //                                errorText: _errorEmail,
+                        //                                border: widget.id.isEmpty || isEdit
+                        //                                    ? null
+                        //                                    : InputBorder.none,
+                        //                              ),
+                        //                            )
+                        //                          : Text(
+                        //                              _emailController.text,
+                        //                              textAlign: TextAlign.center,
+                        //                            ),
+                        //                      Padding(
+                        //                        padding: EdgeInsets.all(5),
+                        //                      ),
 
                         Padding(
                           padding: EdgeInsets.only(
@@ -657,12 +652,11 @@ class _AddBandScreenState
                                   }
                                   return InkWell(
                                     onTap: () async {
-                                      await widget.appListener.router
-                                          .navigateTo(
-                                              context,
-                                              Screens.ADDMEMBERTOBAND
-                                                      .toString() +
-                                                  "/${user.email}/${widget.id}");
+                                      await widget.appListener.router.navigateTo(
+                                          context,
+                                          Screens.ADDMEMBERTOBAND.toString() +
+                                              "/${user.email}/${widget.id}");
+                                      getData();
                                     },
                                     child: Padding(
                                       padding:
@@ -869,12 +863,12 @@ class _AddBandScreenState
                                     if (bname.isEmpty) {
                                       _errorBandName = "Cannot be empty";
                                     }
-//                                  else if (email.isEmpty) {
-//                                    _errorEmail = "Cannot be empty";
-//                                  }
-//                                  else if (validateEmail(email)) {
-//                                    _errorEmail = "Not a Valid Email";
-//                                  }
+                                    //                                  else if (email.isEmpty) {
+                                    //                                    _errorEmail = "Cannot be empty";
+                                    //                                  }
+                                    //                                  else if (validateEmail(email)) {
+                                    //                                    _errorEmail = "Not a Valid Email";
+                                    //                                  }
                                     else {
                                       showLoading();
                                       presenter.addBand(
@@ -910,81 +904,81 @@ class _AddBandScreenState
           )
         ],
       ),
-//      floatingActionButton: widget.id.isEmpty || isEdit
-//          ? Container()
-//          : SpeedDial(
-//              marginRight: 35,
-//              animatedIcon: AnimatedIcons.menu_close,
-//              backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
-//              children: [
-//                SpeedDialChild(
-//                  label: "Band Activities",
-//                  child: Icon(Icons.add),
-//                  backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
-//                  onTap: () async {
-//                    widget.appListener.router.navigateTo(
-//                        context,
-//                        Screens.ACTIVITIESLIST.toString() +
-//                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-//                  },
-//                ),
-//                SpeedDialChild(
-//                  label: "Band Contacts",
-//                  child: Icon(Icons.add),
-//                  backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
-//                  onTap: () async {
-//                    widget.appListener.router.navigateTo(
-//                        context,
-//                        Screens.CONTACTLIST.toString() +
-//                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-//                  },
-//                ),
-//                SpeedDialChild(
-//                  label: "Band EPK",
-//                  child: Icon(Icons.add),
-//                  backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
-//                  onTap: () async {
-//                    widget.appListener.router.navigateTo(
-//                        context,
-//                        Screens.PLAYINGSTYLELIST.toString() +
-//                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-//                  },
-//                ),
-//                SpeedDialChild(
-//                  label: "Band Task",
-//                  child: Icon(Icons.add),
-//                  backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
-//                  onTap: () async {
-//                    widget.appListener.router.navigateTo(
-//                        context,
-//                        Screens.ACTIVITIESLIST.toString() +
-//                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-//                  },
-//                ),
-//                SpeedDialChild(
-//                  label: "Band Equipment",
-//                  child: Icon(Icons.add),
-//                  backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
-//                  onTap: () async {
-//                    widget.appListener.router.navigateTo(
-//                        context,
-//                        Screens.INSTRUMENTLIST.toString() +
-//                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-//                  },
-//                ),
-//                SpeedDialChild(
-//                  label: "Band Notes",
-//                  child: Icon(Icons.add),
-//                  backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
-//                  onTap: () async {
-//                    widget.appListener.router.navigateTo(
-//                        context,
-//                        Screens.NOTETODOLIST.toString() +
-//                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-//                  },
-//                ),
-//              ],
-//            ),
+      //      floatingActionButton: widget.id.isEmpty || isEdit
+      //          ? Container()
+      //          : SpeedDial(
+      //              marginRight: 35,
+      //              animatedIcon: AnimatedIcons.menu_close,
+      //              backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
+      //              children: [
+      //                SpeedDialChild(
+      //                  label: "Band Activities",
+      //                  child: Icon(Icons.add),
+      //                  backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
+      //                  onTap: () async {
+      //                    widget.appListener.router.navigateTo(
+      //                        context,
+      //                        Screens.ACTIVITIESLIST.toString() +
+      //                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+      //                  },
+      //                ),
+      //                SpeedDialChild(
+      //                  label: "Band Contacts",
+      //                  child: Icon(Icons.add),
+      //                  backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
+      //                  onTap: () async {
+      //                    widget.appListener.router.navigateTo(
+      //                        context,
+      //                        Screens.CONTACTLIST.toString() +
+      //                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+      //                  },
+      //                ),
+      //                SpeedDialChild(
+      //                  label: "Band EPK",
+      //                  child: Icon(Icons.add),
+      //                  backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
+      //                  onTap: () async {
+      //                    widget.appListener.router.navigateTo(
+      //                        context,
+      //                        Screens.PLAYINGSTYLELIST.toString() +
+      //                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+      //                  },
+      //                ),
+      //                SpeedDialChild(
+      //                  label: "Band Task",
+      //                  child: Icon(Icons.add),
+      //                  backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
+      //                  onTap: () async {
+      //                    widget.appListener.router.navigateTo(
+      //                        context,
+      //                        Screens.ACTIVITIESLIST.toString() +
+      //                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+      //                  },
+      //                ),
+      //                SpeedDialChild(
+      //                  label: "Band Equipment",
+      //                  child: Icon(Icons.add),
+      //                  backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
+      //                  onTap: () async {
+      //                    widget.appListener.router.navigateTo(
+      //                        context,
+      //                        Screens.INSTRUMENTLIST.toString() +
+      //                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+      //                  },
+      //                ),
+      //                SpeedDialChild(
+      //                  label: "Band Notes",
+      //                  child: Icon(Icons.add),
+      //                  backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
+      //                  onTap: () async {
+      //                    widget.appListener.router.navigateTo(
+      //                        context,
+      //                        Screens.NOTETODOLIST.toString() +
+      //                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+      //                  },
+      //                ),
+      //              ],
+      //            ),
     );
   }
 
@@ -1067,5 +1061,14 @@ class _AddBandScreenState
   void onUpdate() {
     showLoading();
     presenter.getBandDetails(widget.id);
+  }
+
+  void getData() {
+    if (widget.id.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showLoading();
+        presenter.getBandDetails(widget.id);
+      });
+    }
   }
 }

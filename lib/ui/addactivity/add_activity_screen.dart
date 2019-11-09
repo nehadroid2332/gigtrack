@@ -88,6 +88,8 @@ class _AddActivityScreenState
 
   String selectedBandMemberId;
 
+  double longitude, latitude = 0;
+
   Future<Null> _selectDate(BuildContext context, int type) async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -624,6 +626,8 @@ class _AddActivityScreenState
                                       countryCode: "US",
                                       typeFilter: TypeFilter.ESTABLISHMENT,
                                     );
+                                    latitude = place.latitude;
+                                    longitude = place.longitude;
                                     _locController.text = place.address;
                                   },
                                 ),
