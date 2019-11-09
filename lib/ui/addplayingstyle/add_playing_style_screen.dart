@@ -1465,7 +1465,7 @@ class _AddPlayingStyleScreenState
 
   @override
   void onDelete() {
-    Navigator.of(context).pop();
+    // Navigator.of(context).pop();
   }
 
   @override

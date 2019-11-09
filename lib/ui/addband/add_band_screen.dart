@@ -8,6 +8,7 @@ import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/band_member.dart';
+import 'package:gigtrack/server/models/user_playing_style.dart';
 import 'package:gigtrack/ui/addband/add_band_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:image_picker/image_picker.dart';
@@ -64,6 +65,8 @@ class _AddBandScreenState
 
   Map<String, BandMember> bandmates = {};
 
+  String userPlayingStyleId;
+
   Future getImage() async {
     showDialog(
       context: context,
@@ -106,6 +109,7 @@ class _AddBandScreenState
   void initState() {
     super.initState();
     getData();
+    presenter.getPlayingStyleList(widget.id);
   }
 
   @override
@@ -802,8 +806,13 @@ class _AddBandScreenState
                                 onPressed: () {
                                   widget.appListener.router.navigateTo(
                                       context,
-                                      Screens.PLAYINGSTYLELIST.toString() +
-                                          "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                                      Screens.ADDPLAYINGSTYLE.toString() +
+                                          "/$userPlayingStyleId/${widget.id}////");
+
+                                  // widget.appListener.router.navigateTo(
+                                  //     context,
+                                  //     Screens.PLAYINGSTYLELIST.toString() +
+                                  //         "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
                                 },
                               ),
                         widget.id.isEmpty || isEdit
@@ -1069,6 +1078,14 @@ class _AddBandScreenState
         showLoading();
         presenter.getBandDetails(widget.id);
       });
+    }
+  }
+
+  @override
+  void onData(List<UserPlayingStyle> acc) {
+    if (acc.length > 0) {
+      UserPlayingStyle userPlayingStyle = acc[0];
+      userPlayingStyleId = userPlayingStyle.id;
     }
   }
 }

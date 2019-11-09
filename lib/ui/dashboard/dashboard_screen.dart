@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
+import 'package:gigtrack/server/models/user_playing_style.dart';
 import 'package:gigtrack/ui/dashboard/dashboard_presenter.dart';
 
 class DashboardScreen extends BaseScreen {
@@ -12,7 +13,16 @@ class DashboardScreen extends BaseScreen {
 }
 
 class _DashboardScreenState
-    extends BaseScreenState<DashboardScreen, DashboardPresenter> {
+    extends BaseScreenState<DashboardScreen, DashboardPresenter>
+    implements DashboardContract {
+  String userPlayingStyleId;
+
+  @override
+  void initState() {
+    super.initState();
+    presenter.getPlayingStyleList("");
+  }
+
   @override
   Widget buildBody() {
     return Container(
@@ -213,10 +223,17 @@ class _DashboardScreenState
                       else if (txt == "Equipment")
                         widget.appListener.router.navigateTo(context,
                             Screens.INSTRUMENTLIST.toString() + "/////");
-                      else if (txt == "EPK")
-                        widget.appListener.router.navigateTo(context,
-                            Screens.PLAYINGSTYLELIST.toString() + "/////");
-                      else if (txt == "Contacts")
+                      else if (txt == "EPK") {
+                        if (userPlayingStyleId == null) {
+                          widget.appListener.router.navigateTo(context,
+                              Screens.ADDPLAYINGSTYLE.toString() + "//////");
+                        } else {
+                          widget.appListener.router.navigateTo(
+                              context,
+                              Screens.ADDPLAYINGSTYLE.toString() +
+                                  "/$userPlayingStyleId/////");
+                        }
+                      } else if (txt == "Contacts")
                         widget.appListener.router.navigateTo(
                             context, Screens.CONTACTLIST.toString() + "/////");
                       else if (txt == "Bulletin Board")
@@ -235,4 +252,12 @@ class _DashboardScreenState
 
   @override
   DashboardPresenter get presenter => DashboardPresenter(this);
+
+  @override
+  void onData(List<UserPlayingStyle> acc) {
+    if (acc.length > 0) {
+      UserPlayingStyle userPlayingStyle = acc[0];
+      userPlayingStyleId = userPlayingStyle.id;
+    }
+  }
 }

@@ -2,11 +2,13 @@ import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/band_member.dart';
 import 'package:gigtrack/server/models/error_response.dart';
+import 'package:gigtrack/server/models/user_playing_style.dart';
 
 abstract class AddBandContract extends BaseContract {
   void addBandSuccess();
   void onUpdate();
   void getBandDetails(Band band);
+  void onData(List<UserPlayingStyle> acc);
 }
 
 class AddBandPresenter extends BasePresenter {
@@ -65,5 +67,33 @@ class AddBandPresenter extends BasePresenter {
 
   void deleteBand(String id) async {
     serverAPI.deleteBand(id);
+  }
+
+  void getPlayingStyleList(String bandId) async {
+    if (bandId != null) {
+      final snapshot = await serverAPI.playingStyleDB
+          .orderByChild('bandId')
+          .equalTo(bandId)
+          .once();
+      Map mp = snapshot.value;
+      if (mp == null) return null;
+      List<UserPlayingStyle> acc = [];
+      for (var d in mp.values) {
+        acc.add(UserPlayingStyle.fromJSON(d));
+      }
+      (view as AddBandContract).onData(acc);
+    } else {
+      final snapshot = await serverAPI.playingStyleDB
+          .orderByChild('user_id')
+          .equalTo(serverAPI.currentUserId)
+          .once();
+      Map mp = snapshot.value;
+      if (mp == null) return null;
+      List<UserPlayingStyle> acc = [];
+      for (var d in mp.values) {
+        acc.add(UserPlayingStyle.fromJSON(d));
+      }
+      (view as AddBandContract).onData(acc);
+    }
   }
 }

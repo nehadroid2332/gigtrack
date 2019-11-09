@@ -160,6 +160,7 @@ class _PlayingStyleListScreenState
                     context,
                     Screens.ADDPLAYINGSTYLE.toString() +
                         "//${widget.bandId}////");
+                        
               },
               child: Icon(Icons.add),
               backgroundColor: Color.fromRGBO(124, 180, 97, 1.0),
