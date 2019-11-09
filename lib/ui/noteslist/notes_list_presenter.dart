@@ -7,7 +7,7 @@ class NotesListPresenter extends BasePresenter {
   NotesListPresenter(BaseContract view) : super(view);
 
   Stream<List<NotesTodo>> getList(String bandId) {
-    if (bandId != null)
+    if (bandId != null && bandId.isNotEmpty)
       return serverAPI.notesDB
           .orderByChild('bandId')
           .equalTo(bandId)

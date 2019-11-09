@@ -7,7 +7,7 @@ class ContactListPresenter extends BasePresenter {
   ContactListPresenter(BaseContract view) : super(view);
 
   Stream<List<Contacts>> getContacts(String bandId) {
-    if (bandId != null)
+    if (bandId != null && bandId.isNotEmpty)
       return serverAPI.contactDB
           .orderByChild('bandId')
           .equalTo(bandId)

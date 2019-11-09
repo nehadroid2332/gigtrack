@@ -7,7 +7,7 @@ class InstrumentListPresenter extends BasePresenter {
   InstrumentListPresenter(BaseContract view) : super(view);
 
   Stream<List<UserInstrument>> getList(String bandId) {
-    if (bandId != null)
+    if (bandId != null && bandId.isNotEmpty)
       return serverAPI.equipmentsDB
           .orderByChild('bandId')
           .equalTo(bandId)

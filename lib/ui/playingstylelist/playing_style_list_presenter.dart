@@ -9,7 +9,7 @@ class PlayingStyleListPresenter extends BasePresenter {
   PlayingStyleListPresenter(BaseContract view) : super(view);
 
   Stream<List<UserPlayingStyle>> getList(String bandId) {
-    if (bandId != null)
+    if (bandId != null && bandId.isNotEmpty)
       return serverAPI.playingStyleDB
           .orderByChild('bandId')
           .equalTo(bandId)
