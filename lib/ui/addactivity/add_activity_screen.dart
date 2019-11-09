@@ -657,28 +657,37 @@ class _AddActivityScreenState
                                   padding: EdgeInsets.only(
                                     top: 10,
                                   ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.location_on,
-                                        color: Colors.grey,
-                                      ),
-                                      Expanded(
-                                        child: Padding(
-                                          padding: EdgeInsets.only(left: 5),
-                                          child: Text(
-                                            _locController.text,
-                                            textAlign: TextAlign.center,
-                                            style: textTheme.subhead.copyWith(
-                                              color: Colors.grey,
+                                  child: InkWell(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.location_on,
+                                          color: Colors.grey,
+                                        ),
+                                        Expanded(
+                                          child: Padding(
+                                            padding: EdgeInsets.only(left: 5),
+                                            child: Text(
+                                              _locController.text,
+                                              textAlign: TextAlign.center,
+                                              style: textTheme.subhead.copyWith(
+                                                color: Colors.grey,
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
+                                    onTap: () async {
+                                      widget.appListener.router.navigateTo(
+                                          context,
+                                          Screens.GOOGLEMAPS.toString() +
+                                              '/$latitude/$longitude');
+                                    },
                                   ),
                                 )
                               : Container(),
@@ -1336,6 +1345,8 @@ class _AddActivityScreenState
                                               0
                                           : 0,
                                       location: loc,
+                                      latitude: latitude,
+                                      longitude: longitude,
                                       type: widget.type,
                                       parking: park,
                                       wardrobe: ward,
@@ -1441,6 +1452,8 @@ class _AddActivityScreenState
         _taskCompletion.text =
             formatDate(completionDate, [D, ', ', mm, '-', dd, '-', yy]);
       }
+      latitude = activities.latitude;
+      longitude = activities.longitude;
       subActivities.clear();
       subActivities.addAll(activities.subActivities);
       _titleController.text = activities.title;

@@ -11,6 +11,8 @@
         android:name=".GigTrackApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="gigtrack">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyBPyhyGOHdrur7NmsyLStjhpitr_6IknCc"/>
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"

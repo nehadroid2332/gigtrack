@@ -14,6 +14,7 @@ import 'package:gigtrack/ui/bulletinboardlist/bulletinboard_list_screen.dart';
 import 'package:gigtrack/ui/contactlist/contact_list_screen.dart';
 import 'package:gigtrack/ui/dashboard/dashboard_screen.dart';
 import 'package:gigtrack/ui/forgotpassword/forgot_password_screen.dart';
+import 'package:gigtrack/ui/google_maps_screen/google_maps_screen.dart';
 import 'package:gigtrack/ui/instrumentlist/instrument_list_screen.dart';
 import 'package:gigtrack/ui/login/login_screen.dart';
 import 'package:gigtrack/ui/noteslist/notes_list_screen.dart';
@@ -317,7 +318,22 @@ class MyApp extends StatelessWidget implements AppListener {
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["id"][0];
       String bandId = params["bandId"][0];
-      return AddMemberToBandScreen(this, id: id,bandId: bandId,);
+      return AddMemberToBandScreen(
+        this,
+        id: id,
+        bandId: bandId,
+      );
+    }));
+    _router.define(Screens.GOOGLEMAPS.toString() + "/:latitude/:longitude",
+        handler: Handler(
+            handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      double latitude = double.tryParse(params["latitude"][0]);
+      double longitude = double.tryParse(params["longitude"][0]);
+      return GoogleMapsScreen(
+        this,
+        latitude: latitude,
+        longitude: longitude,
+      );
     }));
     // _router.define(Screens.COURSEDETAILS.toString() + "/:id/:id2", handler:
     //     Handler(
@@ -402,5 +418,6 @@ enum Screens {
   CONTACTLIST,
   PRIVACY,
   ADDBULLETIN,
-  BULLETINLISTLIST
+  BULLETINLISTLIST,
+  GOOGLEMAPS
 }
