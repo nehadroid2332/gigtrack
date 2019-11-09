@@ -40,6 +40,7 @@ class _PlayingStyleListScreenState
     super.initState();
     _isLoading = true;
     list = presenter.getList(widget.bandId);
+    getData();
   }
 
   @override
@@ -123,10 +124,10 @@ class _PlayingStyleListScreenState
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 20),
                                 ),
-//                                Text(
-//                                  "${userPlayingStyle.instruments}",
-//                                  style: TextStyle(color: Colors.white),
-//                                )
+                                //                                Text(
+                                //                                  "${userPlayingStyle.instruments}",
+                                //                                  style: TextStyle(color: Colors.white),
+                                //                                )
                               ],
                             ),
                           ),
@@ -187,5 +188,12 @@ class _PlayingStyleListScreenState
             replace: true);
       }
     }
+  }
+
+  void getData() async {
+    await Future.delayed(Duration(seconds: 2));
+    setState(() {
+      _isLoading = false;
+    });
   }
 }
