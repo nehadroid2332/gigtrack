@@ -262,9 +262,7 @@ class _AddPlayingStyleScreenState
                 } else {
                   showLoading();
                   presenter.deletePlayingStyle(widget.id);
-                  //Navigator.of(context).pop();
-                  Navigator.of(context).popUntil(ModalRoute.withName(
-                      Screens.PLAYINGSTYLELIST.toString() + "/////"));
+                  Navigator.of(context).pop();
                 }
               },
             ),
@@ -929,7 +927,9 @@ class _AddPlayingStyleScreenState
                               delay: 1000,
                             )
                           : Container(),
-                      Padding(padding: EdgeInsets.all(5),),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
                       isEducation && widget.bandId.isEmpty
                           ? Text(
                               "Education",
@@ -1071,9 +1071,9 @@ class _AddPlayingStyleScreenState
                               ? Text(
                                   "Band Contact Info",
                                   textAlign: TextAlign.center,
-                                  style: textTheme.title
-                                      .copyWith(fontSize: 19,
-                                  color: Color.fromRGBO(124, 180, 97, 1.0),
+                                  style: textTheme.title.copyWith(
+                                    fontSize: 19,
+                                    color: Color.fromRGBO(124, 180, 97, 1.0),
                                   ),
                                 )
                               : Container(),
@@ -1169,10 +1169,10 @@ class _AddPlayingStyleScreenState
                                   child: Text(
                                     "About the Band",
                                     textAlign: TextAlign.center,
-                                    style: textTheme.title
-                                        .copyWith(fontSize: 19,
-                                        color:Color.fromRGBO(124, 180, 97, 1.0)
-                                    ),
+                                    style: textTheme.title.copyWith(
+                                        fontSize: 19,
+                                        color:
+                                            Color.fromRGBO(124, 180, 97, 1.0)),
                                   ),
                                 )
                               : Container(),
@@ -1465,7 +1465,7 @@ class _AddPlayingStyleScreenState
 
   @override
   void onDelete() {
-    // Navigator.of(context).pop();
+    Navigator.of(context).pop();
   }
 
   @override

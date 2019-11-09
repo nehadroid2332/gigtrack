@@ -210,7 +210,7 @@ class _DashboardScreenState
                         ),
                       ),
                     ),
-                    onTap: () {
+                    onTap: () async {
                       if (txt == "Activities")
                         widget.appListener.router.navigateTo(context,
                             Screens.ACTIVITIESLIST.toString() + "/////");
@@ -225,14 +225,16 @@ class _DashboardScreenState
                             Screens.INSTRUMENTLIST.toString() + "/////");
                       else if (txt == "EPK") {
                         if (userPlayingStyleId == null) {
-                          widget.appListener.router.navigateTo(context,
+                          await widget.appListener.router.navigateTo(context,
                               Screens.ADDPLAYINGSTYLE.toString() + "//////");
                         } else {
-                          widget.appListener.router.navigateTo(
+                          await widget.appListener.router.navigateTo(
                               context,
                               Screens.ADDPLAYINGSTYLE.toString() +
                                   "/$userPlayingStyleId/////");
                         }
+                        userPlayingStyleId = "";
+                        presenter.getPlayingStyleList("");
                       } else if (txt == "Contacts")
                         widget.appListener.router.navigateTo(
                             context, Screens.CONTACTLIST.toString() + "/////");
