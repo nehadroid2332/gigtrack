@@ -312,6 +312,19 @@ class ServerAPI {
               }
             }
           }
+          if (detail.userId != null && detail.userId.isNotEmpty) {
+            final res = await addNotification(Notification(
+              bandId: activities.bandId,
+              created: DateTime.now().millisecondsSinceEpoch,
+              notiId: activities.id,
+              text: "A new activity created in the band(${detail.name})",
+              type: Notification.TYPE_ACTIVITY,
+              userId: detail.userId,
+            ));
+            if (res is Notification) {
+              sendPushNotification(res);
+            }
+          }
         }
       }
       await activitiesDB.child(activities.id).set(activities.toMap());
