@@ -352,7 +352,7 @@ class _AddMemberToBandScreenState
                             controller: _primaryContactTextController,
                             enabled: widget.id.isEmpty || isEdit,
                             decoration: InputDecoration(
-                              labelText: "Primary Contact",
+                              labelText: "Emergency Contact",
                               labelStyle: TextStyle(
                                 color: Color.fromRGBO(169, 176, 187, 1.0),
                               ),

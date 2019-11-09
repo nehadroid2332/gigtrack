@@ -246,7 +246,7 @@ class _AddBandScreenState
           ),
           Text(" - "),
           Expanded(
-            child: Text("${mem.primaryContact ?? 'No Contact Added'}"),
+            child: Text("${mem.mobileText ?? 'No Contact Added'}"),
           )
         ],
       ));
@@ -668,8 +668,7 @@ class _AddBandScreenState
                                       child: Text(
                                         "${user.firstName} ${user.lastName} - ${user.memberRole?.join(',') ?? ''}\n$permission",
                                         style: textTheme.subhead.copyWith(
-                                          color:
-                                              Color.fromRGBO(135, 67, 125, 1.0),
+                                          color: Colors.black,
                                           fontSize: 12.3,
                                         ),
                                         textAlign: TextAlign.center,
@@ -722,7 +721,9 @@ class _AddBandScreenState
                                       Icons.add,
                                       color: widget.appListener.accentColor,
                                     ),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      showDialogConfirm();
+                                    },
                                   )
                                 ],
                               ),
@@ -1039,6 +1040,43 @@ class _AddBandScreenState
               formatDate(selectedEndDate, [mm, '-', dd, '-', yy]);
         }
       });
+  }
+
+  showDialogConfirm() {
+    // flutter defined function
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          contentPadding: EdgeInsets.all(15),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          title: new Text(
+            "Information!",
+            textAlign: TextAlign.center,
+          ),
+          content: Text("Release date would be coming soon..."),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new RaisedButton(
+              child: new Text(
+                "Okay",
+                textAlign: TextAlign.center,
+              ),
+              textColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6)),
+              color: Color.fromRGBO(22, 102, 237, 1.0),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
