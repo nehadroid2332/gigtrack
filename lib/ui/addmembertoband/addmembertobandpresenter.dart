@@ -33,7 +33,7 @@ class AddMemberToBandPresenter extends BasePresenter {
           return;
         }
       }
-       view.showMessage("No Data");
+      view.showMessage("No Data");
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
     }
@@ -58,6 +58,10 @@ class AddMemberToBandPresenter extends BasePresenter {
       //     return;
       //   }
       // }
+      final resw = await serverAPI.searchUserByEmail(bandMember.email);
+      if (resw is User) {
+        bandMember.user_id = resw.id;
+      }
       res.bandmates[bandMember.email.replaceAll(".", "")] = bandMember;
       final res2 = await serverAPI.addBand(res);
       if (res2 is bool) {

@@ -635,7 +635,7 @@ class _AddBandScreenState
                                                     context,
                                                     Screens.ADDMEMBERTOBAND
                                                             .toString() +
-                                                        "/${widget.id}");
+                                                        "//${widget.id}");
                                             showLoading();
                                             presenter.getBandDetails(widget.id);
                                           },

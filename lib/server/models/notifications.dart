@@ -1,6 +1,13 @@
 import 'package:gigtrack/base/base_model.dart';
 
 class Notification extends BaseModel {
+  static const TYPE_BAND = 1;
+  static const TYPE_ACTIVITY = 2;
+  static const TYPE_EPK = 3;
+  static const TYPE_CONTACT = 4;
+  static const TYPE_NOTES = 5;
+  static const TYPE_MEMBER_ADD = 6;
+
   String id;
   String userId;
   int created;

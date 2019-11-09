@@ -24,6 +24,7 @@ import 'models/band_member_add_response.dart';
 import 'models/notification_list_response.dart';
 import 'models/update_activity_bandmember_status.dart';
 import 'models/user_instrument.dart';
+import 'package:http/http.dart' as http;
 
 class ServerAPI {
   static final ServerAPI _serverApi = new ServerAPI._internal();
@@ -237,7 +238,7 @@ class ServerAPI {
         isUpdate = false;
       }
       await notificationDB.child(notification.id).set(notification.toMap());
-      return isUpdate;
+      return notification;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }
@@ -291,6 +292,27 @@ class ServerAPI {
         String id = activitiesDB.push().key;
         activities.id = id;
         isUpdate = false;
+      }
+      if (activities.bandId != null && activities.bandId.isNotEmpty) {
+        final detail = await getBandDetails(activities.bandId);
+        if (detail is Band) {
+          for (var mem in detail.bandmates.keys) {
+            BandMember member = detail.bandmates[mem];
+            if (member.user_id != null && member.user_id.isNotEmpty) {
+              final res = await addNotification(Notification(
+                bandId: activities.bandId,
+                created: DateTime.now().millisecondsSinceEpoch,
+                notiId: activities.id,
+                text: "A new activity created in the band(${detail.name})",
+                type: Notification.TYPE_ACTIVITY,
+                userId: member.user_id,
+              ));
+              if (res is Notification) {
+                sendPushNotification(res);
+              }
+            }
+          }
+        }
       }
       await activitiesDB.child(activities.id).set(activities.toMap());
       return isUpdate;
@@ -429,6 +451,24 @@ class ServerAPI {
     }
   }
 
+  Future<dynamic> searchUserByEmail(String email) async {
+    try {
+      final res = await userDB.once();
+      Map mp = res.value;
+      List<User> acc = [];
+      if (mp == null) return acc;
+      for (var d in mp.values) {
+        User user = User.fromJSON(d);
+        if (user.email.contains(email)) {
+          return user;
+        }
+      }
+      return ErrorResponse.fromJSON("No User Found");
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
   Future<dynamic> sendEmail(
       String bandName, String bandAdminName, String emailReciptant) async {
     try {
@@ -561,5 +601,23 @@ class ServerAPI {
 
   void deleteBand(String id) async {
     await bandDB.child(id).remove();
+  }
+
+  void sendPushNotification(Notification notification) async {
+    await http.post('https://fcm.googleapis.com/fcm/send', headers: {
+      "Content-Type": "application/json",
+      "Authorization":
+          "key=AAAAb5VdN_k:APA91bEYcKIabKkmhDwfUb2QxCCTfDlT7AHfKWCbL2uUfm4GZaP7Rj3UikHyLcj5sM0A2dFQTLxENfbe8yT6JNOccE25TgtQLj1SJwYFFPUqGcL9FAdEiVwJPoYGZb5KW4Ev5zRcDEa9"
+    }, body: {
+      "notification": {"body": notification.text, "title": "GigTrack"},
+      "priority": "high",
+      "data": {
+        "click_action": "FLUTTER_NOTIFICATION_CLICK",
+        "id": "1",
+        "status": "done",
+        "app_data": notification.toMap(),
+      },
+      "to": "/topics/${notification.userId}"
+    });
   }
 }
