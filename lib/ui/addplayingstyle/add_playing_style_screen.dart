@@ -496,7 +496,8 @@ class _AddPlayingStyleScreenState
                             )
                           : Container(),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: EdgeInsets.all(
+                            (widget.id.isEmpty || isEdit) ? 5 : 0),
                       ),
                       (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                           ? Text("Select one")
@@ -514,7 +515,8 @@ class _AddPlayingStyleScreenState
                                 )
                               : Container(),
                       Padding(
-                        padding: EdgeInsets.all(4),
+                        padding: EdgeInsets.all(
+                            (widget.id.isEmpty || isEdit) ? 4 : 0),
                       ),
                       widget.id.isEmpty || isEdit
                           ? Container()
@@ -525,7 +527,9 @@ class _AddPlayingStyleScreenState
                                     : aboutBandList.join("\n"),
                                 textAlign: TextAlign.center,
                               ),
-                              padding: EdgeInsets.symmetric(vertical: 4),
+                              padding: EdgeInsets.symmetric(
+                                  vertical:
+                                      (widget.id.isEmpty || isEdit) ? 4 : 0),
                             ),
                       (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                           ? Row(
@@ -701,8 +705,8 @@ class _AddPlayingStyleScreenState
                         ],
                       ),
                       Padding(
-                          padding:
-                              EdgeInsets.all(widget.bandId.isEmpty ? 2 : 0)),
+                          padding: EdgeInsets.all(
+                              (widget.id.isEmpty || isEdit) ? 2 : 10)),
                       Text(
                         "Experience",
                         textAlign: widget.id.isEmpty || isEdit
