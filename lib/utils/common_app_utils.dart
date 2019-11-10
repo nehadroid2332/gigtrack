@@ -187,7 +187,7 @@ Widget buildActivityListItem(Activites ac,
     color: isPast
         ? Colors.grey
         : (ac.bandId != null && ac.bandId.isNotEmpty)
-            ? Colors.blueAccent
+            ? Color.fromRGBO(32, 95, 139, 1.0)
             : Color.fromRGBO(32, 95, 139, 1.0),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(12),
