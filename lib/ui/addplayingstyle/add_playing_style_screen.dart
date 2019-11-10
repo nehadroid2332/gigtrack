@@ -699,8 +699,11 @@ class _AddPlayingStyleScreenState
                                   ),
                                 )
                               : _responseController.text.isNotEmpty
-                                  ? Text(
-                                      "Response: ${_responseController.text}")
+                                  ? Padding(
+                                      padding: EdgeInsets.only(top: 5),
+                                      child: Text(
+                                          "${_responseController.text}"),
+                                    )
                                   : Container(),
                         ],
                       ),
@@ -1319,6 +1322,7 @@ class _AddPlayingStyleScreenState
                                     bandId: widget.bandId,
                                     aboutTheBands: aboutBandList,
                                     degree: _degreeController.text,
+                                    response: _responseController.text,
                                     about: _aboutBandController.text,
                                     playing_styles: List.from(psList),
                                     earn: _earnController.text,
@@ -1436,6 +1440,7 @@ class _AddPlayingStyleScreenState
       _listSchoolController.text = userPlayingStyle.listSchool;
       _responseController.text = userPlayingStyle.response;
       _roleController.text = userPlayingStyle.role;
+      _responseController.text = userPlayingStyle.response;
       _yearController.text = userPlayingStyle.year;
       _ageController.text = userPlayingStyle.age;
       _aboutBandController.text = userPlayingStyle.aboutBand;

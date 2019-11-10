@@ -25,6 +25,7 @@ class _AddMemberToBandScreenState
       _firstNameController = TextEditingController(),
       _lastNameController = TextEditingController(),
       _emailController = TextEditingController(),
+      _emergencyContactTextController = TextEditingController(),
       _otherTalentController = TextEditingController(),
       _mobileTextController = TextEditingController(),
       _notesController = TextEditingController(),
@@ -36,6 +37,7 @@ class _AddMemberToBandScreenState
       _errorLastName,
       _errorMobileText,
       _errorPrimaryContact,
+      _errorEmergencyContact,
       _errorPay,
       _errorNotes,
       _errorOtherTalent,
@@ -352,7 +354,7 @@ class _AddMemberToBandScreenState
                             controller: _primaryContactTextController,
                             enabled: widget.id.isEmpty || isEdit,
                             decoration: InputDecoration(
-                              labelText: "Emergency Contact",
+                              labelText: "Primary Contact",
                               labelStyle: TextStyle(
                                 color: Color.fromRGBO(169, 176, 187, 1.0),
                               ),
@@ -368,6 +370,17 @@ class _AddMemberToBandScreenState
                                 color: Color.fromRGBO(169, 176, 187, 1.0),
                               ),
                               errorText: _errorEmail,
+                            ),
+                          ),
+                          TextField(
+                            controller: _emergencyContactTextController,
+                            enabled: widget.id.isEmpty || isEdit,
+                            decoration: InputDecoration(
+                              labelText: "Emergency Contact",
+                              labelStyle: TextStyle(
+                                color: Color.fromRGBO(169, 176, 187, 1.0),
+                              ),
+                              errorText: _errorEmergencyContact,
                             ),
                           ),
                           Padding(
@@ -493,6 +506,8 @@ class _AddMemberToBandScreenState
                                     firstName: _firstNameController.text,
                                     lastName: _lastNameController.text,
                                     email: _emailController.text,
+                                    emergencyContact:
+                                        _emergencyContactTextController.text,
                                     mobileText: _mobileTextController.text,
                                     other: oList,
                                     primaryContact:

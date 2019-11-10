@@ -16,6 +16,7 @@ class BandMember extends BaseModel {
   String notes;
   String pay;
   String primaryContact;
+  String emergencyContact;
   int status = 0;
 
   BandMember(
@@ -34,6 +35,7 @@ class BandMember extends BaseModel {
       this.id,
       this.status,
       this.notes,
+      this.emergencyContact,
       this.pay});
 
   BandMember.fromJSON(dynamic data) {
@@ -46,6 +48,7 @@ class BandMember extends BaseModel {
     primaryContact = data['primaryContact'];
     notes = data['notes'];
     pay = data['pay'];
+    emergencyContact = data['emergencyContact'];
     otherTalent = data['otherTalent'];
     if (data['memberRole'] != null) {
       for (var item in data['memberRole']) {
@@ -69,6 +72,7 @@ class BandMember extends BaseModel {
     data['lastName'] = lastName;
     data['mobileText'] = mobileText;
     data['otherTalent'] = otherTalent;
+    data['emergencyContact'] = emergencyContact;
     data['primaryContact'] = primaryContact;
     data['pay'] = pay;
     data['status'] = status;
