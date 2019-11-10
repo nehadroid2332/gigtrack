@@ -192,7 +192,6 @@ class ServerAPI {
               .putFile(file);
           StorageTaskSnapshot snapshot = await uploadTask.onComplete;
           String url = await snapshot.ref.getDownloadURL();
-          print("SD-> $url");
           contacts.files[i] = url;
         }
       }
@@ -202,6 +201,42 @@ class ServerAPI {
         contacts.id = id;
         isUpdate = false;
       }
+
+      if (contacts.bandId != null && contacts.bandId.isNotEmpty) {
+        final detail = await getBandDetails(contacts.bandId);
+        if (detail is Band) {
+          for (var mem in detail.bandmates.keys) {
+            BandMember member = detail.bandmates[mem];
+            if (member.user_id != null && member.user_id.isNotEmpty) {
+              final res = await addNotification(Notification(
+                bandId: contacts.bandId,
+                created: DateTime.now().millisecondsSinceEpoch,
+                notiId: contacts.id,
+                text: "A new Contact created in the band(${detail.name})",
+                type: Notification.TYPE_CONTACT,
+                userId: member.user_id,
+              ));
+              if (res is Notification) {
+                sendPushNotification(res);
+              }
+            }
+          }
+          if (detail.userId != null && detail.userId.isNotEmpty) {
+            final res = await addNotification(Notification(
+              bandId: contacts.bandId,
+              created: DateTime.now().millisecondsSinceEpoch,
+              notiId: contacts.id,
+              text: "A new Contact created in the band(${detail.name})",
+              type: Notification.TYPE_CONTACT,
+              userId: detail.userId,
+            ));
+            if (res is Notification) {
+              sendPushNotification(res);
+            }
+          }
+        }
+      }
+
       await contactDB.child(contacts.id).set(contacts.toMap());
       return isUpdate;
     } catch (e) {
@@ -264,6 +299,42 @@ class ServerAPI {
         notesTodo.id = id;
         isUpdate = false;
       }
+
+      if (notesTodo.bandId != null && notesTodo.bandId.isNotEmpty) {
+        final detail = await getBandDetails(notesTodo.bandId);
+        if (detail is Band) {
+          for (var mem in detail.bandmates.keys) {
+            BandMember member = detail.bandmates[mem];
+            if (member.user_id != null && member.user_id.isNotEmpty) {
+              final res = await addNotification(Notification(
+                bandId: notesTodo.bandId,
+                created: DateTime.now().millisecondsSinceEpoch,
+                notiId: notesTodo.id,
+                text: "A new Note/Todo created in the band(${detail.name})",
+                type: Notification.TYPE_NOTES,
+                userId: member.user_id,
+              ));
+              if (res is Notification) {
+                sendPushNotification(res);
+              }
+            }
+          }
+          if (detail.userId != null && detail.userId.isNotEmpty) {
+            final res = await addNotification(Notification(
+              bandId: notesTodo.bandId,
+              created: DateTime.now().millisecondsSinceEpoch,
+              notiId: notesTodo.id,
+              text: "A new Note/Todo created in the band(${detail.name})",
+              type: Notification.TYPE_NOTES,
+              userId: detail.userId,
+            ));
+            if (res is Notification) {
+              sendPushNotification(res);
+            }
+          }
+        }
+      }
+      
       await notesDB.child(notesTodo.id).set(notesTodo.toMap());
       return isUpdate;
     } catch (e) {
@@ -304,7 +375,8 @@ class ServerAPI {
                 bandId: activities.bandId,
                 created: DateTime.now().millisecondsSinceEpoch,
                 notiId: activities.id,
-                text: "A new activity created in the band(${detail.name})",
+                text:
+                    "A new ${activities.type == Activites.TYPE_ACTIVITY ? 'Activity' : activities.type == Activites.TYPE_BAND_TASK ? 'Band Task' : activities.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? 'Performance Schedule' : activities.type == Activites.TYPE_PRACTICE_SCHEDULE ? 'Practice Schedule' : activities.type == Activites.TYPE_TASK ? 'Task' : ''} created in the band(${detail.name})",
                 type: Notification.TYPE_ACTIVITY,
                 userId: member.user_id,
               ));
@@ -318,7 +390,8 @@ class ServerAPI {
               bandId: activities.bandId,
               created: DateTime.now().millisecondsSinceEpoch,
               notiId: activities.id,
-              text: "A new activity created in the band(${detail.name})",
+              text:
+                  "A new ${activities.type == Activites.TYPE_ACTIVITY ? 'Activity' : activities.type == Activites.TYPE_BAND_TASK ? 'Band Task' : activities.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? 'Performance Schedule' : activities.type == Activites.TYPE_PRACTICE_SCHEDULE ? 'Practice Schedule' : activities.type == Activites.TYPE_TASK ? 'Task' : ''} created in the band(${detail.name})",
               type: Notification.TYPE_ACTIVITY,
               userId: detail.userId,
             ));
@@ -360,6 +433,41 @@ class ServerAPI {
         String id = equipmentsDB.push().key;
         instrument.id = id;
         isUpdate = false;
+      }
+
+      if (instrument.bandId != null && instrument.bandId.isNotEmpty) {
+        final detail = await getBandDetails(instrument.bandId);
+        if (detail is Band) {
+          for (var mem in detail.bandmates.keys) {
+            BandMember member = detail.bandmates[mem];
+            if (member.user_id != null && member.user_id.isNotEmpty) {
+              final res = await addNotification(Notification(
+                bandId: instrument.bandId,
+                created: DateTime.now().millisecondsSinceEpoch,
+                notiId: instrument.id,
+                text: "A new Instrument created in the band(${detail.name})",
+                type: Notification.TYPE_INSTRUMENT,
+                userId: member.user_id,
+              ));
+              if (res is Notification) {
+                sendPushNotification(res);
+              }
+            }
+          }
+          if (detail.userId != null && detail.userId.isNotEmpty) {
+            final res = await addNotification(Notification(
+              bandId: instrument.bandId,
+              created: DateTime.now().millisecondsSinceEpoch,
+              notiId: instrument.id,
+              text: "A new Instrument created in the band(${detail.name})",
+              type: Notification.TYPE_INSTRUMENT,
+              userId: detail.userId,
+            ));
+            if (res is Notification) {
+              sendPushNotification(res);
+            }
+          }
+        }
       }
 
       await equipmentsDB.child(instrument.id).set(instrument.toMap());
@@ -535,7 +643,6 @@ class ServerAPI {
               .putFile(file);
           StorageTaskSnapshot snapshot = await uploadTask.onComplete;
           String url = await snapshot.ref.getDownloadURL();
-          print("SD-> $url");
           userPlayingStyle.files[i] = url;
         }
       }
@@ -545,6 +652,43 @@ class ServerAPI {
         userPlayingStyle.id = id;
         isUpdate = false;
       }
+
+      if (userPlayingStyle.bandId != null &&
+          userPlayingStyle.bandId.isNotEmpty) {
+        final detail = await getBandDetails(userPlayingStyle.bandId);
+        if (detail is Band) {
+          for (var mem in detail.bandmates.keys) {
+            BandMember member = detail.bandmates[mem];
+            if (member.user_id != null && member.user_id.isNotEmpty) {
+              final res = await addNotification(Notification(
+                bandId: userPlayingStyle.bandId,
+                created: DateTime.now().millisecondsSinceEpoch,
+                notiId: userPlayingStyle.id,
+                text: "A new EPK created in the band(${detail.name})",
+                type: Notification.TYPE_EPK,
+                userId: member.user_id,
+              ));
+              if (res is Notification) {
+                sendPushNotification(res);
+              }
+            }
+          }
+          if (detail.userId != null && detail.userId.isNotEmpty) {
+            final res = await addNotification(Notification(
+              bandId: userPlayingStyle.bandId,
+              created: DateTime.now().millisecondsSinceEpoch,
+              notiId: userPlayingStyle.id,
+              text: "A new EPK created in the band(${detail.name})",
+              type: Notification.TYPE_EPK,
+              userId: detail.userId,
+            ));
+            if (res is Notification) {
+              sendPushNotification(res);
+            }
+          }
+        }
+      }
+
       await playingStyleDB
           .child(userPlayingStyle.id)
           .set(userPlayingStyle.toMap());

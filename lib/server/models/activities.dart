@@ -1,4 +1,5 @@
 import 'package:gigtrack/base/base_model.dart';
+import 'package:gigtrack/server/models/band.dart';
 
 class Activites extends BaseModel {
   static const TYPE_ACTIVITY = 0;
@@ -29,6 +30,7 @@ class Activites extends BaseModel {
   bool isRecurring = false;
   double latitude = 0.toDouble();
   double longitude = 0.toDouble();
+  Band band;
 
   List<Activites> subActivities = [];
 

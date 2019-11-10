@@ -15,12 +15,15 @@ class ActivitiesListPresenter extends BasePresenter {
           .orderByChild('bandId')
           .equalTo(bandId)
           .onValue
-          .map((a) {
+          .asyncMap((a) async {
         Map mp = a.snapshot.value;
         if (mp == null) return null;
         List<Activites> acc = [];
         for (var d in mp.values) {
-          acc.add(Activites.fromJSON(d));
+          Activites activites = Activites.fromJSON(d);
+          final band = await serverAPI.getBandDetails(activites.bandId);
+          activites.band = band;
+          acc.add(activites);
         }
         return acc;
       });
@@ -29,12 +32,15 @@ class ActivitiesListPresenter extends BasePresenter {
           .orderByChild('user_id')
           .equalTo(serverAPI.currentUserId)
           .onValue
-          .map((a) {
+          .asyncMap((a) async {
         Map mp = a.snapshot.value;
         if (mp == null) return null;
         List<Activites> acc = [];
         for (var d in mp.values) {
-          acc.add(Activites.fromJSON(d));
+          Activites activites = Activites.fromJSON(d);
+          final band = await serverAPI.getBandDetails(activites.bandId);
+          activites.band = band;
+          acc.add(activites);
         }
         return acc;
       });

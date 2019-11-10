@@ -225,29 +225,37 @@ Widget buildActivityListItem(Activites ac,
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(3),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Expanded(
-                child: Padding(
-                  padding:
-                      EdgeInsets.only(left: 13, right: 13, top: 0, bottom: 15),
-                  child: Text(
-                    "${ac.title}",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 23,
-                      color: Color.fromRGBO(250, 250, 250, 1.0),
-                    ),
-                    textAlign: TextAlign.center,
+            padding: EdgeInsets.only(
+              left: 13,
+              right: 13,
+              bottom: 10,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  "${ac.title}",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 23,
+                    color: Color.fromRGBO(250, 250, 250, 1.0),
                   ),
+                  textAlign: TextAlign.center,
                 ),
-              ),
-            ],
-          ),
+                (ac.band?.name?.isNotEmpty ?? false)
+                    ? Text(
+                        ac.band?.name,
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Color.fromRGBO(250, 250, 250, 1.0),
+                        ),
+                        textAlign: TextAlign.center,
+                      )
+                    : Container()
+              ],
+            ),
+          )
         ],
       ),
       onTap: onTap,
