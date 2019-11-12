@@ -62,7 +62,7 @@ class _AddPlayingStyleScreenState
     "Vocals-Harmony"
   ];
   final education = [
-    "Select",
+    "Select degree",
     "High School Grad",
     "BS Degree",
     "Masters Degree",
@@ -130,7 +130,7 @@ class _AddPlayingStyleScreenState
   final _contactBandController = TextEditingController();
   final _aboutBandController = TextEditingController();
   String selectedEducation;
-  var _educationType = "Select";
+  var _educationType = "Select degree";
   var files = <String>[];
   List<String> aboutBandList = [""];
   
@@ -950,6 +950,46 @@ class _AddPlayingStyleScreenState
                       Padding(
                         padding: EdgeInsets.all(widget.bandId.isEmpty ? 1 : 3),
                       ),
+                      (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
+                          ? TextField(
+                        enabled: widget.id.isEmpty || isEdit,
+                        controller: _listSchoolController,
+                        decoration: InputDecoration(
+                          labelText: "List School",
+                          labelStyle: TextStyle(
+                            color:
+                            widget.appListener.primaryColorDark,
+                          ),
+                        ),
+                      )
+                          : widget.bandId.isEmpty
+                          ? Row(
+                        children: <Widget>[
+                          Expanded(
+                            flex: 5,
+                            child: Text(
+                              "School",
+                              textAlign: TextAlign.right,
+                              style:
+                              textTheme.subtitle.copyWith(),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              " - ",
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              _listSchoolController.text,
+                              textAlign: TextAlign.left,
+                            ),
+                            flex: 5,
+                          )
+                        ],
+                      ):Container(),
                       isEducation
                           ? (widget.id.isEmpty || isEdit) &&
                           widget.bandId.isEmpty
@@ -984,47 +1024,6 @@ class _AddPlayingStyleScreenState
 //                          : Container(),
                       Column(
                         children: <Widget>[
-                          (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
-                              ? TextField(
-                            enabled: widget.id.isEmpty || isEdit,
-                            controller: _listSchoolController,
-                            decoration: InputDecoration(
-                              labelText: "List School",
-                              labelStyle: TextStyle(
-                                color:
-                                widget.appListener.primaryColorDark,
-                              ),
-                            ),
-                          )
-                              : widget.bandId.isEmpty
-                              ? Row(
-                            children: <Widget>[
-                              Expanded(
-                                flex: 5,
-                                child: Text(
-                                  "School",
-                                  textAlign: TextAlign.right,
-                                  style:
-                                  textTheme.subtitle.copyWith(),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Text(
-                                  " - ",
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  _listSchoolController.text,
-                                  textAlign: TextAlign.left,
-                                ),
-                                flex: 5,
-                              )
-                            ],
-                          )
-                              : Container(),
                           (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                               ? TextField(
                             enabled: widget.id.isEmpty || isEdit,
@@ -1066,7 +1065,10 @@ class _AddPlayingStyleScreenState
                               )
                             ],
                           )
-                              : Container()
+                              : Container(),
+                       
+                               Container(),
+                      
                         ],
                       ),
                       Padding(
