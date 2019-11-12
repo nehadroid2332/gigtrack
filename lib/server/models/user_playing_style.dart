@@ -79,6 +79,7 @@ class UserPlayingStyle extends BaseModel {
     bandEmail = data['bandEmail'];
     bandWebsite = data['bandWebsite'];
     bandContacts = data['bandContacts'];
+    response=data['responsetext'];
     role = data['role'];
     about = data['about'];
     degree = data['degree'];
@@ -125,6 +126,7 @@ class UserPlayingStyle extends BaseModel {
     data['bandEmail'] = bandEmail;
     data['bandWebsite'] = bandWebsite;
     data['bandContacts'] = bandContacts;
+    data['responsetext']=response;
     return data;
   }
 }
