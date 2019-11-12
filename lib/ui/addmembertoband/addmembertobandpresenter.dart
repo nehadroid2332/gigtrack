@@ -12,6 +12,8 @@ abstract class AddMemberToBandContract extends BaseContract {
 }
 
 class AddMemberToBandPresenter extends BasePresenter {
+  String primaryContactEmail;
+
   AddMemberToBandPresenter(BaseContract view) : super(view);
 
   void searchUser(String text) async {
@@ -23,12 +25,13 @@ class AddMemberToBandPresenter extends BasePresenter {
     }
   }
 
-  void getBandDetails(String bandId, String id) async {
+  void getBandMemberDetails(String bandId, {String id}) async {
     final res = await serverAPI.getBandDetails(bandId);
     if (res is Band) {
       for (var key in res.bandmates.keys) {
         BandMember bandMember = res.bandmates[key];
         if (bandMember.email == id) {
+          primaryContactEmail = res.primaryContactEmail;
           (view as AddMemberToBandContract).bandMemberDetails(bandMember);
           return;
         }
@@ -39,7 +42,8 @@ class AddMemberToBandPresenter extends BasePresenter {
     }
   }
 
-  void addMemberToBand(BandMember bandMember, String bandId) async {
+  void addMemberToBand(
+      BandMember bandMember, String bandId, bool isPrimaryContact) async {
     final res = await serverAPI.getBandDetails(bandId);
     if (res is Band) {
       // if (bandMember.user_id == null) {
@@ -63,6 +67,7 @@ class AddMemberToBandPresenter extends BasePresenter {
         bandMember.user_id = resw.id;
       }
       res.bandmates[bandMember.email.replaceAll(".", "")] = bandMember;
+      if (isPrimaryContact) res.primaryContactEmail = bandMember.email;
       final res2 = await serverAPI.addBand(res);
       if (res2 is bool) {
         final resss = await serverAPI.getSingleUserById(res.userId);

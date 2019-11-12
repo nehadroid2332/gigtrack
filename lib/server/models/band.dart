@@ -13,7 +13,7 @@ class Band extends BaseModel {
   String city;
   String state;
   String zip;
-
+  String primaryContactEmail;
   String id;
   String userId;
   List<String> files = [];
@@ -31,7 +31,7 @@ class Band extends BaseModel {
       this.state,
       this.bandmates,
       this.zip,
-        this.files,
+      this.files,
       this.contactInfo,
       this.website});
 
@@ -48,6 +48,7 @@ class Band extends BaseModel {
     state = data['state'];
     zip = data['zip'];
     id = data['id'];
+    primaryContactEmail = data['primaryContactEmail'];
     userId = data['user_id'];
     if (data['files'] != null) {
       for (String item in data['files']) {
@@ -71,6 +72,7 @@ class Band extends BaseModel {
     data['legal_structure'] = legalStructure ?? "";
     data['date_started'] = dateStarted ?? "";
     data['music_style'] = musicStyle ?? "";
+    data['primaryContactEmail'] = primaryContactEmail;
     data['user_id'] = userId;
     data['email'] = email ?? "";
     data['contactInfo'] = contactInfo;

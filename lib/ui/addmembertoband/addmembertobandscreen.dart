@@ -98,7 +98,9 @@ class _AddMemberToBandScreenState
     super.initState();
     if (widget.id != null && widget.id.isNotEmpty) {
       showLoading();
-      presenter.getBandDetails(widget.bandId, widget.id);
+      presenter.getBandMemberDetails(widget.bandId, id: widget.id);
+    } else {
+      presenter.getBandMemberDetails(widget.bandId);
     }
   }
 
@@ -357,22 +359,28 @@ class _AddMemberToBandScreenState
                               errorText: _errorMobileText,
                             ),
                           ),
-                          Row(
-                            children: <Widget>[
-                              Checkbox(
-                                onChanged: (bool value) {
-                                  setState(() {
-                                    isPrimary = value;
-                                  });
-                                },
-                                value: isPrimary,
-                              ),
-                              Text(
-                                "Make Primary Contact",
-                                style: TextStyle(fontSize: 14),
-                              )
-                            ],
-                          ),
+                          (widget.id.isEmpty &&
+                                      presenter.primaryContactEmail == null) ||
+                                  (widget.id.isNotEmpty &&
+                                      presenter.primaryContactEmail ==
+                                          _emailController.text)
+                              ? Row(
+                                  children: <Widget>[
+                                    Checkbox(
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          isPrimary = value;
+                                        });
+                                      },
+                                      value: isPrimary,
+                                    ),
+                                    Text(
+                                      "Make Primary Contact",
+                                      style: TextStyle(fontSize: 14),
+                                    )
+                                  ],
+                                )
+                              : Container(),
 //                          TextField(
 //                            controller: _primaryContactTextController,
 //                            enabled: widget.id.isEmpty || isEdit,
@@ -557,7 +565,8 @@ class _AddMemberToBandScreenState
                                     notes: _notesController.text,
                                     permissions: (psList),
                                   ),
-                                  widget.bandId);
+                                  widget.bandId,
+                                  isPrimary);
                             },
                             child: Text(
                               "Submit",

@@ -68,6 +68,8 @@ class _AddBandScreenState
 
   String userPlayingStyleId;
 
+  String primaryContactEmail;
+
   Future getImage() async {
     showDialog(
       context: context,
@@ -252,7 +254,10 @@ class _AddBandScreenState
           Text(" - "),
           Expanded(
             child: Text("${mem.mobileText ?? 'No Contact Added'}"),
-          )
+          ),
+          mem.email == primaryContactEmail
+              ? Icon(Icons.account_circle)
+              : Container()
         ],
       ));
     }
@@ -302,21 +307,21 @@ class _AddBandScreenState
                         //                                style: textTheme.subhead
                         //                                    .copyWith(fontWeight: FontWeight.w600),
                         //
-	                      //                              ),
-	                      widget.id.isEmpty || isEdit
-			                      ? Container()
-			                      : files != null && files.length > 0
-			                      ? Container(
-		                      margin: EdgeInsets.only(left: 5, right: 5),
-		                      height:
-		                      MediaQuery.of(context).size.height / 4.4,
-		                      width: 90,
-		                      child: Image.network(
-			                      File(files[0]).path,
-			                      fit: BoxFit.cover,
-		                      ),
-	                      )
-			                      : Container(),
+                        //                              ),
+                        widget.id.isEmpty || isEdit
+                            ? Container()
+                            : files != null && files.length > 0
+                                ? Container(
+                                    margin: EdgeInsets.only(left: 5, right: 5),
+                                    height: MediaQuery.of(context).size.height /
+                                        4.4,
+                                    width: 90,
+                                    child: Image.network(
+                                      File(files[0]).path,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                                : Container(),
                         Padding(
                           padding: EdgeInsets.all(3),
                         ),
@@ -513,119 +518,119 @@ class _AddBandScreenState
                                   )
                                 ],
                               ),
-	                      widget.id.isEmpty || isEdit
-			                      ? Row(
-		                      children: <Widget>[
-			                      Expanded(
-				                      child: Text("Add Band Photo"),
-			                      ),
-			                      widget.id.isEmpty || isEdit
-					                      ? IconButton(
-				                      icon: Icon(Icons.add_a_photo),
-				                      onPressed: () {
-					                      if (files.length < 1)
-						                      getImage();
-					                      else
-						                      showMessage(
-								                      "User can upload upto max 1 media files");
-				                      },
-			                      )
-					                      : Container()
-		                      ],
-	                      )
-			                      : Container(),
-	                      files.length > 0
-			                      ? (widget.id.isEmpty) || (isEdit)
-			                      ? SizedBox(
-		                      height: 90,
-		                      child: ListView.builder(
-			                      itemCount: files.length,
-			                      scrollDirection: Axis.horizontal,
-			                      itemBuilder:
-					                      (BuildContext context, int index) {
-				                      File file = File(files[index]);
-				                      return file.path.startsWith("https")
-						                      ? Container(
-					                      margin: EdgeInsets.only(
-							                      left: 10, right: 10),
-					                      height: 80,
-					                      width: 150,
-					                      child: Stack(
-						                      children: <Widget>[
-							                      widget.id.isNotEmpty ||
-									                      isEdit &&
-											                      file.path
-													                      .startsWith(
-													                      "https")
-									                      ? Image.network(
-								                      file.path
-										                      .toString() ??
-										                      "",
-								                      fit: BoxFit.cover,
-							                      )
-									                      : Image.file(
-								                      file,
-								                      fit: BoxFit.cover,
-							                      ),
-							                      Positioned(
-								                      right: 14,
-								                      top: 0,
-								                      child: InkWell(
-									                      onTap: () {
-										                      setState(() {
-											                      files = new List();
-										                      });
-									                      },
-									                      child: Container(
-										                      child: Icon(
-											                      Icons.cancel,
-											                      color: Colors.white,
-										                      ),
-										                      color: Colors.black,
-									                      ),
-								                      ),
-							                      )
-						                      ],
-					                      ),
-				                      )
-						                      : Container(
-					                      margin: EdgeInsets.only(
-							                      left: 10, right: 10),
-					                      height: 80,
-					                      width: 150,
-					                      child: Stack(
-						                      children: <Widget>[
-							                      Image.file(
-								                      file,
-								                      fit: BoxFit.cover,
-							                      ),
-							                      Positioned(
-								                      right: 14,
-								                      top: 0,
-								                      child: InkWell(
-									                      onTap: () {
-										                      setState(() {
-											                      files = new List();
-										                      });
-									                      },
-									                      child: Container(
-										                      child: Icon(
-											                      Icons.cancel,
-											                      color: Colors.white,
-										                      ),
-										                      color: Colors.black,
-									                      ),
-								                      ),
-							                      )
-						                      ],
-					                      ),
-				                      );
-			                      },
-		                      ),
-	                      )
-			                      : Container()
-			                      : Container(),
-                        
+                        widget.id.isEmpty || isEdit
+                            ? Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Text("Add Band Photo"),
+                                  ),
+                                  widget.id.isEmpty || isEdit
+                                      ? IconButton(
+                                          icon: Icon(Icons.add_a_photo),
+                                          onPressed: () {
+                                            if (files.length < 1)
+                                              getImage();
+                                            else
+                                              showMessage(
+                                                  "User can upload upto max 1 media files");
+                                          },
+                                        )
+                                      : Container()
+                                ],
+                              )
+                            : Container(),
+                        files.length > 0
+                            ? (widget.id.isEmpty) || (isEdit)
+                                ? SizedBox(
+                                    height: 90,
+                                    child: ListView.builder(
+                                      itemCount: files.length,
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        File file = File(files[index]);
+                                        return file.path.startsWith("https")
+                                            ? Container(
+                                                margin: EdgeInsets.only(
+                                                    left: 10, right: 10),
+                                                height: 80,
+                                                width: 150,
+                                                child: Stack(
+                                                  children: <Widget>[
+                                                    widget.id.isNotEmpty ||
+                                                            isEdit &&
+                                                                file.path
+                                                                    .startsWith(
+                                                                        "https")
+                                                        ? Image.network(
+                                                            file.path
+                                                                    .toString() ??
+                                                                "",
+                                                            fit: BoxFit.cover,
+                                                          )
+                                                        : Image.file(
+                                                            file,
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                    Positioned(
+                                                      right: 14,
+                                                      top: 0,
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            files = new List();
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                          child: Icon(
+                                                            Icons.cancel,
+                                                            color: Colors.white,
+                                                          ),
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              )
+                                            : Container(
+                                                margin: EdgeInsets.only(
+                                                    left: 10, right: 10),
+                                                height: 80,
+                                                width: 150,
+                                                child: Stack(
+                                                  children: <Widget>[
+                                                    Image.file(
+                                                      file,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                    Positioned(
+                                                      right: 14,
+                                                      top: 0,
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            files = new List();
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                          child: Icon(
+                                                            Icons.cancel,
+                                                            color: Colors.white,
+                                                          ),
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              );
+                                      },
+                                    ),
+                                  )
+                                : Container()
+                            : Container(),
+
                         //                        Text(
                         //                                _dateStartedController.text,
                         //                                textAlign: TextAlign.center,
@@ -739,7 +744,7 @@ class _AddBandScreenState
                             top: widget.id.isEmpty ? 30 : 8,
                           ),
                         ),
-                        widget.id.isEmpty||isEdit
+                        widget.id.isEmpty || isEdit
                             ? Container()
                             : Row(
                                 children: <Widget>[
@@ -776,7 +781,7 @@ class _AddBandScreenState
                                       : Container()
                                 ],
                               ),
-                        widget.id.isEmpty||isEdit
+                        widget.id.isEmpty || isEdit
                             ? Container()
                             : ListView.builder(
                                 shrinkWrap: true,
@@ -1015,22 +1020,22 @@ class _AddBandScreenState
                                     else {
                                       showLoading();
                                       presenter.addBand(
-                                          selectedStartDate
-                                              .millisecondsSinceEpoch,
-                                          musicStyle,
-                                          bname,
-                                          blname,
-                                          legalstructure,
-                                          email,
-                                          website,
-                                          "",
-                                          _bandCityController.text,
-                                          _bandStateController.text,
-                                          _bandZipController.text,
-                                          files:files,
-                                          id: widget.id,
-                                          bandmates: bandmates,
-		                                      );
+                                        selectedStartDate
+                                            .millisecondsSinceEpoch,
+                                        musicStyle,
+                                        bname,
+                                        blname,
+                                        legalstructure,
+                                        email,
+                                        website,
+                                        "",
+                                        _bandCityController.text,
+                                        _bandStateController.text,
+                                        _bandZipController.text,
+                                        files: files,
+                                        id: widget.id,
+                                        bandmates: bandmates,
+                                      );
                                     }
                                   });
                                 },
@@ -1218,8 +1223,8 @@ class _AddBandScreenState
   void getBandDetails(Band band) async {
     hideLoading();
     setState(() {
-	    files.clear();
-	    files.addAll(band.files);
+      files.clear();
+      files.addAll(band.files);
       bandUserId = band.userId;
       _musicStyleController.text = band.musicStyle;
       _bandlegalNameController.text = band.legalName;
@@ -1238,6 +1243,7 @@ class _AddBandScreenState
       members.clear();
       members.addAll(band.bandmates.values);
       bandmates = band.bandmates;
+      primaryContactEmail = band.primaryContactEmail;
     });
   }
 

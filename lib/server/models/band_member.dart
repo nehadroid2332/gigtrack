@@ -15,6 +15,7 @@ class BandMember extends BaseModel {
   String otherTalent;
   String notes;
   String pay;
+  bool isPrimary;
   String primaryContact;
   String emergencyContact;
   int status = 0;

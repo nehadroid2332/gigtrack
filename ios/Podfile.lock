@@ -215,11 +215,11 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Firebase: 5e6b7b12bf9adb90986688edc06b156c37e109cd
-  firebase_auth: 3735c80c0a290fd04a34e9bbbecbeec8f79a216a
-  firebase_core: ebf6a934345d646bf7820a6685427bb3741f01ed
-  firebase_database: 03cd65b8e4203286a337877bb3dd744f4817f71e
-  firebase_messaging: b8543d17dd9825f4f24a585477f77db103e5228e
-  firebase_storage: d83bfc0e0e849b2f871a34c474466bf5014ff304
+  firebase_auth: 1e3b7bdd37b9fbd4ef75ba1d985b00be09e02d3d
+  firebase_core: ae55ea92448ec8675d325da4db22cf3b4d58a54d
+  firebase_database: d4f066a1b01f309676d0d2678ec600d6af18ad97
+  firebase_messaging: 0d5c04cc40f58bd4bf7f2992c91050f9bc01bec3
+  firebase_storage: 52b0c06e27af628b627be28d32b4b540f6b67cf7
   FirebaseAnalytics: 0e3ecff2c5d86070f7d4325e21f1edabfbd558dc
   FirebaseAnalyticsInterop: d48b6ab67bcf016a05e55b71fc39c61c0cb6b7f3
   FirebaseAuth: c66e990f79d1d3429165391f6cd70ace6143c25e
