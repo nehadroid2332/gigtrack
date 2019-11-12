@@ -165,6 +165,21 @@ class ServerAPI {
 
   Future<dynamic> addBand(Band band) async {
     try {
+	    for (var i = 0; i < band.files?.length ?? 0; i++) {
+		    File file1 = File(band.files[i]);
+		    if (await file1.exists()) {
+			    String basename = extension(file1.path);
+			    File newFile = File(
+					    file1.parent.path + "/temp-${await file1.length()}" + basename);
+			    File file = await compressFileAndGetFile(file1, newFile.path);
+			    final StorageUploadTask uploadTask = contactsRef
+					    .child("${DateTime.now().toString()}$basename")
+					    .putFile(file);
+			    StorageTaskSnapshot snapshot = await uploadTask.onComplete;
+			    String url = await snapshot.ref.getDownloadURL();
+			    band.files[i] = url;
+		    }
+	    }
       bool isUpdate = true;
       if (band.id == null || band.id.isEmpty) {
         String id = bandDB.push().key;

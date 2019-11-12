@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/band_member.dart';
 import 'package:gigtrack/server/models/contacts.dart';
+import 'package:gigtrack/utils/common_app_utils.dart';
 
 import 'addmembertobandpresenter.dart';
 
@@ -21,6 +23,7 @@ class _AddMemberToBandScreenState
     extends BaseScreenState<AddMemberToBandScreen, AddMemberToBandPresenter>
     implements AddMemberToBandContract {
   final searchUsers = <Contacts>[];
+  bool isPrimary = false;
   final _searchController = TextEditingController(),
       _firstNameController = TextEditingController(),
       _lastNameController = TextEditingController(),
@@ -52,7 +55,7 @@ class _AddMemberToBandScreenState
     "Agent",
     "Manager",
     "Musician",
-    "Roodle",
+    "Roadie",
     "Back up Musician",
     "Bass",
     "Drums",
@@ -65,7 +68,6 @@ class _AddMemberToBandScreenState
     "Equipment Manager",
     "Communications",
     "Marketing",
-    "Button"
   ];
   final instruments = <String>[];
   final others = <String>[];
@@ -321,27 +323,32 @@ class _AddMemberToBandScreenState
                             controller: _firstNameController,
                             enabled: widget.id.isEmpty || isEdit,
                             decoration: InputDecoration(
-                              labelText: "First Name",
+                              labelText: "Name",
                               labelStyle: TextStyle(
                                 color: Color.fromRGBO(169, 176, 187, 1.0),
                               ),
                               errorText: _errorFirstName,
                             ),
                           ),
-                          TextField(
-                            controller: _lastNameController,
-                            enabled: widget.id.isEmpty || isEdit,
-                            decoration: InputDecoration(
-                              labelText: "Last Name",
-                              labelStyle: TextStyle(
-                                color: Color.fromRGBO(169, 176, 187, 1.0),
-                              ),
-                              errorText: _errorLastName,
-                            ),
-                          ),
+//                          TextField(
+//                            controller: _lastNameController,
+//                            enabled: widget.id.isEmpty || isEdit,
+//                            decoration: InputDecoration(
+//                              labelText: "Last Name",
+//                              labelStyle: TextStyle(
+//                                color: Color.fromRGBO(169, 176, 187, 1.0),
+//                              ),
+//                              errorText: _errorLastName,
+//                            ),
+//                          ),
                           TextField(
                             controller: _mobileTextController,
                             enabled: widget.id.isEmpty || isEdit,
+                            inputFormatters: [
+                              WhitelistingTextInputFormatter.digitsOnly,
+                              // Fit the validating format.
+                              phoneNumberFormatter,
+                            ],
                             decoration: InputDecoration(
                               labelText: "Mobile/Text",
                               labelStyle: TextStyle(
@@ -350,17 +357,33 @@ class _AddMemberToBandScreenState
                               errorText: _errorMobileText,
                             ),
                           ),
-                          TextField(
-                            controller: _primaryContactTextController,
-                            enabled: widget.id.isEmpty || isEdit,
-                            decoration: InputDecoration(
-                              labelText: "Primary Contact",
-                              labelStyle: TextStyle(
-                                color: Color.fromRGBO(169, 176, 187, 1.0),
+                          Row(
+                            children: <Widget>[
+                              Checkbox(
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    isPrimary = value;
+                                  });
+                                },
+                                value: isPrimary,
                               ),
-                              errorText: _errorPrimaryContact,
-                            ),
+                              Text(
+                                "Make Primary Contact",
+                                style: TextStyle(fontSize: 14),
+                              )
+                            ],
                           ),
+//                          TextField(
+//                            controller: _primaryContactTextController,
+//                            enabled: widget.id.isEmpty || isEdit,
+//                            decoration: InputDecoration(
+//                              labelText: "Primary Contact",
+//                              labelStyle: TextStyle(
+//                                color: Color.fromRGBO(169, 176, 187, 1.0),
+//                              ),
+//                              errorText: _errorPrimaryContact,
+//                            ),
+//                          ),
                           TextField(
                             controller: _emailController,
                             enabled: widget.id.isEmpty,
@@ -381,6 +404,22 @@ class _AddMemberToBandScreenState
                                 color: Color.fromRGBO(169, 176, 187, 1.0),
                               ),
                               errorText: _errorEmergencyContact,
+                            ),
+                          ),
+                          TextField(
+                            controller: _primaryContactTextController,
+                            enabled: widget.id.isEmpty || isEdit,
+                            inputFormatters: [
+                              WhitelistingTextInputFormatter.digitsOnly,
+                              // Fit the validating format.
+                              phoneNumberFormatter,
+                            ],
+                            decoration: InputDecoration(
+                              labelText: "Emergency Contact Phone",
+                              labelStyle: TextStyle(
+                                color: Color.fromRGBO(169, 176, 187, 1.0),
+                              ),
+                              errorText: _errorPrimaryContact,
                             ),
                           ),
                           Padding(

@@ -39,6 +39,7 @@ class _AddBandScreenState
       _emailController = TextEditingController(),
       _websiteController = TextEditingController();
   String _errorDateStarted, _errorMusicStyle, _errorStructure, _errorWebsite;
+  List files = <String>[];
   String _errorBandName,
       _errorBandCity,
       _errorBandZip,
@@ -85,6 +86,8 @@ class _AddBandScreenState
 
                 setState(() {
                   _image = image;
+                  files.clear();
+                  files.add(image.path);
                 });
               },
             ),
@@ -96,6 +99,8 @@ class _AddBandScreenState
                     await ImagePicker.pickImage(source: ImageSource.gallery);
                 setState(() {
                   _image = image;
+                  files.clear();
+                  files.add(image.path);
                 });
               },
             ),
@@ -296,7 +301,22 @@ class _AddBandScreenState
                         //                                textAlign: TextAlign.center,
                         //                                style: textTheme.subhead
                         //                                    .copyWith(fontWeight: FontWeight.w600),
-                        //                              ),
+                        //
+	                      //                              ),
+	                      widget.id.isEmpty || isEdit
+			                      ? Container()
+			                      : files != null && files.length > 0
+			                      ? Container(
+		                      margin: EdgeInsets.only(left: 5, right: 5),
+		                      height:
+		                      MediaQuery.of(context).size.height / 4.4,
+		                      width: 90,
+		                      child: Image.network(
+			                      File(files[0]).path,
+			                      fit: BoxFit.cover,
+		                      ),
+	                      )
+			                      : Container(),
                         Padding(
                           padding: EdgeInsets.all(3),
                         ),
@@ -468,7 +488,7 @@ class _AddBandScreenState
                             : Row(
                                 children: <Widget>[
                                   Expanded(
-                                    flex: 5,
+                                    flex: 6,
                                     child: Text(
                                       "Date est",
                                       textAlign: TextAlign.right,
@@ -480,7 +500,7 @@ class _AddBandScreenState
                                   Expanded(
                                     flex: 1,
                                     child: Text(
-                                      " - ",
+                                      " ",
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
@@ -489,10 +509,123 @@ class _AddBandScreenState
                                       _dateStartedController.text,
                                       textAlign: TextAlign.left,
                                     ),
-                                    flex: 5,
+                                    flex: 6,
                                   )
                                 ],
                               ),
+	                      widget.id.isEmpty || isEdit
+			                      ? Row(
+		                      children: <Widget>[
+			                      Expanded(
+				                      child: Text("Add Band Photo"),
+			                      ),
+			                      widget.id.isEmpty || isEdit
+					                      ? IconButton(
+				                      icon: Icon(Icons.add_a_photo),
+				                      onPressed: () {
+					                      if (files.length < 1)
+						                      getImage();
+					                      else
+						                      showMessage(
+								                      "User can upload upto max 1 media files");
+				                      },
+			                      )
+					                      : Container()
+		                      ],
+	                      )
+			                      : Container(),
+	                      files.length > 0
+			                      ? (widget.id.isEmpty) || (isEdit)
+			                      ? SizedBox(
+		                      height: 90,
+		                      child: ListView.builder(
+			                      itemCount: files.length,
+			                      scrollDirection: Axis.horizontal,
+			                      itemBuilder:
+					                      (BuildContext context, int index) {
+				                      File file = File(files[index]);
+				                      return file.path.startsWith("https")
+						                      ? Container(
+					                      margin: EdgeInsets.only(
+							                      left: 10, right: 10),
+					                      height: 80,
+					                      width: 150,
+					                      child: Stack(
+						                      children: <Widget>[
+							                      widget.id.isNotEmpty ||
+									                      isEdit &&
+											                      file.path
+													                      .startsWith(
+													                      "https")
+									                      ? Image.network(
+								                      file.path
+										                      .toString() ??
+										                      "",
+								                      fit: BoxFit.cover,
+							                      )
+									                      : Image.file(
+								                      file,
+								                      fit: BoxFit.cover,
+							                      ),
+							                      Positioned(
+								                      right: 14,
+								                      top: 0,
+								                      child: InkWell(
+									                      onTap: () {
+										                      setState(() {
+											                      files = new List();
+										                      });
+									                      },
+									                      child: Container(
+										                      child: Icon(
+											                      Icons.cancel,
+											                      color: Colors.white,
+										                      ),
+										                      color: Colors.black,
+									                      ),
+								                      ),
+							                      )
+						                      ],
+					                      ),
+				                      )
+						                      : Container(
+					                      margin: EdgeInsets.only(
+							                      left: 10, right: 10),
+					                      height: 80,
+					                      width: 150,
+					                      child: Stack(
+						                      children: <Widget>[
+							                      Image.file(
+								                      file,
+								                      fit: BoxFit.cover,
+							                      ),
+							                      Positioned(
+								                      right: 14,
+								                      top: 0,
+								                      child: InkWell(
+									                      onTap: () {
+										                      setState(() {
+											                      files = new List();
+										                      });
+									                      },
+									                      child: Container(
+										                      child: Icon(
+											                      Icons.cancel,
+											                      color: Colors.white,
+										                      ),
+										                      color: Colors.black,
+									                      ),
+								                      ),
+							                      )
+						                      ],
+					                      ),
+				                      );
+			                      },
+		                      ),
+	                      )
+			                      : Container()
+			                      : Container(),
+                        
                         //                        Text(
                         //                                _dateStartedController.text,
                         //                                textAlign: TextAlign.center,
@@ -606,7 +739,7 @@ class _AddBandScreenState
                             top: widget.id.isEmpty ? 30 : 8,
                           ),
                         ),
-                        widget.id.isEmpty
+                        widget.id.isEmpty||isEdit
                             ? Container()
                             : Row(
                                 children: <Widget>[
@@ -643,7 +776,7 @@ class _AddBandScreenState
                                       : Container()
                                 ],
                               ),
-                        widget.id.isEmpty
+                        widget.id.isEmpty||isEdit
                             ? Container()
                             : ListView.builder(
                                 shrinkWrap: true,
@@ -894,8 +1027,10 @@ class _AddBandScreenState
                                           _bandCityController.text,
                                           _bandStateController.text,
                                           _bandZipController.text,
+                                          files:files,
                                           id: widget.id,
-                                          bandmates: bandmates);
+                                          bandmates: bandmates,
+		                                      );
                                     }
                                   });
                                 },
@@ -1083,6 +1218,8 @@ class _AddBandScreenState
   void getBandDetails(Band band) async {
     hideLoading();
     setState(() {
+	    files.clear();
+	    files.addAll(band.files);
       bandUserId = band.userId;
       _musicStyleController.text = band.musicStyle;
       _bandlegalNameController.text = band.legalName;

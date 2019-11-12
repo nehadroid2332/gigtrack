@@ -1392,18 +1392,11 @@ class _AddInstrumentScreenState
           content: Text("Are you sure you want to delete?"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
+          
             new FlatButton(
-              child: new Text("No"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            new RaisedButton(
               child: new Text("Yes"),
-              textColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6)),
-              color: Color.fromRGBO(60, 111, 55, 1.0),
+              textColor: Colors.black,
+              color: Colors.white,
               onPressed: () {
                 if (id == null || id.isEmpty) {
                   showMessage("Id cannot be null");
@@ -1415,6 +1408,16 @@ class _AddInstrumentScreenState
                 }
               },
             ),
+            new RaisedButton(
+              textColor: Colors.white,
+              color: Color.fromRGBO(191, 53, 42, 1.0),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6)),
+              child: new Text("No"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
           ],
         );
       },

@@ -27,7 +27,7 @@ class AddBandPresenter extends BasePresenter {
       String state,
       String zip,
       {String id,
-      Map<String, BandMember> bandmates}) async {
+      Map<String, BandMember> bandmates, List<String> files,}) async {
     Band band = Band(
       dateStarted: dateStarted,
       email: email,
@@ -40,6 +40,7 @@ class AddBandPresenter extends BasePresenter {
       city: city,
       state: state,
       zip: zip,
+      files:files,
       bandmates: bandmates,
     );
     band.userId = serverAPI.currentUserId;

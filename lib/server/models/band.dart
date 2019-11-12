@@ -16,6 +16,7 @@ class Band extends BaseModel {
 
   String id;
   String userId;
+  List<String> files = [];
 
   Map<String, BandMember> bandmates = Map();
 
@@ -30,6 +31,7 @@ class Band extends BaseModel {
       this.state,
       this.bandmates,
       this.zip,
+        this.files,
       this.contactInfo,
       this.website});
 
@@ -47,6 +49,11 @@ class Band extends BaseModel {
     zip = data['zip'];
     id = data['id'];
     userId = data['user_id'];
+    if (data['files'] != null) {
+      for (String item in data['files']) {
+        files.add(item);
+      }
+    }
     if (data['bandmates'] != null) {
       bandmates.clear();
       Map map = data['bandmates'];
@@ -72,6 +79,7 @@ class Band extends BaseModel {
     data['state'] = state;
     data['zip'] = zip;
     data['id'] = id;
+    data['files'] = files;
     Map<String, dynamic> bnds = {};
     for (var key in bandmates.keys) {
       BandMember bandMember = bandmates[key];

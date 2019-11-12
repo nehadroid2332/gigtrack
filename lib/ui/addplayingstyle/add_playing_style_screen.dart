@@ -20,17 +20,17 @@ class AddPlayingStyleScreen extends BaseScreen {
   final bool isComm;
   final bool isSetUp;
   final bool postEntries;
-
+  
   AddPlayingStyleScreen(
-    AppListener appListener, {
-    this.id,
-    this.bandId,
-    this.isLeader,
-    this.isComm,
-    this.isSetUp,
-    this.postEntries,
-  }) : super(appListener);
-
+      AppListener appListener, {
+        this.id,
+        this.bandId,
+        this.isLeader,
+        this.isComm,
+        this.isSetUp,
+        this.postEntries,
+      }) : super(appListener);
+  
   @override
   _AddPlayingStyleScreenState createState() => _AddPlayingStyleScreenState();
 }
@@ -133,11 +133,11 @@ class _AddPlayingStyleScreenState
   var _educationType = "Select";
   var files = <String>[];
   List<String> aboutBandList = [""];
-
+  
   bool isEducation = false;
-
+  
   User user;
-
+  
   @override
   void initState() {
     super.initState();
@@ -151,7 +151,7 @@ class _AddPlayingStyleScreenState
       presenter.getUserProfile();
     });
   }
-
+  
   void _handleLegalUserValueChange(int value) {
     setState(() {
       isyearage = value;
@@ -167,7 +167,7 @@ class _AddPlayingStyleScreenState
       }
     });
   }
-
+  
   void _handleRelationshipValueChange(String value) {
     setState(() {
       _educationType = value;
@@ -178,57 +178,57 @@ class _AddPlayingStyleScreenState
       }
     });
   }
-
+  
   @override
   AppBar get appBar => AppBar(
-        elevation: 0,
-        backgroundColor: Color.fromRGBO(60, 111, 54, 1.0),
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+    elevation: 0,
+    backgroundColor: Color.fromRGBO(60, 111, 54, 1.0),
+    leading: IconButton(
+      icon: Icon(
+        Icons.arrow_back,
+        color: Colors.white,
+      ),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    ),
+    actions: <Widget>[
+      widget.id.isEmpty
+          ? Container()
+          : IconButton(
+        icon: Icon(
+          Icons.edit,
+          color: Colors.white,
         ),
-        actions: <Widget>[
-          widget.id.isEmpty
-              ? Container()
-              : IconButton(
-                  icon: Icon(
-                    Icons.edit,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      isEdit = !isEdit;
-                    });
-                  },
-                ),
-          widget.id.isEmpty
-              ? Container()
-              : IconButton(
-                  icon: Icon(
-                    Icons.delete,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    if (widget.id == null || widget.id.isEmpty) {
-                      showMessage("Id cannot be null");
-                    } else {
-                      _showDialogConfirm();
-                      // presenter.instrumentDelete(id);
-                      // Navigator.of(context).pop();
-                    }
-                  },
-                )
-        ],
-      );
-
+        onPressed: () {
+          setState(() {
+            isEdit = !isEdit;
+          });
+        },
+      ),
+      widget.id.isEmpty
+          ? Container()
+          : IconButton(
+        icon: Icon(
+          Icons.delete,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          if (widget.id == null || widget.id.isEmpty) {
+            showMessage("Id cannot be null");
+          } else {
+            _showDialogConfirm();
+            // presenter.instrumentDelete(id);
+            // Navigator.of(context).pop();
+          }
+        },
+      )
+    ],
+  );
+  
   void _showDialogConfirm() {
     // flutter defined function
-
+    
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -236,7 +236,7 @@ class _AddPlayingStyleScreenState
         return AlertDialog(
           contentPadding: EdgeInsets.all(15),
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           title: new Text(
             "Warning",
             textAlign: TextAlign.center,
@@ -271,7 +271,7 @@ class _AddPlayingStyleScreenState
       },
     );
   }
-
+  
   @override
   Widget buildBody() {
     List<Widget> items = [];
@@ -302,13 +302,13 @@ class _AddPlayingStyleScreenState
         ),
         onTap: widget.id.isEmpty || isEdit
             ? () {
-                setState(() {
-                  if (psList.contains(s)) {
-                    psList.remove(s);
-                  } else
-                    psList.add(s);
-                });
-              }
+          setState(() {
+            if (psList.contains(s)) {
+              psList.remove(s);
+            } else
+              psList.add(s);
+          });
+        }
             : null,
       ));
     }
@@ -340,13 +340,13 @@ class _AddPlayingStyleScreenState
         ),
         onTap: widget.id.isEmpty || isEdit
             ? () {
-                setState(() {
-                  if (inList.containsKey(s)) {
-                    inList.remove(s);
-                  } else
-                    inList[s] = null;
-                });
-              }
+          setState(() {
+            if (inList.containsKey(s)) {
+              inList.remove(s);
+            } else
+              inList[s] = null;
+          });
+        }
             : null,
       ));
     }
@@ -378,13 +378,13 @@ class _AddPlayingStyleScreenState
         ),
         onTap: widget.id.isEmpty || isEdit
             ? () {
-                setState(() {
-                  if (exList.containsKey(s)) {
-                    exList.remove(s);
-                  } else
-                    exList[s] = null;
-                });
-              }
+          setState(() {
+            if (exList.containsKey(s)) {
+              exList.remove(s);
+            } else
+              exList[s] = null;
+          });
+        }
             : null,
       ));
     }
@@ -416,24 +416,24 @@ class _AddPlayingStyleScreenState
         ),
         onTap: widget.id.isEmpty || isEdit
             ? () {
-                setState(() {
-                  selectedEducation = s;
-                });
-              }
+          setState(() {
+            selectedEducation = s;
+          });
+        }
             : null,
       ));
     }
-
+    
     String expss = "";
     for (String s in exList.keys) {
       expss += s + ",";
     }
     if (expss.isNotEmpty) expss = expss.substring(0, expss.length - 1);
     String plyss = "";
-
+    
     if (plyss.isNotEmpty) plyss = plyss.substring(0, plyss.length - 1);
     psList.join(",");
-
+    
     for (String s in psList) {
       plyss += s + " , ";
     }
@@ -471,29 +471,29 @@ class _AddPlayingStyleScreenState
                       widget.id.isEmpty || isEdit
                           ? Container()
                           : files != null && files.length > 0
-                              ? Container(
-                                  margin: EdgeInsets.only(left: 30, right: 30),
-                                  height:
-                                      MediaQuery.of(context).size.height / 4.0,
-                                  width: 90,
-                                  child: Image.network(
-                                    files[0],
-                                    fit: BoxFit.fill,
-                                  ),
-                                )
-                              : Container(),
+                          ? Container(
+                        margin: EdgeInsets.only(left: 30, right: 30),
+                        height:
+                        MediaQuery.of(context).size.height / 4.0,
+                        width: 90,
+                        child: Image.network(
+                          files[0],
+                          fit: BoxFit.fill,
+                        ),
+                      )
+                          : Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
                       (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                           ? Text(
-                              "My Music Journey Started",
-                              textAlign: widget.id.isEmpty || isEdit
-                                  ? TextAlign.left
-                                  : TextAlign.center,
-                              style: textTheme.title.copyWith(
-                                  color: Color.fromRGBO(124, 180, 97, 1.0)),
-                            )
+                        "My Music Journey Started",
+                        textAlign: widget.id.isEmpty || isEdit
+                            ? TextAlign.left
+                            : TextAlign.center,
+                        style: textTheme.title.copyWith(
+                            color: Color.fromRGBO(124, 180, 97, 1.0)),
+                      )
                           : Container(),
                       Padding(
                         padding: EdgeInsets.all(
@@ -508,12 +508,12 @@ class _AddPlayingStyleScreenState
                       widget.id.isEmpty || isEdit
                           ? Container()
                           : user != null
-                              ? Text(
-                                  "${user?.firstName} ${user?.lastName}",
-                                  textAlign: TextAlign.center,
-                                  style: textTheme.headline,
-                                )
-                              : Container(),
+                          ? Text(
+                        "${user?.firstName} ${user?.lastName}",
+                        textAlign: TextAlign.center,
+                        style: textTheme.headline,
+                      )
+                          : Container(),
                       Padding(
                         padding: EdgeInsets.all(
                             (widget.id.isEmpty || isEdit) ? 4 : 0),
@@ -521,88 +521,88 @@ class _AddPlayingStyleScreenState
                       widget.id.isEmpty || isEdit
                           ? Container()
                           : Padding(
-                              child: Text(
-                                aboutBandList.isEmpty
-                                    ? ""
-                                    : aboutBandList.join("\n"),
-                                textAlign: TextAlign.center,
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                  vertical:
-                                      (widget.id.isEmpty || isEdit) ? 4 : 0),
-                            ),
+                        child: Text(
+                          aboutBandList.isEmpty
+                              ? ""
+                              : aboutBandList.join("\n"),
+                          textAlign: TextAlign.center,
+                        ),
+                        padding: EdgeInsets.symmetric(
+                            vertical:
+                            (widget.id.isEmpty || isEdit) ? 4 : 0),
+                      ),
                       (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                           ? Row(
-                              children: <Widget>[
-                                InkWell(
-                                  onTap: widget.id.isEmpty || isEdit
-                                      ? () {
-                                          _handleLegalUserValueChange(0);
-                                        }
-                                      : null,
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: _legalUserType == 0
-                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-                                            : Color.fromRGBO(
-                                                244, 246, 248, 1.0),
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            color: _legalUserType == 0
-                                                ? Color.fromRGBO(
-                                                    70, 206, 172, 1.0)
-                                                : Color.fromRGBO(
-                                                    124, 180, 97, 1.0))),
-                                    child: Text(
-                                      'Age',
-                                      style: new TextStyle(
-                                        fontSize: 16.0,
-                                        color: _legalUserType == 0
-                                            ? Color.fromRGBO(124, 180, 97, 1.0)
-                                            : Color.fromRGBO(124, 180, 97, 1.0),
-                                      ),
-                                    ),
-                                  ),
+                        children: <Widget>[
+                          InkWell(
+                            onTap: widget.id.isEmpty || isEdit
+                                ? () {
+                              _handleLegalUserValueChange(0);
+                            }
+                                : null,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 14, vertical: 5),
+                              decoration: BoxDecoration(
+                                  color: _legalUserType == 0
+                                      ? Color.fromRGBO(209, 244, 236, 1.0)
+                                      : Color.fromRGBO(
+                                      244, 246, 248, 1.0),
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                      color: _legalUserType == 0
+                                          ? Color.fromRGBO(
+                                          70, 206, 172, 1.0)
+                                          : Color.fromRGBO(
+                                          124, 180, 97, 1.0))),
+                              child: Text(
+                                'Age',
+                                style: new TextStyle(
+                                  fontSize: 16.0,
+                                  color: _legalUserType == 0
+                                      ? Color.fromRGBO(124, 180, 97, 1.0)
+                                      : Color.fromRGBO(124, 180, 97, 1.0),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.all(8),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: widget.id==true?EdgeInsets.all(0):EdgeInsets.all(8),
+                          ),
+                          InkWell(
+                            onTap: widget.id.isEmpty || isEdit
+                                ? () {
+                              _handleLegalUserValueChange(1);
+                            }
+                                : null,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 14, vertical: 5),
+                              decoration: BoxDecoration(
+                                  color: _legalUserType == 1
+                                      ? Color.fromRGBO(209, 244, 236, 1.0)
+                                      : Color.fromRGBO(
+                                      244, 246, 248, 1.0),
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                      color: _legalUserType == 1
+                                          ? Color.fromRGBO(
+                                          124, 180, 97, 1.0)
+                                          : Color.fromRGBO(
+                                          124, 180, 97, 1.0))),
+                              child: Text(
+                                'Year',
+                                style: new TextStyle(
+                                  fontSize: 16.0,
+                                  color: _legalUserType == 1
+                                      ? Color.fromRGBO(124, 180, 97, 1.0)
+                                      : Color.fromRGBO(124, 180, 97, 1.0),
                                 ),
-                                InkWell(
-                                  onTap: widget.id.isEmpty || isEdit
-                                      ? () {
-                                          _handleLegalUserValueChange(1);
-                                        }
-                                      : null,
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: _legalUserType == 1
-                                            ? Color.fromRGBO(209, 244, 236, 1.0)
-                                            : Color.fromRGBO(
-                                                244, 246, 248, 1.0),
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            color: _legalUserType == 1
-                                                ? Color.fromRGBO(
-                                                    124, 180, 97, 1.0)
-                                                : Color.fromRGBO(
-                                                    124, 180, 97, 1.0))),
-                                    child: Text(
-                                      'Year',
-                                      style: new TextStyle(
-                                        fontSize: 16.0,
-                                        color: _legalUserType == 1
-                                            ? Color.fromRGBO(124, 180, 97, 1.0)
-                                            : Color.fromRGBO(124, 180, 97, 1.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
                           : Container(),
                       Row(
                         mainAxisAlignment: widget.id.isEmpty || isEdit
@@ -611,54 +611,54 @@ class _AddPlayingStyleScreenState
                         children: <Widget>[
                           showage == true
                               ? (widget.id.isEmpty || isEdit) &&
-                                      widget.bandId.isEmpty
-                                  ? Expanded(
-                                      child: TextField(
-                                        enabled: (widget.id.isEmpty || isEdit)
-                                            ? isyearage == 0
-                                            : false,
-                                        controller: _ageController,
-                                        decoration: InputDecoration(
-                                          labelText: "Enter Age",
-                                          labelStyle: TextStyle(
-                                            color: widget
-                                                .appListener.primaryColorDark,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  : _ageController.text.isNotEmpty &&
-                                          widget.bandId.isEmpty
-                                      ? Text(
-                                          "Playing since age  ${_ageController.text}",
-                                          textAlign: TextAlign.center,
-                                        )
-                                      : Container()
+                              widget.bandId.isEmpty
+                              ? Expanded(
+                            child: TextField(
+                              enabled: (widget.id.isEmpty || isEdit)
+                                  ? isyearage == 0
+                                  : false,
+                              controller: _ageController,
+                              decoration: InputDecoration(
+                                labelText: "Enter Age",
+                                labelStyle: TextStyle(
+                                  color: widget
+                                      .appListener.primaryColorDark,
+                                ),
+                              ),
+                            ),
+                          )
+                              : _ageController.text.isNotEmpty &&
+                              widget.bandId.isEmpty
+                              ? Text(
+                            "Playing since age  ${_ageController.text}",
+                            textAlign: TextAlign.center,
+                          )
+                              : Container()
                               : Container(),
                           showYear == true
                               ? ((widget.id.isEmpty || isEdit) &&
-                                      widget.bandId.isEmpty
-                                  ? Expanded(
-                                      child: TextField(
-                                        enabled: (widget.id.isEmpty || isEdit)
-                                            ? isyearage == 1
-                                            : false,
-                                        controller: _yearController,
-                                        decoration: InputDecoration(
-                                          labelText: "Enter Year",
-                                          labelStyle: TextStyle(
-                                            color: widget
-                                                .appListener.primaryColorDark,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  : _yearController.text.isNotEmpty
-                                      ? Text(
-                                          "Playing since ${_yearController.text}",
-                                          textAlign: TextAlign.center,
-                                        )
-                                      : Container())
+                              widget.bandId.isEmpty
+                              ? Expanded(
+                            child: TextField(
+                              enabled: (widget.id.isEmpty || isEdit)
+                                  ? isyearage == 1
+                                  : false,
+                              controller: _yearController,
+                              decoration: InputDecoration(
+                                labelText: "Enter Year",
+                                labelStyle: TextStyle(
+                                  color: widget
+                                      .appListener.primaryColorDark,
+                                ),
+                              ),
+                            ),
+                          )
+                              : _yearController.text.isNotEmpty
+                              ? Text(
+                            "Playing since ${_yearController.text}",
+                            textAlign: TextAlign.center,
+                          )
+                              : Container())
                               : Container(),
                         ],
                       ),
@@ -684,27 +684,27 @@ class _AddPlayingStyleScreenState
 //                              : Container(),
                           (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                               ? Expanded(
-                                  child: TextField(
-                                    enabled: (widget.id.isEmpty || isEdit),
-                                    controller: _responseController,
-                                    decoration: InputDecoration(
-                                      labelText:
-                                          "Write something about you experience",
-                                      labelStyle: TextStyle(
-                                        color:
-                                            widget.appListener.primaryColorDark,
-                                      ),
-                                    ),
-                                    maxLines: 2,
-                                  ),
-                                )
+                            child: TextField(
+                              enabled: (widget.id.isEmpty || isEdit),
+                              controller: _responseController,
+                              decoration: InputDecoration(
+                                labelText:
+                                "Write something about you experience",
+                                labelStyle: TextStyle(
+                                  color:
+                                  widget.appListener.primaryColorDark,
+                                ),
+                              ),
+                              maxLines: 2,
+                            ),
+                          )
                               : _responseController.text.isNotEmpty
-                                  ? Padding(
-                                      padding: EdgeInsets.only(top: 5),
-                                      child: Text(
-                                          "${_responseController.text}"),
-                                    )
-                                  : Container(),
+                              ? Padding(
+                            padding: EdgeInsets.only(top: 5),
+                            child: Text(
+                                "${_responseController.text}"),
+                          )
+                              : Container(),
                         ],
                       ),
                       Padding(
@@ -721,34 +721,34 @@ class _AddPlayingStyleScreenState
                       Padding(padding: EdgeInsets.all(3)),
                       widget.id.isEmpty || isEdit
                           ? Wrap(
-                              children: exps,
-                            )
+                        children: exps,
+                      )
                           : Text(
-                              expss,
-                              textAlign: TextAlign.center,
-                            ),
+                        expss,
+                        textAlign: TextAlign.center,
+                      ),
                       (widget.id.isEmpty || isEdit)
                           ? exList.containsKey("Other")
-                              ? TextField(
-                                  controller: _otherExpController,
-                                )
-                              : Container()
+                          ? TextField(
+                        controller: _otherExpController,
+                      )
+                          : Container()
                           : expss.contains("Other")
-                              ? RichText(
-                                  textAlign: TextAlign.center,
-                                  text: TextSpan(
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                          text: "\nOther:\n",
-                                          style: textTheme.subhead),
-                                      TextSpan(
-                                        text: _otherExpController.text,
-                                        style: textTheme.caption,
-                                      )
-                                    ],
-                                  ),
-                                )
-                              : Container(),
+                          ? RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: "\nOther:\n",
+                                style: textTheme.subhead),
+                            TextSpan(
+                              text: _otherExpController.text,
+                              style: textTheme.caption,
+                            )
+                          ],
+                        ),
+                      )
+                          : Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -782,33 +782,33 @@ class _AddPlayingStyleScreenState
                       Padding(padding: EdgeInsets.all(5)),
                       widget.id.isEmpty || isEdit
                           ? Wrap(
-                              children: items,
-                            )
+                        children: items,
+                      )
                           : Text(
-                              psList.join(" , "),
-                              textAlign: TextAlign.center,
-                            ),
+                        psList.join(" , "),
+                        textAlign: TextAlign.center,
+                      ),
                       Padding(
                           padding:
-                              EdgeInsets.all(widget.bandId.isEmpty ? 5 : 0)),
+                          EdgeInsets.all(widget.bandId.isEmpty ? 5 : 0)),
                       widget.bandId.isEmpty
                           ? Text(
-                              "Instruments",
-                              style: textTheme.title.copyWith(
-                                color: Color.fromRGBO(124, 180, 97, 1.0),
-                              ),
-                              textAlign: widget.id.isEmpty || isEdit
-                                  ? TextAlign.left
-                                  : TextAlign.center,
-                            )
+                        "Instruments",
+                        style: textTheme.title.copyWith(
+                          color: Color.fromRGBO(124, 180, 97, 1.0),
+                        ),
+                        textAlign: widget.id.isEmpty || isEdit
+                            ? TextAlign.left
+                            : TextAlign.center,
+                      )
                           : Container(),
                       Padding(
                           padding:
-                              EdgeInsets.all(widget.bandId.isEmpty ? 5 : 0)),
+                          EdgeInsets.all(widget.bandId.isEmpty ? 5 : 0)),
                       (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                           ? Wrap(
-                              children: items2,
-                            )
+                        children: items2,
+                      )
                           : Container(),
                       Padding(
                         padding: widget.id.isNotEmpty
@@ -817,160 +817,160 @@ class _AddPlayingStyleScreenState
                       ),
                       inList.length > 0
                           ? (widget.id.isEmpty || isEdit) &&
-                                  widget.bandId.isEmpty
-                              ? Text(
-                                  "Select your expertise level :",
-                                  textAlign: TextAlign.left,
-                                  style: textTheme.subtitle.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: Color.fromRGBO(124, 180, 97, 1.0)),
-                                )
-                              : Container()
+                          widget.bandId.isEmpty
+                          ? Text(
+                        "Select your expertise level :",
+                        textAlign: TextAlign.left,
+                        style: textTheme.subtitle.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: Color.fromRGBO(124, 180, 97, 1.0)),
+                      )
+                          : Container()
                           : Container(),
                       Padding(
                         padding: EdgeInsets.all(widget.bandId.isEmpty ? 0 : 0),
                       ),
                       widget.bandId.isEmpty
                           ? ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: inList.keys.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                String key = inList.keys.elementAt(index);
-                                String val = inList[key];
-                                return widget.id.isEmpty || isEdit
-                                    ? Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Text(key),
-                                          Padding(
-                                            padding: EdgeInsets.all(5),
-                                          ),
-                                          widget.id.isEmpty || isEdit
-                                              ? DropdownButton<String>(
-                                                  items: <String>[
-                                                    'Beginner',
-                                                    'Intermediate',
-                                                    "Professional"
-                                                  ].map((String value) {
-                                                    return new DropdownMenuItem<
-                                                        String>(
-                                                      value: value,
-                                                      child: new Text(
-                                                        value,
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      ),
-                                                    );
-                                                  }).toList(),
-                                                  value: val,
-                                                  onChanged: (v) {
-                                                    setState(() {
-                                                      inList[key] = v;
-                                                    });
-                                                  },
-                                                )
-                                              : Text("-" + val),
-                                        ],
-                                      )
-                                    : Row(
-                                        children: <Widget>[
-                                          Expanded(
-                                            flex: 5,
-                                            child: Text(
-                                              "$key",
-                                              textAlign: TextAlign.right,
-                                              style:
-                                                  textTheme.subtitle.copyWith(),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 1,
-                                            child: Text(
-                                              " - ",
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              "$val",
-                                              textAlign: TextAlign.left,
-                                            ),
-                                            flex: 5,
-                                          ),
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: inList.keys.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          String key = inList.keys.elementAt(index);
+                          String val = inList[key];
+                          return widget.id.isEmpty || isEdit
+                              ? Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(key),
+                              Padding(
+                                padding: EdgeInsets.all(5),
+                              ),
+                              widget.id.isEmpty || isEdit
+                                  ? DropdownButton<String>(
+                                items: <String>[
+                                  'Beginner',
+                                  'Intermediate',
+                                  "Professional"
+                                ].map((String value) {
+                                  return new DropdownMenuItem<
+                                      String>(
+                                    value: value,
+                                    child: new Text(
+                                      value,
+                                      textAlign:
+                                      TextAlign.center,
+                                    ),
+                                  );
+                                }).toList(),
+                                value: val,
+                                onChanged: (v) {
+                                  setState(() {
+                                    inList[key] = v;
+                                  });
+                                },
+                              )
+                                  : Text("-" + val),
+                            ],
+                          )
+                              : Row(
+                            children: <Widget>[
+                              Expanded(
+                                flex: 5,
+                                child: Text(
+                                  "$key",
+                                  textAlign: TextAlign.right,
+                                  style:
+                                  textTheme.subtitle.copyWith(),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Text(
+                                  " - ",
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  "$val",
+                                  textAlign: TextAlign.left,
+                                ),
+                                flex: 5,
+                              ),
 //                                    Padding(
 //                                      padding: EdgeInsets.all(4),
 //                                    )
-                                        ],
-                                      );
-                              },
-                            )
+                            ],
+                          );
+                        },
+                      )
                           : Container(),
                       Padding(
                           padding:
-                              EdgeInsets.all(widget.bandId.isEmpty ? 0 : 5)),
+                          EdgeInsets.all(widget.bandId.isEmpty ? 0 : 5)),
                       widget.bandId.isEmpty
                           ? ShowUp(
-                              child: !isEducation
-                                  ? new GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          isEducation = true;
-                                        });
-                                      },
-                                      child: widget.id.isEmpty || isEdit
-                                          ? Text(
-                                              "Click here to add education",
-                                              style: textTheme.display1
-                                                  .copyWith(
-                                                      color: widget.appListener
-                                                          .primaryColorDark,
-                                                      fontSize: 14),
-                                            )
-                                          : Container(),
-                                    )
-                                  : Container(),
-                              delay: 1000,
-                            )
+                        child: !isEducation
+                            ? new GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isEducation = true;
+                            });
+                          },
+                          child: widget.id.isEmpty || isEdit
+                              ? Text(
+                            "Click here to add education",
+                            style: textTheme.display1
+                                .copyWith(
+                                color: widget.appListener
+                                    .primaryColorDark,
+                                fontSize: 14),
+                          )
+                              : Container(),
+                        )
+                            : Container(),
+                        delay: 1000,
+                      )
                           : Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
                       isEducation && widget.bandId.isEmpty
                           ? Text(
-                              "Education",
-                              textAlign: widget.id.isEmpty || isEdit
-                                  ? TextAlign.left
-                                  : TextAlign.center,
-                              style: textTheme.title.copyWith(
-                                  color: Color.fromRGBO(124, 180, 97, 1.0)),
-                            )
+                        "Education",
+                        textAlign: widget.id.isEmpty || isEdit
+                            ? TextAlign.left
+                            : TextAlign.center,
+                        style: textTheme.title.copyWith(
+                            color: Color.fromRGBO(124, 180, 97, 1.0)),
+                      )
                           : Container(),
                       Padding(
                         padding: EdgeInsets.all(widget.bandId.isEmpty ? 1 : 3),
                       ),
                       isEducation
                           ? (widget.id.isEmpty || isEdit) &&
-                                  widget.bandId.isEmpty
-                              ? DropdownButton<String>(
-                                  items: education.map((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(
-                                        value,
-                                        style: TextStyle(
-                                            color: widget
-                                                .appListener.primaryColorDark),
-                                      ),
-                                    );
-                                  }).toList(),
-                                  onChanged: _handleRelationshipValueChange,
-                                  value: _educationType,
-                                )
-                              : selectedEducation == "Other"
-                                  ? Container()
-                                  : Container()
+                          widget.bandId.isEmpty
+                          ? DropdownButton<String>(
+                        items: education.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              style: TextStyle(
+                                  color: widget
+                                      .appListener.primaryColorDark),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: _handleRelationshipValueChange,
+                        value: _educationType,
+                      )
+                          : selectedEducation == "Other"
+                          ? Container()
+                          : Container()
                           : Container(),
 //                      isEducation
 //                          ? widget.id.isEmpty || isEdit
@@ -986,87 +986,87 @@ class _AddPlayingStyleScreenState
                         children: <Widget>[
                           (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                               ? TextField(
-                                  enabled: widget.id.isEmpty || isEdit,
-                                  controller: _listSchoolController,
-                                  decoration: InputDecoration(
-                                    labelText: "List School",
-                                    labelStyle: TextStyle(
-                                      color:
-                                          widget.appListener.primaryColorDark,
-                                    ),
-                                  ),
-                                )
+                            enabled: widget.id.isEmpty || isEdit,
+                            controller: _listSchoolController,
+                            decoration: InputDecoration(
+                              labelText: "List School",
+                              labelStyle: TextStyle(
+                                color:
+                                widget.appListener.primaryColorDark,
+                              ),
+                            ),
+                          )
                               : widget.bandId.isEmpty
-                                  ? Row(
-                                      children: <Widget>[
-                                        Expanded(
-                                          flex: 5,
-                                          child: Text(
-                                            "School",
-                                            textAlign: TextAlign.right,
-                                            style:
-                                                textTheme.subtitle.copyWith(),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: Text(
-                                            " - ",
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            _listSchoolController.text,
-                                            textAlign: TextAlign.left,
-                                          ),
-                                          flex: 5,
-                                        )
-                                      ],
-                                    )
-                                  : Container(),
+                              ? Row(
+                            children: <Widget>[
+                              Expanded(
+                                flex: 5,
+                                child: Text(
+                                  "School",
+                                  textAlign: TextAlign.right,
+                                  style:
+                                  textTheme.subtitle.copyWith(),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Text(
+                                  " - ",
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  _listSchoolController.text,
+                                  textAlign: TextAlign.left,
+                                ),
+                                flex: 5,
+                              )
+                            ],
+                          )
+                              : Container(),
                           (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                               ? TextField(
-                                  enabled: widget.id.isEmpty || isEdit,
-                                  controller: _earnController,
-                                  decoration: InputDecoration(
-                                    labelText:
-                                        "What did you earn your academic degree in",
-                                    labelStyle: TextStyle(
-                                      color:
-                                          widget.appListener.primaryColorDark,
-                                    ),
-                                  ),
-                                )
+                            enabled: widget.id.isEmpty || isEdit,
+                            controller: _earnController,
+                            decoration: InputDecoration(
+                              labelText:
+                              "What did you earn your academic degree in",
+                              labelStyle: TextStyle(
+                                color:
+                                widget.appListener.primaryColorDark,
+                              ),
+                            ),
+                          )
                               : widget.bandId.isEmpty
-                                  ? Row(
-                                      children: <Widget>[
-                                        Expanded(
-                                          flex: 5,
-                                          child: Text(
-                                            selectedEducation ?? "",
-                                            textAlign: TextAlign.right,
-                                            style:
-                                                textTheme.subtitle.copyWith(),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: Text(
-                                            " - ",
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            _earnController.text,
-                                            textAlign: TextAlign.left,
-                                          ),
-                                          flex: 5,
-                                        )
-                                      ],
-                                    )
-                                  : Container()
+                              ? Row(
+                            children: <Widget>[
+                              Expanded(
+                                flex: 5,
+                                child: Text(
+                                  selectedEducation ?? "",
+                                  textAlign: TextAlign.right,
+                                  style:
+                                  textTheme.subtitle.copyWith(),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Text(
+                                  " - ",
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  _earnController.text,
+                                  textAlign: TextAlign.left,
+                                ),
+                                flex: 5,
+                              )
+                            ],
+                          )
+                              : Container()
                         ],
                       ),
                       Padding(
@@ -1075,126 +1075,126 @@ class _AddPlayingStyleScreenState
                       widget.id.isEmpty || isEdit
                           ? Container()
                           : widget.bandId.isNotEmpty
-                              ? Text(
-                                  "Band Contact Info",
-                                  textAlign: TextAlign.center,
-                                  style: textTheme.title.copyWith(
-                                    fontSize: 19,
-                                    color: Color.fromRGBO(124, 180, 97, 1.0),
-                                  ),
-                                )
-                              : Container(),
-                      widget.bandId.isNotEmpty
-                          ? (widget.id.isEmpty || isEdit)
-                              ? Container()
-                              : Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 4),
-                                  child: Text(
-                                    "${_nameBandController.text} - ${_contactBandController.text}",
-                                    textAlign: TextAlign.center,
-                                  ),
-                                )
+                          ? Text(
+                        "Band Contact Info",
+                        textAlign: TextAlign.center,
+                        style: textTheme.title.copyWith(
+                          fontSize: 19,
+                          color: Color.fromRGBO(124, 180, 97, 1.0),
+                        ),
+                      )
                           : Container(),
                       widget.bandId.isNotEmpty
                           ? (widget.id.isEmpty || isEdit)
-                              ? TextField(
-                                  controller: _emailBandController,
-                                  decoration: InputDecoration(
-                                    hintText: "Band Email",
-                                  ),
-                                )
-                              : Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 4),
-                                  child: Text(
-                                    _emailBandController.text,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                )
+                          ? Container()
+                          : Padding(
+                        padding: EdgeInsets.symmetric(vertical: 4),
+                        child: Text(
+                          "${_nameBandController.text} - ${_contactBandController.text}",
+                          textAlign: TextAlign.center,
+                        ),
+                      )
                           : Container(),
                       widget.bandId.isNotEmpty
                           ? (widget.id.isEmpty || isEdit)
-                              ? TextField(
-                                  controller: _websiteBandController,
-                                  decoration: InputDecoration(
-                                    hintText: "Band Website",
-                                  ),
-                                )
-                              : Padding(
-                                  child: Text(
-                                    _websiteBandController.text,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  padding: EdgeInsets.symmetric(vertical: 4),
-                                )
+                          ? TextField(
+                        controller: _emailBandController,
+                        decoration: InputDecoration(
+                          hintText: "Band Email",
+                        ),
+                      )
+                          : Padding(
+                        padding: EdgeInsets.symmetric(vertical: 4),
+                        child: Text(
+                          _emailBandController.text,
+                          textAlign: TextAlign.center,
+                        ),
+                      )
                           : Container(),
                       widget.bandId.isNotEmpty
                           ? (widget.id.isEmpty || isEdit)
-                              ? ListView.builder(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: aboutBandList.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    final _aboutBandsController =
-                                        TextEditingController();
-                                    _aboutBandsController.text =
-                                        aboutBandList[index];
-                                    _aboutBandsController.addListener(() {
-                                      aboutBandList[index] =
-                                          _aboutBandsController.text;
-                                    });
-                                    return TextField(
-                                      controller: _aboutBandsController,
-                                      decoration: InputDecoration(
-                                          hintText:
-                                              "About the band ${index + 1}",
-                                          suffixIcon: aboutBandList.length < 3
-                                              ? IconButton(
-                                                  icon: Icon(Icons.add),
-                                                  onPressed: () {
-                                                    if (aboutBandList.length <
-                                                        3) {
-                                                      setState(() {
-                                                        aboutBandList.add("");
-                                                      });
-                                                    }
-                                                  },
-                                                )
-                                              : null),
-                                      maxLength: 50,
-                                      maxLines: 1,
-                                    );
+                          ? TextField(
+                        controller: _websiteBandController,
+                        decoration: InputDecoration(
+                          hintText: "Band Website",
+                        ),
+                      )
+                          : Padding(
+                        child: Text(
+                          _websiteBandController.text,
+                          textAlign: TextAlign.center,
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 4),
+                      )
+                          : Container(),
+                      widget.bandId.isNotEmpty
+                          ? (widget.id.isEmpty || isEdit)
+                          ? ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: aboutBandList.length,
+                        itemBuilder:
+                            (BuildContext context, int index) {
+                          final _aboutBandsController =
+                          TextEditingController();
+                          _aboutBandsController.text =
+                          aboutBandList[index];
+                          _aboutBandsController.addListener(() {
+                            aboutBandList[index] =
+                                _aboutBandsController.text;
+                          });
+                          return TextField(
+                            controller: _aboutBandsController,
+                            decoration: InputDecoration(
+                                hintText:
+                                "About the band ${index + 1}",
+                                suffixIcon: aboutBandList.length < 3
+                                    ? IconButton(
+                                  icon: Icon(Icons.add),
+                                  onPressed: () {
+                                    if (aboutBandList.length <
+                                        3) {
+                                      setState(() {
+                                        aboutBandList.add("");
+                                      });
+                                    }
                                   },
                                 )
-                              : Container()
+                                    : null),
+                            maxLength: 50,
+                            maxLines: 1,
+                          );
+                        },
+                      )
+                          : Container()
                           : Container(),
                       (widget.id.isEmpty || isEdit)
                           ? Container()
                           : widget.bandId.isNotEmpty
-                              ? Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 6),
-                                  child: Text(
-                                    "About the Band",
-                                    textAlign: TextAlign.center,
-                                    style: textTheme.title.copyWith(
-                                        fontSize: 19,
-                                        color:
-                                            Color.fromRGBO(124, 180, 97, 1.0)),
-                                  ),
-                                )
-                              : Container(),
+                          ? Padding(
+                        padding: EdgeInsets.symmetric(vertical: 6),
+                        child: Text(
+                          "About the Band",
+                          textAlign: TextAlign.center,
+                          style: textTheme.title.copyWith(
+                              fontSize: 19,
+                              color:
+                              Color.fromRGBO(124, 180, 97, 1.0)),
+                        ),
+                      )
+                          : Container(),
                       widget.bandId.isNotEmpty
                           ? (widget.id.isEmpty || isEdit)
-                              ? Container()
-                              : Text(
-                                  _aboutBandController.text,
-                                  textAlign: TextAlign.center,
-                                )
+                          ? Container()
+                          : Text(
+                        _aboutBandController.text,
+                        textAlign: TextAlign.center,
+                      )
                           : Container(),
                       Padding(
                         padding: EdgeInsets.all(4),
                       ),
-
+                      
                       Row(
                         children: <Widget>[
                           Expanded(
@@ -1207,156 +1207,156 @@ class _AddPlayingStyleScreenState
                           ),
                           widget.id.isEmpty || isEdit
                               ? IconButton(
-                                  icon: Icon(Icons.add_a_photo),
-                                  onPressed: () {
-                                    if (files.length < 2)
-                                      getImage();
-                                    else
-                                      showMessage(
-                                          "User can upload upto max 2 media files");
-                                  },
-                                )
+                            icon: Icon(Icons.add_a_photo),
+                            onPressed: () {
+                              if (files.length < 2)
+                                getImage();
+                              else
+                                showMessage(
+                                    "User can upload upto max 2 media files");
+                            },
+                          )
                               : Container()
                         ],
                       ),
                       widget.id.isEmpty || isEdit
                           ? files.length > 0
-                              ? SizedBox(
-                                  height: 90,
-                                  child: ListView.builder(
-                                    itemCount: files.length,
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      File file = File(files[index]);
-                                      return file.path.startsWith("https")
-                                          ? Container(
-                                              margin: EdgeInsets.only(
-                                                  left: 10, right: 10),
-                                              height: 80,
-                                              width: 150,
-                                              child: Stack(
-                                                children: <Widget>[
-                                                  widget.id.isNotEmpty ||
-                                                          isEdit &&
-                                                              file.path
-                                                                  .startsWith(
-                                                                      "https")
-                                                      ? Image.network(
-                                                          file.path
-                                                                  .toString() ??
-                                                              "",
-                                                          fit: BoxFit.cover,
-                                                        )
-                                                      : Image.file(
-                                                          file,
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                  Positioned(
-                                                    right: 14,
-                                                    top: 0,
-                                                    child: InkWell(
-                                                      onTap: () {
-                                                        setState(() {
-                                                          files = new List();
-                                                        });
-                                                      },
-                                                      child: Container(
-                                                        child: Icon(
-                                                          Icons.cancel,
-                                                          color: Colors.white,
-                                                        ),
-                                                        color: Colors.black,
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            )
-                                          : Container(
-                                              margin: EdgeInsets.only(
-                                                  left: 10, right: 10),
-                                              height: 80,
-                                              width: 150,
-                                              child: Stack(
-                                                children: <Widget>[
-                                                  Image.file(
-                                                    file,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                  Positioned(
-                                                    right: 14,
-                                                    top: 0,
-                                                    child: InkWell(
-                                                      onTap: () {
-                                                        setState(() {
-                                                          files = new List();
-                                                        });
-                                                      },
-                                                      child: Container(
-                                                        child: Icon(
-                                                          Icons.cancel,
-                                                          color: Colors.white,
-                                                        ),
-                                                        color: Colors.black,
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            );
-                                    },
+                          ? SizedBox(
+                        height: 90,
+                        child: ListView.builder(
+                          itemCount: files.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder:
+                              (BuildContext context, int index) {
+                            File file = File(files[index]);
+                            return file.path.startsWith("https")
+                                ? Container(
+                              margin: EdgeInsets.only(
+                                  left: 10, right: 10),
+                              height: 80,
+                              width: 150,
+                              child: Stack(
+                                children: <Widget>[
+                                  widget.id.isNotEmpty ||
+                                      isEdit &&
+                                          file.path
+                                              .startsWith(
+                                              "https")
+                                      ? Image.network(
+                                    file.path
+                                        .toString() ??
+                                        "",
+                                    fit: BoxFit.cover,
+                                  )
+                                      : Image.file(
+                                    file,
+                                    fit: BoxFit.cover,
                                   ),
-                                )
-                              : Container()
+                                  Positioned(
+                                    right: 14,
+                                    top: 0,
+                                    child: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          files = new List();
+                                        });
+                                      },
+                                      child: Container(
+                                        child: Icon(
+                                          Icons.cancel,
+                                          color: Colors.white,
+                                        ),
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                                : Container(
+                              margin: EdgeInsets.only(
+                                  left: 10, right: 10),
+                              height: 80,
+                              width: 150,
+                              child: Stack(
+                                children: <Widget>[
+                                  Image.file(
+                                    file,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  Positioned(
+                                    right: 14,
+                                    top: 0,
+                                    child: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          files = new List();
+                                        });
+                                      },
+                                      child: Container(
+                                        child: Icon(
+                                          Icons.cancel,
+                                          color: Colors.white,
+                                        ),
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                          : Container()
                           : Container(),
                       Padding(padding: EdgeInsets.all(20)),
                       widget.id.isEmpty || isEdit
                           ? RaisedButton(
-                              onPressed: () {
-                                showLoading();
-                                presenter.addPlayingStyle(UserPlayingStyle(
-                                    instruments: inList,
-                                    id: widget.id,
-                                    role: _roleController.text,
-                                    bandId: widget.bandId,
-                                    aboutTheBands: aboutBandList,
-                                    degree: _degreeController.text,
-                                    response: _responseController.text,
-                                    about: _aboutBandController.text,
-                                    playing_styles: List.from(psList),
-                                    earn: _earnController.text,
-                                    otherExp: _otherExpController.text,
-                                    education: selectedEducation,
-                                    aboutBand: _nameBandController.text +
-                                        "\n" +
-                                        _emailBandController.text +
-                                        "\n" +
-                                        _websiteBandController.text,
-                                    bandContacts: _contactBandController.text,
-                                    bandEmail: _emailBandController.text,
-                                    bandName: _nameBandController.text,
-                                    bandWebsite: _websiteBandController.text,
-                                    age: showage == true
-                                        ? _ageController.text
-                                        : null,
-                                    year: showYear == true
-                                        ? _yearController.text
-                                        : null,
-                                    experience: List.from(exList.keys),
-                                    listSchool: _listSchoolController.text,
-                                    viewerKnow: _expController.text,
-                                    files: files));
-                              },
-                              child: Text(
-                                "Submit",
-                              ),
-                              color: Color.fromRGBO(124, 180, 97, 1.0),
-                              textColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            )
+                        onPressed: () {
+                          showLoading();
+                          presenter.addPlayingStyle(UserPlayingStyle(
+                              instruments: inList,
+                              id: widget.id,
+                              role: _roleController.text,
+                              bandId: widget.bandId,
+                              aboutTheBands: aboutBandList,
+                              degree: _degreeController.text,
+                              response: _responseController.text,
+                              about: _aboutBandController.text,
+                              playing_styles: List.from(psList),
+                              earn: _earnController.text,
+                              otherExp: _otherExpController.text,
+                              education: selectedEducation,
+                              aboutBand: _nameBandController.text +
+                                  "\n" +
+                                  _emailBandController.text +
+                                  "\n" +
+                                  _websiteBandController.text,
+                              bandContacts: _contactBandController.text,
+                              bandEmail: _emailBandController.text,
+                              bandName: _nameBandController.text,
+                              bandWebsite: _websiteBandController.text,
+                              age: showage == true
+                                  ? _ageController.text
+                                  : null,
+                              year: showYear == true
+                                  ? _yearController.text
+                                  : null,
+                              experience: List.from(exList.keys),
+                              listSchool: _listSchoolController.text,
+                              viewerKnow: _expController.text,
+                              files: files));
+                        },
+                        child: Text(
+                          "Submit",
+                        ),
+                        color: Color.fromRGBO(124, 180, 97, 1.0),
+                        textColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      )
                           : Container()
                     ],
                   ),
@@ -1368,16 +1368,16 @@ class _AddPlayingStyleScreenState
       ],
     );
   }
-
+  
   @override
   AddPlayingStylePresenter get presenter => AddPlayingStylePresenter(this);
-
+  
   @override
   void onAddSuccess() {
     hideLoading();
     Navigator.pop(context);
   }
-
+  
   Future getImage() async {
     showDialog(
       context: context,
@@ -1393,7 +1393,7 @@ class _AddPlayingStyleScreenState
                 Navigator.of(context).pop();
                 var image = await ImagePicker.pickImage(
                     source: ImageSource.camera, imageQuality: 50);
-
+                
                 setState(() {
                   if (image != null) files.add(image.path);
                 });
@@ -1404,7 +1404,7 @@ class _AddPlayingStyleScreenState
               onPressed: () async {
                 Navigator.of(context).pop();
                 var image =
-                    await ImagePicker.pickImage(source: ImageSource.gallery);
+                await ImagePicker.pickImage(source: ImageSource.gallery);
                 setState(() {
                   if (image != null) files.add(image.path);
                 });
@@ -1415,7 +1415,7 @@ class _AddPlayingStyleScreenState
       },
     );
   }
-
+  
   @override
   void onUpdateSuccess() {
     hideLoading();
@@ -1424,7 +1424,7 @@ class _AddPlayingStyleScreenState
     });
     showMessage("Updated Successfully");
   }
-
+  
   @override
   void onDetailsSuccess(UserPlayingStyle userPlayingStyle) {
     hideLoading();
@@ -1438,7 +1438,6 @@ class _AddPlayingStyleScreenState
       _earnController.text = userPlayingStyle.earn;
       _expController.text = userPlayingStyle.viewerKnow;
       _listSchoolController.text = userPlayingStyle.listSchool;
-      _responseController.text = userPlayingStyle.response;
       _roleController.text = userPlayingStyle.role;
       _responseController.text = userPlayingStyle.response;
       _yearController.text = userPlayingStyle.year;
@@ -1449,7 +1448,7 @@ class _AddPlayingStyleScreenState
       _contactBandController.text = userPlayingStyle.bandContacts;
       _websiteBandController.text = userPlayingStyle.bandWebsite;
       isEducation = true;
-
+      
       for (String item in userPlayingStyle.experience) {
         exList[item] = null;
       }
@@ -1471,12 +1470,12 @@ class _AddPlayingStyleScreenState
       inList.addAll(userPlayingStyle.instruments);
     });
   }
-
+  
   @override
   void onDelete() {
     Navigator.of(context).pop();
   }
-
+  
   @override
   void getBandDetails(Band res) {
     setState(() {
@@ -1484,7 +1483,7 @@ class _AddPlayingStyleScreenState
       _nameBandController.text = res.name;
     });
   }
-
+  
   @override
   void onUserDetailsSuccess(User res) {
     setState(() {
