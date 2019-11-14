@@ -26,7 +26,7 @@ dependencies:
   fluro: ^1.4.0
   shared_preferences: ^0.5.2
   image_picker: ^0.6.0+8
-  date_format: ^1.0.6
+  date_format: ^1.0.8
   # dio: ^2.1.6
   http: ^0.12.0+2
   mime: ^0.9.6+2
@@ -42,6 +42,7 @@ dependencies:
   mailer: ^3.0.4
   firebase_messaging: ^5.1.6
   google_maps_flutter: ^0.5.21+8
+
 
 dev_dependencies:
   flutter_test:

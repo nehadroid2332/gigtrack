@@ -22,6 +22,7 @@ import 'package:mailer/smtp_server.dart';
 import 'package:mailer/smtp_server/gmail.dart';
 import 'package:path/path.dart';
 import 'models/band_member_add_response.dart';
+import 'models/chat.dart';
 import 'models/notification_list_response.dart';
 import 'models/update_activity_bandmember_status.dart';
 import 'models/user_instrument.dart';
@@ -58,6 +59,7 @@ class ServerAPI {
       equipmentsDB,
       contactDB,
       playingStyleDB,
+      helpDB,
       notificationDB;
   String currentUserId, currentUserEmail;
 
@@ -80,6 +82,7 @@ class ServerAPI {
     bulletinDB = _mainFirebaseDatabase.child("bulletIn");
     playingStyleDB = _mainFirebaseDatabase.child("playingStyle");
     notificationDB = _mainFirebaseDatabase.child("notifications");
+    helpDB = _mainFirebaseDatabase.child("Helps");
     getCurrentUser();
     firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
@@ -162,24 +165,38 @@ class ServerAPI {
       return ErrorResponse.fromJSON(e.message);
     }
   }
+  String getChatId(String userId1, String userId2) {
+    if (userId1.compareTo(userId2) > 0) {
+      return "$userId1$userId2";
+    }
+    return "$userId2$userId1";
+  }
+
+  Future<dynamic> addChat(Chat chat) async {
+    String id = getChatId(chat.senderId, chat.receiverId);
+    String key = helpDB.child(id).push().key;
+    chat.id = key;
+    await helpDB.child(id).child(key).set(chat.toJSON());
+    return "Success";
+  }
 
   Future<dynamic> addBand(Band band) async {
     try {
-	    for (var i = 0; i < band.files?.length ?? 0; i++) {
-		    File file1 = File(band.files[i]);
-		    if (await file1.exists()) {
-			    String basename = extension(file1.path);
-			    File newFile = File(
-					    file1.parent.path + "/temp-${await file1.length()}" + basename);
-			    File file = await compressFileAndGetFile(file1, newFile.path);
-			    final StorageUploadTask uploadTask = contactsRef
-					    .child("${DateTime.now().toString()}$basename")
-					    .putFile(file);
-			    StorageTaskSnapshot snapshot = await uploadTask.onComplete;
-			    String url = await snapshot.ref.getDownloadURL();
-			    band.files[i] = url;
-		    }
-	    }
+      for (var i = 0; i < band.files?.length ?? 0; i++) {
+        File file1 = File(band.files[i]);
+        if (await file1.exists()) {
+          String basename = extension(file1.path);
+          File newFile = File(
+              file1.parent.path + "/temp-${await file1.length()}" + basename);
+          File file = await compressFileAndGetFile(file1, newFile.path);
+          final StorageUploadTask uploadTask = contactsRef
+              .child("${DateTime.now().toString()}$basename")
+              .putFile(file);
+          StorageTaskSnapshot snapshot = await uploadTask.onComplete;
+          String url = await snapshot.ref.getDownloadURL();
+          band.files[i] = url;
+        }
+      }
       bool isUpdate = true;
       if (band.id == null || band.id.isEmpty) {
         String id = bandDB.push().key;
@@ -349,7 +366,7 @@ class ServerAPI {
           }
         }
       }
-      
+
       await notesDB.child(notesTodo.id).set(notesTodo.toMap());
       return isUpdate;
     } catch (e) {

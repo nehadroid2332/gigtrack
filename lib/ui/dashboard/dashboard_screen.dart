@@ -46,6 +46,22 @@ class _DashboardScreenState
                   ),
                   IconButton(
                     icon: Icon(
+                      Icons.help,
+                    ),
+                    color: Colors.blue,
+                    iconSize: 38,
+                    onPressed: () {
+                      widget.appListener.router.navigateTo(
+                        context,
+                        Screens.HELP.toString(),
+                      );
+                    },
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(3),
+                  ),
+                  IconButton(
+                    icon: Icon(
                       Icons.notifications,
                     ),
                     color: Colors.blue,

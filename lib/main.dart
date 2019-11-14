@@ -26,6 +26,7 @@ import 'package:google_places_picker/google_places_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'ui/addplayingstyle/add_playing_style_screen.dart';
+import 'ui/help/help_screen.dart';
 import 'ui/playingstylelist/playing_style_list_screen.dart';
 
 void main() {
@@ -55,6 +56,10 @@ class MyApp extends StatelessWidget implements AppListener {
     _router.define(Screens.SIGNUP.toString(), handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return SignUpScreen(this);
+    }));
+    _router.define(Screens.HELP.toString(), handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      return HelpScreen(this);
     }));
     _router.define(Screens.ADDBAND.toString() + "/:id", handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
@@ -419,5 +424,6 @@ enum Screens {
   PRIVACY,
   ADDBULLETIN,
   BULLETINLISTLIST,
-  GOOGLEMAPS
+  GOOGLEMAPS,
+  HELP
 }
