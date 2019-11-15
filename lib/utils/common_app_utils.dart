@@ -187,7 +187,7 @@ Widget buildActivityListItem(Activites ac,
     color: isPast
         ? Colors.grey
         : (ac.bandId != null && ac.bandId.isNotEmpty)
-            ? Color.fromRGBO(32, 95, 139, 1.0)
+            ? Colors.white
             : Color.fromRGBO(32, 95, 139, 1.0),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(12),
@@ -209,7 +209,7 @@ Widget buildActivityListItem(Activites ac,
                   style: TextStyle(
                     fontSize: 16,
                     fontStyle: FontStyle.italic,
-                    color: Color.fromRGBO(250, 250, 250, 0.8),
+                    color: ac.bandId.isNotEmpty?Color.fromRGBO(32, 95, 139, 1.0):Color.fromRGBO(250, 250, 250, 0.8),
                   ),
                 ),
                 Text(
@@ -217,7 +217,7 @@ Widget buildActivityListItem(Activites ac,
                   style: TextStyle(
                     fontSize: 16,
                     fontStyle: FontStyle.italic,
-                    color: Color.fromRGBO(250, 250, 250, 1.0),
+                    color:ac.bandId.isNotEmpty?Color.fromRGBO(32, 95, 139, 1.0): Color.fromRGBO(250, 250, 250, 1.0),
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -239,7 +239,7 @@ Widget buildActivityListItem(Activites ac,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 23,
-                    color: Color.fromRGBO(250, 250, 250, 1.0),
+                    color: ac.bandId.isNotEmpty?Color.fromRGBO(32, 95, 139, 1.0):Color.fromRGBO(250, 250, 250, 1.0),
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -248,7 +248,7 @@ Widget buildActivityListItem(Activites ac,
                         ac.band?.name,
                         style: TextStyle(
                           fontSize: 15,
-                          color: Color.fromRGBO(250, 250, 250, 1.0),
+                          color: ac.bandId.isNotEmpty?Color.fromRGBO(32, 95, 139, 1.0):Color.fromRGBO(250, 250, 250, 1.0),
                         ),
                         textAlign: TextAlign.center,
                       )
@@ -282,7 +282,7 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
 
   return Card(
     margin: EdgeInsets.all(10),
-    color: Color.fromRGBO(22, 102, 237, 1.0),
+    color: not.bandId.isNotEmpty?Colors.white:Color.fromRGBO(22, 102, 237, 1.0),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(12),
     ),
@@ -297,7 +297,7 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 20,
-                  color: Colors.white,
+                  color: (not.bandId.isNotEmpty)?Color.fromRGBO(22, 102, 237, 1.0):Colors.white,
                   fontWeight: FontWeight.w700),
             ),
             Padding(
@@ -320,7 +320,7 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.white,
+                      color: (not.bandId.isNotEmpty) ? Color.fromRGBO(22, 102, 237, 1.0): Colors.white,
                     ),
                   ),
 

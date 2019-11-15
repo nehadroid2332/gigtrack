@@ -96,7 +96,7 @@ class _ContactListScreenState
                     itemBuilder: (BuildContext context, int index) {
                       final cnt = _contacts[index];
                       return Card(
-                        color: Color.fromRGBO(60, 111, 54, 1.0),
+                        color: cnt.bandId.isNotEmpty?Colors.white:Color.fromRGBO(60, 111, 54, 1.0),
                         margin: EdgeInsets.all(6),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15)),
@@ -110,7 +110,7 @@ class _ContactListScreenState
                                   getNameOrder(cnt
                                       .name), // "${cnt.name.split(" ").reversed.join(' ')}",
                                   style: textTheme.headline.copyWith(
-                                      color: Colors.white, fontSize: 18),
+                                      color:cnt.bandId.isNotEmpty?Color.fromRGBO(60, 111, 54, 1.0): Colors.white, fontSize: 18),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.all(0),

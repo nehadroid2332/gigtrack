@@ -10,6 +10,7 @@ import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/ui/addcontact/add_contact_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:gigtrack/utils/showup.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddContactScreen extends BaseScreen {
@@ -1312,6 +1313,45 @@ class _AddContactScreenState
     );
   }
 
+  //added image cropper in the code
+  Future<Null> _cropImage(image) async {
+	  File croppedFile = await ImageCropper.cropImage(
+		  sourcePath: image.path,
+		  aspectRatioPresets: Platform.isAndroid
+				  ? [
+			  CropAspectRatioPreset.square,
+			  CropAspectRatioPreset.ratio3x2,
+			  CropAspectRatioPreset.original,
+			  CropAspectRatioPreset.ratio4x3,
+			  CropAspectRatioPreset.ratio16x9
+		  ]
+				  : [
+			  CropAspectRatioPreset.original,
+			  CropAspectRatioPreset.square,
+			  CropAspectRatioPreset.ratio3x2,
+			  CropAspectRatioPreset.ratio4x3,
+			  CropAspectRatioPreset.ratio5x3,
+			  CropAspectRatioPreset.ratio5x4,
+			  CropAspectRatioPreset.ratio7x5,
+			  CropAspectRatioPreset.ratio16x9
+		  ],
+		  androidUiSettings: AndroidUiSettings(
+				  toolbarTitle: 'Cropper',
+				  toolbarColor: Colors.deepOrange,
+				  toolbarWidgetColor: Colors.white,
+				  initAspectRatio: CropAspectRatioPreset.original,
+				  lockAspectRatio: false),
+	  );
+	  if (croppedFile != null) {
+		  image = croppedFile;
+		  setState(() {
+			  //_image = image;
+			  files.clear();
+			  files.add(image.path);
+		  });
+	  }
+  }
+
   Future getImage() async {
     showDialog(
       context: context,
@@ -1325,23 +1365,16 @@ class _AddContactScreenState
               child: new Text("Camera"),
               onPressed: () async {
                 Navigator.of(context).pop();
-                var image = await ImagePicker.pickImage(
-                    source: ImageSource.camera, imageQuality: 50);
-
-                setState(() {
-                  if (image != null) files.add(image.path);
-                });
+                var image = await ImagePicker.pickImage(source: ImageSource.camera, imageQuality: 50);
+                _cropImage(image);
               },
             ),
             new FlatButton(
               child: new Text("Gallery"),
               onPressed: () async {
                 Navigator.of(context).pop();
-                var image =
-                    await ImagePicker.pickImage(source: ImageSource.gallery);
-                setState(() {
-                  if (image != null) files.add(image.path);
-                });
+                var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+                _cropImage(image);
               },
             ),
           ],

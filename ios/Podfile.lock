@@ -130,6 +130,9 @@ PODS:
   - GoogleUtilities/UserDefaults (6.3.1):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.2.2)
+  - image_cropper (0.0.1):
+    - Flutter
+    - TOCropViewController (~> 2.5.1)
   - image_picker (0.0.1):
     - Flutter
   - leveldb-library (1.22)
@@ -144,6 +147,7 @@ PODS:
   - Protobuf (3.10.0)
   - shared_preferences (0.0.1):
     - Flutter
+  - TOCropViewController (2.5.2)
   - webview_flutter (0.0.1):
     - Flutter
 
@@ -157,6 +161,7 @@ DEPENDENCIES:
   - flutter_image_compress (from `.symlinks/plugins/flutter_image_compress/ios`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
   - google_places_picker (from `.symlinks/plugins/google_places_picker/ios`)
+  - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
@@ -186,6 +191,7 @@ SPEC REPOS:
     - Mantle
     - nanopb
     - Protobuf
+    - TOCropViewController
 
 EXTERNAL SOURCES:
   firebase_auth:
@@ -206,6 +212,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_maps_flutter/ios"
   google_places_picker:
     :path: ".symlinks/plugins/google_places_picker/ios"
+  image_cropper:
+    :path: ".symlinks/plugins/image_cropper/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
   shared_preferences:
@@ -242,12 +250,14 @@ SPEC CHECKSUMS:
   GooglePlaces: be6f19fe8aa6ff0b5bcccfa1b8805cc977ea1450
   GoogleUtilities: f895fde57977df4e0233edda0dbeac490e3703b6
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
+  image_cropper: 966bf742cd9cee8d78010ec5c67dd9e7826e6b19
   image_picker: e3eacd46b94694dde7cf2705955cece853aa1a8f
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   Mantle: 2fa750afa478cd625a94230fbf1c13462f29395b
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: a4dc852ad69c027ca2166ed287b856697814375b
   shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
+  TOCropViewController: e9da34f484aedd4e5d5a8ab230ba217cfe16c729
   webview_flutter: db3aba222b23e4dc432e0c5882834123dc50ff9f
 
 PODFILE CHECKSUM: bc997ba001dfc58b4ba4ef28695ddebcfbf03fdd

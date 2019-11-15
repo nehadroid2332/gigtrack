@@ -72,7 +72,7 @@ class _InstrumentListScreenState
                   padding: EdgeInsets.only(left: 15),
                 ),
                 Text(
-                  "Equipments",
+                  "Equipment",
                   style: textTheme.display1.copyWith(
                       color: Color.fromRGBO(191, 53, 42, 1.0),
                       fontSize: 28,
@@ -100,7 +100,7 @@ class _InstrumentListScreenState
                               (instr.purchased_date));
 
                       return Card(
-                        color: Color.fromRGBO(191, 53, 42, 1.0),
+                        color: (instr.bandId.isNotEmpty)?Colors.white:Color.fromRGBO(191, 53, 42, 1.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16)),
                         child: InkWell(
@@ -112,7 +112,7 @@ class _InstrumentListScreenState
                                 Text(
                                   "${instr.name}",
                                   style: textTheme.headline.copyWith(
-                                      fontSize: 18, color: Colors.white),
+                                      fontSize: 18, color:(instr.bandId.isNotEmpty)?Color.fromRGBO(191, 53, 42, 1.0): Colors.white),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),

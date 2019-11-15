@@ -121,7 +121,7 @@ class _NotesListScreenState
                   backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
                   onTap: () async {
                     await widget.appListener.router
-                        .navigateTo(context, Screens.ADDNOTE.toString() + "///////");
+                        .navigateTo(context, Screens.ADDNOTE.toString() + "///${widget.bandId}////");
                   },
                 ),
                 SpeedDialChild(
