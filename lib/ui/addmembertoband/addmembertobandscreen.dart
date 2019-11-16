@@ -606,7 +606,7 @@ class _AddMemberToBandScreenState
   }
 
   @override
-  void bandMemberDetails(BandMember bandMember) {
+  void bandMemberDetails(BandMember bandMember,String primaryContactEmail) {
     setState(() {
       hideLoading();
       itemSelect = Contacts();
@@ -615,6 +615,7 @@ class _AddMemberToBandScreenState
       _mobileTextController.text = bandMember.mobileText;
       _notesController.text = bandMember.notes;
       _emailController.text = bandMember.email;
+      isPrimary = bandMember.email == primaryContactEmail;
       _otherTalentController.text = bandMember.otherTalent;
       _payController.text = bandMember.pay;
       _primaryContactTextController.text = bandMember.primaryContact;

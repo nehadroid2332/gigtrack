@@ -7,7 +7,7 @@ import 'package:gigtrack/server/models/user.dart';
 
 abstract class AddMemberToBandContract extends BaseContract {
   void onSearchUser(List<Contacts> users);
-  void bandMemberDetails(BandMember bandMember);
+  void bandMemberDetails(BandMember bandMember, String primaryContactEmail);
   void onMemberAdd();
 }
 
@@ -32,7 +32,7 @@ class AddMemberToBandPresenter extends BasePresenter {
         BandMember bandMember = res.bandmates[key];
         if (bandMember.email == id) {
           primaryContactEmail = res.primaryContactEmail;
-          (view as AddMemberToBandContract).bandMemberDetails(bandMember);
+          (view as AddMemberToBandContract).bandMemberDetails(bandMember,primaryContactEmail);
           return;
         }
       }
