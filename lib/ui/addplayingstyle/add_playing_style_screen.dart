@@ -794,14 +794,11 @@ class _AddPlayingStyleScreenState
                           ? Wrap(
                               children: items2,
                             )
-                          : Text(
-                              inList.keys.join(","),
-                              textAlign: TextAlign.center,
-                            ),
+                          : Container(),
                       Padding(
-                        padding: widget.id.isEmpty
+                        padding: widget.id.isNotEmpty
                             ? EdgeInsets.all(0)
-                            : EdgeInsets.all(widget.bandId.isNotEmpty ? 5 : 0),
+                            : EdgeInsets.all(widget.bandId.isEmpty ? 5 : 0),
                       ),
                       inList.length > 0
                           ? (widget.id.isEmpty || isEdit)
