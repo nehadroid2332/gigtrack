@@ -814,6 +814,7 @@ class _AddBandScreenState
                             : ListView.builder(
                                 shrinkWrap: true,
                                 itemCount: members.length,
+                                physics: NeverScrollableScrollPhysics(),
                                 itemBuilder: (BuildContext context, int index) {
                                   BandMember user = members[index];
                                   String permission = "";
