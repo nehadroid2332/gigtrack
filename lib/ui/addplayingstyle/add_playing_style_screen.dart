@@ -139,6 +139,8 @@ class _AddPlayingStyleScreenState
 
   User user;
 
+  String _bandCity, _bandState;
+
   @override
   void initState() {
     super.initState();
@@ -511,7 +513,7 @@ class _AddPlayingStyleScreenState
                           ? Container()
                           : user != null
                               ? Text(
-                                  "${user?.firstName} ${user?.lastName}",
+                                  "${_nameBandController.text}",
                                   textAlign: TextAlign.center,
                                   style: textTheme.headline,
                                 )
@@ -519,6 +521,12 @@ class _AddPlayingStyleScreenState
                       Padding(
                         padding: EdgeInsets.all(
                             (widget.id.isEmpty || isEdit) ? 4 : 0),
+                        child: widget.id.isNotEmpty && !isEdit
+                            ? Text(
+                                "$_bandCity,$_bandState",
+                                textAlign: TextAlign.center,
+                              )
+                            : Container(),
                       ),
                       widget.bandId.isNotEmpty
                           ? (widget.id.isEmpty || isEdit)
@@ -725,48 +733,7 @@ class _AddPlayingStyleScreenState
                                   : Container(),
                         ],
                       ),
-                      Padding(
-                          padding: EdgeInsets.all(
-                              (widget.id.isEmpty || isEdit) ? 2 : 10)),
-                      Text(
-                        "Experience",
-                        textAlign: widget.id.isEmpty || isEdit
-                            ? TextAlign.left
-                            : TextAlign.center,
-                        style: textTheme.title
-                            .copyWith(color: Color.fromRGBO(124, 180, 97, 1.0)),
-                      ),
-                      Padding(padding: EdgeInsets.all(3)),
-                      widget.id.isEmpty || isEdit
-                          ? Wrap(
-                              children: exps,
-                            )
-                          : Text(
-                              expss,
-                              textAlign: TextAlign.center,
-                            ),
-                      (widget.id.isEmpty || isEdit)
-                          ? exList.containsKey("Other")
-                              ? TextField(
-                                  controller: _otherExpController,
-                                )
-                              : Container()
-                          : expss.contains("Other")
-                              ? RichText(
-                                  textAlign: TextAlign.center,
-                                  text: TextSpan(
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                          text: "\nOther:\n",
-                                          style: textTheme.subhead),
-                                      TextSpan(
-                                        text: _otherExpController.text,
-                                        style: textTheme.caption,
-                                      )
-                                    ],
-                                  ),
-                                )
-                              : Container(),
+
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -828,9 +795,7 @@ class _AddPlayingStyleScreenState
                               children: items2,
                             )
                           : Text(
-                              instrumentList
-                                  .join(",")
-                                  .substring(0, expss.length - 1),
+                              instrumentList.join(","),
                               textAlign: TextAlign.center,
                             ),
                       Padding(
@@ -927,6 +892,49 @@ class _AddPlayingStyleScreenState
                       Padding(
                           padding:
                               EdgeInsets.all(widget.bandId.isEmpty ? 0 : 5)),
+                      Padding(
+                          padding: EdgeInsets.all(
+                              (widget.id.isEmpty || isEdit) ? 2 : 10)),
+                      Text(
+                        "Experience",
+                        textAlign: widget.id.isEmpty || isEdit
+                            ? TextAlign.left
+                            : TextAlign.center,
+                        style: textTheme.title
+                            .copyWith(color: Color.fromRGBO(124, 180, 97, 1.0)),
+                      ),
+                      Padding(padding: EdgeInsets.all(3)),
+                      widget.id.isEmpty || isEdit
+                          ? Wrap(
+                              children: exps,
+                            )
+                          : Text(
+                              expss,
+                              textAlign: TextAlign.center,
+                            ),
+                      (widget.id.isEmpty || isEdit)
+                          ? exList.containsKey("Other")
+                              ? TextField(
+                                  controller: _otherExpController,
+                                )
+                              : Container()
+                          : expss.contains("Other")
+                              ? RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                          text: "\nOther:\n",
+                                          style: textTheme.subhead),
+                                      TextSpan(
+                                        text: _otherExpController.text,
+                                        style: textTheme.caption,
+                                      )
+                                    ],
+                                  ),
+                                )
+                              : Container(),
+
                       widget.bandId.isEmpty
                           ? ShowUp(
                               child: !isEducation
@@ -1509,6 +1517,8 @@ class _AddPlayingStyleScreenState
     setState(() {
       _contactBandController.text = res.contactInfo;
       _nameBandController.text = res.name;
+      _bandCity = res.city;
+      _bandState = res.state;
     });
   }
 
