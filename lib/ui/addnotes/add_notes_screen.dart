@@ -693,6 +693,9 @@ class _AddNotesScreenState
   @override
   void onUpdate() {
     showMessage("Updated Successfully");
+    setState(() {
+      isEdit = !isEdit;
+    });
   }
 
   @override
