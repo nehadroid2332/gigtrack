@@ -143,7 +143,7 @@ class _AddPlayingStyleScreenState
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (widget.id != "Null") {
+      if (widget.id != "null") {
         showLoading();
         presenter.getPlayingStyleDetails(widget.id);
       } else if (widget.bandId.isNotEmpty) {

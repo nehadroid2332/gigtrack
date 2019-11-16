@@ -285,7 +285,7 @@ class MyApp extends StatelessWidget implements AppListener {
       return AddPlayingStyleScreen(
         this,
         bandId: bandId,
-        id: id,
+        id: id=="null"?"":id,
         isComm: isComm,
         isLeader: isLeader,
         isSetUp: isSetUp,
