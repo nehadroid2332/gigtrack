@@ -819,8 +819,7 @@ class _AddPlayingStyleScreenState
                             : EdgeInsets.all(widget.bandId.isEmpty ? 5 : 0),
                       ),
                       inList.length > 0
-                          ? (widget.id.isEmpty || isEdit) &&
-                                  widget.bandId.isEmpty
+                          ? (widget.id.isEmpty || isEdit)
                               ? Text(
                                   "Select your expertise level :",
                                   textAlign: TextAlign.left,
@@ -833,83 +832,78 @@ class _AddPlayingStyleScreenState
                       Padding(
                         padding: EdgeInsets.all(widget.bandId.isEmpty ? 0 : 0),
                       ),
-                      widget.bandId.isEmpty
-                          ? ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: inList.keys.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                String key = inList.keys.elementAt(index);
-                                String val = inList[key];
-                                return widget.id.isEmpty || isEdit
-                                    ? Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Text(key),
-                                          Padding(
-                                            padding: EdgeInsets.all(5),
-                                          ),
-                                          widget.id.isEmpty || isEdit
-                                              ? DropdownButton<String>(
-                                                  items: <String>[
-                                                    'Beginner',
-                                                    'Intermediate',
-                                                    "Professional"
-                                                  ].map((String value) {
-                                                    return new DropdownMenuItem<
-                                                        String>(
-                                                      value: value,
-                                                      child: new Text(
-                                                        value,
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      ),
-                                                    );
-                                                  }).toList(),
-                                                  value: val,
-                                                  onChanged: (v) {
-                                                    setState(() {
-                                                      inList[key] = v;
-                                                    });
-                                                  },
-                                                )
-                                              : Text("-" + val),
-                                        ],
-                                      )
-                                    : Row(
-                                        children: <Widget>[
-                                          Expanded(
-                                            flex: 5,
-                                            child: Text(
-                                              "$key",
-                                              textAlign: TextAlign.right,
-                                              style:
-                                                  textTheme.subtitle.copyWith(),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 1,
-                                            child: Text(
-                                              " - ",
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              "$val",
-                                              textAlign: TextAlign.left,
-                                            ),
-                                            flex: 5,
-                                          ),
+                      ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: inList.keys.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          String key = inList.keys.elementAt(index);
+                          String val = inList[key];
+                          return widget.id.isEmpty || isEdit
+                              ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(key),
+                                    Padding(
+                                      padding: EdgeInsets.all(5),
+                                    ),
+                                    widget.id.isEmpty || isEdit
+                                        ? DropdownButton<String>(
+                                            items: <String>[
+                                              'Beginner',
+                                              'Intermediate',
+                                              "Professional"
+                                            ].map((String value) {
+                                              return new DropdownMenuItem<
+                                                  String>(
+                                                value: value,
+                                                child: new Text(
+                                                  value,
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              );
+                                            }).toList(),
+                                            value: val,
+                                            onChanged: (v) {
+                                              setState(() {
+                                                inList[key] = v;
+                                              });
+                                            },
+                                          )
+                                        : Text("-" + val),
+                                  ],
+                                )
+                              : Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      flex: 5,
+                                      child: Text(
+                                        "$key",
+                                        textAlign: TextAlign.right,
+                                        style: textTheme.subtitle.copyWith(),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                        " - ",
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        "$val",
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      flex: 5,
+                                    ),
 //                                    Padding(
 //                                      padding: EdgeInsets.all(4),
 //                                    )
-                                        ],
-                                      );
-                              },
-                            )
-                          : Container(),
+                                  ],
+                                );
+                        },
+                      ),
                       Padding(
                           padding:
                               EdgeInsets.all(widget.bandId.isEmpty ? 0 : 5)),
