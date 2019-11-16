@@ -795,13 +795,13 @@ class _AddPlayingStyleScreenState
                               children: items2,
                             )
                           : Text(
-                              instrumentList.join(","),
+                              inList.keys.join(","),
                               textAlign: TextAlign.center,
                             ),
                       Padding(
-                        padding: widget.id.isNotEmpty
+                        padding: widget.id.isEmpty
                             ? EdgeInsets.all(0)
-                            : EdgeInsets.all(widget.bandId.isEmpty ? 5 : 0),
+                            : EdgeInsets.all(widget.bandId.isNotEmpty ? 5 : 0),
                       ),
                       inList.length > 0
                           ? (widget.id.isEmpty || isEdit)
