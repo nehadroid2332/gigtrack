@@ -87,6 +87,7 @@ class _HelpScreenState extends BaseScreenState<HelpScreen, HelpPresenter> {
               } else {
                 return ListView.builder(
                   itemCount: chatList.length,
+                  padding: EdgeInsets.all(8),
                   itemBuilder: (BuildContext context, int index) {
                     Chat chat = chatList[index];
                     return Bubble(

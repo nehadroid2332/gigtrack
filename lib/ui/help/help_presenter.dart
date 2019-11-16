@@ -37,17 +37,15 @@ class HelpPresenter extends BasePresenter {
           Map map = item;
           int time;
           Chat lastChat;
+          final chatList = <Chat>[];
           for (var item2 in map.values) {
             Chat chat = Chat.fromJSON(item2);
-            if (time == null) {
-              time = chat.created;
-              lastChat = chat;
-            } else if (time < chat.created) {
-              time = chat.created;
-            } else {
-              lastChat = chat;
-            }
+            chatList.add(chat);
           }
+          chatList.sort((a, b) {
+            return a.created.compareTo(b.created);
+          });
+          if (chatList.length > 0) lastChat = chatList[chatList.length - 1];
           if (lastChat != null) {
             lastChat.sender =
                 await serverAPI.getSingleUserById(lastChat.senderId);
