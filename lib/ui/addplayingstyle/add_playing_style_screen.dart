@@ -146,7 +146,8 @@ class _AddPlayingStyleScreenState
       if (widget.id.isNotEmpty) {
         showLoading();
         presenter.getPlayingStyleDetails(widget.id);
-      } else if (widget.bandId.isNotEmpty) {
+      }
+      if (widget.bandId.isNotEmpty) {
         presenter.getbandDetails(widget.bandId);
       }
       presenter.getUserProfile();
@@ -519,7 +520,21 @@ class _AddPlayingStyleScreenState
                         padding: EdgeInsets.all(
                             (widget.id.isEmpty || isEdit) ? 4 : 0),
                       ),
-                      widget.id.isEmpty || isEdit
+                      widget.bandId.isNotEmpty
+                          ? (widget.id.isEmpty || isEdit)
+                              ? Container()
+                              : Padding(
+                                  padding: EdgeInsets.all(5),
+                                  child: Text(
+                                    "About the Band",
+                                    textAlign: TextAlign.center,
+                                    style: textTheme.title.copyWith(
+                                        color:
+                                            Color.fromRGBO(124, 180, 97, 1.0)),
+                                  ),
+                                )
+                          : Container(),
+                      widget.bandId.isNotEmpty && (widget.id.isEmpty || isEdit)
                           ? Container()
                           : Padding(
                               child: Text(
@@ -812,7 +827,12 @@ class _AddPlayingStyleScreenState
                           ? Wrap(
                               children: items2,
                             )
-                          : Container(),
+                          : Text(
+                              instrumentList
+                                  .join(",")
+                                  .substring(0, expss.length - 1),
+                              textAlign: TextAlign.center,
+                            ),
                       Padding(
                         padding: widget.id.isNotEmpty
                             ? EdgeInsets.all(0)
@@ -1070,7 +1090,7 @@ class _AddPlayingStyleScreenState
                       ),
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : widget.bandId.isNotEmpty
+                          : widget.bandId.isEmpty
                               ? Text(
                                   "Band Contact Info",
                                   textAlign: TextAlign.center,
@@ -1080,7 +1100,7 @@ class _AddPlayingStyleScreenState
                                   ),
                                 )
                               : Container(),
-                      widget.bandId.isNotEmpty
+                      widget.bandId.isEmpty
                           ? (widget.id.isEmpty || isEdit)
                               ? Container()
                               : Padding(
@@ -1164,29 +1184,7 @@ class _AddPlayingStyleScreenState
                                 )
                               : Container()
                           : Container(),
-                      (widget.id.isEmpty || isEdit)
-                          ? Container()
-                          : widget.bandId.isNotEmpty
-                              ? Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 6),
-                                  child: Text(
-                                    "About the Band",
-                                    textAlign: TextAlign.center,
-                                    style: textTheme.title.copyWith(
-                                        fontSize: 19,
-                                        color:
-                                            Color.fromRGBO(124, 180, 97, 1.0)),
-                                  ),
-                                )
-                              : Container(),
-                      widget.bandId.isNotEmpty
-                          ? (widget.id.isEmpty || isEdit)
-                              ? Container()
-                              : Text(
-                                  _aboutBandController.text,
-                                  textAlign: TextAlign.center,
-                                )
-                          : Container(),
+
                       Padding(
                         padding: EdgeInsets.all(4),
                       ),
