@@ -183,7 +183,7 @@ bool validateMobile(String value) {
   return !(value.isNotEmpty && value.length == 10);
 }
 
-Widget buildActivityListItem(Activites ac,context,
+Widget buildActivityListItem(Activites ac, context,
     {bool showConfirm = false, onConfirmPressed, onTap, bool isPast = false}) {
   DateTime dt = DateTime.fromMillisecondsSinceEpoch(ac.startDate).toLocal();
   return Card(
@@ -193,7 +193,9 @@ Widget buildActivityListItem(Activites ac,context,
             ? Colors.white
             : Color.fromRGBO(32, 95, 139, 1.0),
     shape: RoundedRectangleBorder(
-      side:ac.bandId.isNotEmpty? new BorderSide(color: Color.fromRGBO(32, 95, 139, 1.0), width: 1.0):new BorderSide(color: Color.fromRGBO(32, 95, 139, 1.0), width: 1.0),
+      side: ac.bandId.isNotEmpty
+          ? new BorderSide(color: Color.fromRGBO(32, 95, 139, 1.0), width: 1.0)
+          : new BorderSide(color: Color.fromRGBO(32, 95, 139, 1.0), width: 1.0),
       borderRadius: BorderRadius.circular(12),
     ),
     child: InkWell(
@@ -209,16 +211,29 @@ Widget buildActivityListItem(Activites ac,context,
                     left: 5,
                   ),
                 ),
-              
-                  Text(
-                    "${formatDate(dt, [D, '-', mm, '/', dd, '/', yy, ' -'])}${currentType(ac.type)}",
+
+                Expanded(
+                  child: Text(
+                    "${formatDate(dt, [
+                      D,
+                      '-',
+                      mm,
+                      '/',
+                      dd,
+                      '/',
+                      yy,
+                      ' -'
+                    ])}${currentType(ac.type)}",
                     style: TextStyle(
                       fontSize: 16,
                       fontStyle: FontStyle.italic,
-                      color: ac.bandId.isNotEmpty?Color.fromRGBO(32, 95, 139, 1.0):Color.fromRGBO(250, 250, 250, 0.8),
+                      color: ac.bandId.isNotEmpty
+                          ? Color.fromRGBO(32, 95, 139, 1.0)
+                          : Color.fromRGBO(250, 250, 250, 0.8),
                     ),
                   ),
-  
+                ),
+
 //                  Text(
 //                    currentType(ac.type),
 //                    style: TextStyle(
@@ -228,20 +243,22 @@ Widget buildActivityListItem(Activites ac,context,
 //                    ),
 //                    textAlign: TextAlign.center,
 //                  ),
-               
-             
-                  (ac.band?.name?.isNotEmpty ?? false)
-                      ? Text(
-                    ac.band?.name,
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: ac.bandId.isNotEmpty?Color.fromRGBO(32, 95, 139, 1.0):Color.fromRGBO(250, 250, 250, 1.0),
-                    ),
-                    textAlign: TextAlign.right,
-                  )
-                      : Container()
-              
-                
+
+                (ac.band?.name?.isNotEmpty ?? false)
+                    ? Text(
+                        ac.band?.name,
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: ac.bandId.isNotEmpty
+                              ? Color.fromRGBO(32, 95, 139, 1.0)
+                              : Color.fromRGBO(250, 250, 250, 1.0),
+                        ),
+                        textAlign: TextAlign.right,
+                      )
+                    : Container(),
+                Padding(
+                  padding: EdgeInsets.all(4),
+                )
               ],
             ),
           ),
@@ -260,11 +277,12 @@ Widget buildActivityListItem(Activites ac,context,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 23,
-                    color: ac.bandId.isNotEmpty?Color.fromRGBO(32, 95, 139, 1.0):Color.fromRGBO(250, 250, 250, 1.0),
+                    color: ac.bandId.isNotEmpty
+                        ? Color.fromRGBO(32, 95, 139, 1.0)
+                        : Color.fromRGBO(250, 250, 250, 1.0),
                   ),
                   textAlign: TextAlign.center,
                 ),
-               
               ],
             ),
           )
@@ -294,9 +312,14 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
 
   return Card(
     margin: EdgeInsets.all(10),
-    color: not.bandId.isNotEmpty?Colors.white:Color.fromRGBO(22, 102, 237, 1.0),
+    color: not.bandId.isNotEmpty
+        ? Colors.white
+        : Color.fromRGBO(22, 102, 237, 1.0),
     shape: RoundedRectangleBorder(
-      side:not.bandId.isNotEmpty? new BorderSide(color: Color.fromRGBO(22, 102, 237, 1.0), width: 1.0):new BorderSide(color: Color.fromRGBO(22, 102, 237, 1.0), width: 1.0),
+      side: not.bandId.isNotEmpty
+          ? new BorderSide(color: Color.fromRGBO(22, 102, 237, 1.0), width: 1.0)
+          : new BorderSide(
+              color: Color.fromRGBO(22, 102, 237, 1.0), width: 1.0),
       borderRadius: BorderRadius.circular(12),
     ),
     child: InkWell(
@@ -310,7 +333,9 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 20,
-                  color: (not.bandId.isNotEmpty)?Color.fromRGBO(22, 102, 237, 1.0):Colors.white,
+                  color: (not.bandId.isNotEmpty)
+                      ? Color.fromRGBO(22, 102, 237, 1.0)
+                      : Colors.white,
                   fontWeight: FontWeight.w700),
             ),
             Padding(
@@ -333,7 +358,9 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 16,
-                      color: (not.bandId.isNotEmpty) ? Color.fromRGBO(22, 102, 237, 1.0): Colors.white,
+                      color: (not.bandId.isNotEmpty)
+                          ? Color.fromRGBO(22, 102, 237, 1.0)
+                          : Colors.white,
                     ),
                   ),
 

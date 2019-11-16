@@ -359,7 +359,7 @@ class _AddMemberToBandScreenState
                               errorText: _errorMobileText,
                             ),
                           ),
-                          (widget.id.isEmpty &&
+                          (widget.id.isNotEmpty &&
                                       presenter.primaryContactEmail == null) ||
                                   (widget.id.isNotEmpty &&
                                       presenter.primaryContactEmail ==
