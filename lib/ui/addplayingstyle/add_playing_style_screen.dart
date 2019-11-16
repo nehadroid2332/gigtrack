@@ -772,18 +772,22 @@ class _AddPlayingStyleScreenState
 //                              textAlign: TextAlign.center,
 //                            ),
 //                      Padding(padding: EdgeInsets.all(10)),
-                      Text(
-                          widget.id.isEmpty || isEdit
-                              ? "Select your Instruments"
-                              : "Instruments",
-                          style: textTheme.title.copyWith(
-                            color: Color.fromRGBO(124, 180, 97, 1.0),
-                          ),
-                          textAlign: widget.id.isEmpty || isEdit
-                              ? TextAlign.left
-                              : TextAlign.center),
-                      Padding(padding: EdgeInsets.all(5)),
-                      widget.id.isEmpty || isEdit
+                      widget.bandId.isEmpty
+                          ? Text(
+                              widget.id.isEmpty || isEdit
+                                  ? "Select your Playing Style"
+                                  : "Playing Style",
+                              style: textTheme.title.copyWith(
+                                color: Color.fromRGBO(124, 180, 97, 1.0),
+                              ),
+                              textAlign: widget.id.isEmpty || isEdit
+                                  ? TextAlign.left
+                                  : TextAlign.center)
+                          : Container(),
+                      Padding(
+                          padding:
+                              EdgeInsets.all(widget.bandId.isEmpty ? 5 : 0)),
+                      (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                           ? Wrap(
                               children: items,
                             )
@@ -794,21 +798,17 @@ class _AddPlayingStyleScreenState
                       Padding(
                           padding:
                               EdgeInsets.all(widget.bandId.isEmpty ? 5 : 0)),
-                      widget.bandId.isEmpty
-                          ? Text(
-                              "Instruments",
-                              style: textTheme.title.copyWith(
-                                color: Color.fromRGBO(124, 180, 97, 1.0),
-                              ),
-                              textAlign: widget.id.isEmpty || isEdit
-                                  ? TextAlign.left
-                                  : TextAlign.center,
-                            )
-                          : Container(),
-                      Padding(
-                          padding:
-                              EdgeInsets.all(widget.bandId.isEmpty ? 5 : 0)),
-                      (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
+                      Text(
+                        "Instruments",
+                        style: textTheme.title.copyWith(
+                          color: Color.fromRGBO(124, 180, 97, 1.0),
+                        ),
+                        textAlign: widget.id.isEmpty || isEdit
+                            ? TextAlign.left
+                            : TextAlign.center,
+                      ),
+                      Padding(padding: EdgeInsets.all(5)),
+                      (widget.id.isEmpty || isEdit)
                           ? Wrap(
                               children: items2,
                             )
