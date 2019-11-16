@@ -361,17 +361,21 @@ class _AddMemberToBandScreenState
                           ),
                           (widget.id.isNotEmpty &&
                                       presenter.primaryContactEmail == null) ||
+                                  (widget.id.isEmpty &&
+                                      presenter.primaryContactEmail == null) ||
                                   (widget.id.isNotEmpty &&
                                       presenter.primaryContactEmail ==
                                           _emailController.text)
                               ? Row(
                                   children: <Widget>[
                                     Checkbox(
-                                      onChanged: (bool value) {
-                                        setState(() {
-                                          isPrimary = value;
-                                        });
-                                      },
+                                      onChanged: (widget.id.isEmpty || isEdit)
+                                          ? (bool value) {
+                                              setState(() {
+                                                isPrimary = value;
+                                              });
+                                            }
+                                          : null,
                                       value: isPrimary,
                                     ),
                                     Text(
@@ -606,7 +610,7 @@ class _AddMemberToBandScreenState
   }
 
   @override
-  void bandMemberDetails(BandMember bandMember,String primaryContactEmail) {
+  void bandMemberDetails(BandMember bandMember, String primaryContactEmail) {
     setState(() {
       hideLoading();
       itemSelect = Contacts();
