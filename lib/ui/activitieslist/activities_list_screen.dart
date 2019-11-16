@@ -282,7 +282,7 @@ class _ActivitiesListScreenState
                               itemCount: current.length,
                               itemBuilder: (BuildContext context, int index) {
                                 Activites ac = current[index];
-                                return buildActivityListItem(ac, onTap: () {
+                                return buildActivityListItem(ac,context, onTap: () {
                                   widget.appListener.router.navigateTo(
                                       context,
                                       Screens.ADDACTIVITY.toString() +
@@ -309,7 +309,7 @@ class _ActivitiesListScreenState
                               itemCount: upcoming.length,
                               itemBuilder: (BuildContext context, int index) {
                                 Activites ac = upcoming[index];
-                                return buildActivityListItem(ac, onTap: () {
+                                return buildActivityListItem(ac, context,onTap: () {
                                   widget.appListener.router.navigateTo(
                                       context,
                                       Screens.ADDACTIVITY.toString() +
@@ -336,7 +336,7 @@ class _ActivitiesListScreenState
                               itemCount: past.length,
                               itemBuilder: (BuildContext context, int index) {
                                 Activites ac = past[index];
-                                return buildActivityListItem(ac, onTap: () {
+                                return buildActivityListItem(ac,context, onTap: () {
                                   widget.appListener.router.navigateTo(
                                     context,
                                     Screens.ADDACTIVITY.toString() +
@@ -369,7 +369,7 @@ class _ActivitiesListScreenState
                               itemCount: recurring.length,
                               itemBuilder: (BuildContext context, int index) {
                                 Activites ac = recurring[index];
-                                return buildActivityListItem(ac, onTap: () {
+                                return buildActivityListItem(ac,context, onTap: () {
                                   widget.appListener.router.navigateTo(
                                     context,
                                     Screens.ADDACTIVITY.toString() +

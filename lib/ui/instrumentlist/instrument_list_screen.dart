@@ -100,9 +100,12 @@ class _InstrumentListScreenState
                               (instr.purchased_date));
 
                       return Card(
+                        
                         color: (instr.bandId.isNotEmpty)?Colors.white:Color.fromRGBO(191, 53, 42, 1.0),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16)),
+                            side:instr.bandId.isNotEmpty? new BorderSide(color: Color.fromRGBO(191, 53, 42, 1.0), width: 1.0):new BorderSide(color: Color.fromRGBO(191, 53, 42, 1.0), width: 1.0),
+                            borderRadius: BorderRadius.circular(16))
+                        ,
                         child: InkWell(
                           child: Padding(
                             padding: EdgeInsets.all(15),

@@ -99,6 +99,7 @@ class _ContactListScreenState
                         color: cnt.bandId.isNotEmpty?Colors.white:Color.fromRGBO(60, 111, 54, 1.0),
                         margin: EdgeInsets.all(6),
                         shape: RoundedRectangleBorder(
+                            side:cnt.bandId.isNotEmpty? new BorderSide(color: Color.fromRGBO(60, 111, 54, 1.0), width: 1.0):new BorderSide(color: Color.fromRGBO(60, 111, 54, 1.0), width: 1.0),
                             borderRadius: BorderRadius.circular(15)),
                         child: InkWell(
                           child: Padding(

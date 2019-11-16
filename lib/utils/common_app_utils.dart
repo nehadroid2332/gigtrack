@@ -1,3 +1,5 @@
+import 'dart:ui' as prefix0;
+
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:gigtrack/server/models/activities.dart';
 import 'package:gigtrack/server/models/bulletinboard.dart';
 import 'package:gigtrack/server/models/notestodo.dart';
 import 'package:gigtrack/utils/NumberTextInputFormatter.dart';
+import 'package:path/path.dart' as prefix1;
 
 NumberTextInputFormatter phoneNumberFormatter = NumberTextInputFormatter(1);
 
@@ -180,7 +183,7 @@ bool validateMobile(String value) {
   return !(value.isNotEmpty && value.length == 10);
 }
 
-Widget buildActivityListItem(Activites ac,
+Widget buildActivityListItem(Activites ac,context,
     {bool showConfirm = false, onConfirmPressed, onTap, bool isPast = false}) {
   DateTime dt = DateTime.fromMillisecondsSinceEpoch(ac.startDate).toLocal();
   return Card(
@@ -190,6 +193,7 @@ Widget buildActivityListItem(Activites ac,
             ? Colors.white
             : Color.fromRGBO(32, 95, 139, 1.0),
     shape: RoundedRectangleBorder(
+      side:ac.bandId.isNotEmpty? new BorderSide(color: Color.fromRGBO(32, 95, 139, 1.0), width: 1.0):new BorderSide(color: Color.fromRGBO(32, 95, 139, 1.0), width: 1.0),
       borderRadius: BorderRadius.circular(12),
     ),
     child: InkWell(
@@ -198,29 +202,46 @@ Widget buildActivityListItem(Activites ac,
           Container(
             padding: EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(
                     left: 5,
                   ),
                 ),
-                Text(
-                  "${formatDate(dt, [D, '-', mm, '/', dd, '/', yy, ' -'])}",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontStyle: FontStyle.italic,
-                    color: ac.bandId.isNotEmpty?Color.fromRGBO(32, 95, 139, 1.0):Color.fromRGBO(250, 250, 250, 0.8),
+              
+                  Text(
+                    "${formatDate(dt, [D, '-', mm, '/', dd, '/', yy, ' -'])}${currentType(ac.type)}",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontStyle: FontStyle.italic,
+                      color: ac.bandId.isNotEmpty?Color.fromRGBO(32, 95, 139, 1.0):Color.fromRGBO(250, 250, 250, 0.8),
+                    ),
                   ),
-                ),
-                Text(
-                  currentType(ac.type),
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontStyle: FontStyle.italic,
-                    color:ac.bandId.isNotEmpty?Color.fromRGBO(32, 95, 139, 1.0): Color.fromRGBO(250, 250, 250, 1.0),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+  
+//                  Text(
+//                    currentType(ac.type),
+//                    style: TextStyle(
+//                      fontSize: 16,
+//                      fontStyle: FontStyle.italic,
+//                      color:ac.bandId.isNotEmpty?Color.fromRGBO(32, 95, 139, 1.0): Color.fromRGBO(250, 250, 250, 1.0),
+//                    ),
+//                    textAlign: TextAlign.center,
+//                  ),
+               
+             
+                  (ac.band?.name?.isNotEmpty ?? false)
+                      ? Text(
+                    ac.band?.name,
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: ac.bandId.isNotEmpty?Color.fromRGBO(32, 95, 139, 1.0):Color.fromRGBO(250, 250, 250, 1.0),
+                    ),
+                    textAlign: TextAlign.right,
+                  )
+                      : Container()
+              
+                
               ],
             ),
           ),
@@ -243,16 +264,7 @@ Widget buildActivityListItem(Activites ac,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                (ac.band?.name?.isNotEmpty ?? false)
-                    ? Text(
-                        ac.band?.name,
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: ac.bandId.isNotEmpty?Color.fromRGBO(32, 95, 139, 1.0):Color.fromRGBO(250, 250, 250, 1.0),
-                        ),
-                        textAlign: TextAlign.center,
-                      )
-                    : Container()
+               
               ],
             ),
           )
@@ -284,6 +296,7 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
     margin: EdgeInsets.all(10),
     color: not.bandId.isNotEmpty?Colors.white:Color.fromRGBO(22, 102, 237, 1.0),
     shape: RoundedRectangleBorder(
+      side:not.bandId.isNotEmpty? new BorderSide(color: Color.fromRGBO(22, 102, 237, 1.0), width: 1.0):new BorderSide(color: Color.fromRGBO(22, 102, 237, 1.0), width: 1.0),
       borderRadius: BorderRadius.circular(12),
     ),
     child: InkWell(

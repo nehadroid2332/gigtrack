@@ -65,7 +65,7 @@ class _NotificationListScreensState
                 padding: EdgeInsets.all(10),
                 itemBuilder: (BuildContext context, int index) {
                   Activites ac = _activities[index];
-                  return buildActivityListItem(ac, onTap: () {
+                  return buildActivityListItem(ac, context,onTap: () {
                     widget.appListener.router.navigateTo(
                         context,
                         Screens.ADDACTIVITY.toString() +
