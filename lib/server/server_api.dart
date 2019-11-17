@@ -165,6 +165,25 @@ class ServerAPI {
       return ErrorResponse.fromJSON(e.message);
     }
   }
+
+  Future<dynamic> updateUserProfile(User user) async {
+    File file1 = File(user.profilePic);
+    if (await file1.exists()) {
+      String basename = extension(file1.path);
+      File newFile =
+          File(file1.parent.path + "/temp-${await file1.length()}" + basename);
+      File file = await compressFileAndGetFile(file1, newFile.path);
+      final StorageUploadTask uploadTask = contactsRef
+          .child("${DateTime.now().toString()}$basename")
+          .putFile(file);
+      StorageTaskSnapshot snapshot = await uploadTask.onComplete;
+      String url = await snapshot.ref.getDownloadURL();
+      user.profilePic = url;
+    }
+    await userDB.child(user.id).set(user);
+    return user;
+  }
+
   String getChatId(String userId1, String userId2) {
     if (userId1.compareTo(userId2) > 0) {
       return "$userId1$userId2";

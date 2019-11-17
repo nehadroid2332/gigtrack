@@ -19,6 +19,7 @@ import 'package:gigtrack/ui/instrumentlist/instrument_list_screen.dart';
 import 'package:gigtrack/ui/login/login_screen.dart';
 import 'package:gigtrack/ui/noteslist/notes_list_screen.dart';
 import 'package:gigtrack/ui/notificationlist/notification_list_screen.dart';
+import 'package:gigtrack/ui/profile/profile_screen.dart';
 import 'package:gigtrack/ui/signup/signup_screen.dart';
 import 'package:gigtrack/ui/splash/splash_screen.dart';
 import 'package:gigtrack/utils/privacy.dart';
@@ -194,6 +195,12 @@ class MyApp extends StatelessWidget implements AppListener {
         postEntries: postEntries,
       );
     }));
+    _router.define(Screens.PROFILE.toString(), handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      return ProfileScreen(
+        this,
+      );
+    }));
     _router.define(Screens.ADDBULLETIN.toString() + "/:id", handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["id"][0];
@@ -285,7 +292,7 @@ class MyApp extends StatelessWidget implements AppListener {
       return AddPlayingStyleScreen(
         this,
         bandId: bandId,
-        id: id=="null"?"":id,
+        id: id == "null" ? "" : id,
         isComm: isComm,
         isLeader: isLeader,
         isSetUp: isSetUp,
@@ -425,5 +432,6 @@ enum Screens {
   ADDBULLETIN,
   BULLETINLISTLIST,
   GOOGLEMAPS,
-  HELP
+  HELP,
+  PROFILE
 }

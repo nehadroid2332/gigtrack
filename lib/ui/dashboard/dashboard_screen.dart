@@ -46,10 +46,23 @@ class _DashboardScreenState
                   ),
                   IconButton(
                     icon: Icon(
+                      Icons.account_circle,
+                    ),
+                    color: Colors.blue,
+                    iconSize: 26,
+                    onPressed: () {
+                      widget.appListener.router.navigateTo(
+                        context,
+                        Screens.PROFILE.toString(),
+                      );
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(
                       Icons.help,
                     ),
                     color: Colors.blue,
-                    iconSize: 38,
+                    iconSize: 26,
                     onPressed: () {
                       widget.appListener.router.navigateTo(
                         context,
@@ -57,15 +70,12 @@ class _DashboardScreenState
                       );
                     },
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(3),
-                  ),
                   IconButton(
                     icon: Icon(
                       Icons.notifications,
                     ),
                     color: Colors.blue,
-                    iconSize: 42,
+                    iconSize: 26,
                     onPressed: () {
                       widget.appListener.router.navigateTo(
                         context,
@@ -73,16 +83,13 @@ class _DashboardScreenState
                       );
                     },
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(3),
-                  ),
                   IconButton(
                     icon: Icon(
                       Icons.power_settings_new,
                       color: Colors.green,
                     ),
                     color: Colors.white,
-                    iconSize: 42,
+                    iconSize: 36,
                     onPressed: () {
                       widget.appListener.sharedPreferences.clear();
                       presenter.logout();
