@@ -190,6 +190,7 @@ class _ProfileScreenState
                                   ' ' +
                                   _lastNameController.text,
                               textAlign: TextAlign.center,
+                              style: textTheme.title,
                             ),
                     ),
                     Padding(
@@ -227,6 +228,7 @@ class _ProfileScreenState
                     : Text(
                         _phoneController.text,
                         textAlign: TextAlign.center,
+                        style: textTheme.title,
                       ),
                 Padding(
                   padding: EdgeInsets.all(5),
@@ -246,6 +248,7 @@ class _ProfileScreenState
                     : Text(
                         _emailController.text,
                         textAlign: TextAlign.center,
+                        style: textTheme.title,
                       ),
                 Padding(
                   padding: EdgeInsets.all(5),
@@ -301,6 +304,7 @@ class _ProfileScreenState
                     : Text(
                         _zipController.text,
                         textAlign: TextAlign.center,
+                        style: textTheme.title,
                       ),
                 Padding(
                   padding: EdgeInsets.all(5),
@@ -320,6 +324,7 @@ class _ProfileScreenState
                     : Text(
                         _dep18Controller.text,
                         textAlign: TextAlign.center,
+                        style: textTheme.title,
                       ),
                 Padding(
                   padding: EdgeInsets.all(5),
