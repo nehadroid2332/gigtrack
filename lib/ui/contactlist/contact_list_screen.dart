@@ -121,7 +121,7 @@ class _ContactListScreenState
                                         "${cnt.companyName}",
                                         style: TextStyle(
                                           fontSize: 13,
-                                          color: Colors.white,
+                                          color: cnt.bandId.isNotEmpty?Color.fromRGBO(60, 111, 54, 1.0):Colors.white,
                                         ),
                                       )
                                     : Container(),

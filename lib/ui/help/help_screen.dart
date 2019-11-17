@@ -6,7 +6,7 @@ import 'package:gigtrack/ui/help/help_presenter.dart';
 import 'package:date_format/date_format.dart';
 
 class HelpScreen extends BaseScreen {
-  HelpScreen(AppListener appListener) : super(appListener, title: "Help");
+  HelpScreen(AppListener appListener) : super(appListener, title: "Support");
 
   @override
   _HelpScreenState createState() => _HelpScreenState();
@@ -115,7 +115,7 @@ class _HelpScreenState extends BaseScreenState<HelpScreen, HelpPresenter> {
                       child: TextField(
                         controller: _txtController,
                         decoration: InputDecoration.collapsed(
-                            hintText: "Enter your Query"),
+                            hintText: "Enter your Question"),
                       ),
                     ),
                     FloatingActionButton(

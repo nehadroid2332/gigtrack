@@ -436,7 +436,15 @@ Widget buildBulletInBoardListItem(BulletInBoard not, Color color, {onTap}) {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Text(
-              "${not.item}",
+              "${not.type}",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700),
+            ),
+            Text(
+              "${not.description}",
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 20,

@@ -430,16 +430,16 @@ class _AddPlayingStyleScreenState
 
     String expss = "";
     for (String s in exList.keys) {
-      expss += s + ",";
+      expss += s + ", ";
     }
     if (expss.isNotEmpty) expss = expss.substring(0, expss.length - 1);
     String plyss = "";
 
     if (plyss.isNotEmpty) plyss = plyss.substring(0, plyss.length - 1);
-    psList.join(",");
+    psList.join(", ");
 
     for (String s in psList) {
-      plyss += s + " , ";
+      plyss += s + ", ";
     }
     return Stack(
       children: <Widget>[
@@ -507,21 +507,25 @@ class _AddPlayingStyleScreenState
                           ? Text("Select one")
                           : Container(),
                       Padding(
-                        padding: EdgeInsets.all(6),
+                        padding: EdgeInsets.all(0),
                       ),
                       widget.id.isEmpty || isEdit
                           ? Container()
                           : user != null
-                              ? Text(
+                              ? widget.bandId.isNotEmpty?Text(
                                   "${_nameBandController.text}",
                                   textAlign: TextAlign.center,
                                   style: textTheme.headline,
-                                )
+                                ):Text(
+                        "${user?.firstName} ${user?.lastName}",
+                        textAlign: TextAlign.center,
+                        style: textTheme.headline,
+                      )
                               : Container(),
                       Padding(
                         padding: EdgeInsets.all(
-                            (widget.id.isEmpty || isEdit) ? 4 : 0),
-                        child: widget.id.isNotEmpty && !isEdit
+                             (widget.id.isEmpty || isEdit) ? 0 : 0),
+                        child:(widget.bandId.isNotEmpty) && widget.id.isNotEmpty && !isEdit
                             ? Text(
                                 "$_bandCity,$_bandState",
                                 textAlign: TextAlign.center,
@@ -553,7 +557,7 @@ class _AddPlayingStyleScreenState
                               ),
                               padding: EdgeInsets.symmetric(
                                   vertical:
-                                      (widget.id.isEmpty || isEdit) ? 4 : 0),
+                                      (widget.id.isEmpty || isEdit) ? 0 : 0),
                             ),
                       (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                           ? Row(
@@ -712,6 +716,7 @@ class _AddPlayingStyleScreenState
                               ? Expanded(
                                   child: TextField(
                                     enabled: (widget.id.isEmpty || isEdit),
+                                    textCapitalization: TextCapitalization.words,
                                     controller: _responseController,
                                     decoration: InputDecoration(
                                       labelText:
@@ -774,7 +779,7 @@ class _AddPlayingStyleScreenState
                               children: items,
                             )
                           : Text(
-                              psList.join(" , "),
+                              psList.join(", "),
                               textAlign: TextAlign.center,
                             ),
                       Padding(
@@ -975,6 +980,7 @@ class _AddPlayingStyleScreenState
                       (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
+                              textCapitalization: TextCapitalization.words,
                               controller: _listSchoolController,
                               decoration: InputDecoration(
                                 labelText: "List School",
@@ -1095,7 +1101,7 @@ class _AddPlayingStyleScreenState
                       ),
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : widget.bandId.isEmpty
+                          : widget.bandId.isNotEmpty
                               ? Text(
                                   "Band Contact Info",
                                   textAlign: TextAlign.center,
