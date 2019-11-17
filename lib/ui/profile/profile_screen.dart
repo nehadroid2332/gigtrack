@@ -168,6 +168,9 @@ class _ProfileScreenState
                     onTap: isEdit ? getImage : null,
                   ),
                 ),
+                Padding(
+                  padding: EdgeInsets.all(5),
+                ),
                 Row(
                   children: <Widget>[
                     Expanded(
