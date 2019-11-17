@@ -180,7 +180,7 @@ class ServerAPI {
       String url = await snapshot.ref.getDownloadURL();
       user.profilePic = url;
     }
-    await userDB.child(user.id).set(user);
+    await userDB.child(user.id).set(user.toMap());
     return user;
   }
 
