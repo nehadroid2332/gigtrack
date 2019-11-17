@@ -43,6 +43,8 @@ class _ProfileScreenState
   File _image;
   bool isEdit = false;
 
+  String _imageUrl;
+
   Future getImage() async {
     showDialog(
       context: context,
@@ -145,16 +147,18 @@ class _ProfileScreenState
                     child: Container(
                       width: 150.0,
                       height: 150.0,
-                      decoration: _image != null
+                      decoration: _image != null || _imageUrl != null
                           ? new BoxDecoration(
                               shape: BoxShape.circle,
                               image: new DecorationImage(
                                 fit: BoxFit.cover,
-                                image: FileImage(_image),
+                                image: _imageUrl != null
+                                    ? NetworkImage(_imageUrl)
+                                    : FileImage(_image),
                               ),
                             )
                           : null,
-                      child: _image == null
+                      child: _image == null && _imageUrl == null
                           ? Icon(
                               Icons.account_circle,
                               size: 130,
@@ -471,7 +475,10 @@ class _ProfileScreenState
   ProfilePresenter get presenter => ProfilePresenter(this);
 
   @override
-  void onUpdate() {}
+  void onUpdate() {
+    hideLoading();
+    presenter.getUserProfile();
+  }
 
   @override
   void onUserProfile(User user) {
@@ -482,6 +489,7 @@ class _ProfileScreenState
       _stateController.text = user.state;
       _emailController.text = user.email;
       _phoneController.text = user.phone;
+      _imageUrl = user.profilePic;
       _primaryInstrumentController.text = user.primaryInstrument;
       _lastNameController.text = user.lastName;
       _firstNameController.text = user.firstName;
