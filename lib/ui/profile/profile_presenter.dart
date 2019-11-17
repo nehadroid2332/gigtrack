@@ -32,13 +32,15 @@ class ProfilePresenter extends BasePresenter {
       String state,
       String zip,
       File image,
-      String primaryInstrument) async {
+      String primaryInstrument,
+      String dep18) async {
     final res = await serverAPI
         .getSingleUserById((await serverAPI.getCurrentUser()).uid);
     if (res is User) {
       res.firstName = fname;
       res.lastName = lname;
       res.phone = phone;
+      res.dep18 = dep18;
       res.zipcode = zip;
       res.address = address;
       res.city = city;

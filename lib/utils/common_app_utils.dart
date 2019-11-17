@@ -1,5 +1,3 @@
-import 'dart:ui' as prefix0;
-
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +5,6 @@ import 'package:gigtrack/server/models/activities.dart';
 import 'package:gigtrack/server/models/bulletinboard.dart';
 import 'package:gigtrack/server/models/notestodo.dart';
 import 'package:gigtrack/utils/NumberTextInputFormatter.dart';
-import 'package:path/path.dart' as prefix1;
 
 NumberTextInputFormatter phoneNumberFormatter = NumberTextInputFormatter(1);
 

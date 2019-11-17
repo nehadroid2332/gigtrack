@@ -512,20 +512,24 @@ class _AddPlayingStyleScreenState
                       widget.id.isEmpty || isEdit
                           ? Container()
                           : user != null
-                              ? widget.bandId.isNotEmpty?Text(
-                                  "${_nameBandController.text}",
-                                  textAlign: TextAlign.center,
-                                  style: textTheme.headline,
-                                ):Text(
-                        "${user?.firstName} ${user?.lastName}",
-                        textAlign: TextAlign.center,
-                        style: textTheme.headline,
-                      )
+                              ? widget.bandId.isNotEmpty
+                                  ? Text(
+                                      "${_nameBandController.text}",
+                                      textAlign: TextAlign.center,
+                                      style: textTheme.headline,
+                                    )
+                                  : Text(
+                                      "${user?.firstName} ${user?.lastName}",
+                                      textAlign: TextAlign.center,
+                                      style: textTheme.headline,
+                                    )
                               : Container(),
                       Padding(
                         padding: EdgeInsets.all(
-                             (widget.id.isEmpty || isEdit) ? 0 : 0),
-                        child:(widget.bandId.isNotEmpty) && widget.id.isNotEmpty && !isEdit
+                            (widget.id.isEmpty || isEdit) ? 0 : 0),
+                        child: (widget.bandId.isNotEmpty) &&
+                                widget.id.isNotEmpty &&
+                                !isEdit
                             ? Text(
                                 "$_bandCity,$_bandState",
                                 textAlign: TextAlign.center,
@@ -716,7 +720,8 @@ class _AddPlayingStyleScreenState
                               ? Expanded(
                                   child: TextField(
                                     enabled: (widget.id.isEmpty || isEdit),
-                                    textCapitalization: TextCapitalization.words,
+                                    textCapitalization:
+                                        TextCapitalization.words,
                                     controller: _responseController,
                                     decoration: InputDecoration(
                                       labelText:
@@ -1138,22 +1143,25 @@ class _AddPlayingStyleScreenState
                       //             ),
                       //           )
                       //     : Container(),
-                      // widget.bandId.isNotEmpty
-                      //     ? (widget.id.isEmpty || isEdit)
-                      //         ? TextField(
-                      //             controller: _websiteBandController,
-                      //             decoration: InputDecoration(
-                      //               hintText: "Band Website",
-                      //             ),
-                      //           )
-                      //         : Padding(
-                      //             child: Text(
-                      //               _websiteBandController.text,
-                      //               textAlign: TextAlign.center,
-                      //             ),
-                      //             padding: EdgeInsets.symmetric(vertical: 4),
-                      //           )
-                      //     : Container(),
+                      widget.bandId.isNotEmpty
+                          ? (widget.id.isEmpty || isEdit)
+                              ? TextField(
+                                  controller: _websiteBandController,
+                                  decoration: InputDecoration(
+                                    hintText: "Band Website",
+                                  ),
+                                )
+                              : Padding(
+                                  child: Text(
+                                    _websiteBandController.text,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  padding: EdgeInsets.symmetric(vertical: 4),
+                                )
+                          : Container(),
+                      Padding(
+                        padding: EdgeInsets.all(3),
+                      ),
                       (widget.bandId.isNotEmpty)
                           ? (widget.id.isEmpty || isEdit)
                               ? ListView.builder(

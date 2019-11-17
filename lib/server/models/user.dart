@@ -13,6 +13,7 @@ class User extends BaseModel {
   String zipcode;
   String primaryInstrument;
   String profilePic;
+  String dep18;
 
   String status;
 
@@ -43,6 +44,7 @@ class User extends BaseModel {
     zipcode = data['zipcode'];
     primaryInstrument = data['primary_instrument'];
     profilePic = data['profile_pic'];
+    dep18 = data['dep18'];
   }
 
   @override
@@ -56,6 +58,7 @@ class User extends BaseModel {
     data["phone"] = phone ?? "";
     data["address"] = address ?? "";
     data["city"] = city ?? "";
+    data['dep18'] = dep18;
     data["state"] = state ?? "";
     data["zipcode"] = zipcode ?? "";
     data['profile_pic'] = profilePic ?? "";

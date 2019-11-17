@@ -100,7 +100,7 @@ class ServerAPI {
 
   Future<dynamic> myBackgroundMessageHandler(
       Map<String, dynamic> message) async {
-    print("SD-> ${message}");
+    print("SD-> $message");
     if (message.containsKey('data')) {
       // Handle data message
       final dynamic data = message['data'];

@@ -1,6 +1,5 @@
 import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/error_response.dart';
-import 'package:gigtrack/server/models/forgot_password_response.dart';
 
 abstract class ForgotPasswordContract extends BaseContract {
   void onSuccess();

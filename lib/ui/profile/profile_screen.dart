@@ -4,7 +4,6 @@ import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/ui/profile/profile_presenter.dart';
-import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends BaseScreen {
@@ -22,6 +21,7 @@ class _ProfileScreenState
       _firstNameController = TextEditingController(),
       _lastNameController = TextEditingController(),
       _addressController = TextEditingController(),
+      _dep18Controller = TextEditingController(),
       _phoneController = TextEditingController(),
       _cityController = TextEditingController(),
       _stateController = TextEditingController(),
@@ -58,7 +58,6 @@ class _ProfileScreenState
                 Navigator.of(context).pop();
                 var image =
                     await ImagePicker.pickImage(source: ImageSource.camera);
-
                 setState(() {
                   _image = image;
                 });
@@ -144,13 +143,13 @@ class _ProfileScreenState
                   alignment: Alignment.center,
                   child: InkWell(
                     child: Container(
-                      width: 120.0,
-                      height: 120.0,
+                      width: 150.0,
+                      height: 150.0,
                       decoration: _image != null
                           ? new BoxDecoration(
                               shape: BoxShape.circle,
                               image: new DecorationImage(
-                                fit: BoxFit.fill,
+                                fit: BoxFit.cover,
                                 image: FileImage(_image),
                               ),
                             )
@@ -158,7 +157,7 @@ class _ProfileScreenState
                       child: _image == null
                           ? Icon(
                               Icons.account_circle,
-                              size: 100,
+                              size: 130,
                             )
                           : null,
                     ),
@@ -299,6 +298,25 @@ class _ProfileScreenState
                 Padding(
                   padding: EdgeInsets.all(5),
                 ),
+                isEdit
+                    ? TextField(
+                        controller: _dep18Controller,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          labelText: "Dependent Under the Age of 18",
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(169, 176, 187, 1.0),
+                          ),
+                          errorText: _errorZip,
+                        ),
+                      )
+                    : Text(
+                        _dep18Controller.text,
+                        textAlign: TextAlign.center,
+                      ),
+                Padding(
+                  padding: EdgeInsets.all(5),
+                ),
 //                TextField(
 //                  controller: _primaryInstrumentController,
 //                  decoration: InputDecoration(
@@ -388,13 +406,6 @@ class _ProfileScreenState
                                   _errorLastName = "Cannot be empty";
                                 } else if (email.isEmpty) {
                                   _errorEmail = "Cannot be empty";
-                                } else if (password.isEmpty) {
-                                  _errorPassword = "Cannot be empty";
-                                } else if (validateEmail(email)) {
-                                  _errorEmail = "Not a Valid Email";
-                                } else if (password.length < 6) {
-                                  _errorPassword =
-                                      "Password must be more than 6 character";
                                 } else if (phone.isEmpty) {
                                   _errorPhone = "Cannot be empty";
                                 }
@@ -430,7 +441,8 @@ class _ProfileScreenState
                                       state,
                                       zip,
                                       _image,
-                                      primaryInstrument);
+                                      primaryInstrument,
+                                      _dep18Controller.text);
                                 }
                               });
                             },
