@@ -783,10 +783,12 @@ class _AddPlayingStyleScreenState
                           ? Wrap(
                               children: items,
                             )
-                          : Text(
-                              psList.join(", "),
-                              textAlign: TextAlign.center,
-                            ),
+                          : widget.bandId.isEmpty
+                              ? Text(
+                                  psList.join(", "),
+                                  textAlign: TextAlign.center,
+                                )
+                              : Container(),
                       Padding(
                           padding:
                               EdgeInsets.all(widget.bandId.isEmpty ? 5 : 0)),

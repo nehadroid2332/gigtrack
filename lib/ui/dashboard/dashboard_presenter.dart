@@ -13,7 +13,7 @@ class DashboardPresenter extends BasePresenter {
   }
 
   void getPlayingStyleList(String bandId) async {
-    if (bandId != null) {
+    if (bandId != null && bandId.isNotEmpty) {
       final snapshot = await serverAPI.playingStyleDB
           .orderByChild('bandId')
           .equalTo(bandId)

@@ -769,6 +769,8 @@ class ServerAPI {
 
   void logout() async {
     await _auth.signOut();
+    currentUserId = null;
+    currentUserEmail = null;
   }
 
   void deleteContact(String id) async {
