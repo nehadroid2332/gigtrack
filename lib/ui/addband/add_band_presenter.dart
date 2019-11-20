@@ -2,13 +2,16 @@ import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/band_member.dart';
 import 'package:gigtrack/server/models/error_response.dart';
+import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/server/models/user_playing_style.dart';
+import 'package:gigtrack/ui/addplayingstyle/add_playing_style_presenter.dart';
 
 abstract class AddBandContract extends BaseContract {
   void addBandSuccess();
   void onUpdate();
   void getBandDetails(Band band);
   void onData(List<UserPlayingStyle> acc);
+  void onUserDetailsSuccess(User res);
 }
 
 class AddBandPresenter extends BasePresenter {
@@ -95,6 +98,14 @@ class AddBandPresenter extends BasePresenter {
         acc.add(UserPlayingStyle.fromJSON(d));
       }
       (view as AddBandContract).onData(acc);
+    }
+  }
+  void getUserProfile() async {
+    final res = await serverAPI.getSingleUserById(serverAPI.currentUserId);
+    if (res is User) {
+      (view as AddBandContract).onUserDetailsSuccess(res);
+    } else if (res is ErrorResponse) {
+      view.showMessage(res.message);
     }
   }
 }

@@ -550,7 +550,7 @@ class _AddPlayingStyleScreenState
                                   ),
                                 )
                           : Container(),
-                      widget.bandId.isNotEmpty && (widget.id.isEmpty || isEdit)
+                      ( widget.bandId.isNotEmpty) && (widget.id.isEmpty || isEdit)
                           ? Container()
                           : Padding(
                               child: Text(
@@ -1106,29 +1106,29 @@ class _AddPlayingStyleScreenState
                       Padding(
                         padding: EdgeInsets.all(widget.bandId.isEmpty ? 0 : 5),
                       ),
-                      widget.id.isEmpty || isEdit
-                          ? Container()
-                          : widget.bandId.isNotEmpty
-                              ? Text(
-                                  "Band Contact Info",
-                                  textAlign: TextAlign.center,
-                                  style: textTheme.title.copyWith(
-                                    fontSize: 19,
-                                    color: Color.fromRGBO(124, 180, 97, 1.0),
-                                  ),
-                                )
-                              : Container(),
-                      widget.bandId.isEmpty
-                          ? (widget.id.isEmpty || isEdit)
-                              ? Container()
-                              : Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 4),
-                                  child: Text(
-                                    "${_nameBandController.text} - ${_contactBandController.text}",
-                                    textAlign: TextAlign.center,
-                                  ),
-                                )
-                          : Container(),
+//                      widget.id.isEmpty || isEdit
+//                          ? Container()
+//                          : widget.bandId.isNotEmpty
+//                              ? Text(
+//                                  "Band Contact Info",
+//                                  textAlign: TextAlign.center,
+//                                  style: textTheme.title.copyWith(
+//                                    fontSize: 19,
+//                                    color: Color.fromRGBO(124, 180, 97, 1.0),
+//                                  ),
+//                                )
+//                              : Container(),
+//                      widget.bandId.isNotEmpty
+//                          ? (widget.id.isEmpty || isEdit)
+//                              ? Container()
+//                              : Padding(
+//                                  padding: EdgeInsets.symmetric(vertical: 4),
+//                                  child: Text(
+//                                    "${_nameBandController.text} - ${_contactBandController.text}",
+//                                    textAlign: TextAlign.center,
+//                                  ),
+//                                )
+//                          : Container(),
                       // widget.bandId.isNotEmpty
                       //     ? (widget.id.isEmpty || isEdit)
                       //         ? TextField(

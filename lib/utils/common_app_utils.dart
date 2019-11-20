@@ -436,6 +436,16 @@ Widget buildBulletInBoardListItem(BulletInBoard not, Color color, {onTap}) {
               "${not.type}",
               textAlign: TextAlign.center,
               style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.white,),
+            ),
+            Padding(
+              padding: EdgeInsets.all(3),
+            ),
+            Text(
+              "${not.item}",
+              textAlign: TextAlign.center,
+              style: TextStyle(
                   fontSize: 20,
                   color: Colors.white,
                   fontWeight: FontWeight.w700),
@@ -449,7 +459,7 @@ Widget buildBulletInBoardListItem(BulletInBoard not, Color color, {onTap}) {
                   fontWeight: FontWeight.w700),
             ),
             Padding(
-              padding: EdgeInsets.all(5),
+              padding: EdgeInsets.all(3),
             ),
             not.date == 0
                 ? Container()
@@ -467,7 +477,7 @@ Widget buildBulletInBoardListItem(BulletInBoard not, Color color, {onTap}) {
                           ])}",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       color: Colors.white,
                     ),
                   ),

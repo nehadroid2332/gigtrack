@@ -8,6 +8,7 @@ import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/band_member.dart';
+import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/server/models/user_playing_style.dart';
 import 'package:gigtrack/ui/addband/add_band_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
@@ -48,6 +49,7 @@ class _AddBandScreenState
       _errorBandLegalName,
       _errorEmail;
   List<BandMember> members = [];
+  User user;
   final legalStructure = [
     "Corporation",
     "LLC",
@@ -145,6 +147,7 @@ class _AddBandScreenState
     super.initState();
     getData();
     presenter.getPlayingStyleList(widget.id);
+    presenter.getUserProfile();
   }
 
   @override
@@ -271,21 +274,43 @@ class _AddBandScreenState
 
     List<Widget> contactInfo = [];
     for (var mem in members) {
+      if( mem.email == primaryContactEmail) {
+        contactInfo.add(Row(
+          children: <Widget>[
+            Expanded(
+              flex: 1,
+              child: Text(
+                "${mem.firstName} ${mem.lastName}",
+                textAlign: TextAlign.right,
+              ),
+            ),
+            Text(" - "),
+            Expanded(
+              flex: 1,
+              child: Text("${mem.mobileText ?? 'No Contact Added'}"),
+            ),
+            mem.email == primaryContactEmail
+                ? Icon(Icons.account_circle)
+                : Container()
+          ],
+        ));
+      }
+    }
+    if(contactInfo.length<1){
       contactInfo.add(Row(
         children: <Widget>[
           Expanded(
-            child: Text(
-              "${mem.firstName} ${mem.lastName}",
+            flex: 1,
+            child: user!=null?Text(
+              "${user.firstName} ${user.lastName}",
               textAlign: TextAlign.right,
-            ),
+            ):Container(),
           ),
           Text(" - "),
           Expanded(
-            child: Text("${mem.mobileText ?? 'No Contact Added'}"),
+            flex: 1,
+            child: user!=null?Text("${user.phone ?? 'No Contact Added'}"):Container(),
           ),
-          mem.email == primaryContactEmail
-              ? Icon(Icons.account_circle)
-              : Container()
         ],
       ));
     }
@@ -1297,5 +1322,11 @@ class _AddBandScreenState
       UserPlayingStyle userPlayingStyle = acc[0];
       userPlayingStyleId = userPlayingStyle.id;
     }
+  }
+  @override
+  void onUserDetailsSuccess(User res) {
+    setState(() {
+      user = res;
+    });
   }
 }
