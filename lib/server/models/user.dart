@@ -17,6 +17,10 @@ class User extends BaseModel {
 
   String status;
 
+  bool isUnder18Age = false;
+  String guardianEmail;
+  String guardianName;
+
   User(
       {this.address,
       this.city,
@@ -29,6 +33,9 @@ class User extends BaseModel {
       this.primaryInstrument,
       this.profilePic,
       this.zipcode,
+      this.isUnder18Age,
+      this.guardianEmail,
+      this.guardianName,
       this.status});
 
   User.fromJSON(dynamic data) {
@@ -45,6 +52,9 @@ class User extends BaseModel {
     primaryInstrument = data['primary_instrument'];
     profilePic = data['profile_pic'];
     dep18 = data['dep18'];
+    isUnder18Age = data['isUnder18Age'];
+    guardianEmail = data['guardianEmail'];
+    guardianName = data['guardianName'];
   }
 
   @override
@@ -63,6 +73,9 @@ class User extends BaseModel {
     data["zipcode"] = zipcode ?? "";
     data['profile_pic'] = profilePic ?? "";
     data['primary_instrument'] = primaryInstrument ?? "";
+    data['isUnder18Age'] = isUnder18Age;
+    data['guardianName'] = guardianName;
+    data['guardianEmail'] = guardianEmail;
     return data;
   }
 

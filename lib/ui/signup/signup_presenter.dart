@@ -22,7 +22,10 @@ class SignUpPresenter extends BasePresenter {
       String state,
       String zipcode,
       File file,
-      String primaryInstrument) async {
+      String primaryInstrument,
+      bool isUnderAge,
+      String gName,
+      String gEmail) async {
     final res = await serverAPI.register(
         User(
             address: address,
@@ -34,6 +37,9 @@ class SignUpPresenter extends BasePresenter {
             phone: phone,
             state: state,
             zipcode: zipcode,
+            guardianEmail: gEmail,
+            guardianName: gName,
+            isUnder18Age: isUnderAge,
             primaryInstrument: primaryInstrument),
         file);
     print("REs-> $res");

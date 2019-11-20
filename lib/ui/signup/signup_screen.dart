@@ -1,6 +1,5 @@
 import 'dart:io';
 
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
@@ -8,7 +7,6 @@ import 'package:gigtrack/main.dart';
 import 'package:gigtrack/ui/signup/signup_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:image_picker/image_picker.dart';
-
 
 class SignUpScreen extends BaseScreen {
 //  final FirebaseAnalytics analytics;
@@ -21,6 +19,7 @@ class SignUpScreen extends BaseScreen {
 
 class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
     implements SignUpContract {
+  bool isUnderAge = false;
 
   _SignUpScreenState();
   final _emailController = TextEditingController(),
@@ -32,12 +31,16 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
       _cityController = TextEditingController(),
       _stateController = TextEditingController(),
       _zipController = TextEditingController(),
+      _guardianNameController = TextEditingController(),
+      _guardianEmailController = TextEditingController(),
       _primaryInstrumentController = TextEditingController(),
       _websiteController = TextEditingController();
   String _errorEmail,
       _errorPassword,
       _errorPhone,
       _errorState,
+      _errorGuardianName,
+      _errorGuardianEmail,
       _errorZip,
       _errorWebsite;
   String _errorFirstName,
@@ -328,6 +331,45 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
 //                Padding(
 //                  padding: EdgeInsets.all(5),
 //                ),
+                Row(
+                  children: <Widget>[
+                    Checkbox(
+                      onChanged: (bool value) {
+                        setState(() {
+                          isUnderAge = value;
+                        });
+                      },
+                      value: isUnderAge,
+                    ),
+                    Text("Are you under 18 age?")
+                  ],
+                ),
+                isUnderAge
+                    ? TextField(
+                        controller: _guardianNameController,
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                          labelText: "Dependent Name",
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(169, 176, 187, 1.0),
+                          ),
+                          errorText: _errorGuardianName,
+                        ),
+                      )
+                    : Container(),
+                isUnderAge
+                    ? TextField(
+                        controller: _guardianEmailController,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          labelText: "Dependent Email",
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(169, 176, 187, 1.0),
+                          ),
+                          errorText: _errorGuardianEmail,
+                        ),
+                      )
+                    : Container(),
                 Padding(
                   padding: EdgeInsets.only(
                     top: 30,
@@ -374,9 +416,13 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                           String primaryInstrument =
                               _primaryInstrumentController.text;
                           String website = _websiteController.text;
+                          String gEmail = _guardianEmailController.text;
+                          String gName = _guardianNameController.text;
                           _errorFirstName = null;
                           _errorAddress = null;
                           _errorCity = null;
+                          _errorGuardianEmail = null;
+                          _errorGuardianName = null;
                           _errorEmail = null;
                           _errorLastName = null;
                           _errorPassword = null;
@@ -411,6 +457,10 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
 //                          }
                           else if (zip.isEmpty) {
                             _errorZip = "Cannot be empty";
+                          } else if (gName.isEmpty) {
+                            _errorGuardianName = "Cannot be empty";
+                          } else if (gEmail.isEmpty) {
+                            _errorGuardianEmail = "Cannot be empty";
                           }
 //                          else if (primaryInstrument.isEmpty) {
 //                            _errorPrimaryInstrument = "Cannot be empty";
@@ -433,32 +483,47 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                                 state,
                                 zip,
                                 _image,
-                                primaryInstrument);
+                                primaryInstrument,
+                                isUnderAge,
+                                gName,
+                                gEmail);
                           }
                         });
                       },
                     )
                   ],
                 ),
-                Padding(padding: EdgeInsets.all(10),),
+                Padding(
+                  padding: EdgeInsets.all(10),
+                ),
                 Container(
                   child: Center(
                       child: RichText(
-                        text: TextSpan(
-                          text: 'By signing up, you agree to our',
-                          style: TextStyle(color: Colors.grey),
-                          children: <TextSpan>[
-                            TextSpan(text: ' Terms ', style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey),
-                              recognizer: new TapGestureRecognizer()..onTap = () =>   widget.appListener.router
-                            .navigateTo(context, Screens.PRIVACY.toString())),
-                            TextSpan(text: '& Privacy Policy.',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey),
-                              recognizer: new TapGestureRecognizer()..onTap = () => widget.appListener.router
-                                  .navigateTo(context, Screens.PRIVACY.toString()),
-                            ),
-                          ],
+                    text: TextSpan(
+                      text: 'By signing up, you agree to our',
+                      style: TextStyle(color: Colors.grey),
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: ' Terms ',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey),
+                            recognizer: new TapGestureRecognizer()
+                              ..onTap = () => widget.appListener.router
+                                  .navigateTo(
+                                      context, Screens.PRIVACY.toString())),
+                        TextSpan(
+                          text: '& Privacy Policy.',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.grey),
+                          recognizer: new TapGestureRecognizer()
+                            ..onTap = () => widget.appListener.router
+                                .navigateTo(
+                                    context, Screens.PRIVACY.toString()),
                         ),
-                      )
-                  ),
+                      ],
+                    ),
+                  )),
                 ),
                 Padding(
                   padding: EdgeInsets.all(15),
@@ -480,7 +545,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
     showMessage("Register Successfully");
     // widget.appListener.router
     // .navigateTo(context, Screens.ADDBAND.toString() + "/23");
- //   _sendAnalyticsEvent();
+    //   _sendAnalyticsEvent();
     Navigator.pop(context);
   }
 //  Future<void> _sendAnalyticsEvent() async {
