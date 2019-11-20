@@ -1172,13 +1172,13 @@ class _AddActivityScreenState
                                   child: Text("No Band Member"),
                                 )
                           : Container(),
-                      widget.id.isEmpty || isEdit || widget.isParent
-                          ? Container()
-                          : Text(
-                              "Task Notes",
-                              textAlign: TextAlign.center,
-                              style: textTheme.title,
-                            ),
+                      (widget.id.isEmpty) || (isEdit) || (widget.isParent)&& (widget.type == Activites.TYPE_BAND_TASK)
+                          ? Text(
+                        "Task Notes",
+                        textAlign: TextAlign.center,
+                        style: textTheme.title,
+                      ):Container(),
+                      
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),

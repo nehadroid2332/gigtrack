@@ -197,20 +197,22 @@ Widget buildActivityListItem(Activites ac, context,
     ),
     child: InkWell(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
             padding: EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(
                     left: 5,
                   ),
                 ),
-
-                Expanded(
-                  child: Text(
+                  
+                  Text(
+                    
                     "${formatDate(dt, [
                       D,
                       '-',
@@ -228,8 +230,10 @@ Widget buildActivityListItem(Activites ac, context,
                           ? Color.fromRGBO(32, 95, 139, 1.0)
                           : Color.fromRGBO(250, 250, 250, 0.8),
                     ),
+                    textAlign: TextAlign.center,
                   ),
-                ),
+                  
+                
 
 //                  Text(
 //                    currentType(ac.type),
@@ -243,14 +247,14 @@ Widget buildActivityListItem(Activites ac, context,
 
                 (ac.band?.name?.isNotEmpty ?? false)
                     ? Text(
-                        ac.band?.name,
+                       ' -'+ ac.band?.name,
                         style: TextStyle(
                           fontSize: 15,
                           color: ac.bandId.isNotEmpty
                               ? Color.fromRGBO(32, 95, 139, 1.0)
                               : Color.fromRGBO(250, 250, 250, 1.0),
                         ),
-                        textAlign: TextAlign.right,
+                        textAlign: TextAlign.center,
                       )
                     : Container(),
                 Padding(
