@@ -100,12 +100,18 @@ class _InstrumentListScreenState
                               (instr.purchased_date));
 
                       return Card(
-                        
-                        color: (instr.bandId.isNotEmpty)?Colors.white:Color.fromRGBO(191, 53, 42, 1.0),
+                        color: (instr.bandId.isNotEmpty)
+                            ? Colors.white
+                            : Color.fromRGBO(191, 53, 42, 1.0),
                         shape: RoundedRectangleBorder(
-                            side:instr.bandId.isNotEmpty? new BorderSide(color: Color.fromRGBO(191, 53, 42, 1.0), width: 1.0):new BorderSide(color: Color.fromRGBO(191, 53, 42, 1.0), width: 1.0),
-                            borderRadius: BorderRadius.circular(16))
-                        ,
+                            side: instr.bandId.isNotEmpty
+                                ? new BorderSide(
+                                    color: Color.fromRGBO(191, 53, 42, 1.0),
+                                    width: 1.0)
+                                : new BorderSide(
+                                    color: Color.fromRGBO(191, 53, 42, 1.0),
+                                    width: 1.0),
+                            borderRadius: BorderRadius.circular(16)),
                         child: InkWell(
                           child: Padding(
                             padding: EdgeInsets.all(15),
@@ -115,7 +121,10 @@ class _InstrumentListScreenState
                                 Text(
                                   "${instr.name}",
                                   style: textTheme.headline.copyWith(
-                                      fontSize: 18, color:(instr.bandId.isNotEmpty)?Color.fromRGBO(191, 53, 42, 1.0): Colors.white),
+                                      fontSize: 18,
+                                      color: (instr.bandId.isNotEmpty)
+                                          ? Color.fromRGBO(191, 53, 42, 1.0)
+                                          : Colors.white),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -158,7 +167,7 @@ class _InstrumentListScreenState
                                       widget.appListener.router.navigateTo(
                                           context,
                                           Screens.ADDINSTRUMENT.toString() +
-                                              "/${instr.id}/${widget.bandId}////");
+                                              "/${instr.id}/${widget.bandId.isEmpty ? instr.bandId : widget.bandId}////");
                                     }
                                   : null,
                         ),

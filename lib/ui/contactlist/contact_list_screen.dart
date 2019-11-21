@@ -135,7 +135,7 @@ class _ContactListScreenState
                                       widget.appListener.router.navigateTo(
                                           context,
                                           Screens.ADDCONTACT.toString() +
-                                              "/${cnt.id}/${widget.bandId}////");
+                                              "/${cnt.id}/${widget.bandId.isEmpty ? cnt.bandId : widget.bandId}////");
                                     }
                                   : null,
                         ),

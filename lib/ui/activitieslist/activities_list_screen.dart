@@ -289,7 +289,7 @@ class _ActivitiesListScreenState
                                   widget.appListener.router.navigateTo(
                                       context,
                                       Screens.ADDACTIVITY.toString() +
-                                          "/${ac.type}/${ac.id}/${false}/${widget.bandId}////");
+                                          "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////");
                                 });
                               },
                             )
@@ -316,7 +316,7 @@ class _ActivitiesListScreenState
                                   widget.appListener.router.navigateTo(
                                     context,
                                     Screens.ADDACTIVITY.toString() +
-                                        "/${ac.type}/${ac.id}/${false}/${widget.bandId}////",
+                                        "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////",
                                   );
                                 }, isPast: false);
                               },
@@ -345,7 +345,7 @@ class _ActivitiesListScreenState
                                   widget.appListener.router.navigateTo(
                                       context,
                                       Screens.ADDACTIVITY.toString() +
-                                          "/${ac.type}/${ac.id}/${false}/${widget.bandId}////");
+                                          "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////");
                                 });
                               },
                             )
@@ -373,7 +373,7 @@ class _ActivitiesListScreenState
                                   widget.appListener.router.navigateTo(
                                     context,
                                     Screens.ADDACTIVITY.toString() +
-                                        "/${ac.type}/${ac.id}/${false}/${widget.bandId}////",
+                                        "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////",
                                   );
                                 },
                                     isPast: (ac.type == Activites.TYPE_TASK &&
