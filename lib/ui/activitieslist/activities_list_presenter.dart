@@ -9,7 +9,7 @@ abstract class ActivitiesListContract extends BaseContract {
 class ActivitiesListPresenter extends BasePresenter {
   ActivitiesListPresenter(BaseContract view) : super(view);
 
-  Stream<List<Activites>> getList(String bandId) {
+  Stream<List<Activites>> getList(String bandId, int type) {
     if (bandId != null && bandId.isNotEmpty) {
       return serverAPI.activitiesDB
           .orderByChild('bandId')
@@ -23,8 +23,15 @@ class ActivitiesListPresenter extends BasePresenter {
           Activites activites = Activites.fromJSON(d);
           final band = await serverAPI.getBandDetails(activites.bandId);
           activites.band = band;
-          acc.add(activites);
+          if (type != null) {
+            if (type == activites.type) {
+              acc.add(activites);
+            }
+          } else {
+            acc.add(activites);
+          }
         }
+
         return acc;
       });
     } else {

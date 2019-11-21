@@ -102,7 +102,7 @@ class MyApp extends StatelessWidget implements AppListener {
     }));
     _router.define(
         Screens.ACTIVITIESLIST.toString() +
-            "/:bandid/:isLeader/:isComm/:isSetUp/:postEntries",
+            "/:bandid/:isLeader/:isComm/:isSetUp/:postEntries/:type",
         handler: Handler(
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["bandid"][0];
@@ -110,6 +110,9 @@ class MyApp extends StatelessWidget implements AppListener {
       bool isComm = params['isComm'][0] == "${true}";
       bool isSetUp = params['isSetUp'][0] == "${true}";
       bool postEntries = params['postEntries'][0] == "${true}";
+      int type;
+      if (params['type'][0] != null && "${params['type'][0]}".isNotEmpty)
+        type = int.parse(params['type'][0]);
       return ActivitiesListScreen(
         this,
         bandId: id,
@@ -117,6 +120,7 @@ class MyApp extends StatelessWidget implements AppListener {
         isLeader: isLeader,
         isSetUp: isSetUp,
         postEntries: postEntries,
+        type: type,
       );
     }));
     _router.define(

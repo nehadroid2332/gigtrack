@@ -236,7 +236,7 @@ class _DashboardScreenState
                     onTap: () async {
                       if (txt == "Activities")
                         widget.appListener.router.navigateTo(context,
-                            Screens.ACTIVITIESLIST.toString() + "/////");
+                            Screens.ACTIVITIESLIST.toString() + "//////");
                       else if (txt == "Notes")
                         widget.appListener.router.navigateTo(
                             context, Screens.NOTETODOLIST.toString() + "/////");

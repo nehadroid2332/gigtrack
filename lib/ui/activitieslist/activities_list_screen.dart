@@ -15,6 +15,7 @@ class ActivitiesListScreen extends BaseScreen {
   final bool isComm;
   final bool isSetUp;
   final bool postEntries;
+  final int type;
   ActivitiesListScreen(
     AppListener appListener, {
     this.bandId,
@@ -22,6 +23,7 @@ class ActivitiesListScreen extends BaseScreen {
     this.isComm,
     this.isSetUp,
     this.postEntries,
+    this.type,
   }) : super(appListener, title: "Activities");
 
   @override
@@ -40,7 +42,7 @@ class _ActivitiesListScreenState
   void initState() {
     super.initState();
     presenter.getBands();
-    list = presenter.getList(widget.bandId);
+    list = presenter.getList(widget.bandId, widget.type);
   }
 
   @override
@@ -282,7 +284,8 @@ class _ActivitiesListScreenState
                               itemCount: current.length,
                               itemBuilder: (BuildContext context, int index) {
                                 Activites ac = current[index];
-                                return buildActivityListItem(ac,context, onTap: () {
+                                return buildActivityListItem(ac, context,
+                                    onTap: () {
                                   widget.appListener.router.navigateTo(
                                       context,
                                       Screens.ADDACTIVITY.toString() +
@@ -303,26 +306,27 @@ class _ActivitiesListScreenState
                       ),
                       recurring.length > 0
                           ? ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: recurring.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          Activites ac = recurring[index];
-                          return buildActivityListItem(ac,context, onTap: () {
-                            widget.appListener.router.navigateTo(
-                              context,
-                              Screens.ADDACTIVITY.toString() +
-                                  "/${ac.type}/${ac.id}/${false}/${widget.bandId}////",
-                            );
-                          }, isPast: false);
-                        },
-                      )
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: recurring.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                Activites ac = recurring[index];
+                                return buildActivityListItem(ac, context,
+                                    onTap: () {
+                                  widget.appListener.router.navigateTo(
+                                    context,
+                                    Screens.ADDACTIVITY.toString() +
+                                        "/${ac.type}/${ac.id}/${false}/${widget.bandId}////",
+                                  );
+                                }, isPast: false);
+                              },
+                            )
                           : Padding(
-                        child: Center(
-                          child: Text("No Recurring Activities"),
-                        ),
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                      ),
+                              child: Center(
+                                child: Text("No Recurring Activities"),
+                              ),
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                            ),
                       Text(
                         "Upcoming",
                         style: textTheme.display1.copyWith(fontSize: 28),
@@ -336,7 +340,8 @@ class _ActivitiesListScreenState
                               itemCount: upcoming.length,
                               itemBuilder: (BuildContext context, int index) {
                                 Activites ac = upcoming[index];
-                                return buildActivityListItem(ac, context,onTap: () {
+                                return buildActivityListItem(ac, context,
+                                    onTap: () {
                                   widget.appListener.router.navigateTo(
                                       context,
                                       Screens.ADDACTIVITY.toString() +
@@ -363,7 +368,8 @@ class _ActivitiesListScreenState
                               itemCount: past.length,
                               itemBuilder: (BuildContext context, int index) {
                                 Activites ac = past[index];
-                                return buildActivityListItem(ac,context, onTap: () {
+                                return buildActivityListItem(ac, context,
+                                    onTap: () {
                                   widget.appListener.router.navigateTo(
                                     context,
                                     Screens.ADDACTIVITY.toString() +
@@ -384,7 +390,7 @@ class _ActivitiesListScreenState
                               ),
                               padding: EdgeInsets.symmetric(vertical: 10),
                             ),
-                   
+
                       // widget.bandId.isEmpty
                       //     ? Text(
                       //         "Band Activities",

@@ -1564,7 +1564,7 @@ class _AddActivityScreenState
                 } else {
                   presenter.activityDelete(widget.id);
                   Navigator.of(context).popUntil(ModalRoute.withName(
-                      Screens.ACTIVITIESLIST.toString() + "/////"));
+                      Screens.ACTIVITIESLIST.toString() + "//////"));
                 }
               },
             ),

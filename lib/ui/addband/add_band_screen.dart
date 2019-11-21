@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
+import 'package:gigtrack/server/models/activities.dart';
 import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/band_member.dart';
 import 'package:gigtrack/server/models/user.dart';
@@ -86,15 +87,17 @@ class _AddBandScreenState
               child: new Text("Camera"),
               onPressed: () async {
                 Navigator.of(context).pop();
-                var image = await ImagePicker.pickImage(source: ImageSource.camera);
-								_cropImage(image);
+                var image =
+                    await ImagePicker.pickImage(source: ImageSource.camera);
+                _cropImage(image);
               },
             ),
             new FlatButton(
               child: new Text("Gallery"),
               onPressed: () async {
                 Navigator.of(context).pop();
-                var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+                var image =
+                    await ImagePicker.pickImage(source: ImageSource.gallery);
                 _cropImage(image);
               },
             ),
@@ -103,43 +106,44 @@ class _AddBandScreenState
       },
     );
   }
+
   //added image cropper in the code
   Future<Null> _cropImage(image) async {
-	  File croppedFile = await ImageCropper.cropImage(
-		  sourcePath: image.path,
-		  aspectRatioPresets: Platform.isAndroid
-				  ? [
-			  CropAspectRatioPreset.square,
-			  CropAspectRatioPreset.ratio3x2,
-			  CropAspectRatioPreset.original,
-			  CropAspectRatioPreset.ratio4x3,
-			  CropAspectRatioPreset.ratio16x9
-		  ]
-				  : [
-			  CropAspectRatioPreset.original,
-			  CropAspectRatioPreset.square,
-			  CropAspectRatioPreset.ratio3x2,
-			  CropAspectRatioPreset.ratio4x3,
-			  CropAspectRatioPreset.ratio5x3,
-			  CropAspectRatioPreset.ratio5x4,
-			  CropAspectRatioPreset.ratio7x5,
-			  CropAspectRatioPreset.ratio16x9
-		  ],
-		  androidUiSettings: AndroidUiSettings(
-				  toolbarTitle: 'Cropper',
-				  toolbarColor: Colors.deepOrange,
-				  toolbarWidgetColor: Colors.white,
-				  initAspectRatio: CropAspectRatioPreset.original,
-				  lockAspectRatio: false),
-	  );
-	  if (croppedFile != null) {
-		  image = croppedFile;
-		  setState(() {
-			  _image = image;
-			  files.clear();
-			  files.add(image.path);
-		  });
-	  }
+    File croppedFile = await ImageCropper.cropImage(
+      sourcePath: image.path,
+      aspectRatioPresets: Platform.isAndroid
+          ? [
+              CropAspectRatioPreset.square,
+              CropAspectRatioPreset.ratio3x2,
+              CropAspectRatioPreset.original,
+              CropAspectRatioPreset.ratio4x3,
+              CropAspectRatioPreset.ratio16x9
+            ]
+          : [
+              CropAspectRatioPreset.original,
+              CropAspectRatioPreset.square,
+              CropAspectRatioPreset.ratio3x2,
+              CropAspectRatioPreset.ratio4x3,
+              CropAspectRatioPreset.ratio5x3,
+              CropAspectRatioPreset.ratio5x4,
+              CropAspectRatioPreset.ratio7x5,
+              CropAspectRatioPreset.ratio16x9
+            ],
+      androidUiSettings: AndroidUiSettings(
+          toolbarTitle: 'Cropper',
+          toolbarColor: Colors.deepOrange,
+          toolbarWidgetColor: Colors.white,
+          initAspectRatio: CropAspectRatioPreset.original,
+          lockAspectRatio: false),
+    );
+    if (croppedFile != null) {
+      image = croppedFile;
+      setState(() {
+        _image = image;
+        files.clear();
+        files.add(image.path);
+      });
+    }
   }
 
   @override
@@ -274,7 +278,7 @@ class _AddBandScreenState
 
     List<Widget> contactInfo = [];
     for (var mem in members) {
-      if( mem.email == primaryContactEmail) {
+      if (mem.email == primaryContactEmail) {
         contactInfo.add(Row(
           children: <Widget>[
             Expanded(
@@ -296,20 +300,24 @@ class _AddBandScreenState
         ));
       }
     }
-    if(contactInfo.length<1){
+    if (contactInfo.length < 1) {
       contactInfo.add(Row(
         children: <Widget>[
           Expanded(
             flex: 1,
-            child: user!=null?Text(
-              "${user.firstName} ${user.lastName}",
-              textAlign: TextAlign.right,
-            ):Container(),
+            child: user != null
+                ? Text(
+                    "${user.firstName} ${user.lastName}",
+                    textAlign: TextAlign.right,
+                  )
+                : Container(),
           ),
           Text(" - "),
           Expanded(
             flex: 1,
-            child: user!=null?Text("${user.phone ?? 'No Contact Added'}"):Container(),
+            child: user != null
+                ? Text("${user.phone ?? 'No Contact Added'}")
+                : Container(),
           ),
         ],
       ));
@@ -932,7 +940,7 @@ class _AddBandScreenState
                                   widget.appListener.router.navigateTo(
                                       context,
                                       Screens.ACTIVITIESLIST.toString() +
-                                          "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                                          "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}/");
                                 },
                               ),
 
@@ -949,7 +957,7 @@ class _AddBandScreenState
                                   widget.appListener.router.navigateTo(
                                       context,
                                       Screens.ACTIVITIESLIST.toString() +
-                                          "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                                          "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}/${Activites.TYPE_BAND_TASK}");
                                 },
                               ),
 
@@ -1323,6 +1331,7 @@ class _AddBandScreenState
       userPlayingStyleId = userPlayingStyle.id;
     }
   }
+
   @override
   void onUserDetailsSuccess(User res) {
     setState(() {
