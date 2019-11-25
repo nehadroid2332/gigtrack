@@ -15,6 +15,7 @@ import 'package:gigtrack/ui/addband/add_band_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class AddBandScreen extends BaseScreen {
   final String id;
@@ -279,6 +280,7 @@ class _AddBandScreenState
     List<Widget> contactInfo = [];
     for (var mem in members) {
       if (mem.email == primaryContactEmail) {
+        final formatter = new NumberFormat("#,###");
         contactInfo.add(Row(
           children: <Widget>[
             Expanded(

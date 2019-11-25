@@ -560,7 +560,7 @@ class _ActivitiesListScreenState
         ),
       ),
       floatingActionButton:
-          widget.bandId.isEmpty || (widget.bandId != null && widget.isLeader)
+          widget.bandId.isEmpty || (widget.bandId != null && (widget.isLeader|| widget.isComm))
               ? SpeedDial(
                   animatedIcon: AnimatedIcons.menu_close,
                   backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),

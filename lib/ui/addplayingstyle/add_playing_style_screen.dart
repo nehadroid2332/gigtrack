@@ -432,9 +432,11 @@ class _AddPlayingStyleScreenState
     for (String s in exList.keys) {
       expss += s + ", ";
     }
-    if (expss.isNotEmpty) expss = expss.substring(0, expss.length - 1);
+    
+    if (expss.isNotEmpty) expss = expss.substring(0, expss.length - 2);
+    
+    
     String plyss = "";
-
     if (plyss.isNotEmpty) plyss = plyss.substring(0, plyss.length - 1);
     psList.join(", ");
 
@@ -476,13 +478,13 @@ class _AddPlayingStyleScreenState
                           ? Container()
                           : files != null && files.length > 0
                               ? Container(
-                                  margin: EdgeInsets.only(left: 30, right: 30),
+                                  margin: EdgeInsets.only(left: 10, right: 10),
                                   height:
-                                      MediaQuery.of(context).size.height / 4.0,
+                                      MediaQuery.of(context).size.height / 3.3,
                                   width: 90,
                                   child: Image.network(
                                     files[0],
-                                    fit: BoxFit.fill,
+                                    fit: BoxFit.fitWidth,
                                   ),
                                 )
                               : Container(),

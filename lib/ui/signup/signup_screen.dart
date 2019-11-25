@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/ui/signup/signup_presenter.dart';
@@ -20,6 +22,7 @@ class SignUpScreen extends BaseScreen {
 class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
     implements SignUpContract {
   bool isUnderAge = false;
+  var _legalUserType;
 
   _SignUpScreenState();
   final _emailController = TextEditingController(),
@@ -87,6 +90,19 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
         );
       },
     );
+  }
+
+  void _handleLegalUserValueChange(int value) {
+    setState(() {
+      _legalUserType = value;
+      if (_legalUserType == 1) {
+        isUnderAge=false;
+      
+      } else if (_legalUserType == 0) {
+  
+      isUnderAge=true;
+      }
+    });
   }
 
   @override
@@ -216,6 +232,11 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                 TextField(
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
+                  inputFormatters: [
+                    WhitelistingTextInputFormatter.digitsOnly,
+                    // Fit the validating format.
+                    phoneNumberFormatter,
+                  ],
                   decoration: InputDecoration(
                       labelText: "Phone",
                       labelStyle: TextStyle(
@@ -306,6 +327,8 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                 Padding(
                   padding: EdgeInsets.all(5),
                 ),
+
+
 //                TextField(
 //                  controller: _primaryInstrumentController,
 //                  decoration: InputDecoration(
@@ -328,22 +351,108 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
 //                    errorText: _errorWebsite,
 //                  ),
 //                ),
-//                Padding(
-//                  padding: EdgeInsets.all(5),
-//                ),
+                Padding(
+                  padding: EdgeInsets.all(5),
+                ),
+               
                 Row(
                   children: <Widget>[
-                    Checkbox(
-                      onChanged: (bool value) {
-                        setState(() {
-                          isUnderAge = value;
-                        });
-                      },
-                      value: isUnderAge,
-                    ),
-                    Text("Are you under 18 age?")
+//                    Checkbox(
+//                      onChanged: (bool value) {
+//                        setState(() {
+//                          isUnderAge = value;
+//                        });
+//                      },
+//                      value: isUnderAge,
+//                    ),
+                  
+                    Text("Are you under 18 age?"),
+                    Padding(padding: EdgeInsets.only(left: 5),),
+                    Row(
+                      children: <Widget>[
+                        InkWell(
+                          onTap: ()
+                               {
+                            _handleLegalUserValueChange(0);
+                          }
+                              ,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 4),
+                            decoration: BoxDecoration(
+                                color: _legalUserType == 0
+                                    ? Color.fromRGBO(255, 0, 104, 1.0)
+                                    : Colors.white,
+                                borderRadius: BorderRadius.circular(15),
+                                border: Border.all(
+                                    color: _legalUserType == 0
+                                        ? Color.fromRGBO(255, 0, 104, 1.0)
+                                        : Color.fromRGBO(255, 0, 104, 1.0))),
+                            child: Text(
+                              'Yes',
+                              style: new TextStyle(
+                                fontSize: 16.0,
+                                color: _legalUserType == 0
+                                    ? Colors.white
+                                    : Colors.grey,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(8),
+                        ),
+                        InkWell(
+                          onTap: (){
+                            _handleLegalUserValueChange(1);
+                          }
+                             ,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 4),
+                            decoration: BoxDecoration(
+                                color: _legalUserType == 1
+                                    ? Color.fromRGBO(255, 0, 104, 1.0)
+                                    : Colors.white,
+                                borderRadius: BorderRadius.circular(15),
+                                border: Border.all(
+                                    color: _legalUserType == 1
+                                        ? Color.fromRGBO(255, 0, 104, 1.0)
+                                        : Color.fromRGBO(255, 0, 104, 1.0))),
+                            child: Text(
+                              'No',
+                              style: new TextStyle(
+                                fontSize: 16.0,
+                                color: _legalUserType == 1
+                                    ? Colors.white
+                                    : Colors.grey,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
+                Padding(padding: EdgeInsets.all(10),),
+                isUnderAge? Text('For Primary User/Dependent under age of 18',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.redAccent,fontSize: 18),
+                ):Container(),
+                Padding(padding: isUnderAge?EdgeInsets.all(3):EdgeInsets.all(0),),
+               isUnderAge? Container(
+                  height: 2,
+                  width: MediaQuery.of(context).size.width,
+                  color: Colors.blue,
+                ):Container(),
+                Padding(padding: isUnderAge?EdgeInsets.all(3):EdgeInsets.all(0),),
+                isUnderAge? Text('By adding my dependent as a User to this account, I acknowledge I am their legal gaurdian, have full access to app and agree to monitor my dependents use, actions and compliance in this mobile app.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold, color: Colors.grey,fontSize: 15),
+                ):Container(),
+                
                 isUnderAge
                     ? TextField(
                         controller: _guardianNameController,
@@ -370,12 +479,53 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                         ),
                       )
                     : Container(),
+                Padding(padding: isUnderAge?EdgeInsets.all(8):EdgeInsets.all(0),),
+                isUnderAge? Text('Note that EPK for any dependents under the age of 18 will not be public.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold, color: Colors.redAccent,fontSize: 15),
+                ):Container(),
+                
+               
+                Padding(
+                  padding: EdgeInsets.all(10),
+                ),
+                Container(
+                  child: Center(
+                      child: RichText(
+                    text: TextSpan(
+                      text: 'By signing up, you agree to our',
+                      style: TextStyle(color: Colors.grey),
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: ' Terms ',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey),
+                            recognizer: new TapGestureRecognizer()
+                              ..onTap = () => widget.appListener.router
+                                  .navigateTo(
+                                      context, Screens.PRIVACY.toString())),
+                        TextSpan(
+                          text: '& Privacy Policy.',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.grey),
+                          recognizer: new TapGestureRecognizer()
+                            ..onTap = () => widget.appListener.router
+                                .navigateTo(
+                                    context, Screens.PRIVACY.toString()),
+                        ),
+                      ],
+                    ),
+                  )),
+                ),
                 Padding(
                   padding: EdgeInsets.only(
                     top: 30,
                   ),
                 ),
                 Wrap(
+                  alignment: WrapAlignment.center,
                   children: <Widget>[
                     RaisedButton(
                       color: Color.fromRGBO(255, 0, 104, 1.0),
@@ -443,7 +593,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                             _errorEmail = "Not a Valid Email";
                           } else if (password.length < 6) {
                             _errorPassword =
-                                "Password must be more than 6 character";
+                            "Password must be more than 6 character";
                           } else if (phone.isEmpty) {
                             _errorPhone = "Cannot be empty";
                           }
@@ -492,38 +642,6 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                       },
                     )
                   ],
-                ),
-                Padding(
-                  padding: EdgeInsets.all(10),
-                ),
-                Container(
-                  child: Center(
-                      child: RichText(
-                    text: TextSpan(
-                      text: 'By signing up, you agree to our',
-                      style: TextStyle(color: Colors.grey),
-                      children: <TextSpan>[
-                        TextSpan(
-                            text: ' Terms ',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey),
-                            recognizer: new TapGestureRecognizer()
-                              ..onTap = () => widget.appListener.router
-                                  .navigateTo(
-                                      context, Screens.PRIVACY.toString())),
-                        TextSpan(
-                          text: '& Privacy Policy.',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.grey),
-                          recognizer: new TapGestureRecognizer()
-                            ..onTap = () => widget.appListener.router
-                                .navigateTo(
-                                    context, Screens.PRIVACY.toString()),
-                        ),
-                      ],
-                    ),
-                  )),
                 ),
                 Padding(
                   padding: EdgeInsets.all(15),

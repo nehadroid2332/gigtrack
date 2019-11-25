@@ -43,6 +43,7 @@ dependencies:
   firebase_messaging: ^5.1.6
   google_maps_flutter: ^0.5.21+8
   image_cropper: ^1.1.0
+  intl: ^0.16.0
 
 
 dev_dependencies:
