@@ -30,6 +30,8 @@ class _AddBulletInBoardScreenState
 
   DateTime selectedStartDate;
 
+  String bulletInUserId;
+
   @override
   void initState() {
     super.initState();
@@ -50,29 +52,35 @@ class _AddBulletInBoardScreenState
         actions: <Widget>[
           widget.id.isEmpty
               ? Container()
-              : IconButton(
-                  icon: Icon(
-                    Icons.edit,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      isEdit = !isEdit;
-                      isshowTitle = true;
-                    });
-                  },
-                ),
+              : bulletInUserId != null &&
+                      bulletInUserId == presenter.serverAPI.currentUserId
+                  ? IconButton(
+                      icon: Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          isEdit = !isEdit;
+                          isshowTitle = true;
+                        });
+                      },
+                    )
+                  : Container(),
           widget.id.isEmpty
               ? Container()
-              : IconButton(
-                  icon: Icon(
-                    Icons.delete,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    _showDialogConfirm();
-                  },
-                )
+              : bulletInUserId != null &&
+                      bulletInUserId == presenter.serverAPI.currentUserId
+                  ? IconButton(
+                      icon: Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        _showDialogConfirm();
+                      },
+                    )
+                  : Container()
         ],
       );
 
@@ -447,6 +455,7 @@ class _AddBulletInBoardScreenState
   void getBulletInBoardDetails(BulletInBoard note) {
     hideLoading();
     setState(() {
+      bulletInUserId = note.user_id;
       type = note.type;
       _descController.text = note.description;
       _noteController.text = note.item;

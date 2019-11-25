@@ -8,8 +8,8 @@ class BulletInBoardListPresenter extends BasePresenter {
 
   Stream<List<BulletInBoard>> getList() {
     return serverAPI.bulletinDB
-        .orderByChild('user_id')
-        .equalTo(serverAPI.currentUserId)
+        // .orderByChild('user_id')
+        // .equalTo(serverAPI.currentUserId)
         .onValue
         .map((a) {
       Map mp = a.snapshot.value;

@@ -6,6 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:gigtrack/server/models/band_member.dart';
+import 'package:gigtrack/server/models/setlist.dart';
 import 'package:mailer/mailer.dart' as mailer;
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:gigtrack/server/models/activities.dart';
@@ -37,7 +38,7 @@ class ServerAPI {
 
   StorageReference playingstyleRef;
 
-  DatabaseReference notesDB, bulletinDB;
+  DatabaseReference notesDB, bulletinDB, setListDB;
 
   SmtpServer smtpServer;
 
@@ -83,6 +84,7 @@ class ServerAPI {
     playingStyleDB = _mainFirebaseDatabase.child("playingStyle");
     notificationDB = _mainFirebaseDatabase.child("notifications");
     helpDB = _mainFirebaseDatabase.child("Helps");
+    setListDB = _mainFirebaseDatabase.child("SetList");
     getCurrentUser();
     firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
@@ -402,6 +404,21 @@ class ServerAPI {
         isUpdate = false;
       }
       await bulletinDB.child(bulletinboard.id).set(bulletinboard.toMap());
+      return isUpdate;
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
+  Future<dynamic> addSetList(SetList setlist) async {
+    try {
+      bool isUpdate = true;
+      if (setlist.id == null || setlist.id.isEmpty) {
+        String id = setListDB.push().key;
+        setlist.id = id;
+        isUpdate = false;
+      }
+      await setListDB.child(setlist.id).set(setlist.toMap());
       return isUpdate;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);

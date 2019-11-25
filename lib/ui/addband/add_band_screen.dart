@@ -924,7 +924,10 @@ class _AddBandScreenState
                                       color: widget.appListener.accentColor,
                                     ),
                                     onPressed: () {
-                                      showDialogConfirm();
+                                      widget.appListener.router.navigateTo(
+                                          context,
+                                          Screens.ADDSETLIST.toString() + "/");
+                                      // showDialogConfirm();
                                     },
                                   )
                                 ],
