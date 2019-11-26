@@ -43,7 +43,8 @@ dependencies:
   firebase_messaging: ^5.1.6
   google_maps_flutter: ^0.5.21+8
   image_cropper: ^1.1.0
-  intl: ^0.16.0
+  intl: ^0.15.8
+  flutter_money_formatter: ^0.8.3
 
 
 dev_dependencies:

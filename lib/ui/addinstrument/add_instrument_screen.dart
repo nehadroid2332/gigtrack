@@ -317,7 +317,7 @@ class _AddInstrumentScreenState
                           ? Container()
                           : files != null && files.length > 0
                               ? Container(
-                                  margin: EdgeInsets.only(left: 50, right: 50),
+                                  margin: EdgeInsets.only(left: 15, right: 15),
                                   height:
                                       MediaQuery.of(context).size.height / 2.4,
                                   width: 90,
@@ -1393,6 +1393,7 @@ class _AddInstrumentScreenState
       _warrantyPhoneController.text = instrument.warranty_phone;
       _warrantyReferenceController.text = instrument.warranty_reference;
       _wherePurchaseController.text = instrument.purchased_from;
+      
       _costController.text = instrument.cost;
       if (instrument.uploadedFiles != null) files = instrument.uploadedFiles;
       _instrumentNickNameController.text = instrument.nickName;
