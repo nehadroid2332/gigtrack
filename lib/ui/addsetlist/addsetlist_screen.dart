@@ -8,7 +8,8 @@ import 'addsetlist_presenter.dart';
 
 class AddSetListScreen extends BaseScreen {
   final String id;
-  AddSetListScreen(AppListener appListener, {this.id})
+  final String userId;
+  AddSetListScreen(AppListener appListener, {this.id, this.userId})
       : super(appListener, title: "");
 
   @override
@@ -29,6 +30,8 @@ class _AddSetListScreenState
   List<Song> _songList = [];
   Song currentSong;
   String _selectedFruit;
+
+  List<SetList> setLists = [];
 
   List<DropdownMenuItem<String>> buildAndGetDropDownMenuItems(List fruits) {
     List<DropdownMenuItem<String>> items = List();
@@ -314,6 +317,7 @@ class _AddSetListScreenState
                                         setList.setListName =
                                             _listNameController.text;
                                         setList.songs = _songList;
+                                        setList.user_id = widget.userId;
                                         presenter.addSetList(setList);
                                       },
                                       color: Color.fromRGBO(214, 22, 35, 1.0),

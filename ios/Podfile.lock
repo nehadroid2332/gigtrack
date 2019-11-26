@@ -87,6 +87,8 @@ PODS:
   - flutter_image_compress (0.0.1):
     - Flutter
     - Mantle
+  - flutter_money_formatter (0.0.1):
+    - Flutter
   - google_maps_flutter (0.0.1):
     - Flutter
     - GoogleMaps
@@ -159,6 +161,7 @@ DEPENDENCIES:
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `.symlinks/flutter/ios`)
   - flutter_image_compress (from `.symlinks/plugins/flutter_image_compress/ios`)
+  - flutter_money_formatter (from `.symlinks/plugins/flutter_money_formatter/ios`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
   - google_places_picker (from `.symlinks/plugins/google_places_picker/ios`)
   - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
@@ -208,6 +211,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/flutter/ios"
   flutter_image_compress:
     :path: ".symlinks/plugins/flutter_image_compress/ios"
+  flutter_money_formatter:
+    :path: ".symlinks/plugins/flutter_money_formatter/ios"
   google_maps_flutter:
     :path: ".symlinks/plugins/google_maps_flutter/ios"
   google_places_picker:
@@ -241,6 +246,7 @@ SPEC CHECKSUMS:
   FirebaseStorage: b7c6d00997bc21d4465453bdcc5cc65513110fed
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_image_compress: f69d0e0e078ce52b4810695593bc861ee319ae7d
+  flutter_money_formatter: d0d18ddc5be333fad8d09964d741b59fa11a91dc
   google_maps_flutter: 78a52114c898b42ea647919679a4c58b70abe876
   google_places_picker: 37cfdb52d9d1157c753306751bfd45c53382e462
   GoogleAppMeasurement: 434cc7be25e71dc04b8d0e3079125127b330e84a

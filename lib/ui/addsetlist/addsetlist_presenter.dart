@@ -11,7 +11,6 @@ class AddSetListPresenter extends BasePresenter {
   AddSetListPresenter(BaseContract view) : super(view);
 
   void addSetList(SetList setList) async {
-    setList.user_id = serverAPI.currentUserId;
     final res = await serverAPI.addSetList(setList);
     if (res is bool) {
       if (res) {

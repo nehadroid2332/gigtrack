@@ -926,7 +926,8 @@ class _AddBandScreenState
                                     onPressed: () {
                                       widget.appListener.router.navigateTo(
                                           context,
-                                          Screens.ADDSETLIST.toString() + "/");
+                                          Screens.SETLIST.toString() +
+                                              "/${widget.id}");
                                       // showDialogConfirm();
                                     },
                                   )

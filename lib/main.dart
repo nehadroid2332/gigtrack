@@ -21,6 +21,7 @@ import 'package:gigtrack/ui/login/login_screen.dart';
 import 'package:gigtrack/ui/noteslist/notes_list_screen.dart';
 import 'package:gigtrack/ui/notificationlist/notification_list_screen.dart';
 import 'package:gigtrack/ui/profile/profile_screen.dart';
+import 'package:gigtrack/ui/setlist/setlist_screen.dart';
 import 'package:gigtrack/ui/signup/signup_screen.dart';
 import 'package:gigtrack/ui/splash/splash_screen.dart';
 import 'package:gigtrack/utils/privacy.dart';
@@ -214,10 +215,21 @@ class MyApp extends StatelessWidget implements AppListener {
         id: id,
       );
     }));
-    _router.define(Screens.ADDSETLIST.toString() + "/:id", handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    _router.define(Screens.ADDSETLIST.toString() + "/:userId/:id", handler:
+        Handler(
+            handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      String userId = params["userId"][0];
       String id = params["id"][0];
       return AddSetListScreen(
+        this,
+        userId: userId,
+        id: id,
+      );
+    }));
+    _router.define(Screens.SETLIST.toString() + "/:id", handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      String id = params["id"][0];
+      return SetListScreen(
         this,
         id: id,
       );
@@ -447,5 +459,6 @@ enum Screens {
   GOOGLEMAPS,
   HELP,
   PROFILE,
+  SETLIST,
   ADDSETLIST
 }
