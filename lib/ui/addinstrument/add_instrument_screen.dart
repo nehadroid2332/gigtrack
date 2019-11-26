@@ -327,6 +327,7 @@ class _AddInstrumentScreenState
                                   ),
                                 )
                               : Container(),
+                      Padding(padding: EdgeInsets.all(5),),
                       widget.id.isEmpty || isEdit
                           ? Container()
                           : Text(
@@ -338,7 +339,7 @@ class _AddInstrumentScreenState
                             ),
                       Padding(
                         padding: EdgeInsets.only(
-                            left: 8, right: 8, top: 15, bottom: 8),
+                            left: 8, right: 8, top: 5, bottom: 8),
                       ),
                       widget.id.isEmpty || isEdit ? Container() : Container(),
                       widget.id.isEmpty || isEdit
@@ -368,7 +369,7 @@ class _AddInstrumentScreenState
                               ),
                             ),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: EdgeInsets.all(0),
                       ),
                       ShowUp(
                         child: !_isnickNameEuip
@@ -519,7 +520,7 @@ class _AddInstrumentScreenState
                                     padding:
                                         _purchaseDateController.text.isEmpty
                                             ? EdgeInsets.all(0)
-                                            : EdgeInsets.all(3),
+                                            : EdgeInsets.all(0),
                                   ),
                                   widget.id.isEmpty || isEdit
                                       ? GestureDetector(
@@ -742,7 +743,7 @@ class _AddInstrumentScreenState
                       Padding(
                         padding: _serialNumberController.text.isEmpty
                             ? EdgeInsets.all(3)
-                            : EdgeInsets.all(10),
+                            : EdgeInsets.all(5),
                       ),
                       widget.id.isEmpty || isEdit ? Container() : Container(),
                       ShowUp(
@@ -1002,8 +1003,8 @@ class _AddInstrumentScreenState
 
                       Padding(
                         padding: _warrantyEndController.text.isEmpty
-                            ? EdgeInsets.all(3)
-                            : EdgeInsets.all(10),
+                            ? EdgeInsets.all(0)
+                            : EdgeInsets.all(5),
                       ),
                       ShowUp(
                         child: !_isinsuranceInfo

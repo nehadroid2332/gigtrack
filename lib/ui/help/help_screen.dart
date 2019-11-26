@@ -115,7 +115,7 @@ class _HelpScreenState extends BaseScreenState<HelpScreen, HelpPresenter> {
                       child: TextField(
                         controller: _txtController,
                         decoration: InputDecoration.collapsed(
-                            hintText: "Enter your Question"),
+                            hintText: "Enter question here"),
                       ),
                     ),
                     FloatingActionButton(

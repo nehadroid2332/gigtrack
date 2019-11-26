@@ -92,7 +92,7 @@ class _AddSetListScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "${widget.id.isEmpty ? "Add" : ""} BulletIn Board",
+                "${widget.id.isEmpty ? "Add" : ""} Set List",
                 style: textTheme.display2
                     .copyWith(color: Colors.white, fontSize: 30),
               ),

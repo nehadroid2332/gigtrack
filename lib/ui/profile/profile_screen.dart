@@ -1,11 +1,13 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/ui/profile/profile_presenter.dart';
+import 'package:gigtrack/utils/NumberTextInputFormatter.dart';
 import 'package:image_picker/image_picker.dart';
-
+NumberTextInputFormatter phoneNumberFormatter = NumberTextInputFormatter(1);
 class ProfileScreen extends BaseScreen {
   ProfileScreen(AppListener appListener) : super(appListener);
 
@@ -121,11 +123,11 @@ class _ProfileScreenState
             ],
           ),
           Padding(
-            padding: EdgeInsets.all(8),
+            padding: EdgeInsets.all(0),
           ),
           Expanded(
             child: ListView(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(5),
               children: <Widget>[
                 Align(
                   alignment: Alignment.centerLeft,
@@ -133,7 +135,7 @@ class _ProfileScreenState
                     "User Profile",
                     style: textTheme.headline.copyWith(
                       color: widget.appListener.primaryColorDark,
-                      fontSize: 38,
+                      fontSize: 28,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -218,6 +220,11 @@ class _ProfileScreenState
                     ? TextField(
                         controller: _phoneController,
                         keyboardType: TextInputType.phone,
+                  inputFormatters: [
+                    WhitelistingTextInputFormatter.digitsOnly,
+                    // Fit the validating format.
+                    phoneNumberFormatter,
+                  ],
                         decoration: InputDecoration(
                             labelText: "Phone",
                             labelStyle: TextStyle(
