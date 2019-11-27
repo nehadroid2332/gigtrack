@@ -1394,11 +1394,17 @@ class _AddInstrumentScreenState
       _warrantyPhoneController.text = instrument.warranty_phone;
       _warrantyReferenceController.text = instrument.warranty_reference;
       _wherePurchaseController.text = instrument.purchased_from;
-//      var moneyformatter=double.parse(instrument.cost);
-//      FlutterMoneyFormatter fmf = FlutterMoneyFormatter(
-//          amount: moneyformatter
-//      );
-      _costController.text = instrument.cost;
+      var moneyformatter=double.parse(instrument.cost);
+      FlutterMoneyFormatter fmf = FlutterMoneyFormatter(
+          amount: moneyformatter,
+        settings: MoneyFormatterSettings(symbol: 'US',
+            thousandSeparator: ',',
+            decimalSeparator: ',',
+            symbolAndNumberSeparator: ' ',
+            fractionDigits: 2,
+            )
+      );
+      _costController.text = fmf.output.nonSymbol.toString();
       if (instrument.uploadedFiles != null) files = instrument.uploadedFiles;
       _instrumentNickNameController.text = instrument.nickName;
       _insuredController.text = instrument.insuranceno;
