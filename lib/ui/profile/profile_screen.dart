@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/user.dart';
@@ -18,6 +19,7 @@ class ProfileScreen extends BaseScreen {
 class _ProfileScreenState
     extends BaseScreenState<ProfileScreen, ProfilePresenter>
     implements ProfileContract {
+   String currentTimeZone;
   final _emailController = TextEditingController(),
       _passwordController = TextEditingController(),
       _firstNameController = TextEditingController(),
@@ -260,6 +262,7 @@ class _ProfileScreenState
                 Padding(
                   padding: EdgeInsets.all(5),
                 ),
+               
 //                TextField(
 //                  controller: _addressController,
 //                  decoration: InputDecoration(
@@ -315,6 +318,12 @@ class _ProfileScreenState
                       ),
                 Padding(
                   padding: EdgeInsets.all(5),
+                ),
+                isEdit
+                    ? Container():Text(
+                  "Local Timezone- ${currentTimeZone}",
+                  textAlign: TextAlign.center,
+                  style: textTheme.title,
                 ),
                 isEdit
                     ? TextField(
@@ -483,6 +492,7 @@ class _ProfileScreenState
   @override
   void initState() {
     super.initState();
+    getTimezone();
     presenter.getUserProfile();
   }
 
@@ -508,6 +518,15 @@ class _ProfileScreenState
       _primaryInstrumentController.text = user.primaryInstrument;
       _lastNameController.text = user.lastName;
       _firstNameController.text = user.firstName;
+    });
+  }
+
+   getTimezone() async{
+   
+      currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
+    
+    setState(() {
+      currentTimeZone;
     });
   }
 }

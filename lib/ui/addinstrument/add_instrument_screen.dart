@@ -5,6 +5,7 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/band.dart';
@@ -1393,7 +1394,10 @@ class _AddInstrumentScreenState
       _warrantyPhoneController.text = instrument.warranty_phone;
       _warrantyReferenceController.text = instrument.warranty_reference;
       _wherePurchaseController.text = instrument.purchased_from;
-      
+//      var moneyformatter=double.parse(instrument.cost);
+//      FlutterMoneyFormatter fmf = FlutterMoneyFormatter(
+//          amount: moneyformatter
+//      );
       _costController.text = instrument.cost;
       if (instrument.uploadedFiles != null) files = instrument.uploadedFiles;
       _instrumentNickNameController.text = instrument.nickName;

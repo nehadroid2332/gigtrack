@@ -89,6 +89,8 @@ PODS:
     - Mantle
   - flutter_money_formatter (0.0.1):
     - Flutter
+  - flutter_native_timezone (0.0.1):
+    - Flutter
   - google_maps_flutter (0.0.1):
     - Flutter
     - GoogleMaps
@@ -162,6 +164,7 @@ DEPENDENCIES:
   - Flutter (from `.symlinks/flutter/ios`)
   - flutter_image_compress (from `.symlinks/plugins/flutter_image_compress/ios`)
   - flutter_money_formatter (from `.symlinks/plugins/flutter_money_formatter/ios`)
+  - flutter_native_timezone (from `.symlinks/plugins/flutter_native_timezone/ios`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
   - google_places_picker (from `.symlinks/plugins/google_places_picker/ios`)
   - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
@@ -213,6 +216,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_image_compress/ios"
   flutter_money_formatter:
     :path: ".symlinks/plugins/flutter_money_formatter/ios"
+  flutter_native_timezone:
+    :path: ".symlinks/plugins/flutter_native_timezone/ios"
   google_maps_flutter:
     :path: ".symlinks/plugins/google_maps_flutter/ios"
   google_places_picker:
@@ -247,6 +252,7 @@ SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_image_compress: f69d0e0e078ce52b4810695593bc861ee319ae7d
   flutter_money_formatter: d0d18ddc5be333fad8d09964d741b59fa11a91dc
+  flutter_native_timezone: e72ff1900460ff57cfd331d1758050c9269f3e99
   google_maps_flutter: 78a52114c898b42ea647919679a4c58b70abe876
   google_places_picker: 37cfdb52d9d1157c753306751bfd45c53382e462
   GoogleAppMeasurement: 434cc7be25e71dc04b8d0e3079125127b330e84a
