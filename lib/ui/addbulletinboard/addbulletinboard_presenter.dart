@@ -2,7 +2,6 @@ import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/bulletinboard.dart';
 import 'package:gigtrack/server/models/error_response.dart';
 
-
 abstract class AddBulletInBoardContract extends BaseContract {
   void onSuccess();
   void onUpdate();
@@ -37,5 +36,16 @@ class AddBuiltInBoardPresenter extends BasePresenter {
 
   void bulletinboardDelete(String id) {
     serverAPI.deleteBulletInboard(id);
+  }
+
+  void updateStatus(String id, int status) async {
+    final res = await serverAPI.getBulletInBoardDetails(id);
+    if (res is BulletInBoard) {
+      res.status = status;
+      await serverAPI.addBulletInBoard(res);
+      (view as AddBulletInBoardContract).onUpdate();
+    } else if (res is ErrorResponse) {
+      view.showMessage(res.message);
+    }
   }
 }

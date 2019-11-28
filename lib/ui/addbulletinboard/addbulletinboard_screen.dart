@@ -32,6 +32,8 @@ class _AddBulletInBoardScreenState
 
   String bulletInUserId;
 
+  int status = BulletInBoard.STATUS_PENDING;
+
   @override
   void initState() {
     super.initState();
@@ -395,7 +397,52 @@ class _AddBulletInBoardScreenState
                               ),
                               textColor: Colors.white,
                             )
-                          : Container()
+                          : Container(),
+                      widget.id.isEmpty || isEdit
+                          ? Container()
+                          : presenter.serverAPI.currentUserId ==
+                                      "f7oNvNfTqPTuLQAVq6ZaeqllEBx1" &&
+                                  (status == null ||
+                                      status == BulletInBoard.STATUS_PENDING)
+                              ? Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: RaisedButton(
+                                        color: Color.fromRGBO(214, 22, 35, 1.0),
+                                        onPressed: () {
+                                          presenter.updateStatus(widget.id,
+                                              BulletInBoard.STATUS_APPROVED);
+                                        },
+                                        child: Text(
+                                          "Approve",
+                                          style: textTheme.button.copyWith(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(5),
+                                    ),
+                                    Expanded(
+                                      child: RaisedButton(
+                                        onPressed: () {
+                                          presenter.updateStatus(widget.id,
+                                              BulletInBoard.STATUS_DECLINED);
+                                        },
+                                        color: Colors.white,
+                                        child: Text(
+                                          "Declined",
+                                          style: textTheme.button.copyWith(
+                                            color: Color.fromRGBO(
+                                                214, 22, 35, 1.0),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                )
+                              : Container()
                     ],
                   ),
                 ),
@@ -457,6 +504,7 @@ class _AddBulletInBoardScreenState
     setState(() {
       bulletInUserId = note.user_id;
       type = note.type;
+      status = note.status;
       _descController.text = note.description;
       _noteController.text = note.item;
       DateTime stDate = DateTime.fromMillisecondsSinceEpoch((note.date));
@@ -468,6 +516,7 @@ class _AddBulletInBoardScreenState
   @override
   void onUpdate() {
     showMessage("Updated Successfully");
+    presenter.getBulletInBoardDetails(widget.id);
   }
 
   @override

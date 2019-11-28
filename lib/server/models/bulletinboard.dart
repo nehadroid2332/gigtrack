@@ -7,15 +7,20 @@ class BulletInBoard extends BaseModel {
   String description;
   String id;
   String user_id;
+  int status = STATUS_PENDING;
 
-  BulletInBoard({
-    this.date,
-    this.item,
-    this.description,
-    this.type,
-    this.id,
-    this.user_id,
-  });
+  static const STATUS_APPROVED = 1;
+  static const STATUS_DECLINED = 2;
+  static const STATUS_PENDING = 0;
+
+  BulletInBoard(
+      {this.date,
+      this.item,
+      this.description,
+      this.type,
+      this.id,
+      this.user_id,
+      this.status});
 
   BulletInBoard.fromJSON(dynamic data) {
     id = data['id'];
@@ -24,6 +29,7 @@ class BulletInBoard extends BaseModel {
     date = data['date'];
     type = data['type'];
     description = data['description'];
+    status = data['status'];
   }
 
   @override
@@ -34,6 +40,7 @@ class BulletInBoard extends BaseModel {
     data['user_id'] = user_id;
     data['date'] = date;
     data['type'] = type;
+    data['status'] = status;
     data['description'] = description;
     return data;
   }
