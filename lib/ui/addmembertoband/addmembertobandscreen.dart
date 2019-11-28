@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as prefix0;
 import 'package:flutter/services.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
@@ -90,6 +91,14 @@ class _AddMemberToBandScreenState
                     });
                   },
                 ),
+          widget.id.isEmpty
+              ? Container()
+              : IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: () {
+            _showDialogConfirm();
+            },
+          )
         ],
       );
 
@@ -628,4 +637,54 @@ class _AddMemberToBandScreenState
       mList.addAll(bandMember.memberRole);
     });
   }
+  void _showDialogConfirm() {
+    // flutter defined function
+  
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          contentPadding: EdgeInsets.all(15),
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          title: new Text(
+            "Warning",
+            textAlign: TextAlign.center,
+          ),
+          content: Text("Are you sure you want to delete?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("No"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new RaisedButton(
+              child: new Text("Yes"),
+              textColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6)),
+              color: Color.fromRGBO(191, 52, 44, 1.0),
+              onPressed: () {
+              
+                if (widget.id == null || widget.id.isEmpty) {
+                  showMessage("Id cannot be null");
+                } else {
+                  presenter.deleteMemberFromBand(widget.bandId, id: widget.id);
+                  hideLoading();
+                  //Navigator.pop(context,"band");
+                  
+                  Navigator.pop(context, Screens.ADDBAND.toString() + "/${widget.bandId}");
+              
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }

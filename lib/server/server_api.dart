@@ -855,4 +855,8 @@ class ServerAPI {
     );
     print("RES-> $res");
   }
+
+  deleteBandMember(String bandId, String id) async {
+    await bandDB.child(bandId).child('bandmates').child(id).remove();
+  }
 }

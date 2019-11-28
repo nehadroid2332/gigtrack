@@ -99,4 +99,22 @@ class AddMemberToBandPresenter extends BasePresenter {
       view.showMessage(res.message);
     }
   }
+
+   deleteMemberFromBand(String bandId, {String id}) async{
+    final res = await serverAPI.getBandDetails(bandId);
+    if (res is Band) {
+      String currentBandID= res.id;
+      for (var key in res.bandmates.keys) {
+        BandMember bandMember = res.bandmates[key];
+        if (bandMember.email == id) {
+          await serverAPI.deleteBandMember(currentBandID, key);
+          
+          return;
+        }
+      }
+      view.showMessage("No Data");
+    } else if (res is ErrorResponse) {
+      view.showMessage(res.message);
+    }
+  }
 }
