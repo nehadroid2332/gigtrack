@@ -675,8 +675,8 @@ class _AddMemberToBandScreenState
                   presenter.deleteMemberFromBand(widget.bandId, id: widget.id);
                   hideLoading();
                   //Navigator.pop(context,"band");
-                  
-                  Navigator.pop(context, Screens.ADDBAND.toString() + "/${widget.bandId}");
+                  Navigator.pop(context);
+                  Navigator.pop(context);
               
                 }
               },

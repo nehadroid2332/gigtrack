@@ -1,5 +1,6 @@
 import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/contacts.dart';
+import 'package:gigtrack/server/models/user.dart';
 
 abstract class ContactListContract extends BaseContract {}
 
@@ -29,16 +30,27 @@ class ContactListPresenter extends BasePresenter {
         return acc;
       });
     else
-      return serverAPI.contactDB
-          .orderByChild('user_id')
-          .equalTo(serverAPI.currentUserId)
+      return serverAPI
+          .contactDB
+          //.orderByChild('user_id')
+          // .equalTo(serverAPI.currentUserId)
           .onValue
-          .map((a) {
+          .asyncMap((a) async {
         Map mp = a.snapshot.value;
         if (mp == null) return null;
         List<Contacts> acc = [];
         for (var d in mp.values) {
-          acc.add(Contacts.fromJSON(d));
+          final contact = Contacts.fromJSON(d);
+          if (contact.user_id == serverAPI.currentUserId) {
+            acc.add(contact);
+          } else if (contact.user_id != null) {
+            final res = await serverAPI.getSingleUserById(contact.user_id);
+            if (res is User && (res.isUnder18Age ?? false)) {
+              if (res.guardianEmail == serverAPI.currentUserEmail) {
+                acc.add(contact);
+              }
+            }
+          }
         }
         acc.sort((a, b) {
           return a.name

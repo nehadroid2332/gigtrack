@@ -90,58 +90,82 @@ class _ContactListScreenState
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
                     _contacts = snapshot.data;
-                  }
-                  return ListView.builder(
-                    itemCount: _contacts.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final cnt = _contacts[index];
-                      return Card(
-                        color: cnt.bandId.isNotEmpty?Colors.white:Color.fromRGBO(60, 111, 54, 1.0),
-                        margin: EdgeInsets.all(6),
-                        shape: RoundedRectangleBorder(
-                            side:cnt.bandId.isNotEmpty? new BorderSide(color: Color.fromRGBO(60, 111, 54, 1.0), width: 1.0):new BorderSide(color: Color.fromRGBO(60, 111, 54, 1.0), width: 1.0),
-                            borderRadius: BorderRadius.circular(15)),
-                        child: InkWell(
-                          child: Padding(
-                            padding: EdgeInsets.all(15),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  getNameOrder(cnt
-                                      .name), // "${cnt.name.split(" ").reversed.join(' ')}",
-                                  style: textTheme.headline.copyWith(
-                                      color:cnt.bandId.isNotEmpty?Color.fromRGBO(60, 111, 54, 1.0): Colors.white, fontSize: 18),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(0),
-                                ),
-                                cnt.companyName.isNotEmpty
-                                    ? Text(
-                                        "${cnt.companyName}",
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          color: cnt.bandId.isNotEmpty?Color.fromRGBO(60, 111, 54, 1.0):Colors.white,
-                                        ),
-                                      )
-                                    : Container(),
-                              ],
+                    return ListView.builder(
+                      itemCount: _contacts.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final cnt = _contacts[index];
+                        return Card(
+                          color: cnt.bandId.isNotEmpty
+                              ? Colors.white
+                              : Color.fromRGBO(60, 111, 54, 1.0),
+                          margin: EdgeInsets.all(6),
+                          shape: RoundedRectangleBorder(
+                              side: cnt.bandId.isNotEmpty
+                                  ? new BorderSide(
+                                      color: Color.fromRGBO(60, 111, 54, 1.0),
+                                      width: 1.0)
+                                  : new BorderSide(
+                                      color: Color.fromRGBO(60, 111, 54, 1.0),
+                                      width: 1.0),
+                              borderRadius: BorderRadius.circular(15)),
+                          child: InkWell(
+                            child: Padding(
+                              padding: EdgeInsets.all(15),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    getNameOrder(cnt
+                                        .name), // "${cnt.name.split(" ").reversed.join(' ')}",
+                                    style: textTheme.headline.copyWith(
+                                        color: cnt.bandId.isNotEmpty
+                                            ? Color.fromRGBO(60, 111, 54, 1.0)
+                                            : Colors.white,
+                                        fontSize: 18),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(0),
+                                  ),
+                                  cnt.companyName.isNotEmpty
+                                      ? Text(
+                                          "${cnt.companyName}",
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            color: cnt.bandId.isNotEmpty
+                                                ? Color.fromRGBO(
+                                                    60, 111, 54, 1.0)
+                                                : Colors.white,
+                                          ),
+                                        )
+                                      : Container(),
+                                ],
+                              ),
                             ),
+                            onTap:
+                                (widget.isLeader && widget.bandId.isNotEmpty) ||
+                                        widget.bandId.isEmpty
+                                    ? () {
+                                        widget.appListener.router.navigateTo(
+                                            context,
+                                            Screens.ADDCONTACT.toString() +
+                                                "/${cnt.id}/${widget.bandId.isEmpty ? cnt.bandId : widget.bandId}////");
+                                      }
+                                    : null,
                           ),
-                          onTap:
-                              (widget.isLeader && widget.bandId.isNotEmpty) ||
-                                      widget.bandId.isEmpty
-                                  ? () {
-                                      widget.appListener.router.navigateTo(
-                                          context,
-                                          Screens.ADDCONTACT.toString() +
-                                              "/${cnt.id}/${widget.bandId.isEmpty ? cnt.bandId : widget.bandId}////");
-                                    }
-                                  : null,
-                        ),
-                      );
-                    },
-                  );
+                        );
+                      },
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text("Error Occured"),
+                    );
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return Container();
                 },
               ),
             )

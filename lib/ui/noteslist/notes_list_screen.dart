@@ -76,24 +76,36 @@ class _NotesListScreenState
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
                     _notes = snapshot.data;
+
+                    return ListView.builder(
+                      itemCount: _notes.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final not = _notes[index];
+                        return buildNoteListItem(not, Colors.white,
+                            onTap: (widget.isLeader && widget.bandId != null) ||
+                                    widget.bandId.isEmpty ||
+                                    (widget.bandId != null && widget.isComm)
+                                ? () {
+                                    widget.appListener.router.navigateTo(
+                                        context,
+                                        Screens.ADDNOTE.toString() +
+                                            "/${not.id}//${widget.bandId}////");
+                                  }
+                                : null);
+                      },
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text("Error Occured"),
+                    );
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    return Container();
                   }
-                  return ListView.builder(
-                    itemCount: _notes.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final not = _notes[index];
-                      return buildNoteListItem(not, Colors.white,
-                          onTap: (widget.isLeader && widget.bandId != null) ||
-                                  widget.bandId.isEmpty ||
-                                  (widget.bandId != null && widget.isComm)
-                              ? () {
-                                  widget.appListener.router.navigateTo(
-                                      context,
-                                      Screens.ADDNOTE.toString() +
-                                          "/${not.id}//${widget.bandId}////");
-                                }
-                              : null);
-                    },
-                  );
                 },
               ),
             )
@@ -120,8 +132,8 @@ class _NotesListScreenState
                   child: Icon(Icons.add),
                   backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
                   onTap: () async {
-                    await widget.appListener.router
-                        .navigateTo(context, Screens.ADDNOTE.toString() + "///${widget.bandId}////");
+                    await widget.appListener.router.navigateTo(context,
+                        Screens.ADDNOTE.toString() + "///${widget.bandId}////");
                   },
                 ),
                 SpeedDialChild(
@@ -138,9 +150,9 @@ class _NotesListScreenState
     );
   }
 
-   showDialogConfirm() {
+  showDialogConfirm() {
     // flutter defined function
-  
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -148,7 +160,7 @@ class _NotesListScreenState
         return AlertDialog(
           contentPadding: EdgeInsets.all(15),
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           title: new Text(
             "Information!",
             textAlign: TextAlign.center,
@@ -157,22 +169,24 @@ class _NotesListScreenState
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new RaisedButton(
-              child: new Text("Okay",
-              textAlign: TextAlign.center,),
+              child: new Text(
+                "Okay",
+                textAlign: TextAlign.center,
+              ),
               textColor: Colors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
               color: Color.fromRGBO(22, 102, 237, 1.0),
               onPressed: () {
-              Navigator.of(context).pop();
+                Navigator.of(context).pop();
               },
             ),
-           
           ],
         );
       },
     );
   }
+
   @override
   NotesListPresenter get presenter => NotesListPresenter(this);
 }

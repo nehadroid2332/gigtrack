@@ -8,7 +8,9 @@ import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/ui/profile/profile_presenter.dart';
 import 'package:gigtrack/utils/NumberTextInputFormatter.dart';
 import 'package:image_picker/image_picker.dart';
+
 NumberTextInputFormatter phoneNumberFormatter = NumberTextInputFormatter(1);
+
 class ProfileScreen extends BaseScreen {
   ProfileScreen(AppListener appListener) : super(appListener);
 
@@ -19,7 +21,7 @@ class ProfileScreen extends BaseScreen {
 class _ProfileScreenState
     extends BaseScreenState<ProfileScreen, ProfilePresenter>
     implements ProfileContract {
-   String currentTimeZone;
+  String currentTimeZone;
   final _emailController = TextEditingController(),
       _passwordController = TextEditingController(),
       _firstNameController = TextEditingController(),
@@ -30,13 +32,17 @@ class _ProfileScreenState
       _cityController = TextEditingController(),
       _stateController = TextEditingController(),
       _zipController = TextEditingController(),
+      _guardianEmailController = TextEditingController(),
+      _guardianNameController = TextEditingController(),
       _primaryInstrumentController = TextEditingController(),
       _websiteController = TextEditingController();
   String _errorEmail,
       _errorPassword,
       _errorPhone,
+      _errorGuardianName,
       _errorState,
       _errorZip,
+      _errorGuardianEmail,
       _errorWebsite;
   String _errorFirstName,
       _errorLastName,
@@ -48,6 +54,8 @@ class _ProfileScreenState
   bool isEdit = false;
 
   String _imageUrl;
+
+  bool isUnderAge = false;
 
   Future getImage() async {
     showDialog(
@@ -222,11 +230,11 @@ class _ProfileScreenState
                     ? TextField(
                         controller: _phoneController,
                         keyboardType: TextInputType.phone,
-                  inputFormatters: [
-                    WhitelistingTextInputFormatter.digitsOnly,
-                    // Fit the validating format.
-                    phoneNumberFormatter,
-                  ],
+                        inputFormatters: [
+                          WhitelistingTextInputFormatter.digitsOnly,
+                          // Fit the validating format.
+                          phoneNumberFormatter,
+                        ],
                         decoration: InputDecoration(
                             labelText: "Phone",
                             labelStyle: TextStyle(
@@ -262,7 +270,7 @@ class _ProfileScreenState
                 Padding(
                   padding: EdgeInsets.all(5),
                 ),
-               
+
 //                TextField(
 //                  controller: _addressController,
 //                  decoration: InputDecoration(
@@ -320,31 +328,53 @@ class _ProfileScreenState
                   padding: EdgeInsets.all(5),
                 ),
                 isEdit
-                    ? Container():Text(
-                  "Local Timezone- ${currentTimeZone}",
-                  textAlign: TextAlign.center,
-                  style: textTheme.title,
-                ),
-                isEdit
-                    ? TextField(
-                        controller: _dep18Controller,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          labelText: "Dependent Under the Age of 18",
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(169, 176, 187, 1.0),
-                          ),
-                          errorText: _errorZip,
-                        ),
-                      )
+                    ? Container()
                     : Text(
-                        _dep18Controller.text,
+                        "Local Timezone- $currentTimeZone",
                         textAlign: TextAlign.center,
                         style: textTheme.title,
                       ),
                 Padding(
                   padding: EdgeInsets.all(5),
                 ),
+                isUnderAge
+                    ? isEdit
+                        ? TextField(
+                            controller: _guardianNameController,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              labelText: "Dependent Name",
+                              labelStyle: TextStyle(
+                                color: Color.fromRGBO(169, 176, 187, 1.0),
+                              ),
+                              errorText: _errorGuardianName,
+                            ),
+                          )
+                        : Text(
+                            _guardianNameController.text,
+                            textAlign: TextAlign.center,
+                            style: textTheme.title,
+                          )
+                    : Container(),
+                isUnderAge
+                    ? isEdit
+                        ? TextField(
+                            controller: _guardianEmailController,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: InputDecoration(
+                              labelText: "Dependent Email",
+                              labelStyle: TextStyle(
+                                color: Color.fromRGBO(169, 176, 187, 1.0),
+                              ),
+                              errorText: _errorGuardianEmail,
+                            ),
+                          )
+                        : Text(
+                            _guardianEmailController.text,
+                            textAlign: TextAlign.center,
+                            style: textTheme.title,
+                          )
+                    : Container(),
 //                TextField(
 //                  controller: _primaryInstrumentController,
 //                  decoration: InputDecoration(
@@ -518,13 +548,15 @@ class _ProfileScreenState
       _primaryInstrumentController.text = user.primaryInstrument;
       _lastNameController.text = user.lastName;
       _firstNameController.text = user.firstName;
+      isUnderAge = user.isUnder18Age ?? false;
+      _guardianEmailController.text = user.guardianEmail;
+      _guardianNameController.text = user.guardianName;
     });
   }
 
-   getTimezone() async{
-   
-      currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
-    
+  getTimezone() async {
+    currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
+
     setState(() {
       currentTimeZone;
     });
