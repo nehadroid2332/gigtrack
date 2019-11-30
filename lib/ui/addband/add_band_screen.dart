@@ -565,12 +565,8 @@ class _AddBandScreenState
                                       //                                ),
                                     ),
                                   ),
-                                  Expanded(
-                                    flex: 1,
-                                    child: Text(
-                                      " ",
-                                      textAlign: TextAlign.center,
-                                    ),
+                                  Padding(
+                                    padding: EdgeInsets.all(4),
                                   ),
                                   Expanded(
                                     child: Text(
@@ -1306,8 +1302,7 @@ class _AddBandScreenState
       _legalUserType = (band.legalName?.isEmpty ?? false) ? 1 : 0;
       showLegalName = _legalUserType == 0 ? true : false;
       DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(band.dateStarted);
-      _dateStartedController.text =
-          formatDate(dateTime, [mm, '-', dd, '-', yy]);
+      _dateStartedController.text = formatDate(dateTime, [M, ' ', yyyy]);
       members.clear();
       members.addAll(band.bandmates.values);
       bandmates = band.bandmates;
