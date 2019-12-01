@@ -453,7 +453,7 @@ class _AddPlayingStyleScreenState
           ),
         ),
         Padding(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -463,7 +463,7 @@ class _AddPlayingStyleScreenState
                     .copyWith(color: Colors.white, fontSize: 28),
               ),
               Padding(
-                padding: EdgeInsets.all(8),
+                padding: EdgeInsets.all(4),
               ),
               Expanded(
                 child: Card(
@@ -478,13 +478,16 @@ class _AddPlayingStyleScreenState
                           ? Container()
                           : files != null && files.length > 0
                               ? Container(
+                        
                                   margin: EdgeInsets.only(left: 10, right: 10),
                                   height:
-                                      MediaQuery.of(context).size.height / 3.3,
-                                  width: 90,
+                                      MediaQuery.of(context).size.height / 3.2,
+                                  //width: 95,
                                   child: Image.network(
                                     files[0],
                                     fit: BoxFit.fitWidth,
+                                    alignment: Alignment.center,
+                                    colorBlendMode: BlendMode.darken,
                                   ),
                                 )
                               : Container(),

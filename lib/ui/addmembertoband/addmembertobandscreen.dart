@@ -655,18 +655,11 @@ class _AddMemberToBandScreenState
           content: Text("Are you sure you want to delete?"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
+           
             new FlatButton(
-              child: new Text("No"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            new RaisedButton(
               child: new Text("Yes"),
-              textColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6)),
-              color: Color.fromRGBO(191, 52, 44, 1.0),
+              textColor: Colors.black,
+              color: Colors.white,
               onPressed: () {
               
                 if (widget.id == null || widget.id.isEmpty) {
@@ -679,6 +672,16 @@ class _AddMemberToBandScreenState
                   Navigator.pop(context);
               
                 }
+              },
+            ),
+            new RaisedButton(
+              child: new Text("No"),
+              textColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6)),
+              color: Color.fromRGBO(99, 108, 119, 1.0),
+              onPressed: () {
+                Navigator.of(context).pop();
               },
             ),
           ],
