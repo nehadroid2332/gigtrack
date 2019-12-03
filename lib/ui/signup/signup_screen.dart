@@ -173,28 +173,38 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: InkWell(
-                    child: Container(
-                      width: 120.0,
-                      height: 120.0,
-                      decoration: _image != null
-                          ? new BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: new DecorationImage(
-                                fit: BoxFit.fill,
-                                image: FileImage(_image),
-                              ),
-                            )
-                          : null,
-                      child: _image == null
-                          ? Icon(
-                              Icons.account_circle,
-                              size: 100,
-                            )
-                          : null,
+                  child: Row(children: <Widget>[
+                    InkWell(
+                      child: Container(
+                        width: 120.0,
+                        height: 120.0,
+                        decoration: _image != null
+                            ? new BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: new DecorationImage(
+                            fit: BoxFit.fill,
+                            image: FileImage(_image),
+                          ),
+                        )
+                            : null,
+                        child: _image == null
+                            ? Icon(
+                          Icons.account_circle,
+                          size: 100,
+                        )
+                            : null,
+                      ),
+                      onTap: getImage,
                     ),
-                    onTap: getImage,
-                  ),
+                    InkWell(
+                      child:Text(
+                          "Click to add photo",
+                        textAlign: TextAlign.left,
+                      ),
+                      onTap: getImage,
+                    )
+                    
+                  ],)
                 ),
                 Row(
                   children: <Widget>[
@@ -366,7 +376,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
 //                      value: isUnderAge,
 //                    ),
                   
-                    Text("Are you under 18 age?"),
+                    Text("Are you 18 years or older?"),
                     Padding(padding: EdgeInsets.only(left: 5),),
                     Row(
                       children: <Widget>[
@@ -435,7 +445,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                   ],
                 ),
                 Padding(padding: EdgeInsets.all(10),),
-                isUnderAge? Text('For Primary User/Dependent under age of 18',
+                isUnderAge? Text('For Primary User/\nDependent under age of 18',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontWeight: FontWeight.bold, color: Colors.redAccent,fontSize: 18),

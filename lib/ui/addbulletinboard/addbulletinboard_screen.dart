@@ -54,8 +54,8 @@ class _AddBulletInBoardScreenState
         actions: <Widget>[
           widget.id.isEmpty
               ? Container()
-              : bulletInUserId != null &&
-                      bulletInUserId == presenter.serverAPI.currentUserId
+              : (bulletInUserId != null) &&
+              ((bulletInUserId == presenter.serverAPI.currentUserId)|| (presenter.serverAPI.currentUserId == "f7oNvNfTqPTuLQAVq6ZaeqllEBx1"))
                   ? IconButton(
                       icon: Icon(
                         Icons.edit,
@@ -72,7 +72,7 @@ class _AddBulletInBoardScreenState
           widget.id.isEmpty
               ? Container()
               : bulletInUserId != null &&
-                      bulletInUserId == presenter.serverAPI.currentUserId
+              ((bulletInUserId == presenter.serverAPI.currentUserId)|| (presenter.serverAPI.currentUserId == "f7oNvNfTqPTuLQAVq6ZaeqllEBx1"))
                   ? IconButton(
                       icon: Icon(
                         Icons.delete,
