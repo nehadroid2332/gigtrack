@@ -432,10 +432,9 @@ class _AddPlayingStyleScreenState
     for (String s in exList.keys) {
       expss += s + ", ";
     }
-    
+
     if (expss.isNotEmpty) expss = expss.substring(0, expss.length - 2);
-    
-    
+
     String plyss = "";
     if (plyss.isNotEmpty) plyss = plyss.substring(0, plyss.length - 1);
     psList.join(", ");
@@ -478,7 +477,6 @@ class _AddPlayingStyleScreenState
                           ? Container()
                           : files != null && files.length > 0
                               ? Container(
-                        
                                   margin: EdgeInsets.only(left: 10, right: 10),
                                   height:
                                       MediaQuery.of(context).size.height / 3.2,
@@ -555,7 +553,8 @@ class _AddPlayingStyleScreenState
                                   ),
                                 )
                           : Container(),
-                      ( widget.bandId.isNotEmpty) && (widget.id.isEmpty || isEdit)
+                      (widget.bandId.isNotEmpty) &&
+                              (widget.id.isEmpty || isEdit)
                           ? Container()
                           : Padding(
                               child: Text(
@@ -1211,6 +1210,33 @@ class _AddPlayingStyleScreenState
                               : Container()
                           : Container(),
 
+                      widget.id.isEmpty || isEdit
+                          ? Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Text(
+                                    "Set-List",
+                                    style: textTheme.subhead.copyWith(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.add,
+                                    color: widget.appListener.accentColor,
+                                  ),
+                                  onPressed: () {
+                                    widget.appListener.router.navigateTo(
+                                        context,
+                                        Screens.SETLIST.toString() +
+                                            "/${widget.id}");
+                                    // showDialogConfirm();
+                                  },
+                                )
+                              ],
+                            )
+                          : Container(),
                       Padding(
                         padding: EdgeInsets.all(4),
                       ),
