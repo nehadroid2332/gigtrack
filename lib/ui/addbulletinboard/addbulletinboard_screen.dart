@@ -151,7 +151,7 @@ class _AddBulletInBoardScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "${widget.id.isEmpty ? "Add" : ""} BulletIn Board",
+                "${widget.id.isEmpty ? "Add" : ""} Bulletin Board",
                 style: textTheme.display2
                     .copyWith(color: Colors.white, fontSize: 30),
               ),
