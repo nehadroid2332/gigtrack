@@ -6,6 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:gigtrack/server/models/band_member.dart';
+import 'package:gigtrack/server/models/feedback.dart';
 import 'package:gigtrack/server/models/setlist.dart';
 import 'package:mailer/mailer.dart' as mailer;
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -38,7 +39,7 @@ class ServerAPI {
 
   StorageReference playingstyleRef;
 
-  DatabaseReference notesDB, bulletinDB, setListDB;
+  DatabaseReference notesDB, bulletinDB, setListDB, feedDB;
 
   SmtpServer smtpServer;
 
@@ -85,6 +86,7 @@ class ServerAPI {
     notificationDB = _mainFirebaseDatabase.child("notifications");
     helpDB = _mainFirebaseDatabase.child("Helps");
     setListDB = _mainFirebaseDatabase.child("SetList");
+    feedDB = _mainFirebaseDatabase.child("Feebacks");
     getCurrentUser();
     firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
@@ -858,5 +860,20 @@ class ServerAPI {
 
   deleteBandMember(String bandId, String id) async {
     await bandDB.child(bandId).child('bandmates').child(id).remove();
+  }
+
+  Future<dynamic> addFeedback(Feedback feedback) async {
+    try {
+      bool isUpdate = true;
+      if (feedback.id == null || feedback.id.isEmpty) {
+        String id = feedDB.push().key;
+        feedback.id = id;
+        isUpdate = false;
+      }
+      await feedDB.child(feedback.id).set(feedback.toMap());
+      return isUpdate;
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
   }
 }

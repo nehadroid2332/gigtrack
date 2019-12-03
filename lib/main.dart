@@ -5,6 +5,7 @@ import 'package:gigtrack/ui/addactivity/add_activity_screen.dart';
 import 'package:gigtrack/ui/addband/add_band_screen.dart';
 import 'package:gigtrack/ui/addbulletinboard/addbulletinboard_screen.dart';
 import 'package:gigtrack/ui/addcontact/add_contact_screen.dart';
+import 'package:gigtrack/ui/addfeedback/add_feedback_screen.dart';
 import 'package:gigtrack/ui/addinstrument/add_instrument_screen.dart';
 import 'package:gigtrack/ui/addmembertoband/addmembertobandscreen.dart';
 import 'package:gigtrack/ui/addnotes/add_notes_screen.dart';
@@ -224,6 +225,12 @@ class MyApp extends StatelessWidget implements AppListener {
         this,
         userId: userId,
         id: id,
+      );
+    }));
+    _router.define(Screens.FEEDBACK.toString(), handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      return AddFeedbackScreen(
+        this,
       );
     }));
     _router.define(Screens.SETLIST.toString() + "/:id", handler: Handler(
@@ -460,5 +467,6 @@ enum Screens {
   HELP,
   PROFILE,
   SETLIST,
-  ADDSETLIST
+  ADDSETLIST,
+  FEEDBACK
 }

@@ -143,7 +143,7 @@ class _DashboardScreenState
                 "Equipment",
                 "EPK",
                 "Contacts",
-                "Admin",
+                "Feedback",
                 "Notes",
                 "Bulletin Board"
               ].map(
@@ -181,7 +181,7 @@ class _DashboardScreenState
                       color = Color.fromRGBO(60, 111, 54, 1.0);
                       image = 'assets/images/contacts.png';
                       break;
-                    case "Admin":
+                    case "Feedback":
                       color = Color.fromRGBO(80, 54, 116, 1.0);
                       //color = Color.fromRGBO(18, 130, 119, 1.0);
                       image = 'assets/images/admin.png';
@@ -264,6 +264,9 @@ class _DashboardScreenState
                       else if (txt == "Bulletin Board")
                         widget.appListener.router.navigateTo(
                             context, Screens.BULLETINLISTLIST.toString());
+                      else if (txt == "Feedback")
+                        widget.appListener.router
+                            .navigateTo(context, Screens.FEEDBACK.toString());
                     },
                   );
                 },
