@@ -38,9 +38,11 @@ class AddBuiltInBoardPresenter extends BasePresenter {
     serverAPI.deleteBulletInboard(id);
   }
 
-  void updateStatus(String id, int status) async {
+  void updateStatus(String id, int status, int visibleDays) async {
     final res = await serverAPI.getBulletInBoardDetails(id);
     if (res is BulletInBoard) {
+      res.visibleDays = visibleDays;
+      res.created = DateTime.now().millisecondsSinceEpoch;
       res.status = status;
       await serverAPI.addBulletInBoard(res);
       (view as AddBulletInBoardContract).onUpdate();

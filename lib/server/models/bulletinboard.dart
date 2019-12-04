@@ -8,6 +8,8 @@ class BulletInBoard extends BaseModel {
   String id;
   String user_id;
   int status = STATUS_PENDING;
+  int visibleDays;
+  int created = DateTime.now().millisecondsSinceEpoch;
 
   static const STATUS_APPROVED = 1;
   static const STATUS_DECLINED = 2;
@@ -30,6 +32,8 @@ class BulletInBoard extends BaseModel {
     type = data['type'];
     description = data['description'];
     status = data['status'];
+    visibleDays = data['visibleDays'];
+    created = data['created'];
   }
 
   @override
@@ -41,6 +45,8 @@ class BulletInBoard extends BaseModel {
     data['date'] = date;
     data['type'] = type;
     data['status'] = status;
+    data['visibleDays'] = visibleDays;
+    data['created'] = created;
     data['description'] = description;
     return data;
   }

@@ -31,6 +31,7 @@ class _AddBulletInBoardScreenState
   DateTime selectedStartDate;
 
   String bulletInUserId;
+  var visibleDays = 1;
 
   int status = BulletInBoard.STATUS_PENDING;
 
@@ -55,7 +56,9 @@ class _AddBulletInBoardScreenState
           widget.id.isEmpty
               ? Container()
               : (bulletInUserId != null) &&
-              ((bulletInUserId == presenter.serverAPI.currentUserId)|| (presenter.serverAPI.currentUserId == "f7oNvNfTqPTuLQAVq6ZaeqllEBx1"))
+                      ((bulletInUserId == presenter.serverAPI.currentUserId) ||
+                          (presenter.serverAPI.currentUserId ==
+                              "f7oNvNfTqPTuLQAVq6ZaeqllEBx1"))
                   ? IconButton(
                       icon: Icon(
                         Icons.edit,
@@ -72,7 +75,9 @@ class _AddBulletInBoardScreenState
           widget.id.isEmpty
               ? Container()
               : bulletInUserId != null &&
-              ((bulletInUserId == presenter.serverAPI.currentUserId)|| (presenter.serverAPI.currentUserId == "f7oNvNfTqPTuLQAVq6ZaeqllEBx1"))
+                      ((bulletInUserId == presenter.serverAPI.currentUserId) ||
+                          (presenter.serverAPI.currentUserId ==
+                              "f7oNvNfTqPTuLQAVq6ZaeqllEBx1"))
                   ? IconButton(
                       icon: Icon(
                         Icons.delete,
@@ -398,10 +403,43 @@ class _AddBulletInBoardScreenState
                               textColor: Colors.white,
                             )
                           : Container(),
+                      widget.id.isEmpty
+                          ? Container()
+                          : presenter.serverAPI.currentUserId ==
+                                      // "f7oNvNfTqPTuLQAVq6ZaeqllEBx1"
+                                      "RsaG5sb6zWhvUV0EzK7HDXt7LP22" &&
+                                  (status == null ||
+                                      status == BulletInBoard.STATUS_PENDING)
+                              ? Text("Select number of days to visible")
+                              : Container(),
+                      widget.id.isEmpty
+                          ? Container()
+                          : presenter.serverAPI.currentUserId ==
+                                      // "f7oNvNfTqPTuLQAVq6ZaeqllEBx1"
+                                      "RsaG5sb6zWhvUV0EzK7HDXt7LP22" &&
+                                  (status == null ||
+                                      status == BulletInBoard.STATUS_PENDING)
+                              ? new DropdownButton<int>(
+                                  items: <int>[1, 2, 3, 4, 5, 6, 7]
+                                      .map((int value) {
+                                    return new DropdownMenuItem<int>(
+                                      value: value,
+                                      child: new Text("$value"),
+                                    );
+                                  }).toList(),
+                                  onChanged: (a) {
+                                    setState(() {
+                                      visibleDays = a;
+                                    });
+                                  },
+                                  value: visibleDays,
+                                )
+                              : Container(),
                       widget.id.isEmpty || isEdit
                           ? Container()
                           : presenter.serverAPI.currentUserId ==
-                                      "f7oNvNfTqPTuLQAVq6ZaeqllEBx1" &&
+                                      // "f7oNvNfTqPTuLQAVq6ZaeqllEBx1"
+                                      "RsaG5sb6zWhvUV0EzK7HDXt7LP22" &&
                                   (status == null ||
                                       status == BulletInBoard.STATUS_PENDING)
                               ? Row(
@@ -410,8 +448,10 @@ class _AddBulletInBoardScreenState
                                       child: RaisedButton(
                                         color: Color.fromRGBO(214, 22, 35, 1.0),
                                         onPressed: () {
-                                          presenter.updateStatus(widget.id,
-                                              BulletInBoard.STATUS_APPROVED);
+                                          presenter.updateStatus(
+                                              widget.id,
+                                              BulletInBoard.STATUS_APPROVED,
+                                              visibleDays);
                                         },
                                         child: Text(
                                           "Approve",
@@ -427,8 +467,10 @@ class _AddBulletInBoardScreenState
                                     Expanded(
                                       child: RaisedButton(
                                         onPressed: () {
-                                          presenter.updateStatus(widget.id,
-                                              BulletInBoard.STATUS_DECLINED);
+                                          presenter.updateStatus(
+                                              widget.id,
+                                              BulletInBoard.STATUS_DECLINED,
+                                              visibleDays);
                                         },
                                         color: Colors.white,
                                         child: Text(
