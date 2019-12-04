@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
@@ -34,9 +36,11 @@ class _AddFeedbackScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
+                
                 "Your Feedback means a lot to us, what do you think?",
                 style: textTheme.display2
                     .copyWith(color: Colors.white, fontSize: 30),
+                textAlign: TextAlign.center,
               ),
               Padding(
                 padding: EdgeInsets.all(10),
@@ -60,12 +64,12 @@ class _AddFeedbackScreenState
                           labelStyle: TextStyle(
                             color: Color.fromRGBO(202, 208, 215, 1.0),
                           ),
-                          border: InputBorder.none,
+                          //border: InputBorder.none,
                         ),
                         controller: _feedbackController,
                       ),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: EdgeInsets.all(10),
                       ),
                       RaisedButton(
                         onPressed: () {
@@ -126,6 +130,9 @@ class _AddFeedbackScreenState
   @override
   void onSuccess() {
     hideLoading();
-    Navigator.pop(context);
+    showMessage("Thank you so much for your feedback!");
+    Timer timer = new Timer(new Duration(seconds: 2), () {
+      Navigator.pop(context);
+    });
   }
 }
