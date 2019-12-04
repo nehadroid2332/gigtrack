@@ -46,6 +46,7 @@ dependencies:
   intl: ^0.15.8
   flutter_money_formatter: ^0.8.3
   flutter_native_timezone: ^1.0.4
+  extended_image: ^0.6.7
 
 
 dev_dependencies:

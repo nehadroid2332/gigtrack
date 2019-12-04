@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
@@ -473,22 +474,65 @@ class _AddPlayingStyleScreenState
                         left: 15, right: 15, bottom: 15, top: 5),
                     children: <Widget>[
                       Padding(padding: EdgeInsets.all(10)),
+//                      widget.id.isEmpty || isEdit
+//                          ? Container()
+//                          : files != null && files.length > 0
+//                              ? Container(
+//                                  margin: EdgeInsets.only(left: 10, right: 10),
+//                                  height:
+//                                      MediaQuery.of(context).size.height / 3.2,
+//                                  //width: 95,
+//                                  child: Image.network(
+//                                    files[0],
+//                                    fit: BoxFit.fitWidth,
+//                                    alignment: Alignment.center,
+//                                    colorBlendMode: BlendMode.darken,
+//                                  ),
+//                                )
+//                              : Container(),
+//                      Padding(
+//                        padding: EdgeInsets.all(5),
+//                      ),
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : files != null && files.length > 0
-                              ? Container(
-                                  margin: EdgeInsets.only(left: 10, right: 10),
-                                  height:
-                                      MediaQuery.of(context).size.height / 3.2,
-                                  //width: 95,
-                                  child: Image.network(
-                                    files[0],
-                                    fit: BoxFit.fitWidth,
-                                    alignment: Alignment.center,
-                                    colorBlendMode: BlendMode.darken,
-                                  ),
-                                )
-                              : Container(),
+                          : files != null && files.length > 0?ExtendedImage.network(
+                       files[0],
+                        width: 0,
+                        height:  MediaQuery.of(context).size.height / 3.2,
+                        fit: BoxFit.fitWidth,
+                        cache: true,
+                        border: Border.all(color: Colors.black, width: 1.0),
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        scale: 6,
+                        mode: ExtendedImageMode.gesture,
+                        initGestureConfigHandler: (state) {
+                          double initialScale = 1.0;
+                          Size size = Size(400, 400);
+  
+                          if (state.extendedImageInfo != null &&
+                              state.extendedImageInfo.image != null) {
+                            initialScale = initScale(
+                                size: size,
+                                initialScale: initialScale,
+                                imageSize: Size(
+                                    state.extendedImageInfo.image.width.toDouble(),
+                                    state.extendedImageInfo.image.height.toDouble()));
+                          }
+                          return GestureConfig(
+                            minScale: 1.0,
+                            animationMinScale: 0.7,
+                            maxScale: 3.0,
+                            animationMaxScale: 3.5,
+                            speed: 1.0,
+                            inertialSpeed: 100.0,
+                            initialScale: 1.0,
+                            inPageView: true,
+                            initialAlignment: InitialAlignment.center,
+                          );
+                        },
+                        //cancelToken: cancellationToken,
+                      ):Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
