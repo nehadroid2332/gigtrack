@@ -366,6 +366,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                 ),
                
                 Row(
+	                mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
 //                    Checkbox(
 //                      onChanged: (bool value) {
@@ -376,47 +377,17 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
 //                      value: isUnderAge,
 //                    ),
                   
-                    Text("Are you 18 years or older?"),
+                    Text("Are you 18 years or older?",style:
+	                    TextStyle(fontSize: 16,fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
                     Padding(padding: EdgeInsets.only(left: 5),),
                     Row(
                       children: <Widget>[
                         InkWell(
                           onTap: ()
                                {
-                            _handleLegalUserValueChange(0);
-                          }
-                              ,
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 4),
-                            decoration: BoxDecoration(
-                                color: _legalUserType == 0
-                                    ? Color.fromRGBO(255, 0, 104, 1.0)
-                                    : Colors.white,
-                                borderRadius: BorderRadius.circular(15),
-                                border: Border.all(
-                                    color: _legalUserType == 0
-                                        ? Color.fromRGBO(255, 0, 104, 1.0)
-                                        : Color.fromRGBO(255, 0, 104, 1.0))),
-                            child: Text(
-                              'Yes',
-                              style: new TextStyle(
-                                fontSize: 16.0,
-                                color: _legalUserType == 0
-                                    ? Colors.white
-                                    : Colors.grey,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(8),
-                        ),
-                        InkWell(
-                          onTap: (){
                             _handleLegalUserValueChange(1);
                           }
-                             ,
+                              ,
                           child: Container(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 4),
@@ -430,12 +401,45 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                                         ? Color.fromRGBO(255, 0, 104, 1.0)
                                         : Color.fromRGBO(255, 0, 104, 1.0))),
                             child: Text(
+                              'Yes',
+                              textAlign: TextAlign.center,
+                              style: new TextStyle(
+                                fontSize: 16.0,
+                                color: _legalUserType == 0
+                                    ? Colors.grey
+                                    : Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(8),
+                        ),
+                        InkWell(
+                          onTap: (){
+                            _handleLegalUserValueChange(0);
+                          }
+                             ,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 4),
+                            decoration: BoxDecoration(
+                                color: _legalUserType == 0
+                                    ? Color.fromRGBO(255, 0, 104, 1.0)
+                                    : Colors.white,
+                                borderRadius: BorderRadius.circular(15),
+                                border: Border.all(
+                                    color: _legalUserType == 0
+                                        ? Color.fromRGBO(255, 0, 104, 1.0)
+                                        : Color.fromRGBO(255, 0, 104, 1.0))),
+                            child: Text(
                               'No',
+                              textAlign: TextAlign.center,
                               style: new TextStyle(
                                 fontSize: 16.0,
                                 color: _legalUserType == 1
-                                    ? Colors.white
-                                    : Colors.grey,
+                                    ? Colors.grey
+                                    : Colors.white,
                               ),
                             ),
                           ),
@@ -468,7 +472,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                         controller: _guardianNameController,
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
-                          labelText: "Dependent Name",
+                          labelText: "Owner Name",
                           labelStyle: TextStyle(
                             color: Color.fromRGBO(169, 176, 187, 1.0),
                           ),
@@ -481,7 +485,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                         controller: _guardianEmailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
-                          labelText: "Dependent Email",
+                          labelText: "Owner Email",
                           labelStyle: TextStyle(
                             color: Color.fromRGBO(169, 176, 187, 1.0),
                           ),
@@ -617,11 +621,14 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
 //                          }
                           else if (zip.isEmpty) {
                             _errorZip = "Cannot be empty";
-                          } else if (gName.isEmpty) {
-                            _errorGuardianName = "Cannot be empty";
-                          } else if (gEmail.isEmpty) {
-                            _errorGuardianEmail = "Cannot be empty";
                           }
+                          if(isUnderAge) {
+                          	if (gName.isEmpty) {
+	                          _errorGuardianName = "Cannot be empty";
+                          } else if (gEmail.isEmpty) {
+	                          _errorGuardianEmail = "Cannot be empty";
+                          }
+                        }
 //                          else if (primaryInstrument.isEmpty) {
 //                            _errorPrimaryInstrument = "Cannot be empty";
 //                          } else if (website.isEmpty) {

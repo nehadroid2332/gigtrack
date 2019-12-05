@@ -272,7 +272,7 @@ class _AddInstrumentScreenState
                       borderRadius: BorderRadius.circular(15)),
                   child: ListView(
                     padding: EdgeInsets.only(
-                        left: 10, right: 10, top: 15, bottom: 15),
+                        left: 10, right: 10, top: 10, bottom: 15),
                     children: <Widget>[
                       (_userType == 1 && (widget.id.isEmpty || isEdit))
                           ? Padding(
@@ -331,18 +331,17 @@ class _AddInstrumentScreenState
                       Padding(padding: EdgeInsets.all(5),),
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : Text(
+                          : _instrumentNickNameController.text.isNotEmpty?Text(
                               _instrumentNickNameController.text,
                               textAlign: TextAlign.center,
                               style: textTheme.subtitle.copyWith(
                                 fontWeight: FontWeight.w600,
                               ),
-                            ),
+                            ):Container(),
                       Padding(
                         padding: EdgeInsets.only(
                             left: 8, right: 8, top: 5, bottom: 8),
                       ),
-                      widget.id.isEmpty || isEdit ? Container() : Container(),
                       widget.id.isEmpty || isEdit
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
@@ -417,7 +416,7 @@ class _AddInstrumentScreenState
                           : Container(),
                       Padding(
                         padding: _instrumentNickNameController.text.isEmpty
-                            ? EdgeInsets.all(0)
+                            ? EdgeInsets.all(5)
                             : EdgeInsets.all(5),
                       ),
                       widget.id.isEmpty || isEdit ? Container() : Container(),
@@ -1394,7 +1393,7 @@ class _AddInstrumentScreenState
       _warrantyPhoneController.text = instrument.warranty_phone;
       _warrantyReferenceController.text = instrument.warranty_reference;
       _wherePurchaseController.text = instrument.purchased_from;
-      var moneyformatter=double.parse(instrument.cost);
+      var moneyformatter= instrument.cost.isNotEmpty? double.parse(instrument.cost):0.0;
       FlutterMoneyFormatter fmf = FlutterMoneyFormatter(
           amount: moneyformatter,
         settings: MoneyFormatterSettings(symbol: 'US',

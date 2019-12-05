@@ -68,7 +68,7 @@ class _ActivitiesListScreenState
       SpeedDialChild(
         label: "Activities",
         child: Icon(Icons.add),
-        backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
+        backgroundColor:Color.fromRGBO(40, 35, 188, 1.0),
         onTap: () async {
           await widget.appListener.router.navigateTo(
               context,
@@ -79,7 +79,7 @@ class _ActivitiesListScreenState
       SpeedDialChild(
         label: "Appointment",
         child: Icon(Icons.add),
-        backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
+        backgroundColor:Color.fromRGBO(40, 35, 188, 1.0),
         onTap: () async {
           showDialogConfirm();
         },
@@ -87,7 +87,7 @@ class _ActivitiesListScreenState
       SpeedDialChild(
         label: "Performance Schedule",
         child: Icon(Icons.add),
-        backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
+        backgroundColor: Color.fromRGBO(40, 35, 188, 1.0),
         onTap: () async {
           await widget.appListener.router.navigateTo(
               context,
@@ -97,7 +97,7 @@ class _ActivitiesListScreenState
       ),
       SpeedDialChild(
         label: "Practice Schedule",
-        backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
+        backgroundColor: Color.fromRGBO(40, 35, 188, 1.0),
         child: Icon(Icons.add),
         onTap: () async {
           await widget.appListener.router.navigateTo(
@@ -112,7 +112,7 @@ class _ActivitiesListScreenState
       items.add(SpeedDialChild(
         label: "Task",
         child: Icon(Icons.add),
-        backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
+        backgroundColor: Color.fromRGBO(40, 35, 188, 1.0),
         onTap: () async {
           await widget.appListener.router.navigateTo(
               context,
@@ -124,7 +124,7 @@ class _ActivitiesListScreenState
       items.add(SpeedDialChild(
         label: "Band Task",
         child: Icon(Icons.add),
-        backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
+        backgroundColor: Color.fromRGBO(40, 35, 188, 1.0),
         onTap: () async {
           await widget.appListener.router.navigateTo(
               context,
@@ -563,7 +563,7 @@ class _ActivitiesListScreenState
           widget.bandId.isEmpty || (widget.bandId != null && (widget.isLeader|| widget.isComm))
               ? SpeedDial(
                   animatedIcon: AnimatedIcons.menu_close,
-                  backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
+                  backgroundColor: Color.fromRGBO(40, 35, 188, 1.0),
                   overlayColor: Colors.white,
                   overlayOpacity: 1.0,
                   children: items,
@@ -598,7 +598,7 @@ class _ActivitiesListScreenState
               textColor: Colors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
-              color: Color.fromRGBO(32, 95, 139, 1.0),
+              color: Color.fromRGBO(40, 35, 188, 1.0),
               onPressed: () {
                 Navigator.of(context).pop();
               },

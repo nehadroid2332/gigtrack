@@ -60,7 +60,7 @@ class _BandListScreenState
                 Text(
                   "Bands",
                   style: textTheme.display1.copyWith(
-                      color: Color.fromRGBO(239,181, 77, 1.0),
+                      color: Color.fromRGBO(241, 206, 96, 1.0),
                       fontSize: 28,
                       fontWeight: FontWeight.w500),
                   textAlign: TextAlign.left,
@@ -83,7 +83,7 @@ class _BandListScreenState
                       Band bnd = _bands[index];
                       return Card(
                         margin: EdgeInsets.all(6),
-                        color: Color.fromRGBO(239,181, 77, 1.0),
+                        color: Color.fromRGBO(241, 206, 96, 1.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15)),
                         child: InkWell(
@@ -135,7 +135,7 @@ class _BandListScreenState
               .navigateTo(context, Screens.ADDBAND.toString() + "/");
         },
         child: Icon(Icons.add),
-        backgroundColor: Color.fromRGBO(239,181, 77, 1.0),
+        backgroundColor: Color.fromRGBO(241, 206, 96, 1.0),
       ),
     );
   }

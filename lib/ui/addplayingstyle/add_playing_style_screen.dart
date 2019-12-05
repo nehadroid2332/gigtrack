@@ -453,7 +453,7 @@ class _AddPlayingStyleScreenState
           ),
         ),
         Padding(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.only(left: 15,right: 15,bottom: 15,top: 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -471,7 +471,7 @@ class _AddPlayingStyleScreenState
                       borderRadius: BorderRadius.circular(18)),
                   child: ListView(
                     padding: EdgeInsets.only(
-                        left: 15, right: 15, bottom: 15, top: 5),
+                        left: 15, right: 15, bottom: 15, top: 0),
                     children: <Widget>[
                       Padding(padding: EdgeInsets.all(10)),
 //                      widget.id.isEmpty || isEdit
@@ -520,7 +520,7 @@ class _AddPlayingStyleScreenState
                                     state.extendedImageInfo.image.height.toDouble()));
                           }
                           return GestureConfig(
-                            minScale: 1.0,
+                            minScale: 0.9,
                             animationMinScale: 0.7,
                             maxScale: 3.0,
                             animationMaxScale: 3.5,

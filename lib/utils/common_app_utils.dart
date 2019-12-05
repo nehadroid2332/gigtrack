@@ -188,11 +188,11 @@ Widget buildActivityListItem(Activites ac, context,
         ? Colors.grey
         : (ac.bandId != null && ac.bandId.isNotEmpty)
             ? Colors.white
-            : Color.fromRGBO(32, 95, 139, 1.0),
+            : Color.fromRGBO(40, 35, 188, 1.0),
     shape: RoundedRectangleBorder(
       side: ac.bandId.isNotEmpty
-          ? new BorderSide(color: Color.fromRGBO(32, 95, 139, 1.0), width: 1.0)
-          : new BorderSide(color: Color.fromRGBO(32, 95, 139, 1.0), width: 1.0),
+          ? new BorderSide(color: Color.fromRGBO(40, 35, 188, 1.0), width: 1.0)
+          : new BorderSide(color: Color.fromRGBO(40, 35, 188, 1.0), width: 1.0),
       borderRadius: BorderRadius.circular(12),
     ),
     child: InkWell(
@@ -227,7 +227,7 @@ Widget buildActivityListItem(Activites ac, context,
                       fontSize: 16,
                       fontStyle: FontStyle.italic,
                       color: ac.bandId.isNotEmpty
-                          ? Color.fromRGBO(32, 95, 139, 1.0)
+                          ? Color.fromRGBO(40, 35, 188, 1.0)
                           : Color.fromRGBO(250, 250, 250, 0.8),
                     ),
                     textAlign: TextAlign.center,
@@ -251,7 +251,7 @@ Widget buildActivityListItem(Activites ac, context,
                         style: TextStyle(
                           fontSize: 15,
                           color: ac.bandId.isNotEmpty
-                              ? Color.fromRGBO(32, 95, 139, 1.0)
+                              ? Color.fromRGBO(40, 35, 188, 1.0)
                               : Color.fromRGBO(250, 250, 250, 1.0),
                         ),
                         textAlign: TextAlign.center,
@@ -279,7 +279,7 @@ Widget buildActivityListItem(Activites ac, context,
                   style: TextStyle(
                     fontSize: 23,
                     color: ac.bandId.isNotEmpty
-                        ? Color.fromRGBO(32, 95, 139, 1.0)
+                        ? Color.fromRGBO(40, 35, 188, 1.0)
                         : Color.fromRGBO(250, 250, 250, 1.0),
                   ),
                   textAlign: TextAlign.center,

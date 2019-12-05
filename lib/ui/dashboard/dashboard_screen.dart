@@ -138,13 +138,13 @@ class _DashboardScreenState
               crossAxisCount: 2,
               childAspectRatio: 1.42,
               children: [
-                "Band",
                 "Activities",
-                "Equipment",
-                "EPK",
+                "Band",
                 "Contacts",
-                "Feedback",
+                "EPK",
+                "Equipment",
                 "Notes",
+                "Beta-Test Feedback",
                 "Bulletin Board"
               ].map(
                 (txt) {
@@ -152,42 +152,42 @@ class _DashboardScreenState
                   String image;
                   switch (txt) {
                     case "Activities":
-                      color = Color.fromRGBO(32, 95, 139, 1.0);
+                      color = Color.fromRGBO(40, 35, 188, 1.0);
                       //color = Color.fromRGBO(235, 84, 99, 1.0);
                       image = 'assets/images/activities.png';
                       break;
                     case "Notes":
                       //color=Color.fromRGBO(239,181, 77, 1.0);
-                      color = Color.fromRGBO(22, 102, 237, 1.0);
+                      color = Color.fromRGBO(196, 227, 102, 1.0);
                       image = 'assets/images/activities.png';
                       break;
                     case "Band":
                       //color=Color.fromRGBO(214,22, 35, 1.0);
-                      color = Color.fromRGBO(239, 181, 77, 1.0);
+                      color = Color.fromRGBO(241, 206, 96, 1.0);
                       image = 'assets/images/band.png';
                       break;
                     case "Equipment":
-                      color = Color.fromRGBO(191, 53, 42, 1.0);
+                      color = Color.fromRGBO(210, 34, 153, 1.0);
                       //color = Color.fromRGBO(60, 111, 54, 1.0);
                       image = 'assets/images/equipment.png';
                       break;
                     case "EPK":
                       //color=Color.fromRGBO(80, 54, 116, 1.0);
-                      color = Color.fromRGBO(124, 180, 97, 1.0);
+                      color = Color.fromRGBO(26, 182, 37, 1.0);
                       image = 'assets/images/playingstyle.png';
                       break;
                     case "Contacts":
                       //color= Color.fromRGBO(191, 53, 42, 1.0);
-                      color = Color.fromRGBO(60, 111, 54, 1.0);
+                      color = Color.fromRGBO(243, 135, 75, 1.0);
                       image = 'assets/images/contacts.png';
                       break;
-                    case "Feedback":
-                      color = Color.fromRGBO(80, 54, 116, 1.0);
+                    case "Beta-Test Feedback":
+                      color = Color.fromRGBO(102, 187, 238, 1.0);
                       //color = Color.fromRGBO(18, 130, 119, 1.0);
                       image = 'assets/images/admin.png';
                       break;
                     case "Bulletin Board":
-                      color = Color.fromRGBO(214, 22, 35, 1.0);
+                      color = Color.fromRGBO(251, 111, 162, 1.0);
                       image = 'assets/images/activities.png';
                       break;
                   }
@@ -264,7 +264,7 @@ class _DashboardScreenState
                       else if (txt == "Bulletin Board")
                         widget.appListener.router.navigateTo(
                             context, Screens.BULLETINLISTLIST.toString());
-                      else if (txt == "Feedback")
+                      else if (txt == "Beta-Test Feedback")
                         widget.appListener.router
                             .navigateTo(context, Screens.FEEDBACK.toString());
                     },

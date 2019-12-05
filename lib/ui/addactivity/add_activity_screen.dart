@@ -181,7 +181,7 @@ class _AddActivityScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(32, 95, 139, 1.0),
+        backgroundColor: Color.fromRGBO(40, 35, 188, 1.0),
         actions: <Widget>[
           widget.id.isEmpty || widget.isParent
               ? Container()
@@ -292,7 +292,7 @@ class _AddActivityScreenState
         ClipPath(
           clipper: RoundedClipper(height / 2.5),
           child: Container(
-            color: Color.fromRGBO(32, 95, 139, 1.0),
+            color: Color.fromRGBO(40, 35, 188, 1.0),
             height: height / 2.5,
           ),
         ),
@@ -1200,7 +1200,7 @@ class _AddActivityScreenState
                                   contentPadding: EdgeInsets.all(5),
                                   leading: CircleAvatar(
                                     backgroundColor:
-                                        Color.fromRGBO(32, 95, 139, 1.0),
+                                    Color.fromRGBO(40, 35, 188, 1.0),
                                     radius: 35,
                                     child: Row(
                                       crossAxisAlignment:
@@ -1366,7 +1366,7 @@ class _AddActivityScreenState
                                   }
                                 });
                               },
-                              color: Color.fromRGBO(32, 95, 139, 1.0),
+                              color:Color.fromRGBO(40, 35, 188, 1.0),
                               child: Text("Submit"),
                               textColor: Colors.white,
                               shape: RoundedRectangleBorder(
@@ -1573,7 +1573,7 @@ class _AddActivityScreenState
               textColor: Colors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
-              color: Color.fromRGBO(32, 95, 139, 1.0),
+              color: Color.fromRGBO(40, 35, 188, 1.0),
               onPressed: () {
                 Navigator.of(context).pop();
               },

@@ -266,8 +266,9 @@ class _AddBandScreenState
         if (item.email == presenter.serverAPI.currentUserEmail) {
           permissionType = item.permissions;
         }
-        if (item.permissions == "Leader" || item.permissions == "Setup") {
-          permission = (item.email == presenter.serverAPI.currentUserEmail);
+        if (item.email == presenter.serverAPI.currentUserEmail) {
+	        
+          permission = (item.permissions == "Leader" || item.permissions == "Setup");
         }
       }
     }
@@ -331,7 +332,7 @@ class _AddBandScreenState
           ClipPath(
             clipper: RoundedClipper(height / 2.5),
             child: Container(
-              color: Color.fromRGBO(239, 181, 77, 1.0),
+              color: Color.fromRGBO(241, 206, 96, 1.0),
               height: height / 2.5,
             ),
           ),
@@ -864,7 +865,7 @@ class _AddBandScreenState
                                       padding:
                                           EdgeInsets.only(top: 5, bottom: 5),
                                       child: Text(
-                                        "${user.firstName} ${user.lastName} - ${user.memberRole?.join(',') ?? ''}\n$permission",
+                                        "${user.firstName} ${user.lastName} \n${user.memberRole?.join(',') ?? ''}\n$permission",
                                         style: textTheme.subhead.copyWith(
                                           color: Colors.black,
                                           fontSize: 12.3,

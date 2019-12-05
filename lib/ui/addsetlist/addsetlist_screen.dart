@@ -24,6 +24,13 @@ class _AddSetListScreenState
       _songArtistController = TextEditingController(),
       _songChordsController = TextEditingController(),
       _songNameController = TextEditingController();
+  final Map<String, String> inList = Map();
+  final instrumentList = <String>[
+    "Ready to play",
+    "Needs work",
+    "New Song",
+   
+  ];
   String _listNameError, _songNameError, _songArtistError, _songChordsError;
   List _fruits = ["Learning", "1 week away", "1 month away", "Ready", "Other"];
   List<DropdownMenuItem<String>> _dropDownMenuItems;
@@ -80,6 +87,45 @@ class _AddSetListScreenState
       );
   @override
   Widget buildBody() {
+  
+    List<Widget> items2 = [];
+    for (String s in instrumentList) {
+      items2.add(GestureDetector(
+        child: Container(
+          child: Text(
+            s,
+            style: textTheme.subtitle.copyWith(
+                color: inList.containsKey(s)
+                    ? Colors.white
+                    : widget.appListener.primaryColorDark),
+          ),
+          margin: EdgeInsets.all(5),
+          padding: EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 8,
+          ),
+          decoration: BoxDecoration(
+            color: inList.containsKey(s)
+                ? Color.fromRGBO(214, 22, 35, 1.0)
+                : Color.fromRGBO(244, 246, 248, 1.0),
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(
+              color: Color.fromRGBO(228, 232, 235, 1.0),
+            ),
+          ),
+        ),
+        onTap: widget.id.isEmpty || isEdit
+            ? () {
+          setState(() {
+            if (inList.containsKey(s)) {
+              inList.remove(s);
+            } else
+              inList[s] = null;
+          });
+        }
+            : null,
+      ));
+    }
     return Stack(
       children: <Widget>[
         ClipPath(
@@ -115,7 +161,7 @@ class _AddSetListScreenState
                                     enabled: widget.id.isEmpty || isEdit,
                                     style: textTheme.title,
                                     textCapitalization:
-                                        TextCapitalization.sentences,
+                                        TextCapitalization.words,
                                     decoration: InputDecoration(
                                       errorText: _songNameError,
                                       labelText: widget.id.isEmpty || isEdit
@@ -141,7 +187,7 @@ class _AddSetListScreenState
                                     enabled: widget.id.isEmpty || isEdit,
                                     style: textTheme.title,
                                     textCapitalization:
-                                        TextCapitalization.sentences,
+                                        TextCapitalization.words,
                                     decoration: InputDecoration(
                                       errorText: _songArtistError,
                                       labelText: widget.id.isEmpty || isEdit
@@ -167,7 +213,7 @@ class _AddSetListScreenState
                                     enabled: widget.id.isEmpty || isEdit,
                                     style: textTheme.title,
                                     textCapitalization:
-                                        TextCapitalization.sentences,
+                                        TextCapitalization.words,
                                     decoration: InputDecoration(
                                       errorText: _songChordsError,
                                       labelText: widget.id.isEmpty || isEdit
@@ -206,6 +252,11 @@ class _AddSetListScreenState
                             Padding(
                               padding: EdgeInsets.all(8),
                             ),
+//                            (widget.id.isEmpty || isEdit)
+//                                ? Wrap(
+//                              children: items2,
+//                            )
+//                                : Container(),
                             widget.id.isEmpty || isEdit
                                 ? RaisedButton(
                                     onPressed: () {
@@ -256,7 +307,7 @@ class _AddSetListScreenState
                                       enabled: widget.id.isEmpty || isEdit,
                                       style: textTheme.title,
                                       textCapitalization:
-                                          TextCapitalization.sentences,
+                                          TextCapitalization.words,
                                       decoration: InputDecoration(
                                         errorText: _listNameError,
                                         labelText: widget.id.isEmpty || isEdit
