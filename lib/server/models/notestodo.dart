@@ -1,4 +1,5 @@
 import 'package:gigtrack/base/base_model.dart';
+import 'package:gigtrack/server/models/band.dart';
 
 class NotesTodo extends BaseModel {
   int type;
@@ -10,6 +11,7 @@ class NotesTodo extends BaseModel {
   String note;
   int createdDate;
   String bandId;
+  Band band;
   List<NotesTodo> subNotes = [];
 
   NotesTodo(

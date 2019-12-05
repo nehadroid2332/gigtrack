@@ -210,30 +210,27 @@ Widget buildActivityListItem(Activites ac, context,
                     left: 5,
                   ),
                 ),
-                  
-                  Text(
-                    
-                    "${formatDate(dt, [
-                      D,
-                      '-',
-                      mm,
-                      '/',
-                      dd,
-                      '/',
-                      yy,
-                      ' -'
-                    ])}${currentType(ac.type)}",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontStyle: FontStyle.italic,
-                      color: ac.bandId.isNotEmpty
-                          ? Color.fromRGBO(40, 35, 188, 1.0)
-                          : Color.fromRGBO(250, 250, 250, 0.8),
-                    ),
-                    textAlign: TextAlign.center,
+
+                Text(
+                  "${formatDate(dt, [
+                    D,
+                    '-',
+                    mm,
+                    '/',
+                    dd,
+                    '/',
+                    yy,
+                    ' -'
+                  ])}${currentType(ac.type)}",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontStyle: FontStyle.italic,
+                    color: ac.bandId.isNotEmpty
+                        ? Color.fromRGBO(40, 35, 188, 1.0)
+                        : Color.fromRGBO(250, 250, 250, 0.8),
                   ),
-                  
-                
+                  textAlign: TextAlign.center,
+                ),
 
 //                  Text(
 //                    currentType(ac.type),
@@ -247,7 +244,7 @@ Widget buildActivityListItem(Activites ac, context,
 
                 (ac.band?.name?.isNotEmpty ?? false)
                     ? Text(
-                       ' -'+ ac.band?.name,
+                        ' -' + ac.band?.name,
                         style: TextStyle(
                           fontSize: 15,
                           color: ac.bandId.isNotEmpty
@@ -340,7 +337,11 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
                   fontWeight: FontWeight.w700),
             ),
             Padding(
-              padding: EdgeInsets.all(5),
+              padding: EdgeInsets.all(3),
+            ),
+            not.band != null ? Text("${not.band.name}") : Container(),
+            Padding(
+              padding: EdgeInsets.all(3),
             ),
             not.start_date == 0
                 ? Container()
@@ -440,8 +441,9 @@ Widget buildBulletInBoardListItem(BulletInBoard not, Color color, {onTap}) {
               "${not.type}",
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white,),
+                fontSize: 14,
+                color: Colors.white,
+              ),
             ),
             Padding(
               padding: EdgeInsets.all(3),
@@ -567,24 +569,23 @@ class RoundedClipper extends CustomClipper<Path> {
 
 enum SharedPrefsKeys { TOKEN, USERID }
 
-
 double initScale({Size imageSize, Size size, double initialScale}) {
   var n1 = imageSize.height / imageSize.width;
   var n2 = size.height / size.width;
   if (n1 > n2) {
     final FittedSizes fittedSizes =
-    applyBoxFit(BoxFit.contain, imageSize, size);
+        applyBoxFit(BoxFit.contain, imageSize, size);
     //final Size sourceSize = fittedSizes.source;
     Size destinationSize = fittedSizes.destination;
     return size.width / destinationSize.width;
   } else if (n1 / n2 < 1 / 4) {
     final FittedSizes fittedSizes =
-    applyBoxFit(BoxFit.contain, imageSize, size);
+        applyBoxFit(BoxFit.contain, imageSize, size);
     //final Size sourceSize = fittedSizes.source;
     Size destinationSize = fittedSizes.destination;
     return size.height / destinationSize.height;
   }
-  
+
   return initialScale;
 }
 
