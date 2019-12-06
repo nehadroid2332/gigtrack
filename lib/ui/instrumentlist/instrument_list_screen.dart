@@ -128,6 +128,9 @@ class _InstrumentListScreenState
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
+                                instr.band != null ? Text("${instr.band.name}",style: TextStyle(
+                                  color: Color.fromRGBO(191, 53, 42, 1.0)
+                                ),) : Container(),
                                 Padding(
                                   padding: EdgeInsets.all(0),
                                 ),

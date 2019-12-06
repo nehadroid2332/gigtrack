@@ -46,6 +46,7 @@ class _AddMemberToBandScreenState
       _errorNotes,
       _errorOtherTalent,
       _errorEmail;
+
   final playingStylesList = <String>[
     "Leader", //all access
     "Communications", //only create/edit notes,rest only read     all users can read all
@@ -57,22 +58,25 @@ class _AddMemberToBandScreenState
     "Manager",
     "Musician",
     "Roadie",
-    "Back up Musician",
-    "Bass",
-    "Drums",
-    "Guitar",
-    "Keys",
-    "Piano",
-    "Percussions",
-    "Vocals-Lead",
-    "Vocals-Harmony",
     "Equipment Manager",
     "Communications",
     "Marketing",
   ];
+  final instrumentList = <String>[
+    "Guitar-Lead",
+    "Guitar-Rhythm",
+    "Bass",
+    "Drums",
+    "Keys",
+    "Piano",
+    "Harmonica",
+    "Vocals-Lead",
+    "Vocals-Harmony"
+  ];
   final instruments = <String>[];
   final others = <String>[];
   final Set<String> mList = Set();
+  final Set<String> inList = Set();
   String psList, iList, oList;
 
   bool isEdit = false;
@@ -182,19 +186,20 @@ class _AddMemberToBandScreenState
                     mList.remove(s);
                   } else
                     mList.add(s);
-                });
+                }
+                );
               }
             : null,
       ));
     }
-    List<Widget> items3 = [];
-    for (String s in instruments) {
-      items3.add(GestureDetector(
+    List<Widget> items6 = [];
+    for (String s in instrumentList) {
+      items6.add(GestureDetector(
         child: Container(
           child: Text(
             s,
             style: textTheme.subtitle.copyWith(
-                color: iList == (s)
+                color: inList.contains(s)
                     ? Colors.white
                     : widget.appListener.primaryColorDark),
           ),
@@ -204,7 +209,7 @@ class _AddMemberToBandScreenState
             vertical: 8,
           ),
           decoration: BoxDecoration(
-            color: iList == (s)
+            color: inList.contains(s)
                 ? widget.appListener.primaryColorDark
                 : Color.fromRGBO(244, 246, 248, 1.0),
             borderRadius: BorderRadius.circular(18),
@@ -215,10 +220,14 @@ class _AddMemberToBandScreenState
         ),
         onTap: widget.id.isEmpty || isEdit
             ? () {
-                setState(() {
-                  iList = s;
-                });
-              }
+          setState(() {
+            if (inList.contains(s)) {
+              inList.remove(s);
+            } else
+              inList.add(s);
+          }
+          );
+        }
             : null,
       ));
     }
@@ -525,6 +534,21 @@ class _AddMemberToBandScreenState
                               ],
                             ),
                           ),
+                          Text(
+                            "Instruments",
+                              style: textTheme.headline.copyWith(
+                                color: Color.fromRGBO(99, 108, 119, 1.0),
+                                fontSize: 18,
+                              ),
+                            textAlign: TextAlign.left
+                            
+                          ),
+                          Padding(padding: EdgeInsets.all(5)),
+                          Wrap(
+                            children: items6,
+                          )
+                              ,
+                          Divider(),
                           TextField(
                             controller: _otherTalentController,
                             decoration: InputDecoration(
@@ -577,6 +601,7 @@ class _AddMemberToBandScreenState
                                     otherTalent: _otherTalentController.text,
                                     notes: _notesController.text,
                                     permissions: (psList),
+                                    instrumentList: List.from(inList)
                                   ),
                                   widget.bandId,
                                   isPrimary);
@@ -635,6 +660,7 @@ class _AddMemberToBandScreenState
       psList = bandMember.permissions;
       iList = bandMember.instrument;
       mList.addAll(bandMember.memberRole);
+      inList.addAll(bandMember.instrumentList);
     });
   }
   void _showDialogConfirm() {

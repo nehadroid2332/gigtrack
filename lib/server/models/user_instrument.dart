@@ -1,5 +1,7 @@
 import 'package:gigtrack/base/base_model.dart';
 
+import 'band.dart';
+
 class UserInstrument extends BaseModel {
   String band_id;
   String id;
@@ -21,6 +23,7 @@ class UserInstrument extends BaseModel {
   String policyno;
   bool isWarranty;
   bool isInsurance;
+  Band band;
   List<dynamic> uploadedFiles = [];
   String bandId;
 

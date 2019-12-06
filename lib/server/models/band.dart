@@ -16,6 +16,7 @@ class Band extends BaseModel {
   String primaryContactEmail;
   String id;
   String userId;
+  String creatorName;
   List<String> files = [];
 
   Map<String, BandMember> bandmates = Map();
@@ -33,7 +34,9 @@ class Band extends BaseModel {
       this.zip,
       this.files,
       this.contactInfo,
-      this.website});
+      this.website,
+      this.creatorName
+      });
 
   Band.fromJSON(dynamic data) {
     name = data['name'];
@@ -62,6 +65,7 @@ class Band extends BaseModel {
         bandmates[item.key] = BandMember.fromJSON(item.value);
       }
     }
+    creatorName=data['creatorName'];
   }
 
   @override
@@ -82,6 +86,7 @@ class Band extends BaseModel {
     data['zip'] = zip;
     data['id'] = id;
     data['files'] = files;
+    data['creatorName']= creatorName;
     Map<String, dynamic> bnds = {};
     for (var key in bandmates.keys) {
       BandMember bandMember = bandmates[key];

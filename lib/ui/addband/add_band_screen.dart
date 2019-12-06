@@ -19,10 +19,10 @@ import 'package:intl/intl.dart';
 
 class AddBandScreen extends BaseScreen {
   final String id;
-
+  
   AddBandScreen(AppListener appListener, {this.id})
       : super(appListener, title: "${id.isEmpty ? "Add" : ""} Band");
-
+  
   @override
   _AddBandScreenState createState() => _AddBandScreenState();
 }
@@ -37,9 +37,9 @@ class _AddBandScreenState
       _bandStateController = TextEditingController(),
       _bandZipController = TextEditingController(),
       _bandlegalNameController = TextEditingController(),
-      // _structureController = TextEditingController(),
+  // _structureController = TextEditingController(),
       _legalStructureController = TextEditingController(),
-      // _zipController = TextEditingController(),
+  // _zipController = TextEditingController(),
       _emailController = TextEditingController(),
       _websiteController = TextEditingController();
   String _errorDateStarted, _errorMusicStyle, _errorStructure, _errorWebsite;
@@ -51,6 +51,7 @@ class _AddBandScreenState
       _errorBandLegalName,
       _errorEmail;
   List<BandMember> members = [];
+  
   User user;
   final legalStructure = [
     "Corporation",
@@ -60,21 +61,21 @@ class _AddBandScreenState
     "Sole Proprietor",
     "Other"
   ];
-
+  
   File _image;
   var _legalUserType;
   bool isEdit = false;
   bool showLegalName = false;
   var _structuretype = "Corporation";
-
+  
   String bandUserId;
-
+  String creatorName;
   Map<String, BandMember> bandmates = {};
-
+  
   String userPlayingStyleId;
-
+  
   String primaryContactEmail;
-
+  
   Future getImage() async {
     showDialog(
       context: context,
@@ -89,7 +90,7 @@ class _AddBandScreenState
               onPressed: () async {
                 Navigator.of(context).pop();
                 var image =
-                    await ImagePicker.pickImage(source: ImageSource.camera);
+                await ImagePicker.pickImage(source: ImageSource.camera);
                 _cropImage(image);
               },
             ),
@@ -98,7 +99,7 @@ class _AddBandScreenState
               onPressed: () async {
                 Navigator.of(context).pop();
                 var image =
-                    await ImagePicker.pickImage(source: ImageSource.gallery);
+                await ImagePicker.pickImage(source: ImageSource.gallery);
                 _cropImage(image);
               },
             ),
@@ -107,29 +108,29 @@ class _AddBandScreenState
       },
     );
   }
-
+  
   //added image cropper in the code
   Future<Null> _cropImage(image) async {
     File croppedFile = await ImageCropper.cropImage(
       sourcePath: image.path,
       aspectRatioPresets: Platform.isAndroid
           ? [
-              CropAspectRatioPreset.square,
-              CropAspectRatioPreset.ratio3x2,
-              CropAspectRatioPreset.original,
-              CropAspectRatioPreset.ratio4x3,
-              CropAspectRatioPreset.ratio16x9
-            ]
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ]
           : [
-              CropAspectRatioPreset.original,
-              CropAspectRatioPreset.square,
-              CropAspectRatioPreset.ratio3x2,
-              CropAspectRatioPreset.ratio4x3,
-              CropAspectRatioPreset.ratio5x3,
-              CropAspectRatioPreset.ratio5x4,
-              CropAspectRatioPreset.ratio7x5,
-              CropAspectRatioPreset.ratio16x9
-            ],
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio5x3,
+        CropAspectRatioPreset.ratio5x4,
+        CropAspectRatioPreset.ratio7x5,
+        CropAspectRatioPreset.ratio16x9
+      ],
       androidUiSettings: AndroidUiSettings(
           toolbarTitle: 'Cropper',
           toolbarColor: Colors.deepOrange,
@@ -146,7 +147,7 @@ class _AddBandScreenState
       });
     }
   }
-
+  
   @override
   void initState() {
     super.initState();
@@ -154,45 +155,45 @@ class _AddBandScreenState
     presenter.getPlayingStyleList(widget.id);
     presenter.getUserProfile();
   }
-
+  
   @override
   AppBar get appBar => AppBar(
-        elevation: 0,
-        backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
-        actions: <Widget>[
-          widget.id.isEmpty
-              ? Container()
-              : IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    setState(() {
-                      isEdit = !isEdit;
-                    });
-                  },
-                ),
-          widget.id.isEmpty
-              ? Container()
-              : IconButton(
-                  icon: Icon(
-                    Icons.delete,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    if (widget.id == null || widget.id.isEmpty) {
-                      showMessage("Id cannot be null");
-                    } else {
-                      _showDialogConfirm();
-                      // presenter.instrumentDelete(id);
-                      // Navigator.of(context).pop();
-                    }
-                  },
-                )
-        ],
-      );
-
+    elevation: 0,
+    backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
+    actions: <Widget>[
+      widget.id.isEmpty
+          ? Container()
+          : IconButton(
+        icon: Icon(Icons.edit),
+        onPressed: () {
+          setState(() {
+            isEdit = !isEdit;
+          });
+        },
+      ),
+      widget.id.isEmpty
+          ? Container()
+          : IconButton(
+        icon: Icon(
+          Icons.delete,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          if (widget.id == null || widget.id.isEmpty) {
+            showMessage("Id cannot be null");
+          } else {
+            _showDialogConfirm();
+            // presenter.instrumentDelete(id);
+            // Navigator.of(context).pop();
+          }
+        },
+      )
+    ],
+  );
+  
   void _showDialogConfirm() {
     // flutter defined function
-
+    
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -200,7 +201,7 @@ class _AddBandScreenState
         return AlertDialog(
           contentPadding: EdgeInsets.all(15),
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           title: new Text(
             "Warning",
             textAlign: TextAlign.center,
@@ -208,18 +209,11 @@ class _AddBandScreenState
           content: Text("Are you sure you want to delete?"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
+          
             new FlatButton(
-              child: new Text("No"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            new RaisedButton(
               child: new Text("Yes"),
-              textColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6)),
-              color: Color.fromRGBO(60, 111, 55, 1.0),
+              textColor: Colors.black,
+              
               onPressed: () {
                 if (widget.id == null || widget.id.isEmpty) {
                   showMessage("Id cannot be null");
@@ -232,12 +226,24 @@ class _AddBandScreenState
                 }
               },
             ),
+	          new RaisedButton(
+		          shape: RoundedRectangleBorder(
+				          borderRadius: BorderRadius.circular(6)),
+		          color: Color.fromRGBO(239, 181, 77, 1.0),
+		          child: new Text("No",
+		          style: TextStyle(
+			          color: Colors.white
+		          ),),
+		          onPressed: () {
+			          Navigator.of(context).pop();
+		          },
+	          ),
           ],
         );
       },
     );
   }
-
+  
   void _handleLegalUserValueChange(int value) {
     setState(() {
       _legalUserType = value;
@@ -249,14 +255,14 @@ class _AddBandScreenState
       }
     });
   }
-
+  
   void _handleStructureValueChange(String value) {
     setState(() {
       _structuretype = value;
       _legalStructureController.text = value;
     });
   }
-
+  
   @override
   Widget buildBody() {
     bool permission = false;
@@ -267,7 +273,7 @@ class _AddBandScreenState
           permissionType = item.permissions;
         }
         if (item.email == presenter.serverAPI.currentUserEmail) {
-	        
+          
           permission = (item.permissions == "Leader" || item.permissions == "Setup");
         }
       }
@@ -277,7 +283,7 @@ class _AddBandScreenState
         permissionType = "Leader";
       }
     }
-
+    
     List<Widget> contactInfo = [];
     for (var mem in members) {
       if (mem.email == primaryContactEmail) {
@@ -308,11 +314,11 @@ class _AddBandScreenState
         children: <Widget>[
           Expanded(
             flex: 1,
-            child: user != null
+            child: creatorName != null
                 ? Text(
-                    "${user.firstName} ${user.lastName}",
-                    textAlign: TextAlign.right,
-                  )
+              "${creatorName}",
+              textAlign: TextAlign.right,
+            )
                 : Container(),
           ),
           Text(" - "),
@@ -325,7 +331,7 @@ class _AddBandScreenState
         ],
       ));
     }
-
+    
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -363,7 +369,7 @@ class _AddBandScreenState
                         Padding(
                           padding: EdgeInsets.all(5),
                         ),
-
+                        
                         widget.id.isEmpty || isEdit ? Container() : Container(),
                         //                        Text(
                         //                                "Name",
@@ -375,46 +381,46 @@ class _AddBandScreenState
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : files != null && files.length > 0
-                                ? Container(
-                                    margin: EdgeInsets.only(left: 5, right: 5),
-                                    height: MediaQuery.of(context).size.height /
-                                        4.4,
-                                    width: 90,
-                                    child: Image.network(
-                                      File(files[0]).path,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  )
-                                : Container(),
+                            ? Container(
+                          margin: EdgeInsets.only(left: 5, right: 5),
+                          height: MediaQuery.of(context).size.height /
+                              4.4,
+                          width: 90,
+                          child: Image.network(
+                            File(files[0]).path,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                            : Container(),
                         Padding(
                           padding: EdgeInsets.all(3),
                         ),
                         widget.id.isEmpty || isEdit
                             ? TextField(
-                                enabled: widget.id.isEmpty || isEdit,
-                                textCapitalization: TextCapitalization.words,
-                                controller: _bandNameController,
-                                decoration: InputDecoration(
-                                  labelStyle: TextStyle(
-                                    color: Color.fromRGBO(202, 208, 215, 1.0),
-                                  ),
-                                  labelText: "Name",
-                                  errorText: _errorBandName,
-                                  border: widget.id.isEmpty || isEdit
-                                      ? null
-                                      : InputBorder.none,
-                                ),
-                                style: textTheme.subhead.copyWith(
-                                  color: Colors.black,
-                                ),
-                              )
+                          enabled: widget.id.isEmpty || isEdit,
+                          textCapitalization: TextCapitalization.words,
+                          controller: _bandNameController,
+                          decoration: InputDecoration(
+                            labelStyle: TextStyle(
+                              color: Color.fromRGBO(202, 208, 215, 1.0),
+                            ),
+                            labelText: "Name",
+                            errorText: _errorBandName,
+                            border: widget.id.isEmpty || isEdit
+                                ? null
+                                : InputBorder.none,
+                          ),
+                          style: textTheme.subhead.copyWith(
+                            color: Colors.black,
+                          ),
+                        )
                             : Text(
-                                _bandNameController.text,
-                                textAlign: TextAlign.center,
-                                style: textTheme.subtitle.copyWith(
-                                    fontWeight: FontWeight.w600, fontSize: 16),
-                              ),
-
+                          _bandNameController.text,
+                          textAlign: TextAlign.center,
+                          style: textTheme.subtitle.copyWith(
+                              fontWeight: FontWeight.w600, fontSize: 16),
+                        ),
+                        
                         Padding(
                           padding: EdgeInsets.all(1),
                         ),
@@ -428,27 +434,27 @@ class _AddBandScreenState
                         //Padding(padding: EdgeInsets.all(3),),
                         widget.id.isEmpty || isEdit
                             ? TextField(
-                                enabled: widget.id.isEmpty || isEdit,
-                                textCapitalization: TextCapitalization.words,
-                                controller: _bandCityController,
-                                decoration: InputDecoration(
-                                  labelStyle: TextStyle(
-                                    color: Color.fromRGBO(202, 208, 215, 1.0),
-                                  ),
-                                  labelText: "City",
-                                  errorText: _errorBandCity,
-                                  border: widget.id.isEmpty || isEdit
-                                      ? null
-                                      : InputBorder.none,
-                                ),
-                                style: textTheme.subhead.copyWith(
-                                  color: Colors.black,
-                                ),
-                              )
+                          enabled: widget.id.isEmpty || isEdit,
+                          textCapitalization: TextCapitalization.words,
+                          controller: _bandCityController,
+                          decoration: InputDecoration(
+                            labelStyle: TextStyle(
+                              color: Color.fromRGBO(202, 208, 215, 1.0),
+                            ),
+                            labelText: "City",
+                            errorText: _errorBandCity,
+                            border: widget.id.isEmpty || isEdit
+                                ? null
+                                : InputBorder.none,
+                          ),
+                          style: textTheme.subhead.copyWith(
+                            color: Colors.black,
+                          ),
+                        )
                             : Text(
-                                "${_bandCityController.text} , ${_bandStateController.text}",
-                                textAlign: TextAlign.center,
-                              ),
+                          "${_bandCityController.text} , ${_bandStateController.text}",
+                          textAlign: TextAlign.center,
+                        ),
                         //  Padding(padding: EdgeInsets.all(5),),
                         widget.id.isEmpty || isEdit ? Container() : Container(),
                         //                        Text(
@@ -460,23 +466,23 @@ class _AddBandScreenState
                         // Padding(padding: EdgeInsets.all(3),),
                         widget.id.isEmpty || isEdit
                             ? TextField(
-                                enabled: widget.id.isEmpty || isEdit,
-                                textCapitalization: TextCapitalization.words,
-                                controller: _bandStateController,
-                                decoration: InputDecoration(
-                                  labelStyle: TextStyle(
-                                    color: Color.fromRGBO(202, 208, 215, 1.0),
-                                  ),
-                                  labelText: "State",
-                                  errorText: _errorBandState,
-                                  border: widget.id.isEmpty || isEdit
-                                      ? null
-                                      : InputBorder.none,
-                                ),
-                                style: textTheme.subhead.copyWith(
-                                  color: Colors.black,
-                                ),
-                              )
+                          enabled: widget.id.isEmpty || isEdit,
+                          textCapitalization: TextCapitalization.words,
+                          controller: _bandStateController,
+                          decoration: InputDecoration(
+                            labelStyle: TextStyle(
+                              color: Color.fromRGBO(202, 208, 215, 1.0),
+                            ),
+                            labelText: "State",
+                            errorText: _errorBandState,
+                            border: widget.id.isEmpty || isEdit
+                                ? null
+                                : InputBorder.none,
+                          ),
+                          style: textTheme.subhead.copyWith(
+                            color: Colors.black,
+                          ),
+                        )
                             : Container(),
                         //                        Text(
                         //                          _bandStateController.text,
@@ -493,23 +499,23 @@ class _AddBandScreenState
                         //Padding(padding: EdgeInsets.all(3),),
                         widget.id.isEmpty || isEdit
                             ? TextField(
-                                enabled: widget.id.isEmpty || isEdit,
-                                textCapitalization: TextCapitalization.words,
-                                controller: _bandZipController,
-                                decoration: InputDecoration(
-                                  labelStyle: TextStyle(
-                                    color: Color.fromRGBO(202, 208, 215, 1.0),
-                                  ),
-                                  labelText: "ZIP",
-                                  errorText: _errorBandZip,
-                                  border: widget.id.isEmpty || isEdit
-                                      ? null
-                                      : InputBorder.none,
-                                ),
-                                style: textTheme.subhead.copyWith(
-                                  color: Colors.black,
-                                ),
-                              )
+                          enabled: widget.id.isEmpty || isEdit,
+                          textCapitalization: TextCapitalization.words,
+                          controller: _bandZipController,
+                          decoration: InputDecoration(
+                            labelStyle: TextStyle(
+                              color: Color.fromRGBO(202, 208, 215, 1.0),
+                            ),
+                            labelText: "ZIP",
+                            errorText: _errorBandZip,
+                            border: widget.id.isEmpty || isEdit
+                                ? null
+                                : InputBorder.none,
+                          ),
+                          style: textTheme.subhead.copyWith(
+                            color: Colors.black,
+                          ),
+                        )
                             : Container(),
                         //                        Text(
                         //                          _bandZipController.text,
@@ -527,175 +533,175 @@ class _AddBandScreenState
                         ),
                         widget.id.isEmpty || isEdit
                             ? InkWell(
-                                child: AbsorbPointer(
-                                  child: TextField(
-                                    enabled: widget.id.isEmpty,
-                                    controller: _dateStartedController,
-                                    textCapitalization:
-                                        TextCapitalization.sentences,
-                                    decoration: InputDecoration(
-                                      labelText: "Date Established",
-                                      labelStyle: TextStyle(
-                                        color:
-                                            Color.fromRGBO(202, 208, 215, 1.0),
-                                      ),
-                                      errorText: _errorDateStarted,
-                                      border: widget.id.isEmpty
-                                          ? null
-                                          : InputBorder.none,
-                                    ),
-                                    style: textTheme.subhead.copyWith(
-                                      color: Colors.black,
-                                    ),
-                                  ),
+                          child: AbsorbPointer(
+                            child: TextField(
+                              enabled: widget.id.isEmpty,
+                              controller: _dateStartedController,
+                              textCapitalization:
+                              TextCapitalization.sentences,
+                              decoration: InputDecoration(
+                                labelText: "Date Established",
+                                labelStyle: TextStyle(
+                                  color:
+                                  Color.fromRGBO(202, 208, 215, 1.0),
                                 ),
-                                onTap: () {
-                                  if (widget.id.isEmpty || isEdit)
-                                    _selectDate(context, true);
-                                },
-                              )
-                            : Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    flex: 6,
-                                    child: Text(
-                                      "Date est",
-                                      textAlign: TextAlign.right,
-                                      //                                style: textTheme.subtitle.copyWith(
-                                      //                                  fontWeight: FontWeight.w600,
-                                      //                                ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(4),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      _dateStartedController.text,
-                                      textAlign: TextAlign.left,
-                                    ),
-                                    flex: 6,
-                                  )
-                                ],
+                                errorText: _errorDateStarted,
+                                border: widget.id.isEmpty
+                                    ? null
+                                    : InputBorder.none,
                               ),
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          onTap: () {
+                            if (widget.id.isEmpty || isEdit)
+                              _selectDate(context, true);
+                          },
+                        )
+                            : Row(
+                          children: <Widget>[
+                            Expanded(
+                              flex: 6,
+                              child: Text(
+                                "Date est",
+                                textAlign: TextAlign.right,
+                                //                                style: textTheme.subtitle.copyWith(
+                                //                                  fontWeight: FontWeight.w600,
+                                //                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(4),
+                            ),
+                            Expanded(
+                              child: Text(
+                                _dateStartedController.text,
+                                textAlign: TextAlign.left,
+                              ),
+                              flex: 6,
+                            )
+                          ],
+                        ),
                         widget.id.isEmpty || isEdit
                             ? Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Text("Add Band Photo"),
-                                  ),
-                                  widget.id.isEmpty || isEdit
-                                      ? IconButton(
-                                          icon: Icon(Icons.add_a_photo),
-                                          onPressed: () {
-                                            if (files.length < 1)
-                                              getImage();
-                                            else
-                                              showMessage(
-                                                  "User can upload upto max 1 media files");
-                                          },
-                                        )
-                                      : Container()
-                                ],
-                              )
+                          children: <Widget>[
+                            Expanded(
+                              child: Text("Add Band Photo"),
+                            ),
+                            widget.id.isEmpty || isEdit
+                                ? IconButton(
+                              icon: Icon(Icons.add_a_photo),
+                              onPressed: () {
+                                if (files.length < 1)
+                                  getImage();
+                                else
+                                  showMessage(
+                                      "User can upload upto max 1 media files");
+                              },
+                            )
+                                : Container()
+                          ],
+                        )
                             : Container(),
                         files.length > 0
                             ? (widget.id.isEmpty) || (isEdit)
-                                ? SizedBox(
-                                    height: 90,
-                                    child: ListView.builder(
-                                      itemCount: files.length,
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        File file = File(files[index]);
-                                        return file.path.startsWith("https")
-                                            ? Container(
-                                                margin: EdgeInsets.only(
-                                                    left: 10, right: 10),
-                                                height: 80,
-                                                width: 150,
-                                                child: Stack(
-                                                  children: <Widget>[
-                                                    widget.id.isNotEmpty ||
-                                                            isEdit &&
-                                                                file.path
-                                                                    .startsWith(
-                                                                        "https")
-                                                        ? Image.network(
-                                                            file.path
-                                                                    .toString() ??
-                                                                "",
-                                                            fit: BoxFit.cover,
-                                                          )
-                                                        : Image.file(
-                                                            file,
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                    Positioned(
-                                                      right: 14,
-                                                      top: 0,
-                                                      child: InkWell(
-                                                        onTap: () {
-                                                          setState(() {
-                                                            files = new List();
-                                                          });
-                                                        },
-                                                        child: Container(
-                                                          child: Icon(
-                                                            Icons.cancel,
-                                                            color: Colors.white,
-                                                          ),
-                                                          color: Colors.black,
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              )
-                                            : Container(
-                                                margin: EdgeInsets.only(
-                                                    left: 10, right: 10),
-                                                height: 80,
-                                                width: 150,
-                                                child: Stack(
-                                                  children: <Widget>[
-                                                    Image.file(
-                                                      file,
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                    Positioned(
-                                                      right: 14,
-                                                      top: 0,
-                                                      child: InkWell(
-                                                        onTap: () {
-                                                          setState(() {
-                                                            files = new List();
-                                                          });
-                                                        },
-                                                        child: Container(
-                                                          child: Icon(
-                                                            Icons.cancel,
-                                                            color: Colors.white,
-                                                          ),
-                                                          color: Colors.black,
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              );
-                                      },
+                            ? SizedBox(
+                          height: 90,
+                          child: ListView.builder(
+                            itemCount: files.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder:
+                                (BuildContext context, int index) {
+                              File file = File(files[index]);
+                              return file.path.startsWith("https")
+                                  ? Container(
+                                margin: EdgeInsets.only(
+                                    left: 10, right: 10),
+                                height: 80,
+                                width: 150,
+                                child: Stack(
+                                  children: <Widget>[
+                                    widget.id.isNotEmpty ||
+                                        isEdit &&
+                                            file.path
+                                                .startsWith(
+                                                "https")
+                                        ? Image.network(
+                                      file.path
+                                          .toString() ??
+                                          "",
+                                      fit: BoxFit.cover,
+                                    )
+                                        : Image.file(
+                                      file,
+                                      fit: BoxFit.cover,
                                     ),
-                                  )
-                                : Container()
+                                    Positioned(
+                                      right: 14,
+                                      top: 0,
+                                      child: InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            files = new List();
+                                          });
+                                        },
+                                        child: Container(
+                                          child: Icon(
+                                            Icons.cancel,
+                                            color: Colors.white,
+                                          ),
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )
+                                  : Container(
+                                margin: EdgeInsets.only(
+                                    left: 10, right: 10),
+                                height: 80,
+                                width: 150,
+                                child: Stack(
+                                  children: <Widget>[
+                                    Image.file(
+                                      file,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    Positioned(
+                                      right: 14,
+                                      top: 0,
+                                      child: InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            files = new List();
+                                          });
+                                        },
+                                        child: Container(
+                                          child: Icon(
+                                            Icons.cancel,
+                                            color: Colors.white,
+                                          ),
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        )
+                            : Container()
                             : Container(),
-
+                        
                         //                        Text(
                         //                                _dateStartedController.text,
                         //                                textAlign: TextAlign.center,
                         //                              ),
-
+                        
                         //                      Padding(
                         //                        padding: EdgeInsets.all(5),
                         //                      ),
@@ -798,7 +804,7 @@ class _AddBandScreenState
                         //                      Padding(
                         //                        padding: EdgeInsets.all(5),
                         //                      ),
-
+                        
                         Padding(
                           padding: EdgeInsets.only(
                             top: widget.id.isEmpty ? 30 : 8,
@@ -807,305 +813,315 @@ class _AddBandScreenState
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Text(
-                                      "Members(${members.length})",
-                                      style: textTheme.subhead.copyWith(
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                  (bandUserId != null &&
-                                              bandUserId ==
-                                                  presenter.serverAPI
-                                                      .currentUserId) ||
-                                          permission
-                                      ? IconButton(
-                                          icon: Icon(
-                                            Icons.add,
-                                            color:
-                                                widget.appListener.accentColor,
-                                          ),
-                                          onPressed: () async {
-                                            await widget.appListener.router
-                                                .navigateTo(
-                                                    context,
-                                                    Screens.ADDMEMBERTOBAND
-                                                            .toString() +
-                                                        "//${widget.id}");
-                                            showLoading();
-                                            presenter.getBandDetails(widget.id);
-                                          },
-                                        )
-                                      : Container()
-                                ],
+                          children: <Widget>[
+                            Expanded(
+                              child: Text(
+                                "Members(${members.length})",
+                                style: textTheme.subhead.copyWith(
+                                  color: Colors.black,
+                                ),
                               ),
+                            ),
+                            (bandUserId != null &&
+                                bandUserId ==
+                                    presenter.serverAPI
+                                        .currentUserId) ||
+                                permission
+                                ? IconButton(
+                              icon: Icon(
+                                Icons.add,
+                                color:
+                                widget.appListener.accentColor,
+                              ),
+                              onPressed: () async {
+                                await widget.appListener.router
+                                    .navigateTo(
+                                    context,
+                                    Screens.ADDMEMBERTOBAND
+                                        .toString() +
+                                        "//${widget.id}");
+                                showLoading();
+                                presenter.getBandDetails(widget.id);
+                              },
+                            )
+                                : Container()
+                          ],
+                        ),
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: members.length,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemBuilder: (BuildContext context, int index) {
-                                  BandMember user = members[index];
-                                  String permission = "";
-                                  if (user.permissions != null) {
-                                    permission = user.permissions;
-                                  }
-                                  return InkWell(
-                                    onTap: () async {
-                                      await widget.appListener.router.navigateTo(
-                                          context,
-                                          Screens.ADDMEMBERTOBAND.toString() +
-                                              "/${user.email}/${widget.id}");
-                                      getData();
-                                    },
-                                    child: Padding(
-                                      padding:
-                                          EdgeInsets.only(top: 5, bottom: 5),
-                                      child: Text(
-                                        "${user.firstName} ${user.lastName} \n${user.memberRole?.join(',') ?? ''}\n$permission",
-                                        style: textTheme.subhead.copyWith(
-                                          color: Colors.black,
-                                          fontSize: 12.3,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  );
+                          shrinkWrap: true,
+                          itemCount: members.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (BuildContext context, int index) {
+                            BandMember user = members[index];
+                            String permission = "";
+                            if (user.permissions != null) {
+                              permission = user.permissions;
+                            }
+                            return Column(children: <Widget>[
+                              InkWell(
+                                onTap: () async {
+                                  await widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.ADDMEMBERTOBAND.toString() +
+                                          "/${user.email}/${widget.id}");
+                                  getData();
                                 },
+                                child: Padding(
+                                  padding:
+                                  EdgeInsets.only(top: 5, bottom: 5),
+                                  child: Text(
+                                    "${user.firstName} ${user.lastName}- ${user.instrumentList?.join(',')} \n${user.memberRole?.join(',') ?? ''} - $permission",
+                                    style: textTheme.subhead.copyWith(
+                                      color: Colors.black,
+                                      fontSize: 12.3,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                
+                                ),
                               ),
+                              Container(width: MediaQuery.of(context).size.width,
+                                height: 1,
+                                color: Colors.grey,
+                                margin: EdgeInsets.only(left: 30,right: 30,top: 3,bottom: 3),
+                                
+                                ),
+                            ],);
+                          },
+                        ),
                         Padding(
                           padding: EdgeInsets.all(3),
                         ),
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : Text(
-                                "Band Contact Info",
-                                textAlign: TextAlign.center,
-                                style: textTheme.subhead
-                                    .copyWith(fontWeight: FontWeight.w600),
-                              ),
+                          "Band Contact Info",
+                          textAlign: TextAlign.center,
+                          style: textTheme.subhead
+                              .copyWith(fontWeight: FontWeight.w600),
+                        ),
                         Padding(
                           padding: EdgeInsets.all(3),
                         ),
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : contactInfo.isEmpty
-                                ? Text(
-                                    "No Member Yet",
-                                    textAlign: TextAlign.center,
-                                  )
-                                : Column(
-                                    children: contactInfo,
-                                  ),
+                            ? Text(
+                          "No Member Yet",
+                          textAlign: TextAlign.center,
+                        )
+                            : Column(
+                          children: contactInfo,
+                        ),
                         Padding(
                           padding: EdgeInsets.all(4),
                         ),
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Text(
-                                      "Set-List",
-                                      style: textTheme.subhead.copyWith(
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                  IconButton(
-                                    icon: Icon(
-                                      Icons.add,
-                                      color: widget.appListener.accentColor,
-                                    ),
-                                    onPressed: () {
-                                      widget.appListener.router.navigateTo(
-                                          context,
-                                          Screens.SETLIST.toString() +
-                                              "/${widget.id}");
-                                      // showDialogConfirm();
-                                    },
-                                  )
-                                ],
+                          children: <Widget>[
+                            Expanded(
+                              child: Text(
+                                "Set-List",
+                                style: textTheme.subhead.copyWith(
+                                  color: Colors.black,
+                                ),
                               ),
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                Icons.add,
+                                color: widget.appListener.accentColor,
+                              ),
+                              onPressed: () {
+                                widget.appListener.router.navigateTo(
+                                    context,
+                                    Screens.SETLIST.toString() +
+                                        "/${widget.id}");
+                                // showDialogConfirm();
+                              },
+                            )
+                          ],
+                        ),
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : FlatButton(
-                                child: Text(
-                                  "Activites/Schedule",
-                                  textAlign: TextAlign.center,
-                                  style: textTheme.subhead
-                                      .copyWith(fontWeight: FontWeight.w600),
-                                ),
-                                onPressed: () {
-                                  widget.appListener.router.navigateTo(
-                                      context,
-                                      Screens.ACTIVITIESLIST.toString() +
-                                          "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}/");
-                                },
-                              ),
-
+                          child: Text(
+                            "Activites/Schedule",
+                            textAlign: TextAlign.center,
+                            style: textTheme.subhead
+                                .copyWith(fontWeight: FontWeight.w600),
+                          ),
+                          onPressed: () {
+                            widget.appListener.router.navigateTo(
+                                context,
+                                Screens.ACTIVITIESLIST.toString() +
+                                    "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}/");
+                          },
+                        ),
+                        
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : FlatButton(
-                                child: Text(
-                                  "Band Task",
-                                  textAlign: TextAlign.center,
-                                  style: textTheme.subhead
-                                      .copyWith(fontWeight: FontWeight.w600),
-                                ),
-                                onPressed: () {
-                                  widget.appListener.router.navigateTo(
-                                      context,
-                                      Screens.ACTIVITIESLIST.toString() +
-                                          "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}/${Activites.TYPE_BAND_TASK}");
-                                },
-                              ),
-
+                          child: Text(
+                            "Band Task",
+                            textAlign: TextAlign.center,
+                            style: textTheme.subhead
+                                .copyWith(fontWeight: FontWeight.w600),
+                          ),
+                          onPressed: () {
+                            widget.appListener.router.navigateTo(
+                                context,
+                                Screens.ACTIVITIESLIST.toString() +
+                                    "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}/${Activites.TYPE_BAND_TASK}");
+                          },
+                        ),
+                        
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : FlatButton(
-                                child: Text(
-                                  "Contacts",
-                                  textAlign: TextAlign.center,
-                                  style: textTheme.subhead
-                                      .copyWith(fontWeight: FontWeight.w600),
-                                ),
-                                onPressed: () {
-                                  widget.appListener.router.navigateTo(
-                                      context,
-                                      Screens.CONTACTLIST.toString() +
-                                          "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-                                },
-                              ),
-
+                          child: Text(
+                            "Contacts",
+                            textAlign: TextAlign.center,
+                            style: textTheme.subhead
+                                .copyWith(fontWeight: FontWeight.w600),
+                          ),
+                          onPressed: () {
+                            widget.appListener.router.navigateTo(
+                                context,
+                                Screens.CONTACTLIST.toString() +
+                                    "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                          },
+                        ),
+                        
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : FlatButton(
-                                child: Text(
-                                  "Equipment",
-                                  textAlign: TextAlign.center,
-                                  style: textTheme.subhead
-                                      .copyWith(fontWeight: FontWeight.w600),
-                                ),
-                                onPressed: () {
-                                  widget.appListener.router.navigateTo(
-                                      context,
-                                      Screens.INSTRUMENTLIST.toString() +
-                                          "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-                                },
-                              ),
-
+                          child: Text(
+                            "Equipment",
+                            textAlign: TextAlign.center,
+                            style: textTheme.subhead
+                                .copyWith(fontWeight: FontWeight.w600),
+                          ),
+                          onPressed: () {
+                            widget.appListener.router.navigateTo(
+                                context,
+                                Screens.INSTRUMENTLIST.toString() +
+                                    "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                          },
+                        ),
+                        
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : FlatButton(
-                                child: Text(
-                                  "EPK",
-                                  textAlign: TextAlign.center,
-                                  style: textTheme.subhead
-                                      .copyWith(fontWeight: FontWeight.w600),
-                                ),
-                                onPressed: () {
-                                  widget.appListener.router.navigateTo(
-                                      context,
-                                      Screens.ADDPLAYINGSTYLE.toString() +
-                                          "/$userPlayingStyleId/${widget.id}////");
-
-                                  // widget.appListener.router.navigateTo(
-                                  //     context,
-                                  //     Screens.PLAYINGSTYLELIST.toString() +
-                                  //         "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-                                },
-                              ),
+                          child: Text(
+                            "EPK",
+                            textAlign: TextAlign.center,
+                            style: textTheme.subhead
+                                .copyWith(fontWeight: FontWeight.w600),
+                          ),
+                          onPressed: () {
+                            widget.appListener.router.navigateTo(
+                                context,
+                                Screens.ADDPLAYINGSTYLE.toString() +
+                                    "/$userPlayingStyleId/${widget.id}////");
+                            
+                            // widget.appListener.router.navigateTo(
+                            //     context,
+                            //     Screens.PLAYINGSTYLELIST.toString() +
+                            //         "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                          },
+                        ),
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : FlatButton(
-                                child: Text(
-                                  "Notes",
-                                  textAlign: TextAlign.center,
-                                  style: textTheme.subhead
-                                      .copyWith(fontWeight: FontWeight.w600),
-                                ),
-                                onPressed: () {
-                                  widget.appListener.router.navigateTo(
-                                      context,
-                                      Screens.NOTETODOLIST.toString() +
-                                          "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-                                },
-                              ),
+                          child: Text(
+                            "Notes",
+                            textAlign: TextAlign.center,
+                            style: textTheme.subhead
+                                .copyWith(fontWeight: FontWeight.w600),
+                          ),
+                          onPressed: () {
+                            widget.appListener.router.navigateTo(
+                                context,
+                                Screens.NOTETODOLIST.toString() +
+                                    "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                          },
+                        ),
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : FlatButton(
-                                child: Text(
-                                  "Stage Plot & DI Set up",
-                                  textAlign: TextAlign.center,
-                                  style: textTheme.subhead
-                                      .copyWith(fontWeight: FontWeight.w600),
-                                ),
-                                onPressed: () {},
-                              ),
-
+                          child: Text(
+                            "Stage Plot & DI Set up",
+                            textAlign: TextAlign.center,
+                            style: textTheme.subhead
+                                .copyWith(fontWeight: FontWeight.w600),
+                          ),
+                          onPressed: () {},
+                        ),
+                        
                         widget.id.isEmpty || isEdit
                             ? RaisedButton(
-                                color: Color.fromRGBO(239, 181, 77, 1.0),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18)),
-                                textColor: Colors.white,
-                                onPressed: () {
-                                  setState(() {
-                                    String dateStarted =
-                                        _dateStartedController.text;
-                                    String musicStyle =
-                                        _musicStyleController.text;
-                                    String bname = _bandNameController.text;
-                                    String blname =
-                                        _bandlegalNameController.text;
-                                    String legalstructure =
-                                        _legalStructureController.text;
-                                    String email = _emailController.text;
-                                    String website = _websiteController.text;
-                                    _errorBandLegalName = null;
-                                    _errorBandName = null;
-                                    _errorDateStarted = null;
-                                    _errorEmail = null;
-                                    _errorMusicStyle = null;
-                                    _errorStructure = null;
-                                    _errorWebsite = null;
-                                    if (bname.isEmpty) {
-                                      _errorBandName = "Cannot be empty";
-                                    }
-                                    //                                  else if (email.isEmpty) {
-                                    //                                    _errorEmail = "Cannot be empty";
-                                    //                                  }
-                                    //                                  else if (validateEmail(email)) {
-                                    //                                    _errorEmail = "Not a Valid Email";
-                                    //                                  }
-                                    else {
-                                      showLoading();
-                                      presenter.addBand(
-                                        selectedStartDate
-                                            .millisecondsSinceEpoch,
-                                        musicStyle,
-                                        bname,
-                                        blname,
-                                        legalstructure,
-                                        email,
-                                        website,
-                                        "",
-                                        _bandCityController.text,
-                                        _bandStateController.text,
-                                        _bandZipController.text,
-                                        files: files,
-                                        id: widget.id,
-                                        bandmates: bandmates,
-                                      );
-                                    }
-                                  });
-                                },
-                                child: Text("Submit"),
-                              )
+                          color: Color.fromRGBO(239, 181, 77, 1.0),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18)),
+                          textColor: Colors.white,
+                          onPressed: () {
+                            setState(() {
+                              String dateStarted =
+                                  _dateStartedController.text;
+                              String musicStyle =
+                                  _musicStyleController.text;
+                              String bname = _bandNameController.text;
+                              String blname =
+                                  _bandlegalNameController.text;
+                              String legalstructure =
+                                  _legalStructureController.text;
+                              String email = _emailController.text;
+                              String website = _websiteController.text;
+                              _errorBandLegalName = null;
+                              _errorBandName = null;
+                              _errorDateStarted = null;
+                              _errorEmail = null;
+                              _errorMusicStyle = null;
+                              _errorStructure = null;
+                              _errorWebsite = null;
+                              if (bname.isEmpty) {
+                                _errorBandName = "Cannot be empty";
+                              }
+                              //                                  else if (email.isEmpty) {
+                              //                                    _errorEmail = "Cannot be empty";
+                              //                                  }
+                              //                                  else if (validateEmail(email)) {
+                              //                                    _errorEmail = "Not a Valid Email";
+                              //                                  }
+                              else {
+                                showLoading();
+                                presenter.addBand(
+                                  selectedStartDate
+                                      .millisecondsSinceEpoch,
+                                  musicStyle,
+                                  bname,
+                                  blname,
+                                  legalstructure,
+                                  email,
+                                  website,
+                                  "",
+                                  _bandCityController.text,
+                                  _bandStateController.text,
+                                  _bandZipController.text,
+                                  files: files,
+                                  id: widget.id,
+                                  bandmates: bandmates,
+                                  creatorName: "${user.firstName} ${user.lastName}"
+                                );
+                              }
+                            });
+                          },
+                          child: Text("Submit"),
+                        )
                             : Container(),
                         Padding(
                           padding: EdgeInsets.all(10),
@@ -1196,10 +1212,10 @@ class _AddBandScreenState
       //            ),
     );
   }
-
+  
   @override
   AddBandPresenter get presenter => AddBandPresenter(this);
-
+  
   @override
   void addBandSuccess() {
     hideLoading();
@@ -1224,9 +1240,9 @@ class _AddBandScreenState
       Navigator.pop(context);
     });
   }
-
+  
   DateTime selectedStartDate = DateTime.now(), selectedEndDate = DateTime.now();
-
+  
   Future<Null> _selectDate(BuildContext context, bool isStart) async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -1246,10 +1262,10 @@ class _AddBandScreenState
         }
       });
   }
-
+  
   showDialogConfirm() {
     // flutter defined function
-
+    
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -1257,7 +1273,7 @@ class _AddBandScreenState
         return AlertDialog(
           contentPadding: EdgeInsets.all(15),
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           title: new Text(
             "Information!",
             textAlign: TextAlign.center,
@@ -1283,7 +1299,7 @@ class _AddBandScreenState
       },
     );
   }
-
+  
   @override
   void getBandDetails(Band band) async {
     hideLoading();
@@ -1308,15 +1324,16 @@ class _AddBandScreenState
       members.addAll(band.bandmates.values);
       bandmates = band.bandmates;
       primaryContactEmail = band.primaryContactEmail;
+      creatorName= band.creatorName;
     });
   }
-
+  
   @override
   void onUpdate() {
     showLoading();
     presenter.getBandDetails(widget.id);
   }
-
+  
   void getData() {
     if (widget.id.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -1325,7 +1342,7 @@ class _AddBandScreenState
       });
     }
   }
-
+  
   @override
   void onData(List<UserPlayingStyle> acc) {
     if (acc.length > 0) {
@@ -1333,7 +1350,7 @@ class _AddBandScreenState
       userPlayingStyleId = userPlayingStyle.id;
     }
   }
-
+  
   @override
   void onUserDetailsSuccess(User res) {
     setState(() {

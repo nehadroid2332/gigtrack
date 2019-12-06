@@ -10,6 +10,7 @@ class BandMember extends BaseModel {
   String permissions;
   String payInfo;
   List<String> memberRole = [];
+  List<String> instrumentList = [];
   String instrument;
   String other;
   String otherTalent;
@@ -37,7 +38,9 @@ class BandMember extends BaseModel {
       this.status,
       this.notes,
       this.emergencyContact,
-      this.pay});
+      this.pay,
+      this.instrumentList
+      });
 
   BandMember.fromJSON(dynamic data) {
     id = data['id'];
@@ -61,6 +64,11 @@ class BandMember extends BaseModel {
     permissions = data['permissions'];
     instrument = data['instrument'];
     other = data['other'];
+    if (data['instrumentList'] != null) {
+      for (var item in data['instrumentList']) {
+        instrumentList.add(item.toString());
+      }
+    }
   }
 
   @override
@@ -83,6 +91,7 @@ class BandMember extends BaseModel {
     data['memberRole'] = memberRole;
     data['instrument'] = instrument;
     data['other'] = other;
+    data['instrumentList'] = instrumentList;
     return data;
   }
 }
