@@ -346,6 +346,17 @@ class ServerAPI {
     }
   }
 
+  Future<dynamic> getSetListItemDetails(String id) async {
+    try {
+      DataSnapshot dataSnapshot = await setListDB.child(id).once();
+      SetList userPlayingStyle =
+          SetList.fromJSON(dataSnapshot.value);
+      return userPlayingStyle;
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
   Future<dynamic> addNotes(NotesTodo notesTodo) async {
     try {
       bool isUpdate = true;

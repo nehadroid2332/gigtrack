@@ -5,10 +5,20 @@ import 'package:gigtrack/server/models/setlist.dart';
 abstract class AddSetListContract extends BaseContract {
   void onSuccess();
   void onUpdate();
+  void onDetails(SetList setList);
 }
 
 class AddSetListPresenter extends BasePresenter {
   AddSetListPresenter(BaseContract view) : super(view);
+
+  void getDetails(String id) async {
+    final res = await serverAPI.getSetListItemDetails(id);
+    if (res is SetList) {
+      (view as AddSetListContract).onDetails(res);
+    } else if (res is ErrorResponse) {
+      view.showMessage(res.message);
+    }
+  }
 
   void addSetList(SetList setList) async {
     final res = await serverAPI.addSetList(setList);

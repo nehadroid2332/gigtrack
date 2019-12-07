@@ -29,10 +29,9 @@ class _AddSetListScreenState
     "Ready to play",
     "Needs work",
     "New Song",
-   
   ];
   String _listNameError, _songNameError, _songArtistError, _songChordsError;
-  List _fruits = ["Learning", "1 week away", "1 month away", "Ready", "Other"];
+  List _fruits = ["Ready to play", "needs work", "new song"];
   List<DropdownMenuItem<String>> _dropDownMenuItems;
   List<Song> _songList = [];
   Song currentSong;
@@ -40,28 +39,11 @@ class _AddSetListScreenState
 
   List<SetList> setLists = [];
 
-  List<DropdownMenuItem<String>> buildAndGetDropDownMenuItems(List fruits) {
-    List<DropdownMenuItem<String>> items = List();
-    for (String fruit in fruits) {
-      items.add(DropdownMenuItem(value: fruit, child: Text(fruit)));
-    }
-    return items;
-  }
-
-  void changedDropDownItem(String selectedFruit) {
-    setState(() {
-      _selectedFruit = selectedFruit;
-      if (currentSong != null) {
-        currentSong.perform = selectedFruit;
-      }
-    });
-  }
-
   @override
   void initState() {
-    _dropDownMenuItems = buildAndGetDropDownMenuItems(_fruits);
-    _selectedFruit = _dropDownMenuItems[0].value;
     super.initState();
+    showLoading();
+    presenter.getDetails(widget.id);
   }
 
   @override
@@ -83,11 +65,24 @@ class _AddSetListScreenState
           },
         ),
         backgroundColor: Color.fromRGBO(214, 22, 35, 1.0),
-        actions: <Widget>[],
+        actions: <Widget>[
+          widget.id.isEmpty
+              ? Container()
+              : IconButton(
+                  icon: Icon(
+                    Icons.edit,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      isEdit = !isEdit;
+                    });
+                  },
+                ),
+        ],
       );
   @override
   Widget buildBody() {
-  
     List<Widget> items2 = [];
     for (String s in instrumentList) {
       items2.add(GestureDetector(
@@ -116,16 +111,53 @@ class _AddSetListScreenState
         ),
         onTap: widget.id.isEmpty || isEdit
             ? () {
-          setState(() {
-            if (inList.containsKey(s)) {
-              inList.remove(s);
-            } else
-              inList[s] = null;
-          });
-        }
+                setState(() {
+                  if (inList.containsKey(s)) {
+                    inList.remove(s);
+                  } else
+                    inList[s] = null;
+                });
+              }
             : null,
       ));
     }
+    List<Widget> items = [];
+    for (String s in _fruits) {
+      items.add(GestureDetector(
+        child: Container(
+          child: Text(
+            s,
+            style: textTheme.subtitle.copyWith(
+                color: _selectedFruit == (s)
+                    ? Colors.white
+                    : widget.appListener.primaryColorDark),
+          ),
+          margin: EdgeInsets.all(5),
+          padding: EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 8,
+          ),
+          decoration: BoxDecoration(
+            color: _selectedFruit == (s)
+                ? Color.fromRGBO(124, 180, 97, 1.0)
+                : Color.fromRGBO(244, 246, 248, 1.0),
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(
+              color: Color.fromRGBO(228, 232, 235, 1.0),
+            ),
+          ),
+        ),
+        onTap: () {
+          setState(() {
+            if (_selectedFruit == (s)) {
+              _selectedFruit = null;
+            } else
+              _selectedFruit = s;
+          });
+        },
+      ));
+    }
+
     return Stack(
       children: <Widget>[
         ClipPath(
@@ -156,84 +188,42 @@ class _AddSetListScreenState
                       ? ListView(
                           padding: EdgeInsets.all(10),
                           children: <Widget>[
-                            widget.id.isEmpty || isEdit
-                                ? TextField(
-                                    enabled: widget.id.isEmpty || isEdit,
-                                    style: textTheme.title,
-                                    textCapitalization:
-                                        TextCapitalization.words,
-                                    decoration: InputDecoration(
-                                      errorText: _songNameError,
-                                      labelText: widget.id.isEmpty || isEdit
-                                          ? "Song Name"
-                                          : "",
-                                      labelStyle: TextStyle(
-                                        color:
-                                            Color.fromRGBO(202, 208, 215, 1.0),
-                                      ),
-                                      border: widget.id.isEmpty || isEdit
-                                          ? null
-                                          : InputBorder.none,
-                                    ),
-                                    controller: _songNameController,
-                                  )
-                                : Text(
-                                    _songNameController.text,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                            widget.id.isEmpty || isEdit
-                                ? TextField(
-                                    enabled: widget.id.isEmpty || isEdit,
-                                    style: textTheme.title,
-                                    textCapitalization:
-                                        TextCapitalization.words,
-                                    decoration: InputDecoration(
-                                      errorText: _songArtistError,
-                                      labelText: widget.id.isEmpty || isEdit
-                                          ? "Artist"
-                                          : "",
-                                      labelStyle: TextStyle(
-                                        color:
-                                            Color.fromRGBO(202, 208, 215, 1.0),
-                                      ),
-                                      border: widget.id.isEmpty || isEdit
-                                          ? null
-                                          : InputBorder.none,
-                                    ),
-                                    controller: _songArtistController,
-                                  )
-                                : Text(
-                                    _songArtistController.text,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                            widget.id.isEmpty || isEdit
-                                ? TextField(
-                                    enabled: widget.id.isEmpty || isEdit,
-                                    style: textTheme.title,
-                                    textCapitalization:
-                                        TextCapitalization.words,
-                                    decoration: InputDecoration(
-                                      errorText: _songChordsError,
-                                      labelText: widget.id.isEmpty || isEdit
-                                          ? "Chords"
-                                          : "",
-                                      labelStyle: TextStyle(
-                                        color:
-                                            Color.fromRGBO(202, 208, 215, 1.0),
-                                      ),
-                                      border: widget.id.isEmpty || isEdit
-                                          ? null
-                                          : InputBorder.none,
-                                    ),
-                                    controller: _songChordsController,
-                                  )
-                                : Text(
-                                    _songChordsController.text,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 20),
-                                  ),
+                            TextField(
+                              style: textTheme.title,
+                              textCapitalization: TextCapitalization.words,
+                              decoration: InputDecoration(
+                                errorText: _songNameError,
+                                labelText: "Song Name",
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                              ),
+                              controller: _songNameController,
+                            ),
+                            TextField(
+                              style: textTheme.title,
+                              textCapitalization: TextCapitalization.words,
+                              decoration: InputDecoration(
+                                errorText: _songArtistError,
+                                labelText: "Artist",
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                              ),
+                              controller: _songArtistController,
+                            ),
+                            TextField(
+                              style: textTheme.title,
+                              textCapitalization: TextCapitalization.words,
+                              decoration: InputDecoration(
+                                errorText: _songChordsError,
+                                labelText: "Chords",
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                              ),
+                              controller: _songChordsController,
+                            ),
                             Padding(
                               padding: EdgeInsets.all(5),
                             ),
@@ -243,11 +233,8 @@ class _AddSetListScreenState
                                 fontSize: 16,
                               ),
                             ),
-                            DropdownButton(
-                              value: _selectedFruit,
-                              items: _dropDownMenuItems,
-                              onChanged: changedDropDownItem,
-                              underline: Container(),
+                            Wrap(
+                              children: items,
                             ),
                             Padding(
                               padding: EdgeInsets.all(8),
@@ -257,45 +244,41 @@ class _AddSetListScreenState
 //                              children: items2,
 //                            )
 //                                : Container(),
-                            widget.id.isEmpty || isEdit
-                                ? RaisedButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        if (currentSong != null) {
-                                          currentSong.artist =
-                                              _songArtistController.text;
-                                          currentSong.chords =
-                                              _songChordsController.text;
-                                          currentSong.name =
-                                              _songNameController.text;
-                                          _songList.add(currentSong);
-                                          currentSong = null;
-                                          _selectedFruit =
-                                              _dropDownMenuItems[0].value;
-                                          _songArtistController.clear();
-                                          _songChordsController.clear();
-                                          _songNameController.clear();
-                                        }
-                                      });
-                                    },
-                                    color: Color.fromRGBO(214, 22, 35, 1.0),
-                                    child: Text(
-                                      "Submit",
-                                      style: textTheme.headline.copyWith(
-                                        fontWeight: FontWeight.w300,
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 8,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    textColor: Colors.white,
-                                  )
-                                : Container()
+                            RaisedButton(
+                              onPressed: () {
+                                setState(() {
+                                  if (currentSong != null) {
+                                    currentSong.artist =
+                                        _songArtistController.text;
+                                    currentSong.chords =
+                                        _songChordsController.text;
+                                    currentSong.name = _songNameController.text;
+                                    _songList.add(currentSong);
+                                    currentSong = null;
+                                    _selectedFruit = null;
+                                    _songArtistController.clear();
+                                    _songChordsController.clear();
+                                    _songNameController.clear();
+                                  }
+                                });
+                              },
+                              color: Color.fromRGBO(214, 22, 35, 1.0),
+                              child: Text(
+                                "Submit",
+                                style: textTheme.headline.copyWith(
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                vertical: 8,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              textColor: Colors.white,
+                            )
                           ],
                         )
                       : Padding(
@@ -328,6 +311,9 @@ class _AddSetListScreenState
                                       textAlign: TextAlign.center,
                                       style: TextStyle(fontSize: 20),
                                     ),
+                              Padding(
+                                padding: EdgeInsets.all(10),
+                              ),
                               Row(
                                 children: <Widget>[
                                   Expanded(
@@ -336,15 +322,22 @@ class _AddSetListScreenState
                                       style: textTheme.title,
                                     ),
                                   ),
-                                  RaisedButton(
-                                    child: Text("Add Song"),
-                                    onPressed: () {
-                                      setState(() {
-                                        currentSong = Song();
-                                        currentSong.perform = _selectedFruit;
-                                      });
-                                    },
-                                  )
+                                  widget.id.isEmpty || isEdit
+                                      ? RaisedButton(
+                                          child: Text("Add Song"),
+                                          onPressed: () {
+                                            setState(() {
+                                              currentSong = Song();
+                                              _songNameController.clear();
+                                              _songChordsController.clear();
+                                              _songArtistController.clear();
+                                              _selectedFruit = null;
+                                              currentSong.perform =
+                                                  _selectedFruit;
+                                            });
+                                          },
+                                        )
+                                      : Container()
                                 ],
                               ),
                               Expanded(
@@ -356,6 +349,19 @@ class _AddSetListScreenState
                                     return ListTile(
                                       title: Text(song.name),
                                       subtitle: Text(song.artist),
+                                      onTap: isEdit
+                                          ? () {
+                                              setState(() {
+                                                currentSong = song;
+                                                _songArtistController.text =
+                                                    currentSong.artist;
+                                                _songChordsController.text =
+                                                    currentSong.chords;
+                                                _songNameController.text =
+                                                    currentSong.name;
+                                              });
+                                            }
+                                          : null,
                                     );
                                   },
                                 ),
@@ -415,5 +421,14 @@ class _AddSetListScreenState
   @override
   void onUpdate() {
     hideLoading();
+  }
+
+  @override
+  void onDetails(SetList setList) {
+    hideLoading();
+    setState(() {
+      _songList = setList.songs;
+      _listNameController.text = setList.setListName;
+    });
   }
 }

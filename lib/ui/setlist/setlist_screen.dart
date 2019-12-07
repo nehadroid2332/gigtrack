@@ -61,45 +61,53 @@ class _SetListScreenState
                   return ListView.builder(
                     itemBuilder: (BuildContext context, int index) {
                       SetList setList = _setLists[index];
-                      List<Widget> widgets = [];
-                      for (Song song in setList.songs) {
-                        widgets.add(
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 5
-                            ),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Text(
-                                    song.name,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                Text("-"),
-                                Expanded(
-                                  child: Text(
-                                    song.artist,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                Text("*"),
-                                Expanded(
-                                  child: Text(
-                                    song.perform,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ],
-                            ),
+                      // List<Widget> widgets = [];
+                      // for (Song song in setList.songs) {
+                      //   widgets.add(
+                      //     Padding(
+                      //       padding: EdgeInsets.symmetric(
+                      //         vertical: 5
+                      //       ),
+                      //       child: Row(
+                      //         children: <Widget>[
+                      //           Expanded(
+                      //             child: Text(
+                      //               song.name,
+                      //               textAlign: TextAlign.center,
+                      //             ),
+                      //           ),
+                      //           Text("-"),
+                      //           Expanded(
+                      //             child: Text(
+                      //               song.artist,
+                      //               textAlign: TextAlign.center,
+                      //             ),
+                      //           ),
+                      //           Text("*"),
+                      //           Expanded(
+                      //             child: Text(
+                      //               song.perform,
+                      //               textAlign: TextAlign.center,
+                      //             ),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //   );
+                      // }
+                      return FlatButton(
+                        child: Text(
+                          setList.setListName,
+                          style: textTheme.button.copyWith(
+                            fontSize: 18,
                           ),
-                        );
-                      }
-                      return ExpansionTile(
-                        title: Container(
-                          child: Text(setList.setListName),
                         ),
-                        children: widgets,
+                        onPressed: () {
+                          widget.appListener.router.navigateTo(
+                              context,
+                              Screens.ADDSETLIST.toString() +
+                                  "/${widget.id}/${setList.id}");
+                        },
                       );
                     },
                     itemCount: _setLists.length,
