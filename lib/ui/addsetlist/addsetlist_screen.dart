@@ -371,6 +371,7 @@ class _AddSetListScreenState
                                       onPressed: () {
                                         showLoading();
                                         SetList setList = SetList();
+                                        setList.id = widget.id;
                                         setList.setListName =
                                             _listNameController.text;
                                         setList.songs = _songList;
