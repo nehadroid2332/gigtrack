@@ -349,8 +349,7 @@ class ServerAPI {
   Future<dynamic> getSetListItemDetails(String id) async {
     try {
       DataSnapshot dataSnapshot = await setListDB.child(id).once();
-      SetList userPlayingStyle =
-          SetList.fromJSON(dataSnapshot.value);
+      SetList userPlayingStyle = SetList.fromJSON(dataSnapshot.value);
       return userPlayingStyle;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
@@ -825,6 +824,10 @@ class ServerAPI {
 
   void deletePlayingStyle(String id) async {
     await playingStyleDB.child(id).remove();
+  }
+
+  void deleteSetList(String id) async {
+    await setListDB.child(id).remove();
   }
 
   Future<dynamic> internalRegister(User user) async {

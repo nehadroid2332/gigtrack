@@ -80,8 +80,72 @@ class _AddSetListScreenState
                     });
                   },
                 ),
+          widget.id.isEmpty
+              ? Container()
+              : IconButton(
+                  icon: Icon(
+                    Icons.delete,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    if (widget.id == null || widget.id.isEmpty) {
+                      showMessage("Id cannot be null");
+                    } else {
+                      _showDialogConfirm();
+                      // presenter.instrumentDelete(id);
+                      // Navigator.of(context).pop();
+                    }
+                  },
+                )
         ],
       );
+
+  void _showDialogConfirm() {
+    // flutter defined function
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          contentPadding: EdgeInsets.all(15),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          title: new Text(
+            "Warning",
+            textAlign: TextAlign.center,
+          ),
+          content: Text("Are you sure you want to delete?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("No"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new RaisedButton(
+              child: new Text("Yes"),
+              textColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6)),
+              color: Color.fromRGBO(60, 111, 55, 1.0),
+              onPressed: () {
+                if (widget.id == null || widget.id.isEmpty) {
+                  showMessage("Id cannot be null");
+                } else {
+                  showLoading();
+                  presenter.deleteSetList(widget.id);
+                  Navigator.of(context).pop();
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget buildBody() {
     List<Widget> items2 = [];
@@ -448,4 +512,7 @@ class _AddSetListScreenState
       _listNameController.text = setList.setListName;
     });
   }
+
+  @override
+  void onDelete() {}
 }

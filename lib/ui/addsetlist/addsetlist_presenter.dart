@@ -6,6 +6,8 @@ abstract class AddSetListContract extends BaseContract {
   void onSuccess();
   void onUpdate();
   void onDetails(SetList setList);
+
+  void onDelete();
 }
 
 class AddSetListPresenter extends BasePresenter {
@@ -30,5 +32,10 @@ class AddSetListPresenter extends BasePresenter {
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
     }
+  }
+
+  void deleteSetList(String id) async {
+    await serverAPI.deleteSetList(id);
+    (view as AddSetListContract).onDelete();
   }
 }
