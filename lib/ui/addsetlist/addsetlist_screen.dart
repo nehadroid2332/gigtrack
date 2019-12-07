@@ -3,7 +3,7 @@ import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/setlist.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
-
+import 'package:random_string/random_string.dart';
 import 'addsetlist_presenter.dart';
 
 class AddSetListScreen extends BaseScreen {
@@ -32,7 +32,6 @@ class _AddSetListScreenState
   ];
   String _listNameError, _songNameError, _songArtistError, _songChordsError;
   List _fruits = ["Ready to play", "needs work", "new song"];
-  List<DropdownMenuItem<String>> _dropDownMenuItems;
   List<Song> _songList = [];
   Song currentSong;
   String _selectedFruit;
@@ -42,8 +41,10 @@ class _AddSetListScreenState
   @override
   void initState() {
     super.initState();
-    showLoading();
-    presenter.getDetails(widget.id);
+    if (widget.id != null && widget.id.isNotEmpty) {
+      showLoading();
+      presenter.getDetails(widget.id);
+    }
   }
 
   @override
@@ -253,7 +254,21 @@ class _AddSetListScreenState
                                     currentSong.chords =
                                         _songChordsController.text;
                                     currentSong.name = _songNameController.text;
-                                    _songList.add(currentSong);
+                                    currentSong.perform = _selectedFruit;
+                                    if (currentSong.id == null) {
+                                      currentSong.id = randomString(15);
+                                      _songList.add(currentSong);
+                                    } else {
+                                      for (var i = 0;
+                                          i < _songList.length;
+                                          i++) {
+                                        Song song = _songList[i];
+                                        if (song.id == currentSong.id) {
+                                          _songList[i] = currentSong;
+                                          break;
+                                        }
+                                      }
+                                    }
                                     currentSong = null;
                                     _selectedFruit = null;
                                     _songArtistController.clear();
@@ -359,6 +374,7 @@ class _AddSetListScreenState
                                                     currentSong.chords;
                                                 _songNameController.text =
                                                     currentSong.name;
+                                                _selectedFruit = song.perform;
                                               });
                                             }
                                           : null,

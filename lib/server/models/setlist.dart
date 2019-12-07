@@ -39,10 +39,12 @@ class Song extends BaseModel {
   String artist;
   String chords;
   String perform;
+  String id;
 
   Song();
 
   Song.fromJSON(dynamic data) {
+    id = data['id'];
     name = data['name'];
     artist = data['artist'];
     chords = data['chords'];
@@ -52,6 +54,7 @@ class Song extends BaseModel {
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> data = super.toMap();
+    data['id'] = id;
     data['name'] = name;
     data['artist'] = artist;
     data['chords'] = chords;

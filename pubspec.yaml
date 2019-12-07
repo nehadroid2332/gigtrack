@@ -48,6 +48,7 @@ dependencies:
   flutter_native_timezone: ^1.0.4
   extended_image: ^0.6.7
   flutter_svg: ^0.15.0
+  random_string: ^1.1.0
 
 
 dev_dependencies:
