@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/user_playing_style.dart';
@@ -26,6 +27,12 @@ class _DashboardScreenState
   @override
   Widget buildBody() {
     return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/background.png"),
+          fit: BoxFit.cover,
+        ),
+      ),
       padding: EdgeInsets.symmetric(
         horizontal: 30,
         vertical: 5,
@@ -128,7 +135,7 @@ class _DashboardScreenState
             ],
           ),
           Padding(
-            padding: EdgeInsets.all(1),
+            padding: EdgeInsets.only(top: MediaQuery.of(context).size.width/6),
           ),
           Padding(
             padding: EdgeInsets.all(2),
@@ -154,41 +161,41 @@ class _DashboardScreenState
                     case "Activities":
                       color = Color.fromRGBO(40, 35, 188, 1.0);
                       //color = Color.fromRGBO(235, 84, 99, 1.0);
-                      image = 'assets/images/activities.png';
+                      image = 'assets/images/activitiesnew.svg';
                       break;
                     case "Notes":
                       //color=Color.fromRGBO(239,181, 77, 1.0);
                       color = Color.fromRGBO(196, 227, 102, 1.0);
-                      image = 'assets/images/activities.png';
+                      image = 'assets/images/notesnew.svg';
                       break;
                     case "Band":
                       //color=Color.fromRGBO(214,22, 35, 1.0);
                       color = Color.fromRGBO(241, 206, 96, 1.0);
-                      image = 'assets/images/band.png';
+                      image = 'assets/images/bandnew.svg';
                       break;
                     case "Equipment":
                       color = Color.fromRGBO(210, 34, 153, 1.0);
                       //color = Color.fromRGBO(60, 111, 54, 1.0);
-                      image = 'assets/images/equipment.png';
+                      image = 'assets/images/equipmentnew.svg';
                       break;
                     case "EPK":
                       //color=Color.fromRGBO(80, 54, 116, 1.0);
                       color = Color.fromRGBO(26, 182, 37, 1.0);
-                      image = 'assets/images/playingstyle.png';
+                      image = 'assets/images/epknew.svg';
                       break;
                     case "Contacts":
                       //color= Color.fromRGBO(191, 53, 42, 1.0);
                       color = Color.fromRGBO(243, 135, 75, 1.0);
-                      image = 'assets/images/contacts.png';
+                      image = 'assets/images/contactsnew.svg';
                       break;
                     case "Beta-Test Feedback":
                       color = Color.fromRGBO(102, 187, 238, 1.0);
                       //color = Color.fromRGBO(18, 130, 119, 1.0);
-                      image = 'assets/images/admin.png';
+                      image = 'assets/images/feedbacknew.svg';
                       break;
                     case "Bulletin Board":
                       color = Color.fromRGBO(251, 111, 162, 1.0);
-                      image = 'assets/images/activities.png';
+                      image = 'assets/images/bulletinnew.svg';
                       break;
                   }
                   return InkWell(
@@ -201,7 +208,7 @@ class _DashboardScreenState
                       ),
                       child: Padding(
                         padding: EdgeInsets.only(
-                            left: 10, right: 10, top: 5, bottom: 5),
+                            left: 8, right: 8, top: 4, bottom: 4),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -209,9 +216,11 @@ class _DashboardScreenState
                             Center(
                               child: Column(
                                 children: <Widget>[
-                                  Image.asset(
+                                  new SvgPicture.asset(
                                     image,
-                                    height: 40,
+                                    height: 66.0,
+                                    
+                                    allowDrawingOutsideViewBox: true,
                                   ),
                                   Padding(
                                     padding: EdgeInsets.only(
@@ -224,7 +233,7 @@ class _DashboardScreenState
                                     style: textTheme.headline.copyWith(
                                         color:
                                             Color.fromRGBO(250, 250, 250, 1.0),
-                                        fontSize: 19),
+                                        fontSize: 18),
                                   )
                                 ],
                               ),
