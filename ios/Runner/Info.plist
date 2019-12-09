@@ -8,6 +8,22 @@
 	<string>Gigtrack</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIcons</key>
+	<dict/>
+	<key>CFBundleIcons~ipad</key>
+	<dict/>
+   <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <!-- Copied from GoogleServices-Info.plist key REVERSED_CLIENT_ID -->
+                <string>com.googleusercontent.apps.479247284217-osv845n6hu8iu2vrosr3b9fj2pq3r5f3</string>
+            </array>
+        </dict>
+    </array>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>

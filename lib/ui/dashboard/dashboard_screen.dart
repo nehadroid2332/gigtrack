@@ -159,14 +159,14 @@ class _DashboardScreenState
                   String image;
                   switch (txt) {
                     case "Activities":
-                      color = Color.fromRGBO(40, 35, 188, 1.0);
+                      //color = Color.fromRGBO(63, 146, 219, 1.0); last one
                       //color = Color.fromRGBO(235, 84, 99, 1.0);
                       image = 'assets/images/activitiesnew.svg';
                       break;
                     case "Notes":
                       //color=Color.fromRGBO(239,181, 77, 1.0);
                       color = Color.fromRGBO(196, 227, 102, 1.0);
-                      image = 'assets/images/notesnew.svg';
+                      image = 'assets/images/newmusicnotes.svg';
                       break;
                     case "Band":
                       //color=Color.fromRGBO(214,22, 35, 1.0);
