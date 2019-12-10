@@ -428,6 +428,16 @@ class _AddSetListScreenState
                                     return ListTile(
                                       title: Text(song.name),
                                       subtitle: Text(song.artist),
+                                      trailing: widget.id.isEmpty || isEdit
+                                          ? IconButton(
+                                              icon: Icon(Icons.delete),
+                                              onPressed: () {
+                                                setState(() {
+                                                  _songList.removeAt(index);
+                                                });
+                                              },
+                                            )
+                                          : null,
                                       onTap: isEdit
                                           ? () {
                                               setState(() {
