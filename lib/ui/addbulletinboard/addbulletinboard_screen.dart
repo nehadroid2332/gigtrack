@@ -596,18 +596,10 @@ class _AddBulletInBoardScreenState
           content: Text("Are you sure you want to delete?"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
+           
             new FlatButton(
-              child: new Text("No"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            new RaisedButton(
               child: new Text("Yes"),
-              textColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6)),
-              color: Color.fromRGBO(239, 181, 77, 1.0),
+              textColor: Colors.black,
               onPressed: () {
                 if (widget.id == null || widget.id.isEmpty) {
                   showMessage("Id cannot be null");
@@ -616,6 +608,17 @@ class _AddBulletInBoardScreenState
                   Navigator.of(context).popUntil(ModalRoute.withName(
                       Screens.NOTETODOLIST.toString() + "/////"));
                 }
+              },
+            ),
+            new RaisedButton(
+              child: new Text("No",
+              style: TextStyle(color: Colors.white),
+              ),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6)),
+              color: Color.fromRGBO(214, 22, 35, 1.0),
+              onPressed: () {
+                Navigator.of(context).pop();
               },
             ),
           ],

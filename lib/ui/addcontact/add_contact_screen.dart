@@ -1497,18 +1497,11 @@ class _AddContactScreenState
           content: Text("Are you sure you want to delete?"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
+          
             new FlatButton(
-              child: new Text("No"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            new RaisedButton(
               child: new Text("Yes"),
-              textColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6)),
-              color: Color.fromRGBO(191, 52, 44, 1.0),
+              textColor: Colors.black,
+             
               onPressed: () {
                 if (widget.id == null || widget.id.isEmpty) {
                   showMessage("Id cannot be null");
@@ -1518,6 +1511,17 @@ class _AddContactScreenState
                       Screens.CONTACTLIST.toString() + "/////"));
                   //Navigator.of(context).pop();
                 }
+              },
+            ),
+            new RaisedButton(
+              child: new Text("No",
+              style: TextStyle(color: Colors.white),
+              ),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6)),
+              color: Color.fromRGBO(60, 111, 54, 1.0),
+              onPressed: () {
+                Navigator.of(context).pop();
               },
             ),
           ],
