@@ -38,6 +38,7 @@ class ServerAPI {
   StorageReference contactsRef;
 
   StorageReference playingstyleRef;
+  StorageReference bandref;
 
   DatabaseReference notesDB, bulletinDB, setListDB, feedDB;
 
@@ -73,6 +74,7 @@ class ServerAPI {
     equipmentRef = storageRef.child("Equipments");
     contactsRef = storageRef.child("Contacts");
     playingstyleRef = storageRef.child("PlayingStyle");
+    bandref = storageRef.child("Bands");
     DatabaseReference _mainFirebaseDatabase =
         FirebaseDatabase.instance.reference().child("Gigtrack");
     userDB = _mainFirebaseDatabase.child("users");
@@ -212,7 +214,7 @@ class ServerAPI {
           File newFile = File(
               file1.parent.path + "/temp-${await file1.length()}" + basename);
           File file = await compressFileAndGetFile(file1, newFile.path);
-          final StorageUploadTask uploadTask = contactsRef
+          final StorageUploadTask uploadTask = bandref
               .child("${DateTime.now().toString()}$basename")
               .putFile(file);
           StorageTaskSnapshot snapshot = await uploadTask.onComplete;

@@ -43,7 +43,7 @@ class _AddBandScreenState
       _emailController = TextEditingController(),
       _websiteController = TextEditingController();
   String _errorDateStarted, _errorMusicStyle, _errorStructure, _errorWebsite;
-  List files = <String>[];
+  List<String> files = <String>[];
   String _errorBandName,
       _errorBandCity,
       _errorBandZip,
@@ -222,7 +222,7 @@ class _AddBandScreenState
                   presenter.deleteBand(widget.id);
                   //Navigator.of(context).pop();
                   Navigator.of(context).popUntil(ModalRoute.withName(
-                      Screens.BANDLIST.toString() + "/////"));
+                      Screens.BANDLIST.toString()));
                 }
               },
             ),

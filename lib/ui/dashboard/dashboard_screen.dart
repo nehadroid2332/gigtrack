@@ -128,10 +128,10 @@ class _DashboardScreenState
                   ],
                 ),
               ),
-              Image.asset(
-                'assets/images/music.png',
-                height: 50,
-              )
+//              Image.asset(
+//                'assets/images/music.png',
+//                height: 50,
+//              )
             ],
           ),
           Padding(
@@ -160,13 +160,13 @@ class _DashboardScreenState
                   switch (txt) {
                     case "Activities":
                       //color = Color.fromRGBO(63, 146, 219, 1.0); last one
-                      //color = Color.fromRGBO(235, 84, 99, 1.0);
-                      image = 'assets/images/activitiesnew.svg';
+                      color = Color.fromRGBO(71, 151, 221, 1.0);
+                      image = 'assets/images/feedbacknew.svg';
                       break;
                     case "Notes":
                       //color=Color.fromRGBO(239,181, 77, 1.0);
                       color = Color.fromRGBO(196, 227, 102, 1.0);
-                      image = 'assets/images/newmusicnotes.svg';
+                      image = 'assets/images/notesicon.svg';
                       break;
                     case "Band":
                       //color=Color.fromRGBO(214,22, 35, 1.0);
@@ -191,7 +191,7 @@ class _DashboardScreenState
                     case "Beta-Test Feedback":
                       color = Color.fromRGBO(102, 187, 238, 1.0);
                       //color = Color.fromRGBO(18, 130, 119, 1.0);
-                      image = 'assets/images/feedbacknew.svg';
+                      image = 'assets/images/feedbackicon.svg';
                       break;
                     case "Bulletin Board":
                       color = Color.fromRGBO(251, 111, 162, 1.0);
