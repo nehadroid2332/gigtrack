@@ -46,6 +46,7 @@ class _AddActivityScreenState
   final _titleController = TextEditingController(),
       _dateController = TextEditingController(),
       // _timeController = TextEditingController(),
+     _endDateController= TextEditingController(),
       _descController = TextEditingController(),
       _taskController = TextEditingController(),
       _parkingController = TextEditingController(),
@@ -69,10 +70,12 @@ class _AddActivityScreenState
       _endTimeError;
 
   DateTime startDate = DateTime.now().toUtc();
+  DateTime endDate= DateTime.now().toUtc();
   TimeOfDay startTime = TimeOfDay(hour: DateTime.now().hour, minute: 0);
   TimeOfDay endTime = TimeOfDay(hour: DateTime.now().hour, minute: 0);
   bool isVisible = false, isEdit = false;
   bool setTime = false;
+  bool endDateShow= false;
 
   String _dateTxt = "", _estDateTxt = "";
 
@@ -93,13 +96,19 @@ class _AddActivityScreenState
   Future<Null> _selectDate(BuildContext context, int type) async {
     final DateTime picked = await showDatePicker(
         context: context,
-        initialDate: startDate,
+        initialDate: type==1?startDate:endDate,
         firstDate: DateTime(2015, 8),
         lastDate: DateTime(2101));
-    if (picked != null && picked != startDate)
+    if (picked != null && (picked != startDate||picked != endDate))
       setState(() {
-        startDate = picked;
-        _dateController.text = formatDate(startDate, [mm, '-', dd, '-', yy]);
+        
+        if(type==1) {
+          startDate = picked;
+          _dateController.text = formatDate(startDate, [mm, '-', dd, '-', yy]);
+        }else if(type==0){
+          endDate= picked;
+          _endDateController.text= formatDate(endDate, [mm, '-', dd, '-', yy]);
+        }
         // !isVisible ? _showDialog() : "";
       });
   }
@@ -456,7 +465,7 @@ class _AddActivityScreenState
                                         style: textTheme.display1.copyWith(
                                             color: widget
                                                 .appListener.primaryColorDark,
-                                            fontSize: 14),
+                                            fontSize: 15),
                                       ),
                                     )
                                   : Container(),
@@ -584,6 +593,83 @@ class _AddActivityScreenState
                                   ],
                                 )
                           : Container(),
+                      
+                      Padding(padding: EdgeInsets.all(5),),
+                      widget.type == Activites.TYPE_ACTIVITY &&
+                          (widget.id.isEmpty || isEdit)
+                          ? ShowUp(
+                        child: !endDateShow
+                            ? new GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              endDateShow = true;
+                            });
+                          },
+                          child: Text(
+                            "Click here to add end date",
+                            style: textTheme.display1.copyWith(
+                                color: widget
+                                    .appListener.primaryColorDark,
+                                fontSize: 15),
+                          ),
+                        )
+                            : Container(),
+                        delay: 1000,
+                      )
+                          : Container(),
+                     endDateShow?( (widget.id.isEmpty || isEdit) &&
+                          (widget.type == Activites.TYPE_ACTIVITY ||
+                              widget.type ==
+                                  Activites.TYPE_PERFORMANCE_SCHEDULE ||
+                              widget.type ==
+                                  Activites.TYPE_PRACTICE_SCHEDULE)
+                          ? InkWell(
+                        child: AbsorbPointer(
+                          child: TextField(
+                            enabled: widget.id.isEmpty || isEdit,
+                            textCapitalization:
+                            TextCapitalization.sentences,
+                            textAlignVertical: TextAlignVertical.center,
+                            decoration: InputDecoration(
+                              labelText: widget.id.isEmpty || isEdit
+                                  ? widget.type ==
+                                  Activites.TYPE_PRACTICE_SCHEDULE
+                                  ? "Date"
+                                  : "End Date"
+                                  : "",
+                              labelStyle: TextStyle(
+                                color: Color.fromRGBO(202, 208, 215, 1.0),
+                              ),
+                              errorText: _dateError,
+                              border: widget.id.isEmpty || isEdit
+                                  ? null
+                                  : InputBorder.none,
+                            ),
+                            controller: _endDateController,
+                            style: textTheme.subhead.copyWith(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          if (widget.id.isEmpty || isEdit)
+                            _selectDate(context, 0);
+                        },
+                      )
+                          : (widget.type == Activites.TYPE_ACTIVITY ||
+                          widget.type ==
+                              Activites.TYPE_PRACTICE_SCHEDULE)
+                          ? Padding(
+                        padding: EdgeInsets.only(left: 5),
+                        child: Text(
+                          _dateTxt,
+                          style: textTheme.subhead.copyWith(
+                            color: Colors.grey,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                          : Container()):Container(),
                       widget.type == Activites.TYPE_PRACTICE_SCHEDULE
                           ? widget.id.isEmpty || isEdit
                               ? Row(
