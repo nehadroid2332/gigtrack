@@ -88,7 +88,14 @@ class _AddSetListScreenState
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    if (widget.id == null || widget.id.isEmpty) {
+                    if (currentSong != null) {
+                      setState(() {
+                        _songList.removeWhere((s) {
+                          return s.id == currentSong.id;
+                        });
+                        currentSong = null;
+                      });
+                    } else if (widget.id == null || widget.id.isEmpty) {
                       showMessage("Id cannot be null");
                     } else {
                       _showDialogConfirm();
@@ -428,16 +435,6 @@ class _AddSetListScreenState
                                     return ListTile(
                                       title: Text(song.name),
                                       subtitle: Text(song.artist),
-                                      trailing: widget.id.isEmpty || isEdit
-                                          ? IconButton(
-                                              icon: Icon(Icons.delete),
-                                              onPressed: () {
-                                                setState(() {
-                                                  _songList.removeAt(index);
-                                                });
-                                              },
-                                            )
-                                          : null,
                                       onTap: isEdit
                                           ? () {
                                               setState(() {

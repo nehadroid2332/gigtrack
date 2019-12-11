@@ -46,7 +46,7 @@ class _AddActivityScreenState
   final _titleController = TextEditingController(),
       _dateController = TextEditingController(),
       // _timeController = TextEditingController(),
-     _endDateController= TextEditingController(),
+      _endDateController = TextEditingController(),
       _descController = TextEditingController(),
       _taskController = TextEditingController(),
       _parkingController = TextEditingController(),
@@ -70,12 +70,12 @@ class _AddActivityScreenState
       _endTimeError;
 
   DateTime startDate = DateTime.now().toUtc();
-  DateTime endDate= DateTime.now().toUtc();
+  DateTime endDate = DateTime.now().toUtc();
   TimeOfDay startTime = TimeOfDay(hour: DateTime.now().hour, minute: 0);
   TimeOfDay endTime = TimeOfDay(hour: DateTime.now().hour, minute: 0);
   bool isVisible = false, isEdit = false;
   bool setTime = false;
-  bool endDateShow= false;
+  bool endDateShow = false;
 
   String _dateTxt = "", _estDateTxt = "";
 
@@ -96,18 +96,17 @@ class _AddActivityScreenState
   Future<Null> _selectDate(BuildContext context, int type) async {
     final DateTime picked = await showDatePicker(
         context: context,
-        initialDate: type==1?startDate:endDate,
+        initialDate: type == 1 ? startDate : endDate,
         firstDate: DateTime(2015, 8),
         lastDate: DateTime(2101));
-    if (picked != null && (picked != startDate||picked != endDate))
+    if (picked != null && (picked != startDate || picked != endDate))
       setState(() {
-        
-        if(type==1) {
+        if (type == 1) {
           startDate = picked;
           _dateController.text = formatDate(startDate, [mm, '-', dd, '-', yy]);
-        }else if(type==0){
-          endDate= picked;
-          _endDateController.text= formatDate(endDate, [mm, '-', dd, '-', yy]);
+        } else if (type == 0) {
+          endDate = picked;
+          _endDateController.text = formatDate(endDate, [mm, '-', dd, '-', yy]);
         }
         // !isVisible ? _showDialog() : "";
       });
@@ -593,83 +592,89 @@ class _AddActivityScreenState
                                   ],
                                 )
                           : Container(),
-                      
-                      Padding(padding: EdgeInsets.all(5),),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
                       widget.type == Activites.TYPE_ACTIVITY &&
-                          (widget.id.isEmpty || isEdit)
+                              (widget.id.isEmpty || isEdit)
                           ? ShowUp(
-                        child: !endDateShow
-                            ? new GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              endDateShow = true;
-                            });
-                          },
-                          child: Text(
-                            "Click here to add end date",
-                            style: textTheme.display1.copyWith(
-                                color: widget
-                                    .appListener.primaryColorDark,
-                                fontSize: 15),
-                          ),
-                        )
-                            : Container(),
-                        delay: 1000,
-                      )
+                              child: !endDateShow
+                                  ? new GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          endDateShow = true;
+                                        });
+                                      },
+                                      child: Text(
+                                        "Click here to add end date",
+                                        style: textTheme.display1.copyWith(
+                                            color: widget
+                                                .appListener.primaryColorDark,
+                                            fontSize: 15),
+                                      ),
+                                    )
+                                  : Container(),
+                              delay: 1000,
+                            )
                           : Container(),
-                     endDateShow?( (widget.id.isEmpty || isEdit) &&
-                          (widget.type == Activites.TYPE_ACTIVITY ||
-                              widget.type ==
-                                  Activites.TYPE_PERFORMANCE_SCHEDULE ||
-                              widget.type ==
-                                  Activites.TYPE_PRACTICE_SCHEDULE)
-                          ? InkWell(
-                        child: AbsorbPointer(
-                          child: TextField(
-                            enabled: widget.id.isEmpty || isEdit,
-                            textCapitalization:
-                            TextCapitalization.sentences,
-                            textAlignVertical: TextAlignVertical.center,
-                            decoration: InputDecoration(
-                              labelText: widget.id.isEmpty || isEdit
-                                  ? widget.type ==
-                                  Activites.TYPE_PRACTICE_SCHEDULE
-                                  ? "Date"
-                                  : "End Date"
-                                  : "",
-                              labelStyle: TextStyle(
-                                color: Color.fromRGBO(202, 208, 215, 1.0),
-                              ),
-                              errorText: _dateError,
-                              border: widget.id.isEmpty || isEdit
-                                  ? null
-                                  : InputBorder.none,
-                            ),
-                            controller: _endDateController,
-                            style: textTheme.subhead.copyWith(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                        onTap: () {
-                          if (widget.id.isEmpty || isEdit)
-                            _selectDate(context, 0);
-                        },
-                      )
-                          : (widget.type == Activites.TYPE_ACTIVITY ||
-                          widget.type ==
-                              Activites.TYPE_PRACTICE_SCHEDULE)
-                          ? Padding(
-                        padding: EdgeInsets.only(left: 5),
-                        child: Text(
-                          _dateTxt,
-                          style: textTheme.subhead.copyWith(
-                            color: Colors.grey,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      )
-                          : Container()):Container(),
+                      endDateShow
+                          ? ((widget.id.isEmpty || isEdit) &&
+                                  (widget.type == Activites.TYPE_ACTIVITY ||
+                                      widget.type ==
+                                          Activites.TYPE_PERFORMANCE_SCHEDULE ||
+                                      widget.type ==
+                                          Activites.TYPE_PRACTICE_SCHEDULE)
+                              ? InkWell(
+                                  child: AbsorbPointer(
+                                    child: TextField(
+                                      enabled: widget.id.isEmpty || isEdit,
+                                      textCapitalization:
+                                          TextCapitalization.sentences,
+                                      textAlignVertical:
+                                          TextAlignVertical.center,
+                                      decoration: InputDecoration(
+                                        labelText: widget.id.isEmpty || isEdit
+                                            ? widget.type ==
+                                                    Activites
+                                                        .TYPE_PRACTICE_SCHEDULE
+                                                ? "Date"
+                                                : "End Date"
+                                            : "",
+                                        labelStyle: TextStyle(
+                                          color: Color.fromRGBO(
+                                              202, 208, 215, 1.0),
+                                        ),
+                                        errorText: _dateError,
+                                        border: widget.id.isEmpty || isEdit
+                                            ? null
+                                            : InputBorder.none,
+                                      ),
+                                      controller: _endDateController,
+                                      style: textTheme.subhead.copyWith(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    if (widget.id.isEmpty || isEdit)
+                                      _selectDate(context, 0);
+                                  },
+                                )
+                              : (widget.type == Activites.TYPE_ACTIVITY ||
+                                      widget.type ==
+                                          Activites.TYPE_PRACTICE_SCHEDULE)
+                                  ? Padding(
+                                      padding: EdgeInsets.only(left: 5),
+                                      child: Text(
+                                        _dateTxt,
+                                        style: textTheme.subhead.copyWith(
+                                          color: Colors.grey,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    )
+                                  : Container())
+                          : Container(),
                       widget.type == Activites.TYPE_PRACTICE_SCHEDULE
                           ? widget.id.isEmpty || isEdit
                               ? Row(
@@ -1258,13 +1263,16 @@ class _AddActivityScreenState
                                   child: Text("No Band Member"),
                                 )
                           : Container(),
-                      (widget.id.isEmpty) || (isEdit) || (widget.isParent)&& (widget.type == Activites.TYPE_BAND_TASK)
+                      (widget.id.isEmpty) ||
+                              (isEdit) ||
+                              (widget.isParent) &&
+                                  (widget.type == Activites.TYPE_BAND_TASK)
                           ? Text(
-                        "Task Notes",
-                        textAlign: TextAlign.center,
-                        style: textTheme.title,
-                      ):Container(),
-                      
+                              "Task Notes",
+                              textAlign: TextAlign.center,
+                              style: textTheme.title,
+                            )
+                          : Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -1286,7 +1294,7 @@ class _AddActivityScreenState
                                   contentPadding: EdgeInsets.all(5),
                                   leading: CircleAvatar(
                                     backgroundColor:
-                                    Color.fromRGBO(40, 35, 188, 1.0),
+                                        Color.fromRGBO(40, 35, 188, 1.0),
                                     radius: 35,
                                     child: Row(
                                       crossAxisAlignment:
@@ -1392,9 +1400,9 @@ class _AddActivityScreenState
                                               startTime.minute)
                                           .toUtc();
                                       dateTime2 = DateTime(
-                                              startDate.year,
-                                              startDate.month,
-                                              startDate.day,
+                                              endDate.year,
+                                              endDate.month,
+                                              endDate.day,
                                               endTime.hour,
                                               endTime.minute)
                                           .toUtc();
@@ -1452,7 +1460,7 @@ class _AddActivityScreenState
                                   }
                                 });
                               },
-                              color:Color.fromRGBO(40, 35, 188, 1.0),
+                              color: Color.fromRGBO(40, 35, 188, 1.0),
                               child: Text("Submit"),
                               textColor: Colors.white,
                               shape: RoundedRectangleBorder(
@@ -1568,6 +1576,7 @@ class _AddActivityScreenState
       selectedBandMemberId = activities.bandTaskMemberId;
       DateTime dateTime =
           DateTime.fromMillisecondsSinceEpoch(activities.endDate ?? 0);
+      _endDateController.text = formatDate(dateTime, [mm, '-', dd, '-', yy]);
       _endTimeController.text = formatDate(dateTime, [h, ':', nn, ' ', am]);
 
       _locController.text = activities.location;
