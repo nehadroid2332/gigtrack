@@ -61,7 +61,7 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Image.asset(
-                        'assets/images/logo.png',
+                        'assets/images/gigapplogo.png',
                         alignment: Alignment.centerLeft,
                         height: 100,
                       ),

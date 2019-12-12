@@ -23,6 +23,8 @@ PODS:
   - firebase_core (0.0.1):
     - Firebase/Core
     - Flutter
+  - firebase_core_web (0.1.0):
+    - Flutter
   - firebase_database (0.0.1):
     - Firebase/Database
     - Flutter
@@ -134,9 +136,9 @@ PODS:
   - GoogleUtilities/UserDefaults (6.3.2):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.3.0)
-  - image_cropper (0.0.1):
+  - image_cropper (0.0.2):
     - Flutter
-    - TOCropViewController (~> 2.5.1)
+    - TOCropViewController (~> 2.5.2)
   - image_picker (0.0.1):
     - Flutter
   - leveldb-library (1.22)
@@ -153,6 +155,10 @@ PODS:
   - Protobuf (3.11.1)
   - shared_preferences (0.0.1):
     - Flutter
+  - shared_preferences_macos (0.0.1):
+    - Flutter
+  - shared_preferences_web (0.0.1):
+    - Flutter
   - TOCropViewController (2.5.2)
   - webview_flutter (0.0.1):
     - Flutter
@@ -160,6 +166,7 @@ PODS:
 DEPENDENCIES:
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
+  - firebase_core_web (from `.symlinks/plugins/firebase_core_web/ios`)
   - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
@@ -174,6 +181,8 @@ DEPENDENCIES:
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+  - shared_preferences_macos (from `.symlinks/plugins/shared_preferences_macos/ios`)
+  - shared_preferences_web (from `.symlinks/plugins/shared_preferences_web/ios`)
   - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
 
 SPEC REPOS:
@@ -208,6 +217,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
+  firebase_core_web:
+    :path: ".symlinks/plugins/firebase_core_web/ios"
   firebase_database:
     :path: ".symlinks/plugins/firebase_database/ios"
   firebase_messaging:
@@ -234,16 +245,21 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
+  shared_preferences_macos:
+    :path: ".symlinks/plugins/shared_preferences_macos/ios"
+  shared_preferences_web:
+    :path: ".symlinks/plugins/shared_preferences_web/ios"
   webview_flutter:
     :path: ".symlinks/plugins/webview_flutter/ios"
 
 SPEC CHECKSUMS:
   Firebase: 458d109512200d1aca2e1b9b6cf7d68a869a4a46
-  firebase_auth: 3735c80c0a290fd04a34e9bbbecbeec8f79a216a
-  firebase_core: ebf6a934345d646bf7820a6685427bb3741f01ed
-  firebase_database: 03cd65b8e4203286a337877bb3dd744f4817f71e
+  firebase_auth: d99b993c1405096e66c58211b1cd956c23eed1c5
+  firebase_core: 87e4c7cef68de46c0326ce2ee907fc7e365ead7e
+  firebase_core_web: d501d8b946b60c8af265428ce483b0fff5ad52d1
+  firebase_database: 25e756b41e85a2d9c07502b78f28fc5ae5973e0d
   firebase_messaging: b8543d17dd9825f4f24a585477f77db103e5228e
-  firebase_storage: d83bfc0e0e849b2f871a34c474466bf5014ff304
+  firebase_storage: 764e1fda359bb7c06dcf7412c66136a6ca64a81a
   FirebaseAnalytics: 45f36d9c429fc91d206283900ab75390cd05ee8a
   FirebaseAnalyticsInterop: d48b6ab67bcf016a05e55b71fc39c61c0cb6b7f3
   FirebaseAuth: 7d0f84873926f6648bbd1391a318dfb1a26b5e4f
@@ -259,7 +275,7 @@ SPEC CHECKSUMS:
   flutter_image_compress: f69d0e0e078ce52b4810695593bc861ee319ae7d
   flutter_money_formatter: d0d18ddc5be333fad8d09964d741b59fa11a91dc
   flutter_native_timezone: e72ff1900460ff57cfd331d1758050c9269f3e99
-  google_maps_flutter: 78a52114c898b42ea647919679a4c58b70abe876
+  google_maps_flutter: d0dd62f5a7d39bae61057eb9f52dd778d99c7c6c
   google_places_picker: 37cfdb52d9d1157c753306751bfd45c53382e462
   GoogleAppMeasurement: dfe55efa543e899d906309eaaac6ca26d249862f
   GoogleDataTransport: 8e9b210c97d55fbff306cc5468ff91b9cb32dcf5
@@ -268,7 +284,7 @@ SPEC CHECKSUMS:
   GooglePlaces: 1b9d29cf3e164903d873600f511f42acdfe85294
   GoogleUtilities: 547a86735c6f0ee30ad17e94df4fc21f616b71cb
   GTMSessionFetcher: 43b8b64263023d4f32caa0b40f4c8bfa3c5f36d8
-  image_cropper: 966bf742cd9cee8d78010ec5c67dd9e7826e6b19
+  image_cropper: 3c16d7651730ffe85897f5a1c4e2547e6b54989a
   image_picker: e3eacd46b94694dde7cf2705955cece853aa1a8f
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   Mantle: 2fa750afa478cd625a94230fbf1c13462f29395b
@@ -276,6 +292,8 @@ SPEC CHECKSUMS:
   path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
   Protobuf: 20d79da7f20b5928b80043b05080b816e802659e
   shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
+  shared_preferences_macos: f3f29b71ccbb56bf40c9dd6396c9acf15e214087
+  shared_preferences_web: 141cce0c3ed1a1c5bf2a0e44f52d31eeb66e5ea9
   TOCropViewController: e9da34f484aedd4e5d5a8ab230ba217cfe16c729
   webview_flutter: db3aba222b23e4dc432e0c5882834123dc50ff9f
 

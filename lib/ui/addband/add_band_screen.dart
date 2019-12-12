@@ -385,7 +385,7 @@ class _AddBandScreenState
                           margin: EdgeInsets.only(left: 5, right: 5),
                           height: MediaQuery.of(context).size.height /
                               4.4,
-                          width: 90,
+                          width: 0,
                           child: Image.network(
                             File(files[0]).path,
                             fit: BoxFit.cover,
@@ -870,9 +870,16 @@ class _AddBandScreenState
                                 },
                                 child: Padding(
                                   padding:
-                                  EdgeInsets.only(top: 5, bottom: 5),
-                                  child: Text(
-                                    "${user.firstName} ${user.lastName}- ${user.instrumentList?.join(',')} \n${user.memberRole?.join(',') ?? ''} - $permission",
+                                  EdgeInsets.only(top: 2, bottom: 2),
+                                  child:user.instrumentList.length>0?Text(
+                                    "${user.firstName} ${user.lastName} - ${user.instrumentList?.join(',')}",
+                                    style: textTheme.subhead.copyWith(
+                                      color: Colors.black,
+                                      fontSize: 12.3,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ):Text(
+                                    "${user.firstName} ${user.lastName}",
                                     style: textTheme.subhead.copyWith(
                                       color: Colors.black,
                                       fontSize: 12.3,
@@ -881,6 +888,54 @@ class _AddBandScreenState
                                   ),
                                 
                                 ),
+                              ),
+                              InkWell(
+                                onTap: () async {
+                                  await widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.ADDMEMBERTOBAND.toString() +
+                                          "/${user.email}/${widget.id}");
+                                  getData();
+                                },
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                  
+                                  Padding(
+                                    padding:
+                                    EdgeInsets.only(top: 2, bottom: 2),
+                                    child:user.memberRole.length>0? Text(
+                                      "${user.memberRole?.join(',') ?? ''} - ",
+                                      
+                                      style: textTheme.subhead.copyWith(
+                                        color: Colors.black,
+                                        fontSize: 12.3,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ):Text(
+                                      "${user.memberRole?.join(',') ?? ''} ",
+                                      style: textTheme.subhead.copyWith(
+                                        color: Colors.black,
+                                        fontSize: 12.3,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+  
+                                  ),
+                                  Padding(
+                                    padding:
+                                    EdgeInsets.only(top: 2, bottom: 2),
+                                    child: Text(
+                                      "$permission",
+                                      style: textTheme.subhead.copyWith(
+                                        color: Colors.black,
+                                        fontSize: 12.3,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+  
+                                  ),
+                                ]),
                               ),
                               Container(width: MediaQuery.of(context).size.width,
                                 height: 1,

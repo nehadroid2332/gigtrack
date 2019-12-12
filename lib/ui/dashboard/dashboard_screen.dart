@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
@@ -29,7 +30,7 @@ class _DashboardScreenState
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/background.png"),
+          image: AssetImage("assets/images/rendered.png"),
           fit: BoxFit.cover,
         ),
       ),
@@ -38,19 +39,21 @@ class _DashboardScreenState
         vertical: 5,
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Align(
-            alignment: Alignment.topRight,
+            alignment: Alignment.topLeft,
             child: Padding(
               padding: EdgeInsets.only(
                 bottom: 0,
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Expanded(
-                    child: Container(),
-                  ),
+//                  Expanded(
+//                    child: Container(),
+//                  ),
                   IconButton(
                     icon: Icon(
                       Icons.account_circle,
@@ -120,7 +123,7 @@ class _DashboardScreenState
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Image.asset(
-                          'assets/images/logo.png',
+                          'assets/images/gigapplogo.png',
                           height: 86,
                         ),
                       ),
@@ -160,59 +163,74 @@ class _DashboardScreenState
                   switch (txt) {
                     case "Activities":
                       //color = Color.fromRGBO(63, 146, 219, 1.0); last one
-                      color = Color.fromRGBO(71, 151, 221, 1.0);
+                      color = Color.fromRGBO(71, 151, 221, 0.1);
                       image = 'assets/images/feedbacknew.svg';
                       break;
                     case "Notes":
                       //color=Color.fromRGBO(239,181, 77, 1.0);
-                      color = Color.fromRGBO(196, 227, 102, 1.0);
+                      color = Color.fromRGBO(196, 227, 102, 0.1);
                       image = 'assets/images/notesicon.svg';
                       break;
                     case "Band":
                       //color=Color.fromRGBO(214,22, 35, 1.0);
-                      color = Color.fromRGBO(241, 206, 96, 1.0);
+                      color = Color.fromRGBO(241, 206, 96, 0.1);
                       image = 'assets/images/bandnew.svg';
                       break;
                     case "Equipment":
-                      color = Color.fromRGBO(210, 34, 153, 1.0);
+                      color = Color.fromRGBO(210, 34, 153, 0.1);
                       //color = Color.fromRGBO(60, 111, 54, 1.0);
                       image = 'assets/images/equipmentnew.svg';
                       break;
                     case "EPK":
                       //color=Color.fromRGBO(80, 54, 116, 1.0);
-                      color = Color.fromRGBO(26, 182, 37, 1.0);
+                      color = Color.fromRGBO(26, 182, 37, 0.1);
                       image = 'assets/images/epknew.svg';
                       break;
                     case "Contacts":
                       //color= Color.fromRGBO(191, 53, 42, 1.0);
-                      color = Color.fromRGBO(243, 135, 75, 1.0);
+                      color = Color.fromRGBO(243, 135, 75, 0.1);
                       image = 'assets/images/contactsnew.svg';
                       break;
                     case "Beta-Test Feedback":
-                      color = Color.fromRGBO(102, 187, 238, 1.0);
+                      color = Color.fromRGBO(102, 187, 238, 0.1);
                       //color = Color.fromRGBO(18, 130, 119, 1.0);
                       image = 'assets/images/feedbackicon.svg';
                       break;
                     case "Bulletin Board":
-                      color = Color.fromRGBO(251, 111, 162, 1.0);
+                      color = Color.fromRGBO(251, 111, 162, 0.1);
                       image = 'assets/images/bulletinnew.svg';
                       break;
                   }
                   return InkWell(
                     child: Card(
+                      
                       margin: EdgeInsets.all(8),
                       color: color,
-                      elevation: 13,
+                      elevation: 40,
+                      
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        
+                        borderRadius: BorderRadius.circular(20),
+                        
+                        side: new BorderSide(color: Colors.blue, width: 3.5),
                       ),
                       child: Padding(
                         padding: EdgeInsets.only(
-                            left: 8, right: 8, top: 4, bottom: 4),
+                            left: 0, right: 0, top: 4, bottom: 4),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
+                            Container(
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        begin: FractionalOffset.topCenter,
+                                        end: FractionalOffset.bottomCenter,
+                                        colors: [Color.fromRGBO(84, 80, 74, 0.9),Color.fromRGBO(30,50,206, 0.9)],
+                                      stops: [0.3, 0.8],
+                                    )
+                                ),
+                                child:
                             Center(
                               child: Column(
                                 children: <Widget>[
@@ -237,7 +255,7 @@ class _DashboardScreenState
                                   )
                                 ],
                               ),
-                            ),
+                            )),
                           ],
                         ),
                       ),

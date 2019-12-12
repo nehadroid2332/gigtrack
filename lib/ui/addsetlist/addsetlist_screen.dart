@@ -125,18 +125,11 @@ class _AddSetListScreenState
           content: Text("Are you sure you want to delete?"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
+         
             new FlatButton(
-              child: new Text("No"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            new RaisedButton(
               child: new Text("Yes"),
-              textColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6)),
-              color: Color.fromRGBO(60, 111, 55, 1.0),
+              textColor: Colors.black,
+             
               onPressed: () {
                 if (widget.id == null || widget.id.isEmpty) {
                   showMessage("Id cannot be null");
@@ -145,6 +138,15 @@ class _AddSetListScreenState
                   presenter.deleteSetList(widget.id);
                   Navigator.of(context).pop();
                 }
+              },
+            ),
+            new RaisedButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6)),
+              color:Color.fromRGBO(214, 22, 35, 1.0),
+              child: new Text("No"),
+              onPressed: () {
+                Navigator.of(context).pop();
               },
             ),
           ],
@@ -211,7 +213,7 @@ class _AddSetListScreenState
           ),
           decoration: BoxDecoration(
             color: _selectedFruit == (s)
-                ? Color.fromRGBO(124, 180, 97, 1.0)
+                ? Color.fromRGBO(214, 22, 35, 1.0)
                 : Color.fromRGBO(244, 246, 248, 1.0),
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
