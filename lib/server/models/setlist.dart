@@ -40,6 +40,7 @@ class Song extends BaseModel {
   String chords;
   String perform;
   String id;
+  String notes;
 
   Song();
 
@@ -49,6 +50,7 @@ class Song extends BaseModel {
     artist = data['artist'];
     chords = data['chords'];
     perform = data['perform'];
+    notes=data['notes'];
   }
 
   @override
@@ -59,6 +61,7 @@ class Song extends BaseModel {
     data['artist'] = artist;
     data['chords'] = chords;
     data['perform'] = perform;
+    data['notes']= notes;
     return data;
   }
 }

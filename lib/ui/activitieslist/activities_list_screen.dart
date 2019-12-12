@@ -356,7 +356,7 @@ class _ActivitiesListScreenState
                               padding: EdgeInsets.all(10),
                             ),
                       Text(
-                        "Past",
+                        "Activity Archive",
                         style: textTheme.display1.copyWith(fontSize: 28),
                         textAlign: TextAlign.center,
                       ),

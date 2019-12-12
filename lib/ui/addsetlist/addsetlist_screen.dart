@@ -23,6 +23,7 @@ class _AddSetListScreenState
   final _listNameController = TextEditingController(),
       _songArtistController = TextEditingController(),
       _songChordsController = TextEditingController(),
+      _songNotesController= TextEditingController(),
       _songNameController = TextEditingController();
   final Map<String, String> inList = Map();
   final instrumentList = <String>[
@@ -30,8 +31,8 @@ class _AddSetListScreenState
     "Needs work",
     "New Song",
   ];
-  String _listNameError, _songNameError, _songArtistError, _songChordsError;
-  List _fruits = ["Ready to play", "needs work", "new song"];
+  String _listNameError, _songNameError, _songArtistError, _songChordsError,_songNoteserror;
+  List _fruits = [ "Needs work", "New song"];
   List<Song> _songList = [];
   Song currentSong;
   String _selectedFruit;
@@ -311,8 +312,22 @@ class _AddSetListScreenState
                               children: items,
                             ),
                             Padding(
-                              padding: EdgeInsets.all(8),
+                              padding: EdgeInsets.all(0),
                             ),
+                            TextField(
+                              style: textTheme.title,
+                              textCapitalization: TextCapitalization.words,
+                              decoration: InputDecoration(
+                                errorText: _songNoteserror,
+                                labelText: "Notes",
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                              ),
+                              controller: _songNotesController,
+                            ),
+
+                              Padding(padding: EdgeInsets.all(10),),
 //                            (widget.id.isEmpty || isEdit)
 //                                ? Wrap(
 //                              children: items2,
@@ -347,6 +362,7 @@ class _AddSetListScreenState
                                     _songArtistController.clear();
                                     _songChordsController.clear();
                                     _songNameController.clear();
+                                    _songNotesController.clear();
                                   }
                                 });
                               },
@@ -419,6 +435,7 @@ class _AddSetListScreenState
                                               _songNameController.clear();
                                               _songChordsController.clear();
                                               _songArtistController.clear();
+                                              _songNotesController.clear();
                                               _selectedFruit = null;
                                               currentSong.perform =
                                                   _selectedFruit;
@@ -447,6 +464,7 @@ class _AddSetListScreenState
                                                     currentSong.chords;
                                                 _songNameController.text =
                                                     currentSong.name;
+                                                _songNotesController.text= currentSong.notes;
                                                 _selectedFruit = song.perform;
                                               });
                                             }

@@ -39,7 +39,7 @@ class _DashboardScreenState
         vertical: 5,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    
         children: <Widget>[
           Align(
             alignment: Alignment.topLeft,
@@ -48,8 +48,7 @@ class _DashboardScreenState
                 bottom: 0,
               ),
               child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
+              
                 children: <Widget>[
 //                  Expanded(
 //                    child: Container(),
