@@ -342,6 +342,7 @@ class _AddSetListScreenState
                                     currentSong.chords =
                                         _songChordsController.text;
                                     currentSong.name = _songNameController.text;
+                                    currentSong.notes=_songNotesController.text;
                                     currentSong.perform = _selectedFruit;
                                     if (currentSong.id == null) {
                                       currentSong.id = randomString(15);
