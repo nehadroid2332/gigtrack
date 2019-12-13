@@ -1,5 +1,7 @@
 import 'package:gigtrack/base/base_model.dart';
 
+import '../../base/base_model.dart';
+
 class SetList extends BaseModel {
   String setListName;
   List<Song> songs = [];
@@ -41,6 +43,7 @@ class Song extends BaseModel {
   String perform;
   String id;
   String notes;
+  List<String> subnotes = [];
 
   Song();
 
@@ -50,7 +53,12 @@ class Song extends BaseModel {
     artist = data['artist'];
     chords = data['chords'];
     perform = data['perform'];
-    notes=data['notes'];
+    notes = data['notes'];
+    if (data['subnotes'] != null) {
+      for (var item in data['subnotes']) {
+        subnotes.add(item.toString());
+      }
+    }
   }
 
   @override
@@ -61,7 +69,8 @@ class Song extends BaseModel {
     data['artist'] = artist;
     data['chords'] = chords;
     data['perform'] = perform;
-    data['notes']= notes;
+    data['notes'] = notes;
+    data['subnotes'] = subnotes;
     return data;
   }
 }

@@ -23,7 +23,7 @@ class _AddSetListScreenState
   final _listNameController = TextEditingController(),
       _songArtistController = TextEditingController(),
       _songChordsController = TextEditingController(),
-      _songNotesController= TextEditingController(),
+      _songNotesController = TextEditingController(),
       _songNameController = TextEditingController();
   final Map<String, String> inList = Map();
   final instrumentList = <String>[
@@ -31,11 +31,17 @@ class _AddSetListScreenState
     "Needs work",
     "New Song",
   ];
-  String _listNameError, _songNameError, _songArtistError, _songChordsError,_songNoteserror;
-  List _fruits = [ "Needs work", "New song"];
+  String _listNameError,
+      _songNameError,
+      _songArtistError,
+      _songChordsError,
+      _songNoteserror;
+  List _fruits = ["Needs work", "New song"];
   List<Song> _songList = [];
   Song currentSong;
+
   String _selectedFruit;
+  final _subNoteFieldController = TextEditingController();
 
   List<SetList> setLists = [];
 
@@ -126,11 +132,10 @@ class _AddSetListScreenState
           content: Text("Are you sure you want to delete?"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
-         
+
             new FlatButton(
               child: new Text("Yes"),
               textColor: Colors.black,
-             
               onPressed: () {
                 if (widget.id == null || widget.id.isEmpty) {
                   showMessage("Id cannot be null");
@@ -144,7 +149,7 @@ class _AddSetListScreenState
             new RaisedButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
-              color:Color.fromRGBO(214, 22, 35, 1.0),
+              color: Color.fromRGBO(214, 22, 35, 1.0),
               child: new Text("No"),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -327,7 +332,61 @@ class _AddSetListScreenState
                               controller: _songNotesController,
                             ),
 
-                              Padding(padding: EdgeInsets.all(10),),
+                            Padding(
+                              padding: EdgeInsets.all(10),
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Text("Sub Notes"),
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.add),
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: Text('Add Subnote'),
+                                            content: TextField(
+                                              controller:
+                                                  _subNoteFieldController,
+                                              decoration: InputDecoration(
+                                                  hintText: "Enter subnote..."),
+                                            ),
+                                            actions: <Widget>[
+                                              new FlatButton(
+                                                child: new Text('SUBMIT'),
+                                                onPressed: () {
+                                                  if (_subNoteFieldController
+                                                      .text.isNotEmpty)
+                                                    setState(() {
+                                                      currentSong.subnotes.add(
+                                                          _subNoteFieldController
+                                                              .text);
+                                                    });
+                                                  Navigator.of(context).pop();
+                                                },
+                                              )
+                                            ],
+                                          );
+                                        });
+                                  },
+                                )
+                              ],
+                            ),
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: currentSong?.subnotes?.length ?? 0,
+                              itemBuilder: (BuildContext context, int index) {
+                                String subnote = currentSong?.subnotes[index];
+                                return ListTile(
+                                  title: Text("$subnote"),
+                                );
+                              },
+                            ),
+
 //                            (widget.id.isEmpty || isEdit)
 //                                ? Wrap(
 //                              children: items2,
@@ -342,7 +401,8 @@ class _AddSetListScreenState
                                     currentSong.chords =
                                         _songChordsController.text;
                                     currentSong.name = _songNameController.text;
-                                    currentSong.notes=_songNotesController.text;
+                                    currentSong.notes =
+                                        _songNotesController.text;
                                     currentSong.perform = _selectedFruit;
                                     if (currentSong.id == null) {
                                       currentSong.id = randomString(15);
@@ -465,7 +525,8 @@ class _AddSetListScreenState
                                                     currentSong.chords;
                                                 _songNameController.text =
                                                     currentSong.name;
-                                                _songNotesController.text= currentSong.notes;
+                                                _songNotesController.text =
+                                                    currentSong.notes;
                                                 _selectedFruit = song.perform;
                                               });
                                             }

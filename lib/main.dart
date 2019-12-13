@@ -394,6 +394,7 @@ class MyApp extends StatelessWidget implements AppListener {
   //AIzaSyDPmfMCWQcPRNZOcsGXszKGJMs11FbUxtc
 
   void initPrefs() async {
+    WidgetsFlutterBinding.ensureInitialized();
     _prefs = await SharedPreferences.getInstance();
   }
 
