@@ -39,7 +39,6 @@ class _DashboardScreenState
         vertical: 5,
       ),
       child: Column(
-    
         children: <Widget>[
           Align(
             alignment: Alignment.topLeft,
@@ -48,7 +47,6 @@ class _DashboardScreenState
                 bottom: 0,
               ),
               child: Row(
-              
                 children: <Widget>[
 //                  Expanded(
 //                    child: Container(),
@@ -137,7 +135,8 @@ class _DashboardScreenState
             ],
           ),
           Padding(
-            padding: EdgeInsets.only(top: MediaQuery.of(context).size.width/6),
+            padding:
+                EdgeInsets.only(top: MediaQuery.of(context).size.width / 6),
           ),
           Padding(
             padding: EdgeInsets.all(2),
@@ -158,60 +157,65 @@ class _DashboardScreenState
               ].map(
                 (txt) {
                   Color color = widget.appListener.primaryColor;
+                  Color borderColor = Colors.blue;
                   String image;
                   switch (txt) {
                     case "Activities":
                       //color = Color.fromRGBO(63, 146, 219, 1.0); last one
                       color = Color.fromRGBO(71, 151, 221, 0.1);
                       image = 'assets/images/feedbacknew.svg';
+                      borderColor = Colors.cyanAccent;
                       break;
                     case "Notes":
                       //color=Color.fromRGBO(239,181, 77, 1.0);
                       color = Color.fromRGBO(196, 227, 102, 0.1);
                       image = 'assets/images/notesicon.svg';
+                      borderColor = Colors.deepPurple;
                       break;
                     case "Band":
                       //color=Color.fromRGBO(214,22, 35, 1.0);
                       color = Color.fromRGBO(241, 206, 96, 0.1);
                       image = 'assets/images/bandnew.svg';
+                      borderColor = Colors.orangeAccent;
                       break;
                     case "Equipment":
                       color = Color.fromRGBO(210, 34, 153, 0.1);
                       //color = Color.fromRGBO(60, 111, 54, 1.0);
                       image = 'assets/images/equipmentnew.svg';
+                      borderColor = Colors.deepOrangeAccent;
                       break;
                     case "EPK":
                       //color=Color.fromRGBO(80, 54, 116, 1.0);
                       color = Color.fromRGBO(26, 182, 37, 0.1);
                       image = 'assets/images/epknew.svg';
+                      borderColor = Colors.redAccent;
                       break;
                     case "Contacts":
                       //color= Color.fromRGBO(191, 53, 42, 1.0);
                       color = Color.fromRGBO(243, 135, 75, 0.1);
                       image = 'assets/images/contactsnew.svg';
+                      borderColor = Colors.pinkAccent;
                       break;
                     case "Beta-Test Feedback":
                       color = Color.fromRGBO(102, 187, 238, 0.1);
                       //color = Color.fromRGBO(18, 130, 119, 1.0);
                       image = 'assets/images/feedbackicon.svg';
+                      borderColor = Colors.yellowAccent;
                       break;
                     case "Bulletin Board":
                       color = Color.fromRGBO(251, 111, 162, 0.1);
                       image = 'assets/images/bulletinnew.svg';
+                      borderColor = Colors.greenAccent;
                       break;
                   }
                   return InkWell(
                     child: Card(
-                      
                       margin: EdgeInsets.all(8),
                       color: color,
                       elevation: 40,
-                      
                       shape: RoundedRectangleBorder(
-                        
                         borderRadius: BorderRadius.circular(20),
-                        
-                        side: new BorderSide(color: Colors.blue, width: 3.5),
+                        side: new BorderSide(color: borderColor, width: 3.5),
                       ),
                       child: Padding(
                         padding: EdgeInsets.only(
@@ -223,38 +227,41 @@ class _DashboardScreenState
                             Container(
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(
-                                        begin: FractionalOffset.topCenter,
-                                        end: FractionalOffset.bottomCenter,
-                                        colors: [Color.fromRGBO(84, 80, 74, 0.9),Color.fromRGBO(30,50,206, 0.9)],
-                                      stops: [0.3, 0.8],
-                                    )
-                                ),
-                                child:
-                            Center(
-                              child: Column(
-                                children: <Widget>[
-                                  new SvgPicture.asset(
-                                    image,
-                                    height: 66.0,
-                                    
-                                    allowDrawingOutsideViewBox: true,
+                                  begin: FractionalOffset.topCenter,
+                                  end: FractionalOffset.bottomCenter,
+                                  colors: [
+                                    Color.fromRGBO(84, 80, 74, 0.9),
+                                    Color.fromRGBO(30, 50, 206, 0.9)
+                                  ],
+                                  stops: [0.3, 0.8],
+                                )),
+                                child: Center(
+                                  child: Column(
+                                    children: <Widget>[
+                                      new SvgPicture.asset(
+                                        image,
+                                        height: 66.0,
+                                        allowDrawingOutsideViewBox: true,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 5,
+                                            right: 5,
+                                            top: 5,
+                                            bottom: 5),
+                                      ),
+                                      Text(
+                                        "$txt",
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        style: textTheme.headline.copyWith(
+                                            color: Color.fromRGBO(
+                                                250, 250, 250, 1.0),
+                                            fontSize: 18),
+                                      )
+                                    ],
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 5, right: 5, top: 5, bottom: 5),
-                                  ),
-                                  Text(
-                                    "$txt",
-                                    textAlign: TextAlign.center,
-                                    maxLines: 2,
-                                    style: textTheme.headline.copyWith(
-                                        color:
-                                            Color.fromRGBO(250, 250, 250, 1.0),
-                                        fontSize: 18),
-                                  )
-                                ],
-                              ),
-                            )),
+                                )),
                           ],
                         ),
                       ),
