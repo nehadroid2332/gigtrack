@@ -9,7 +9,7 @@ import 'package:gigtrack/ui/dashboard/dashboard_presenter.dart';
 
 class DashboardScreen extends BaseScreen {
   DashboardScreen(AppListener appListener) : super(appListener);
-  
+
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
 }
@@ -18,13 +18,13 @@ class _DashboardScreenState
     extends BaseScreenState<DashboardScreen, DashboardPresenter>
     implements DashboardContract {
   String userPlayingStyleId;
-  
+
   @override
   void initState() {
     super.initState();
     presenter.getPlayingStyleList("");
   }
-  
+
   @override
   Widget buildBody() {
     return Container(
@@ -39,7 +39,7 @@ class _DashboardScreenState
         vertical: 5,
       ),
       child: Column(
-        
+    
         children: <Widget>[
           Align(
             alignment: Alignment.topLeft,
@@ -48,7 +48,7 @@ class _DashboardScreenState
                 bottom: 0,
               ),
               child: Row(
-                
+              
                 children: <Widget>[
 //                  Expanded(
 //                    child: Container(),
@@ -156,22 +156,22 @@ class _DashboardScreenState
                 "Beta-Test Feedback",
                 "Bulletin Board"
               ].map(
-                    (txt) {
+                (txt) {
                   Color color = widget.appListener.primaryColor;
                   String image;
                   switch (txt) {
                     case "Activities":
-                    //color = Color.fromRGBO(63, 146, 219, 1.0); last one
+                      //color = Color.fromRGBO(63, 146, 219, 1.0); last one
                       color = Color.fromRGBO(71, 151, 221, 0.1);
                       image = 'assets/images/feedbacknew.svg';
                       break;
                     case "Notes":
-                    //color=Color.fromRGBO(239,181, 77, 1.0);
+                      //color=Color.fromRGBO(239,181, 77, 1.0);
                       color = Color.fromRGBO(196, 227, 102, 0.1);
                       image = 'assets/images/notesicon.svg';
                       break;
                     case "Band":
-                    //color=Color.fromRGBO(214,22, 35, 1.0);
+                      //color=Color.fromRGBO(214,22, 35, 1.0);
                       color = Color.fromRGBO(241, 206, 96, 0.1);
                       image = 'assets/images/bandnew.svg';
                       break;
@@ -181,12 +181,12 @@ class _DashboardScreenState
                       image = 'assets/images/equipmentnew.svg';
                       break;
                     case "EPK":
-                    //color=Color.fromRGBO(80, 54, 116, 1.0);
+                      //color=Color.fromRGBO(80, 54, 116, 1.0);
                       color = Color.fromRGBO(26, 182, 37, 0.1);
                       image = 'assets/images/epknew.svg';
                       break;
                     case "Contacts":
-                    //color= Color.fromRGBO(191, 53, 42, 1.0);
+                      //color= Color.fromRGBO(191, 53, 42, 1.0);
                       color = Color.fromRGBO(243, 135, 75, 0.1);
                       image = 'assets/images/contactsnew.svg';
                       break;
@@ -223,38 +223,38 @@ class _DashboardScreenState
                             Container(
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(
-                                      begin: FractionalOffset.topCenter,
-                                      end: FractionalOffset.bottomCenter,
-                                      colors: [Color.fromRGBO(84, 80, 74, 0.9),Color.fromRGBO(30,50,206, 0.9)],
+                                        begin: FractionalOffset.topCenter,
+                                        end: FractionalOffset.bottomCenter,
+                                        colors: [Color.fromRGBO(84, 80, 74, 0.9),Color.fromRGBO(30,50,206, 0.9)],
                                       stops: [0.3, 0.8],
                                     )
                                 ),
                                 child:
-                                Center(
-                                  child: Column(
-                                    children: <Widget>[
-                                      new SvgPicture.asset(
-                                        image,
-                                        height: 66.0,
-                                        
-                                        allowDrawingOutsideViewBox: true,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 5, right: 5, top: 5, bottom: 5),
-                                      ),
-                                      Text(
-                                        "$txt",
-                                        textAlign: TextAlign.center,
-                                        maxLines: 2,
-                                        style: textTheme.headline.copyWith(
-                                            color:
-                                            Color.fromRGBO(250, 250, 250, 1.0),
-                                            fontSize: 18),
-                                      )
-                                    ],
+                            Center(
+                              child: Column(
+                                children: <Widget>[
+                                  new SvgPicture.asset(
+                                    image,
+                                    height: 66.0,
+                                    
+                                    allowDrawingOutsideViewBox: true,
                                   ),
-                                )),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 5, right: 5, top: 5, bottom: 5),
+                                  ),
+                                  Text(
+                                    "$txt",
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                    style: textTheme.headline.copyWith(
+                                        color:
+                                            Color.fromRGBO(250, 250, 250, 1.0),
+                                        fontSize: 18),
+                                  )
+                                ],
+                              ),
+                            )),
                           ],
                         ),
                       ),
@@ -303,10 +303,10 @@ class _DashboardScreenState
       ),
     );
   }
-  
+
   @override
   DashboardPresenter get presenter => DashboardPresenter(this);
-  
+
   @override
   void onData(List<UserPlayingStyle> acc) {
     if (acc.length > 0) {
@@ -315,4 +315,3 @@ class _DashboardScreenState
     }
   }
 }
-
