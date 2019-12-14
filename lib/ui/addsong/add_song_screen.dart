@@ -214,7 +214,8 @@ class _AddSongScreenState
                       });
                     },
                     child: Text("Add"),
-                  )
+                  ),
+
                 ],
               ),
             ),

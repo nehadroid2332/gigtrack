@@ -144,7 +144,7 @@ class _DashboardScreenState
 					Expanded(
 						child: GridView.count(
 							crossAxisCount: 2,
-							childAspectRatio: 1.42,
+							childAspectRatio: 1.25,
 							children: [
 								"ACTIVITES",
 								"BAND",
@@ -161,49 +161,49 @@ class _DashboardScreenState
 									String image;
 									switch (txt) {
 										case "ACTIVITES":
-											color= Color.fromRGBO(225, 222, 222,0.8);
+											color= Color.fromRGBO(225, 222, 222,0.7);
 											//color = Color.fromRGBO(63, 146, 219, 1.0); last one
 										//	color = Color.fromRGBO(71, 151, 221, 0.1);
 											image = 'assets/images/feedbacknew.svg';
 											borderColor = Colors.cyanAccent;
 											break;
 										case "NOTES":
-											color= Color.fromRGBO(225, 222, 222,0.8);
+											color= Color.fromRGBO(225, 222, 222,0.7);
 											//color=Color.fromRGBO(239,181, 77, 1.0);
 										//	color = Color.fromRGBO(196, 227, 102, 0.1);
 											image = 'assets/images/notesicon.svg';
 											borderColor = Colors.deepPurple;
 											break;
 										case "BAND":
-											color= Color.fromRGBO(225, 222, 222,0.8);
+											color= Color.fromRGBO(225, 222, 222,0.7);
 											//color=Color.fromRGBO(214,22, 35, 1.0);
 										//	color = Color.fromRGBO(241, 206, 96, 0.1);
 											image = 'assets/images/bandnew.svg';
 											borderColor = Colors.orangeAccent;
 											break;
 										case "EQUIPMENT":
-											color= Color.fromRGBO(225, 222, 222,0.8);
+											color= Color.fromRGBO(225, 222, 222,0.7);
 											//color = Color.fromRGBO(210, 34, 153, 0.1);
 											//color = Color.fromRGBO(60, 111, 54, 1.0);
 											image = 'assets/images/Equipmentupdated.svg';
 											borderColor = Colors.deepOrangeAccent;
 											break;
 										case "EPK":
-											color= Color.fromRGBO(225, 222, 222,0.8);
+											color= Color.fromRGBO(225, 222, 222,0.7);
 											//color=Color.fromRGBO(80, 54, 116, 1.0);
 										//	color = Color.fromRGBO(26, 182, 37, 0.1);
 											image = 'assets/images/epknew.svg';
 											borderColor = Colors.redAccent;
 											break;
 										case "CONTACTS":
-											color= Color.fromRGBO(225, 222, 222,0.8);
+											color= Color.fromRGBO(225, 222, 222,0.7);
 										//color= Color.fromRGBO(191, 53, 42, 1.0);
 											//color = Color.fromRGBO(243, 135, 75, 0.1);
 											image = 'assets/images/telcontact.svg';
 											borderColor = Colors.pinkAccent;
 											break;
 										case "BETA-TEST FEEDBACK":
-											color= Color.fromRGBO(225, 222, 222,0.8);
+											color= Color.fromRGBO(225, 222, 222,0.7);
 											//color = Color.fromRGBO(102, 187, 238, 0.1);
 											//color = Color.fromRGBO(18, 130, 119, 1.0);
 											image = 'assets/images/feedbackicon.svg';
@@ -211,7 +211,7 @@ class _DashboardScreenState
 											break;
 										case "BULLETIN BOARD":
 										//	color = Color.fromRGBO(251, 111, 162, 0.1);
-											color= Color.fromRGBO(225, 222, 222,0.8);
+											color= Color.fromRGBO(225, 222, 222,0.7);
 											image = 'assets/images/bulletinnew.svg';
 											borderColor = Colors.greenAccent;
 											break;
@@ -254,7 +254,8 @@ class _DashboardScreenState
 																				textAlign: TextAlign.center,
 																				maxLines: 2,
 																				style: textTheme.headline.copyWith(
-																						color: Colors.black,
+																						color: Colors.white,
+																						fontWeight: FontWeight.bold,
 																						fontSize: 16),
 																			)
 																		],

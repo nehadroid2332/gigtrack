@@ -532,6 +532,19 @@ class _AddNotesScreenState
                       Padding(
                         padding: EdgeInsets.all(20),
                       ),
+  
+                     widget.id.isNotEmpty? Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Text(
+                          "Archive Note",
+                          textAlign: TextAlign.center,
+                          style: textTheme.subhead.copyWith(
+                            color: Colors.red,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ): Container(),
                       widget.id.isEmpty || isEdit || widget.isParent
                           ? RaisedButton(
                               onPressed: () {

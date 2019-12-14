@@ -502,39 +502,14 @@ class _AddPlayingStyleScreenState
                        files[0],
                         width: 0,
                         height:  MediaQuery.of(context).size.height / 3.2,
-                        fit: BoxFit.fitWidth,
+                        fit: BoxFit.fitHeight,
                         cache: true,
                         border: Border.all(color: Colors.black, width: 1.0),
                         shape: BoxShape.rectangle,
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         scale: 6,
                         mode: ExtendedImageMode.gesture,
-                        initGestureConfigHandler: (state) {
-                          double initialScale = 1.0;
-                          Size size = Size(400, 400);
-  
-                          if (state.extendedImageInfo != null &&
-                              state.extendedImageInfo.image != null) {
-                            initialScale = initScale(
-                                size: size,
-                                initialScale: initialScale,
-                                imageSize: Size(
-                                    state.extendedImageInfo.image.width.toDouble(),
-                                    state.extendedImageInfo.image.height.toDouble()));
-                          }
-                          return GestureConfig(
-                            minScale: 0.9,
-                            animationMinScale: 0.7,
-                            maxScale: 3.0,
-                            animationMaxScale: 3.5,
-                            speed: 1.0,
-                            inertialSpeed: 100.0,
-                            initialScale: 1.0,
-                            inPageView: true,
-                            initialAlignment: InitialAlignment.center,
-                          );
-                        },
-                        //cancelToken: cancellationToken,
+                      //cancelToken: cancellationToken,
                       ):Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
