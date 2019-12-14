@@ -159,7 +159,9 @@ class _ProfileScreenState
                     child: Container(
                       width: 150.0,
                       height: 150.0,
-                      decoration: _image != null || _imageUrl != null
+                      decoration: _image != null ||
+                              _imageUrl != null ||
+                              _imageUrl.isNotEmpty
                           ? new BoxDecoration(
                               shape: BoxShape.circle,
                               image: new DecorationImage(
@@ -170,7 +172,8 @@ class _ProfileScreenState
                               ),
                             )
                           : null,
-                      child: _image == null && _imageUrl == null
+                      child: _image == null &&
+                              (_imageUrl == null || _imageUrl.isEmpty)
                           ? Icon(
                               Icons.account_circle,
                               size: 130,
