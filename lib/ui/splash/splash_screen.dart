@@ -40,7 +40,7 @@ class _SplashScreenState extends BaseScreenState<SplashScreen, SplashPresenter>
       ),
       child: Center(
         child: Image.asset(
-          'assets/images/logo.png',
+          'assets/images/Gigtrackupdate.png',
         ),
       ),
     );

@@ -300,34 +300,6 @@ class _ActivitiesListScreenState
                               padding: EdgeInsets.all(10),
                             ),
                       Text(
-                        "Recurring",
-                        style: textTheme.display1.copyWith(fontSize: 28),
-                        textAlign: TextAlign.center,
-                      ),
-                      recurring.length > 0
-                          ? ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: recurring.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                Activites ac = recurring[index];
-                                return buildActivityListItem(ac, context,
-                                    onTap: () {
-                                  widget.appListener.router.navigateTo(
-                                    context,
-                                    Screens.ADDACTIVITY.toString() +
-                                        "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////",
-                                  );
-                                }, isPast: false);
-                              },
-                            )
-                          : Padding(
-                              child: Center(
-                                child: Text("No Recurring Activities"),
-                              ),
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                            ),
-                      Text(
                         "Upcoming",
                         style: textTheme.display1.copyWith(fontSize: 28),
                         textAlign: TextAlign.center,
@@ -355,6 +327,34 @@ class _ActivitiesListScreenState
                               ),
                               padding: EdgeInsets.all(10),
                             ),
+                      Text(
+                        "Recurring",
+                        style: textTheme.display1.copyWith(fontSize: 28),
+                        textAlign: TextAlign.center,
+                      ),
+                      recurring.length > 0
+                          ? ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: recurring.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          Activites ac = recurring[index];
+                          return buildActivityListItem(ac, context,
+                              onTap: () {
+                                widget.appListener.router.navigateTo(
+                                  context,
+                                  Screens.ADDACTIVITY.toString() +
+                                      "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////",
+                                );
+                              }, isPast: false);
+                        },
+                      )
+                          : Padding(
+                        child: Center(
+                          child: Text("No Recurring Activities"),
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                      ),
                       Text(
                         "Activity Archive",
                         style: textTheme.display1.copyWith(fontSize: 28),

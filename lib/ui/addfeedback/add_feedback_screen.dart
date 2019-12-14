@@ -39,7 +39,7 @@ class _AddFeedbackScreenState
                 
                 "Your Feedback means a lot to us, what do you think?",
                 style: textTheme.display2
-                    .copyWith(color: Colors.white, fontSize: 30),
+                    .copyWith(color: Colors.white, fontSize: 26,fontStyle: FontStyle.italic),
                 textAlign: TextAlign.center,
               ),
               Padding(

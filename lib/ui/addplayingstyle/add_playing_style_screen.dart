@@ -1257,8 +1257,8 @@ class _AddPlayingStyleScreenState
                               : Container()
                           : Container(),
 
-                      widget.id.isEmpty || isEdit
-                          ? Row(
+                    
+                          Row(
                               children: <Widget>[
                                 Expanded(
                                   child: Text(
@@ -1282,8 +1282,8 @@ class _AddPlayingStyleScreenState
                                   },
                                 )
                               ],
-                            )
-                          : Container(),
+                            ),
+                          
                       Padding(
                         padding: EdgeInsets.all(4),
                       ),
