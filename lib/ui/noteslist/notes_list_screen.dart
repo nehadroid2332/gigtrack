@@ -6,6 +6,9 @@ import 'package:gigtrack/server/models/notestodo.dart';
 import 'package:gigtrack/ui/noteslist/notes_list_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 
+import '../../server/models/notestodo.dart';
+import '../../server/models/notestodo.dart';
+
 class NotesListScreen extends BaseScreen {
   final String bandId;
   final bool isLeader;
@@ -89,7 +92,7 @@ class _NotesListScreenState
                                     widget.appListener.router.navigateTo(
                                         context,
                                         Screens.ADDNOTE.toString() +
-                                            "/${not.id}//${widget.bandId}////");
+                                            "/${not.id}//${widget.bandId}/////${not.type ?? NotesTodo.TYPE_NOTE}");
                                   }
                                 : null);
                       },
@@ -124,7 +127,10 @@ class _NotesListScreenState
                   child: Icon(Icons.add),
                   backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
                   onTap: () async {
-                    showDialogConfirm();
+                    await widget.appListener.router.navigateTo(
+                        context,
+                        Screens.ADDNOTE.toString() +
+                            "///${widget.bandId}/////${NotesTodo.TYPE_IDEA}");
                   },
                 ),
                 SpeedDialChild(
@@ -132,8 +138,10 @@ class _NotesListScreenState
                   child: Icon(Icons.add),
                   backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
                   onTap: () async {
-                    await widget.appListener.router.navigateTo(context,
-                        Screens.ADDNOTE.toString() + "///${widget.bandId}////");
+                    await widget.appListener.router.navigateTo(
+                        context,
+                        Screens.ADDNOTE.toString() +
+                            "///${widget.bandId}/////${NotesTodo.TYPE_NOTE}");
                   },
                 ),
                 SpeedDialChild(

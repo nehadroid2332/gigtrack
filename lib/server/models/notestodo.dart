@@ -2,7 +2,10 @@ import 'package:gigtrack/base/base_model.dart';
 import 'package:gigtrack/server/models/band.dart';
 
 class NotesTodo extends BaseModel {
-  int type;
+  static const TYPE_NOTE = 0;
+  static const TYPE_IDEA = 1;
+
+  int type = TYPE_NOTE;
   String description;
   int start_date;
   int end_date;
@@ -25,7 +28,7 @@ class NotesTodo extends BaseModel {
       this.createdDate});
 
   NotesTodo.fromJSON(dynamic data) {
-    type = data['type'];
+    type = data['type'] ?? TYPE_NOTE;
     description = data['description'];
     start_date = data['start_date'];
     end_date = data['end_date'];
@@ -44,7 +47,7 @@ class NotesTodo extends BaseModel {
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> data = super.toMap();
-    data['type'] = type;
+    data['type'] = type ?? TYPE_NOTE;
     data['description'] = description ?? "";
     data['start_date'] = start_date ?? 0;
     data['end_date'] = end_date ?? 0;

@@ -29,6 +29,7 @@ import 'package:gigtrack/utils/privacy.dart';
 import 'package:google_places_picker/google_places_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'server/models/notestodo.dart';
 import 'ui/addplayingstyle/add_playing_style_screen.dart';
 import 'ui/help/help_screen.dart';
 import 'ui/playingstylelist/playing_style_list_screen.dart';
@@ -180,7 +181,7 @@ class MyApp extends StatelessWidget implements AppListener {
     }));
     _router.define(
         Screens.ADDNOTE.toString() +
-            "/:id/:isParent/:bandId/:isLeader/:isComm/:isSetUp/:postEntries",
+            "/:id/:isParent/:bandId/:isLeader/:isComm/:isSetUp/:postEntries/:type",
         handler: Handler(
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["id"][0];
@@ -190,7 +191,7 @@ class MyApp extends StatelessWidget implements AppListener {
       bool isComm = params['isComm'][0] == "${true}";
       bool isSetUp = params['isSetUp'][0] == "${true}";
       bool postEntries = params['postEntries'][0] == "${true}";
-
+      int type = int.parse(params['type'][0] ?? "${NotesTodo.TYPE_NOTE}");
       return AddNotesScreen(
         this,
         id: id,
@@ -199,6 +200,7 @@ class MyApp extends StatelessWidget implements AppListener {
         isComm: isComm,
         isLeader: isLeader,
         isSetUp: isSetUp,
+        type: type,
         postEntries: postEntries,
       );
     }));

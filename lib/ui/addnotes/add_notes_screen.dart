@@ -10,6 +10,11 @@ import 'package:gigtrack/ui/addnotes/add_notes_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:gigtrack/utils/showup.dart';
 
+import '../../server/models/notestodo.dart';
+import '../../server/models/notestodo.dart';
+import '../../server/models/notestodo.dart';
+import '../../server/models/notestodo.dart';
+
 class AddNotesScreen extends BaseScreen {
   final String id;
   final bool isParent;
@@ -18,6 +23,7 @@ class AddNotesScreen extends BaseScreen {
   final bool isComm;
   final bool isSetUp;
   final bool postEntries;
+  final int type;
 
   AddNotesScreen(
     AppListener appListener, {
@@ -28,6 +34,7 @@ class AddNotesScreen extends BaseScreen {
     this.isComm,
     this.isSetUp,
     this.postEntries,
+    this.type,
   }) : super(appListener, title: "");
 
   @override
@@ -52,17 +59,9 @@ class _AddNotesScreenState
       _endTimeError,
       _noteError;
 
-  int _type = 0;
-
   DateTime selectedStartDate, selectedEndDate = DateTime.now();
   TimeOfDay selectedStartTime = TimeOfDay.now(),
       selectedEndTime = TimeOfDay.now();
-
-  void _handleTypeValueChange(int value) {
-    setState(() {
-      _type = value;
-    });
-  }
 
   @override
   void initState() {
@@ -161,7 +160,7 @@ class _AddNotesScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "${widget.id.isEmpty ? "Add Note" : widget.isParent ? "Note is about" : "Note"}",
+                "${widget.id.isEmpty ? widget.type == NotesTodo.TYPE_NOTE ? "Add Note" : widget.type == NotesTodo.TYPE_IDEA ? "Add Idea" : "" : widget.isParent ? "Note is about" : widget.type == NotesTodo.TYPE_NOTE ? "Note" : widget.type == NotesTodo.TYPE_IDEA ? "Idea" : ""}",
                 style: textTheme.display2
                     .copyWith(color: Colors.white, fontSize: 30),
               ),
@@ -532,19 +531,27 @@ class _AddNotesScreenState
                       Padding(
                         padding: EdgeInsets.all(20),
                       ),
-  
-                     widget.id.isNotEmpty? Padding(
-                        padding: EdgeInsets.all(5),
-                        child: Text(
-                          "Archive Note",
-                          textAlign: TextAlign.center,
-                          style: textTheme.subhead.copyWith(
-                            color: Colors.red,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ): Container(),
+
+                      widget.id.isNotEmpty
+                          ? Padding(
+                              padding: EdgeInsets.all(5),
+                              child: InkWell(
+                                child: Text(
+                                  "Archive Note",
+                                  textAlign: TextAlign.center,
+                                  style: textTheme.subhead.copyWith(
+                                    color: Colors.red,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                onTap: () {
+                                  // showLoading();
+                                  // presenter.convertNotesToActivity(widget.id);
+                                },
+                              ),
+                            )
+                          : Container(),
                       widget.id.isEmpty || isEdit || widget.isParent
                           ? RaisedButton(
                               onPressed: () {
@@ -573,13 +580,13 @@ class _AddNotesScreenState
                                     NotesTodo notesTodo = NotesTodo(
                                       description: desc,
                                       bandId: widget.bandId,
+                                      type: widget.type,
                                       end_date:
                                           end?.millisecondsSinceEpoch ?? 0,
                                       start_date: selectedStartDate != null
                                           ? selectedStartDate
                                               .millisecondsSinceEpoch
                                           : 0,
-                                      type: _type,
                                       id: widget.id,
                                       note: note,
                                       createdDate:
@@ -746,7 +753,7 @@ class _AddNotesScreenState
           content: Text("Are you sure you want to delete?"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
-           
+
             new FlatButton(
               child: new Text("Yes"),
               textColor: Colors.black,
@@ -765,8 +772,12 @@ class _AddNotesScreenState
 
                 }
               },
-            ), new RaisedButton(
-              child: new Text("No",style: TextStyle(color: Colors.white),),
+            ),
+            new RaisedButton(
+              child: new Text(
+                "No",
+                style: TextStyle(color: Colors.white),
+              ),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
               color: Color.fromRGBO(22, 102, 237, 1.0),

@@ -49,8 +49,16 @@ class AddNotesPresenter extends BasePresenter {
     }
   }
 
-  void notesDelete(String id) async{
-   var res= await serverAPI.deleteNotes(id);
-   
+  void notesDelete(String id) async {
+    var res = await serverAPI.deleteNotes(id);
+  }
+
+  void convertNotesToActivity(String id) async {
+    final res = await serverAPI.getNoteDetails(id);
+    if (res is NotesTodo) {
+
+    } else if (res is ErrorResponse) {
+      view.showMessage(res.message);
+    }
   }
 }
