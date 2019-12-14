@@ -8,6 +8,7 @@ import 'package:gigtrack/utils/common_app_utils.dart';
 
 import '../../server/models/notestodo.dart';
 import '../../server/models/notestodo.dart';
+import '../../server/models/notestodo.dart';
 
 class NotesListScreen extends BaseScreen {
   final String bandId;
@@ -34,6 +35,8 @@ class _NotesListScreenState
   List<NotesTodo> _notes = <NotesTodo>[];
 
   Stream<List<NotesTodo>> list;
+
+  bool allowArchieved = false;
 
   @override
   void initState() {
@@ -80,22 +83,81 @@ class _NotesListScreenState
                   if (snapshot.hasData) {
                     _notes = snapshot.data;
 
-                    return ListView.builder(
-                      itemCount: _notes.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final not = _notes[index];
-                        return buildNoteListItem(not, Colors.white,
-                            onTap: (widget.isLeader && widget.bandId != null) ||
-                                    widget.bandId.isEmpty ||
-                                    (widget.bandId != null && widget.isComm)
-                                ? () {
-                                    widget.appListener.router.navigateTo(
-                                        context,
-                                        Screens.ADDNOTE.toString() +
-                                            "/${not.id}//${widget.bandId}/////${not.type ?? NotesTodo.TYPE_NOTE}");
-                                  }
-                                : null);
-                      },
+                    List<NotesTodo> notes = [];
+                    List<NotesTodo> archieved = [];
+
+                    for (var note in _notes) {
+                      if (note.isArchive) {
+                        archieved.add(note);
+                      } else {
+                        notes.add(note);
+                      }
+                    }
+
+                    return ListView(
+                      children: <Widget>[
+                        FlatButton(
+                          child: Text("Notes/Idea"),
+                          onPressed: () {
+                            setState(() {
+                              allowArchieved = !allowArchieved;
+                            });
+                          },
+                        ),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: notes.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final not = notes[index];
+                            return buildNoteListItem(not, Colors.white,
+                                onTap: (widget.isLeader &&
+                                            widget.bandId != null) ||
+                                        widget.bandId.isEmpty ||
+                                        (widget.bandId != null && widget.isComm)
+                                    ? () {
+                                        widget.appListener.router.navigateTo(
+                                            context,
+                                            Screens.ADDNOTE.toString() +
+                                                "/${not.id}//${widget.bandId}/////${not.type ?? NotesTodo.TYPE_NOTE}");
+                                      }
+                                    : null);
+                          },
+                        ),
+                        FlatButton(
+                          child: Text("Archived"),
+                          onPressed: () {
+                            setState(() {
+                              allowArchieved = !allowArchieved;
+                            });
+                          },
+                        ),
+                        allowArchieved
+                            ? ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: archieved.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final not = archieved[index];
+                                  return buildNoteListItem(not, Colors.white,
+                                      onTap: (widget.isLeader &&
+                                                  widget.bandId != null) ||
+                                              widget.bandId.isEmpty ||
+                                              (widget.bandId != null &&
+                                                  widget.isComm)
+                                          ? () {
+                                              widget.appListener.router.navigateTo(
+                                                  context,
+                                                  Screens.ADDNOTE.toString() +
+                                                      "/${not.id}//${widget.bandId}/////${not.type ?? NotesTodo.TYPE_NOTE}");
+                                            }
+                                          : null);
+                                },
+                              )
+                            : Container(
+                                padding: EdgeInsets.all(5),
+                              )
+                      ],
                     );
                   } else if (snapshot.hasError) {
                     return Center(

@@ -11,9 +11,6 @@ import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:gigtrack/utils/showup.dart';
 
 import '../../server/models/notestodo.dart';
-import '../../server/models/notestodo.dart';
-import '../../server/models/notestodo.dart';
-import '../../server/models/notestodo.dart';
 
 class AddNotesScreen extends BaseScreen {
   final String id;
@@ -62,6 +59,8 @@ class _AddNotesScreenState
   DateTime selectedStartDate, selectedEndDate = DateTime.now();
   TimeOfDay selectedStartTime = TimeOfDay.now(),
       selectedEndTime = TimeOfDay.now();
+
+  bool isArchieve = false;
 
   @override
   void initState() {
@@ -533,24 +532,26 @@ class _AddNotesScreenState
                       ),
 
                       widget.id.isNotEmpty
-                          ? Padding(
-                              padding: EdgeInsets.all(5),
-                              child: InkWell(
-                                child: Text(
-                                  "Archive Note",
-                                  textAlign: TextAlign.center,
-                                  style: textTheme.subhead.copyWith(
-                                    color: Colors.red,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
+                          ? isArchieve
+                              ? Container()
+                              : Padding(
+                                  padding: EdgeInsets.all(5),
+                                  child: InkWell(
+                                    child: Text(
+                                      "Archive Note",
+                                      textAlign: TextAlign.center,
+                                      style: textTheme.subhead.copyWith(
+                                        color: Colors.red,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      showLoading();
+                                      presenter.archieveNote(widget.id);
+                                    },
                                   ),
-                                ),
-                                onTap: () {
-                                  // showLoading();
-                                  // presenter.convertNotesToActivity(widget.id);
-                                },
-                              ),
-                            )
+                                )
                           : Container(),
                       widget.id.isEmpty || isEdit || widget.isParent
                           ? RaisedButton(
@@ -707,11 +708,13 @@ class _AddNotesScreenState
           "${formatDate(stDate, [HH, ':', nn, ':', ss])}";
       _endTimeController.text =
           "${formatDate(endDate, [HH, ':', nn, ':', ss])}";
+      isArchieve = note.isArchive ?? false;
     });
   }
 
   @override
   void onUpdate() {
+    hideLoading();
     showMessage("Updated Successfully");
     setState(() {
       isEdit = !isEdit;
@@ -789,5 +792,11 @@ class _AddNotesScreenState
         );
       },
     );
+  }
+
+  @override
+  void onArchive() {
+    hideLoading();
+    showMessage("Notes Archived");
   }
 }

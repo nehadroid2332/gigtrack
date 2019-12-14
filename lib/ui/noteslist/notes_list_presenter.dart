@@ -19,7 +19,8 @@ class NotesListPresenter extends BasePresenter {
         if (mp == null) return null;
         List<NotesTodo> acc = [];
         for (var d in mp.values) {
-          acc.add(NotesTodo.fromJSON(d));
+          final note = NotesTodo.fromJSON(d);
+          acc.add(note);
         }
         return acc;
       });

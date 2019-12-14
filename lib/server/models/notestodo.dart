@@ -15,6 +15,7 @@ class NotesTodo extends BaseModel {
   int createdDate;
   String bandId;
   Band band;
+  bool isArchive = false;
   List<NotesTodo> subNotes = [];
 
   NotesTodo(
@@ -36,6 +37,7 @@ class NotesTodo extends BaseModel {
     user_id = data['user_id'];
     bandId = data['bandId'];
     note = data['note'];
+    isArchive = data['isArchive'] ?? false;
     createdDate = data['createdDate'];
     if (data['subNotes'] != null) {
       for (var item in data['subNotes']) {
@@ -52,6 +54,7 @@ class NotesTodo extends BaseModel {
     data['start_date'] = start_date ?? 0;
     data['end_date'] = end_date ?? 0;
     data['id'] = id ?? "";
+    data['isArchive'] = isArchive ?? false;
     data['bandId'] = bandId;
     data['user_id'] = user_id ?? "";
     data['note'] = note ?? "";

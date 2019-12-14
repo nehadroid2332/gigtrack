@@ -7,6 +7,8 @@ abstract class AddNoteContract extends BaseContract {
   void onUpdate();
   void onSubSuccess();
   void getNoteDetails(NotesTodo note);
+
+  void onArchive();
 }
 
 class AddNotesPresenter extends BasePresenter {
@@ -53,10 +55,12 @@ class AddNotesPresenter extends BasePresenter {
     var res = await serverAPI.deleteNotes(id);
   }
 
-  void convertNotesToActivity(String id) async {
+  void archieveNote(String id) async {
     final res = await serverAPI.getNoteDetails(id);
     if (res is NotesTodo) {
-
+      res.isArchive = true;
+      await serverAPI.addNotes(res);
+      (view as AddNoteContract).onArchive();
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
     }
