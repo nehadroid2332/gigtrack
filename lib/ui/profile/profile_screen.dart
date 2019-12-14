@@ -160,8 +160,8 @@ class _ProfileScreenState
                       width: 150.0,
                       height: 150.0,
                       decoration: _image != null ||
-                              _imageUrl != null ||
-                              _imageUrl.isNotEmpty
+                              _imageUrl != null
+                             
                           ? new BoxDecoration(
                               shape: BoxShape.circle,
                               image: new DecorationImage(

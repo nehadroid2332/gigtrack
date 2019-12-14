@@ -201,7 +201,7 @@ class _AddNotesScreenState
                               decoration: InputDecoration(
                                 errorText: _noteError,
                                 labelText: widget.id.isEmpty || isEdit
-                                    ? "Note is about"
+                                    ?widget.type == NotesTodo.TYPE_IDEA ?"Idea is about": "Note is about"
                                     : "",
                                 labelStyle: TextStyle(
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
@@ -251,7 +251,7 @@ class _AddNotesScreenState
                                 labelText: widget.id.isEmpty ||
                                         isEdit ||
                                         widget.isParent
-                                    ? "Add Note"
+                                    ? widget.type == NotesTodo.TYPE_IDEA?"Add Idea":"Add Note"
                                     : "",
                                 labelStyle: TextStyle(
                                     color: Color.fromRGBO(202, 208, 215, 1.0),
@@ -336,7 +336,7 @@ class _AddNotesScreenState
                                                       Expanded(
                                                         flex: 5,
                                                         child: Text(
-                                                          "Note Date",
+                                                          widget.type == NotesTodo.TYPE_IDEA?"Idea Date": "Note Date",
                                                           textAlign:
                                                               TextAlign.right,
                                                           style: textTheme

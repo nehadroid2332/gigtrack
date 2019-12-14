@@ -97,7 +97,11 @@ class _NotesListScreenState
                     return ListView(
                       children: <Widget>[
                         FlatButton(
-                          child: Text("Notes/Idea"),
+                          child: Text("Notes/Idea",style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey,
+                              fontSize: 18
+                          )),
                           onPressed: () {
                             setState(() {
                               allowArchieved = !allowArchieved;
@@ -124,8 +128,14 @@ class _NotesListScreenState
                                     : null);
                           },
                         ),
+                        Padding(padding:
+                          EdgeInsets.all(10),),
                         FlatButton(
-                          child: Text("Archived"),
+                          child: Text("Archived Notes",style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey,
+                            fontSize: 18
+                          ),),
                           onPressed: () {
                             setState(() {
                               allowArchieved = !allowArchieved;
