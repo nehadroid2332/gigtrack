@@ -24,7 +24,7 @@ class NotificationListPresenter extends BasePresenter {
             .difference(
                 DateTime.fromMillisecondsSinceEpoch(activites.startDate))
             .inDays;
-        if (difference == 0) acc.add(activites);
+        if (difference <= 7) acc.add(activites);
       }
       return acc;
     });
