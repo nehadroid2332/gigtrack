@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
+import 'package:gigtrack/server/models/band_member.dart';
 import 'package:gigtrack/server/models/setlist.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:random_string/random_string.dart';
+import '../../server/models/band_member.dart';
 import 'addsetlist_presenter.dart';
 
 class AddSetListScreen extends BaseScreen {
@@ -45,12 +47,17 @@ class _AddSetListScreenState
 
   List<SetList> setLists = [];
 
+  List<BandMember> bandmembers = [];
+
   @override
   void initState() {
     super.initState();
-    if (widget.id != null && widget.id.isNotEmpty) {
+    if (widget.id != null &&
+        widget.id.isNotEmpty &&
+        widget.userId != null &&
+        widget.userId.isNotEmpty) {
       showLoading();
-      presenter.getDetails(widget.id);
+      presenter.getDetails(widget.id, widget.userId);
     }
   }
 
@@ -227,14 +234,16 @@ class _AddSetListScreenState
             ),
           ),
         ),
-        onTap: () {
-          setState(() {
-            if (_selectedFruit == (s)) {
-              _selectedFruit = null;
-            } else
-              _selectedFruit = s;
-          });
-        },
+        onTap: widget.id.isEmpty || isEdit
+            ? () {
+                setState(() {
+                  if (_selectedFruit == (s)) {
+                    _selectedFruit = null;
+                  } else
+                    _selectedFruit = s;
+                });
+              }
+            : null,
       ));
     }
 
@@ -268,44 +277,81 @@ class _AddSetListScreenState
                       ? ListView(
                           padding: EdgeInsets.all(10),
                           children: <Widget>[
-                            TextField(
-                              style: textTheme.title,
-                              textCapitalization: TextCapitalization.words,
-                              decoration: InputDecoration(
-                                errorText: _songNameError,
-                                labelText: "Song Name",
-                                labelStyle: TextStyle(
-                                  color: Color.fromRGBO(202, 208, 215, 1.0),
-                                ),
-                              ),
-                              controller: _songNameController,
-                            ),
-                            TextField(
-                              style: textTheme.title,
-                              textCapitalization: TextCapitalization.words,
-                              decoration: InputDecoration(
-                                errorText: _songArtistError,
-                                labelText: "Artist",
-                                labelStyle: TextStyle(
-                                  color: Color.fromRGBO(202, 208, 215, 1.0),
-                                ),
-                              ),
-                              controller: _songArtistController,
-                            ),
-                            TextField(
-                              style: textTheme.title,
-                              textCapitalization: TextCapitalization.words,
-                              decoration: InputDecoration(
-                                errorText: _songChordsError,
-                                labelText: "Chords",
-                                labelStyle: TextStyle(
-                                  color: Color.fromRGBO(202, 208, 215, 1.0),
-                                ),
-                              ),
-                              controller: _songChordsController,
-                            ),
+                            widget.id.isEmpty || isEdit
+                                ? TextField(
+                                    style: textTheme.title,
+                                    textCapitalization:
+                                        TextCapitalization.words,
+                                    decoration: InputDecoration(
+                                      errorText: _songNameError,
+                                      labelText: "Song Name",
+                                      labelStyle: TextStyle(
+                                        color:
+                                            Color.fromRGBO(202, 208, 215, 1.0),
+                                      ),
+                                    ),
+                                    controller: _songNameController,
+                                  )
+                                : Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 6,
+                                    ),
+                                    child: Text(
+                                      _songNameController.text,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                  ),
+                            widget.id.isEmpty || isEdit
+                                ? TextField(
+                                    style: textTheme.title,
+                                    textCapitalization:
+                                        TextCapitalization.words,
+                                    decoration: InputDecoration(
+                                      errorText: _songArtistError,
+                                      labelText: "Artist",
+                                      labelStyle: TextStyle(
+                                        color:
+                                            Color.fromRGBO(202, 208, 215, 1.0),
+                                      ),
+                                    ),
+                                    controller: _songArtistController,
+                                  )
+                                : Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 6),
+                                    child: Text(
+                                      _songArtistController.text,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                  ),
+                            widget.id.isEmpty || isEdit
+                                ? TextField(
+                                    style: textTheme.title,
+                                    textCapitalization:
+                                        TextCapitalization.words,
+                                    decoration: InputDecoration(
+                                      errorText: _songChordsError,
+                                      labelText: "Chords",
+                                      labelStyle: TextStyle(
+                                        color:
+                                            Color.fromRGBO(202, 208, 215, 1.0),
+                                      ),
+                                    ),
+                                    controller: _songChordsController,
+                                  )
+                                : Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 6,
+                                    ),
+                                    child: Text(
+                                      _songChordsController.text,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                  ),
                             Padding(
-                              padding: EdgeInsets.all(5),
+                              padding: EdgeInsets.all(6),
                             ),
                             Text(
                               "Ready to Perform",
@@ -319,19 +365,51 @@ class _AddSetListScreenState
                             Padding(
                               padding: EdgeInsets.all(0),
                             ),
-                            TextField(
-                              style: textTheme.title,
-                              textCapitalization: TextCapitalization.words,
-                              decoration: InputDecoration(
-                                errorText: _songNoteserror,
-                                labelText: "Notes",
-                                labelStyle: TextStyle(
-                                  color: Color.fromRGBO(202, 208, 215, 1.0),
-                                ),
-                              ),
-                              controller: _songNotesController,
+                            widget.id.isEmpty || isEdit
+                                ? TextField(
+                                    style: textTheme.title,
+                                    textCapitalization:
+                                        TextCapitalization.words,
+                                    decoration: InputDecoration(
+                                      errorText: _songNoteserror,
+                                      labelText: "Notes",
+                                      labelStyle: TextStyle(
+                                        color:
+                                            Color.fromRGBO(202, 208, 215, 1.0),
+                                      ),
+                                    ),
+                                    controller: _songNotesController,
+                                  )
+                                : Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 6),
+                                    child: Text(
+                                      _songNotesController.text,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                  ),
+                            Padding(
+                              padding: EdgeInsets.all(10),
                             ),
-
+                            widget.id.isEmpty || isEdit
+                                ? Container()
+                                : Text("Band Members"),
+                            widget.id.isEmpty || isEdit
+                                ? Container()
+                                : ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: bandmembers.length,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      final members = bandmembers[index];
+                                      return ListTile(
+                                        title: Text(
+                                            "${members.firstName} ${members.lastName}"),
+                                        subtitle: Text("${members.memberRole}"),
+                                      );
+                                    },
+                                  ),
                             Padding(
                               padding: EdgeInsets.all(10),
                             ),
@@ -342,36 +420,41 @@ class _AddSetListScreenState
                                 ),
                                 IconButton(
                                   icon: Icon(Icons.add),
-                                  onPressed: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            title: Text('Add Subnote'),
-                                            content: TextField(
-                                              controller:
-                                                  _subNoteFieldController,
-                                              decoration: InputDecoration(
-                                                  hintText: "Enter subnote..."),
-                                            ),
-                                            actions: <Widget>[
-                                              new FlatButton(
-                                                child: new Text('SUBMIT'),
-                                                onPressed: () {
-                                                  if (_subNoteFieldController
-                                                      .text.isNotEmpty)
-                                                    setState(() {
-                                                      currentSong.subnotes.add(
-                                                          _subNoteFieldController
-                                                              .text);
-                                                    });
-                                                  Navigator.of(context).pop();
-                                                },
-                                              )
-                                            ],
-                                          );
-                                        });
-                                  },
+                                  onPressed: widget.id.isEmpty || isEdit
+                                      ? () {
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: Text('Add Subnote'),
+                                                  content: TextField(
+                                                    controller:
+                                                        _subNoteFieldController,
+                                                    decoration: InputDecoration(
+                                                        hintText:
+                                                            "Enter subnote..."),
+                                                  ),
+                                                  actions: <Widget>[
+                                                    new FlatButton(
+                                                      child: new Text('SUBMIT'),
+                                                      onPressed: () {
+                                                        if (_subNoteFieldController
+                                                            .text.isNotEmpty)
+                                                          setState(() {
+                                                            currentSong.subnotes
+                                                                .add(
+                                                                    _subNoteFieldController
+                                                                        .text);
+                                                          });
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                    )
+                                                  ],
+                                                );
+                                              });
+                                        }
+                                      : null,
                                 )
                               ],
                             ),
@@ -392,58 +475,61 @@ class _AddSetListScreenState
 //                              children: items2,
 //                            )
 //                                : Container(),
-                            RaisedButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (currentSong != null) {
-                                    currentSong.artist =
-                                        _songArtistController.text;
-                                    currentSong.chords =
-                                        _songChordsController.text;
-                                    currentSong.name = _songNameController.text;
-                                    currentSong.notes =
-                                        _songNotesController.text;
-                                    currentSong.perform = _selectedFruit;
-                                    if (currentSong.id == null) {
-                                      currentSong.id = randomString(15);
-                                      _songList.add(currentSong);
-                                    } else {
-                                      for (var i = 0;
-                                          i < _songList.length;
-                                          i++) {
-                                        Song song = _songList[i];
-                                        if (song.id == currentSong.id) {
-                                          _songList[i] = currentSong;
-                                          break;
+                            widget.id.isEmpty || isEdit
+                                ? RaisedButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        if (currentSong != null) {
+                                          currentSong.artist =
+                                              _songArtistController.text;
+                                          currentSong.chords =
+                                              _songChordsController.text;
+                                          currentSong.name =
+                                              _songNameController.text;
+                                          currentSong.notes =
+                                              _songNotesController.text;
+                                          currentSong.perform = _selectedFruit;
+                                          if (currentSong.id == null) {
+                                            currentSong.id = randomString(15);
+                                            _songList.add(currentSong);
+                                          } else {
+                                            for (var i = 0;
+                                                i < _songList.length;
+                                                i++) {
+                                              Song song = _songList[i];
+                                              if (song.id == currentSong.id) {
+                                                _songList[i] = currentSong;
+                                                break;
+                                              }
+                                            }
+                                          }
+                                          currentSong = null;
+                                          _selectedFruit = null;
+                                          _songArtistController.clear();
+                                          _songChordsController.clear();
+                                          _songNameController.clear();
+                                          _songNotesController.clear();
                                         }
-                                      }
-                                    }
-                                    currentSong = null;
-                                    _selectedFruit = null;
-                                    _songArtistController.clear();
-                                    _songChordsController.clear();
-                                    _songNameController.clear();
-                                    _songNotesController.clear();
-                                  }
-                                });
-                              },
-                              color: Color.fromRGBO(214, 22, 35, 1.0),
-                              child: Text(
-                                "Submit",
-                                style: textTheme.headline.copyWith(
-                                  fontWeight: FontWeight.w300,
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                ),
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                vertical: 8,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              textColor: Colors.white,
-                            )
+                                      });
+                                    },
+                                    color: Color.fromRGBO(214, 22, 35, 1.0),
+                                    child: Text(
+                                      "Submit",
+                                      style: textTheme.headline.copyWith(
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 8,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    textColor: Colors.white,
+                                  )
+                                : Container()
                           ],
                         )
                       : Padding(
@@ -515,22 +601,20 @@ class _AddSetListScreenState
                                     return ListTile(
                                       title: Text(song.name),
                                       subtitle: Text(song.artist),
-                                      onTap: isEdit
-                                          ? () {
-                                              setState(() {
-                                                currentSong = song;
-                                                _songArtistController.text =
-                                                    currentSong.artist;
-                                                _songChordsController.text =
-                                                    currentSong.chords;
-                                                _songNameController.text =
-                                                    currentSong.name;
-                                                _songNotesController.text =
-                                                    currentSong.notes;
-                                                _selectedFruit = song.perform;
-                                              });
-                                            }
-                                          : null,
+                                      onTap: () {
+                                        setState(() {
+                                          currentSong = song;
+                                          _songArtistController.text =
+                                              currentSong.artist;
+                                          _songChordsController.text =
+                                              currentSong.chords;
+                                          _songNameController.text =
+                                              currentSong.name;
+                                          _songNotesController.text =
+                                              currentSong.notes;
+                                          _selectedFruit = song.perform;
+                                        });
+                                      },
                                     );
                                   },
                                 ),
@@ -604,4 +688,12 @@ class _AddSetListScreenState
 
   @override
   void onDelete() {}
+
+  @override
+  void onBandMemberDetails(Iterable<BandMember> values) {
+    setState(() {
+      bandmembers.clear();
+      bandmembers.addAll(values);
+    });
+  }
 }
