@@ -818,21 +818,21 @@ class _AddPlayingStyleScreenState
                       Padding(
                           padding:
                               EdgeInsets.all(widget.bandId.isEmpty ? 5 : 0)),
-                      Text(
-                        "Instruments",
-                        style: textTheme.title.copyWith(
-                          color: Color.fromRGBO(124, 180, 97, 1.0),
-                        ),
-                        textAlign: widget.id.isEmpty || isEdit
-                            ? TextAlign.left
-                            : TextAlign.center,
-                      ),
-                      Padding(padding: EdgeInsets.all(5)),
-                      (widget.id.isEmpty || isEdit)
-                          ? Wrap(
-                              children: items2,
-                            )
-                          : Container(),
+//                      Text(
+//                        "Instruments",
+//                        style: textTheme.title.copyWith(
+//                          color: Color.fromRGBO(124, 180, 97, 1.0),
+//                        ),
+//                        textAlign: widget.id.isEmpty || isEdit
+//                            ? TextAlign.left
+//                            : TextAlign.center,
+//                      ),
+//                      Padding(padding: EdgeInsets.all(5)),
+//                      (widget.id.isEmpty || isEdit)
+//                          ? Wrap(
+//                              children: items2,
+//                            )
+//                          : Container(),
                       Padding(
                         padding: widget.id.isNotEmpty
                             ? EdgeInsets.all(0)

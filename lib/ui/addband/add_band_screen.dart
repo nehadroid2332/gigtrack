@@ -998,16 +998,18 @@ class _AddBandScreenState
                                   Expanded(
                                     child: InkWell(
                                       child: Card(
-                                          color: Colors.yellowAccent,
+                                          color: Colors.red,
                                           child: Padding(
                                             padding: EdgeInsets.symmetric(
-                                              vertical: 5,
+                                              vertical: 25,
                                             ),
                                             child: Text(
                                               "Activites/Schedule",
                                               textAlign: TextAlign.center,
                                               style: textTheme.subhead.copyWith(
-                                                  fontWeight: FontWeight.w600),
+                                                  fontWeight: FontWeight.w600,
+                                              color: Colors.white
+                                              ),
                                             ),
                                           )),
                                       onTap: () {
@@ -1018,19 +1020,22 @@ class _AddBandScreenState
                                       },
                                     ),
                                   ),
+                                  Padding(padding: EdgeInsets.all(5),),
                                   Expanded(
                                     child: InkWell(
                                       child: Card(
-                                        color: Colors.yellowAccent,
+                                        color: Colors.red,
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
-                                            vertical: 5,
+                                            vertical: 25,
                                           ),
                                           child: Text(
                                             "Band Task",
                                             textAlign: TextAlign.center,
                                             style: textTheme.subhead.copyWith(
-                                                fontWeight: FontWeight.w600),
+                                                fontWeight: FontWeight.w600,
+                                            color: Colors.white
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -1044,7 +1049,7 @@ class _AddBandScreenState
                                   )
                                 ],
                               ),
-
+                        Padding(padding: EdgeInsets.all(5),),
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : Row(
@@ -1052,16 +1057,18 @@ class _AddBandScreenState
                                   Expanded(
                                     child: InkWell(
                                       child: Card(
-                                        color: Colors.yellowAccent,
+                                        color: Colors.red,
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
-                                            vertical: 5,
+                                            vertical: 25,
                                           ),
                                           child: Text(
                                             "Contacts",
                                             textAlign: TextAlign.center,
                                             style: textTheme.subhead.copyWith(
-                                                fontWeight: FontWeight.w600),
+                                                fontWeight: FontWeight.w600,
+                                            color: Colors.white
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -1073,19 +1080,22 @@ class _AddBandScreenState
                                       },
                                     ),
                                   ),
+                                  Padding(padding: EdgeInsets.all(5),),
                                   Expanded(
                                     child: InkWell(
                                       child: Card(
-                                        color: Colors.yellowAccent,
+                                        color: Colors.red,
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
-                                            vertical: 5,
+                                            vertical: 25,
                                           ),
                                           child: Text(
                                             "Equipment",
                                             textAlign: TextAlign.center,
                                             style: textTheme.subhead.copyWith(
-                                                fontWeight: FontWeight.w600),
+                                                fontWeight: FontWeight.w600,
+                                            color: Colors.white
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -1099,7 +1109,7 @@ class _AddBandScreenState
                                   )
                                 ],
                               ),
-
+                        Padding(padding: EdgeInsets.all(5),),
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : Row(
@@ -1107,16 +1117,18 @@ class _AddBandScreenState
                                   Expanded(
                                     child: InkWell(
                                       child: Card(
-                                        color: Colors.yellowAccent,
+                                        color: Colors.red,
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
-                                            vertical: 5,
+                                            vertical: 25,
                                           ),
                                           child: Text(
                                             "EPK",
                                             textAlign: TextAlign.center,
                                             style: textTheme.subhead.copyWith(
-                                                fontWeight: FontWeight.w600),
+                                                fontWeight: FontWeight.w600,
+                                            color: Colors.white
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -1133,19 +1145,22 @@ class _AddBandScreenState
                                       },
                                     ),
                                   ),
+                                  Padding(padding: EdgeInsets.all(5),),
                                   Expanded(
                                     child: InkWell(
                                       child: Card(
-                                        color: Colors.yellowAccent,
+                                        color: Colors.red,
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
-                                            vertical: 5,
+                                            vertical: 25,
                                           ),
                                           child: Text(
                                             "Notes",
                                             textAlign: TextAlign.center,
                                             style: textTheme.subhead.copyWith(
-                                                fontWeight: FontWeight.w600),
+                                                fontWeight: FontWeight.w600,
+                                            color: Colors.white
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -1159,7 +1174,7 @@ class _AddBandScreenState
                                   )
                                 ],
                               ),
-
+                        Padding(padding: EdgeInsets.all(5),),
                         widget.id.isEmpty || isEdit
                             ? Container()
                             : Row(
@@ -1167,35 +1182,39 @@ class _AddBandScreenState
                                   Expanded(
                                     child: InkWell(
                                       child: Card(
-                                        color: Colors.yellowAccent,
+                                        color: Colors.red,
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
-                                            vertical: 5,
+                                            vertical: 25,
                                           ),
                                           child: Text(
                                             "Stage Plot & DI Set up",
                                             textAlign: TextAlign.center,
                                             style: textTheme.subhead.copyWith(
-                                                fontWeight: FontWeight.w600),
+                                                fontWeight: FontWeight.w600,
+                                            color: Colors.white
+                                            ),
                                           ),
                                         ),
                                       ),
                                       onTap: () {},
                                     ),
                                   ),
+                                  Padding(padding: EdgeInsets.all(5),),
                                   Expanded(
                                     child: InkWell(
                                       child: Card(
-                                        color: Colors.yellowAccent,
+                                        color: Colors.red,
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
-                                            vertical: 5,
+                                            vertical: 25,
                                           ),
                                           child: Text(
                                             "Set-List",
                                             textAlign: TextAlign.center,
                                             style: textTheme.subhead.copyWith(
-                                                fontWeight: FontWeight.w600),
+                                                fontWeight: FontWeight.w600,
+                                            color: Colors.white),
                                           ),
                                         ),
                                       ),

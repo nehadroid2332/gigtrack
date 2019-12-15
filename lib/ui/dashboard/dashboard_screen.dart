@@ -144,7 +144,7 @@ class _DashboardScreenState
           Expanded(
             child: GridView.count(
               crossAxisCount: 2,
-              childAspectRatio: 1.25,
+              childAspectRatio: 1.30,
               children: [
                 "ACTIVITES",
                 "BAND",
@@ -165,21 +165,21 @@ class _DashboardScreenState
                       //color = Color.fromRGBO(63, 146, 219, 1.0); last one
                       //	color = Color.fromRGBO(71, 151, 221, 0.1);
                       image = 'assets/images/feedbacknew.svg';
-                      borderColor = Colors.cyanAccent;
+                      borderColor = Colors.purple;
                       break;
                     case "NOTES":
                       color = Color.fromRGBO(225, 222, 222, 0.7);
                       //color=Color.fromRGBO(239,181, 77, 1.0);
                       //	color = Color.fromRGBO(196, 227, 102, 0.1);
                       image = 'assets/images/notesicon.svg';
-                      borderColor = Colors.deepPurple;
+                      borderColor = Colors.green;
                       break;
                     case "BAND":
                       color = Color.fromRGBO(225, 222, 222, 0.7);
                       //color=Color.fromRGBO(214,22, 35, 1.0);
                       //	color = Color.fromRGBO(241, 206, 96, 0.1);
                       image = 'assets/images/bandnew.svg';
-                      borderColor = Colors.orangeAccent;
+                      borderColor = Colors.red;
                       break;
                     case "EQUIPMENT":
                       color = Color.fromRGBO(225, 222, 222, 0.7);
@@ -193,74 +193,83 @@ class _DashboardScreenState
                       //color=Color.fromRGBO(80, 54, 116, 1.0);
                       //	color = Color.fromRGBO(26, 182, 37, 0.1);
                       image = 'assets/images/epknew.svg';
-                      borderColor = Colors.redAccent;
+                      borderColor = Colors.yellow;
                       break;
                     case "CONTACTS":
                       color = Color.fromRGBO(225, 222, 222, 0.7);
                       //color= Color.fromRGBO(191, 53, 42, 1.0);
                       //color = Color.fromRGBO(243, 135, 75, 0.1);
                       image = 'assets/images/telcontact.svg';
-                      borderColor = Colors.pinkAccent;
+                      borderColor = Colors.blue;
                       break;
                     case "BETA-TEST FEEDBACK":
                       color = Color.fromRGBO(225, 222, 222, 0.7);
                       //color = Color.fromRGBO(102, 187, 238, 0.1);
                       //color = Color.fromRGBO(18, 130, 119, 1.0);
                       image = 'assets/images/feedbackicon.svg';
-                      borderColor = Colors.yellowAccent;
+                      borderColor = Colors.grey;
                       break;
                     case "BULLETIN BOARD":
                       //	color = Color.fromRGBO(251, 111, 162, 0.1);
                       color = Color.fromRGBO(225, 222, 222, 0.7);
                       image = 'assets/images/bulletinnew.svg';
-                      borderColor = Colors.greenAccent;
+                      borderColor = Colors.black;
                       break;
                   }
                   return InkWell(
-                    child: Card(
+                    child: Container(child: Card(
                       margin: EdgeInsets.all(8),
                       color: color,
-                      elevation: 40,
+                      elevation: 10,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                         side: new BorderSide(color: borderColor, width: 3.5),
                       ),
-                      child: Padding(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/newupdated.png"),
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Padding(
                         padding: EdgeInsets.only(
-                            left: 0, right: 0, top: 4, bottom: 4),
+                            left: 0, right: 0, top: 8, bottom: 8),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          ///mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Container(
+                               
                                 child: Center(
-                              child: Column(
-                                children: <Widget>[
-                                  new SvgPicture.asset(
-                                    image,
-                                    height: 66.0,
-                                    allowDrawingOutsideViewBox: true,
+                                  child: Column(
+                                    children: <Widget>[
+                                      new SvgPicture.asset(
+                                        image,
+                                        height: 66.0,
+                                        allowDrawingOutsideViewBox: true,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 5, right: 5, top: 5, bottom: 5),
+                                      ),
+                                      Text(
+                                        "$txt",
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        style: textTheme.headline.copyWith(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16),
+                                      )
+                                    ],
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 5, right: 5, top: 5, bottom: 5),
-                                  ),
-                                  Text(
-                                    "$txt",
-                                    textAlign: TextAlign.center,
-                                    maxLines: 2,
-                                    style: textTheme.headline.copyWith(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16),
-                                  )
-                                ],
-                              ),
-                            )),
+                                )),
                           ],
                         ),
-                      ),
-                    ),
+                      ),)
+                    )),
                     onTap: () async {
                       if (txt == "ACTIVITES")
                         widget.appListener.router.navigateTo(context,

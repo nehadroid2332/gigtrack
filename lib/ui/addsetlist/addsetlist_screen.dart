@@ -29,7 +29,7 @@ class _AddSetListScreenState
       _songNameController = TextEditingController();
   final Map<String, String> inList = Map();
   final instrumentList = <String>[
-    "Ready to play",
+    "Ready to perform",
     "Needs work",
     "New Song",
   ];
@@ -38,7 +38,7 @@ class _AddSetListScreenState
       _songArtistError,
       _songChordsError,
       _songNoteserror;
-  List _fruits = ["Needs work", "New song"];
+  List _fruits = ["Ready to perform","Needs work", "New song"];
   List<Song> _songList = [];
   Song currentSong;
 
@@ -353,12 +353,12 @@ class _AddSetListScreenState
                             Padding(
                               padding: EdgeInsets.all(6),
                             ),
-                            Text(
-                              "Ready to Perform",
-                              style: textTheme.subtitle.copyWith(
-                                fontSize: 16,
-                              ),
-                            ),
+//                            Text(
+//                              "Ready to Perform",
+//                              style: textTheme.subtitle.copyWith(
+//                                fontSize: 16,
+//                              ),
+//                            ),
                             Wrap(
                               children: items,
                             ),
@@ -416,7 +416,7 @@ class _AddSetListScreenState
                             Row(
                               children: <Widget>[
                                 Expanded(
-                                  child: Text("Sub Notes"),
+                                  child: Text("Song Notes"),
                                 ),
                                 IconButton(
                                   icon: Icon(Icons.add),
@@ -426,13 +426,13 @@ class _AddSetListScreenState
                                               context: context,
                                               builder: (context) {
                                                 return AlertDialog(
-                                                  title: Text('Add Subnote'),
+                                                  title: Text('Add Song notes'),
                                                   content: TextField(
                                                     controller:
                                                         _subNoteFieldController,
                                                     decoration: InputDecoration(
                                                         hintText:
-                                                            "Enter subnote..."),
+                                                            "Enter song notes..."),
                                                   ),
                                                   actions: <Widget>[
                                                     new FlatButton(

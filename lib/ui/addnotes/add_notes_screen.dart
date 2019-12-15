@@ -88,18 +88,19 @@ class _AddNotesScreenState
                   return AlertDialog(
                     title: Text("Your changes will not save.Are you sure?"),
                     actions: <Widget>[
-                      FlatButton(
-                        child: Text("Yes"),
-                        onPressed: () {
-                          Navigator.of(context).pop(true);
-                        },
-                      ),
+                  
                       FlatButton(
                         child: Text("No"),
                         onPressed: () {
                           Navigator.of(context).pop(false);
                         },
                       ),
+	                    FlatButton(
+		                    child: Text("Yes"),
+		                    onPressed: () {
+			                    Navigator.of(context).pop(true);
+		                    },
+	                    ),
                     ],
                   );
                 },
@@ -373,7 +374,7 @@ class _AddNotesScreenState
                                                     ],
                                                   ),
                                                   Padding(
-                                                    padding: EdgeInsets.all(1),
+                                                    padding: EdgeInsets.all(5),
                                                   ),
                                                   _startDateController
                                                           .text.isNotEmpty
