@@ -1,10 +1,13 @@
 import 'package:gigtrack/base/base_model.dart';
 
+import '../../base/base_model.dart';
+
 class UserPlayingStyle extends BaseModel {
   String id;
   String user_id;
   List<String> playing_styles = [];
   Map<String, String> instruments = {};
+  List<BandDetails> bandDetails = [];
   String role;
   String degree;
   String age;
@@ -45,6 +48,7 @@ class UserPlayingStyle extends BaseModel {
       this.viewerKnow,
       this.files,
       this.aboutBand,
+      this.bandDetails,
       this.bandContacts,
       this.bandEmail,
       this.aboutTheBands,
@@ -79,7 +83,7 @@ class UserPlayingStyle extends BaseModel {
     bandEmail = data['bandEmail'];
     bandWebsite = data['bandWebsite'];
     bandContacts = data['bandContacts'];
-    response=data['responsetext'];
+    response = data['responsetext'];
     role = data['role'];
     about = data['about'];
     degree = data['degree'];
@@ -96,6 +100,11 @@ class UserPlayingStyle extends BaseModel {
     if (data['aboutTheBands'] != null) {
       for (var item in data['aboutTheBands']) {
         aboutTheBands.add(item.toString());
+      }
+    }
+    if (data['bandDetails'] != null) {
+      for (var item in data['bandDetails']) {
+        bandDetails.add(BandDetails.fromJSON(item));
       }
     }
   }
@@ -126,7 +135,37 @@ class UserPlayingStyle extends BaseModel {
     data['bandEmail'] = bandEmail;
     data['bandWebsite'] = bandWebsite;
     data['bandContacts'] = bandContacts;
-    data['responsetext']=response;
+    data['responsetext'] = response;
+    List<dynamic> items = [];
+    for (var item in bandDetails) {
+      items.add(item.toMap());
+    }
+    data['bandDetails'] = items;
+    return data;
+  }
+}
+
+class BandDetails extends BaseModel {
+  String bandName;
+  String desc;
+  String dateFrom;
+  String dateTo;
+
+  BandDetails({this.bandName, this.dateFrom, this.dateTo, this.desc});
+
+  BandDetails.fromJSON(dynamic data) {
+    bandName = data['bandName'];
+    desc = data['desc'];
+    dateFrom = data['dateFrom'];
+    dateTo = data['dateTo'];
+  }
+
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> data = Map();
+    data['bandName'] = bandName;
+    data['desc'] = desc;
+    data['dateFrom'] = dateFrom;
+    data['dateTo'] = dateTo;
     return data;
   }
 }

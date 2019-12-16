@@ -13,6 +13,8 @@ import 'package:gigtrack/utils/showup.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../server/models/user_playing_style.dart';
+import '../../server/models/user_playing_style.dart';
 import 'add_playing_style_presenter.dart';
 
 class AddPlayingStyleScreen extends BaseScreen {
@@ -131,15 +133,21 @@ class _AddPlayingStyleScreenState
   final _nameBandController = TextEditingController();
   final _contactBandController = TextEditingController();
   final _aboutBandController = TextEditingController();
+  final _bandNameController = TextEditingController();
+  final _descController = TextEditingController();
+  final _yearFromController = TextEditingController();
+  final _yearToController = TextEditingController();
   String selectedEducation;
   var _educationType = "Select degree";
   var files = <String>[];
   List<String> aboutBandList = [""];
 
   bool isEducation = true;
-  bool isExperience= false;
+  bool isExperience = false;
 
   User user;
+
+  List<BandDetails> bandDetails = [];
 
   String _bandCity, _bandState;
 
@@ -250,11 +258,10 @@ class _AddPlayingStyleScreenState
           content: Text("Are you sure you want to delete?"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
-          
+
             new FlatButton(
               child: new Text("Yes"),
               textColor: Colors.black,
-              
               onPressed: () {
                 if (widget.id == null || widget.id.isEmpty) {
                   showMessage("Id cannot be null");
@@ -266,8 +273,10 @@ class _AddPlayingStyleScreenState
               },
             ),
             new RaisedButton(
-              child: new Text("No",
-              style: TextStyle(color: Colors.white),),
+              child: new Text(
+                "No",
+                style: TextStyle(color: Colors.white),
+              ),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
               color: Color.fromRGBO(60, 111, 55, 1.0),
@@ -457,7 +466,7 @@ class _AddPlayingStyleScreenState
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(left: 15,right: 15,bottom: 15,top: 0),
+          padding: EdgeInsets.only(left: 15, right: 15, bottom: 15, top: 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -499,19 +508,24 @@ class _AddPlayingStyleScreenState
 //                      ),
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : files != null && files.length > 0?ExtendedImage.network(
-                       files[0],
-                        width: 0,
-                        height:  MediaQuery.of(context).size.height / 3.2,
-                        fit: BoxFit.fitHeight,
-                        cache: true,
-                        border: Border.all(color: Colors.black, width: 1.0),
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        scale: 6,
-                        mode: ExtendedImageMode.gesture,
-                      //cancelToken: cancellationToken,
-                      ):Container(),
+                          : files != null && files.length > 0
+                              ? ExtendedImage.network(
+                                  files[0],
+                                  width: 0,
+                                  height:
+                                      MediaQuery.of(context).size.height / 3.2,
+                                  fit: BoxFit.fitHeight,
+                                  cache: true,
+                                  border: Border.all(
+                                      color: Colors.black, width: 1.0),
+                                  shape: BoxShape.rectangle,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                  scale: 6,
+                                  mode: ExtendedImageMode.gesture,
+                                  //cancelToken: cancellationToken,
+                                )
+                              : Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -944,38 +958,119 @@ class _AddPlayingStyleScreenState
                           ? Wrap(
                               children: exps,
                             )
-                          : Container(child:
-                      Column(children:
-                      <Widget>[
-                        Text(
-                          expss,
-                          textAlign: TextAlign.center,
-                        ),
-                        Padding(padding: EdgeInsets.all(3),),
-                        widget.bandId.isEmpty && widget.id.isNotEmpty && !isEdit
-                            ? ShowUp(
-                          child: !isExperience
-                              ? new GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isExperience = true;
-                              });
-                            },
-                            child: widget.id.isNotEmpty
-                                ? Text(
-                              "Click here to add band experience",
-                              style: textTheme.display1
-                                  .copyWith(
-                                  color: Colors.red,
-                                  fontSize: 14),
-                            )
-                                : Container(),
-                          )
-                              : Container(),
-                          delay: 1000,
-                        )
-                            : Container(),
-                      ],),),
+                          : Container(
+                              child: Column(
+                                children: <Widget>[
+                                  Text(
+                                    expss,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(3),
+                                  ),
+                                  widget.bandId.isEmpty &&
+                                          widget.id.isNotEmpty &&
+                                          !isEdit
+                                      ? ShowUp(
+                                          child: new GestureDetector(
+                                            onTap: () {
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return AlertDialog(
+                                                      title: Text(
+                                                          'Add Information'),
+                                                      content: Column(
+                                                        children: <Widget>[
+                                                          TextField(
+                                                            controller:
+                                                                _bandNameController,
+                                                            decoration:
+                                                                InputDecoration(
+                                                                    hintText:
+                                                                        "Name of Band, Program, etc."),
+                                                          ),
+                                                          TextField(
+                                                            controller:
+                                                                _descController,
+                                                            decoration:
+                                                                InputDecoration(
+                                                                    hintText:
+                                                                        "Description"),
+                                                          ),
+                                                          TextField(
+                                                            controller:
+                                                                _yearFromController,
+                                                            decoration:
+                                                                InputDecoration(
+                                                                    hintText:
+                                                                        "Year From"),
+                                                          ),
+                                                          TextField(
+                                                            controller:
+                                                                _yearToController,
+                                                            decoration:
+                                                                InputDecoration(
+                                                                    hintText:
+                                                                        "Year To"),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      actions: <Widget>[
+                                                        new FlatButton(
+                                                          child: new Text(
+                                                              'Submit'),
+                                                          onPressed: () {
+                                                            presenter.addBandExtra(
+                                                                _bandNameController
+                                                                    .text,
+                                                                _descController
+                                                                    .text,
+                                                                _yearFromController
+                                                                    .text,
+                                                                _yearToController
+                                                                    .text,
+                                                                widget.id);
+                                                          },
+                                                        )
+                                                      ],
+                                                    );
+                                                  });
+                                            },
+                                            child: widget.id.isNotEmpty
+                                                ? Text(
+                                                    "Click here to add band experience",
+                                                    style: textTheme.display1
+                                                        .copyWith(
+                                                            color: Colors.red,
+                                                            fontSize: 14),
+                                                  )
+                                                : Container(),
+                                          ),
+                                          delay: 1000,
+                                        )
+                                      : Container(),
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: bandDetails.length,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      BandDetails bandDetail =
+                                          bandDetails[index];
+                                      return Column(
+                                        children: <Widget>[
+                                          Text("${bandDetail.bandName}"),
+                                          Text("${bandDetail.desc}"),
+                                          Text("${bandDetail.dateFrom}"),
+                                          Text("${bandDetail.dateTo}"),
+                                        ],
+                                      );
+                                    },
+                                  )
+                                ],
+                              ),
+                            ),
                       (widget.id.isEmpty || isEdit)
                           ? exList.containsKey("Other")
                               ? TextField(
@@ -1261,33 +1356,30 @@ class _AddPlayingStyleScreenState
                               : Container()
                           : Container(),
 
-                    
-                          Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Text(
-                                    "Set-List",
-                                    style: textTheme.subhead.copyWith(
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.add,
-                                    color: widget.appListener.accentColor,
-                                  ),
-                                  onPressed: () {
-                                    widget.appListener.router.navigateTo(
-                                        context,
-                                        Screens.SETLIST.toString() +
-                                            "/${widget.id}");
-                                    // showDialogConfirm();
-                                  },
-                                )
-                              ],
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              "Set-List",
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
                             ),
-                          
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.add,
+                              color: widget.appListener.accentColor,
+                            ),
+                            onPressed: () {
+                              widget.appListener.router.navigateTo(context,
+                                  Screens.SETLIST.toString() + "/${widget.id}");
+                              // showDialogConfirm();
+                            },
+                          )
+                        ],
+                      ),
+
                       Padding(
                         padding: EdgeInsets.all(4),
                       ),
@@ -1579,6 +1671,7 @@ class _AddPlayingStyleScreenState
       _contactBandController.text = userPlayingStyle.bandContacts;
       _websiteBandController.text = userPlayingStyle.bandWebsite;
       isEducation = true;
+      bandDetails = userPlayingStyle.bandDetails;
 
       for (String item in userPlayingStyle.experience) {
         exList[item] = null;
@@ -1622,5 +1715,11 @@ class _AddPlayingStyleScreenState
     setState(() {
       user = res;
     });
+  }
+
+  @override
+  void addBandExtra() {
+    Navigator.pop(context);
+    presenter.getPlayingStyleDetails(widget.id);
   }
 }
