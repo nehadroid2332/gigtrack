@@ -1335,6 +1335,20 @@ class _AddPlayingStyleScreenState
                                       decoration: InputDecoration(
                                           hintText:
                                               "About the band ${index + 1}",
+                                          prefixIcon: aboutBandList.length > 0
+                                              ? IconButton(
+                                                  icon: Icon(Icons.delete),
+                                                  onPressed: () {
+                                                    if (aboutBandList.length >
+                                                        0) {
+                                                      setState(() {
+                                                        aboutBandList
+                                                            .removeAt(index);
+                                                      });
+                                                    }
+                                                  },
+                                                )
+                                              : null,
                                           suffixIcon: aboutBandList.length < 3
                                               ? IconButton(
                                                   icon: Icon(Icons.add),
@@ -1356,32 +1370,13 @@ class _AddPlayingStyleScreenState
                               : Container()
                           : Container(),
 
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Text(
-                              "Set-List",
-                              style: textTheme.subhead.copyWith(
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                            icon: Icon(
-                              Icons.add,
-                              color: widget.appListener.accentColor,
-                            ),
-                            onPressed: () {
-                              widget.appListener.router.navigateTo(context,
-                                  Screens.SETLIST.toString() + "/${widget.id}");
-                              // showDialogConfirm();
-                            },
-                          )
-                        ],
-                      ),
-
-                      Padding(
-                        padding: EdgeInsets.all(4),
+                      RaisedButton(
+                        color: Colors.lightGreen,
+                        child: Text("Set-List"),
+                        onPressed: () {
+                          widget.appListener.router.navigateTo(context,
+                              Screens.SETLIST.toString() + "/${widget.id}");
+                        },
                       ),
 
                       Row(
