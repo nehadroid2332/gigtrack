@@ -178,7 +178,7 @@ class _DashboardScreenState
                       color = Color.fromRGBO(225, 222, 222, 0.7);
                       //color=Color.fromRGBO(214,22, 35, 1.0);
                       //	color = Color.fromRGBO(241, 206, 96, 0.1);
-                      image = 'assets/images/bandnew.svg';
+                      image = 'assets/images/bandicon.svg';
                       borderColor = Colors.red;
                       break;
                     case "EQUIPMENT":

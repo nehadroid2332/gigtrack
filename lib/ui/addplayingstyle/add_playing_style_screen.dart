@@ -136,7 +136,8 @@ class _AddPlayingStyleScreenState
   var files = <String>[];
   List<String> aboutBandList = [""];
 
-  bool isEducation = false;
+  bool isEducation = true;
+  bool isExperience= false;
 
   User user;
 
@@ -943,10 +944,38 @@ class _AddPlayingStyleScreenState
                           ? Wrap(
                               children: exps,
                             )
-                          : Text(
-                              expss,
-                              textAlign: TextAlign.center,
-                            ),
+                          : Container(child:
+                      Column(children:
+                      <Widget>[
+                        Text(
+                          expss,
+                          textAlign: TextAlign.center,
+                        ),
+                        Padding(padding: EdgeInsets.all(3),),
+                        widget.bandId.isEmpty && widget.id.isNotEmpty && !isEdit
+                            ? ShowUp(
+                          child: !isExperience
+                              ? new GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                isExperience = true;
+                              });
+                            },
+                            child: widget.id.isNotEmpty
+                                ? Text(
+                              "Click here to add band experience",
+                              style: textTheme.display1
+                                  .copyWith(
+                                  color: Colors.red,
+                                  fontSize: 14),
+                            )
+                                : Container(),
+                          )
+                              : Container(),
+                          delay: 1000,
+                        )
+                            : Container(),
+                      ],),),
                       (widget.id.isEmpty || isEdit)
                           ? exList.containsKey("Other")
                               ? TextField(
