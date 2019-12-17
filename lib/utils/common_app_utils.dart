@@ -608,6 +608,9 @@ class AppProgressWidget extends StatelessWidget {
             'assets/images/loading.svg',
             allowDrawingOutsideViewBox: true,
           ),
+          Padding(
+            padding: EdgeInsets.all(4),
+          ),
           Text(
             "Loading...",
             style: TextStyle(
