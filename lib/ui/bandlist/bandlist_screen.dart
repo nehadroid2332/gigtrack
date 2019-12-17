@@ -5,6 +5,8 @@ import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/ui/bandlist/bandlist_presenter.dart';
 
+import '../../utils/common_app_utils.dart';
+
 class BandListScreen extends BaseScreen {
   BandListScreen(AppListener appListener) : super(appListener, title: "");
 
@@ -78,35 +80,32 @@ class _BandListScreenState
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
                     _bands = snapshot.data;
-                  }
-                  return ListView.builder(
-                    itemCount: _bands.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      Band bnd = _bands[index];
-                      return Card(
-                        margin: EdgeInsets.all(6),
-                        color: Color.fromRGBO(241, 206, 96, 1.0),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        child: InkWell(
-                          child: Padding(
-                            padding: EdgeInsets.all(15),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  "${bnd.name.toString()}",
-                                  style: textTheme.headline.copyWith(
+
+                    return ListView.builder(
+                      itemCount: _bands.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        Band bnd = _bands[index];
+                        return Card(
+                          margin: EdgeInsets.all(6),
+                          color: Color.fromRGBO(241, 206, 96, 1.0),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15)),
+                          child: InkWell(
+                            child: Padding(
+                              padding: EdgeInsets.all(15),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "${bnd.name.toString()}",
+                                    style: textTheme.headline.copyWith(
                                       color: Color.fromRGBO(135, 67, 125, 1.0),
                                       fontSize: 18,
-                                    
+                                    ),
                                   ),
-                                  
-                                  
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(0),
-                                ),
+                                  Padding(
+                                    padding: EdgeInsets.all(0),
+                                  ),
 //                            Text(
 //                              "${bnd.musicStyle}",
 //                              style: TextStyle(
@@ -114,17 +113,28 @@ class _BandListScreenState
 //                                color: Color.fromRGBO(149, 121, 218, 1.0),
 //                              ),
 //                            ),
-                              ],
+                                ],
+                              ),
                             ),
+                            onTap: () {
+                              widget.appListener.router.navigateTo(context,
+                                  Screens.ADDBAND.toString() + "/${bnd.id}");
+                            },
                           ),
-                          onTap: () {
-                            widget.appListener.router.navigateTo(context,
-                                Screens.ADDBAND.toString() + "/${bnd.id}");
-                          },
-                        ),
-                      );
-                    },
-                  );
+                        );
+                      },
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text("Error Occured"),
+                    );
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return Center(
+                      child: AppProgressWidget(),
+                    );
+                  }
+                  return Container();
                 },
               ),
             )

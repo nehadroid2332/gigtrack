@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/user_playing_style.dart';
+import '../../utils/common_app_utils.dart';
 import 'playing_style_list_presenter.dart';
 
 class PlayingStyleListScreen extends BaseScreen {
@@ -101,50 +102,62 @@ class _PlayingStyleListScreenState
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
                     playingStyleList = snapshot.data;
-                  }
-                  return ListView.builder(
-                    padding: EdgeInsets.all(0),
-                    itemBuilder: (BuildContext context, int index) {
-                      UserPlayingStyle userPlayingStyle =
-                          playingStyleList[index];
-                      return InkWell(
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          margin: EdgeInsets.all(10),
-                          color: Color.fromRGBO(124, 180, 97, 1.0),
-                          child: Padding(
-                            padding: EdgeInsets.all(15),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  "${userPlayingStyle.playing_styles[0]}",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                ),
-                                //                                Text(
-                                //                                  "${userPlayingStyle.instruments}",
-                                //                                  style: TextStyle(color: Colors.white),
-                                //                                )
-                              ],
+
+                    return ListView.builder(
+                      padding: EdgeInsets.all(0),
+                      itemBuilder: (BuildContext context, int index) {
+                        UserPlayingStyle userPlayingStyle =
+                            playingStyleList[index];
+                        return InkWell(
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            margin: EdgeInsets.all(10),
+                            color: Color.fromRGBO(124, 180, 97, 1.0),
+                            child: Padding(
+                              padding: EdgeInsets.all(15),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "${userPlayingStyle.playing_styles[0]}",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 20),
+                                  ),
+                                  //                                Text(
+                                  //                                  "${userPlayingStyle.instruments}",
+                                  //                                  style: TextStyle(color: Colors.white),
+                                  //                                )
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        onTap: (widget.isLeader && widget.bandId.isNotEmpty) ||
-                                widget.bandId.isEmpty
-                            ? () async {
-                                await widget.appListener.router.navigateTo(
-                                    context,
-                                    Screens.ADDPLAYINGSTYLE.toString() +
-                                        "/${userPlayingStyle.id}/${widget.bandId}////");
-                              }
-                            : null,
-                      );
-                    },
-                    itemCount: playingStyleList.length,
-                  );
+                          onTap:
+                              (widget.isLeader && widget.bandId.isNotEmpty) ||
+                                      widget.bandId.isEmpty
+                                  ? () async {
+                                      await widget.appListener.router.navigateTo(
+                                          context,
+                                          Screens.ADDPLAYINGSTYLE.toString() +
+                                              "/${userPlayingStyle.id}/${widget.bandId}////");
+                                    }
+                                  : null,
+                        );
+                      },
+                      itemCount: playingStyleList.length,
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text("Error Occured"),
+                    );
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return Center(
+                      child: AppProgressWidget(),
+                    );
+                  }
+                  return Container();
                 },
               ),
             )
@@ -160,7 +173,6 @@ class _PlayingStyleListScreenState
                     context,
                     Screens.ADDPLAYINGSTYLE.toString() +
                         "//${widget.bandId}////");
-                        
               },
               child: Icon(Icons.add),
               backgroundColor: Color.fromRGBO(124, 180, 97, 1.0),

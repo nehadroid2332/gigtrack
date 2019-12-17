@@ -5,6 +5,8 @@ import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/user_instrument.dart';
 import 'package:gigtrack/ui/instrumentlist/instrument_list_presenter.dart';
 
+import '../../utils/common_app_utils.dart';
+
 class InstrumentListScreen extends BaseScreen {
   final String bandId;
   final bool isLeader;
@@ -92,50 +94,55 @@ class _InstrumentListScreenState
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
                     _instruments = snapshot.data;
-                  }
-                  return ListView.builder(
-                    itemCount: _instruments.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final instr = _instruments[index];
-                      DateTime purchasedDate =
-                          DateTime.fromMillisecondsSinceEpoch(
-                              (instr.purchased_date));
 
-                      return Card(
-                        color: (instr.bandId.isNotEmpty)
-                            ? Colors.white
-                            : Color.fromRGBO(191, 53, 42, 1.0),
-                        shape: RoundedRectangleBorder(
-                            side: instr.bandId.isNotEmpty
-                                ? new BorderSide(
-                                    color: Color.fromRGBO(191, 53, 42, 1.0),
-                                    width: 1.0)
-                                : new BorderSide(
-                                    color: Color.fromRGBO(191, 53, 42, 1.0),
-                                    width: 1.0),
-                            borderRadius: BorderRadius.circular(16)),
-                        child: InkWell(
-                          child: Padding(
-                            padding: EdgeInsets.all(15),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  "${instr.name}",
-                                  style: textTheme.headline.copyWith(
-                                      fontSize: 18,
-                                      color: (instr.bandId.isNotEmpty)
-                                          ? Color.fromRGBO(191, 53, 42, 1.0)
-                                          : Colors.white),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                instr.band != null ? Text("${instr.band.name}",style: TextStyle(
-                                  color: Color.fromRGBO(191, 53, 42, 1.0)
-                                ),) : Container(),
-                                Padding(
-                                  padding: EdgeInsets.all(0),
-                                ),
+                    return ListView.builder(
+                      itemCount: _instruments.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final instr = _instruments[index];
+                        DateTime purchasedDate =
+                            DateTime.fromMillisecondsSinceEpoch(
+                                (instr.purchased_date));
+
+                        return Card(
+                          color: (instr.bandId.isNotEmpty)
+                              ? Colors.white
+                              : Color.fromRGBO(191, 53, 42, 1.0),
+                          shape: RoundedRectangleBorder(
+                              side: instr.bandId.isNotEmpty
+                                  ? new BorderSide(
+                                      color: Color.fromRGBO(191, 53, 42, 1.0),
+                                      width: 1.0)
+                                  : new BorderSide(
+                                      color: Color.fromRGBO(191, 53, 42, 1.0),
+                                      width: 1.0),
+                              borderRadius: BorderRadius.circular(16)),
+                          child: InkWell(
+                            child: Padding(
+                              padding: EdgeInsets.all(15),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "${instr.name}",
+                                    style: textTheme.headline.copyWith(
+                                        fontSize: 18,
+                                        color: (instr.bandId.isNotEmpty)
+                                            ? Color.fromRGBO(191, 53, 42, 1.0)
+                                            : Colors.white),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  instr.band != null
+                                      ? Text(
+                                          "${instr.band.name}",
+                                          style: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  191, 53, 42, 1.0)),
+                                        )
+                                      : Container(),
+                                  Padding(
+                                    padding: EdgeInsets.all(0),
+                                  ),
 //                            Text(
 //                              "Purchased",
 //                              style: textTheme.subhead.copyWith(
@@ -162,23 +169,34 @@ class _InstrumentListScreenState
 //                              "From: ${instr.purchased_from}",
 //                              style: TextStyle(fontSize: 11),
 //                            )
-                              ],
+                                ],
+                              ),
                             ),
+                            onTap:
+                                (widget.isLeader && widget.bandId.isNotEmpty) ||
+                                        widget.bandId.isEmpty
+                                    ? () {
+                                        widget.appListener.router.navigateTo(
+                                            context,
+                                            Screens.ADDINSTRUMENT.toString() +
+                                                "/${instr.id}/${widget.bandId.isEmpty ? instr.bandId : widget.bandId}////");
+                                      }
+                                    : null,
                           ),
-                          onTap:
-                              (widget.isLeader && widget.bandId.isNotEmpty) ||
-                                      widget.bandId.isEmpty
-                                  ? () {
-                                      widget.appListener.router.navigateTo(
-                                          context,
-                                          Screens.ADDINSTRUMENT.toString() +
-                                              "/${instr.id}/${widget.bandId.isEmpty ? instr.bandId : widget.bandId}////");
-                                    }
-                                  : null,
-                        ),
-                      );
-                    },
-                  );
+                        );
+                      },
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text("Error Occured"),
+                    );
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return Center(
+                      child: AppProgressWidget(),
+                    );
+                  }
+                  return Container();
                 },
               ),
             )

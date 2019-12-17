@@ -4,6 +4,8 @@ import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/setlist.dart';
 import 'package:gigtrack/ui/setlist/setlist_presenter.dart';
 
+import '../../utils/common_app_utils.dart';
+
 class SetListScreen extends BaseScreen {
   final String id;
   SetListScreen(AppListener appListener, {this.id})
@@ -57,61 +59,72 @@ class _SetListScreenState
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     _setLists = snapshot.data;
-                  }
-                  return ListView.builder(
-                    itemBuilder: (BuildContext context, int index) {
-                      SetList setList = _setLists[index];
-                      // List<Widget> widgets = [];
-                      // for (Song song in setList.songs) {
-                      //   widgets.add(
-                      //     Padding(
-                      //       padding: EdgeInsets.symmetric(
-                      //         vertical: 5
-                      //       ),
-                      //       child: Row(
-                      //         children: <Widget>[
-                      //           Expanded(
-                      //             child: Text(
-                      //               song.name,
-                      //               textAlign: TextAlign.center,
-                      //             ),
-                      //           ),
-                      //           Text("-"),
-                      //           Expanded(
-                      //             child: Text(
-                      //               song.artist,
-                      //               textAlign: TextAlign.center,
-                      //             ),
-                      //           ),
-                      //           Text("*"),
-                      //           Expanded(
-                      //             child: Text(
-                      //               song.perform,
-                      //               textAlign: TextAlign.center,
-                      //             ),
-                      //           ),
-                      //         ],
-                      //       ),
-                      //     ),
-                      //   );
-                      // }
-                      return FlatButton(
-                        child: Text(
-                          setList.setListName,
-                          style: textTheme.button.copyWith(
-                            fontSize: 18,
+
+                    return ListView.builder(
+                      itemBuilder: (BuildContext context, int index) {
+                        SetList setList = _setLists[index];
+                        // List<Widget> widgets = [];
+                        // for (Song song in setList.songs) {
+                        //   widgets.add(
+                        //     Padding(
+                        //       padding: EdgeInsets.symmetric(
+                        //         vertical: 5
+                        //       ),
+                        //       child: Row(
+                        //         children: <Widget>[
+                        //           Expanded(
+                        //             child: Text(
+                        //               song.name,
+                        //               textAlign: TextAlign.center,
+                        //             ),
+                        //           ),
+                        //           Text("-"),
+                        //           Expanded(
+                        //             child: Text(
+                        //               song.artist,
+                        //               textAlign: TextAlign.center,
+                        //             ),
+                        //           ),
+                        //           Text("*"),
+                        //           Expanded(
+                        //             child: Text(
+                        //               song.perform,
+                        //               textAlign: TextAlign.center,
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   );
+                        // }
+                        return FlatButton(
+                          child: Text(
+                            setList.setListName,
+                            style: textTheme.button.copyWith(
+                              fontSize: 18,
+                            ),
                           ),
-                        ),
-                        onPressed: () {
-                          widget.appListener.router.navigateTo(
-                              context,
-                              Screens.ADDSETLIST.toString() +
-                                  "/${widget.id}/${setList.id}");
-                        },
-                      );
-                    },
-                    itemCount: _setLists.length,
-                  );
+                          onPressed: () {
+                            widget.appListener.router.navigateTo(
+                                context,
+                                Screens.ADDSETLIST.toString() +
+                                    "/${widget.id}/${setList.id}");
+                          },
+                        );
+                      },
+                      itemCount: _setLists.length,
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text("Error Occured"),
+                    );
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return Center(
+                      child: AppProgressWidget(),
+                    );
+                  }
+                  return Container();
                 },
               ),
             )

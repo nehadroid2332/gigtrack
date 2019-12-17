@@ -82,18 +82,31 @@ class _BulletInBoardListScreenState
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
                     _notes = snapshot.data;
+
+                    return ListView.builder(
+                      itemCount: _notes.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final bulletin = _notes[index];
+                        return buildBulletInBoardListItem(
+                            bulletin, Colors.white, onTap: () {
+                          widget.appListener.router.navigateTo(
+                              context,
+                              Screens.ADDBULLETIN.toString() +
+                                  "/${bulletin.id}");
+                        });
+                      },
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text("Error Occured"),
+                    );
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return Center(
+                      child: AppProgressWidget(),
+                    );
                   }
-                  return ListView.builder(
-                    itemCount: _notes.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final bulletin = _notes[index];
-                      return buildBulletInBoardListItem(bulletin, Colors.white,
-                          onTap: () {
-                        widget.appListener.router.navigateTo(context,
-                            Screens.ADDBULLETIN.toString() + "/${bulletin.id}");
-                      });
-                    },
-                  );
+                  return Container();
                 },
               ),
             )

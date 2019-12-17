@@ -69,7 +69,7 @@ class _ActivitiesListScreenState
       SpeedDialChild(
         label: "Activities",
         child: Icon(Icons.add),
-        backgroundColor:Color.fromRGBO(40, 35, 188, 1.0),
+        backgroundColor: Color.fromRGBO(40, 35, 188, 1.0),
         onTap: () async {
           await widget.appListener.router.navigateTo(
               context,
@@ -80,7 +80,7 @@ class _ActivitiesListScreenState
       SpeedDialChild(
         label: "Appointment",
         child: Icon(Icons.add),
-        backgroundColor:Color.fromRGBO(40, 35, 188, 1.0),
+        backgroundColor: Color.fromRGBO(40, 35, 188, 1.0),
         onTap: () async {
           showDialogConfirm();
         },
@@ -177,405 +177,290 @@ class _ActivitiesListScreenState
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
                     activities = snapshot.data;
-                  }
-                  List<Activites> current = [];
-                  List<Activites> upcoming = [];
-                  List<Activites> past = [];
-                  List<Activites> recurring = [];
-                  // List<Activites> bandActivities = [];
 
-                  DateTime currentDate = DateTime.now().toLocal();
-                  for (var ac in activities) {
-                    DateTime startDate =
-                        DateTime.fromMillisecondsSinceEpoch(ac.startDate)
-                            .toLocal();
-                    DateTime endDate;
-                    if (ac.endDate != 0) {
-                      endDate = DateTime.fromMillisecondsSinceEpoch(ac.endDate)
-                          .toLocal();
-                    }
-                    int days = currentDate.difference(startDate).inDays;
-                    int days2;
-                    if (endDate != null) {
-                      days2 = currentDate.difference(endDate).inDays;
-                    }
-                    // bool check = myBands.any((a) {
-                    //   return a.id == ac.bandId;
-                    // });
-                    // if (check) {
-                    //   bandActivities.add(ac);
-                    // } else
-                    if (ac.isRecurring) {
-                      recurring.add(ac);
-                    } else if (days == 0 || (days2 != null && days2 == 0)) {
-                      current.add(ac);
-                    } else if (days.isNegative) {
-                      upcoming.add(ac);
-                    } else if (!days.isNegative) {
-                      if (days2 != null) {
-                        if (days2.isNegative) {
-                          current.add(ac);
+                    List<Activites> current = [];
+                    List<Activites> upcoming = [];
+                    List<Activites> past = [];
+                    List<Activites> recurring = [];
+                    // List<Activites> bandActivities = [];
+
+                    DateTime currentDate = DateTime.now().toLocal();
+                    for (var ac in activities) {
+                      DateTime startDate =
+                          DateTime.fromMillisecondsSinceEpoch(ac.startDate)
+                              .toLocal();
+                      DateTime endDate;
+                      if (ac.endDate != 0) {
+                        endDate =
+                            DateTime.fromMillisecondsSinceEpoch(ac.endDate)
+                                .toLocal();
+                      }
+                      int days = currentDate.difference(startDate).inDays;
+                      int days2;
+                      if (endDate != null) {
+                        days2 = currentDate.difference(endDate).inDays;
+                      }
+                      // bool check = myBands.any((a) {
+                      //   return a.id == ac.bandId;
+                      // });
+                      // if (check) {
+                      //   bandActivities.add(ac);
+                      // } else
+                      if (ac.isRecurring) {
+                        recurring.add(ac);
+                      } else if (days == 0 || (days2 != null && days2 == 0)) {
+                        current.add(ac);
+                      } else if (days.isNegative) {
+                        upcoming.add(ac);
+                      } else if (!days.isNegative) {
+                        if (days2 != null) {
+                          if (days2.isNegative) {
+                            current.add(ac);
+                          } else {
+                            past.add(ac);
+                          }
                         } else {
                           past.add(ac);
                         }
-                      } else {
-                        past.add(ac);
+                        //  past =  past.sort((b, a) => a.compareTo(b));
                       }
-                      //  past =  past.sort((b, a) => a.compareTo(b));
+
+                      // if (currentDate >= startDate &&
+                      //     currentDate <= (endDate ?? 0)) {
+                      //   current.add(ac);
+                      // } else if (currentDate > (endDate ?? 0) ||
+                      //     currentDate > startDate) {
+                      //   past.add(ac);
+                      // } else if (currentDate < startDate) {
+                      //   upcoming.add(ac);
+                      // }
                     }
+                    current.sort((a, b) => a.startDate.compareTo(b.startDate));
+                    current.sort((a, b) {
+                      DateTime aD =
+                          DateTime.fromMillisecondsSinceEpoch(a.startDate);
+                      DateTime bD =
+                          DateTime.fromMillisecondsSinceEpoch(b.startDate);
+                      if (aD.day == bD.day && aD.month == bD.month) {
+                        return a.title.compareTo(b.title);
+                      }
+                      return 0;
+                    });
 
-                    // if (currentDate >= startDate &&
-                    //     currentDate <= (endDate ?? 0)) {
-                    //   current.add(ac);
-                    // } else if (currentDate > (endDate ?? 0) ||
-                    //     currentDate > startDate) {
-                    //   past.add(ac);
-                    // } else if (currentDate < startDate) {
-                    //   upcoming.add(ac);
-                    // }
-                  }
-                  current.sort((a, b) => a.startDate.compareTo(b.startDate));
-                  current.sort((a, b) {
-                    DateTime aD =
-                        DateTime.fromMillisecondsSinceEpoch(a.startDate);
-                    DateTime bD =
-                        DateTime.fromMillisecondsSinceEpoch(b.startDate);
-                    if (aD.day == bD.day && aD.month == bD.month) {
-                      return a.title.compareTo(b.title);
-                    }
-                    return 0;
-                  });
+                    upcoming.sort((a, b) => a.startDate.compareTo(b.startDate));
+                    upcoming.sort((a, b) {
+                      DateTime aD =
+                          DateTime.fromMillisecondsSinceEpoch(a.startDate);
+                      DateTime bD =
+                          DateTime.fromMillisecondsSinceEpoch(b.startDate);
+                      if (aD.day == bD.day && aD.month == bD.month) {
+                        return a.title.compareTo(b.title);
+                      }
+                      return 0;
+                    });
 
-                  upcoming.sort((a, b) => a.startDate.compareTo(b.startDate));
-                  upcoming.sort((a, b) {
-                    DateTime aD =
-                        DateTime.fromMillisecondsSinceEpoch(a.startDate);
-                    DateTime bD =
-                        DateTime.fromMillisecondsSinceEpoch(b.startDate);
-                    if (aD.day == bD.day && aD.month == bD.month) {
-                      return a.title.compareTo(b.title);
-                    }
-                    return 0;
-                  });
+                    recurring
+                        .sort((a, b) => a.startDate.compareTo(b.startDate));
+                    recurring.sort((a, b) {
+                      DateTime aD =
+                          DateTime.fromMillisecondsSinceEpoch(a.startDate)
+                              .toLocal();
+                      DateTime bD =
+                          DateTime.fromMillisecondsSinceEpoch(b.startDate)
+                              .toLocal();
+                      if (aD.day == bD.day && aD.month == bD.month) {
+                        return a.title.compareTo(b.title);
+                      }
+                      return 0;
+                    });
 
-                  recurring.sort((a, b) => a.startDate.compareTo(b.startDate));
-                  recurring.sort((a, b) {
-                    DateTime aD =
-                        DateTime.fromMillisecondsSinceEpoch(a.startDate)
-                            .toLocal();
-                    DateTime bD =
-                        DateTime.fromMillisecondsSinceEpoch(b.startDate)
-                            .toLocal();
-                    if (aD.day == bD.day && aD.month == bD.month) {
-                      return a.title.compareTo(b.title);
-                    }
-                    return 0;
-                  });
+                    past.sort((a, b) =>
+                        a.taskCompleteDate ??
+                        0.compareTo(b.taskCompleteDate ?? 0));
 
-                  past.sort((a, b) =>
-                      a.taskCompleteDate ??
-                      0.compareTo(b.taskCompleteDate ?? 0));
-
-                  return ListView(
-                    children: <Widget>[
-                      Text(
-                        "Today",
-                        style: textTheme.display1.copyWith(fontSize: 28),
-                        textAlign: TextAlign.center,
-                      ),
-                      current.length > 0
-                          ? ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              itemCount: current.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                Activites ac = current[index];
-                                return buildActivityListItem(ac, context,
-                                    onTap: () {
-                                  widget.appListener.router.navigateTo(
-                                      context,
-                                      Screens.ADDACTIVITY.toString() +
-                                          "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////");
-                                });
-                              },
-                            )
-                          : Padding(
-                              child: Center(
-                                child: Text("No Current Activities"),
-                              ),
-                              padding: EdgeInsets.all(10),
-                            ),
-                      Text(
-                        "Upcoming",
-                        style: textTheme.display1.copyWith(fontSize: 28),
-                        textAlign: TextAlign.center,
-                      ),
-                      upcoming.length > 0
-                          ? ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              itemCount: upcoming.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                Activites ac = upcoming[index];
-                                return buildActivityListItem(ac, context,
-                                    onTap: () {
-                                  widget.appListener.router.navigateTo(
-                                      context,
-                                      Screens.ADDACTIVITY.toString() +
-                                          "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////");
-                                });
-                              },
-                            )
-                          : Padding(
-                              child: Center(
-                                child: Text("No Upcoming Activities"),
-                              ),
-                              padding: EdgeInsets.all(10),
-                            ),
-                      Text(
-                        "Recurring",
-                        style: textTheme.display1.copyWith(fontSize: 28),
-                        textAlign: TextAlign.center,
-                      ),
-                      recurring.length > 0
-                          ? ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: recurring.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          Activites ac = recurring[index];
-                          return buildActivityListItem(ac, context,
-                              onTap: () {
-                                widget.appListener.router.navigateTo(
-                                  context,
-                                  Screens.ADDACTIVITY.toString() +
-                                      "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////",
-                                );
-                              }, isPast: false);
-                        },
-                      )
-                          : Padding(
-                        child: Center(
-                          child: Text("No Recurring Activities"),
+                    return ListView(
+                      children: <Widget>[
+                        Text(
+                          "Today",
+                          style: textTheme.display1.copyWith(fontSize: 28),
+                          textAlign: TextAlign.center,
                         ),
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                      ),
-                      Text(
-                        "Activity Archive",
-                        style: textTheme.display1.copyWith(fontSize: 28),
-                        textAlign: TextAlign.center,
-                      ),
-                      past.length > 0
-                          ? ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              padding: EdgeInsets.all(10),
-                              itemCount: past.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                Activites ac = past[index];
-                                return buildActivityListItem(ac, context,
-                                    onTap: () {
-                                  widget.appListener.router.navigateTo(
-                                    context,
-                                    Screens.ADDACTIVITY.toString() +
-                                        "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////",
-                                  );
+                        current.length > 0
+                            ? ListView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                itemCount: current.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  Activites ac = current[index];
+                                  return buildActivityListItem(ac, context,
+                                      onTap: () {
+                                    widget.appListener.router.navigateTo(
+                                        context,
+                                        Screens.ADDACTIVITY.toString() +
+                                            "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////");
+                                  });
                                 },
-                                    isPast: (ac.type == Activites.TYPE_TASK &&
-                                        (past[index].taskCompleteDate != null
-                                                ? ac.taskCompleteDate
-                                                : 0) <
-                                            currentDate
-                                                .millisecondsSinceEpoch));
-                              },
-                            )
-                          : Padding(
-                              child: Center(
-                                child: Text("No Past Activities"),
+                              )
+                            : Padding(
+                                child: Center(
+                                  child: Text("No Current Activities"),
+                                ),
+                                padding: EdgeInsets.all(10),
                               ),
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                            ),
+                        Text(
+                          "Upcoming",
+                          style: textTheme.display1.copyWith(fontSize: 28),
+                          textAlign: TextAlign.center,
+                        ),
+                        upcoming.length > 0
+                            ? ListView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                itemCount: upcoming.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  Activites ac = upcoming[index];
+                                  return buildActivityListItem(ac, context,
+                                      onTap: () {
+                                    widget.appListener.router.navigateTo(
+                                        context,
+                                        Screens.ADDACTIVITY.toString() +
+                                            "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////");
+                                  });
+                                },
+                              )
+                            : Padding(
+                                child: Center(
+                                  child: Text("No Upcoming Activities"),
+                                ),
+                                padding: EdgeInsets.all(10),
+                              ),
+                        Text(
+                          "Recurring",
+                          style: textTheme.display1.copyWith(fontSize: 28),
+                          textAlign: TextAlign.center,
+                        ),
+                        recurring.length > 0
+                            ? ListView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: recurring.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  Activites ac = recurring[index];
+                                  return buildActivityListItem(ac, context,
+                                      onTap: () {
+                                    widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.ADDACTIVITY.toString() +
+                                          "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////",
+                                    );
+                                  }, isPast: false);
+                                },
+                              )
+                            : Padding(
+                                child: Center(
+                                  child: Text("No Recurring Activities"),
+                                ),
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                              ),
+                        Text(
+                          "Activity Archive",
+                          style: textTheme.display1.copyWith(fontSize: 28),
+                          textAlign: TextAlign.center,
+                        ),
+                        past.length > 0
+                            ? ListView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                padding: EdgeInsets.all(10),
+                                itemCount: past.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  Activites ac = past[index];
+                                  return buildActivityListItem(ac, context,
+                                      onTap: () {
+                                    widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.ADDACTIVITY.toString() +
+                                          "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////",
+                                    );
+                                  },
+                                      isPast: (ac.type == Activites.TYPE_TASK &&
+                                          (past[index].taskCompleteDate != null
+                                                  ? ac.taskCompleteDate
+                                                  : 0) <
+                                              currentDate
+                                                  .millisecondsSinceEpoch));
+                                },
+                              )
+                            : Padding(
+                                child: Center(
+                                  child: Text("No Past Activities"),
+                                ),
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                              ),
 
-                      // widget.bandId.isEmpty
-                      //     ? Text(
-                      //         "Band Activities",
-                      //         style: textTheme.display1.copyWith(fontSize: 28),
-                      //         textAlign: TextAlign.center,
-                      //       )
-                      //     : Container(),
-                      // widget.bandId.isEmpty
-                      //     ? bandActivities.length > 0
-                      //         ? ListView.builder(
-                      //             physics: NeverScrollableScrollPhysics(),
-                      //             shrinkWrap: true,
-                      //             itemCount: bandActivities.length,
-                      //             itemBuilder:
-                      //                 (BuildContext context, int index) {
-                      //               Activites ac = bandActivities[index];
-                      //               return buildActivityListItem(ac, onTap: () {
-                      //                 widget.appListener.router.navigateTo(
-                      //                   context,
-                      //                   Screens.ADDACTIVITY.toString() +
-                      //                       "/${ac.type}/${ac.id}/${false}/${widget.bandId}////",
-                      //                 );
-                      //               }, isPast: false);
-                      //             },
-                      //           )
-                      //         : Padding(
-                      //             child: Center(
-                      //               child: Text("No Band Activities"),
-                      //             ),
-                      //             padding: EdgeInsets.symmetric(vertical: 10),
-                      //           )
-                      //     : Container()
-                    ],
-                  );
-
-                  // return Column(
-                  //   children: <Widget>[
-                  //     Row(
-                  //       children: <Widget>[
-                  //         Expanded(
-                  //           child: RaisedButton(
-                  //             color: Color.fromRGBO(32, 95, 139, 1.0),
-                  //             textColor: Colors.white,
-                  //             onPressed: () {
-                  //               _pageController.animateToPage(
-                  //                 0,
-                  //                 curve: Curves.easeIn,
-                  //                 duration: Duration(milliseconds: 450),
-                  //               );
-                  //             },
-                  //             child: Text("Current"),
-                  //           ),
-                  //         ),
-                  //         Padding(
-                  //           padding: EdgeInsets.all(1),
-                  //         ),
-                  //         Expanded(
-                  //           child: RaisedButton(
-                  //             textColor: Colors.white,
-                  //             color: Color.fromRGBO(32, 95, 139, 1.0),
-                  //             onPressed: () {
-                  //               _pageController.animateToPage(
-                  //                 1,
-                  //                 curve: Curves.easeIn,
-                  //                 duration: Duration(milliseconds: 450),
-                  //               );
-                  //             },
-                  //             child: Text("Upcoming"),
-                  //           ),
-                  //         ),
-                  //         Padding(
-                  //           padding: EdgeInsets.all(1),
-                  //         ),
-                  //         Expanded(
-                  //           child: RaisedButton(
-                  //             textColor: Colors.white,
-                  //             color: Color.fromRGBO(32, 95, 139, 1.0),
-                  //             onPressed: () {
-                  //               _pageController.animateToPage(
-                  //                 2,
-                  //                 curve: Curves.easeIn,
-                  //                 duration: Duration(milliseconds: 450),
-                  //               );
-                  //             },
-                  //             child: Text("Past"),
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //     // Expanded(
-                  //     //   child: PageView.builder(
-                  //     //     controller: _pageController,
-                  //     //     itemBuilder: (BuildContext context, int index) {
-                  //     //       return Column(
-                  //     //         children: <Widget>[
-                  //     //           Row(
-                  //     //             children: <Widget>[
-                  //     //               Expanded(
-                  //     //                 child: Container(
-                  //     //                   width: double.infinity,
-                  //     //                   color: index == 0
-                  //     //                       ? Colors.red
-                  //     //                       : Colors.white,
-                  //     //                   height: 1,
-                  //     //                 ),
-                  //     //               ),
-                  //     //               Expanded(
-                  //     //                 child: Container(
-                  //     //                   width: double.infinity,
-                  //     //                   color: index == 1
-                  //     //                       ? Colors.red
-                  //     //                       : Colors.white,
-                  //     //                   height: 1,
-                  //     //                 ),
-                  //     //               ),
-                  //     //               Expanded(
-                  //     //                 child: Container(
-                  //     //                   width: double.infinity,
-                  //     //                   color: index == 2
-                  //     //                       ? Colors.red
-                  //     //                       : Colors.white,
-                  //     //                   height: 1,
-                  //     //                 ),
-                  //     //               )
-                  //     //             ],
-                  //     //           ),
-                  //     //           Expanded(
-                  //     //             child: ListView.builder(
-                  //     //               padding: EdgeInsets.only(
-                  //     //                 bottom: 60,
-                  //     //               ),
-                  //     //               itemBuilder:
-                  //     //                   (BuildContext context, int index1) {
-                  //     //                 Activites ac = index == 0
-                  //     //                     ? current[index1]
-                  //     //                     : index == 1
-                  //     //                         ? upcoming[index1]
-                  //     //                         : index == 2
-                  //     //                             ? past[index1]
-                  //     //                             : null;
-                  //     //                 return buildActivityListItem(ac,
-                  //     //                     onTap: () {
-                  //     //                   widget.appListener.router.navigateTo(
-                  //     //                       context,
-                  //     //                       Screens.ADDACTIVITY.toString() +
-                  //     //                           "/${ac.type}/${ac.id}/${false}");
-                  //     //                 });
-                  //     //               },
-                  //     //               itemCount: index == 0
-                  //     //                   ? current.length
-                  //     //                   : index == 1
-                  //     //                       ? upcoming.length
-                  //     //                       : index == 2 ? past.length : 0,
-                  //     //             ),
-                  //     //           )
-                  //     //         ],
-                  //     //       );
-                  //     //     },
-                  //     //   ),
-                  //     // )
-                  //   ],
-                  // );
+                        // widget.bandId.isEmpty
+                        //     ? Text(
+                        //         "Band Activities",
+                        //         style: textTheme.display1.copyWith(fontSize: 28),
+                        //         textAlign: TextAlign.center,
+                        //       )
+                        //     : Container(),
+                        // widget.bandId.isEmpty
+                        //     ? bandActivities.length > 0
+                        //         ? ListView.builder(
+                        //             physics: NeverScrollableScrollPhysics(),
+                        //             shrinkWrap: true,
+                        //             itemCount: bandActivities.length,
+                        //             itemBuilder:
+                        //                 (BuildContext context, int index) {
+                        //               Activites ac = bandActivities[index];
+                        //               return buildActivityListItem(ac, onTap: () {
+                        //                 widget.appListener.router.navigateTo(
+                        //                   context,
+                        //                   Screens.ADDACTIVITY.toString() +
+                        //                       "/${ac.type}/${ac.id}/${false}/${widget.bandId}////",
+                        //                 );
+                        //               }, isPast: false);
+                        //             },
+                        //           )
+                        //         : Padding(
+                        //             child: Center(
+                        //               child: Text("No Band Activities"),
+                        //             ),
+                        //             padding: EdgeInsets.symmetric(vertical: 10),
+                        //           )
+                        //     : Container()
+                      ],
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text("Error Occured"),
+                    );
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return Center(
+                      child: AppProgressWidget(),
+                    );
+                  }
+                  return Container();
                 },
               ),
             )
           ],
         ),
       ),
-      floatingActionButton:
-          widget.bandId.isEmpty || (widget.bandId != null && (widget.isLeader|| widget.isComm))
-              ? SpeedDial(
-                  animatedIcon: AnimatedIcons.menu_close,
-                  backgroundColor: Color.fromRGBO(40, 35, 188, 1.0),
-                  overlayColor: Colors.white,
-                  overlayOpacity: 1.0,
-                  children: items,
-                )
-              : Container(),
+      floatingActionButton: widget.bandId.isEmpty ||
+              (widget.bandId != null && (widget.isLeader || widget.isComm))
+          ? SpeedDial(
+              animatedIcon: AnimatedIcons.menu_close,
+              backgroundColor: Color.fromRGBO(40, 35, 188, 1.0),
+              overlayColor: Colors.white,
+              overlayOpacity: 1.0,
+              children: items,
+            )
+          : Container(),
     );
   }
 

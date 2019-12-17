@@ -58,21 +58,31 @@ class _NotificationListScreensState
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 _activities = snapshot.data;
+
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: _activities.length,
+                  padding: EdgeInsets.all(10),
+                  itemBuilder: (BuildContext context, int index) {
+                    Activites ac = _activities[index];
+                    return buildActivityListItem(ac, context, onTap: () {
+                      widget.appListener.router.navigateTo(
+                          context,
+                          Screens.ADDACTIVITY.toString() +
+                              "/${ac.type}/${ac.id}/${false}/////");
+                    });
+                  },
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text("Error Occured"),
+                );
+              } else if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: AppProgressWidget(),
+                );
               }
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: _activities.length,
-                padding: EdgeInsets.all(10),
-                itemBuilder: (BuildContext context, int index) {
-                  Activites ac = _activities[index];
-                  return buildActivityListItem(ac, context,onTap: () {
-                    widget.appListener.router.navigateTo(
-                        context,
-                        Screens.ADDACTIVITY.toString() +
-                            "/${ac.type}/${ac.id}/${false}/////");
-                  });
-                },
-              );
+              return Container();
             },
           ),
           Container(
@@ -101,10 +111,8 @@ class _NotificationListScreensState
                     NotesTodo todo = _todos[index];
                     return buildNoteListItem(
                         todo, widget.appListener.primaryColor, onTap: () {
-                      widget.appListener.router.navigateTo(
-                          context,
-                          Screens.ADDNOTE.toString() +
-                              "/${todo.id}//////");
+                      widget.appListener.router.navigateTo(context,
+                          Screens.ADDNOTE.toString() + "/${todo.id}//////");
                     });
                   },
                 );

@@ -1,6 +1,7 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gigtrack/server/models/activities.dart';
 import 'package:gigtrack/server/models/bulletinboard.dart';
 import 'package:gigtrack/server/models/notestodo.dart';
@@ -593,4 +594,35 @@ class AspectRatioItem {
   final String text;
   final double value;
   AspectRatioItem({this.value, this.text});
+}
+
+class AppProgressWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 120,
+      height: 120,
+      child: Stack(
+        children: <Widget>[
+          Positioned(
+            child: SizedBox(
+              child: CircularProgressIndicator(),
+              width: 120,
+              height: 120,
+            ),
+          ),
+          Positioned(
+            child: SvgPicture.asset(
+              'assets/images/loading.svg',
+              allowDrawingOutsideViewBox: true,
+            ),
+            top: 20,
+            bottom: 20,
+            left: 20,
+            right: 20,
+          ),
+        ],
+      ),
+    );
+  }
 }

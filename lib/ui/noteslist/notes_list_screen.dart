@@ -10,6 +10,7 @@ import 'package:gigtrack/utils/common_app_utils.dart';
 import '../../server/models/notestodo.dart';
 import '../../server/models/notestodo.dart';
 import '../../server/models/notestodo.dart';
+import '../../utils/common_app_utils.dart';
 
 class NotesListScreen extends BaseScreen {
   final String bandId;
@@ -193,7 +194,7 @@ class _NotesListScreenState
                   } else if (snapshot.connectionState ==
                       ConnectionState.waiting) {
                     return Center(
-                      child: CircularProgressIndicator(),
+                      child: AppProgressWidget(),
                     );
                   } else {
                     return Container();

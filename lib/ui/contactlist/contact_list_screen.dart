@@ -5,6 +5,8 @@ import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/ui/contactlist/contact_list_presenter.dart';
 
+import '../../utils/common_app_utils.dart';
+
 class ContactListScreen extends BaseScreen {
   final String bandId;
   final bool isLeader;
@@ -164,7 +166,7 @@ class _ContactListScreenState
                   } else if (snapshot.connectionState ==
                       ConnectionState.waiting) {
                     return Center(
-                      child: CircularProgressIndicator(),
+                      child: AppProgressWidget(),
                     );
                   }
                   return Container();
