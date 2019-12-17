@@ -607,6 +607,8 @@ class AppProgressWidget extends StatelessWidget {
           SvgPicture.asset(
             'assets/images/loading.svg',
             allowDrawingOutsideViewBox: true,
+            height: 80,
+            width: 80,
           ),
           Padding(
             padding: EdgeInsets.all(4),
