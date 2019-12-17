@@ -67,7 +67,7 @@ class _InstrumentListScreenState
             Row(
               children: <Widget>[
                 new SvgPicture.asset(
-                  "assets/images/Equipmentupdated.svg",
+                  "assets/images/instrumentimage.svg",
                   height: 45.0,
                   width: 45.0,
                   //allowDrawingOutsideViewBox: true,

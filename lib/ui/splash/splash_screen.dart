@@ -24,7 +24,7 @@ class _SplashScreenState extends BaseScreenState<SplashScreen, SplashPresenter>
     return new Container(
       decoration: new BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/guitar_splash.png'),
+          image: AssetImage('assets/images/rendered.png'),
           fit: BoxFit.cover,
         ),
         gradient: new LinearGradient(

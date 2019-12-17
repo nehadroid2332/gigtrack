@@ -185,7 +185,7 @@ class _DashboardScreenState
                       color = Color.fromRGBO(225, 222, 222, 0.7);
                       //color = Color.fromRGBO(210, 34, 153, 0.1);
                       //color = Color.fromRGBO(60, 111, 54, 1.0);
-                      image = 'assets/images/Equipmentupdated.svg';
+                      image = 'assets/images/instrumentimage.svg';
                       borderColor = Colors.deepOrangeAccent;
                       break;
                     case "EPK":
