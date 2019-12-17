@@ -602,25 +602,18 @@ class AppProgressWidget extends StatelessWidget {
     return Container(
       width: 120,
       height: 120,
-      child: Stack(
+      child: Column(
         children: <Widget>[
-          Positioned(
-            child: SizedBox(
-              child: CircularProgressIndicator(),
-              width: 120,
-              height: 120,
-            ),
+          SvgPicture.asset(
+            'assets/images/loading.svg',
+            allowDrawingOutsideViewBox: true,
           ),
-          Positioned(
-            child: SvgPicture.asset(
-              'assets/images/loading.svg',
-              allowDrawingOutsideViewBox: true,
+          Text(
+            "Loading...",
+            style: TextStyle(
+              fontSize: 20,
             ),
-            top: 20,
-            bottom: 20,
-            left: 20,
-            right: 20,
-          ),
+          )
         ],
       ),
     );
