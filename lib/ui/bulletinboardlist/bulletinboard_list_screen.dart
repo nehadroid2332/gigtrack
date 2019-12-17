@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/bulletinboard.dart';
@@ -51,10 +52,26 @@ class _BulletInBoardListScreenState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              "Bulletin Board",
-              style: textTheme.display1.copyWith(
-                  color: Color.fromRGBO(214, 22, 35, 1.0), fontSize: 28),
+            Row(
+              children: <Widget>[
+                new SvgPicture.asset(
+                  'assets/images/bulletinnew.svg',
+                  height: 40.0,
+                  width: 40.0,
+                  //allowDrawingOutsideViewBox: true,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 15),
+                ),
+                Text(
+                  "Bulletin Board",
+                  style: textTheme.display1.copyWith(
+                      color: Color.fromRGBO(214, 22, 35, 1.0),
+                      fontSize: 28,
+                      fontWeight: FontWeight.w500),
+                  textAlign: TextAlign.left,
+                ),
+              ],
             ),
             Padding(
               padding: EdgeInsets.all(4),

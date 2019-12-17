@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/activities.dart';
@@ -146,10 +147,16 @@ class _ActivitiesListScreenState
           children: <Widget>[
             Row(
               children: <Widget>[
-                Image.asset(
-                  'assets/images/activities_red.png',
-                  height: 40,
-                  width: 40,
+//                Image.asset(
+//                  'assets/images/activities_red.png',
+//                  height: 40,
+//                  width: 40,
+//                ),
+                new SvgPicture.asset(
+                  'assets/images/feedbacknew.svg',
+                  height: 40.0,
+                  width: 40.0,
+                  //allowDrawingOutsideViewBox: true,
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 15),

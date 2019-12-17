@@ -978,6 +978,7 @@ class _AddPlayingStyleScreenState
                                                   context: context,
                                                   builder: (context) {
                                                     return AlertDialog(
+                                                      
                                                       title: Text(
                                                           'Add Information'),
                                                       content: Column(
@@ -1031,6 +1032,7 @@ class _AddPlayingStyleScreenState
                                                                 _yearToController
                                                                     .text,
                                                                 widget.id);
+                                                            
                                                           },
                                                         )
                                                       ],
@@ -1050,6 +1052,7 @@ class _AddPlayingStyleScreenState
                                           delay: 1000,
                                         )
                                       : Container(),
+                                  Padding(padding: EdgeInsets.all(5),),
                                   ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: bandDetails.length,
@@ -1062,8 +1065,12 @@ class _AddPlayingStyleScreenState
                                         children: <Widget>[
                                           Text("${bandDetail.bandName}"),
                                           Text("${bandDetail.desc}"),
-                                          Text("${bandDetail.dateFrom}"),
-                                          Text("${bandDetail.dateTo}"),
+                                          Text("${bandDetail.dateFrom}-${bandDetail.dateTo}"),
+                                        Container(child: null,
+                                        width: MediaQuery.of(context).size.width,
+                                          height: 1,
+                                          color: Colors.grey,
+                                        )
                                         ],
                                       );
                                     },
@@ -1139,7 +1146,7 @@ class _AddPlayingStyleScreenState
                               enabled: widget.id.isEmpty || isEdit,
                               textCapitalization: TextCapitalization.words,
                               controller: _listSchoolController,
-                              decoration: InputDecoration(
+     /**/                         decoration: InputDecoration(
                                 labelText: "List School",
                                 labelStyle: TextStyle(
                                   color: widget.appListener.primaryColorDark,

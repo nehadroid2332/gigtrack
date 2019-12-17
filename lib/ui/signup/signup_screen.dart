@@ -133,10 +133,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
               Expanded(
                 child: Container(),
               ),
-              Image.asset(
-                'assets/images/music.png',
-                height: 100,
-              )
+           
             ],
           ),
           Padding(
@@ -163,7 +160,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Fill below details",
+                    "Add below details",
                     style: textTheme.headline.copyWith(
                       color: Color.fromRGBO(99, 108, 119, 1.0),
                       fontSize: 23,
@@ -211,6 +208,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                     Expanded(
                       child: TextField(
                         controller: _firstNameController,
+                        textCapitalization: TextCapitalization.words,
                         decoration: InputDecoration(
                           labelText: "FirstName",
                           labelStyle: TextStyle(
@@ -225,6 +223,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                     ),
                     Expanded(
                       child: TextField(
+                        textCapitalization: TextCapitalization.words,
                         controller: _lastNameController,
                         decoration: InputDecoration(
                             labelText: "LastName",

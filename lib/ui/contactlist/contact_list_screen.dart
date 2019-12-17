@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/contacts.dart';
@@ -63,10 +64,11 @@ class _ContactListScreenState
           children: <Widget>[
             Row(
               children: <Widget>[
-                Image.asset(
-                  'assets/images/contact_color.png',
-                  height: 40,
-                  width: 40,
+                new SvgPicture.asset(
+                  'assets/images/telcontact.svg',
+                  height: 40.0,
+                  width: 40.0,
+                  //allowDrawingOutsideViewBox: true,
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 15),

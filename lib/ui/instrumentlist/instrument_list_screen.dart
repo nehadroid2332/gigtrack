@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/user_instrument.dart';
@@ -63,10 +64,11 @@ class _InstrumentListScreenState
           children: <Widget>[
             Row(
               children: <Widget>[
-                Image.asset(
-                  'assets/images/equipment_color.png',
-                  height: 45,
-                  width: 45,
+                new SvgPicture.asset(
+                  "assets/images/Equipmentupdated.svg",
+                  height: 45.0,
+                  width: 45.0,
+                  //allowDrawingOutsideViewBox: true,
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 15),

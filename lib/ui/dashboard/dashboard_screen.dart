@@ -136,7 +136,7 @@ class _DashboardScreenState
           ),
           Padding(
             padding:
-                EdgeInsets.only(top: MediaQuery.of(context).size.width / 11),
+                EdgeInsets.only(top: MediaQuery.of(context).size.width / 16),
           ),
           Padding(
             padding: EdgeInsets.all(2),
@@ -165,21 +165,21 @@ class _DashboardScreenState
                       //color = Color.fromRGBO(63, 146, 219, 1.0); last one
                       //	color = Color.fromRGBO(71, 151, 221, 0.1);
                       image = 'assets/images/feedbacknew.svg';
-                      borderColor = Colors.purple;
+                      borderColor = Color.fromRGBO(55, 0, 179, 1.0);
                       break;
                     case "NOTES":
                       color = Color.fromRGBO(225, 222, 222, 0.7);
                       //color=Color.fromRGBO(239,181, 77, 1.0);
                       //	color = Color.fromRGBO(196, 227, 102, 0.1);
                       image = 'assets/images/notesicon.svg';
-                      borderColor = Colors.green;
+                      borderColor = Color.fromRGBO(3, 218, 157, 1.0);
                       break;
                     case "BAND":
                       color = Color.fromRGBO(225, 222, 222, 0.7);
                       //color=Color.fromRGBO(214,22, 35, 1.0);
                       //	color = Color.fromRGBO(241, 206, 96, 0.1);
                       image = 'assets/images/bandicon.svg';
-                      borderColor = Colors.red;
+                      borderColor = Color.fromRGBO(255, 2, 102, 1.0);
                       break;
                     case "EQUIPMENT":
                       color = Color.fromRGBO(225, 222, 222, 0.7);
@@ -193,14 +193,14 @@ class _DashboardScreenState
                       //color=Color.fromRGBO(80, 54, 116, 1.0);
                       //	color = Color.fromRGBO(26, 182, 37, 0.1);
                       image = 'assets/images/epknew.svg';
-                      borderColor = Colors.yellow;
+                      borderColor = Color.fromRGBO(255, 222, 3, 1.0);
                       break;
                     case "CONTACTS":
                       color = Color.fromRGBO(225, 222, 222, 0.7);
                       //color= Color.fromRGBO(191, 53, 42, 1.0);
                       //color = Color.fromRGBO(243, 135, 75, 0.1);
                       image = 'assets/images/telcontact.svg';
-                      borderColor = Colors.blue;
+                      borderColor = Color.fromRGBO(3, 54, 255, 1.0);
                       break;
                     case "BETA-TEST FEEDBACK":
                       color = Color.fromRGBO(225, 222, 222, 0.7);
@@ -223,7 +223,7 @@ class _DashboardScreenState
                       elevation: 10,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
-                        side: new BorderSide(color: borderColor, width: 3.5),
+                        side: new BorderSide(color: borderColor, width: 1.5),
                       ),
                       child: Container(
                         decoration: BoxDecoration(

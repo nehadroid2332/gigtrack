@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/notestodo.dart';
@@ -68,10 +69,26 @@ class _NotesListScreenState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              "Notes",
-              style: textTheme.display1.copyWith(
-                  color: Color.fromRGBO(22, 102, 237, 1.0), fontSize: 28),
+            Row(
+              children: <Widget>[
+                new SvgPicture.asset(
+                  'assets/images/notesicon.svg',
+                  height: 40.0,
+                  width: 40.0,
+                  //allowDrawingOutsideViewBox: true,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 15),
+                ),
+                Text(
+                  "Notes",
+                  style: textTheme.display1.copyWith(
+                      color: Color.fromRGBO(22, 102, 237, 1.0),
+                      fontSize: 28,
+                      fontWeight: FontWeight.w500),
+                  textAlign: TextAlign.left,
+                ),
+              ],
             ),
             Padding(
               padding: EdgeInsets.all(4),
