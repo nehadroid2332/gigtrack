@@ -82,7 +82,7 @@ class _NotesListScreenState
                   padding: EdgeInsets.only(left: 15),
                 ),
                 Text(
-                  "Notes",
+                  "Notes/Ideas",
                   style: textTheme.display1.copyWith(
                       color: Color.fromRGBO(22, 102, 237, 1.0),
                       fontSize: 28,
@@ -115,7 +115,7 @@ class _NotesListScreenState
                     return ListView(
                       children: <Widget>[
                         FlatButton(
-                          child: Text("Notes/Idea",style: TextStyle(
+                          child: Text("",style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.grey,
                               fontSize: 18

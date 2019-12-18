@@ -67,7 +67,7 @@ class _InstrumentListScreenState
             Row(
               children: <Widget>[
                 new SvgPicture.asset(
-                  "assets/images/instrumentimage.svg",
+                  "assets/images/radioicon.svg",
                   height: 45.0,
                   width: 45.0,
                   //allowDrawingOutsideViewBox: true,
@@ -78,7 +78,7 @@ class _InstrumentListScreenState
                 Text(
                   "Equipment",
                   style: textTheme.display1.copyWith(
-                      color: Color.fromRGBO(191, 53, 42, 1.0),
+                      color: Colors.deepOrangeAccent,
                       fontSize: 28,
                       fontWeight: FontWeight.w500),
                   textAlign: TextAlign.left,
@@ -106,14 +106,14 @@ class _InstrumentListScreenState
                         return Card(
                           color: (instr.bandId.isNotEmpty)
                               ? Colors.white
-                              : Color.fromRGBO(191, 53, 42, 1.0),
+                              :Colors.deepOrangeAccent,
                           shape: RoundedRectangleBorder(
                               side: instr.bandId.isNotEmpty
                                   ? new BorderSide(
-                                      color: Color.fromRGBO(191, 53, 42, 1.0),
+                                      color: Colors.deepOrangeAccent,
                                       width: 1.0)
                                   : new BorderSide(
-                                      color: Color.fromRGBO(191, 53, 42, 1.0),
+                                      color: Colors.deepOrangeAccent,
                                       width: 1.0),
                               borderRadius: BorderRadius.circular(16)),
                           child: InkWell(
@@ -127,7 +127,7 @@ class _InstrumentListScreenState
                                     style: textTheme.headline.copyWith(
                                         fontSize: 18,
                                         color: (instr.bandId.isNotEmpty)
-                                            ? Color.fromRGBO(191, 53, 42, 1.0)
+                                            ? Colors.black
                                             : Colors.white),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -136,8 +136,7 @@ class _InstrumentListScreenState
                                       ? Text(
                                           "${instr.band.name}",
                                           style: TextStyle(
-                                              color: Color.fromRGBO(
-                                                  191, 53, 42, 1.0)),
+                                              color: Colors.black),
                                         )
                                       : Container(),
                                   Padding(
@@ -213,7 +212,7 @@ class _InstrumentListScreenState
                             "//${widget.bandId}////");
                   },
                   child: Icon(Icons.add),
-                  backgroundColor: Color.fromRGBO(191, 53, 42, 1.0),
+                  backgroundColor: Color.fromRGBO(3, 54, 255,1.0),
                 )
               : Container(),
     );

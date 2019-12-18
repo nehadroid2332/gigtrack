@@ -30,7 +30,7 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
     return Container(
         decoration: new BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/guitar_splash.png'),
+            image: AssetImage('assets/images/rendered.png'),
             fit: BoxFit.cover,
           ),
           gradient: new LinearGradient(
@@ -67,147 +67,161 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
                       ),
                     ),
                     Padding(
+                      padding: EdgeInsets.only(left: 10,right: 10,bottom: 10,top: 55),
+                    ),
+                    Container(
+                      color: Color.fromRGBO(142, 142, 144, .8),
                       padding: EdgeInsets.all(10),
-                    ),
-                    Text(
-                      "Sign In to Continue",
-                      style: textTheme.title.copyWith(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(15),
-                    ),
-                    TextField(
-                      controller: _emailController,
-                      decoration: InputDecoration(
-                        labelText: "Email",
-                        labelStyle: TextStyle(
-                          color: Colors.white,
-                        ),
-                        errorText: _errorEmail,
-                      ),
-                      style: textTheme.title.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(8),
-                    ),
-                    TextField(
-                      controller: _passwordController,
-                      decoration: InputDecoration(
-                          labelText: "Password",
-                          labelStyle: TextStyle(
+                      child: Column(
+                      children: <Widget>[
+                        Text(
+                          "Sign In to Continue",
+                          textAlign: TextAlign.center,
+                          style: textTheme.title.copyWith(
                             color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w300,
                           ),
-                          errorText: _errorPassword),
-                      obscureText: true,
-                      style: textTheme.title.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: 30,
-                      ),
-                    ),
-                    Wrap(
-                      children: <Widget>[
-                        RaisedButton(
-                          color: Color.fromRGBO(255, 0, 104, 1.0),
-                          textColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(15),
+                        ),
+                        TextField(
+                          controller: _emailController,
+                          decoration: InputDecoration(
+                            labelText: "Email",
+                            labelStyle: TextStyle(
+                              color: Colors.white,
+                            ),
+                            errorText: _errorEmail,
                           ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Text(
-                                "Sign In",
-                                style: textTheme.title.copyWith(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                ),
+                          style: textTheme.title.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(8),
+                        ),
+                        TextField(
+                          controller: _passwordController,
+                          decoration: InputDecoration(
+                              labelText: "Password",
+                              labelStyle: TextStyle(
+                                color: Colors.white,
                               ),
-                              Padding(
-                                padding: EdgeInsets.all(2),
-                              ),
-                              Icon(
-                                Icons.arrow_forward,
-                                size: 19,
-                              )
-                            ],
+                              errorText: _errorPassword),
+                          obscureText: true,
+                          style: textTheme.title.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w300,
                           ),
-                          onPressed: () {
-                            setState(() {
-                              String email = _emailController.text;
-                              String password = _passwordController.text;
-                              if (email.isEmpty) {
-                                _errorEmail = "Cannot be empty";
-                              } else if (password.isEmpty) {
-                                _errorPassword = "Cannot be empty";
-                              } else if (validateEmail(email)) {
-                                _errorEmail = "Not a Valid Email";
-                              } else if (password.length < 6) {
-                                _errorPassword =
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            top: 30,
+                          ),
+                        ),
+                        Wrap(
+                          alignment: WrapAlignment.center,
+                          children: <Widget>[
+                            RaisedButton(
+                              color: Color.fromRGBO(255, 0, 104, 1.0),
+                              textColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Text(
+                                    "Sign In",
+                                    style: textTheme.title.copyWith(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(2),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward,
+                                    size: 19,
+                                  )
+                                ],
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  String email = _emailController.text;
+                                  String password = _passwordController.text;
+                                  if (email.isEmpty) {
+                                    _errorEmail = "Cannot be empty";
+                                  } else if (password.isEmpty) {
+                                    _errorPassword = "Cannot be empty";
+                                  } else if (validateEmail(email)) {
+                                    _errorEmail = "Not a Valid Email";
+                                  } else if (password.length < 6) {
+                                    _errorPassword =
                                     "Password must be more than 6 character";
-                              } else {
-                                showLoading();
-                                presenter.loginUser(email, password);
-                              }
-                            });
-                          },
-                        )
+                                  } else {
+                                    showLoading();
+                                    presenter.loginUser(email, password);
+                                  }
+                                });
+                              },
+                            )
+                          ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                        ),
+  
+                        Wrap(
+                          alignment: WrapAlignment.center,
+                          children: <Widget>[
+                            FlatButton(
+                              padding: EdgeInsets.zero,
+                              textColor: Colors.white,
+                              onPressed: () {
+                                widget.appListener.router
+                                    .navigateTo(context, Screens.SIGNUP.toString());
+                              },
+                              child: Text(
+                                "New User? Sign Up",
+                                textAlign: TextAlign.center,
+                                style: textTheme.subtitle.copyWith(
+                                    color: Colors.white,
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                            )
+                          ],
+                        ),
+                        Wrap(
+                          alignment: WrapAlignment.center,
+                          children: <Widget>[
+                            FlatButton(
+                              padding: EdgeInsets.zero,
+                              textColor: Colors.white,
+                              onPressed: () {
+                                widget.appListener.router.navigateTo(
+                                    context, Screens.FORGOTPASSWORD.toString());
+                              },
+                              child: Text(
+                                "Forgot Password",
+                                textAlign: TextAlign.center,
+                                style: textTheme.subtitle.copyWith(
+                                    color: Colors.white,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                            )
+                          ],
+                        ),
                       ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                    ),
-                    Wrap(
-                      alignment: WrapAlignment.start,
-                      children: <Widget>[
-                        FlatButton(
-                          padding: EdgeInsets.zero,
-                          textColor: Colors.white,
-                          onPressed: () {
-                            widget.appListener.router.navigateTo(
-                                context, Screens.FORGOTPASSWORD.toString());
-                          },
-                          child: Text(
-                            "Forgot Password",
-                            style: textTheme.subtitle.copyWith(
-                                color: Colors.white,
-                                fontSize: 17,
-                                fontWeight: FontWeight.w300),
-                          ),
-                        )
-                      ],
-                    ),
-                    Wrap(
-                      alignment: WrapAlignment.start,
-                      children: <Widget>[
-                        FlatButton(
-                          padding: EdgeInsets.zero,
-                          textColor: Colors.white,
-                          onPressed: () {
-                            widget.appListener.router
-                                .navigateTo(context, Screens.SIGNUP.toString());
-                          },
-                          child: Text(
-                            "New User? Sign Up",
-                            style: textTheme.subtitle.copyWith(
-                                color: Colors.white,
-                                fontSize: 19,
-                                fontWeight: FontWeight.w300),
-                          ),
-                        )
-                      ],
-                    ),
+                    ),),
+                   
+                   
 
                   ],
                 ),

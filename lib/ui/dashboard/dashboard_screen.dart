@@ -185,14 +185,14 @@ class _DashboardScreenState
                       color = Color.fromRGBO(225, 222, 222, 0.7);
                       //color = Color.fromRGBO(210, 34, 153, 0.1);
                       //color = Color.fromRGBO(60, 111, 54, 1.0);
-                      image = 'assets/images/instrumentimage.svg';
+                      image = 'assets/images/radioicon.svg';
                       borderColor = Colors.deepOrangeAccent;
                       break;
                     case "EPK":
                       color = Color.fromRGBO(225, 222, 222, 0.7);
                       //color=Color.fromRGBO(80, 54, 116, 1.0);
                       //	color = Color.fromRGBO(26, 182, 37, 0.1);
-                      image = 'assets/images/epknew.svg';
+                      image = 'assets/images/microphoneepk.svg';
                       borderColor = Color.fromRGBO(255, 222, 3, 1.0);
                       break;
                     case "CONTACTS":

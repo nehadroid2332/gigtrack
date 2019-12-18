@@ -786,7 +786,7 @@ class _AddPlayingStyleScreenState
                       ),
 
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: EdgeInsets.all(8),
                       ),
 //                      widget.id.isEmpty || isEdit
 //                          ? TextField(
@@ -944,7 +944,7 @@ class _AddPlayingStyleScreenState
                               EdgeInsets.all(widget.bandId.isEmpty ? 0 : 5)),
                       Padding(
                           padding: EdgeInsets.all(
-                              (widget.id.isEmpty || isEdit) ? 2 : 10)),
+                              (widget.id.isEmpty || isEdit) ? 2 : 5)),
                       Text(
                         "Experience",
                         textAlign: widget.id.isEmpty || isEdit
@@ -1126,7 +1126,7 @@ class _AddPlayingStyleScreenState
                             )
                           : Container(),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: EdgeInsets.all(8),
                       ),
                       isEducation && widget.bandId.isEmpty
                           ? Text(

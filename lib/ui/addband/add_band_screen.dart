@@ -159,7 +159,7 @@ class _AddBandScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(239, 181, 77, 1.0),
+        backgroundColor: Color.fromRGBO(255, 2, 102, 1.0),
         actions: <Widget>[
           widget.id.isEmpty
               ? Container()
@@ -228,7 +228,7 @@ class _AddBandScreenState
             new RaisedButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
-              color: Color.fromRGBO(239, 181, 77, 1.0),
+              color: Color.fromRGBO(255, 2, 102, 1.0),
               child: new Text(
                 "No",
                 style: TextStyle(color: Colors.white),
@@ -337,7 +337,7 @@ class _AddBandScreenState
           ClipPath(
             clipper: RoundedClipper(height / 2.5),
             child: Container(
-              color: Color.fromRGBO(241, 206, 96, 1.0),
+              color: Color.fromRGBO(255, 2, 102, 1.0),
               height: height / 2.5,
             ),
           ),
