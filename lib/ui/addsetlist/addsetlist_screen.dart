@@ -38,7 +38,7 @@ class _AddSetListScreenState
       _songArtistError,
       _songChordsError,
       _songNoteserror;
-  List _fruits = ["Ready to perform","Needs work", "New song"];
+  List _fruits = ["Ready to perform", "Needs work", "New song"];
   List<Song> _songList = [];
   Song currentSong;
 
@@ -303,6 +303,34 @@ class _AddSetListScreenState
                                     ),
                                   ),
                             widget.id.isEmpty || isEdit
+                                ? Container()
+                                : RaisedButton(
+                                    onPressed: () {},
+                                    child: Text("Practice Now"),
+                                  ),
+                            Padding(
+                              padding: EdgeInsets.all(10),
+                            ),
+                            widget.id.isEmpty || isEdit
+                                ? Container()
+                                : Text("Players"),
+                            widget.id.isEmpty || isEdit
+                                ? Container()
+                                : ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: bandmembers.length,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      final members = bandmembers[index];
+                                      return ListTile(
+                                        title: Text(
+                                            "${members.firstName} ${members.lastName}"),
+                                        subtitle: Text("${members.memberRole}"),
+                                      );
+                                    },
+                                  ),
+                            widget.id.isEmpty || isEdit
                                 ? TextField(
                                     style: textTheme.title,
                                     textCapitalization:
@@ -387,28 +415,6 @@ class _AddSetListScreenState
                                       textAlign: TextAlign.center,
                                       style: TextStyle(fontSize: 20),
                                     ),
-                                  ),
-                            Padding(
-                              padding: EdgeInsets.all(10),
-                            ),
-                            widget.id.isEmpty || isEdit
-                                ? Container()
-                                : Text("Band Members"),
-                            widget.id.isEmpty || isEdit
-                                ? Container()
-                                : ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: bandmembers.length,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      final members = bandmembers[index];
-                                      return ListTile(
-                                        title: Text(
-                                            "${members.firstName} ${members.lastName}"),
-                                        subtitle: Text("${members.memberRole}"),
-                                      );
-                                    },
                                   ),
                             Padding(
                               padding: EdgeInsets.all(10),

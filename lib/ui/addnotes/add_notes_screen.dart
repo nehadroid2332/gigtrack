@@ -88,19 +88,18 @@ class _AddNotesScreenState
                   return AlertDialog(
                     title: Text("Your changes will not save.Are you sure?"),
                     actions: <Widget>[
-                  
                       FlatButton(
                         child: Text("No"),
                         onPressed: () {
                           Navigator.of(context).pop(false);
                         },
                       ),
-	                    FlatButton(
-		                    child: Text("Yes"),
-		                    onPressed: () {
-			                    Navigator.of(context).pop(true);
-		                    },
-	                    ),
+                      FlatButton(
+                        child: Text("Yes"),
+                        onPressed: () {
+                          Navigator.of(context).pop(true);
+                        },
+                      ),
                     ],
                   );
                 },
@@ -449,7 +448,7 @@ class _AddNotesScreenState
                                   await widget.appListener.router.navigateTo(
                                       context,
                                       Screens.ADDNOTE.toString() +
-                                          "/${widget.id}/true/${widget.bandId}////");
+                                          "/${widget.id}/true/${widget.bandId}/////${widget.type}");
                                   getDetails();
                                 },
                                 child: Text(
@@ -556,8 +555,59 @@ class _AddNotesScreenState
                                       ),
                                     ),
                                     onTap: () {
-                                      showLoading();
-                                      presenter.archieveNote(widget.id);
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          // return object of type Dialog
+                                          return AlertDialog(
+                                            contentPadding: EdgeInsets.all(15),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            title: new Text(
+                                              "Warning",
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            content: Text(
+                                                "Are you sure you want to Archieve?"),
+                                            actions: <Widget>[
+                                              // usually buttons at the bottom of the dialog
+
+                                              new FlatButton(
+                                                child: new Text("Yes"),
+                                                textColor: Colors.black,
+                                                onPressed: () async {
+                                                  if (widget.id == null ||
+                                                      widget.id.isEmpty) {
+                                                    showMessage(
+                                                        "Id cannot be null");
+                                                  } else {
+                                                    showLoading();
+                                                    presenter.archieveNote(
+                                                        widget.id);
+                                                  }
+                                                },
+                                              ),
+                                              new RaisedButton(
+                                                child: new Text(
+                                                  "No",
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            6)),
+                                                color: Color.fromRGBO(
+                                                    22, 102, 237, 1.0),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
                                     },
                                   ),
                                 )
