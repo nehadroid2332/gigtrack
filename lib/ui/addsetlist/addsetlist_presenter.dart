@@ -18,7 +18,7 @@ abstract class AddSetListContract extends BaseContract {
 class AddSetListPresenter extends BasePresenter {
   AddSetListPresenter(BaseContract view) : super(view);
 
-  void getDetails(String id,String bandId) async {
+  void getDetails(String id, String bandId) async {
     final res = await serverAPI.getSetListItemDetails(id);
     if (res is SetList) {
       final res2 = await serverAPI.getBandDetails(bandId);
@@ -46,5 +46,21 @@ class AddSetListPresenter extends BasePresenter {
   void deleteSetList(String id) async {
     await serverAPI.deleteSetList(id);
     (view as AddSetListContract).onDelete();
+  }
+
+  void addSong(String id, Song currentSong) async {
+    final res = await serverAPI.getSetListItemDetails(id);
+    if (res is SetList) {
+      for (var i = 0; i < res.songs.length; i++) {
+        Song song = res.songs[i];
+        if (song.id == currentSong.id) {
+          res.songs[i] = currentSong;
+          break;
+        }
+      }
+      (view as AddSetListContract).onUpdate();
+    } else if (res is ErrorResponse) {
+      view.showMessage(res.message);
+    }
   }
 }

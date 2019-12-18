@@ -305,7 +305,9 @@ class _AddSetListScreenState
                             widget.id.isEmpty || isEdit
                                 ? Container()
                                 : RaisedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      addSongNotes();
+                                    },
                                     child: Text("Practice Now"),
                                   ),
                             Padding(
@@ -424,63 +426,31 @@ class _AddSetListScreenState
                                 Expanded(
                                   child: Text("Song Notes"),
                                 ),
-                                IconButton(
-                                  icon: Icon(Icons.add),
-                                  onPressed: widget.id.isEmpty || isEdit
-                                      ? () {
-                                          showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return AlertDialog(
-                                                  title: Text('Add Song notes'),
-                                                  content: TextField(
-                                                    controller:
-                                                        _subNoteFieldController,
-                                                    decoration: InputDecoration(
-                                                        hintText:
-                                                            "Enter song notes..."),
-                                                  ),
-                                                  actions: <Widget>[
-                                                    new FlatButton(
-                                                      child: new Text('SUBMIT'),
-                                                      onPressed: () {
-                                                        if (_subNoteFieldController
-                                                            .text.isNotEmpty)
-                                                          setState(() {
-                                                            currentSong.subnotes
-                                                                .add(
-                                                                    _subNoteFieldController
-                                                                        .text);
-                                                          });
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                    )
-                                                  ],
-                                                );
-                                              });
-                                        }
-                                      : null,
-                                )
+                                widget.id.isEmpty || isEdit
+                                    ? Container()
+                                    : IconButton(
+                                        icon: Icon(Icons.add),
+                                        onPressed: () {
+                                          addSongNotes();
+                                        },
+                                      )
                               ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(5),
                             ),
                             ListView.builder(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                               itemCount: currentSong?.subnotes?.length ?? 0,
                               itemBuilder: (BuildContext context, int index) {
-                                String subnote = currentSong?.subnotes[index];
+                                SongNotes subnote =
+                                    currentSong?.subnotes[index];
                                 return ListTile(
-                                  title: Text("$subnote"),
+                                  title: Text("${subnote.title}"),
                                 );
                               },
                             ),
-
-//                            (widget.id.isEmpty || isEdit)
-//                                ? Wrap(
-//                              children: items2,
-//                            )
-//                                : Container(),
                             widget.id.isEmpty || isEdit
                                 ? RaisedButton(
                                     onPressed: () {
@@ -610,6 +580,9 @@ class _AddSetListScreenState
                                       onTap: () {
                                         setState(() {
                                           currentSong = song;
+                                          currentSong.subnotes.sort((a, b) {
+                                            return b.time.compareTo(a.time);
+                                          });
                                           _songArtistController.text =
                                               currentSong.artist;
                                           _songChordsController.text =
@@ -681,6 +654,7 @@ class _AddSetListScreenState
   @override
   void onUpdate() {
     hideLoading();
+    presenter.getDetails(widget.id, widget.userId);
   }
 
   @override
@@ -701,5 +675,37 @@ class _AddSetListScreenState
       bandmembers.clear();
       bandmembers.addAll(values);
     });
+  }
+
+  void addSongNotes() {
+    if (widget.id.isEmpty || isEdit) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Add Song notes'),
+              content: TextField(
+                controller: _subNoteFieldController,
+                decoration: InputDecoration(hintText: "Enter song notes..."),
+              ),
+              actions: <Widget>[
+                new FlatButton(
+                  child: new Text('SUBMIT'),
+                  onPressed: () {
+                    if (_subNoteFieldController.text.isNotEmpty)
+                      setState(() {
+                        currentSong.subnotes.add(SongNotes(
+                          time: DateTime.now().millisecondsSinceEpoch,
+                          title: _subNoteFieldController.text,
+                        ));
+                        presenter.addSong(widget.id, currentSong);
+                      });
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            );
+          });
+    }
   }
 }

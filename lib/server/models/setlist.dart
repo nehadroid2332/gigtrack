@@ -36,6 +36,25 @@ class SetList extends BaseModel {
   }
 }
 
+class SongNotes extends BaseModel {
+  String title;
+  int time = 0;
+
+  SongNotes({this.title, this.time});
+  SongNotes.fromJSON(dynamic data) {
+    title = data['title'];
+    time = data['time'] ?? 0;
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> data = super.toMap();
+    data['title'] = title;
+    data['time'] = time;
+    return data;
+  }
+}
+
 class Song extends BaseModel {
   String name;
   String artist;
@@ -43,7 +62,7 @@ class Song extends BaseModel {
   String perform;
   String id;
   String notes;
-  List<String> subnotes = [];
+  List<SongNotes> subnotes = [];
 
   Song();
 
@@ -56,7 +75,7 @@ class Song extends BaseModel {
     notes = data['notes'];
     if (data['subnotes'] != null) {
       for (var item in data['subnotes']) {
-        subnotes.add(item.toString());
+        subnotes.add(SongNotes.fromJSON(item));
       }
     }
   }
@@ -70,7 +89,11 @@ class Song extends BaseModel {
     data['chords'] = chords;
     data['perform'] = perform;
     data['notes'] = notes;
-    data['subnotes'] = subnotes;
+    List<dynamic> subnotess = [];
+    for (var item in subnotes) {
+      subnotess.add(item.toMap());
+    }
+    data['subnotes'] = subnotess;
     return data;
   }
 }
