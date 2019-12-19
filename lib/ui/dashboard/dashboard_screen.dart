@@ -334,8 +334,8 @@ class _DashboardScreenState
   }
 
   @override
-  void showWelcome() {
-    bool welcome = widget.appListener.sharedPreferences.getBool("welcome");
+  void showWelcome(String userId) {
+    bool welcome = widget.appListener.sharedPreferences.getBool(userId);
     if (welcome == null || !welcome)
       showDialog(
         context: context,
@@ -362,7 +362,7 @@ class _DashboardScreenState
                 color: Color.fromRGBO(22, 102, 237, 1.0),
                 onPressed: () async {
                   await widget.appListener.sharedPreferences
-                      .setBool("welcome", true);
+                      .setBool(userId, true);
                   Navigator.of(context).pop();
                 },
               ),

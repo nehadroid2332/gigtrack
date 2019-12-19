@@ -4,7 +4,7 @@ import 'package:gigtrack/server/models/user_playing_style.dart';
 
 abstract class DashboardContract extends BaseContract {
   void onData(List<UserPlayingStyle> acc);
-  void showWelcome();
+  void showWelcome(String userId);
 }
 
 class DashboardPresenter extends BasePresenter {
@@ -17,7 +17,7 @@ class DashboardPresenter extends BasePresenter {
   void doWelcome() async {
     final res = await serverAPI.getWelcome();
     if (res is bool) {
-      if (res) (view as DashboardContract).showWelcome();
+      if (res) (view as DashboardContract).showWelcome(serverAPI.currentUserId);
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
     }
