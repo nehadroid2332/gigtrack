@@ -1,8 +1,10 @@
 import 'package:gigtrack/base/base_presenter.dart';
+import 'package:gigtrack/server/models/error_response.dart';
 import 'package:gigtrack/server/models/user_playing_style.dart';
 
 abstract class DashboardContract extends BaseContract {
   void onData(List<UserPlayingStyle> acc);
+  void showWelcome();
 }
 
 class DashboardPresenter extends BasePresenter {
@@ -10,6 +12,15 @@ class DashboardPresenter extends BasePresenter {
 
   void logout() async {
     serverAPI.logout();
+  }
+
+  void doWelcome() async {
+    final res = await serverAPI.getWelcome();
+    if (res is bool) {
+      if (res) (view as DashboardContract).showWelcome();
+    } else if (res is ErrorResponse) {
+      view.showMessage(res.message);
+    }
   }
 
   void getPlayingStyleList(String bandId) async {

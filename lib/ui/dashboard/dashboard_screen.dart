@@ -22,6 +22,7 @@ class _DashboardScreenState
   @override
   void initState() {
     super.initState();
+    presenter.doWelcome();
     presenter.getPlayingStyleList("");
   }
 
@@ -217,59 +218,65 @@ class _DashboardScreenState
                       break;
                   }
                   return InkWell(
-                    child: Container(child: Card(
-                      margin: EdgeInsets.all(8),
-                      color: color,
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        side: new BorderSide(color: borderColor, width: 1.5),
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("assets/images/newupdated.png"),
-                            fit: BoxFit.cover,
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Padding(
-                        padding: EdgeInsets.only(
-                            left: 0, right: 0, top: 8, bottom: 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          ///mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                               
-                                child: Center(
-                                  child: Column(
-                                    children: <Widget>[
-                                      new SvgPicture.asset(
-                                        image,
-                                        height: 66.0,
-                                        allowDrawingOutsideViewBox: true,
+                    child: Container(
+                        child: Card(
+                            margin: EdgeInsets.all(8),
+                            color: color,
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              side: new BorderSide(
+                                  color: borderColor, width: 1.5),
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                      "assets/images/newupdated.png"),
+                                  fit: BoxFit.cover,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    left: 0, right: 0, top: 8, bottom: 8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+
+                                  ///mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Container(
+                                        child: Center(
+                                      child: Column(
+                                        children: <Widget>[
+                                          new SvgPicture.asset(
+                                            image,
+                                            height: 66.0,
+                                            allowDrawingOutsideViewBox: true,
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 5,
+                                                right: 5,
+                                                top: 5,
+                                                bottom: 5),
+                                          ),
+                                          Text(
+                                            "$txt",
+                                            textAlign: TextAlign.center,
+                                            maxLines: 2,
+                                            style: textTheme.headline.copyWith(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16),
+                                          )
+                                        ],
                                       ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 5, right: 5, top: 5, bottom: 5),
-                                      ),
-                                      Text(
-                                        "$txt",
-                                        textAlign: TextAlign.center,
-                                        maxLines: 2,
-                                        style: textTheme.headline.copyWith(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16),
-                                      )
-                                    ],
-                                  ),
-                                )),
-                          ],
-                        ),
-                      ),)
-                    )),
+                                    )),
+                                  ],
+                                ),
+                              ),
+                            ))),
                     onTap: () async {
                       if (txt == "ACTIVITES")
                         widget.appListener.router.navigateTo(context,
@@ -324,5 +331,44 @@ class _DashboardScreenState
       UserPlayingStyle userPlayingStyle = acc[0];
       userPlayingStyleId = userPlayingStyle.id;
     }
+  }
+
+  @override
+  void showWelcome() {
+    bool welcome = widget.appListener.sharedPreferences.getBool("welcome");
+    if (welcome == null || !welcome)
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // return object of type Dialog
+          return AlertDialog(
+            contentPadding: EdgeInsets.all(15),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            title: new Text(
+              "Welcome",
+              textAlign: TextAlign.center,
+            ),
+            content: Text(
+                "Beta-Testing\nThanks for joining up with us during our tour rehearsals (in tech terms, our beta test phase).  Your experience here is very important to us.\n\nPlease use every feature and let us know what you think.  We want to hear your feedback on colors, displays, functionality, issues and anything that can make our app better for you.\n\nSincerely,\nThe Gigtrack Team"),
+            actions: <Widget>[
+              new RaisedButton(
+                child: new Text(
+                  "OK",
+                  style: TextStyle(color: Colors.white),
+                ),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6)),
+                color: Color.fromRGBO(22, 102, 237, 1.0),
+                onPressed: () async {
+                  await widget.appListener.sharedPreferences
+                      .setBool("welcome", true);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
   }
 }

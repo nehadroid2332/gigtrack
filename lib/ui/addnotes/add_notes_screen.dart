@@ -825,10 +825,6 @@ class _AddNotesScreenState
                 } else {
                   presenter.notesDelete(widget.id);
                   Navigator.pop(context);
-//                SchedulerBinding.instance.addPostFrameCallback((_) {
-//                  Navigator.of(context).popUntil(ModalRoute.withName(Screens.NOTETODOLIST.toString()));
-//                });
-
                 }
               },
             ),

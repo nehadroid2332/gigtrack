@@ -44,6 +44,8 @@ class ServerAPI {
 
   SmtpServer smtpServer;
 
+  DatabaseReference _mainFirebaseDatabase;
+
   factory ServerAPI() {
     return _serverApi;
   }
@@ -75,7 +77,7 @@ class ServerAPI {
     contactsRef = storageRef.child("Contacts");
     playingstyleRef = storageRef.child("PlayingStyle");
     bandref = storageRef.child("Bands");
-    DatabaseReference _mainFirebaseDatabase =
+    _mainFirebaseDatabase =
         FirebaseDatabase.instance.reference().child("Gigtrack");
     userDB = _mainFirebaseDatabase.child("users");
     activitiesDB = _mainFirebaseDatabase.child("activities");
@@ -802,6 +804,12 @@ class ServerAPI {
     await _auth.signOut();
     currentUserId = null;
     currentUserEmail = null;
+  }
+
+  Future<dynamic> getWelcome() async {
+    DataSnapshot dataSnapshot =
+        await _mainFirebaseDatabase.child('welcome').once();
+    return dataSnapshot.value as bool;
   }
 
   void deleteContact(String id) async {
