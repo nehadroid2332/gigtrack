@@ -824,10 +824,7 @@ class _AddNotesScreenState
                   showMessage("Id cannot be null");
                 } else {
                   presenter.notesDelete(widget.id);
-                  Future.delayed(Duration.zero, () {
-                    Navigator.of(context).popUntil(ModalRoute.withName(
-                        Screens.NOTETODOLIST.toString() + "/////"));
-                  });
+                  Navigator.pop(context);
 //                SchedulerBinding.instance.addPostFrameCallback((_) {
 //                  Navigator.of(context).popUntil(ModalRoute.withName(Screens.NOTETODOLIST.toString()));
 //                });
@@ -858,5 +855,10 @@ class _AddNotesScreenState
     hideLoading();
     showMessage("Notes Archived");
     Navigator.pop(context);
+  }
+
+  @override
+  void onDelete() {
+    Navigator.of(context).pop();
   }
 }

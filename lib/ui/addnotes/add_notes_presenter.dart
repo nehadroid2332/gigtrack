@@ -7,7 +7,7 @@ abstract class AddNoteContract extends BaseContract {
   void onUpdate();
   void onSubSuccess();
   void getNoteDetails(NotesTodo note);
-
+  void onDelete();
   void onArchive();
 }
 
@@ -52,7 +52,8 @@ class AddNotesPresenter extends BasePresenter {
   }
 
   void notesDelete(String id) async {
-    var res = await serverAPI.deleteNotes(id);
+    await serverAPI.deleteNotes(id);
+    (view as AddNoteContract).onDelete();
   }
 
   void archieveNote(String id) async {
