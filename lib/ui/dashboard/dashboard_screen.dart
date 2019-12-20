@@ -36,7 +36,7 @@ class _DashboardScreenState
         ),
       ),
       padding: EdgeInsets.symmetric(
-        horizontal: 30,
+        horizontal: 25,
         vertical: 5,
       ),
       child: Column(
@@ -122,7 +122,7 @@ class _DashboardScreenState
                         alignment: Alignment.centerLeft,
                         child: Image.asset(
                           'assets/images/Gigtrackupdate.png',
-                          height: 86,
+                          height: 70,
                         ),
                       ),
                     )
@@ -137,7 +137,7 @@ class _DashboardScreenState
           ),
           Padding(
             padding:
-                EdgeInsets.only(top: MediaQuery.of(context).size.width / 16),
+                EdgeInsets.only(top: MediaQuery.of(context).size.width / 19),
           ),
           Padding(
             padding: EdgeInsets.all(2),
@@ -145,7 +145,7 @@ class _DashboardScreenState
           Expanded(
             child: GridView.count(
               crossAxisCount: 2,
-              childAspectRatio: 1.30,
+              childAspectRatio: 1.36,
               children: [
                 "ACTIVITES",
                 "BAND",
@@ -180,7 +180,7 @@ class _DashboardScreenState
                       //color=Color.fromRGBO(214,22, 35, 1.0);
                       //	color = Color.fromRGBO(241, 206, 96, 0.1);
                       image = 'assets/images/bandicon.svg';
-                      borderColor = Color.fromRGBO(255, 2, 102, 1.0);
+                      borderColor = Color.fromRGBO(167, 0, 0, 1.0);
                       break;
                     case "EQUIPMENT":
                       color = Color.fromRGBO(225, 222, 222, 0.7);
@@ -220,7 +220,7 @@ class _DashboardScreenState
                   return InkWell(
                     child: Container(
                         child: Card(
-                            margin: EdgeInsets.all(8),
+                            margin: EdgeInsets.all(5),
                             color: color,
                             elevation: 10,
                             shape: RoundedRectangleBorder(
@@ -239,7 +239,7 @@ class _DashboardScreenState
                               ),
                               child: Padding(
                                 padding: EdgeInsets.only(
-                                    left: 0, right: 0, top: 8, bottom: 8),
+                                    left: 0, right: 0, top: 6, bottom: 6),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
 
@@ -251,15 +251,15 @@ class _DashboardScreenState
                                         children: <Widget>[
                                           new SvgPicture.asset(
                                             image,
-                                            height: 66.0,
+                                            height: 50.0,
                                             allowDrawingOutsideViewBox: true,
                                           ),
                                           Padding(
                                             padding: EdgeInsets.only(
                                                 left: 5,
                                                 right: 5,
-                                                top: 5,
-                                                bottom: 5),
+                                                top: 1,
+                                                bottom: 1),
                                           ),
                                           Text(
                                             "$txt",
@@ -268,7 +268,7 @@ class _DashboardScreenState
                                             style: textTheme.headline.copyWith(
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 16),
+                                                fontSize: 14),
                                           )
                                         ],
                                       ),

@@ -49,6 +49,7 @@ dependencies:
   extended_image: ^0.6.7
   flutter_svg: ^0.15.0
   random_string: ^1.1.0
+  flutter_local_notifications: ^0.9.0+1
 
 
 dev_dependencies:

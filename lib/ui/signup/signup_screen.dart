@@ -23,6 +23,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
     implements SignUpContract {
   bool isUnderAge = false;
   var _legalUserType;
+  bool isdefault= false;
 
   _SignUpScreenState();
   final _emailController = TextEditingController(),
@@ -94,6 +95,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
 
   void _handleLegalUserValueChange(int value) {
     setState(() {
+      isdefault=true;
       _legalUserType = value;
       if (_legalUserType == 1) {
         isUnderAge=false;
@@ -109,7 +111,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
   Widget buildBody() {
     return Container(
       color: Colors.transparent,
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
       child: Column(
         children: <Widget>[
           Row(
@@ -137,11 +139,11 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
             ],
           ),
           Padding(
-            padding: EdgeInsets.all(8),
+            padding: EdgeInsets.all(0),
           ),
           Expanded(
             child: ListView(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.only(left: 5,right: 5,top: 5,bottom: 5),
               children: <Widget>[
                 Align(
                   alignment: Alignment.centerLeft,
@@ -149,21 +151,21 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                     "Sign Up",
                     style: textTheme.headline.copyWith(
                       color: widget.appListener.primaryColorDark,
-                      fontSize: 38,
+                      fontSize: 20,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(6),
+                  padding: EdgeInsets.all(3),
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Add below details",
+                    "Add details below",
                     style: textTheme.headline.copyWith(
                       color: Color.fromRGBO(99, 108, 119, 1.0),
-                      fontSize: 23,
+                      fontSize: 16,
                       fontWeight: FontWeight.w300,
                     ),
                   ),
@@ -173,8 +175,8 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                   child: Row(children: <Widget>[
                     InkWell(
                       child: Container(
-                        width: 120.0,
-                        height: 120.0,
+                        width: 100.0,
+                        height: 100.0,
                         decoration: _image != null
                             ? new BoxDecoration(
                           shape: BoxShape.circle,
@@ -187,7 +189,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                         child: _image == null
                             ? Icon(
                           Icons.account_circle,
-                          size: 100,
+                          size: 90,
                         )
                             : null,
                       ),
@@ -196,6 +198,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                     InkWell(
                       child:Text(
                           "Click to add photo",
+                        style: TextStyle(fontSize: 12),
                         textAlign: TextAlign.left,
                       ),
                       onTap: getImage,
@@ -213,6 +216,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                           labelText: "FirstName",
                           labelStyle: TextStyle(
                             color: Color.fromRGBO(169, 176, 187, 1.0),
+                            fontSize: 14
                           ),
                           errorText: _errorFirstName,
                         ),
@@ -229,6 +233,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                             labelText: "LastName",
                             labelStyle: TextStyle(
                               color: Color.fromRGBO(169, 176, 187, 1.0),
+                                fontSize: 14
                             ),
                             errorText: _errorLastName),
                       ),
@@ -238,24 +243,24 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                 Padding(
                   padding: EdgeInsets.all(5),
                 ),
-                TextField(
-                  controller: _phoneController,
-                  keyboardType: TextInputType.phone,
-                  inputFormatters: [
-                    WhitelistingTextInputFormatter.digitsOnly,
-                    // Fit the validating format.
-                    phoneNumberFormatter,
-                  ],
-                  decoration: InputDecoration(
-                      labelText: "Phone",
-                      labelStyle: TextStyle(
-                        color: Color.fromRGBO(169, 176, 187, 1.0),
-                      ),
-                      errorText: _errorPhone),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(5),
-                ),
+//                TextField(
+//                  controller: _phoneController,
+//                  keyboardType: TextInputType.phone,
+//                  inputFormatters: [
+//                    WhitelistingTextInputFormatter.digitsOnly,
+//                    // Fit the validating format.
+//                    phoneNumberFormatter,
+//                  ],
+//                  decoration: InputDecoration(
+//                      labelText: "Phone",
+//                      labelStyle: TextStyle(
+//                        color: Color.fromRGBO(169, 176, 187, 1.0),
+//                      ),
+//                      errorText: _errorPhone),
+//                ),
+//                Padding(
+//                  padding: EdgeInsets.all(5),
+//                ),
                 TextField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
@@ -263,6 +268,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                       labelText: "Email",
                       labelStyle: TextStyle(
                         color: Color.fromRGBO(169, 176, 187, 1.0),
+                          fontSize: 14
                       ),
                       errorText: _errorEmail),
                 ),
@@ -275,6 +281,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                     labelText: "Password",
                     labelStyle: TextStyle(
                       color: Color.fromRGBO(169, 176, 187, 1.0),
+                        fontSize: 14
                     ),
                     errorText: _errorPassword,
                   ),
@@ -319,23 +326,21 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
 //                    errorText: _errorState,
 //                  ),
 //                ),
-                Padding(
-                  padding: EdgeInsets.all(5),
-                ),
-                TextField(
-                  controller: _zipController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: "Zip Code",
-                    labelStyle: TextStyle(
-                      color: Color.fromRGBO(169, 176, 187, 1.0),
-                    ),
-                    errorText: _errorZip,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(5),
-                ),
+
+//                TextField(
+//                  controller: _zipController,
+//                  keyboardType: TextInputType.number,
+//                  decoration: InputDecoration(
+//                    labelText: "Zip Code",
+//                    labelStyle: TextStyle(
+//                      color: Color.fromRGBO(169, 176, 187, 1.0),
+//                    ),
+//                    errorText: _errorZip,
+//                  ),
+//                ),
+//                Padding(
+//                  padding: EdgeInsets.all(5),
+//                ),
 
 
 //                TextField(
@@ -403,16 +408,16 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                               'Yes',
                               textAlign: TextAlign.center,
                               style: new TextStyle(
-                                fontSize: 16.0,
+                                fontSize: 14.0,
                                 color: _legalUserType == 0
                                     ? Colors.grey
-                                    : Colors.white,
+                                    :isdefault? Colors.white:Colors.grey,
                               ),
                             ),
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.all(8),
+                          padding: EdgeInsets.all(4),
                         ),
                         InkWell(
                           onTap: (){
@@ -435,10 +440,10 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                               'No',
                               textAlign: TextAlign.center,
                               style: new TextStyle(
-                                fontSize: 16.0,
+                                fontSize: 14.0,
                                 color: _legalUserType == 1
                                     ? Colors.grey
-                                    : Colors.white,
+                                    : isdefault? Colors.white:Colors.grey,
                               ),
                             ),
                           ),
@@ -447,11 +452,11 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                     )
                   ],
                 ),
-                Padding(padding: EdgeInsets.all(10),),
+                Padding(padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),),
                 isUnderAge? Text('For Primary User/\nDependent under age of 18',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.redAccent,fontSize: 18),
+                      fontWeight: FontWeight.bold, color: Colors.redAccent,fontSize: 17),
                 ):Container(),
                 Padding(padding: isUnderAge?EdgeInsets.all(3):EdgeInsets.all(0),),
                isUnderAge? Container(
@@ -463,7 +468,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                 isUnderAge? Text('By adding my dependent as a User to this account, I acknowledge I am their legal gaurdian, have full access to app and agree to monitor my dependents use, actions and compliance in this mobile app.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.grey,fontSize: 15),
+                    fontWeight: FontWeight.bold, color: Colors.grey,fontSize: 14),
                 ):Container(),
                 
                 isUnderAge
@@ -474,6 +479,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                           labelText: "Owner Name",
                           labelStyle: TextStyle(
                             color: Color.fromRGBO(169, 176, 187, 1.0),
+                              fontSize: 14
                           ),
                           errorText: _errorGuardianName,
                         ),
@@ -487,6 +493,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                           labelText: "Owner Email",
                           labelStyle: TextStyle(
                             color: Color.fromRGBO(169, 176, 187, 1.0),
+                              fontSize: 14
                           ),
                           errorText: _errorGuardianEmail,
                         ),
@@ -496,12 +503,12 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                 isUnderAge? Text('Note that EPK for any dependents under the age of 18 will not be public.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.redAccent,fontSize: 15),
+                    fontWeight: FontWeight.bold, color: Colors.redAccent,fontSize: 14),
                 ):Container(),
                 
                
                 Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.only(left: 10,right: 10,top: 0,bottom: 0),
                 ),
                 Container(
                   child: Center(
@@ -534,7 +541,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                    top: 30,
+                    top: 20,
                   ),
                 ),
                 Wrap(

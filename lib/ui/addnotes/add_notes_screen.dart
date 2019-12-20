@@ -112,7 +112,7 @@ class _AddNotesScreenState
             }
           },
         ),
-        backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
+        backgroundColor:  Color.fromRGBO(3, 218, 157, 1.0),
         actions: <Widget>[
           widget.id.isEmpty || widget.isParent
               ? Container()
@@ -149,7 +149,7 @@ class _AddNotesScreenState
         ClipPath(
           clipper: RoundedClipper(height / 2.5),
           child: Container(
-            color: Color.fromRGBO(22, 102, 237, 1.0),
+            color:  Color.fromRGBO(3, 218, 157, 1.0),
             height: height / 2.5,
           ),
         ),
@@ -485,7 +485,7 @@ class _AddNotesScreenState
                                   subtitle: Text(notesTodo.description),
                                   leading: CircleAvatar(
                                       backgroundColor:
-                                          Color.fromRGBO(22, 102, 237, 1.0),
+                                      Color.fromRGBO(3, 218, 157, 1.0),
                                       radius: 35,
                                       child: Row(
                                         crossAxisAlignment:
@@ -545,7 +545,7 @@ class _AddNotesScreenState
                               : Padding(
                                   padding: EdgeInsets.all(5),
                                   child: InkWell(
-                                    child: Text(
+                                    child: Text(  widget.isParent?"":
                                       "Archive Note",
                                       textAlign: TextAlign.center,
                                       style: textTheme.subhead.copyWith(
@@ -598,8 +598,7 @@ class _AddNotesScreenState
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             6)),
-                                                color: Color.fromRGBO(
-                                                    22, 102, 237, 1.0),
+                                                color:  Color.fromRGBO(3, 218, 157, 1.0),
                                                 onPressed: () {
                                                   Navigator.of(context).pop();
                                                 },
@@ -658,7 +657,7 @@ class _AddNotesScreenState
                                   }
                                 });
                               },
-                              color: Color.fromRGBO(22, 102, 237, 1.0),
+                              color:  Color.fromRGBO(3, 218, 157, 1.0),
                               child: Text(
                                 "Submit",
                                 style: textTheme.headline.copyWith(
@@ -835,7 +834,7 @@ class _AddNotesScreenState
               ),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
-              color: Color.fromRGBO(22, 102, 237, 1.0),
+              color:  Color.fromRGBO(3, 218, 157, 1.0),
               onPressed: () {
                 Navigator.of(context).pop();
               },

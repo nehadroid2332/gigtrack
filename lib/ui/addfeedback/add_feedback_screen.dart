@@ -26,7 +26,7 @@ class _AddFeedbackScreenState
         ClipPath(
           clipper: RoundedClipper(height / 2.5),
           child: Container(
-            color: Color.fromRGBO(22, 102, 237, 1.0),
+            color: Color.fromRGBO(255, 215, 0, 1.0),
             height: height / 2.5,
           ),
         ),
@@ -39,7 +39,7 @@ class _AddFeedbackScreenState
                 
                 "Your Feedback means a lot to us, what do you think?",
                 style: textTheme.display2
-                    .copyWith(color: Colors.white, fontSize: 26,fontStyle: FontStyle.italic),
+                    .copyWith(color: Colors.black, fontSize: 26,fontStyle: FontStyle.italic),
                 textAlign: TextAlign.center,
               ),
               Padding(
@@ -62,7 +62,7 @@ class _AddFeedbackScreenState
                           errorText: _feedbackError,
                           labelText: "Add Feedback",
                           labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                            color: Colors.black//Color.fromRGBO(202, 208, 215, 1.0),
                           ),
                           //border: InputBorder.none,
                         ),
@@ -81,12 +81,12 @@ class _AddFeedbackScreenState
                             presenter.addFeedback(feed);
                           }
                         },
-                        color: Color.fromRGBO(22, 102, 237, 1.0),
+                        color:Color.fromRGBO(255, 215, 0, 1.0), //Color.fromRGBO(22, 102, 237, 1.0),
                         child: Text(
                           "Submit",
                           style: textTheme.headline.copyWith(
                             fontWeight: FontWeight.w300,
-                            color: Colors.white,
+                            color: Colors.black,
                             fontSize: 20,
                           ),
                         ),
@@ -96,7 +96,7 @@ class _AddFeedbackScreenState
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        textColor: Colors.white,
+                        textColor: Colors.black,
                       )
                     ],
                   ),
@@ -116,12 +116,12 @@ class _AddFeedbackScreenState
         ),
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
           onPressed: () async {
             Navigator.of(context).pop();
           },
         ),
-        backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
+        backgroundColor:Color.fromRGBO(255, 215, 0, 1.0),
       );
 
   @override

@@ -84,7 +84,7 @@ class _NotesListScreenState
                 Text(
                   "Notes/Ideas",
                   style: textTheme.display1.copyWith(
-                      color: Color.fromRGBO(22, 102, 237, 1.0),
+                      color:  Color.fromRGBO(3, 218, 157, 1.0),
                       fontSize: 28,
                       fontWeight: FontWeight.w500),
                   textAlign: TextAlign.left,
@@ -149,7 +149,7 @@ class _NotesListScreenState
                         Padding(padding:
                           EdgeInsets.all(10),),
                         FlatButton(
-                          child: Text("Archived Notes",style: TextStyle(
+                          child: Text("Archived Notes/Ideas",style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.grey,
                             fontSize: 18
@@ -210,12 +210,12 @@ class _NotesListScreenState
               (widget.bandId != null && widget.isComm)
           ? SpeedDial(
               animatedIcon: AnimatedIcons.menu_close,
-              backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
+              backgroundColor:  Color.fromRGBO(55, 0, 179, 1.0),
               children: [
                 SpeedDialChild(
                   label: "Ideas",
                   child: Icon(Icons.add),
-                  backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
+                  backgroundColor:  Color.fromRGBO(55, 0, 179, 1.0),
                   onTap: () async {
                     await widget.appListener.router.navigateTo(
                         context,
@@ -226,7 +226,7 @@ class _NotesListScreenState
                 SpeedDialChild(
                   label: " Note",
                   child: Icon(Icons.add),
-                  backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
+                  backgroundColor: Color.fromRGBO(55, 0, 179, 1.0),
                   onTap: () async {
                     await widget.appListener.router.navigateTo(
                         context,
@@ -237,7 +237,7 @@ class _NotesListScreenState
                 SpeedDialChild(
                   label: "Write your song",
                   child: Icon(Icons.add),
-                  backgroundColor: Color.fromRGBO(22, 102, 237, 1.0),
+                  backgroundColor:  Color.fromRGBO(55, 0, 179, 1.0),
                   onTap: () async {
                     showDialogConfirm();
                   },
@@ -274,7 +274,7 @@ class _NotesListScreenState
               textColor: Colors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
-              color: Color.fromRGBO(22, 102, 237, 1.0),
+              color:  Color.fromRGBO(3, 218, 157, 1.0),
               onPressed: () {
                 Navigator.of(context).pop();
               },

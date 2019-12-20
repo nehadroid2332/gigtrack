@@ -313,12 +313,12 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
     margin: EdgeInsets.all(10),
     color: not.bandId.isNotEmpty
         ? Colors.white
-        : Color.fromRGBO(22, 102, 237, 1.0),
+        :  Color.fromRGBO(3, 218, 157, 1.0),
     shape: RoundedRectangleBorder(
       side: not.bandId.isNotEmpty
-          ? new BorderSide(color: Color.fromRGBO(22, 102, 237, 1.0), width: 1.0)
+          ? new BorderSide(color:  Color.fromRGBO(3, 218, 157, 1.0), width: 1.0)
           : new BorderSide(
-              color: Color.fromRGBO(22, 102, 237, 1.0), width: 1.0),
+              color:  Color.fromRGBO(3, 218, 157, 1.0), width: 1.0),
       borderRadius: BorderRadius.circular(12),
     ),
     child: InkWell(
@@ -333,7 +333,7 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
               style: TextStyle(
                   fontSize: 20,
                   color: (not.bandId.isNotEmpty)
-                      ? Color.fromRGBO(22, 102, 237, 1.0)
+                      ?  Color.fromRGBO(3, 218, 157, 1.0)
                       : Colors.white,
                   fontWeight: FontWeight.w700),
             ),
@@ -362,7 +362,7 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
                     style: TextStyle(
                       fontSize: 16,
                       color: (not.bandId.isNotEmpty)
-                          ? Color.fromRGBO(22, 102, 237, 1.0)
+                          ?  Color.fromRGBO(3, 218, 157, 1.0)
                           : Colors.white,
                     ),
                   ),

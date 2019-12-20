@@ -210,7 +210,7 @@ class _AddInstrumentScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(191, 53, 42, 1.0),
+        backgroundColor:  Colors.deepOrangeAccent,
         actions: <Widget>[
           widget.id.isEmpty
               ? Container()
@@ -246,7 +246,7 @@ class _AddInstrumentScreenState
         ClipPath(
           clipper: RoundedClipper(height / 2.5),
           child: Container(
-            color: Color.fromRGBO(191, 53, 42, 1.0),
+            color:  Colors.deepOrangeAccent,
             height: height / 2.5,
           ),
         ),
@@ -1252,7 +1252,7 @@ class _AddInstrumentScreenState
                       ),
                       widget.id.isEmpty || isEdit
                           ? RaisedButton(
-                              color: Color.fromRGBO(191, 53, 42, 1.0),
+                              color:  Colors.deepOrangeAccent,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(18)),
                               textColor: Colors.white,

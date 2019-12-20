@@ -78,7 +78,7 @@ class _ContactListScreenState
                 Text(
                   "Contacts",
                   style: textTheme.display1.copyWith(
-                      color: Color.fromRGBO(60, 111, 54, 1.0),
+                      color: Color.fromRGBO(3, 54, 255, 1.0),
                       fontSize: 28,
                       fontWeight: FontWeight.w500),
                   textAlign: TextAlign.left,
@@ -101,15 +101,15 @@ class _ContactListScreenState
                         return Card(
                           color: cnt.bandId.isNotEmpty
                               ? Colors.white
-                              : Color.fromRGBO(60, 111, 54, 1.0),
+                              : Color.fromRGBO(3, 54, 255, 1.0),
                           margin: EdgeInsets.all(6),
                           shape: RoundedRectangleBorder(
                               side: cnt.bandId.isNotEmpty
                                   ? new BorderSide(
-                                      color: Color.fromRGBO(60, 111, 54, 1.0),
+                                      color: Color.fromRGBO(3, 54, 255, 1.0),
                                       width: 1.0)
                                   : new BorderSide(
-                                      color: Color.fromRGBO(60, 111, 54, 1.0),
+                                      color: Color.fromRGBO(3, 54, 255, 1.0),
                                       width: 1.0),
                               borderRadius: BorderRadius.circular(15)),
                           child: InkWell(
@@ -123,7 +123,7 @@ class _ContactListScreenState
                                         .name), // "${cnt.name.split(" ").reversed.join(' ')}",
                                     style: textTheme.headline.copyWith(
                                         color: cnt.bandId.isNotEmpty
-                                            ? Color.fromRGBO(60, 111, 54, 1.0)
+                                            ? Color.fromRGBO(3, 54, 255, 1.0)
                                             : Colors.white,
                                         fontSize: 18),
                                   ),
@@ -136,8 +136,7 @@ class _ContactListScreenState
                                           style: TextStyle(
                                             fontSize: 13,
                                             color: cnt.bandId.isNotEmpty
-                                                ? Color.fromRGBO(
-                                                    60, 111, 54, 1.0)
+                                                ? Color.fromRGBO(3, 54, 255, 1.0)
                                                 : Colors.white,
                                           ),
                                         )
@@ -184,7 +183,7 @@ class _ContactListScreenState
                     Screens.ADDCONTACT.toString() + "//${widget.bandId}////");
               },
               child: Icon(Icons.add),
-              backgroundColor: Color.fromRGBO(60, 111, 54, 1.0),
+              backgroundColor: Color.fromRGBO(3, 54, 255, 1.0),
             )
           : Container(),
     );

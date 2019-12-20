@@ -1,5 +1,6 @@
 
 import 'package:fluro/fluro.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
@@ -44,19 +45,19 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
             tileMode: TileMode.repeated, // repeats the gradient over the canvas
           ),
         ),
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.all(8),
+              padding: EdgeInsets.all(0),
             ),
             Expanded(
               child: Card(
                 color: Colors.transparent,
                 elevation: 0,
                 child: ListView(
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.only(left: 0,right: 0,top: 10,bottom: 15),
                   children: <Widget>[
                     Align(
                       alignment: Alignment.centerLeft,
@@ -67,7 +68,7 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 10,right: 10,bottom: 10,top: 55),
+                      padding: EdgeInsets.only(left: 10,right: 10,bottom: 10,top: 30),
                     ),
                     Container(
                       color: Color.fromRGBO(142, 142, 144, .8),
@@ -79,12 +80,12 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
                           textAlign: TextAlign.center,
                           style: textTheme.title.copyWith(
                             color: Colors.white,
-                            fontSize: 18,
+                            fontSize: 16,
                             fontWeight: FontWeight.w300,
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.all(15),
+                          padding: EdgeInsets.only(left: 10,right: 10,top: 5),
                         ),
                         TextField(
                           controller: _emailController,
@@ -95,7 +96,7 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
                             ),
                             errorText: _errorEmail,
                           ),
-                          style: textTheme.title.copyWith(
+                          style: textTheme.subtitle.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.w300,
                           ),
@@ -112,18 +113,18 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
                               ),
                               errorText: _errorPassword),
                           obscureText: true,
-                          style: textTheme.title.copyWith(
+                          style: textTheme.subtitle.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.w300,
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                            top: 30,
+                            top: 20,
                           ),
                         ),
-                        Wrap(
-                          alignment: WrapAlignment.center,
+                        Column(
+                          crossAxisAlignment:CrossAxisAlignment.center,
                           children: <Widget>[
                             RaisedButton(
                               color: Color.fromRGBO(255, 0, 104, 1.0),
@@ -137,7 +138,7 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
                                   Text(
                                     "Sign In",
                                     style: textTheme.title.copyWith(
-                                      fontSize: 15,
+                                      fontSize: 16,
                                       color: Colors.white,
                                     ),
                                   ),
@@ -169,16 +170,7 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
                                   }
                                 });
                               },
-                            )
-                          ],
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(10),
-                        ),
-  
-                        Wrap(
-                          alignment: WrapAlignment.center,
-                          children: <Widget>[
+                            ),
                             FlatButton(
                               padding: EdgeInsets.zero,
                               textColor: Colors.white,
@@ -191,17 +183,12 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
                                 textAlign: TextAlign.center,
                                 style: textTheme.subtitle.copyWith(
                                     color: Colors.white,
-                                    fontSize: 19,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.w300),
                               ),
-                            )
-                          ],
-                        ),
-                        Wrap(
-                          alignment: WrapAlignment.center,
-                          children: <Widget>[
+                            ),
                             FlatButton(
-                              padding: EdgeInsets.zero,
+                              padding: EdgeInsets.only(bottom: 40),
                               textColor: Colors.white,
                               onPressed: () {
                                 widget.appListener.router.navigateTo(
@@ -212,12 +199,26 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
                                 textAlign: TextAlign.center,
                                 style: textTheme.subtitle.copyWith(
                                     color: Colors.white,
-                                    fontSize: 17,
+                                    fontSize: 15,
                                     fontWeight: FontWeight.w300),
                               ),
                             )
                           ],
                         ),
+                       
+  
+//                        Wrap(
+//                          alignment: WrapAlignment.center,
+//                          children: <Widget>[
+//
+//                          ],
+//                        ),
+//                        Wrap(
+//                          alignment: WrapAlignment.center,
+//                          children: <Widget>[
+//
+//                          ],
+//                        ),
                       ],
                     ),),
                    

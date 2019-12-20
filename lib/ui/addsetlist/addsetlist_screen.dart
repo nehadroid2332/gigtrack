@@ -38,7 +38,7 @@ class _AddSetListScreenState
       _songArtistError,
       _songChordsError,
       _songNoteserror;
-  List _fruits = ["Ready to perform", "Needs work", "New song"];
+  List _fruits = ["Ready", "Needs work", "New song","Play now"];
   List<Song> _songList = [];
   Song currentSong;
 

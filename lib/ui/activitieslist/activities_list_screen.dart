@@ -153,7 +153,7 @@ class _ActivitiesListScreenState
 //                  width: 40,
 //                ),
                 new SvgPicture.asset(
-                  'assets/images/feedbacknew.svg',
+                  'assets/images/finalcalander.svg',
                   height: 40.0,
                   width: 40.0,
                   //allowDrawingOutsideViewBox: true,
@@ -455,7 +455,7 @@ class _ActivitiesListScreenState
               (widget.bandId != null && (widget.isLeader || widget.isComm))
           ? SpeedDial(
               animatedIcon: AnimatedIcons.menu_close,
-              backgroundColor: Color.fromRGBO(40, 35, 188, 1.0),
+              backgroundColor: Colors.green,
               overlayColor: Colors.white,
               overlayOpacity: 1.0,
               children: items,

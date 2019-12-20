@@ -159,8 +159,20 @@ class _AddBandScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(255, 2, 102, 1.0),
+        backgroundColor: Color.fromRGBO(167, 0, 0, 1.0),
         actions: <Widget>[
+          Container(
+            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width/2,
+            child: Text(
+            "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Band",
+            textAlign: TextAlign.center,
+            style: textTheme.headline.copyWith(
+              color: Colors.white,
+            )
+            ,
+          ), ),
+         
           widget.id.isEmpty
               ? Container()
               : IconButton(
@@ -228,7 +240,7 @@ class _AddBandScreenState
             new RaisedButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
-              color: Color.fromRGBO(255, 2, 102, 1.0),
+              color: Color.fromRGBO(167, 0, 0, 1.0),
               child: new Text(
                 "No",
                 style: TextStyle(color: Colors.white),
@@ -335,35 +347,35 @@ class _AddBandScreenState
       body: Stack(
         children: <Widget>[
           ClipPath(
-            clipper: RoundedClipper(height / 2.5),
+            clipper: RoundedClipper(height / 4.5),
             child: Container(
-              color: Color.fromRGBO(255, 2, 102, 1.0),
-              height: height / 2.5,
+              color: Color.fromRGBO(167, 0, 0, 1.0),
+              height: height / 4.5,
             ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: 25,
+              horizontal: 10,
               vertical: 0,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Band",
-                  style: textTheme.display1.copyWith(
-                    color: Colors.white,
-                  ),
-                ),
+//                Text(
+//                  "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Band",
+//                  style: textTheme.headline.copyWith(
+//                    color: Colors.white,
+//                  ),
+//                ),
                 Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(0),
                 ),
                 Expanded(
                   child: Card(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18)),
                     child: ListView(
-                      padding: EdgeInsets.all(30),
+                      padding: EdgeInsets.all(10),
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.all(5),
@@ -998,7 +1010,7 @@ class _AddBandScreenState
                                   Expanded(
                                     child: InkWell(
                                       child: Card(
-                                          color: Colors.red,
+                                          color: Color.fromRGBO(167, 0, 0, 1.0),
                                           child: Padding(
                                             padding: EdgeInsets.symmetric(
                                               vertical: 25,
@@ -1024,7 +1036,7 @@ class _AddBandScreenState
                                   Expanded(
                                     child: InkWell(
                                       child: Card(
-                                        color: Colors.red,
+                                        color:Color.fromRGBO(167, 0, 0, 1.0),
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
                                             vertical: 25,
@@ -1057,7 +1069,7 @@ class _AddBandScreenState
                                   Expanded(
                                     child: InkWell(
                                       child: Card(
-                                        color: Colors.red,
+                                        color: Color.fromRGBO(167, 0, 0, 1.0),
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
                                             vertical: 25,
@@ -1084,7 +1096,7 @@ class _AddBandScreenState
                                   Expanded(
                                     child: InkWell(
                                       child: Card(
-                                        color: Colors.red,
+                                        color:Color.fromRGBO(167, 0, 0, 1.0),
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
                                             vertical: 25,
@@ -1117,7 +1129,7 @@ class _AddBandScreenState
                                   Expanded(
                                     child: InkWell(
                                       child: Card(
-                                        color: Colors.red,
+                                        color: Color.fromRGBO(167, 0, 0, 1.0),
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
                                             vertical: 25,
@@ -1149,7 +1161,7 @@ class _AddBandScreenState
                                   Expanded(
                                     child: InkWell(
                                       child: Card(
-                                        color: Colors.red,
+                                        color:Color.fromRGBO(167, 0, 0, 1.0),
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
                                             vertical: 25,
@@ -1182,7 +1194,7 @@ class _AddBandScreenState
                                   Expanded(
                                     child: InkWell(
                                       child: Card(
-                                        color: Colors.red,
+                                        color: Color.fromRGBO(167, 0, 0, 1.0),
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
                                             vertical: 25,
@@ -1204,7 +1216,7 @@ class _AddBandScreenState
                                   Expanded(
                                     child: InkWell(
                                       child: Card(
-                                        color: Colors.red,
+                                        color: Color.fromRGBO(167, 0, 0, 1.0),
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
                                             vertical: 25,
@@ -1230,7 +1242,7 @@ class _AddBandScreenState
                               ),
                         widget.id.isEmpty || isEdit
                             ? RaisedButton(
-                                color: Color.fromRGBO(239, 181, 77, 1.0),
+                                color: Color.fromRGBO(167, 0, 0, 1.0),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(18)),
                                 textColor: Colors.white,

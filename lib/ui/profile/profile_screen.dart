@@ -98,7 +98,7 @@ class _ProfileScreenState
   Widget buildBody() {
     return Container(
       color: Colors.transparent,
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.only(left: 15,right: 15,top: 10,bottom: 10),
       child: Column(
         children: <Widget>[
           Row(
@@ -145,20 +145,20 @@ class _ProfileScreenState
                     "User Profile",
                     style: textTheme.headline.copyWith(
                       color: widget.appListener.primaryColorDark,
-                      fontSize: 28,
+                      fontSize: 20,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(6),
+                  padding: EdgeInsets.all(2),
                 ),
                 Align(
                   alignment: Alignment.center,
                   child: InkWell(
                     child: Container(
-                      width: 150.0,
-                      height: 150.0,
+                      width: 110.0,
+                      height: 110.0,
                       decoration: _image != null ||
                               _imageUrl != null
                              
@@ -166,7 +166,7 @@ class _ProfileScreenState
                               shape: BoxShape.circle,
                               image: new DecorationImage(
                                 fit: BoxFit.cover,
-                                image: _imageUrl != null
+                                image: (_imageUrl != null)&& (_image==null)
                                     ? NetworkImage(_imageUrl)
                                     : FileImage(_image),
                               ),
@@ -184,7 +184,7 @@ class _ProfileScreenState
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(5),
+                  padding: EdgeInsets.all(4),
                 ),
                 Row(
                   children: <Widget>[
@@ -209,7 +209,7 @@ class _ProfileScreenState
                             ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(5),
+                      padding: EdgeInsets.all(4),
                     ),
                     isEdit
                         ? Expanded(
@@ -227,7 +227,7 @@ class _ProfileScreenState
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.all(5),
+                  padding: EdgeInsets.all(4),
                 ),
                 isEdit
                     ? TextField(
@@ -251,7 +251,7 @@ class _ProfileScreenState
                         style: textTheme.title,
                       ),
                 Padding(
-                  padding: EdgeInsets.all(5),
+                  padding: EdgeInsets.all(4),
                 ),
                 isEdit
                     ? TextField(
@@ -271,7 +271,7 @@ class _ProfileScreenState
                         style: textTheme.title,
                       ),
                 Padding(
-                  padding: EdgeInsets.all(5),
+                  padding: EdgeInsets.all(4),
                 ),
 
 //                TextField(
@@ -328,7 +328,7 @@ class _ProfileScreenState
                         style: textTheme.title,
                       ),
                 Padding(
-                  padding: EdgeInsets.all(5),
+                  padding: EdgeInsets.all(4),
                 ),
                 isEdit
                     ? Container()
@@ -338,7 +338,7 @@ class _ProfileScreenState
                         style: textTheme.title,
                       ),
                 Padding(
-                  padding: EdgeInsets.all(5),
+                  padding: EdgeInsets.all(4),
                 ),
                 isUnderAge
                     ? isEdit
@@ -405,7 +405,7 @@ class _ProfileScreenState
 //                ),
                 Padding(
                   padding: EdgeInsets.only(
-                    top: 30,
+                    top: 5,
                   ),
                 ),
                 isEdit

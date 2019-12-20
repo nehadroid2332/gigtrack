@@ -55,7 +55,7 @@ class _BulletInBoardListScreenState
             Row(
               children: <Widget>[
                 new SvgPicture.asset(
-                  'assets/images/bulletinnew.svg',
+                  'assets/images/finalbulletin.svg',
                   height: 40.0,
                   width: 40.0,
                   //allowDrawingOutsideViewBox: true,
