@@ -109,6 +109,17 @@ class _AddContactScreenState
         elevation: 0,
         backgroundColor: Color.fromRGBO(3, 54, 255, 1.0),
         actions: <Widget>[
+          Container(
+            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width/2,
+            child: Text(
+              "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Contact",
+              textAlign: TextAlign.center,
+              style: textTheme.headline.copyWith(
+                color: Colors.white,
+              )
+              ,
+            ), ),
           widget.id.isEmpty
               ? Container()
               : IconButton(
@@ -223,27 +234,22 @@ class _AddContactScreenState
     return Stack(
       children: <Widget>[
         ClipPath(
-          clipper: RoundedClipper(height / 2.5),
+          clipper: RoundedClipper(height / 4.5),
           child: Container(
             color: Color.fromRGBO(3, 54, 255, 1.0),
-            height: height / 2.5,
+            height: height / 4.5,
           ),
         ),
         Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: 25,
+            horizontal: 10,
             vertical: 0,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
-                "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Contact",
-                style: textTheme.display1
-                    .copyWith(color: Colors.white, fontSize: 28),
-              ),
               Padding(
-                padding: EdgeInsets.all(5),
+                padding: EdgeInsets.all(0),
               ),
               Expanded(
                 child: Card(

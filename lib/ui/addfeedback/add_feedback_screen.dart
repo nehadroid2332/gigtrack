@@ -24,14 +24,14 @@ class _AddFeedbackScreenState
     return Stack(
       children: <Widget>[
         ClipPath(
-          clipper: RoundedClipper(height / 2.5),
+          clipper: RoundedClipper(height / 4.5),
           child: Container(
             color: Color.fromRGBO(255, 215, 0, 1.0),
-            height: height / 2.5,
+            height: height / 4.5,
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25, vertical: 0),
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -43,7 +43,7 @@ class _AddFeedbackScreenState
                 textAlign: TextAlign.center,
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.all(0),
               ),
               Expanded(
                 child: Card(

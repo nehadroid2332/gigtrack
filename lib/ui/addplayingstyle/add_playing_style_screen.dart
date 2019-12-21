@@ -196,7 +196,7 @@ class _AddPlayingStyleScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(60, 111, 54, 1.0),
+        backgroundColor: Color.fromRGBO(255, 222, 3, 1.0),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -207,6 +207,17 @@ class _AddPlayingStyleScreenState
           },
         ),
         actions: <Widget>[
+          Container(
+            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width/2,
+            child: Text(
+              "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} EPK",
+              textAlign: TextAlign.center,
+              style: textTheme.headline.copyWith(
+                color: Colors.black,
+              )
+              ,
+            ), ),
           widget.id.isEmpty
               ? Container()
               : IconButton(
@@ -279,7 +290,7 @@ class _AddPlayingStyleScreenState
               ),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
-              color: Color.fromRGBO(60, 111, 55, 1.0),
+              color: Color.fromRGBO(255, 222, 3, 1.0),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -424,7 +435,7 @@ class _AddPlayingStyleScreenState
           ),
           decoration: BoxDecoration(
             color: selectedEducation == (s)
-                ? Color.fromRGBO(124, 180, 97, 1.0)
+                ? Color.fromRGBO(255, 222, 3, 1.0)
                 : Color.fromRGBO(244, 246, 248, 1.0),
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
@@ -459,24 +470,20 @@ class _AddPlayingStyleScreenState
     return Stack(
       children: <Widget>[
         ClipPath(
-          clipper: RoundedClipper(height / 2.5),
+          clipper: RoundedClipper(height / 4.5),
           child: Container(
-            color: Color.fromRGBO(60, 111, 54, 1.0),
-            height: height / 2.5,
+            color: Color.fromRGBO(255, 222, 3, 1.0),
+            height: height / 4.5,
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(left: 15, right: 15, bottom: 15, top: 0),
+          padding: EdgeInsets.only(left: 5, right: 5, bottom: 0, top: 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
-                "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} EPK",
-                style: textTheme.display1
-                    .copyWith(color: Colors.white, fontSize: 28),
-              ),
+            
               Padding(
-                padding: EdgeInsets.all(4),
+                padding: EdgeInsets.all(0),
               ),
               Expanded(
                 child: Card(
@@ -536,7 +543,7 @@ class _AddPlayingStyleScreenState
                                   ? TextAlign.left
                                   : TextAlign.center,
                               style: textTheme.title.copyWith(
-                                  color: Color.fromRGBO(124, 180, 97, 1.0)),
+                                  color: Color.fromRGBO(255, 222, 3, 1.0)),
                             )
                           : Container(),
                       Padding(
@@ -586,7 +593,7 @@ class _AddPlayingStyleScreenState
                                     textAlign: TextAlign.center,
                                     style: textTheme.title.copyWith(
                                         color:
-                                            Color.fromRGBO(124, 180, 97, 1.0)),
+                                        Color.fromRGBO(255, 222, 3, 1.0)),
                                   ),
                                 )
                           : Container(),
@@ -626,15 +633,14 @@ class _AddPlayingStyleScreenState
                                             color: _legalUserType == 0
                                                 ? Color.fromRGBO(
                                                     70, 206, 172, 1.0)
-                                                : Color.fromRGBO(
-                                                    124, 180, 97, 1.0))),
+                                                : Color.fromRGBO(255, 222, 3, 1.0))),
                                     child: Text(
                                       'Age',
                                       style: new TextStyle(
                                         fontSize: 16.0,
                                         color: _legalUserType == 0
-                                            ? Color.fromRGBO(124, 180, 97, 1.0)
-                                            : Color.fromRGBO(124, 180, 97, 1.0),
+                                            ? Color.fromRGBO(255, 222, 3, 1.0)
+                                            : Color.fromRGBO(255, 222, 3, 1.0),
                                       ),
                                     ),
                                   ),
@@ -661,17 +667,15 @@ class _AddPlayingStyleScreenState
                                         borderRadius: BorderRadius.circular(15),
                                         border: Border.all(
                                             color: _legalUserType == 1
-                                                ? Color.fromRGBO(
-                                                    124, 180, 97, 1.0)
-                                                : Color.fromRGBO(
-                                                    124, 180, 97, 1.0))),
+                                                ? Color.fromRGBO(255, 222, 3, 1.0)
+                                                : Color.fromRGBO(255, 222, 3, 1.0))),
                                     child: Text(
                                       'Year',
                                       style: new TextStyle(
                                         fontSize: 16.0,
                                         color: _legalUserType == 1
-                                            ? Color.fromRGBO(124, 180, 97, 1.0)
-                                            : Color.fromRGBO(124, 180, 97, 1.0),
+                                            ? Color.fromRGBO(255, 222, 3, 1.0)
+                                            : Color.fromRGBO(255, 222, 3, 1.0),
                                       ),
                                     ),
                                   ),
@@ -811,7 +815,7 @@ class _AddPlayingStyleScreenState
                                   ? "Select your Playing Style"
                                   : "Playing Style",
                               style: textTheme.title.copyWith(
-                                color: Color.fromRGBO(124, 180, 97, 1.0),
+                                color: Colors.black,
                               ),
                               textAlign: widget.id.isEmpty || isEdit
                                   ? TextAlign.left
@@ -860,7 +864,7 @@ class _AddPlayingStyleScreenState
                                   textAlign: TextAlign.left,
                                   style: textTheme.subtitle.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      color: Color.fromRGBO(124, 180, 97, 1.0)),
+                                      color: Color.fromRGBO(255, 222, 3, 1.0)),
                                 )
                               : Container()
                           : Container(),
@@ -951,7 +955,7 @@ class _AddPlayingStyleScreenState
                             ? TextAlign.left
                             : TextAlign.center,
                         style: textTheme.title
-                            .copyWith(color: Color.fromRGBO(124, 180, 97, 1.0)),
+                            .copyWith(color: Colors.black),
                       ),
                       Padding(padding: EdgeInsets.all(3)),
                       widget.id.isEmpty || isEdit
@@ -1135,7 +1139,7 @@ class _AddPlayingStyleScreenState
                                   ? TextAlign.left
                                   : TextAlign.center,
                               style: textTheme.title.copyWith(
-                                  color: Color.fromRGBO(124, 180, 97, 1.0)),
+                                  color: Colors.black),
                             )
                           : Container(),
                       Padding(
@@ -1378,7 +1382,7 @@ class _AddPlayingStyleScreenState
                           : Container(),
 
                       RaisedButton(
-                        color: Colors.lightGreen,
+                        color: Color.fromRGBO(255, 222, 3, 1.0),
                         child: Text("Set-List"),
                         onPressed: () {
                           widget.appListener.router.navigateTo(context,
@@ -1542,7 +1546,7 @@ class _AddPlayingStyleScreenState
                               child: Text(
                                 "Submit",
                               ),
-                              color: Color.fromRGBO(124, 180, 97, 1.0),
+                              color: Color.fromRGBO(255, 222, 3, 1.0),
                               textColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),

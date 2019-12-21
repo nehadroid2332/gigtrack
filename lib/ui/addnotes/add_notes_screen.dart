@@ -114,6 +114,17 @@ class _AddNotesScreenState
         ),
         backgroundColor:  Color.fromRGBO(3, 218, 157, 1.0),
         actions: <Widget>[
+          Container(
+            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width/2,
+            child: Text(
+              "${widget.id.isEmpty ? widget.type == NotesTodo.TYPE_NOTE ? "Add Note" : widget.type == NotesTodo.TYPE_IDEA ? "Add Idea" : "" : widget.isParent ? "Note is about" : widget.type == NotesTodo.TYPE_NOTE ? "Note" : widget.type == NotesTodo.TYPE_IDEA ? "Idea" : ""}",
+              textAlign: TextAlign.center,
+              style: textTheme.headline.copyWith(
+                color: Colors.white,
+              )
+              ,
+            ), ),
           widget.id.isEmpty || widget.isParent
               ? Container()
               : IconButton(
@@ -147,31 +158,26 @@ class _AddNotesScreenState
     return Stack(
       children: <Widget>[
         ClipPath(
-          clipper: RoundedClipper(height / 2.5),
+          clipper: RoundedClipper(height / 4.5),
           child: Container(
             color:  Color.fromRGBO(3, 218, 157, 1.0),
-            height: height / 2.5,
+            height: height / 4.5,
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25, vertical: 0),
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
-                "${widget.id.isEmpty ? widget.type == NotesTodo.TYPE_NOTE ? "Add Note" : widget.type == NotesTodo.TYPE_IDEA ? "Add Idea" : "" : widget.isParent ? "Note is about" : widget.type == NotesTodo.TYPE_NOTE ? "Note" : widget.type == NotesTodo.TYPE_IDEA ? "Idea" : ""}",
-                style: textTheme.display2
-                    .copyWith(color: Colors.white, fontSize: 30),
-              ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.all(0),
               ),
               Expanded(
                 child: Card(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),
                   child: ListView(
-                    padding: EdgeInsets.all(20),
+                    padding: EdgeInsets.all(10),
                     children: <Widget>[
                       Padding(
                         padding: widget.id.isEmpty || isEdit

@@ -191,6 +191,17 @@ class _AddActivityScreenState
         elevation: 0,
         backgroundColor: Color.fromRGBO(40, 35, 188, 1.0),
         actions: <Widget>[
+          Container(
+            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width/2,
+            child: Text(
+              "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} ${widget.type == Activites.TYPE_ACTIVITY ? "Activity" : widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? "Performance Schedule" : widget.type == Activites.TYPE_PRACTICE_SCHEDULE ? "Practice Schedule" : widget.type == Activites.TYPE_TASK ? widget.isParent ? "Add Task Notes" : "Task" : widget.type == Activites.TYPE_BAND_TASK ? "Band Task" : ""}",
+              textAlign: TextAlign.center,
+              style: textTheme.headline.copyWith(
+                color: Colors.white,
+              )
+              ,
+            ), ),
           widget.id.isEmpty || widget.isParent
               ? Container()
               : IconButton(
@@ -298,31 +309,26 @@ class _AddActivityScreenState
     return Stack(
       children: <Widget>[
         ClipPath(
-          clipper: RoundedClipper(height / 2.5),
+          clipper: RoundedClipper(height / 4.5),
           child: Container(
             color: Color.fromRGBO(40, 35, 188, 1.0),
-            height: height / 2.5,
+            height: height / 4.5,
           ),
         ),
         Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: 25,
+            horizontal: 10,
             vertical: 0,
           ),
           child: Column(
             children: <Widget>[
-              Text(
-                "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} ${widget.type == Activites.TYPE_ACTIVITY ? "Activity" : widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? "Performance Schedule" : widget.type == Activites.TYPE_PRACTICE_SCHEDULE ? "Practice Schedule" : widget.type == Activites.TYPE_TASK ? widget.isParent ? "Add Task Notes" : "Task" : widget.type == Activites.TYPE_BAND_TASK ? "Band Task" : ""}",
-                style: textTheme.display1
-                    .copyWith(color: Colors.white, fontSize: 30),
-              ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.all(0),
               ),
               Expanded(
                 child: Card(
                   child: ListView(
-                    padding: EdgeInsets.all(20),
+                    padding: EdgeInsets.all(10),
                     children: <Widget>[
                       Padding(
                         padding:

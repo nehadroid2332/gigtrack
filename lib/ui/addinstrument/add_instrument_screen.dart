@@ -212,6 +212,17 @@ class _AddInstrumentScreenState
         elevation: 0,
         backgroundColor:  Colors.deepOrangeAccent,
         actions: <Widget>[
+          Container(
+            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width/2,
+            child: Text(
+              "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Equipment",
+              textAlign: TextAlign.center,
+              style: textTheme.headline.copyWith(
+                color: Colors.white,
+              )
+              ,
+            ), ),
           widget.id.isEmpty
               ? Container()
               : IconButton(
@@ -244,27 +255,22 @@ class _AddInstrumentScreenState
     return Stack(
       children: <Widget>[
         ClipPath(
-          clipper: RoundedClipper(height / 2.5),
+          clipper: RoundedClipper(height / 4.5),
           child: Container(
             color:  Colors.deepOrangeAccent,
-            height: height / 2.5,
+            height: height / 4.5,
           ),
         ),
         Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: 25,
+            horizontal: 10,
             vertical: 0,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
-                "${widget.id.isEmpty ? "Add" : ""} Equipment",
-                style: textTheme.display1
-                    .copyWith(color: Colors.white, fontSize: 30),
-              ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.all(0),
               ),
               Expanded(
                 child: Card(
@@ -272,7 +278,7 @@ class _AddInstrumentScreenState
                       borderRadius: BorderRadius.circular(15)),
                   child: ListView(
                     padding: EdgeInsets.only(
-                        left: 10, right: 10, top: 10, bottom: 15),
+                        left: 0, right: 0, top: 10, bottom: 15),
                     children: <Widget>[
                       (_userType == 1 && (widget.id.isEmpty || isEdit))
                           ? Padding(
