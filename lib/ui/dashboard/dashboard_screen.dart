@@ -165,7 +165,7 @@ class _DashboardScreenState
                       color = Color.fromRGBO(225, 222, 222, 0.7);
                       //color = Color.fromRGBO(63, 146, 219, 1.0); last one
                       //	color = Color.fromRGBO(71, 151, 221, 0.1);
-                      image = 'assets/images/feedbacknew.svg';
+                      image = 'assets/images/finalcalander.svg';
                       borderColor = Color.fromRGBO(55, 0, 179, 1.0);
                       break;
                     case "NOTES":
@@ -213,7 +213,7 @@ class _DashboardScreenState
                     case "BULLETIN BOARD":
                       //	color = Color.fromRGBO(251, 111, 162, 0.1);
                       color = Color.fromRGBO(225, 222, 222, 0.7);
-                      image = 'assets/images/bulletinnew.svg';
+                      image = 'assets/images/finalbulletin.svg';
                       borderColor = Colors.black;
                       break;
                   }
@@ -249,6 +249,8 @@ class _DashboardScreenState
                                         child: Center(
                                       child: Column(
                                         children: <Widget>[
+                                    Padding(padding: EdgeInsets.only(
+                                    left: 0, right: 0, top: 6, bottom: 6)),
                                           new SvgPicture.asset(
                                             image,
                                             height: 50.0,
