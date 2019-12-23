@@ -38,6 +38,7 @@ class _ActivitiesListScreenState
   Stream<List<Activites>> list;
 
   List<Band> myBands = [];
+  bool isArchive = false;
 
   @override
   void initState() {
@@ -364,41 +365,53 @@ class _ActivitiesListScreenState
                                 ),
                                 padding: EdgeInsets.symmetric(vertical: 10),
                               ),
-                        Text(
-                          "Activity Archive",
-                          style: textTheme.display1.copyWith(fontSize: 28),
-                          textAlign: TextAlign.center,
+                        InkWell(
+                          child: Text(
+                            "Activity Archive",
+                            style: textTheme.display1.copyWith(fontSize: 28),
+                            textAlign: TextAlign.center,
+                          ),
+                          onTap: () {
+                            setState(() {
+                              isArchive = !isArchive;
+                            });
+                          },
                         ),
-                        past.length > 0
-                            ? ListView.builder(
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                padding: EdgeInsets.all(10),
-                                itemCount: past.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  Activites ac = past[index];
-                                  return buildActivityListItem(ac, context,
-                                      onTap: () {
-                                    widget.appListener.router.navigateTo(
-                                      context,
-                                      Screens.ADDACTIVITY.toString() +
-                                          "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////",
-                                    );
-                                  },
-                                      isPast: (ac.type == Activites.TYPE_TASK &&
-                                          (past[index].taskCompleteDate != null
-                                                  ? ac.taskCompleteDate
-                                                  : 0) <
-                                              currentDate
-                                                  .millisecondsSinceEpoch));
-                                },
-                              )
-                            : Padding(
-                                child: Center(
-                                  child: Text("No Past Activities"),
-                                ),
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                              ),
+                        isArchive
+                            ? past.length > 0
+                                ? ListView.builder(
+                                    physics: NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    padding: EdgeInsets.all(10),
+                                    itemCount: past.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      Activites ac = past[index];
+                                      return buildActivityListItem(ac, context,
+                                          onTap: () {
+                                        widget.appListener.router.navigateTo(
+                                          context,
+                                          Screens.ADDACTIVITY.toString() +
+                                              "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////",
+                                        );
+                                      },
+                                          isPast: (ac.type ==
+                                                  Activites.TYPE_TASK &&
+                                              (past[index].taskCompleteDate !=
+                                                          null
+                                                      ? ac.taskCompleteDate
+                                                      : 0) <
+                                                  currentDate
+                                                      .millisecondsSinceEpoch));
+                                    },
+                                  )
+                                : Padding(
+                                    child: Center(
+                                      child: Text("No Past Activities"),
+                                    ),
+                                    padding: EdgeInsets.symmetric(vertical: 10),
+                                  )
+                            : Container(),
 
                         // widget.bandId.isEmpty
                         //     ? Text(

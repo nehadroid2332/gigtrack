@@ -193,15 +193,15 @@ class _AddActivityScreenState
         actions: <Widget>[
           Container(
             alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width/2,
+            width: MediaQuery.of(context).size.width / 2,
             child: Text(
               "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} ${widget.type == Activites.TYPE_ACTIVITY ? "Activity" : widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? "Performance Schedule" : widget.type == Activites.TYPE_PRACTICE_SCHEDULE ? "Practice Schedule" : widget.type == Activites.TYPE_TASK ? widget.isParent ? "Add Task Notes" : "Task" : widget.type == Activites.TYPE_BAND_TASK ? "Band Task" : ""}",
               textAlign: TextAlign.center,
               style: textTheme.headline.copyWith(
                 color: Colors.white,
-              )
-              ,
-            ), ),
+              ),
+            ),
+          ),
           widget.id.isEmpty || widget.isParent
               ? Container()
               : IconButton(
@@ -1238,18 +1238,18 @@ class _AddActivityScreenState
                                   },
                                 )
                               : Container(),
-                      (widget.type == Activites.TYPE_BAND_TASK)
-                          ? Text("Select Bands")
-                          : Container(),
-                      Padding(
-                        padding: EdgeInsets.all(3),
-                      ),
-                      (widget.id.isEmpty || isEdit) &&
-                              (widget.type == Activites.TYPE_BAND_TASK)
-                          ? Wrap(
-                              children: items,
-                            )
-                          : Container(),
+                      // (widget.type == Activites.TYPE_BAND_TASK)
+                      //     ? Text("Select Bands")
+                      //     : Container(),
+                      // Padding(
+                      //   padding: EdgeInsets.all(3),
+                      // ),
+                      // (widget.id.isEmpty || isEdit) &&
+                      //         (widget.type == Activites.TYPE_BAND_TASK)
+                      //     ? Wrap(
+                      //         children: items,
+                      //       )
+                      //     : Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -1385,11 +1385,13 @@ class _AddActivityScreenState
                                   } else if (loc.isEmpty &&
                                       widget.type == Activites.TYPE_ACTIVITY) {
                                     _locError = "Cannot be Empty";
-                                  } else if (widget.type ==
+                                  }
+                                  /* else if (widget.type ==
                                           Activites.TYPE_BAND_TASK &&
                                       selectedBandMember == null) {
                                     showMessage("Please select a band member");
-                                  } else {
+                                  } */
+                                  else {
                                     DateTime dateTime, dateTime2;
                                     if (widget.type ==
                                             Activites.TYPE_PRACTICE_SCHEDULE ||
@@ -1634,7 +1636,9 @@ class _AddActivityScreenState
       });
     }
     if (widget.id.isEmpty && widget.type == Activites.TYPE_BAND_TASK) {
+      selectedBandId = widget.bandId;
       presenter.getUserBands();
+      presenter.getBandDetails(widget.bandId);
     }
   }
 
@@ -1743,6 +1747,13 @@ class _AddActivityScreenState
           }
         }
       }
+    });
+  }
+
+  @override
+  void getBandDetails(Band res) {
+    setState(() {
+      selectedBand = res;
     });
   }
 }

@@ -98,7 +98,7 @@ class _ProfileScreenState
   Widget buildBody() {
     return Container(
       color: Colors.transparent,
-      padding: EdgeInsets.only(left: 15,right: 15,top: 10,bottom: 10),
+      padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
       child: Column(
         children: <Widget>[
           Row(
@@ -159,14 +159,12 @@ class _ProfileScreenState
                     child: Container(
                       width: 110.0,
                       height: 110.0,
-                      decoration: _image != null ||
-                              _imageUrl != null
-                             
+                      decoration: _image != null || _imageUrl != null
                           ? new BoxDecoration(
                               shape: BoxShape.circle,
                               image: new DecorationImage(
                                 fit: BoxFit.cover,
-                                image: (_imageUrl != null)&& (_image==null)
+                                image: (_imageUrl != null) && (_image == null)
                                     ? NetworkImage(_imageUrl)
                                     : FileImage(_image),
                               ),
@@ -558,10 +556,8 @@ class _ProfileScreenState
   }
 
   getTimezone() async {
-    currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
-
     setState(() {
-      currentTimeZone;
+      currentTimeZone = DateTime.now().timeZoneName;
     });
   }
 }
