@@ -253,7 +253,7 @@ class _DashboardScreenState
                                     left: 0, right: 0, top: 6, bottom: 6)),
                                           new SvgPicture.asset(
                                             image,
-                                            height: 50.0,
+                                            height: MediaQuery.of(context).size.height/13,
                                             allowDrawingOutsideViewBox: true,
                                           ),
                                           Padding(
