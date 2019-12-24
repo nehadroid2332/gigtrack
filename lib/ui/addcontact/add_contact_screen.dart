@@ -236,7 +236,13 @@ class _AddContactScreenState
         ClipPath(
           clipper: RoundedClipper(height / 4.5),
           child: Container(
-            color: Color.fromRGBO(3, 54, 255, 1.0),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/newupdated.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
+           // color: Color.fromRGBO(3, 54, 255, 1.0),
             height: height / 4.5,
           ),
         ),
