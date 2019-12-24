@@ -33,6 +33,34 @@ class _ContactListScreenState
   List<Contacts> _contacts = <Contacts>[];
 
   Stream<List<Contacts>> list;
+  final alpha = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+  ];
 
   @override
   void initState() {
@@ -55,125 +83,528 @@ class _ContactListScreenState
         ),
       );
 
+  String selectedContactInit;
+
   @override
   Widget buildBody() {
     return Scaffold(
       backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                new SvgPicture.asset(
-                  'assets/images/telcontact.svg',
-                  height: 40.0,
-                  width: 40.0,
-                  //allowDrawingOutsideViewBox: true,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 15),
-                ),
-                Text(
-                  "Contacts",
-                  style: textTheme.display1.copyWith(
-                      color: Color.fromRGBO(3, 54, 255, 1.0),
-                      fontSize: 28,
-                      fontWeight: FontWeight.w500),
-                  textAlign: TextAlign.left,
-                ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.all(4),
-            ),
-            Expanded(
-              child: StreamBuilder<List<Contacts>>(
-                stream: list,
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    _contacts = snapshot.data;
-                    return ListView.builder(
-                      itemCount: _contacts.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final cnt = _contacts[index];
-                        return Card(
-                          color: cnt.bandId.isNotEmpty
-                              ? Colors.white
-                              : Color.fromRGBO(3, 54, 255, 1.0),
-                          margin: EdgeInsets.all(6),
-                          shape: RoundedRectangleBorder(
-                              side: cnt.bandId.isNotEmpty
-                                  ? new BorderSide(
-                                      color: Color.fromRGBO(3, 54, 255, 1.0),
-                                      width: 1.0)
-                                  : new BorderSide(
-                                      color: Color.fromRGBO(3, 54, 255, 1.0),
-                                      width: 1.0),
-                              borderRadius: BorderRadius.circular(15)),
-                          child: InkWell(
-                            child: Padding(
-                              padding: EdgeInsets.all(15),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    getNameOrder(cnt
-                                        .name), // "${cnt.name.split(" ").reversed.join(' ')}",
-                                    style: textTheme.headline.copyWith(
-                                        color: cnt.bandId.isNotEmpty
-                                            ? Color.fromRGBO(3, 54, 255, 1.0)
-                                            : Colors.white,
-                                        fontSize: 18),
+        child: selectedContactInit != null
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      new SvgPicture.asset(
+                        'assets/images/telcontact.svg',
+                        height: 40.0,
+                        width: 40.0,
+                        //allowDrawingOutsideViewBox: true,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 15),
+                      ),
+                      Text(
+                        "Contacts",
+                        style: textTheme.display1.copyWith(
+                            color: Color.fromRGBO(3, 54, 255, 1.0),
+                            fontSize: 28,
+                            fontWeight: FontWeight.w500),
+                        textAlign: TextAlign.left,
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(4),
+                  ),
+                  Expanded(
+                    child: StreamBuilder<List<Contacts>>(
+                      stream: list,
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasData) {
+                          _contacts = snapshot.data;
+                          return ListView.builder(
+                            itemCount: _contacts.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final cnt = _contacts[index];
+                              return Card(
+                                color: cnt.bandId.isNotEmpty
+                                    ? Colors.white
+                                    : Color.fromRGBO(3, 54, 255, 1.0),
+                                margin: EdgeInsets.all(6),
+                                shape: RoundedRectangleBorder(
+                                    side: cnt.bandId.isNotEmpty
+                                        ? new BorderSide(
+                                            color:
+                                                Color.fromRGBO(3, 54, 255, 1.0),
+                                            width: 1.0)
+                                        : new BorderSide(
+                                            color:
+                                                Color.fromRGBO(3, 54, 255, 1.0),
+                                            width: 1.0),
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: InkWell(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(15),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          getNameOrder(cnt
+                                              .name), // "${cnt.name.split(" ").reversed.join(' ')}",
+                                          style: textTheme.headline.copyWith(
+                                              color: cnt.bandId.isNotEmpty
+                                                  ? Color.fromRGBO(
+                                                      3, 54, 255, 1.0)
+                                                  : Colors.white,
+                                              fontSize: 18),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(0),
+                                        ),
+                                        cnt.companyName.isNotEmpty
+                                            ? Text(
+                                                "${cnt.companyName}",
+                                                style: TextStyle(
+                                                  fontSize: 13,
+                                                  color: cnt.bandId.isNotEmpty
+                                                      ? Color.fromRGBO(
+                                                          3, 54, 255, 1.0)
+                                                      : Colors.white,
+                                                ),
+                                              )
+                                            : Container(),
+                                      ],
+                                    ),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.all(0),
-                                  ),
-                                  cnt.companyName.isNotEmpty
-                                      ? Text(
-                                          "${cnt.companyName}",
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            color: cnt.bandId.isNotEmpty
-                                                ? Color.fromRGBO(3, 54, 255, 1.0)
-                                                : Colors.white,
-                                          ),
-                                        )
-                                      : Container(),
-                                ],
-                              ),
-                            ),
-                            onTap:
-                                (widget.isLeader && widget.bandId.isNotEmpty) ||
-                                        widget.bandId.isEmpty
-                                    ? () {
-                                        widget.appListener.router.navigateTo(
-                                            context,
-                                            Screens.ADDCONTACT.toString() +
-                                                "/${cnt.id}/${widget.bandId.isEmpty ? cnt.bandId : widget.bandId}////");
-                                      }
-                                    : null,
-                          ),
-                        );
+                                  onTap: (widget.isLeader &&
+                                              widget.bandId.isNotEmpty) ||
+                                          widget.bandId.isEmpty
+                                      ? () {
+                                          widget.appListener.router.navigateTo(
+                                              context,
+                                              Screens.ADDCONTACT.toString() +
+                                                  "/${cnt.id}/${widget.bandId.isEmpty ? cnt.bandId : widget.bandId}////");
+                                        }
+                                      : null,
+                                ),
+                              );
+                            },
+                          );
+                        } else if (snapshot.hasError) {
+                          return Center(
+                            child: Text("Error Occured"),
+                          );
+                        } else if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                            child: AppProgressWidget(),
+                          );
+                        }
+                        return Container();
                       },
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(
-                      child: Text("Error Occured"),
-                    );
-                  } else if (snapshot.connectionState ==
-                      ConnectionState.waiting) {
-                    return Center(
-                      child: AppProgressWidget(),
-                    );
-                  }
-                  return Container();
-                },
+                    ),
+                  )
+                ],
+              )
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                  ),
+                  Center(
+                    child: Text(
+                      "Contacts",
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                  ),
+                  Center(
+                    child: Text(
+                      "Last name starts with...",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        height: 36,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                      Expanded(
+                        flex: 8,
+                        child: new Container(
+                            margin:
+                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                            child: Divider(
+                              color: Colors.black,
+                              height: 36,
+                              thickness: 1.5,
+                            )),
+                      ),
+                      Text(
+                        "D",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: new Container(
+                            margin:
+                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                            child: Divider(
+                              color: Colors.black,
+                              height: 36,
+                              thickness: 1.5,
+                            )),
+                      ),
+                      Container(
+                        height: 36,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 5),
+                      ),
+                      Container(
+                        height: 36,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Container(
+                        height: 36,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                      Expanded(
+                        flex: 6,
+                        child: new Container(
+                            margin:
+                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                            child: Divider(
+                              color: Colors.white,
+                              height: 36,
+                            )),
+                      ),
+                      Text("C",
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold)),
+                      Expanded(
+                        flex: 2,
+                        child: new Container(
+                            margin:
+                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                            child: Divider(
+                              color: Colors.white,
+                              height: 36,
+                            )),
+                      ),
+                      Container(
+                        height: 36,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 5),
+                      ),
+                      Container(
+                        height: 36,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Container(
+                        height: 36,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                      Expanded(
+                        flex: 5,
+                        child: new Container(
+                            margin:
+                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                            child: Divider(
+                              color: Colors.black,
+                              height: 36,
+                            )),
+                      ),
+                      Text("B",
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold)),
+                      Expanded(
+                        flex: 3,
+                        child: new Container(
+                            margin:
+                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                            child: Divider(
+                              color: Colors.black,
+                              height: 36,
+                            )),
+                      ),
+                      Container(
+                        height: 36,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 5),
+                      ),
+                      Container(
+                        height: 36,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Container(
+                        height: 36,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                      Expanded(
+                        flex: 4,
+                        child: new Container(
+                            margin:
+                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                            child: Divider(
+                              color: Colors.white,
+                              height: 36,
+                            )),
+                      ),
+                      Text("A",
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red)),
+                      Expanded(
+                        flex: 4,
+                        child: new Container(
+                            margin:
+                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                            child: Divider(
+                              color: Colors.white,
+                              height: 36,
+                            )),
+                      ),
+                      Container(
+                        height: 36,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 5),
+                      ),
+                      Container(
+                        height: 36,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Container(
+                        height: 36,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                      Expanded(
+                        flex: 4,
+                        child: new Container(
+                            margin:
+                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                            child: Divider(
+                              color: Colors.black,
+                              height: 36,
+                            )),
+                      ),
+                      Text("G",
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold)),
+                      Expanded(
+                        flex: 6,
+                        child: new Container(
+                            margin:
+                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                            child: Divider(
+                              color: Colors.black,
+                              height: 36,
+                            )),
+                      ),
+                      Container(
+                        height: 36,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 5),
+                      ),
+                      Container(
+                        height: 36,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Container(
+                        height: 36,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: new Container(
+                            margin:
+                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                            child: Divider(
+                              color: Colors.white,
+                              height: 36,
+                            )),
+                      ),
+                      Text("F",
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold)),
+                      Expanded(
+                        flex: 6,
+                        child: new Container(
+                            margin:
+                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                            child: Divider(
+                              color: Colors.white,
+                              height: 36,
+                            )),
+                      ),
+                      Container(
+                        height: 36,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 5),
+                      ),
+                      Container(
+                        height: 36,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Container(
+                        height: 36,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: new Container(
+                            margin:
+                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                            child: Divider(
+                              color: Colors.black,
+                              height: 36,
+                              thickness: 1.5,
+                            )),
+                      ),
+                      Text("E",
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold)),
+                      Expanded(
+                        flex: 6,
+                        child: new Container(
+                            margin:
+                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                            child: Divider(
+                              color: Colors.black,
+                              height: 36,
+                              thickness: 1.5,
+                            )),
+                      ),
+                      Container(
+                        height: 36,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 5),
+                      ),
+                      Container(
+                        height: 36,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: GridView.count(
+                      crossAxisCount: 3,
+                      shrinkWrap: true,
+                      childAspectRatio: 2.36,
+                      children: List.generate(alpha.length, (index) {
+                        return Padding(
+                          padding: EdgeInsets.all(5),
+                          child: RaisedButton(
+                            color: Colors.white,
+                            child: Text(
+                              alpha[index],
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                selectedContactInit = alpha[index];
+                                list = presenter.getContacts(widget.bandId,
+                                    contactInit: selectedContactInit);
+                              });
+                            },
+                          ),
+                        ); //robohash.org api provide you different images for any number you are giving
+                      }),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                  ),
+                ],
               ),
-            )
-          ],
-        ),
       ),
       floatingActionButton: (widget.isLeader && widget.bandId.isNotEmpty) ||
               widget.bandId.isEmpty
