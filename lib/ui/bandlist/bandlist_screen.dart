@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gigtrack/base/base_screen.dart';
@@ -92,19 +93,42 @@ class _BandListScreenState
                               borderRadius: BorderRadius.circular(15)),
                           child: InkWell(
                             child: Padding(
-                              padding: EdgeInsets.all(15),
+                              padding: EdgeInsets.all(0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Text(
+                                  bnd.files != null && bnd.files.length > 0
+                                      ? Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        image: DecorationImage(image:NetworkImage(bnd.files[0],
+                                        ),
+                                            fit: BoxFit.cover
+                                        ) ,
+                                        borderRadius: BorderRadius.only(topLeft:Radius.circular(15),topRight: Radius.circular(15))
+                                        ,
+                                      ),
+                                      height: MediaQuery.of(context).size.height / 4.4,
+                                      width: MediaQuery.of(context).size.width,
+      
+                                      child: null
+//                                    Image.network(
+//                                      File(instr.uploadedFiles[0]).path,
+//                                      fit: BoxFit.cover,
+//                                    ),
+                                  )
+                                      : Container(),
+                                  Padding(padding: EdgeInsets.all(5),),
+                                  Center(child:  Text(
                                     "${bnd.name.toString()}",
                                     style: textTheme.headline.copyWith(
                                       color: Colors.white,
+                                      fontWeight: FontWeight.bold,
                                       fontSize: 18,
                                     ),
-                                  ),
+                                  ),),
                                   Padding(
-                                    padding: EdgeInsets.all(0),
+                                    padding: EdgeInsets.all(5),
                                   ),
 //                            Text(
 //                              "${bnd.musicStyle}",

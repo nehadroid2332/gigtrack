@@ -38,7 +38,7 @@ class _AddSetListScreenState
       _songArtistError,
       _songChordsError,
       _songNoteserror;
-  List _fruits = ["Ready", "Needs work", "New song","Play now"];
+  List _fruits = ["Ready", "Needs work", "New song"];
   List<Song> _songList = [];
   Song currentSong;
 
@@ -389,11 +389,32 @@ class _AddSetListScreenState
 //                                fontSize: 16,
 //                              ),
 //                            ),
-                            Wrap(
+                            
+                            Center(child:Wrap(
                               children: items,
-                            ),
+                            ) ,),
+                           
                             Padding(
                               padding: EdgeInsets.all(0),
+                            ),
+  
+                            RaisedButton(
+                              onPressed:() {},
+                                color: Color.fromRGBO(214, 22, 35, 1.0),
+                                child: Text(
+                                    "Play now",
+                                    style: textTheme.headline.copyWith(
+                                      fontWeight: FontWeight.w300,
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                    )),
+                              padding: EdgeInsets.symmetric(
+                                vertical: 8,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              textColor: Colors.white,
                             ),
                             widget.id.isEmpty || isEdit
                                 ? TextField(

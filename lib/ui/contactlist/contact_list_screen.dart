@@ -13,16 +13,16 @@ class ContactListScreen extends BaseScreen {
   final bool isComm;
   final bool isSetUp;
   final bool postEntries;
-
+  
   ContactListScreen(
-    AppListener appListener, {
-    this.bandId,
-    this.isLeader,
-    this.isComm,
-    this.isSetUp,
-    this.postEntries,
-  }) : super(appListener);
-
+      AppListener appListener, {
+        this.bandId,
+        this.isLeader,
+        this.isComm,
+        this.isSetUp,
+        this.postEntries,
+      }) : super(appListener);
+  
   @override
   _ContactListScreenState createState() => _ContactListScreenState();
 }
@@ -31,16 +31,16 @@ class _ContactListScreenState
     extends BaseScreenState<ContactListScreen, ContactListPresenter>
     implements ContactListContract {
   List<Contacts> _contacts = <Contacts>[];
-
+  
   Stream<List<Contacts>> list;
   final alpha = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
+    // "A",
+    // "B",
+    // "C",
+    // "D",
+    // "E",
+    // "F",
+    // "G",
     "H",
     "I",
     "J",
@@ -56,35 +56,35 @@ class _ContactListScreenState
     "T",
     "U",
     "V",
-    "W",
-    "X",
-    "Y",
-    "Z",
+  //  "W",
+  //  "X",
+  //  "Y",
+  //  "Z",
   ];
-
+  
   @override
   void initState() {
     super.initState();
     list = presenter.getContacts(widget.bandId);
   }
-
+  
   @override
   AppBar get appBar => AppBar(
-        backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: widget.appListener.primaryColorDark,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      );
-
+    backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
+    elevation: 0,
+    leading: IconButton(
+      icon: Icon(
+        Icons.arrow_back,
+        color: widget.appListener.primaryColorDark,
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    ),
+  );
+  
   String selectedContactInit;
-
+  
   @override
   Widget buildBody() {
     return Scaffold(
@@ -93,533 +93,733 @@ class _ContactListScreenState
         padding: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
         child: selectedContactInit != null
             ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      new SvgPicture.asset(
-                        'assets/images/telcontact.svg',
-                        height: 40.0,
-                        width: 40.0,
-                        //allowDrawingOutsideViewBox: true,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 15),
-                      ),
-                      Text(
-                        "Contacts",
-                        style: textTheme.display1.copyWith(
-                            color: Color.fromRGBO(3, 54, 255, 1.0),
-                            fontSize: 28,
-                            fontWeight: FontWeight.w500),
-                        textAlign: TextAlign.left,
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(4),
-                  ),
-                  Expanded(
-                    child: StreamBuilder<List<Contacts>>(
-                      stream: list,
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          _contacts = snapshot.data;
-                          return ListView.builder(
-                            itemCount: _contacts.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final cnt = _contacts[index];
-                              return Card(
-                                color: cnt.bandId.isNotEmpty
-                                    ? Colors.white
-                                    : Color.fromRGBO(3, 54, 255, 1.0),
-                                margin: EdgeInsets.all(6),
-                                shape: RoundedRectangleBorder(
-                                    side: cnt.bandId.isNotEmpty
-                                        ? new BorderSide(
-                                            color:
-                                                Color.fromRGBO(3, 54, 255, 1.0),
-                                            width: 1.0)
-                                        : new BorderSide(
-                                            color:
-                                                Color.fromRGBO(3, 54, 255, 1.0),
-                                            width: 1.0),
-                                    borderRadius: BorderRadius.circular(15)),
-                                child: InkWell(
-                                  child: Padding(
-                                    padding: EdgeInsets.all(15),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          getNameOrder(cnt
-                                              .name), // "${cnt.name.split(" ").reversed.join(' ')}",
-                                          style: textTheme.headline.copyWith(
-                                              color: cnt.bandId.isNotEmpty
-                                                  ? Color.fromRGBO(
-                                                      3, 54, 255, 1.0)
-                                                  : Colors.white,
-                                              fontSize: 18),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.all(0),
-                                        ),
-                                        cnt.companyName.isNotEmpty
-                                            ? Text(
-                                                "${cnt.companyName}",
-                                                style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: cnt.bandId.isNotEmpty
-                                                      ? Color.fromRGBO(
-                                                          3, 54, 255, 1.0)
-                                                      : Colors.white,
-                                                ),
-                                              )
-                                            : Container(),
-                                      ],
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                new SvgPicture.asset(
+                  'assets/images/telcontact.svg',
+                  height: 40.0,
+                  width: 40.0,
+                  //allowDrawingOutsideViewBox: true,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 15),
+                ),
+                Text(
+                  "Contacts",
+                  style: textTheme.display1.copyWith(
+                      color: Color.fromRGBO(3, 54, 255, 1.0),
+                      fontSize: 28,
+                      fontWeight: FontWeight.w500),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.all(4),
+            ),
+            Expanded(
+              child: StreamBuilder<List<Contacts>>(
+                stream: list,
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    _contacts = snapshot.data;
+                    return ListView.builder(
+                      itemCount: _contacts.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final cnt = _contacts[index];
+                        return Container(
+//                                color: cnt.bandId.isNotEmpty
+//                                    ? Colors.white
+//                                    : Colors.white,//Color.fromRGBO(3, 54, 255, 1.0),
+                          margin: EdgeInsets.all(6),
+//                                shape: RoundedRectangleBorder(
+//                                    side: cnt.bandId.isNotEmpty
+//                                        ? new BorderSide(
+//                                            color:
+//                                                Color.fromRGBO(3, 54, 255, 1.0),
+//                                            width: 1.0)
+//                                        : new BorderSide(
+//                                            color:
+//                                                Color.fromRGBO(3, 54, 255, 1.0),
+//                                            width: 1.0),
+//                                    borderRadius: BorderRadius.circular(15)),
+                          child: InkWell(
+                            child: Padding(
+                              padding: EdgeInsets.all(15),
+                              child: Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Center(child:
+                                  Container(
+                                    
+                                    decoration: new BoxDecoration(
+                                      color: Color.fromRGBO(
+                                          3, 54, 255, 1.0),
                                     ),
+                                    padding: EdgeInsets.only(left: 22,right: 22,top: 8,bottom: 8),
+                                    child:
+                                    Text(getNameOrder(cnt.name)[0],style: TextStyle(color: Colors.yellow,fontSize: 20,fontWeight: FontWeight.bold,fontStyle: FontStyle.italic),)
+                                    ,)),
+                                  Padding(padding: EdgeInsets.all(5),),
+                                  Center(child: Container(child: Text(
+                                    getNameOrder(cnt
+                                        .name), // "${cnt.name.split(" ").reversed.join(' ')}",
+                                    textAlign: TextAlign.center,
+                                    style: textTheme.headline.copyWith(
+                                        color: cnt.bandId.isNotEmpty
+                                            ? Colors.black
+                                            : Colors.black,
+                                        fontSize: 18),
+                                  ),),) ,
+                                  cnt.bandId.isEmpty?  new Container(
+                                      padding: EdgeInsets.only(left: MediaQuery.of(context).size.width/7,right: MediaQuery.of(context).size.width/7,top: 3),
+                                      alignment: Alignment.bottomCenter,
+                                      child: Divider(
+                                        color: Color.fromRGBO(
+                                            3, 54, 255, 1.0),
+                                        height: 5,
+                                        thickness: 1.5,
+                                      )):Container(),
+                                  
+                                  Padding(
+                                    padding: EdgeInsets.only(left:MediaQuery.of(context).size.width/7,right: MediaQuery.of(context).size.width/7 ),
+                                    child: new Container(
+                                        padding: EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          border:Border.all(
+                                              width:cnt.bandId.isNotEmpty? 1:0, //
+                                              color: cnt.bandId.isNotEmpty?Color.fromRGBO(
+                                                  3, 54, 255, 1.0):Colors.white//               <--- border width here
+                                          ),
+                                        ),
+                                        child:Column(
+                                          children: <Widget>[
+                                            Center(child: Container(child: cnt.companyName.isNotEmpty
+                                                ? Text(
+                                              "${cnt.companyName}",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                color: cnt.bandId.isNotEmpty
+                                                    ? Colors.black
+                                                    : Colors.black,
+                                              ),
+                                            )
+                                                : Container(),),),
+                                            Center(child: Container(child: cnt.bandId.isNotEmpty
+                                                ? Text(
+                                              "${cnt.band.name}",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                color: cnt.bandId.isNotEmpty
+                                                    ? Color.fromRGBO(
+                                                    3, 54, 255, 1.0)
+                                                    : Color.fromRGBO(
+                                                    3, 54, 255, 1.0),
+                                              ),
+                                            )
+                                                : Container(),),)
+                                          ],)),
                                   ),
-                                  onTap: (widget.isLeader &&
-                                              widget.bandId.isNotEmpty) ||
-                                          widget.bandId.isEmpty
-                                      ? () {
-                                          widget.appListener.router.navigateTo(
-                                              context,
-                                              Screens.ADDCONTACT.toString() +
-                                                  "/${cnt.id}/${widget.bandId.isEmpty ? cnt.bandId : widget.bandId}////");
-                                        }
-                                      : null,
-                                ),
-                              );
-                            },
-                          );
-                        } else if (snapshot.hasError) {
-                          return Center(
-                            child: Text("Error Occured"),
-                          );
-                        } else if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(
-                            child: AppProgressWidget(),
-                          );
-                        }
-                        return Container();
+                                  
+                                
+                                ],
+                              ),
+                            ),
+                            onTap: (widget.isLeader &&
+                                widget.bandId.isNotEmpty) ||
+                                widget.bandId.isEmpty
+                                ? () {
+                              widget.appListener.router.navigateTo(
+                                  context,
+                                  Screens.ADDCONTACT.toString() +
+                                      "/${cnt.id}/${widget.bandId.isEmpty ? cnt.bandId : widget.bandId}////");
+                            }
+                                : null,
+                          ),
+                        );
                       },
-                    ),
-                  )
-                ],
-              )
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text("Error Occured"),
+                    );
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return Center(
+                      child: AppProgressWidget(),
+                    );
+                  }
+                  return Container();
+                },
+              ),
+            )
+          ],
+        )
             : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                  ),
-                  Center(
-                    child: Text(
-                      "Contacts",
-                      style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                  ),
-                  Center(
-                    child: Text(
-                      "Last name starts with...",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Container(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(10),
+            ),
+            Center(
+              child: Text(
+                "Contacts",
+                style:
+                TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(10),
+            ),
+            Padding(
+              padding: EdgeInsets.all(5),
+            ),
+            Row(
+              children: <Widget>[
+                Container(
+                  height: 40,
+                  width: 1,
+                  color: Colors.black,
+                ),
+                Expanded(
+                  child: new Container(
+                      margin:
+                      const EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: Divider(
+                        color: Colors.white,
                         height: 36,
-                        width: 1,
+                      )),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Last name starts with...",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+                Expanded(
+                  child: new Container(
+                      alignment: Alignment.bottomCenter,
+                      child: Divider(
+                        color: Colors.white,
+                        height: 5,
+                        thickness: 1.5,
+                      )),
+                ),
+                Container(
+                  height: 40,
+                  width: 1,
+                  color: Colors.black,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 5),
+                ),
+                Container(
+                  height: 40,
+                  width: 1,
+                  color: Colors.black,
+                ),
+              ],),
+            
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: new Container(
+                      alignment: Alignment.bottomCenter,
+                      child: Divider(
                         color: Colors.black,
-                      ),
-                      Expanded(
-                        flex: 8,
-                        child: new Container(
-                            margin:
-                                const EdgeInsets.only(left: 10.0, right: 10.0),
-                            child: Divider(
-                              color: Colors.black,
-                              height: 36,
-                              thickness: 1.5,
-                            )),
-                      ),
-                      Text(
-                        "D",
-                        textAlign: TextAlign.right,
+                        height: 5,
+                        thickness: 1.5,
+                      )),
+                ),
+              ],),
+            Row(
+              children: <Widget>[
+                Container(
+                  height: 36,
+                  width: 1,
+                  color: Colors.black,
+                ),
+                Expanded(
+                  flex: 8,
+                  child: new Container(
+                      margin:
+                      const EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: Divider(
+                        color: Colors.black,
+                        height: 36,
+                      )),
+                ),
+                
+                InkWell(onTap: (){
+                  setState(() {
+                    selectedContactInit = "D";
+                    list = presenter.getContacts(widget.bandId,
+                        contactInit: selectedContactInit);
+                  });
+                },
+                child:Text(
+                  "D",
+                  textAlign: TextAlign.right,
+                  style: TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold),
+                ) ,),
+                
+                Expanded(
+                  flex: 1,
+                  child: new Container(
+                      margin:
+                      const EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: Divider(
+                        color: Colors.black,
+                        height: 36,
+                      )),
+                ),
+                Container(
+                  height: 36,
+                  width: 1,
+                  color: Colors.black,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 5),
+                ),
+                Container(
+                  height: 36,
+                  width: 1,
+                  color: Colors.black,
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Container(
+                  height: 36,
+                  width: 1,
+                  color: Colors.black,
+                ),
+                Expanded(
+                  flex: 6,
+                  child: new Container(
+                      margin:
+                      const EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: Divider(
+                        color: Colors.white,
+                        height: 36,
+                      )),
+                ),
+                InkWell(onTap: (){
+                  setState(() {
+                    selectedContactInit = "C";
+                    list = presenter.getContacts(widget.bandId,
+                        contactInit: selectedContactInit);
+                  });
+                },
+                child: Text("C",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold)),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: new Container(
+                      margin:
+                      const EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: Divider(
+                        color: Colors.white,
+                        height: 36,
+                      )),
+                ),
+                Container(
+                  height: 36,
+                  width: 1,
+                  color: Colors.black,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 5),
+                ),
+                Container(
+                  height: 36,
+                  width: 1,
+                  color: Colors.black,
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Container(
+                  height: 36,
+                  width: 1,
+                  color: Colors.black,
+                ),
+                Expanded(
+                  flex: 5,
+                  child: new Container(
+                      margin:
+                      const EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: Divider(
+                        color: Colors.black,
+                        height: 36,
+                      )),
+                ),
+                InkWell(
+                  onTap: (){
+                    setState(() {
+                      selectedContactInit = "B";
+                      list = presenter.getContacts(widget.bandId,
+                          contactInit: selectedContactInit);
+                    });
+                  },
+                  child: Text("B",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold)),),
+                Expanded(
+                  flex: 3,
+                  child: new Container(
+                      margin:
+                      const EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: Divider(
+                        color: Colors.black,
+                        height: 36,
+                      )),
+                ),
+                Container(
+                  height: 36,
+                  width: 1,
+                  color: Colors.black,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 5),
+                ),
+                Container(
+                  height: 36,
+                  width: 1,
+                  color: Colors.black,
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Container(
+                  height: 36,
+                  width: 1,
+                  color: Colors.black,
+                ),
+                Expanded(
+                  flex: 4,
+                  child: new Container(
+                      margin:
+                      const EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: Divider(
+                        color: Colors.white,
+                        height: 36,
+                      )),
+                ),
+                InkWell(onTap: (){
+                  setState(() {
+                    selectedContactInit = "A";
+                    list = presenter.getContacts(widget.bandId,
+                        contactInit: selectedContactInit);
+                  });
+                },
+                child: Text("A",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red)),
+                ),
+             
+                Expanded(
+                  flex: 4,
+                  child: new Container(
+                      margin:
+                      const EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: Divider(
+                        color: Colors.white,
+                        height: 36,
+                      )),
+                ),
+                Container(
+                  height: 36,
+                  width: 1,
+                  color: Colors.black,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 5),
+                ),
+                Container(
+                  height: 36,
+                  width: 1,
+                  color: Colors.black,
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Container(
+                  height: 36,
+                  width: 1,
+                  color: Colors.black,
+                ),
+                Expanded(
+                  flex: 4,
+                  child: new Container(
+                      margin:
+                      const EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: Divider(
+                        color: Colors.black,
+                        height: 36,
+                      )),
+                ),
+                InkWell(onTap: (){
+                  setState(() {
+                    selectedContactInit = "G";
+                    list = presenter.getContacts(widget.bandId,
+                        contactInit: selectedContactInit);
+                  });
+                },
+                child: Text("G",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold)) ,
+                )
+               ,
+                Expanded(
+                  flex: 6,
+                  child: new Container(
+                      margin:
+                      const EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: Divider(
+                        color: Colors.black,
+                        height: 36,
+                      )),
+                ),
+                Container(
+                  height: 36,
+                  width: 1,
+                  color: Colors.black,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 5),
+                ),
+                Container(
+                  height: 36,
+                  width: 1,
+                  color: Colors.black,
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Container(
+                  height: 36,
+                  width: 1,
+                  color: Colors.black,
+                ),
+                Expanded(
+                  flex: 2,
+                  child: new Container(
+                      margin:
+                      const EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: Divider(
+                        color: Colors.white,
+                        height: 36,
+                      )),
+                ),
+                InkWell(onTap: (){
+                  setState(() {
+                    selectedContactInit = "F";
+                    list = presenter.getContacts(widget.bandId,
+                        contactInit: selectedContactInit);
+                  });
+                },child:  Text("F",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold)),
+                ),
+                Expanded(
+                  flex: 6,
+                  child: new Container(
+                      margin:
+                      const EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: Divider(
+                        color: Colors.white,
+                        height: 36,
+                      )),
+                ),
+                Container(
+                  height: 36,
+                  width: 1,
+                  color: Colors.black,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 5),
+                ),
+                Container(
+                  height: 36,
+                  width: 1,
+                  color: Colors.black,
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Container(
+                  height: 36,
+                  width: 1,
+                  color: Colors.black,
+                ),
+                Expanded(
+                  flex: 1,
+                  child: new Container(
+                      margin:
+                      const EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: Divider(
+                        color: Colors.black,
+                        height: 36,
+                        thickness: 1.5,
+                      )),
+                ),
+                InkWell(onTap: (){
+                  setState(() {
+                    selectedContactInit = "E";
+                    list = presenter.getContacts(widget.bandId,
+                        contactInit: selectedContactInit);
+                  });
+                },
+                child: Text("E",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold)) ,),
+               
+                Expanded(
+                  flex: 6,
+                  child: new Container(
+                      margin:
+                      const EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: Divider(
+                        color: Colors.black,
+                        height: 36,
+                        thickness: 1.5,
+                      )),
+                ),
+                Container(
+                  height: 36,
+                  width: 1,
+                  color: Colors.black,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 5),
+                ),
+                Container(
+                  height: 36,
+                  width: 1,
+                  color: Colors.black,
+                ),
+              ],
+            ),
+            Expanded(
+              flex: 3,
+              child: GridView.count(
+                crossAxisCount: 3,
+                shrinkWrap: true,
+                childAspectRatio: 2.20,
+                children: List.generate(alpha.length, (index) {
+                  return Padding(
+                    padding: EdgeInsets.all(5),
+                    child: RaisedButton(
+                      color: Colors.white,
+                      child: Text(
+                        alpha[index],
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
-                      Expanded(
-                        flex: 1,
-                        child: new Container(
-                            margin:
-                                const EdgeInsets.only(left: 10.0, right: 10.0),
-                            child: Divider(
-                              color: Colors.black,
-                              height: 36,
-                              thickness: 1.5,
-                            )),
-                      ),
-                      Container(
-                        height: 36,
-                        width: 1,
-                        color: Colors.black,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 5),
-                      ),
-                      Container(
-                        height: 36,
-                        width: 1,
-                        color: Colors.black,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Container(
-                        height: 36,
-                        width: 1,
-                        color: Colors.black,
-                      ),
-                      Expanded(
-                        flex: 6,
-                        child: new Container(
-                            margin:
-                                const EdgeInsets.only(left: 10.0, right: 10.0),
-                            child: Divider(
-                              color: Colors.white,
-                              height: 36,
-                            )),
-                      ),
-                      Text("C",
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
-                      Expanded(
-                        flex: 2,
-                        child: new Container(
-                            margin:
-                                const EdgeInsets.only(left: 10.0, right: 10.0),
-                            child: Divider(
-                              color: Colors.white,
-                              height: 36,
-                            )),
-                      ),
-                      Container(
-                        height: 36,
-                        width: 1,
-                        color: Colors.black,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 5),
-                      ),
-                      Container(
-                        height: 36,
-                        width: 1,
-                        color: Colors.black,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Container(
-                        height: 36,
-                        width: 1,
-                        color: Colors.black,
-                      ),
-                      Expanded(
-                        flex: 5,
-                        child: new Container(
-                            margin:
-                                const EdgeInsets.only(left: 10.0, right: 10.0),
-                            child: Divider(
-                              color: Colors.black,
-                              height: 36,
-                            )),
-                      ),
-                      Text("B",
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
-                      Expanded(
-                        flex: 3,
-                        child: new Container(
-                            margin:
-                                const EdgeInsets.only(left: 10.0, right: 10.0),
-                            child: Divider(
-                              color: Colors.black,
-                              height: 36,
-                            )),
-                      ),
-                      Container(
-                        height: 36,
-                        width: 1,
-                        color: Colors.black,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 5),
-                      ),
-                      Container(
-                        height: 36,
-                        width: 1,
-                        color: Colors.black,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Container(
-                        height: 36,
-                        width: 1,
-                        color: Colors.black,
-                      ),
-                      Expanded(
-                        flex: 4,
-                        child: new Container(
-                            margin:
-                                const EdgeInsets.only(left: 10.0, right: 10.0),
-                            child: Divider(
-                              color: Colors.white,
-                              height: 36,
-                            )),
-                      ),
-                      Text("A",
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.red)),
-                      Expanded(
-                        flex: 4,
-                        child: new Container(
-                            margin:
-                                const EdgeInsets.only(left: 10.0, right: 10.0),
-                            child: Divider(
-                              color: Colors.white,
-                              height: 36,
-                            )),
-                      ),
-                      Container(
-                        height: 36,
-                        width: 1,
-                        color: Colors.black,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 5),
-                      ),
-                      Container(
-                        height: 36,
-                        width: 1,
-                        color: Colors.black,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Container(
-                        height: 36,
-                        width: 1,
-                        color: Colors.black,
-                      ),
-                      Expanded(
-                        flex: 4,
-                        child: new Container(
-                            margin:
-                                const EdgeInsets.only(left: 10.0, right: 10.0),
-                            child: Divider(
-                              color: Colors.black,
-                              height: 36,
-                            )),
-                      ),
-                      Text("G",
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
-                      Expanded(
-                        flex: 6,
-                        child: new Container(
-                            margin:
-                                const EdgeInsets.only(left: 10.0, right: 10.0),
-                            child: Divider(
-                              color: Colors.black,
-                              height: 36,
-                            )),
-                      ),
-                      Container(
-                        height: 36,
-                        width: 1,
-                        color: Colors.black,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 5),
-                      ),
-                      Container(
-                        height: 36,
-                        width: 1,
-                        color: Colors.black,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Container(
-                        height: 36,
-                        width: 1,
-                        color: Colors.black,
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: new Container(
-                            margin:
-                                const EdgeInsets.only(left: 10.0, right: 10.0),
-                            child: Divider(
-                              color: Colors.white,
-                              height: 36,
-                            )),
-                      ),
-                      Text("F",
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
-                      Expanded(
-                        flex: 6,
-                        child: new Container(
-                            margin:
-                                const EdgeInsets.only(left: 10.0, right: 10.0),
-                            child: Divider(
-                              color: Colors.white,
-                              height: 36,
-                            )),
-                      ),
-                      Container(
-                        height: 36,
-                        width: 1,
-                        color: Colors.black,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 5),
-                      ),
-                      Container(
-                        height: 36,
-                        width: 1,
-                        color: Colors.black,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Container(
-                        height: 36,
-                        width: 1,
-                        color: Colors.black,
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: new Container(
-                            margin:
-                                const EdgeInsets.only(left: 10.0, right: 10.0),
-                            child: Divider(
-                              color: Colors.black,
-                              height: 36,
-                              thickness: 1.5,
-                            )),
-                      ),
-                      Text("E",
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
-                      Expanded(
-                        flex: 6,
-                        child: new Container(
-                            margin:
-                                const EdgeInsets.only(left: 10.0, right: 10.0),
-                            child: Divider(
-                              color: Colors.black,
-                              height: 36,
-                              thickness: 1.5,
-                            )),
-                      ),
-                      Container(
-                        height: 36,
-                        width: 1,
-                        color: Colors.black,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 5),
-                      ),
-                      Container(
-                        height: 36,
-                        width: 1,
-                        color: Colors.black,
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: GridView.count(
-                      crossAxisCount: 3,
-                      shrinkWrap: true,
-                      childAspectRatio: 2.36,
-                      children: List.generate(alpha.length, (index) {
-                        return Padding(
-                          padding: EdgeInsets.all(5),
-                          child: RaisedButton(
-                            color: Colors.white,
-                            child: Text(
-                              alpha[index],
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                selectedContactInit = alpha[index];
-                                list = presenter.getContacts(widget.bandId,
-                                    contactInit: selectedContactInit);
-                              });
-                            },
-                          ),
-                        ); //robohash.org api provide you different images for any number you are giving
-                      }),
+                      onPressed: () {
+                        setState(() {
+                          selectedContactInit = alpha[index];
+                          list = presenter.getContacts(widget.bandId,
+                              contactInit: selectedContactInit);
+                        });
+                      },
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                  ),
-                ],
+                  ); //robohash.org api provide you different images for any number you are giving
+                }),
               ),
+            ),
+            Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    InkWell(onTap: (){
+                      setState(() {
+                        selectedContactInit = "W";
+                        list = presenter.getContacts(widget.bandId,
+                            contactInit: selectedContactInit);
+                      });
+                    },
+                    child:   Text("w",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                    ),
+                    InkWell(onTap: (){
+                      setState(() {
+                        selectedContactInit = "X";
+                        list = presenter.getContacts(widget.bandId,
+                            contactInit: selectedContactInit);
+                      });
+                    },
+                      child:   Text("-x",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                    ),
+                    InkWell(onTap: (){
+                      setState(() {
+                        selectedContactInit = "Y";
+                        list = presenter.getContacts(widget.bandId,
+                            contactInit: selectedContactInit);
+                      });
+                    },
+                      child:   Text("-y",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                    ),
+                    InkWell(onTap: (){
+                      setState(() {
+                        selectedContactInit = "Z";
+                        list = presenter.getContacts(widget.bandId,
+                            contactInit: selectedContactInit);
+                      });
+                    },
+                      child:   Text("-z",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                    )
+                ],)
+            ),
+            Padding(padding: EdgeInsets.all(10),),
+          ],
+        ),
       ),
       floatingActionButton: (widget.isLeader && widget.bandId.isNotEmpty) ||
-              widget.bandId.isEmpty
+          widget.bandId.isEmpty
           ? FloatingActionButton(
-              onPressed: () async {
-                await widget.appListener.router.navigateTo(context,
-                    Screens.ADDCONTACT.toString() + "//${widget.bandId}////");
-              },
-              child: Icon(Icons.add),
-              backgroundColor: Color.fromRGBO(3, 54, 255, 1.0),
-            )
+        onPressed: () async {
+          await widget.appListener.router.navigateTo(context,
+              Screens.ADDCONTACT.toString() + "//${widget.bandId}////");
+        },
+        child: Icon(Icons.add,color:Color.fromRGBO(3, 54, 255, 1.0),),
+        backgroundColor: Colors.yellow,
+      )
           : Container(),
     );
   }
-
+  
   String getNameOrder(String name) {
     List traversedname = name.split(" ");
     int namelength = traversedname.length;
@@ -631,7 +831,7 @@ class _ContactListScreenState
       return traversedname.last;
     }
   }
-
+  
   @override
   ContactListPresenter get presenter => ContactListPresenter(this);
 }

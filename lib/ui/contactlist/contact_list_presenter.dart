@@ -1,4 +1,5 @@
 import 'package:gigtrack/base/base_presenter.dart';
+import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/server/models/user.dart';
 
@@ -44,6 +45,12 @@ class ContactListPresenter extends BasePresenter {
         List<Contacts> acc = [];
         for (var d in mp.values) {
           final contact = Contacts.fromJSON(d);
+          if (contact.bandId != null && contact.bandId.isNotEmpty) {
+            final res = await serverAPI.getBandDetails(contact.bandId);
+            if (res != null && res is Band) {
+              contact.band = res;
+            }
+          }
           if (contactInit != null &&
               contact.name.substring(0, 1).toLowerCase() ==
                   contactInit.toLowerCase()) {

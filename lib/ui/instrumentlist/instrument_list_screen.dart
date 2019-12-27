@@ -1,3 +1,6 @@
+
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gigtrack/base/base_screen.dart';
@@ -118,27 +121,58 @@ class _InstrumentListScreenState
                               borderRadius: BorderRadius.circular(16)),
                           child: InkWell(
                             child: Padding(
-                              padding: EdgeInsets.all(15),
+                              padding: EdgeInsets.only(left: 0,right: 0,top: 0,bottom: 15),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
+                                  
+                                      instr.uploadedFiles != null && instr.uploadedFiles.length > 0
+                                      ? Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.black,
+                                          image: DecorationImage(image:NetworkImage(
+                                            File(instr.uploadedFiles[0]).path,
+                                          ),
+                                            fit: BoxFit.cover
+                                          ) ,
+                                          borderRadius: BorderRadius.only(topLeft:Radius.circular(15),topRight: Radius.circular(15))
+                                          ,
+                                        ),
+                                    height: MediaQuery.of(context).size.height / 4.4,
+                                    width: MediaQuery.of(context).size.width,
+                                   
+                                    child: null
+//                                    Image.network(
+//                                      File(instr.uploadedFiles[0]).path,
+//                                      fit: BoxFit.cover,
+//                                    ),
+                                  )
+                                      : Container(),
+                                  Padding(padding: EdgeInsets.all(5),),
+                                  Center(child:
                                   Text(
                                     "${instr.name}",
                                     style: textTheme.headline.copyWith(
-                                        fontSize: 18,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
                                         color: (instr.bandId.isNotEmpty)
                                             ? Colors.black
                                             : Colors.white),
                                     maxLines: 1,
+                                    textAlign: TextAlign.center,
                                     overflow: TextOverflow.ellipsis,
-                                  ),
-                                  instr.band != null
-                                      ? Text(
-                                          "${instr.band.name}",
-                                          style: TextStyle(
-                                              color: Colors.black),
-                                        )
-                                      : Container(),
+                                  ),),
+                                  
+                                 Center(child:instr.band != null
+                                     ? Text(
+                                   "${instr.band.name}",
+                                   style: TextStyle(
+                                       color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15
+                                   ),
+                                 )
+                                     : Container(), ),
                                   Padding(
                                     padding: EdgeInsets.all(0),
                                   ),

@@ -1,4 +1,5 @@
 import 'package:gigtrack/base/base_model.dart';
+import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/ui/addcontact/add_contact_screen.dart';
 
 class Contacts extends BaseModel {
@@ -16,6 +17,8 @@ class Contacts extends BaseModel {
   String companyName;
   String notes;
   String bandId;
+  Band band;
+  
 
   Contacts();
 

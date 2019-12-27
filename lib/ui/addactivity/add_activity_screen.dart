@@ -193,14 +193,15 @@ class _AddActivityScreenState
         actions: <Widget>[
           Container(
             alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width / 2,
-            child: Text(
+            width:widget.id.isEmpty?MediaQuery.of(context).size.width: MediaQuery.of(context).size.width / 2,
+            child: Center(
+              child:Text(
               "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} ${widget.type == Activites.TYPE_ACTIVITY ? "Activity" : widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? "Performance Schedule" : widget.type == Activites.TYPE_PRACTICE_SCHEDULE ? "Practice Schedule" : widget.type == Activites.TYPE_TASK ? widget.isParent ? "Add Task Notes" : "Task" : widget.type == Activites.TYPE_BAND_TASK ? "Band Task" : ""}",
               textAlign: TextAlign.center,
               style: textTheme.headline.copyWith(
                 color: Colors.white,
               ),
-            ),
+            ),)
           ),
           widget.id.isEmpty || widget.isParent
               ? Container()
@@ -713,6 +714,7 @@ class _AddActivityScreenState
                                   widget.type ==
                                       Activites.TYPE_PRACTICE_SCHEDULE)
                           ? TextField(
+                             textCapitalization: TextCapitalization.words,
                               decoration: InputDecoration(
                                 suffixIcon: IconButton(
                                   icon: Icon(Icons.add),
@@ -1269,10 +1271,7 @@ class _AddActivityScreenState
                                   child: Text("No Band Member"),
                                 )
                           : Container(),
-                      (widget.id.isEmpty) ||
-                              (isEdit) ||
-                              (widget.isParent) &&
-                                  (widget.type == Activites.TYPE_BAND_TASK)
+                      (widget.id.isEmpty || isEdit || widget.isParent) && (widget.type == Activites.TYPE_BAND_TASK)
                           ? Text(
                               "Task Notes",
                               textAlign: TextAlign.center,
@@ -1461,6 +1460,9 @@ class _AddActivityScreenState
                                       parking: park,
                                       wardrobe: ward,
                                       other: other,
+                                      startTime:_startTimeController.text,
+                                      endTime: _endTimeController.text
+                                      
                                     );
                                     showLoading();
                                     presenter.addActivity(

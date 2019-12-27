@@ -184,26 +184,27 @@ bool validateMobile(String value) {
 Widget buildActivityListItem(Activites ac, context,
     {bool showConfirm = false, onConfirmPressed, onTap, bool isPast = false}) {
   DateTime dt = DateTime.fromMillisecondsSinceEpoch(ac.startDate).toLocal();
-  return Card(
-    color: isPast
-        ? Colors.grey
-        : (ac.bandId != null && ac.bandId.isNotEmpty)
-            ? Colors.white
-            : Color.fromRGBO(40, 35, 188, 1.0),
-    shape: RoundedRectangleBorder(
-      side: ac.bandId.isNotEmpty
-          ? new BorderSide(color: Color.fromRGBO(40, 35, 188, 1.0), width: 1.0)
-          : new BorderSide(color: Color.fromRGBO(40, 35, 188, 1.0), width: 1.0),
-      borderRadius: BorderRadius.circular(12),
-    ),
+  return Container(
+    padding: EdgeInsets.all(10),
+//    color: isPast
+//        ? Colors.grey
+//        : (ac.bandId != null && ac.bandId.isNotEmpty)
+//            ? Colors.transparent
+//            : Color.fromRGBO(40, 35, 188, 1.0),
+//    shape: RoundedRectangleBorder(
+//      side: ac.bandId.isNotEmpty
+//          ? new BorderSide(color: Colors.white, width: 1.0)
+//          : new BorderSide(color: Colors.white, width: 1.0),
+//      borderRadius: BorderRadius.circular(12),
+//    ),
     child: InkWell(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
-            child: Row(
+            padding: EdgeInsets.only(left: 5, right: 5, top: 7, bottom: 7),
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Padding(
@@ -211,26 +212,40 @@ Widget buildActivityListItem(Activites ac, context,
                     left: 5,
                   ),
                 ),
-
-                Text(
-                  "${formatDate(dt, [
-                    D,
-                    '-',
-                    mm,
-                    '/',
-                    dd,
-                    '/',
-                    yy,
-                    ' -'
-                  ])}${currentType(ac.type)}",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontStyle: FontStyle.italic,
-                    color: ac.bandId.isNotEmpty
-                        ? Color.fromRGBO(40, 35, 188, 1.0)
-                        : Color.fromRGBO(250, 250, 250, 0.8),
-                  ),
-                  textAlign: TextAlign.center,
+                Column(
+                  children: <Widget>[
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding:
+                          EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
+                      decoration: new BoxDecoration(
+                        color: Color.fromRGBO(40, 35, 188, 1.0),
+                      ),
+                      child: Text(
+                        "${formatDate(dt, [
+                          DD,
+                          ', ',
+                          mm,
+                          '/',
+                          dd,
+                          '/',
+                          yy,
+                        ])}",
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic,
+                          color: ac.bandId.isNotEmpty
+                              ? isPast?Colors.grey: Colors.yellow
+                              :isPast?Colors.grey: Colors.yellow,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    )
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.all(5),
                 ),
 
 //                  Text(
@@ -243,45 +258,89 @@ Widget buildActivityListItem(Activites ac, context,
 //                    textAlign: TextAlign.center,
 //                  ),
 
-                (ac.band?.name?.isNotEmpty ?? false)
-                    ? Text(
-                        ' -' + ac.band?.name,
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: ac.bandId.isNotEmpty
-                              ? Color.fromRGBO(40, 35, 188, 1.0)
-                              : Color.fromRGBO(250, 250, 250, 1.0),
-                        ),
-                        textAlign: TextAlign.center,
-                      )
-                    : Container(),
+//                (ac.band?.name?.isNotEmpty ?? false)
+//                    ? Text(
+//                        ' -' + ac.band?.name,
+//                        style: TextStyle(
+//                          fontSize: 15,
+//                          color: ac.bandId.isNotEmpty
+//                              ? Color.fromRGBO(40, 35, 188, 1.0)
+//                              : Color.fromRGBO(250, 250, 250, 1.0),
+//                        ),
+//                        textAlign: TextAlign.center,
+//                      )
+//                    : Container(),
                 Padding(
                   padding: EdgeInsets.all(4),
                 )
               ],
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(
-              left: 13,
-              right: 13,
-              bottom: 10,
-            ),
+          Container(
+            padding:ac.bandId.isNotEmpty?EdgeInsets.all(5): EdgeInsets.all(15),
+            
+            decoration:ac.bandId.isEmpty? BoxDecoration(
+              color: Color.fromRGBO(40, 35, 188, 0.2),
+              border: Border.all(width: 1,color: Colors.blue)
+            ):BoxDecoration(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                Row(children: <Widget>[
+                  ac.startTime !=null?Text("${ac.startTime}-${ac.endTime}",style: TextStyle(
+                    color: Colors.black,fontSize: 16
+                  ),):Container()
+                ],),
                 Text(
                   "${ac.title}",
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 23,
+                    fontWeight: FontWeight.bold,
                     color: ac.bandId.isNotEmpty
-                        ? Color.fromRGBO(40, 35, 188, 1.0)
-                        : Color.fromRGBO(250, 250, 250, 1.0),
+                        ?isPast?Colors.grey: Color.fromRGBO(40, 35, 188, 1.0)
+                        :isPast?Colors.grey: Color.fromRGBO(40, 35, 188, 1.0),
                   ),
                   textAlign: TextAlign.center,
                 ),
+                new Container(
+                  
+                    padding: EdgeInsets.only(left: 0, right: 0, top: 3,bottom: 3),
+                    alignment: Alignment.bottomCenter,
+                    child: Divider(
+                      color: Color.fromRGBO(3, 54, 255, 1.0),
+                      height: 5,
+                      thickness: 1.5,
+                    )),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                  Text(
+                    currentType(ac.type),
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontStyle: FontStyle.normal,
+                      color: ac.bandId.isNotEmpty
+                          ? isPast?Colors.grey:Color.fromRGBO(32, 95, 139, 1.0)
+                          : isPast?Colors.grey:Color.fromRGBO(40, 35, 188, 1.0),
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  ac.bandId.isNotEmpty?Text("-"+
+                    ac.band.name,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontStyle: FontStyle.normal,
+                      color: ac.bandId.isNotEmpty
+                          ? isPast?Colors.grey:Color.fromRGBO(32, 95, 139, 1.0)
+                          :isPast?Colors.grey: Color.fromRGBO(40, 35, 188, 1.0),
+                    ),
+                    textAlign: TextAlign.center,
+                  ):Container(),
+                    
+                ],)
+             
               ],
             ),
           )
@@ -311,14 +370,12 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
 
   return Card(
     margin: EdgeInsets.all(10),
-    color: not.bandId.isNotEmpty
-        ? Colors.white
-        :  Color.fromRGBO(3, 218, 157, 1.0),
+    color:
+        not.bandId.isNotEmpty ? Colors.white : Color.fromRGBO(3, 218, 157, 1.0),
     shape: RoundedRectangleBorder(
       side: not.bandId.isNotEmpty
-          ? new BorderSide(color:  Color.fromRGBO(3, 218, 157, 1.0), width: 1.0)
-          : new BorderSide(
-              color:  Color.fromRGBO(3, 218, 157, 1.0), width: 1.0),
+          ? new BorderSide(color: Color.fromRGBO(3, 218, 157, 1.0), width: 1.0)
+          : new BorderSide(color: Color.fromRGBO(3, 218, 157, 1.0), width: 1.0),
       borderRadius: BorderRadius.circular(12),
     ),
     child: InkWell(
@@ -333,7 +390,7 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
               style: TextStyle(
                   fontSize: 20,
                   color: (not.bandId.isNotEmpty)
-                      ?  Color.fromRGBO(3, 218, 157, 1.0)
+                      ? Color.fromRGBO(3, 218, 157, 1.0)
                       : Colors.white,
                   fontWeight: FontWeight.w700),
             ),
@@ -362,7 +419,7 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
                     style: TextStyle(
                       fontSize: 16,
                       color: (not.bandId.isNotEmpty)
-                          ?  Color.fromRGBO(3, 218, 157, 1.0)
+                          ? Color.fromRGBO(3, 218, 157, 1.0)
                           : Colors.white,
                     ),
                   ),
@@ -593,6 +650,7 @@ double initScale({Size imageSize, Size size, double initialScale}) {
 class AspectRatioItem {
   final String text;
   final double value;
+
   AspectRatioItem({this.value, this.text});
 }
 

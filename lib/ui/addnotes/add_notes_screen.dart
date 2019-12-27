@@ -86,7 +86,7 @@ class _AddNotesScreenState
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text("Your changes will not save.Are you sure?"),
+                    title: Text("Do you want to save changes?"),
                     actions: <Widget>[
                       FlatButton(
                         child: Text("No"),
@@ -97,6 +97,7 @@ class _AddNotesScreenState
                       FlatButton(
                         child: Text("Yes"),
                         onPressed: () {
+                          _submitnotes();
                           Navigator.of(context).pop(true);
                         },
                       ),
@@ -620,48 +621,7 @@ class _AddNotesScreenState
                       widget.id.isEmpty || isEdit || widget.isParent
                           ? RaisedButton(
                               onPressed: () {
-                                String desc = _descController.text;
-                                String endDate = _endDateController.text;
-                                String note = _noteController.text;
-
-                                setState(() {
-                                  _descError = null;
-                                  _startDateError = null;
-                                  _endDateError = null;
-                                  _startTimeError = null;
-                                  _endTimeError = null;
-                                  if (desc.isEmpty) {
-                                    _descError = "Cannot be Empty";
-                                  } else {
-                                    DateTime end;
-                                    if (endDate != null) {
-                                      end = DateTime(
-                                          selectedEndDate.year,
-                                          selectedEndDate.month,
-                                          selectedEndDate.day,
-                                          selectedEndTime.hour,
-                                          selectedEndTime.minute);
-                                    }
-                                    NotesTodo notesTodo = NotesTodo(
-                                      description: desc,
-                                      bandId: widget.bandId,
-                                      type: widget.type,
-                                      end_date:
-                                          end?.millisecondsSinceEpoch ?? 0,
-                                      start_date: selectedStartDate != null
-                                          ? selectedStartDate
-                                              .millisecondsSinceEpoch
-                                          : 0,
-                                      id: widget.id,
-                                      note: note,
-                                      createdDate:
-                                          DateTime.now().millisecondsSinceEpoch,
-                                    );
-                                    showLoading();
-                                    presenter.addNotes(
-                                        notesTodo, widget.isParent);
-                                  }
-                                });
+                                _submitnotes();
                               },
                               color:  Color.fromRGBO(3, 218, 157, 1.0),
                               child: Text(
@@ -862,4 +822,51 @@ class _AddNotesScreenState
   void onDelete() {
     Navigator.of(context).pop();
   }
+
+  void _submitnotes() {
+    String desc = _descController.text;
+    String endDate = _endDateController.text;
+    String note = _noteController.text;
+  
+    setState(() {
+      _descError = null;
+      _startDateError = null;
+      _endDateError = null;
+      _startTimeError = null;
+      _endTimeError = null;
+      if (desc.isEmpty) {
+        _descError = "Cannot be Empty";
+      } else {
+        DateTime end;
+        if (endDate != null) {
+          end = DateTime(
+              selectedEndDate.year,
+              selectedEndDate.month,
+              selectedEndDate.day,
+              selectedEndTime.hour,
+              selectedEndTime.minute);
+        }
+        NotesTodo notesTodo = NotesTodo(
+          description: desc,
+          bandId: widget.bandId,
+          type: widget.type,
+          end_date:
+          end?.millisecondsSinceEpoch ?? 0,
+          start_date: selectedStartDate != null
+              ? selectedStartDate
+              .millisecondsSinceEpoch
+              : 0,
+          id: widget.id,
+          note: note,
+          createdDate:
+          DateTime.now().millisecondsSinceEpoch,
+        );
+        showLoading();
+        presenter.addNotes(
+            notesTodo, widget.isParent);
+      }
+    });
+  }
 }
+
+

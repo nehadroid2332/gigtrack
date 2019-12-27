@@ -24,6 +24,8 @@ class Activites extends BaseModel {
   String wardrobe;
   String parking;
   String other;
+  String startTime;
+  String endTime;
   String bandId;
   String bandTaskId;
   String bandTaskMemberId;
@@ -52,7 +54,10 @@ class Activites extends BaseModel {
       this.longitude,
       this.title,
       this.bandTaskId,
-      this.bandTaskMemberId});
+      this.bandTaskMemberId,
+      this.startTime,
+      this.endTime
+      });
 
   Activites.fromJSON(dynamic data) {
     type = data['type'];
@@ -74,6 +79,8 @@ class Activites extends BaseModel {
     bandTaskMemberId = data['bandTaskMemberId'];
     notes = data['notes'];
     task = data['task'];
+    startTime=data['startTime'];
+    endTime=data['endTime'];
     taskCompleteDate = data['taskCompleteDate'];
     id = data['id'];
     if (data['subActivities'] != null) {
@@ -113,6 +120,8 @@ class Activites extends BaseModel {
       sb.add(item.toMap());
     }
     data['subActivities'] = sb;
+    data['startTime']= startTime;
+    data['endTime']= endTime;
     return data;
   }
 }
