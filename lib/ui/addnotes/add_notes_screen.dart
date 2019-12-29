@@ -117,7 +117,7 @@ class _AddNotesScreenState
         actions: <Widget>[
           Container(
             alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width/2,
+            width:widget.id.isEmpty?MediaQuery.of(context).size.width: MediaQuery.of(context).size.width / 2,
             child: Text(
               "${widget.id.isEmpty ? widget.type == NotesTodo.TYPE_NOTE ? "Add Note" : widget.type == NotesTodo.TYPE_IDEA ? "Add Idea" : "" : widget.isParent ? "Note is about" : widget.type == NotesTodo.TYPE_NOTE ? "Note" : widget.type == NotesTodo.TYPE_IDEA ? "Idea" : ""}",
               textAlign: TextAlign.center,
@@ -295,8 +295,7 @@ class _AddNotesScreenState
                                       child: Text(
                                         "Click here to remind me",
                                         style: textTheme.display1.copyWith(
-                                            color: widget
-                                                .appListener.primaryColorDark,
+                                            color: Colors.red,
                                             fontSize: 14),
                                       ),
                                     )

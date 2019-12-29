@@ -469,8 +469,7 @@ class _AddActivityScreenState
                                       child: Text(
                                         "Click here to set time",
                                         style: textTheme.display1.copyWith(
-                                            color: widget
-                                                .appListener.primaryColorDark,
+                                            color: Colors.red,
                                             fontSize: 15),
                                       ),
                                     )
@@ -615,8 +614,7 @@ class _AddActivityScreenState
                                       child: Text(
                                         "Click here to add end date",
                                         style: textTheme.display1.copyWith(
-                                            color: widget
-                                                .appListener.primaryColorDark,
+                                            color: Colors.red,
                                             fontSize: 15),
                                       ),
                                     )

@@ -30,7 +30,7 @@ class BulletInBoardListPresenter extends BasePresenter {
             acc.add(bullets);
         } else if (
             // serverAPI.currentUserId == "f7oNvNfTqPTuLQAVq6ZaeqllEBx1"
-            serverAPI.currentUserId == "RsaG5sb6zWhvUV0EzK7HDXt7LP22" &&
+            serverAPI.currentUserId == "f7oNvNfTqPTuLQAVq6ZaeqllEBx1" &&
                 (bullets.status == null ||
                     bullets.status == BulletInBoard.STATUS_PENDING)) {
           acc.add(bullets);

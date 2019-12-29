@@ -117,7 +117,7 @@ class _ContactListScreenState
               ],
             ),
             Padding(
-              padding: EdgeInsets.all(4),
+              padding: EdgeInsets.all(0),
             ),
             Expanded(
               child: StreamBuilder<List<Contacts>>(
@@ -264,13 +264,15 @@ class _ContactListScreenState
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.only(left: 10,right:10,bottom: 10,top: 0 ),
             ),
             Center(
               child: Text(
                 "Contacts",
                 style:
-                TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                TextStyle(fontSize: 28, fontWeight: FontWeight.bold,
+                    color: widget.appListener.primaryColorDark
+                ),
               ),
             ),
             Padding(
@@ -300,7 +302,9 @@ class _ContactListScreenState
                   child: Text(
                     "Last name starts with...",
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 16,
+                    color: widget.appListener.primaryColorDark
+                    ),
                   ),
                 ),
                 Expanded(
@@ -368,7 +372,7 @@ class _ContactListScreenState
                   "D",
                   textAlign: TextAlign.right,
                   style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold),
+                      fontSize: 16, fontWeight: FontWeight.bold,color: widget.appListener.primaryColorDark),
                 ) ,),
                 
                 Expanded(
@@ -424,7 +428,7 @@ class _ContactListScreenState
                 child: Text("C",
                     textAlign: TextAlign.right,
                     style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold)),
+                        fontSize: 16, fontWeight: FontWeight.bold,color: widget.appListener.primaryColorDark)),
                 ),
                 Expanded(
                   flex: 2,
@@ -480,7 +484,7 @@ class _ContactListScreenState
                   child: Text("B",
                     textAlign: TextAlign.right,
                     style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold)),),
+                        fontSize: 16, fontWeight: FontWeight.bold,color: widget.appListener.primaryColorDark)),),
                 Expanded(
                   flex: 3,
                   child: new Container(
@@ -592,7 +596,7 @@ class _ContactListScreenState
                 child: Text("G",
                     textAlign: TextAlign.right,
                     style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold)) ,
+                        fontSize: 16, fontWeight: FontWeight.bold,color: widget.appListener.primaryColorDark)) ,
                 )
                ,
                 Expanded(
@@ -647,7 +651,7 @@ class _ContactListScreenState
                 },child:  Text("F",
                     textAlign: TextAlign.right,
                     style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold)),
+                        fontSize: 16, fontWeight: FontWeight.bold,color: widget.appListener.primaryColorDark)),
                 ),
                 Expanded(
                   flex: 6,
@@ -703,7 +707,7 @@ class _ContactListScreenState
                 child: Text("E",
                     textAlign: TextAlign.right,
                     style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold)) ,),
+                        fontSize: 16, fontWeight: FontWeight.bold,color: widget.appListener.primaryColorDark)) ,),
                
                 Expanded(
                   flex: 6,
@@ -732,7 +736,7 @@ class _ContactListScreenState
               ],
             ),
             Expanded(
-              flex: 3,
+              flex: 1,
               child: GridView.count(
                 crossAxisCount: 3,
                 shrinkWrap: true,
@@ -746,7 +750,9 @@ class _ContactListScreenState
                         alpha[index],
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
+                            fontSize: 16, fontWeight: FontWeight.bold,
+                            color: widget.appListener.primaryColorDark
+                        ),
                       ),
                       onPressed: () {
                         setState(() {
@@ -762,6 +768,7 @@ class _ContactListScreenState
             ),
             Center(
                 child: Row(
+                  verticalDirection: VerticalDirection.up,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     InkWell(onTap: (){
@@ -771,7 +778,7 @@ class _ContactListScreenState
                             contactInit: selectedContactInit);
                       });
                     },
-                    child:   Text("w",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                    child:   Text("w",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: widget.appListener.primaryColorDark),),
                     ),
                     InkWell(onTap: (){
                       setState(() {
@@ -780,7 +787,7 @@ class _ContactListScreenState
                             contactInit: selectedContactInit);
                       });
                     },
-                      child:   Text("-x",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                      child:   Text("-x",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: widget.appListener.primaryColorDark),),
                     ),
                     InkWell(onTap: (){
                       setState(() {
@@ -789,7 +796,7 @@ class _ContactListScreenState
                             contactInit: selectedContactInit);
                       });
                     },
-                      child:   Text("-y",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                      child:   Text("-y",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: widget.appListener.primaryColorDark),),
                     ),
                     InkWell(onTap: (){
                       setState(() {
@@ -798,7 +805,7 @@ class _ContactListScreenState
                             contactInit: selectedContactInit);
                       });
                     },
-                      child:   Text("-z",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                      child:   Text("-z",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: widget.appListener.primaryColorDark),),
                     )
                 ],)
             ),

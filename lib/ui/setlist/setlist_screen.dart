@@ -147,6 +147,8 @@ class _SetListScreenState
     list = presenter.getData(widget.id);
   }
 
+  
+
   @override
   SetListPresenter get presenter => SetListPresenter(this);
 }

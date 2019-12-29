@@ -679,7 +679,7 @@ class ServerAPI {
       String bandName, String bandAdminName, String emailReciptant) async {
     try {
       SmtpServer smtpServer =
-          gmail("honeyverma.india@gmail.com", "SHIVAMverma1992");
+          gmail("gigtrack2@gmail.com", "12345Six**");
 
       final message = new mailer.Message()
         ..from =
@@ -778,7 +778,7 @@ class ServerAPI {
           .set(userPlayingStyle.toMap());
       return isUpdate;
     } catch (e) {
-      return ErrorResponse.fromJSON(e.message);
+      return ErrorResponse.fromJSON(e);
     }
   }
 

@@ -215,6 +215,7 @@ class _NotesListScreenState
                 SpeedDialChild(
                   label: "Ideas",
                   child: Icon(Icons.add),
+                  labelStyle: TextStyle(color: Color.fromRGBO(45, 1, 79, 1.0)),
                   backgroundColor:  Color.fromRGBO(55, 0, 179, 1.0),
                   onTap: () async {
                     await widget.appListener.router.navigateTo(
@@ -226,6 +227,7 @@ class _NotesListScreenState
                 SpeedDialChild(
                   label: " Note",
                   child: Icon(Icons.add),
+                  labelStyle: TextStyle(color: Color.fromRGBO(45, 1, 79, 1.0)),
                   backgroundColor: Color.fromRGBO(55, 0, 179, 1.0),
                   onTap: () async {
                     await widget.appListener.router.navigateTo(
@@ -236,6 +238,7 @@ class _NotesListScreenState
                 ),
                 SpeedDialChild(
                   label: "Write your song",
+                  labelStyle: TextStyle(color: Color.fromRGBO(45, 1, 79, 1.0)),
                   child: Icon(Icons.add),
                   backgroundColor:  Color.fromRGBO(55, 0, 179, 1.0),
                   onTap: () async {

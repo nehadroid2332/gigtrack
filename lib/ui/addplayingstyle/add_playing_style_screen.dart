@@ -548,7 +548,7 @@ class _AddPlayingStyleScreenState
                           : Container(),
                       Padding(
                         padding: EdgeInsets.all(
-                            (widget.id.isEmpty || isEdit) ? 5 : 0),
+                            (widget.id.isEmpty || isEdit) ? 0 : 0),
                       ),
                       (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                           ? Text("Select one")
@@ -565,11 +565,13 @@ class _AddPlayingStyleScreenState
                                       textAlign: TextAlign.center,
                                       style: textTheme.headline,
                                     )
-                                  : Text(
-                                      "${user?.firstName} ${user?.lastName}",
-                                      textAlign: TextAlign.center,
-                                      style: textTheme.headline,
-                                    )
+                                  : Column(children: <Widget>[
+                        Text(
+                          "${user?.firstName} ${user?.lastName}",
+                          textAlign: TextAlign.center,
+                          style: textTheme.headline,
+                        ),
+                      ],)
                               : Container(),
                       Padding(
                         padding: EdgeInsets.all(
@@ -600,17 +602,14 @@ class _AddPlayingStyleScreenState
                       (widget.bandId.isNotEmpty) &&
                               (widget.id.isEmpty || isEdit)
                           ? Container()
-                          : Padding(
-                              child: Text(
-                                aboutBandList.isEmpty
-                                    ? ""
-                                    : aboutBandList.join("\n"),
+                          : Container(
+                              child:aboutBandList.isNotEmpty? Text(
+                                aboutBandList.join("\n"),
                                 textAlign: TextAlign.center,
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                  vertical:
-                                      (widget.id.isEmpty || isEdit) ? 0 : 0),
+                              ):Container(),
+                        
                             ),
+                      Padding(padding: EdgeInsets.all(3),),
                       (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                           ? Row(
                               children: <Widget>[
@@ -622,7 +621,7 @@ class _AddPlayingStyleScreenState
                                       : null,
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 5),
+                                        horizontal: 14, vertical: 0),
                                     decoration: BoxDecoration(
                                         color: _legalUserType == 0
                                             ? Color.fromRGBO(209, 244, 236, 1.0)
@@ -648,7 +647,7 @@ class _AddPlayingStyleScreenState
                                 Padding(
                                   padding: widget.id == true
                                       ? EdgeInsets.all(0)
-                                      : EdgeInsets.all(8),
+                                      : EdgeInsets.all(0),
                                 ),
                                 InkWell(
                                   onTap: widget.id.isEmpty || isEdit
@@ -658,7 +657,7 @@ class _AddPlayingStyleScreenState
                                       : null,
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 5),
+                                        horizontal: 14, vertical: 0),
                                     decoration: BoxDecoration(
                                         color: _legalUserType == 1
                                             ? Color.fromRGBO(209, 244, 236, 1.0)
@@ -790,7 +789,7 @@ class _AddPlayingStyleScreenState
                       ),
 
                       Padding(
-                        padding: EdgeInsets.all(8),
+                        padding: EdgeInsets.all(4),
                       ),
 //                      widget.id.isEmpty || isEdit
 //                          ? TextField(

@@ -411,6 +411,14 @@ class MyApp extends StatelessWidget implements AppListener {
         accentColor: accentColor,
         fontFamily: 'Mohave',
       ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        // additional settings go here
+        fontFamily: 'Mohave',
+        primaryColor: primaryColor,
+        primaryColorDark: primaryColorDark,
+        accentColor: accentColor,
+      ),
       onGenerateRoute: _router.generator,
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
+import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/band_member.dart';
 import 'package:gigtrack/server/models/setlist.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
@@ -27,6 +28,8 @@ class _AddSetListScreenState
       _songChordsController = TextEditingController(),
       _songNotesController = TextEditingController(),
       _songNameController = TextEditingController();
+  
+  String bandName;
   final Map<String, String> inList = Map();
   final instrumentList = <String>[
     "Ready to perform",
@@ -57,7 +60,10 @@ class _AddSetListScreenState
         widget.userId != null &&
         widget.userId.isNotEmpty) {
       showLoading();
+    
       presenter.getDetails(widget.id, widget.userId);
+    //  presenter.getBandDetails(widget.userId);
+      //getData();
     }
   }
 
@@ -297,7 +303,7 @@ class _AddSetListScreenState
                                       vertical: 6,
                                     ),
                                     child: Text(
-                                      _songNameController.text,
+                                      _songNameController.text+"-"+_songArtistController.text,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(fontSize: 20),
                                     ),
@@ -325,11 +331,34 @@ class _AddSetListScreenState
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       final members = bandmembers[index];
-                                      return ListTile(
-                                        title: Text(
-                                            "${members.firstName} ${members.lastName}"),
-                                        subtitle: Text("${members.memberRole}"),
-                                      );
+                                      return Column(
+                                        children: <Widget>[
+                                        Center(
+                                          child: Text(
+                                            "${members.firstName} ${members.lastName}",
+                                            textAlign: TextAlign.right,
+                                          ),
+                                        ),
+                                        Container(
+                                          width: MediaQuery.of(context).size.width/4,
+                                          padding: EdgeInsets.only(top: 3),
+                                          color: Colors.blue,
+                                          height: 1,
+                                          child:null
+                                        ),
+                                        Center(
+                                          child:members.instrument!=null? Text(
+                                            "${members.instrument}",
+                                            textAlign: TextAlign.left,
+                                          ):Container(),
+                                        ),
+                                          Padding(padding: EdgeInsets.all(5),),
+                                      ],);
+//                                        ListTile(
+//                                        title: Text(
+//                                            "${members.firstName} ${members.lastName}"),
+//                                        subtitle: Text("${members.memberRole}"),
+//                                      );
                                     },
                                   ),
                             widget.id.isEmpty || isEdit
@@ -347,14 +376,15 @@ class _AddSetListScreenState
                                     ),
                                     controller: _songArtistController,
                                   )
-                                : Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 6),
-                                    child: Text(
-                                      _songArtistController.text,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 20),
-                                    ),
-                                  ),
+                                : Container(),
+//                            Padding(
+//                                    padding: EdgeInsets.symmetric(vertical: 6),
+//                                    child: Text(
+//                                      _songArtistController.text,
+//                                      textAlign: TextAlign.center,
+//                                      style: TextStyle(fontSize: 20),
+//                                    ),
+//                                  ),
                             widget.id.isEmpty || isEdit
                                 ? TextField(
                                     style: textTheme.title,
@@ -686,16 +716,33 @@ class _AddSetListScreenState
       _listNameController.text = setList.setListName;
     });
   }
-
+  @override
+  void getBandDetails(Band band) async {
+    hideLoading();
+    setState(() {
+     
+    bandName= band.name;
+   
+    });
+  }
   @override
   void onDelete() {}
 
   @override
   void onBandMemberDetails(Iterable<BandMember> values) {
+    hideLoading();
     setState(() {
       bandmembers.clear();
       bandmembers.addAll(values);
     });
+  }
+
+  void getData() {
+    if (widget.id.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        presenter.getBandDetails(widget.id);
+      });
+    }
   }
 
   void addSongNotes() {

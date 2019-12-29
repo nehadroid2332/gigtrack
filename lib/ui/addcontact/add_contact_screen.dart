@@ -111,7 +111,7 @@ class _AddContactScreenState
         actions: <Widget>[
           Container(
             alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width/2,
+            width:widget.id.isEmpty?MediaQuery.of(context).size.width: MediaQuery.of(context).size.width / 2,
             child: Text(
               "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Contact",
               textAlign: TextAlign.center,
@@ -346,6 +346,7 @@ class _AddContactScreenState
                       Padding(
                         padding:(widget.id.isNotEmpty) && (_companyNameController.text.isEmpty) && !isEdit ?EdgeInsets.all(0): EdgeInsets.all(widget.id.isEmpty || isEdit ? 4 : 4),
                       ),
+                      Padding(padding: widget.id.isEmpty?EdgeInsets.all(5):EdgeInsets.all(0),),
                       ShowUp(
                         child: !_isCompanyName
                             ? new GestureDetector(
@@ -358,9 +359,8 @@ class _AddContactScreenState
                                     ? Text(
                                         "Click here to add Company Name",
                                         style: textTheme.display1.copyWith(
-                                            color: widget
-                                                .appListener.primaryColorDark,
-                                            fontSize: 14),
+                                            color: Colors.red,
+                                            fontSize: 16),
                                       )
                                     : Container(),
                               )
@@ -437,6 +437,7 @@ class _AddContactScreenState
                         padding:_relationshipController.text.isEmpty?EdgeInsets.all(0):
                             EdgeInsets.all(widget.id.isEmpty || isEdit ? 0 : 0),
                       ),
+                      
                       widget.id.isEmpty || isEdit
                           ? DropdownButton<String>(
                               items: relationships.map((String value) {
@@ -568,6 +569,7 @@ class _AddContactScreenState
                       Padding(
                         padding: _phoneController.text.isEmpty?EdgeInsets.all(2):EdgeInsets.all(4),
                       ),
+                      Padding(padding: widget.id.isEmpty?EdgeInsets.all(5):EdgeInsets.all(0),),
                       ShowUp(
                         child: !_isphoneNumber
                             ? new GestureDetector(
@@ -580,9 +582,8 @@ class _AddContactScreenState
                                     ? Text(
                                         "Click here to add a phone#",
                                         style: textTheme.display1.copyWith(
-                                            color: widget
-                                                .appListener.primaryColorDark,
-                                            fontSize: 14),
+                                            color: Colors.red,
+                                            fontSize: 16),
                                       )
                                     : Container(),
                               )
@@ -749,16 +750,10 @@ class _AddContactScreenState
                               ? Expanded(
                                   child: Text(
                                     "Dates to Remember",
-                                    style: textTheme.subtitle.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                    ),
-                                    textAlign: widget.id.isEmpty || isEdit
-                                        ? TextAlign.left
-                                        : TextAlign.center,
+                                    style: textTheme.subhead.copyWith(
+                                      fontWeight: FontWeight.bold
                                   ),
-                                )
-                              : Container(),
+                                )): Container(),
                           widget.id.isEmpty || isEdit
                               ? IconButton(
                                   icon: Icon(Icons.add),

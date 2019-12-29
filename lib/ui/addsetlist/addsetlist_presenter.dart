@@ -2,6 +2,7 @@ import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/band_member.dart';
 import 'package:gigtrack/server/models/error_response.dart';
 import 'package:gigtrack/server/models/setlist.dart';
+import 'package:gigtrack/ui/addband/add_band_presenter.dart';
 
 import '../../server/models/band.dart';
 
@@ -13,6 +14,8 @@ abstract class AddSetListContract extends BaseContract {
   void onDelete();
 
   void onBandMemberDetails(Iterable<BandMember> values);
+
+  void getBandDetails(Band band);
 }
 
 class AddSetListPresenter extends BasePresenter {
@@ -38,6 +41,15 @@ class AddSetListPresenter extends BasePresenter {
         (view as AddSetListContract).onUpdate();
       } else
         (view as AddSetListContract).onSuccess();
+    } else if (res is ErrorResponse) {
+      view.showMessage(res.message);
+    }
+  }
+
+  void getBandDetails(String id) async {
+    final res = await serverAPI.getBandDetails(id);
+    if (res is Band) {
+      (view as AddSetListContract).getBandDetails(res);
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
     }

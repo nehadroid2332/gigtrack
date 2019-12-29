@@ -135,8 +135,25 @@ class _InstrumentListScreenState
                                           ),
                                             fit: BoxFit.cover
                                           ) ,
-                                          borderRadius: BorderRadius.only(topLeft:Radius.circular(15),topRight: Radius.circular(15))
-                                          ,
+                                          borderRadius: BorderRadius.only(topLeft:Radius.circular(15),topRight: Radius.circular(15)),
+                                           border: Border(
+                                              bottom: BorderSide( //                   <--- left side
+                                                color: Colors.white,
+                                                width: 1.0,
+                                              ),
+                                             left: BorderSide( //                   <--- left side
+                                               color: Colors.white,
+                                               width: 1.0,
+                                             ),
+                                             right: BorderSide( //                   <--- left side
+                                               color: Colors.white,
+                                               width: 1.0,
+                                             ),
+                                             top: BorderSide( //                   <--- left side
+                                               color: Colors.white,
+                                               width: 1.0,
+                                             ),
+                                            ),
                                         ),
                                     height: MediaQuery.of(context).size.height / 4.4,
                                     width: MediaQuery.of(context).size.width,

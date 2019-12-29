@@ -21,7 +21,7 @@ class ContactListPresenter extends BasePresenter {
         for (var d in mp.values) {
           final contact = Contacts.fromJSON(d);
           if (contactInit != null &&
-              contact.name.substring(0, 1).toLowerCase() ==
+              getNameOrder(contact.name)[0].toLowerCase() ==
                   contactInit.toLowerCase()) acc.add(contact);
         }
         acc.sort((a, b) {
@@ -52,7 +52,7 @@ class ContactListPresenter extends BasePresenter {
             }
           }
           if (contactInit != null &&
-              contact.name.substring(0, 1).toLowerCase() ==
+              getNameOrder(contact.name)[0].toLowerCase() ==
                   contactInit.toLowerCase()) {
             if (contact.user_id == serverAPI.currentUserId) {
               acc.add(contact);
@@ -75,5 +75,17 @@ class ContactListPresenter extends BasePresenter {
         });
         return acc;
       });
+  }
+
+  String getNameOrder(String name) {
+    List traversedname = name.split(" ");
+    int namelength = traversedname.length;
+    if (traversedname.length > 1) {
+      String lastname = "" + traversedname.last + ", ";
+      traversedname.removeLast();
+      return lastname + "" + traversedname.join(' ');
+    } else {
+      return traversedname.last;
+    }
   }
 }

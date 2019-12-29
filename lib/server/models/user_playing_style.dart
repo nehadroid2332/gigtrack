@@ -137,8 +137,10 @@ class UserPlayingStyle extends BaseModel {
     data['bandContacts'] = bandContacts;
     data['responsetext'] = response;
     List<dynamic> items = [];
-    for (var item in bandDetails) {
-      items.add(item.toMap());
+    if(bandDetails!=null) {
+      for (var item in bandDetails) {
+        items.add(item.toMap());
+      }
     }
     data['bandDetails'] = items;
     return data;

@@ -55,7 +55,7 @@ class _AddBulletInBoardScreenState
         actions: <Widget>[
           Container(
             alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width/2,
+            width:widget.id.isEmpty?MediaQuery.of(context).size.width: MediaQuery.of(context).size.width / 2,
             child: Text(
               "${widget.id.isEmpty ? "Add" : ""} Bulletin Board",
               textAlign: TextAlign.center,
