@@ -20,9 +20,13 @@ class ContactListPresenter extends BasePresenter {
         List<Contacts> acc = [];
         for (var d in mp.values) {
           final contact = Contacts.fromJSON(d);
-          if (contactInit != null &&
-              getNameOrder(contact.name)[0].toLowerCase() ==
-                  contactInit.toLowerCase()) acc.add(contact);
+         
+          if (contactInit != null && getNameOrder(contact.name)[0].toLowerCase() == contactInit.toLowerCase()) {
+            acc.add(contact);
+          }
+          if(acc.length<0){
+            acc.add((contact));
+          }
         }
         acc.sort((a, b) {
           return a.name

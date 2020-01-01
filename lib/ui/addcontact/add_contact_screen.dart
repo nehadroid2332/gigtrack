@@ -777,18 +777,12 @@ class _AddContactScreenState
                         Center(child: Text('Click to see',
                           style: TextStyle(
                               fontSize:17,
-                              fontStyle: FontStyle.italic
+                              fontStyle: FontStyle.italic,
+                            color: Colors.red
                           ),
                         ),),
                         Padding(padding: EdgeInsets.all(3),),
-                        new Container(
-                            padding: EdgeInsets.only(left: MediaQuery.of(context).size.width/3.3,right: MediaQuery.of(context).size.width/3.3,top: 0),
-                            alignment: Alignment.bottomCenter,
-                            child: Divider(
-                              color: Colors.black,
-                              height: 5,
-                              thickness: 1.5,
-                            )),
+                    
                       ],):Container(),
                       Padding(padding: EdgeInsets.all(5)),
                       ShowUp(
@@ -1127,7 +1121,7 @@ class _AddContactScreenState
                                         textAlign: TextAlign.center,
                                       )
                                     : Text(
-                                        "Click to see likes",
+                                        "Likes",
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold),

@@ -201,6 +201,7 @@ Widget buildActivityListItem(Activites ac, context,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
+        
         children: <Widget>[
           Container(
             padding: EdgeInsets.only(left: 5, right: 5, top: 7, bottom: 7),

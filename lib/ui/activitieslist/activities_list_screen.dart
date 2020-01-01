@@ -303,6 +303,7 @@ class _ActivitiesListScreenState
                           0.compareTo(b.taskCompleteDate ?? 0));
 
                       return ListView(
+                        
                         children: <Widget>[
                           Text(
                             "NEXT 7 days",

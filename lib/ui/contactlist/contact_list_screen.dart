@@ -287,7 +287,7 @@ class _ContactListScreenState
             Row(
               children: <Widget>[
                 Container(
-                  height: 40,
+                  height: 36,
                   width: 1,
                   color: Colors.black,
                 ),
@@ -297,7 +297,6 @@ class _ContactListScreenState
                       const EdgeInsets.only(left: 10.0, right: 10.0),
                       child: Divider(
                         color: Colors.white,
-                        height: 36,
                       )),
                 ),
                 Container(
@@ -305,7 +304,9 @@ class _ContactListScreenState
                   child: Text(
                     "Last name starts with...",
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16,
+                    style: TextStyle(fontSize: 23,
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold,
                         color: widget.appListener.primaryColorDark
                     ),
                   ),
@@ -320,7 +321,7 @@ class _ContactListScreenState
                       )),
                 ),
                 Container(
-                  height: 40,
+                  height: 36,
                   width: 1,
                   color: Colors.black,
                 ),
@@ -328,33 +329,96 @@ class _ContactListScreenState
                   padding: EdgeInsets.only(left: 5),
                 ),
                 Container(
-                  height: 40,
+                  height: 36,
                   width: 1,
                   color: Colors.black,
                 ),
               ],),
     
+//            Row(
+//              children: <Widget>[
+//                Expanded(
+//                  child: new Container(
+//                    padding: EdgeInsets.only(bottom: 8),
+//                      alignment: Alignment.bottomCenter,
+//                      margin:
+//                      const EdgeInsets.only(left: 10.0, right: 15.0),
+//                      child: Divider(
+//                        color: Colors.black,
+//                        height: 5,
+//                        thickness: 1.5,
+//                      )),
+//                ),
+//              ],),
             Row(
               children: <Widget>[
-                Expanded(
-                  child: new Container(
-                      alignment: Alignment.bottomCenter,
-                      margin:
-                      const EdgeInsets.only(left: 10.0, right: 15.0),
-                      child: Divider(
-                        color: Colors.black,
-                        height: 5,
-                        thickness: 1.5,
-                      )),
-                ),
-              ],),
-            Row(
-              children: <Widget>[
+      
                 Container(
                   height: 36,
                   width: 1,
                   color: Colors.black,
                 ),
+      
+                Expanded(
+                  flex: 1,
+                  child: new Container(
+                      margin:
+                      const EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: Divider(
+                        color: Colors.black,
+                        thickness: 1.5,
+                      )),
+                ),
+      
+//                InkWell(onTap: (){
+//                  setState(() {
+//                    selectedContactInit = "D";
+//                    list = presenter.getContacts(widget.bandId,
+//                        contactInit: selectedContactInit);
+//                  });
+//                },
+//                  child:Text(
+//                    "D",
+//                    textAlign: TextAlign.right,
+//                    style: TextStyle(
+//                        fontSize: 16, fontWeight: FontWeight.bold,color: widget.appListener.primaryColorDark),
+//                  ) ,),
+      
+//                Expanded(
+//                  flex: 1,
+//                  child: new Container(
+//                      margin:
+//                      const EdgeInsets.only(left: 10.0, right: 10.0),
+//                      child: Divider(
+//                        color: Colors.black,
+//                        height: 38,
+//                      )),
+//                ),
+                Container(
+                  height: 36,
+                  width: 1,
+                  color: Colors.black,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 5),
+                ),
+                Container(
+                  height: 36,
+                  width: 1,
+                  color: Colors.black,
+                ),
+              ],
+            ),
+          
+            Row(
+              children: <Widget>[
+                
+                Container(
+                  height: 38,
+                  width: 1,
+                  color: Colors.black,
+                ),
+                
                 Expanded(
                   flex: 8,
                   child: new Container(
@@ -362,7 +426,6 @@ class _ContactListScreenState
                       const EdgeInsets.only(left: 10.0, right: 10.0),
                       child: Divider(
                         color: Colors.black,
-                        height: 36,
                       )),
                 ),
         
@@ -387,11 +450,11 @@ class _ContactListScreenState
                       const EdgeInsets.only(left: 10.0, right: 10.0),
                       child: Divider(
                         color: Colors.black,
-                        height: 36,
+                        height: 38,
                       )),
                 ),
                 Container(
-                  height: 36,
+                  height: 38,
                   width: 1,
                   color: Colors.black,
                 ),
@@ -399,7 +462,7 @@ class _ContactListScreenState
                   padding: EdgeInsets.only(left: 5),
                 ),
                 Container(
-                  height: 36,
+                  height: 38,
                   width: 1,
                   color: Colors.black,
                 ),
