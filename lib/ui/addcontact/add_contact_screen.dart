@@ -63,6 +63,7 @@ class _AddContactScreenState
   bool _adddefaultlikes = false;
   bool _isphoneNumber = false;
   bool _isclicktoLikes = false;
+  bool _isdateToRemmber= false;
   bool _isCompanyName = false;
 
   @override
@@ -315,31 +316,35 @@ class _AddContactScreenState
                                 color: Colors.black,
                               ),
                             )
-                          : Row(
+                          : Column(
                               children: <Widget>[
-                                Expanded(
-                                  flex: 5,
-                                  child: Text(
-                                    "Name",
-                                    textAlign: TextAlign.right,
-                                    style: textTheme.subtitle.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                    " - ",
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                Expanded(
+//                                Expanded(
+//                                  flex: 5,
+//                                  child: Text(
+//                                    "Name",
+//                                    textAlign: TextAlign.right,
+//                                    style: textTheme.subtitle.copyWith(
+//                                      fontWeight: FontWeight.w600,
+//                                    ),
+//                                  ),
+//                                ),
+//                                Expanded(
+//                                  flex: 1,
+//                                  child: Text(
+//                                    " - ",
+//                                    textAlign: TextAlign.center,
+//                                  ),
+//                                ),
+                                Center(
                                   child: Text(
                                     _nameController.text,
                                     textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold
+                                    ),
                                   ),
-                                  flex: 5,
+                                  
                                 )
                               ],
                             ),
@@ -389,31 +394,35 @@ class _AddContactScreenState
                             )
                           : _companyNameController.text.isEmpty || isEdit
                               ? Container()
-                              : Row(
+                              : Column(
                                   children: <Widget>[
-                                    Expanded(
-                                      flex: 5,
-                                      child: Text(
-                                        "Company Name",
-                                        textAlign: TextAlign.right,
-                                        style: textTheme.subtitle.copyWith(
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: Text(
-                                        " - ",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    Expanded(
+//                                    Expanded(
+//                                      flex: 5,
+//                                      child: Text(
+//                                        "Company Name",
+//                                        textAlign: TextAlign.right,
+//                                        style: textTheme.subtitle.copyWith(
+//                                          fontWeight: FontWeight.w600,
+//                                        ),
+//                                      ),
+//                                    ),
+//                                    Expanded(
+//                                      flex: 1,
+//                                      child: Text(
+//                                        " - ",
+//                                        textAlign: TextAlign.center,
+//                                      ),
+//                                    ),
+                                    Center(
                                       child: Text(
                                         _companyNameController.text,
-                                        textAlign: TextAlign.left,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                          fontStyle: FontStyle.italic
+                                        ),
                                       ),
-                                      flex: 5,
+                                     
                                     )
                                   ],
                                 ),
@@ -482,33 +491,33 @@ class _AddContactScreenState
                               : Container()
                           : widget.id.isEmpty || isEdit
                               ? Container()
-                              : Row(
+                              : Column(
                                   children: <Widget>[
-                                    Expanded(
-                                      flex: 5,
-                                      child: Text(
-                                        "Relationship",
-                                        textAlign: TextAlign.right,
-                                        style: textTheme.subtitle.copyWith(
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: Text(
-                                        " - ",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    Expanded(
+//                                    Expanded(
+//                                      flex: 5,
+//                                      child: Text(
+//                                        "Relationship",
+//                                        textAlign: TextAlign.right,
+//                                        style: textTheme.subtitle.copyWith(
+//                                          fontWeight: FontWeight.w600,
+//                                        ),
+//                                      ),
+//                                    ),
+//                                    Expanded(
+//                                      flex: 1,
+//                                      child: Text(
+//                                        " - ",
+//                                        textAlign: TextAlign.center,
+//                                      ),
+//                                    ),
+                                    Center(
                                       child: Text(
                                         _relationshipController.text.contains("Other")
                                             ? _otherRelationshipController.text
                                             : _relationshipController.text,
-                                        textAlign: TextAlign.left,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 16),
                                       ),
-                                      flex: 5,
                                     )
                                   ],
                                 ),
@@ -538,31 +547,34 @@ class _AddContactScreenState
                                     : InputBorder.none,
                               ),
                             )
-                          : Row(
+                          : Column(
                               children: <Widget>[
-                                Expanded(
-                                  flex: 5,
+                                Center(
                                   child: Text(
                                     "Mobile/Text",
                                     textAlign: TextAlign.right,
                                     style: textTheme.subtitle.copyWith(
                                       fontWeight: FontWeight.w600,
+                                      fontSize: 15
                                     ),
                                   ),
                                 ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                    " - ",
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                Expanded(
+                                new Container(
+                                    padding: EdgeInsets.only(left: MediaQuery.of(context).size.width/3.3,right: MediaQuery.of(context).size.width/3.3,top: 0),
+                                    alignment: Alignment.bottomCenter,
+                                    child: Divider(
+                                      color: Colors.black,
+                                      height: 5,
+                                      thickness: 1.5,
+                                    )),
+                                Center(
                                   child: Text(
                                     _textController.text,
                                     textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontSize: 16
+                                    ),
                                   ),
-                                  flex: 5,
                                 )
                               ],
                             ),
@@ -617,31 +629,35 @@ class _AddContactScreenState
                             )
                           : _phoneController.text.isEmpty || isEdit
                               ? Container()
-                              : Row(
+                              : Column(
                                   children: <Widget>[
-                                    Expanded(
-                                      flex: 5,
+                                    Center(
                                       child: Text(
                                         "Phone",
                                         textAlign: TextAlign.right,
                                         style: textTheme.subtitle.copyWith(
                                           fontWeight: FontWeight.w600,
+                                          fontSize: 15
                                         ),
                                       ),
                                     ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: Text(
-                                        " - ",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    Expanded(
+                                    new Container(
+                                        padding: EdgeInsets.only(left: MediaQuery.of(context).size.width/3.3,right: MediaQuery.of(context).size.width/3.3,top: 0),
+                                        alignment: Alignment.bottomCenter,
+                                        child: Divider(
+                                          color: Colors.black,
+                                          height: 5,
+                                          thickness: 1.5,
+                                        )),
+                                    Center(
                                       child: Text(
                                         _phoneController.text,
                                         textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          fontSize: 16
+                                        ),
                                       ),
-                                      flex: 5,
+                                      
                                     )
                                   ],
                                 ),
@@ -670,31 +686,35 @@ class _AddContactScreenState
                               ),
                             )
                           : _emailController.text.isNotEmpty
-                              ? Row(
+                              ? Column(
                                   children: <Widget>[
-                                    Expanded(
-                                      flex: 5,
+                                    Center(
                                       child: Text(
                                         "Email",
                                         textAlign: TextAlign.right,
                                         style: textTheme.subtitle.copyWith(
                                           fontWeight: FontWeight.w600,
+                                          fontSize: 15
                                         ),
                                       ),
                                     ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: Text(
-                                        " - ",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    Expanded(
+                                    new Container(
+                                        padding: EdgeInsets.only(left: MediaQuery.of(context).size.width/3.3,right: MediaQuery.of(context).size.width/3.3,top: 0),
+                                        alignment: Alignment.bottomCenter,
+                                        child: Divider(
+                                          color: Colors.black,
+                                          height: 5,
+                                          thickness: 1.5,
+                                        )),
+                                    Center(
                                       child: Text(
                                         _emailController.text,
                                         textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          fontSize: 16
+                                        ),
                                       ),
-                                      flex: 5,
+                                      
                                     )
                                   ],
                                 )
@@ -729,20 +749,66 @@ class _AddContactScreenState
                                       textAlign: TextAlign.right,
                                       style: textTheme.subtitle.copyWith(
                                         fontWeight: FontWeight.w600,
+                                        fontSize: 15
                                       ),
                                     ),
-                                    Padding(
-                                      padding: EdgeInsets.all(3),
-                                    ),
+                                    new Container(
+                                        padding: EdgeInsets.only(left: MediaQuery.of(context).size.width/3.3,right: MediaQuery.of(context).size.width/3.3,top: 0),
+                                        alignment: Alignment.bottomCenter,
+                                        child: Divider(
+                                          color: Colors.black,
+                                          height: 5,
+                                          thickness: 1.5,
+                                        )),
                                     Text(
                                       _notesController.text,
                                       textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        fontSize: 16
+                                      ),
                                     ),
                                   ],
                                 )
                               : Container(),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: widget.id.isNotEmpty?EdgeInsets.all(9):EdgeInsets.all(5),
+                      ),
+                      widget.id.isNotEmpty && !isEdit?Column(children: <Widget>[
+                        Center(child: Text('Click to see',
+                          style: TextStyle(
+                              fontSize:17,
+                              fontStyle: FontStyle.italic
+                          ),
+                        ),),
+                        Padding(padding: EdgeInsets.all(3),),
+                        new Container(
+                            padding: EdgeInsets.only(left: MediaQuery.of(context).size.width/3.3,right: MediaQuery.of(context).size.width/3.3,top: 0),
+                            alignment: Alignment.bottomCenter,
+                            child: Divider(
+                              color: Colors.black,
+                              height: 5,
+                              thickness: 1.5,
+                            )),
+                      ],):Container(),
+                      Padding(padding: EdgeInsets.all(5)),
+                      ShowUp(
+                        child: widget.id.isEmpty || isEdit
+                            ? Container()
+                            : new GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _isdateToRemmber = true;
+                              });
+                            },
+                            child: Text(
+                              "Dates to Remmember",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            )
+                        ),
+                        delay: 1000,
                       ),
                       Row(
                         children: <Widget>[
@@ -857,6 +923,7 @@ class _AddContactScreenState
                                             ),
                                           )
                                         : Container(),
+                                    
                                     widget.id.isEmpty || isEdit
                                         ? Row(
                                             children: <Widget>[
@@ -967,12 +1034,11 @@ class _AddContactScreenState
                                             _dateToRememberDateController.text)
                                   ],
                                 )
-                              : Container(
+                              : _isdateToRemmber?Container(
                                   margin: EdgeInsets.all(5),
-                                  child: Row(
+                                  child: Column(
                                     children: <Widget>[
-                                      Expanded(
-                                        flex: 5,
+                                      Center(
                                         child: Text(
                                           data.type,
                                           textAlign: TextAlign.right,
@@ -981,14 +1047,15 @@ class _AddContactScreenState
                                           ),
                                         ),
                                       ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Text(
-                                          " - ",
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                      Expanded(
+                                      new Container(
+                                          padding: EdgeInsets.only(left: MediaQuery.of(context).size.width/3.3,right: MediaQuery.of(context).size.width/3.3,top: 0),
+                                          alignment: Alignment.bottomCenter,
+                                          child: Divider(
+                                            color: Colors.black,
+                                            height: 5,
+                                            thickness: 1.5,
+                                          )),
+                                      Center(
                                         child: _yearController.text.isNotEmpty
                                             ? Text(
                                                 _dateToRememberDateController
@@ -996,21 +1063,22 @@ class _AddContactScreenState
                                                     "-" +
                                                     _yearController.text,
                                                 textAlign: TextAlign.left,
+                                                style: TextStyle(fontSize: 16),
                                               )
                                             : Text(
                                                 _dateToRememberDateController
                                                     .text,
                                                 textAlign: TextAlign.left,
+                                          style: TextStyle(fontSize: 16),
                                               ),
-                                        flex: 5,
                                       )
                                     ],
                                   ),
-                                );
+                                ):Container();
                         },
                       ),
                       Padding(
-                        padding: EdgeInsets.all(4),
+                        padding: widget.id.isNotEmpty?EdgeInsets.all(0):EdgeInsets.all(4),
                       ),
                       Row(
                         children: <Widget>[
@@ -1060,8 +1128,11 @@ class _AddContactScreenState
                                       )
                                     : Text(
                                         "Click to see likes",
-                                        style: TextStyle(fontSize: 14),
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
                                         textAlign: TextAlign.center,
+                                  
                                       )),
                         delay: 1000,
                       ),

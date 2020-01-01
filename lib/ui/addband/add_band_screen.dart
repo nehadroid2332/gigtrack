@@ -163,7 +163,7 @@ class _AddBandScreenState
         actions: <Widget>[
           Container(
             alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width/2,
+            width:widget.id.isEmpty?MediaQuery.of(context).size.width: MediaQuery.of(context).size.width / 2,
             child: Text(
             "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Band",
             textAlign: TextAlign.center,
@@ -280,10 +280,10 @@ class _AddBandScreenState
     String permissionType;
     if (members != null && members.length > 0) {
       for (var item in members) {
-        if (item.email == presenter.serverAPI.currentUserEmail) {
+        if (item.email.toLowerCase() == presenter.serverAPI.currentUserEmail.toLowerCase()) {
           permissionType = item.permissions;
         }
-        if (item.email == presenter.serverAPI.currentUserEmail) {
+        if (item.email.toLowerCase() == presenter.serverAPI.currentUserEmail.toLowerCase()) {
           permission =
               (item.permissions == "Leader" || item.permissions == "Setup");
         }

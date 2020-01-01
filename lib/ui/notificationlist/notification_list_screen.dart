@@ -66,10 +66,10 @@ class _NotificationListScreensState
                   itemBuilder: (BuildContext context, int index) {
                     Activites ac = _activities[index];
                     return buildActivityListItem(ac, context, onTap: () {
-                      widget.appListener.router.navigateTo(
-                          context,
-                          Screens.ADDACTIVITY.toString() +
-                              "/${ac.type}/${ac.id}/${false}/////");
+//                      widget.appListener.router.navigateTo(
+//                          context,
+//                          Screens.ADDACTIVITY.toString() +
+//                              "/${ac.type}/${ac.id}/${false}/////");
                     });
                   },
                 );
@@ -111,8 +111,8 @@ class _NotificationListScreensState
                     NotesTodo todo = _todos[index];
                     return buildNoteListItem(
                         todo, widget.appListener.primaryColor, onTap: () {
-                      widget.appListener.router.navigateTo(context,
-                          Screens.ADDNOTE.toString() + "/${todo.id}//////");
+//                      widget.appListener.router.navigateTo(context,
+//                          Screens.ADDNOTE.toString() + "/${todo.id}///////${todo.type ?? NotesTodo.TYPE_NOTE}");
                     });
                   },
                 );

@@ -153,7 +153,7 @@ class _DashboardScreenState
                 "EPK",
                 "EQUIPMENT",
                 "NOTES",
-                "BETA-TEST FEEDBACK",
+                "FEEDBACK",
                 "BULLETIN BOARD"
               ].map(
                 (txt) {
@@ -203,7 +203,7 @@ class _DashboardScreenState
                       image = 'assets/images/telcontact.svg';
                       borderColor = Color.fromRGBO(3, 54, 255, 1.0);
                       break;
-                    case "BETA-TEST FEEDBACK":
+                    case "FEEDBACK":
                       color = Color.fromRGBO(225, 222, 222, 0.7);
                       //color = Color.fromRGBO(102, 187, 238, 0.1);
                       //color = Color.fromRGBO(18, 130, 119, 1.0);
@@ -310,7 +310,7 @@ class _DashboardScreenState
                       else if (txt == "BULLETIN BOARD")
                         widget.appListener.router.navigateTo(
                             context, Screens.BULLETINLISTLIST.toString());
-                      else if (txt == "BETA-TEST FEEDBACK")
+                      else if (txt == "FEEDBACK")
                         widget.appListener.router
                             .navigateTo(context, Screens.FEEDBACK.toString());
                     },
@@ -352,7 +352,7 @@ class _DashboardScreenState
               textAlign: TextAlign.center,
             ),
             content: Text(
-                "Beta-Testing\nThanks for joining up with us during our tour rehearsals (in tech terms, our beta test phase).  Your experience here is very important to us.\n\nPlease use every feature and let us know what you think.  We want to hear your feedback on colors, displays, functionality, issues and anything that can make our app better for you.\n\nSincerely,\nThe Gigtrack Team"),
+                "\nThanks for joining up with us during our tour .  Your experience here is very important to us.\n\nPlease use every feature and let us know what you think.  We want to hear your feedback on colors, displays, functionality, issues and anything that can make our app better for you.\n\nSincerely,\nThe Gigtrack Team"),
             actions: <Widget>[
               new RaisedButton(
                 child: new Text(

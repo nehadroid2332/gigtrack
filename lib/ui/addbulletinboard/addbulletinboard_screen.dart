@@ -612,8 +612,8 @@ class _AddBulletInBoardScreenState
                   showMessage("Id cannot be null");
                 } else {
                   presenter.bulletinboardDelete(widget.id);
-                  Navigator.of(context).popUntil(ModalRoute.withName(
-                      Screens.NOTETODOLIST.toString() + "/////"));
+                  Navigator.of(context).popUntil(
+                      ModalRoute.withName(Screens.BULLETINLISTLIST.toString()));
                 }
               },
             ),

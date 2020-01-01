@@ -338,7 +338,7 @@ Widget buildActivityListItem(Activites ac, context,
                     ),
                     textAlign: TextAlign.center,
                   ):Container(),
-                    
+//
                 ],)
              
               ],
@@ -360,6 +360,8 @@ String currentType(int type) {
     return "Rehearsal";
   } else if (type == 3) {
     return "Task";
+  }else if(type == 4){
+    return "Band Task";
   }
   return "";
 }

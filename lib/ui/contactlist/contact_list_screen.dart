@@ -4,6 +4,7 @@ import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/ui/contactlist/contact_list_presenter.dart';
+import 'package:swipedetector/swipedetector.dart';
 
 import '../../utils/common_app_utils.dart';
 
@@ -119,6 +120,7 @@ class _ContactListScreenState
             Padding(
               padding: EdgeInsets.all(0),
             ),
+         
             Expanded(
               child: StreamBuilder<List<Contacts>>(
                 stream: list,
@@ -152,7 +154,7 @@ class _ContactListScreenState
                                 crossAxisAlignment:
                                 CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Center(child:
+                                  index==0?Center(child:
                                   Container(
                                     
                                     decoration: new BoxDecoration(
@@ -162,7 +164,7 @@ class _ContactListScreenState
                                     padding: EdgeInsets.only(left: 22,right: 22,top: 8,bottom: 8),
                                     child:
                                     Text(getNameOrder(cnt.name)[0],style: TextStyle(color: Colors.yellow,fontSize: 20,fontWeight: FontWeight.bold,fontStyle: FontStyle.italic),)
-                                    ,)),
+                                    ,)):Container(),
                                   Padding(padding: EdgeInsets.all(5),),
                                   Center(child: Container(child: Text(
                                     getNameOrder(cnt
@@ -260,7 +262,8 @@ class _ContactListScreenState
             )
           ],
         )
-            : Column(
+            :
+        SwipeDetector(child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
@@ -303,7 +306,7 @@ class _ContactListScreenState
                     "Last name starts with...",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 16,
-                    color: widget.appListener.primaryColorDark
+                        color: widget.appListener.primaryColorDark
                     ),
                   ),
                 ),
@@ -330,12 +333,14 @@ class _ContactListScreenState
                   color: Colors.black,
                 ),
               ],),
-            
+    
             Row(
               children: <Widget>[
                 Expanded(
                   child: new Container(
                       alignment: Alignment.bottomCenter,
+                      margin:
+                      const EdgeInsets.only(left: 10.0, right: 15.0),
                       child: Divider(
                         color: Colors.black,
                         height: 5,
@@ -360,7 +365,7 @@ class _ContactListScreenState
                         height: 36,
                       )),
                 ),
-                
+        
                 InkWell(onTap: (){
                   setState(() {
                     selectedContactInit = "D";
@@ -368,13 +373,13 @@ class _ContactListScreenState
                         contactInit: selectedContactInit);
                   });
                 },
-                child:Text(
-                  "D",
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold,color: widget.appListener.primaryColorDark),
-                ) ,),
-                
+                  child:Text(
+                    "D",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold,color: widget.appListener.primaryColorDark),
+                  ) ,),
+        
                 Expanded(
                   flex: 1,
                   child: new Container(
@@ -425,10 +430,10 @@ class _ContactListScreenState
                         contactInit: selectedContactInit);
                   });
                 },
-                child: Text("C",
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold,color: widget.appListener.primaryColorDark)),
+                  child: Text("C",
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold,color: widget.appListener.primaryColorDark)),
                 ),
                 Expanded(
                   flex: 2,
@@ -482,9 +487,9 @@ class _ContactListScreenState
                     });
                   },
                   child: Text("B",
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold,color: widget.appListener.primaryColorDark)),),
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold,color: widget.appListener.primaryColorDark)),),
                 Expanded(
                   flex: 3,
                   child: new Container(
@@ -535,14 +540,14 @@ class _ContactListScreenState
                         contactInit: selectedContactInit);
                   });
                 },
-                child: Text("A",
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.red)),
+                  child: Text("A",
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red)),
                 ),
-             
+        
                 Expanded(
                   flex: 4,
                   child: new Container(
@@ -593,12 +598,12 @@ class _ContactListScreenState
                         contactInit: selectedContactInit);
                   });
                 },
-                child: Text("G",
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold,color: widget.appListener.primaryColorDark)) ,
+                  child: Text("G",
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold,color: widget.appListener.primaryColorDark)) ,
                 )
-               ,
+                ,
                 Expanded(
                   flex: 6,
                   child: new Container(
@@ -704,11 +709,11 @@ class _ContactListScreenState
                         contactInit: selectedContactInit);
                   });
                 },
-                child: Text("E",
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold,color: widget.appListener.primaryColorDark)) ,),
-               
+                  child: Text("E",
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold,color: widget.appListener.primaryColorDark)) ,),
+        
                 Expanded(
                   flex: 6,
                   child: new Container(
@@ -778,7 +783,7 @@ class _ContactListScreenState
                             contactInit: selectedContactInit);
                       });
                     },
-                    child:   Text("w",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: widget.appListener.primaryColorDark),),
+                      child:   Text("w",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: widget.appListener.primaryColorDark),),
                     ),
                     InkWell(onTap: (){
                       setState(() {
@@ -807,11 +812,16 @@ class _ContactListScreenState
                     },
                       child:   Text("-z",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: widget.appListener.primaryColorDark),),
                     )
-                ],)
+                  ],)
             ),
             Padding(padding: EdgeInsets.all(10),),
           ],
         ),
+          onSwipeUp: () {
+            showMessage(("Swipe up"));
+          },
+        )
+        
       ),
       floatingActionButton: (widget.isLeader && widget.bandId.isNotEmpty) ||
           widget.bandId.isEmpty
