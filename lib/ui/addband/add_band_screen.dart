@@ -1009,8 +1009,14 @@ class _AddBandScreenState
                                 children: <Widget>[
                                   Expanded(
                                     child: InkWell(
-                                      child: Card(
-                                          color: Color.fromRGBO(167, 0, 0, 1.0),
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(10),
+                                              border: Border.all(
+                                                  color:Color.fromRGBO(167, 0, 0, 1.0),
+                                                  width: 1
+                                              )
+                                          ),
                                           child: Padding(
                                             padding: EdgeInsets.symmetric(
                                               vertical: 25,
@@ -1020,7 +1026,7 @@ class _AddBandScreenState
                                               textAlign: TextAlign.center,
                                               style: textTheme.subhead.copyWith(
                                                   fontWeight: FontWeight.w600,
-                                              color: Colors.white
+                                              color: Color.fromRGBO(167, 0, 0, 1.0)
                                               ),
                                             ),
                                           )),
@@ -1035,8 +1041,14 @@ class _AddBandScreenState
                                   Padding(padding: EdgeInsets.all(5),),
                                   Expanded(
                                     child: InkWell(
-                                      child: Card(
-                                        color:Color.fromRGBO(167, 0, 0, 1.0),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border: Border.all(
+                                                color:Color.fromRGBO(167, 0, 0, 1.0),
+                                                width: 1
+                                            )
+                                        ),
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
                                             vertical: 25,
@@ -1046,7 +1058,7 @@ class _AddBandScreenState
                                             textAlign: TextAlign.center,
                                             style: textTheme.subhead.copyWith(
                                                 fontWeight: FontWeight.w600,
-                                            color: Colors.white
+                                            color: Color.fromRGBO(167, 0, 0, 1.0)
                                             ),
                                           ),
                                         ),
@@ -1068,8 +1080,15 @@ class _AddBandScreenState
                                 children: <Widget>[
                                   Expanded(
                                     child: InkWell(
-                                      child: Card(
-                                        color: Color.fromRGBO(167, 0, 0, 1.0),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border: Border.all(
+                                                color:Color.fromRGBO(167, 0, 0, 1.0),
+                                                width: 1
+                                            )
+                                        ),
+  
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
                                             vertical: 25,
@@ -1079,7 +1098,7 @@ class _AddBandScreenState
                                             textAlign: TextAlign.center,
                                             style: textTheme.subhead.copyWith(
                                                 fontWeight: FontWeight.w600,
-                                            color: Colors.white
+                                            color: Color.fromRGBO(167, 0, 0, 1.0)
                                             ),
                                           ),
                                         ),
@@ -1095,8 +1114,14 @@ class _AddBandScreenState
                                   Padding(padding: EdgeInsets.all(5),),
                                   Expanded(
                                     child: InkWell(
-                                      child: Card(
-                                        color:Color.fromRGBO(167, 0, 0, 1.0),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border: Border.all(
+                                                color:Color.fromRGBO(167, 0, 0, 1.0),
+                                                width: 1
+                                            )
+                                        ),
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
                                             vertical: 25,
@@ -1106,7 +1131,7 @@ class _AddBandScreenState
                                             textAlign: TextAlign.center,
                                             style: textTheme.subhead.copyWith(
                                                 fontWeight: FontWeight.w600,
-                                            color: Colors.white
+                                            color: Color.fromRGBO(167, 0, 0, 1.0)
                                             ),
                                           ),
                                         ),
@@ -1128,8 +1153,15 @@ class _AddBandScreenState
                                 children: <Widget>[
                                   Expanded(
                                     child: InkWell(
-                                      child: Card(
-                                        color: Color.fromRGBO(167, 0, 0, 1.0),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          border: Border.all(
+                                            color:Color.fromRGBO(167, 0, 0, 1.0),
+                                            width: 1
+                                          )
+                                        ),
+                                        
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
                                             vertical: 25,
@@ -1139,7 +1171,7 @@ class _AddBandScreenState
                                             textAlign: TextAlign.center,
                                             style: textTheme.subhead.copyWith(
                                                 fontWeight: FontWeight.w600,
-                                            color: Colors.white
+                                            color: Color.fromRGBO(167, 0, 0, 1.0)
                                             ),
                                           ),
                                         ),
@@ -1160,8 +1192,14 @@ class _AddBandScreenState
                                   Padding(padding: EdgeInsets.all(5),),
                                   Expanded(
                                     child: InkWell(
-                                      child: Card(
-                                        color:Color.fromRGBO(167, 0, 0, 1.0),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border: Border.all(
+                                                color:Color.fromRGBO(167, 0, 0, 1.0),
+                                                width: 1
+                                            )
+                                        ),
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
                                             vertical: 25,
@@ -1171,7 +1209,7 @@ class _AddBandScreenState
                                             textAlign: TextAlign.center,
                                             style: textTheme.subhead.copyWith(
                                                 fontWeight: FontWeight.w600,
-                                            color: Colors.white
+                                            color: Color.fromRGBO(167, 0, 0, 1.0)
                                             ),
                                           ),
                                         ),
@@ -1193,8 +1231,14 @@ class _AddBandScreenState
                                 children: <Widget>[
                                   Expanded(
                                     child: InkWell(
-                                      child: Card(
-                                        color: Color.fromRGBO(167, 0, 0, 1.0),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border: Border.all(
+                                                color:Color.fromRGBO(167, 0, 0, 1.0),
+                                                width: 1
+                                            )
+                                        ),
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
                                             vertical: 25,
@@ -1204,7 +1248,7 @@ class _AddBandScreenState
                                             textAlign: TextAlign.center,
                                             style: textTheme.subhead.copyWith(
                                                 fontWeight: FontWeight.w600,
-                                            color: Colors.white
+                                            color: Color.fromRGBO(167, 0, 0, 1.0)
                                             ),
                                           ),
                                         ),
@@ -1215,8 +1259,14 @@ class _AddBandScreenState
                                   Padding(padding: EdgeInsets.all(5),),
                                   Expanded(
                                     child: InkWell(
-                                      child: Card(
-                                        color: Color.fromRGBO(167, 0, 0, 1.0),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border: Border.all(
+                                                color:Color.fromRGBO(167, 0, 0, 1.0),
+                                                width: 1
+                                            )
+                                        ),
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
                                             vertical: 25,
@@ -1226,7 +1276,7 @@ class _AddBandScreenState
                                             textAlign: TextAlign.center,
                                             style: textTheme.subhead.copyWith(
                                                 fontWeight: FontWeight.w600,
-                                            color: Colors.white),
+                                            color: Color.fromRGBO(167, 0, 0, 1.0)),
                                           ),
                                         ),
                                       ),

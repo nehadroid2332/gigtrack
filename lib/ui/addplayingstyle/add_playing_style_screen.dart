@@ -196,7 +196,7 @@ class _AddPlayingStyleScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(255, 222, 3, 1.0),
+        backgroundColor: Color.fromRGBO(250, 177, 49, 1.0),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -290,7 +290,7 @@ class _AddPlayingStyleScreenState
               ),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
-              color: Color.fromRGBO(255, 222, 3, 1.0),
+              color: Color.fromRGBO(250, 177, 49, 1.0),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -472,7 +472,7 @@ class _AddPlayingStyleScreenState
         ClipPath(
           clipper: RoundedClipper(height / 4.5),
           child: Container(
-            color: Color.fromRGBO(255, 222, 3, 1.0),
+            color: Color.fromRGBO(250, 177, 49, 1.0),
             height: height / 4.5,
           ),
         ),
@@ -542,7 +542,7 @@ class _AddPlayingStyleScreenState
                                   ? TextAlign.left
                                   : TextAlign.center,
                               style: textTheme.title.copyWith(
-                                  color: Color.fromRGBO(255, 222, 3, 1.0)),
+                                  color: Color.fromRGBO(250, 177, 49, 1.0)),
                             )
                           : Container(),
                       Padding(
@@ -596,21 +596,21 @@ class _AddPlayingStyleScreenState
                                     textAlign: TextAlign.center,
                                     style: textTheme.title.copyWith(
                                         color:
-                                            Color.fromRGBO(255, 222, 3, 1.0)),
+                                        Color.fromRGBO(250, 177, 49, 1.0)),
                                   ),
                                 )
                           : Container(),
-                      (widget.bandId.isNotEmpty) &&
-                              (widget.id.isEmpty || isEdit)
-                          ? Container()
-                          : Container(
-                              child: aboutBandList.isNotEmpty
-                                  ? Text(
-                                      aboutBandList.join("\n"),
-                                      textAlign: TextAlign.center,
-                                    )
-                                  : Container(),
-                            ),
+//                      (widget.bandId.isNotEmpty) &&
+//                              (widget.id.isEmpty || isEdit)
+//                          ? Container()
+//                          : Container(
+//                              child: aboutBandList.isNotEmpty
+//                                  ? Text(
+//                                      aboutBandList.join("\n"),
+//                                      textAlign: TextAlign.center,
+//                                    )
+//                                  : Container(),
+//                            ),
                       Padding(
                         padding: EdgeInsets.all(3),
                       ),
@@ -671,17 +671,15 @@ class _AddPlayingStyleScreenState
                                         borderRadius: BorderRadius.circular(15),
                                         border: Border.all(
                                             color: _legalUserType == 1
-                                                ? Color.fromRGBO(
-                                                    255, 222, 3, 1.0)
-                                                : Color.fromRGBO(
-                                                    255, 222, 3, 1.0))),
+                                                ? Color.fromRGBO(250, 177, 49, 1.0)
+                                                : Color.fromRGBO(250, 177, 49, 1.0))),
                                     child: Text(
                                       'Year',
                                       style: new TextStyle(
                                         fontSize: 16.0,
                                         color: _legalUserType == 1
-                                            ? Color.fromRGBO(255, 222, 3, 1.0)
-                                            : Color.fromRGBO(255, 222, 3, 1.0),
+                                            ? Color.fromRGBO(250, 177, 49, 1.0)
+                                            : Color.fromRGBO(250, 177, 49, 1.0),
                                       ),
                                     ),
                                   ),
@@ -796,7 +794,7 @@ class _AddPlayingStyleScreenState
                       ),
 
                       Padding(
-                        padding: EdgeInsets.all(4),
+                        padding: EdgeInsets.all(8),
                       ),
 //                      widget.id.isEmpty || isEdit
 //                          ? TextField(
@@ -1008,28 +1006,35 @@ class _AddPlayingStyleScreenState
                           BandDetails bandDetail = bandDetails[index];
                           return Column(
                             children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Expanded(
+                             
+                                  Center(
                                     child: Text("${bandDetail.bandName}"),
                                   ),
-                                  IconButton(
-                                    icon: Icon(Icons.edit),
-                                    onPressed: () {
-                                      showBandExp(bandDetail);
-                                    },
-                                  )
-                                ],
-                              ),
+                                  new Container(
+                                      padding: EdgeInsets.only(left: MediaQuery.of(context).size.width/3,right: MediaQuery.of(context).size.width/3,top: 0),
+                                      alignment: Alignment.bottomCenter,
+                                      child: Divider(
+                                        color: Colors.black,
+                                        height: 5,
+                                        thickness: 1.5,
+                                      )),
+//                                  IconButton(
+//                                    icon: Icon(Icons.edit),
+//                                    onPressed: () {
+//                                      showBandExp(bandDetail);
+//                                    },
+//                                  )
+                            
                               Text("${bandDetail.desc}"),
                               Text(
                                   "${bandDetail.dateFrom}-${bandDetail.dateTo}"),
-                              Container(
-                                child: null,
-                                width: MediaQuery.of(context).size.width,
-                                height: 1,
-                                color: Colors.grey,
-                              )
+Padding(padding: EdgeInsets.all(8),),
+//                              Container(
+//                                child: null,
+//                                width: MediaQuery.of(context).size.width,
+//                                height: 1,
+//                                color: Colors.grey,
+//                              )
                             ],
                           );
                         },
@@ -1111,28 +1116,28 @@ class _AddPlayingStyleScreenState
                             )
                           : widget.bandId.isEmpty
                               ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    Expanded(
-                                      flex: 5,
-                                      child: Text(
-                                        "School",
-                                        textAlign: TextAlign.right,
-                                        style: textTheme.subtitle.copyWith(),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: Text(
-                                        " - ",
+//                                    Expanded(
+//                                      flex: 5,
+//                                      child: Text(
+//                                        "School",
+//                                        textAlign: TextAlign.right,
+//                                        style: textTheme.subtitle.copyWith(),
+//                                      ),
+//                                    ),
+//                                    Expanded(
+//                                      flex: 1,
+//                                      child: Text(
+//                                        " - ",
+//                                        textAlign: TextAlign.center,
+//                                      ),
+//                                    ),
+                                   Center(
+                                     child: Text(
+                                        _listSchoolController.text,
                                         textAlign: TextAlign.center,
                                       ),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        _listSchoolController.text,
-                                        textAlign: TextAlign.left,
-                                      ),
-                                      flex: 5,
                                     )
                                   ],
                                 )
@@ -1332,9 +1337,9 @@ class _AddPlayingStyleScreenState
                                 )
                               : Container()
                           : Container(),
-
+                  Padding(padding: EdgeInsets.all(10),),
                       RaisedButton(
-                        color: Color.fromRGBO(255, 222, 3, 1.0),
+                        color: Color.fromRGBO(250, 177, 49, 1.0),
                         child: Text("Set-List"),
                         onPressed: () {
                           widget.appListener.router.navigateTo(context,

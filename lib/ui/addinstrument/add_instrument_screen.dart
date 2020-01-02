@@ -375,7 +375,7 @@ class _AddInstrumentScreenState
                               ),
                             ),
                       Padding(
-                        padding: EdgeInsets.all(0),
+                        padding: widget.id.isEmpty?EdgeInsets.all(5):EdgeInsets.all(0),
                       ),
                       ShowUp(
                         child: !_isnickNameEuip
@@ -480,6 +480,9 @@ class _AddInstrumentScreenState
                             ? EdgeInsets.all(3)
                             : EdgeInsets.all(5),
                       ),
+                      Padding(
+                        padding: widget.id.isEmpty?EdgeInsets.all(5):EdgeInsets.all(0),
+                      ),
                       widget.id.isEmpty || isEdit
                           ? ShowUp(
                               child: !_ispurchaseDate
@@ -496,7 +499,7 @@ class _AddInstrumentScreenState
                                                   .copyWith(
                                                       color: widget.appListener
                                                           .primaryColorDark,
-                                                      fontSize: 14),
+                                                      fontSize: 16),
                                             )
                                           : Container(),
                                     )
@@ -752,6 +755,9 @@ class _AddInstrumentScreenState
                             : EdgeInsets.all(5),
                       ),
                       widget.id.isEmpty || isEdit ? Container() : Container(),
+                      Padding(
+                        padding: widget.id.isEmpty?EdgeInsets.all(5):EdgeInsets.all(0),
+                      ),
                       ShowUp(
                         child: !_iswarrantyInfo
                             ? new GestureDetector(
@@ -767,7 +773,7 @@ class _AddInstrumentScreenState
                                         style: textTheme.display1.copyWith(
                                             color: widget
                                                 .appListener.primaryColorDark,
-                                            fontSize: 14),
+                                            fontSize: 16),
                                       )
                                     : Container(),
                               )
@@ -836,6 +842,9 @@ class _AddInstrumentScreenState
                                         ? EdgeInsets.all(0)
                                         : EdgeInsets.all(5),
                                   ),
+                                  Padding(
+                                    padding: widget.id.isEmpty?EdgeInsets.all(5):EdgeInsets.all(0),
+                                  ),
                                   ShowUp(
                                     child: !_iswarrantydate
                                         ? new GestureDetector(
@@ -852,7 +861,7 @@ class _AddInstrumentScreenState
                                                             color: widget
                                                                 .appListener
                                                                 .primaryColorDark,
-                                                            fontSize: 14),
+                                                            fontSize: 16),
                                                   )
                                                 : Container(),
                                           )
@@ -1012,6 +1021,9 @@ class _AddInstrumentScreenState
                             ? EdgeInsets.all(0)
                             : EdgeInsets.all(5),
                       ),
+                      Padding(
+                        padding: widget.id.isEmpty?EdgeInsets.all(8):EdgeInsets.all(0),
+                      ),
                       ShowUp(
                         child: !_isinsuranceInfo
                             ? new GestureDetector(
@@ -1027,7 +1039,7 @@ class _AddInstrumentScreenState
                                         style: textTheme.display1.copyWith(
                                             color: widget
                                                 .appListener.primaryColorDark,
-                                            fontSize: 14),
+                                            fontSize: 16),
                                       )
                                     : Container(),
                               )
@@ -1145,7 +1157,9 @@ class _AddInstrumentScreenState
                           ? Row(
                               children: <Widget>[
                                 Expanded(
-                                  child: Text("Take Invoice/Equip. photo"),
+                                  child: Text("Take Invoice/Equip. photo",style: TextStyle(
+                                    fontSize: 16
+                                  ),),
                                 ),
                                 widget.id.isEmpty || isEdit
                                     ? IconButton(

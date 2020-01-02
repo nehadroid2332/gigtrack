@@ -472,21 +472,21 @@ class _AddSetListScreenState
                             Padding(
                               padding: EdgeInsets.all(10),
                             ),
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Text("Song Notes"),
-                                ),
-                                widget.id.isEmpty || isEdit
-                                    ? Container()
-                                    : IconButton(
-                                        icon: Icon(Icons.add),
-                                        onPressed: () {
-                                          addSongNotes();
-                                        },
-                                      )
-                              ],
-                            ),
+//                            widget.id.isNotEmpty || isEdit? Row(
+//                              children: <Widget>[
+//                                Expanded(
+//                                  child: Text("Song Notes"),
+//                                ),
+//                                widget.id.isEmpty || isEdit
+//                                    ? Container()
+//                                    : IconButton(
+//                                        icon: Icon(Icons.add),
+//                                        onPressed: () {
+//                                          addSongNotes();
+//                                        },
+//                                      )
+//                              ],
+//                            ):Container(),
                             Padding(
                               padding: EdgeInsets.all(5),
                             ),

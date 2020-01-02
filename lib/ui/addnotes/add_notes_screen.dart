@@ -204,7 +204,7 @@ class _AddNotesScreenState
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
                               style: textTheme.title,
-                              textCapitalization: TextCapitalization.sentences,
+                              textCapitalization: TextCapitalization.words,
                               decoration: InputDecoration(
                                 errorText: _noteError,
                                 labelText: widget.id.isEmpty || isEdit

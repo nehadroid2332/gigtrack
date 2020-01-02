@@ -39,33 +39,35 @@ class Band extends BaseModel {
       });
 
   Band.fromJSON(dynamic data) {
-    name = data['name'];
-    legalName = data['legal_name'];
-    legalStructure = data['legal_structure'];
-    dateStarted = data['date_started'];
-    musicStyle = data['music_style'];
-    email = data['email'];
-    website = data['website'];
-    contactInfo = data['contactInfo'];
-    city = data['city'];
-    state = data['state'];
-    zip = data['zip'];
-    id = data['id'];
-    primaryContactEmail = data['primaryContactEmail'];
-    userId = data['user_id'];
-    if (data['files'] != null) {
-      for (String item in data['files']) {
-        files.add(item);
+    if (data != null) {
+      name = data['name'];
+      legalName = data['legal_name'];
+      legalStructure = data['legal_structure'];
+      dateStarted = data['date_started'];
+      musicStyle = data['music_style'];
+      email = data['email'];
+      website = data['website'];
+      contactInfo = data['contactInfo'];
+      city = data['city'];
+      state = data['state'];
+      zip = data['zip'];
+      id = data['id'];
+      primaryContactEmail = data['primaryContactEmail'];
+      userId = data['user_id'];
+      if (data['files'] != null) {
+        for (String item in data['files']) {
+          files.add(item);
+        }
       }
-    }
-    if (data['bandmates'] != null) {
-      bandmates.clear();
-      Map map = data['bandmates'];
-      for (MapEntry item in map.entries) {
-        bandmates[item.key] = BandMember.fromJSON(item.value);
+      if (data['bandmates'] != null) {
+        bandmates.clear();
+        Map map = data['bandmates'];
+        for (MapEntry item in map.entries) {
+          bandmates[item.key] = BandMember.fromJSON(item.value);
+        }
       }
+      creatorName = data['creatorName'];
     }
-    creatorName=data['creatorName'];
   }
 
   @override
