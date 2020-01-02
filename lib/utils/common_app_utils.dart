@@ -185,6 +185,10 @@ Widget buildActivityListItem(Activites ac, context,
     {bool showConfirm = false, onConfirmPressed, onTap, bool isPast = false}) {
   DateTime dt = DateTime.fromMillisecondsSinceEpoch(ac.startDate).toLocal();
   return Container(
+    width: 250,
+    margin: EdgeInsets.symmetric(
+      horizontal: 5,
+    ),
     padding: EdgeInsets.all(10),
 //    color: isPast
 //        ? Colors.grey
@@ -201,7 +205,6 @@ Widget buildActivityListItem(Activites ac, context,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        
         children: <Widget>[
           Container(
             padding: EdgeInsets.only(left: 5, right: 5, top: 7, bottom: 7),
@@ -237,8 +240,8 @@ Widget buildActivityListItem(Activites ac, context,
                           fontWeight: FontWeight.bold,
                           fontStyle: FontStyle.italic,
                           color: ac.bandId.isNotEmpty
-                              ? isPast?Colors.grey: Colors.yellow
-                              :isPast?Colors.grey: Colors.yellow,
+                              ? isPast ? Colors.grey : Colors.yellow
+                              : isPast ? Colors.grey : Colors.yellow,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -278,20 +281,26 @@ Widget buildActivityListItem(Activites ac, context,
             ),
           ),
           Container(
-            padding:ac.bandId.isNotEmpty?EdgeInsets.all(5): EdgeInsets.all(15),
-            
-            decoration:ac.bandId.isEmpty? BoxDecoration(
-              color: Color.fromRGBO(40, 35, 188, 0.2),
-              border: Border.all(width: 1,color: Colors.blue)
-            ):BoxDecoration(),
+            padding:
+                ac.bandId.isNotEmpty ? EdgeInsets.all(5) : EdgeInsets.all(15),
+            decoration: ac.bandId.isEmpty
+                ? BoxDecoration(
+                    color: Color.fromRGBO(40, 35, 188, 0.2),
+                    border: Border.all(width: 1, color: Colors.blue))
+                : BoxDecoration(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Row(children: <Widget>[
-                  ac.startTime !=null?Text("${ac.startTime}-${ac.endTime}",style: TextStyle(
-                    color: Colors.black,fontSize: 16
-                  ),):Container()
-                ],),
+                Row(
+                  children: <Widget>[
+                    ac.startTime != null
+                        ? Text(
+                            "${ac.startTime}-${ac.endTime}",
+                            style: TextStyle(color: Colors.black, fontSize: 16),
+                          )
+                        : Container()
+                  ],
+                ),
                 Text(
                   "${ac.title}",
                   maxLines: 1,
@@ -300,14 +309,18 @@ Widget buildActivityListItem(Activites ac, context,
                     fontSize: 23,
                     fontWeight: FontWeight.bold,
                     color: ac.bandId.isNotEmpty
-                        ?isPast?Colors.grey: Color.fromRGBO(40, 35, 188, 1.0)
-                        :isPast?Colors.grey: Color.fromRGBO(40, 35, 188, 1.0),
+                        ? isPast
+                            ? Colors.grey
+                            : Color.fromRGBO(40, 35, 188, 1.0)
+                        : isPast
+                            ? Colors.grey
+                            : Color.fromRGBO(40, 35, 188, 1.0),
                   ),
                   textAlign: TextAlign.center,
                 ),
                 new Container(
-                  
-                    padding: EdgeInsets.only(left: 0, right: 0, top: 3,bottom: 3),
+                    padding:
+                        EdgeInsets.only(left: 0, right: 0, top: 3, bottom: 3),
                     alignment: Alignment.bottomCenter,
                     child: Divider(
                       color: Color.fromRGBO(3, 54, 255, 1.0),
@@ -317,31 +330,41 @@ Widget buildActivityListItem(Activites ac, context,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                  Text(
-                    currentType(ac.type),
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontStyle: FontStyle.normal,
-                      color: ac.bandId.isNotEmpty
-                          ? isPast?Colors.grey:Color.fromRGBO(32, 95, 139, 1.0)
-                          : isPast?Colors.grey:Color.fromRGBO(40, 35, 188, 1.0),
+                    Text(
+                      currentType(ac.type),
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontStyle: FontStyle.normal,
+                        color: ac.bandId.isNotEmpty
+                            ? isPast
+                                ? Colors.grey
+                                : Color.fromRGBO(32, 95, 139, 1.0)
+                            : isPast
+                                ? Colors.grey
+                                : Color.fromRGBO(40, 35, 188, 1.0),
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  ac.bandId.isNotEmpty?Text("-"+
-                    ac.band.name,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontStyle: FontStyle.normal,
-                      color: ac.bandId.isNotEmpty
-                          ? isPast?Colors.grey:Color.fromRGBO(32, 95, 139, 1.0)
-                          :isPast?Colors.grey: Color.fromRGBO(40, 35, 188, 1.0),
-                    ),
-                    textAlign: TextAlign.center,
-                  ):Container(),
+                    ac.bandId.isNotEmpty
+                        ? Text(
+                            "-" + ac.band.name,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontStyle: FontStyle.normal,
+                              color: ac.bandId.isNotEmpty
+                                  ? isPast
+                                      ? Colors.grey
+                                      : Color.fromRGBO(32, 95, 139, 1.0)
+                                  : isPast
+                                      ? Colors.grey
+                                      : Color.fromRGBO(40, 35, 188, 1.0),
+                            ),
+                            textAlign: TextAlign.center,
+                          )
+                        : Container(),
 //
-                ],)
-             
+                  ],
+                )
               ],
             ),
           )
@@ -361,7 +384,7 @@ String currentType(int type) {
     return "Rehearsal";
   } else if (type == 3) {
     return "Task";
-  }else if(type == 4){
+  } else if (type == 4) {
     return "Band Task";
   }
   return "";
