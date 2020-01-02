@@ -18,7 +18,7 @@ class Contacts extends BaseModel {
   String notes;
   String bandId;
   Band band;
-  
+  List<SubContact> subContacts = [];
 
   Contacts();
 
@@ -37,6 +37,11 @@ class Contacts extends BaseModel {
     if (data['files'] != null) {
       for (String item in data['files']) {
         files.add(item);
+      }
+    }
+    if (data['subContacts'] != null) {
+      for (var item in data['subContacts']) {
+        subContacts.add(SubContact.fromJSON(item));
       }
     }
     if (data['date_to_remember'] != null) {
@@ -65,6 +70,11 @@ class Contacts extends BaseModel {
     for (var item in dateToRemember) {
       dtR.add(item.toMap());
     }
+    List<dynamic> subc = [];
+    for (var item in subContacts) {
+      subc.add(item.toMap());
+    }
+    data['subContacts'] = subc;
     data['likes'] = likeadded;
     data['date_to_remember'] = dtR;
     data['files'] = files;
@@ -73,6 +83,28 @@ class Contacts extends BaseModel {
     data['other_relationship'] = otherrelationship;
     data['companyName'] = companyName;
     data['notes'] = notes;
+    return data;
+  }
+}
+
+class SubContact extends BaseModel {
+  String id;
+  String title;
+  int createdDate;
+  SubContact();
+
+  SubContact.fromJSON(dynamic data) {
+    id = data['id'];
+    title = data['title'];
+    createdDate = data['createdDate'];
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> data = super.toMap();
+    data['id'] = id;
+    data['title'] = title;
+    data['createdDate'] = createdDate;
     return data;
   }
 }
