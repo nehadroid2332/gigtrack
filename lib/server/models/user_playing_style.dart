@@ -137,7 +137,7 @@ class UserPlayingStyle extends BaseModel {
     data['bandContacts'] = bandContacts;
     data['responsetext'] = response;
     List<dynamic> items = [];
-    if(bandDetails!=null) {
+    if (bandDetails != null) {
       for (var item in bandDetails) {
         items.add(item.toMap());
       }
@@ -152,14 +152,16 @@ class BandDetails extends BaseModel {
   String desc;
   String dateFrom;
   String dateTo;
+  String id;
 
-  BandDetails({this.bandName, this.dateFrom, this.dateTo, this.desc});
+  BandDetails({this.bandName, this.dateFrom, this.dateTo, this.desc, this.id});
 
   BandDetails.fromJSON(dynamic data) {
     bandName = data['bandName'];
     desc = data['desc'];
     dateFrom = data['dateFrom'];
     dateTo = data['dateTo'];
+    id = data['id'];
   }
 
   Map<String, dynamic> toMap() {
@@ -168,6 +170,7 @@ class BandDetails extends BaseModel {
     data['desc'] = desc;
     data['dateFrom'] = dateFrom;
     data['dateTo'] = dateTo;
+    data['id'] = id;
     return data;
   }
 }

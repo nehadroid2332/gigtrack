@@ -12,6 +12,7 @@ import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:gigtrack/utils/showup.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:random_string/random_string.dart';
 
 import '../../server/models/user_playing_style.dart';
 import '../../server/models/user_playing_style.dart';
@@ -596,7 +597,7 @@ class _AddPlayingStyleScreenState
                                     textAlign: TextAlign.center,
                                     style: textTheme.title.copyWith(
                                         color:
-                                        Color.fromRGBO(250, 177, 49, 1.0)),
+                                            Color.fromRGBO(250, 177, 49, 1.0)),
                                   ),
                                 )
                           : Container(),
@@ -671,8 +672,10 @@ class _AddPlayingStyleScreenState
                                         borderRadius: BorderRadius.circular(15),
                                         border: Border.all(
                                             color: _legalUserType == 1
-                                                ? Color.fromRGBO(250, 177, 49, 1.0)
-                                                : Color.fromRGBO(250, 177, 49, 1.0))),
+                                                ? Color.fromRGBO(
+                                                    250, 177, 49, 1.0)
+                                                : Color.fromRGBO(
+                                                    250, 177, 49, 1.0))),
                                     child: Text(
                                       'Year',
                                       style: new TextStyle(
@@ -1006,29 +1009,35 @@ class _AddPlayingStyleScreenState
                           BandDetails bandDetail = bandDetails[index];
                           return Column(
                             children: <Widget>[
-                             
-                                  Center(
-                                    child: Text("${bandDetail.bandName}"),
-                                  ),
-                                  new Container(
-                                      padding: EdgeInsets.only(left: MediaQuery.of(context).size.width/3,right: MediaQuery.of(context).size.width/3,top: 0),
-                                      alignment: Alignment.bottomCenter,
-                                      child: Divider(
-                                        color: Colors.black,
-                                        height: 5,
-                                        thickness: 1.5,
-                                      )),
+                              Center(
+                                child: Text("${bandDetail.bandName}"),
+                              ),
+                              new Container(
+                                  padding: EdgeInsets.only(
+                                      left:
+                                          MediaQuery.of(context).size.width / 3,
+                                      right:
+                                          MediaQuery.of(context).size.width / 3,
+                                      top: 0),
+                                  alignment: Alignment.bottomCenter,
+                                  child: Divider(
+                                    color: Colors.black,
+                                    height: 5,
+                                    thickness: 1.5,
+                                  )),
 //                                  IconButton(
 //                                    icon: Icon(Icons.edit),
 //                                    onPressed: () {
 //                                      showBandExp(bandDetail);
 //                                    },
 //                                  )
-                            
+
                               Text("${bandDetail.desc}"),
                               Text(
                                   "${bandDetail.dateFrom}-${bandDetail.dateTo}"),
-Padding(padding: EdgeInsets.all(8),),
+                              Padding(
+                                padding: EdgeInsets.all(8),
+                              ),
 //                              Container(
 //                                child: null,
 //                                width: MediaQuery.of(context).size.width,
@@ -1116,7 +1125,7 @@ Padding(padding: EdgeInsets.all(8),),
                             )
                           : widget.bandId.isEmpty
                               ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
 //                                    Expanded(
 //                                      flex: 5,
@@ -1133,8 +1142,8 @@ Padding(padding: EdgeInsets.all(8),),
 //                                        textAlign: TextAlign.center,
 //                                      ),
 //                                    ),
-                                   Center(
-                                     child: Text(
+                                    Center(
+                                      child: Text(
                                         _listSchoolController.text,
                                         textAlign: TextAlign.center,
                                       ),
@@ -1337,7 +1346,9 @@ Padding(padding: EdgeInsets.all(8),),
                                 )
                               : Container()
                           : Container(),
-                  Padding(padding: EdgeInsets.all(10),),
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                      ),
                       RaisedButton(
                         color: Color.fromRGBO(250, 177, 49, 1.0),
                         child: Text("Set-List"),
@@ -1728,12 +1739,18 @@ Padding(padding: EdgeInsets.all(8),),
               new FlatButton(
                 child: new Text('Submit'),
                 onPressed: () {
+                  if (bandDetails == null) {
+                    bandDetails = BandDetails();
+                  }
+                  if (bandDetails.id == null) {
+                    bandDetails.id = randomString(18).replaceAll(",/\\", "");
+                  }
+                  bandDetails.bandName = _bandNameController.text;
+                  bandDetails.desc = _descController.text;
+                  bandDetails.dateTo = _yearToController.text;
+                  bandDetails.dateFrom = _yearFromController.text;
                   presenter.addBandExtra(
-                      _bandNameController.text,
-                      _descController.text,
-                      _yearFromController.text,
-                      _yearToController.text,
-                      widget.id);
+                      bandDetails, widget.id, bandDetails != null);
                 },
               )
             ],

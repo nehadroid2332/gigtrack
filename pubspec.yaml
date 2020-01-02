@@ -48,7 +48,7 @@ dependencies:
   flutter_native_timezone: ^1.0.4
   extended_image: ^0.6.7
   flutter_svg: ^0.15.0
-  random_string: ^1.1.0
+  random_string: ^2.0.1
   flutter_local_notifications: ^0.9.0+1
   swipedetector: ^1.2.0
 
