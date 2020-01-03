@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
@@ -26,8 +27,21 @@ class _DashboardScreenState
     presenter.getPlayingStyleList("");
   }
 
+  
   @override
   Widget buildBody() {
+//    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+//      systemNavigationBarColor: Colors.blue  ,
+//  //    statusBarColor: Colors.blue, // Color for Android
+////        statusBarBrightness: Brightness.light,
+//        // Dark == white status bar -- for IOS.
+//    ));
+  
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    
+      statusBarColor: Color.fromRGBO(99, 97, 93, .5),
+  
+    ));
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -39,75 +53,89 @@ class _DashboardScreenState
         horizontal: 25,
         vertical: 5,
       ),
-      child: Column(
+      child:SafeArea(
+        top: false,
+        child:Column(
         children: <Widget>[
           Align(
             alignment: Alignment.topLeft,
             child: Padding(
-              padding: EdgeInsets.only(
-                bottom: 0,
-              ),
-              child: Row(
-                children: <Widget>[
+                padding: EdgeInsets.only(
+                  bottom: 0,
+                ),
+                child: Container(
+//                decoration: new BoxDecoration(
+//                  gradient: new LinearGradient(
+//                      colors: [
+//                       Color.fromRGBO(107, 105, 102, .9),
+//                       Color.fromRGBO(79, 78, 76, .8)
+//                      ],
+//                      begin: const FractionalOffset(0.0, 0.0),
+//                      end: const FractionalOffset(0.0, 1.0),
+//                      stops: [0.0, 1.0],
+//                      tileMode: TileMode.clamp),
+//                ),
+                  child:Row(
+                    children: <Widget>[
 //                  Expanded(
 //                    child: Container(),
 //                  ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.account_circle,
-                    ),
-                    color: Color.fromRGBO(222, 153, 24, 1.0),
-                    iconSize: 26,
-                    onPressed: () {
-                      widget.appListener.router.navigateTo(
-                        context,
-                        Screens.PROFILE.toString(),
-                      );
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.help,
-                    ),
-                    color: Color.fromRGBO(222, 153, 24, 1.0),
-                    iconSize: 26,
-                    onPressed: () {
-                      widget.appListener.router.navigateTo(
-                        context,
-                        Screens.HELP.toString(),
-                      );
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.notifications,
-                    ),
-                    color: Color.fromRGBO(222, 153, 24, 1.0),
-                    iconSize: 26,
-                    onPressed: () {
-                      widget.appListener.router.navigateTo(
-                        context,
-                        Screens.NOTIFICATION.toString(),
-                      );
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.power_settings_new,
-                      color: Colors.white,
-                    ),
-                    color: Colors.white,
-                    iconSize: 36,
-                    onPressed: () {
-                      widget.appListener.sharedPreferences.clear();
-                      presenter.logout();
-                      widget.appListener.router.navigateTo(
-                          context, Screens.LOGIN.toString(),
-                          replace: true);
-                    },
-                  )
-                ],
-              ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.account_circle,
+                        ),
+                        color: Color.fromRGBO(222, 153, 24, 1.0),
+                        iconSize: 26,
+                        onPressed: () {
+                          widget.appListener.router.navigateTo(
+                            context,
+                            Screens.PROFILE.toString(),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.help,
+                        ),
+                        color: Color.fromRGBO(222, 153, 24, 1.0),
+                        iconSize: 26,
+                        onPressed: () {
+                          widget.appListener.router.navigateTo(
+                            context,
+                            Screens.HELP.toString(),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.notifications,
+                        ),
+                        color: Color.fromRGBO(222, 153, 24, 1.0),
+                        iconSize: 26,
+                        onPressed: () {
+                          widget.appListener.router.navigateTo(
+                            context,
+                            Screens.NOTIFICATION.toString(),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.power_settings_new,
+                          color: Colors.white,
+                        ),
+                        color: Colors.white,
+                        iconSize: 36,
+                        onPressed: () {
+                          widget.appListener.sharedPreferences.clear();
+                          presenter.logout();
+                          widget.appListener.router.navigateTo(
+                              context, Screens.LOGIN.toString(),
+                              replace: true);
+                        },
+                      )
+                    ],
+                  ) ,)
             ),
           ),
           Row(
@@ -137,7 +165,7 @@ class _DashboardScreenState
           ),
           Padding(
             padding:
-                EdgeInsets.only(top: MediaQuery.of(context).size.width / 19),
+            EdgeInsets.only(top: MediaQuery.of(context).size.width / 19),
           ),
           Padding(
             padding: EdgeInsets.all(2),
@@ -156,7 +184,7 @@ class _DashboardScreenState
                 "FEEDBACK",
                 "BULLETIN BOARD"
               ].map(
-                (txt) {
+                    (txt) {
                   Color color = widget.appListener.primaryColor;
                   Color borderColor = Colors.blue;
                   String image;
@@ -211,7 +239,7 @@ class _DashboardScreenState
                       borderColor = Colors.grey;
                       break;
                     case "BULLETIN BOARD":
-                      //	color = Color.fromRGBO(251, 111, 162, 0.1);
+                    //	color = Color.fromRGBO(251, 111, 162, 0.1);
                       color = Color.fromRGBO(225, 222, 222, 0.7);
                       image = 'assets/images/finalbulletin.svg';
                       borderColor = Colors.black;
@@ -226,7 +254,7 @@ class _DashboardScreenState
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                               side: new BorderSide(
-                                  color: borderColor, width: 1.5),
+                                  color: borderColor, width: 2.5),
                             ),
                             child: Container(
                               decoration: BoxDecoration(
@@ -242,39 +270,39 @@ class _DashboardScreenState
                                     left: 0, right: 0, top: 6, bottom: 6),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-
+                            
                                   ///mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     Container(
                                         child: Center(
-                                      child: Column(
-                                        children: <Widget>[
-                                    Padding(padding: EdgeInsets.only(
-                                    left: 0, right: 0, top: 6, bottom: 6)),
-                                          new SvgPicture.asset(
-                                            image,
-                                            height: MediaQuery.of(context).size.height/13,
-                                            allowDrawingOutsideViewBox: true,
+                                          child: Column(
+                                            children: <Widget>[
+                                              Padding(padding: EdgeInsets.only(
+                                                  left: 0, right: 0, top: 6, bottom: 6)),
+                                              new SvgPicture.asset(
+                                                image,
+                                                height: MediaQuery.of(context).size.height/13,
+                                                allowDrawingOutsideViewBox: true,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 5,
+                                                    right: 5,
+                                                    top: 1,
+                                                    bottom: 1),
+                                              ),
+                                              Text(
+                                                "$txt",
+                                                textAlign: TextAlign.center,
+                                                maxLines: 2,
+                                                style: textTheme.headline.copyWith(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 14),
+                                              )
+                                            ],
                                           ),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 5,
-                                                right: 5,
-                                                top: 1,
-                                                bottom: 1),
-                                          ),
-                                          Text(
-                                            "$txt",
-                                            textAlign: TextAlign.center,
-                                            maxLines: 2,
-                                            style: textTheme.headline.copyWith(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14),
-                                          )
-                                        ],
-                                      ),
-                                    )),
+                                        )),
                                   ],
                                 ),
                               ),
@@ -320,7 +348,7 @@ class _DashboardScreenState
             ),
           )
         ],
-      ),
+      ) ,)
     );
   }
 

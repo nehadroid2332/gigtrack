@@ -1,5 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:gigtrack/ui/activitieslist/activities_list_screen.dart';
 import 'package:gigtrack/ui/addactivity/add_activity_screen.dart';
 import 'package:gigtrack/ui/addband/add_band_screen.dart';
@@ -402,6 +404,12 @@ class MyApp extends StatelessWidget implements AppListener {
 
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(99, 97, 93, .8));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+        statusBarColor: Colors.blue, // Color for Android
+        statusBarBrightness: Brightness.light,
+      systemNavigationBarColor: Colors.blue// Dark == white status bar -- for IOS.
+    ));
     return MaterialApp(
       title: 'GigTrack',
       debugShowCheckedModeBanner: false,
