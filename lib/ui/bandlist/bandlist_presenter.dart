@@ -8,7 +8,7 @@ abstract class BandListContract extends BaseContract {
 class BandListPresenter extends BasePresenter {
   BandListPresenter(BaseContract view) : super(view);
 
-  Stream<List<Band>> getBands() {
+  Stream<List<Band>> getBands({String filter}) {
     return serverAPI.bandDB.onValue.map((a) {
       Map mp = a.snapshot.value;
       if (mp == null) return null;
@@ -26,6 +26,19 @@ class BandListPresenter extends BasePresenter {
           }
         }
       }
+
+      if (filter != null) {
+        if (filter == "Newest") {
+          acc.sort((a, b) {
+            return a.created.compareTo(b.created);
+          });
+        } else if (filter == "Oldest") {
+          acc.sort((a, b) {
+            return b.created.compareTo(a.created);
+          });
+        }
+      }
+
       return acc;
     });
   }

@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -22,6 +21,7 @@ class _BandListScreenState
     implements BandListContract {
   List _bands = <Band>[];
   Stream<List<Band>> list;
+  String _selectedFilter;
 
   @override
   void initState() {
@@ -42,6 +42,28 @@ class _BandListScreenState
             Navigator.pop(context);
           },
         ),
+        actions: <Widget>[
+          PopupMenuButton<String>(
+            icon: Icon(
+              Icons.sort,
+              color: Colors.red,
+            ),
+            onSelected: (sel) {
+              setState(() {
+                _selectedFilter = sel;
+                list = presenter.getBands(filter: _selectedFilter);
+              });
+            },
+            itemBuilder: (BuildContext context) {
+              return ["Newest", "Oldest"].map((String choice) {
+                return PopupMenuItem<String>(
+                  value: choice,
+                  child: Text(choice),
+                );
+              }).toList();
+            },
+          ),
+        ],
       );
 
   @override
@@ -101,52 +123,65 @@ class _BandListScreenState
                                 children: <Widget>[
                                   bnd.files != null && bnd.files.length > 0
                                       ? Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.black,
-                                        image: DecorationImage(image:NetworkImage(
-                                          File(bnd.files[0]).path,
-                                        ),
-                                            fit: BoxFit.cover
-                                        ) ,
-                                        borderRadius: BorderRadius.only(topLeft:Radius.circular(15),topRight: Radius.circular(15)),
-                                        border: Border(
-                                          bottom: BorderSide( //                   <--- left side
-                                            color: Colors.white,
-                                            width: 1.0,
+                                          decoration: BoxDecoration(
+                                            color: Colors.black,
+                                            image: DecorationImage(
+                                                image: NetworkImage(
+                                                  File(bnd.files[0]).path,
+                                                ),
+                                                fit: BoxFit.cover),
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(15),
+                                                topRight: Radius.circular(15)),
+                                            border: Border(
+                                              bottom: BorderSide(
+                                                //                   <--- left side
+                                                color: Colors.white,
+                                                width: 1.0,
+                                              ),
+                                              left: BorderSide(
+                                                //                   <--- left side
+                                                color: Colors.white,
+                                                width: 1.0,
+                                              ),
+                                              right: BorderSide(
+                                                //                   <--- left side
+                                                color: Colors.white,
+                                                width: 1.0,
+                                              ),
+                                              top: BorderSide(
+                                                //                   <--- left side
+                                                color: Colors.white,
+                                                width: 1.0,
+                                              ),
+                                            ),
                                           ),
-                                          left: BorderSide( //                   <--- left side
-                                            color: Colors.white,
-                                            width: 1.0,
-                                          ),
-                                          right: BorderSide( //                   <--- left side
-                                            color: Colors.white,
-                                            width: 1.0,
-                                          ),
-                                          top: BorderSide( //                   <--- left side
-                                            color: Colors.white,
-                                            width: 1.0,
-                                          ),
-                                        ),
-                                      ),
-                                      height: MediaQuery.of(context).size.height / 4.4,
-                                      width: MediaQuery.of(context).size.width,
-      
-                                      child: null
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              4.4,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          child: null
 //                                    Image.network(
 //                                      File(instr.uploadedFiles[0]).path,
 //                                      fit: BoxFit.cover,
 //                                    ),
-                                  )
+                                          )
                                       : Container(),
-                                  Padding(padding: EdgeInsets.all(5),),
-                                  Center(child:  Text(
-                                    "${bnd.name.toString()}",
-                                    style: textTheme.headline.copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
+                                  Padding(
+                                    padding: EdgeInsets.all(5),
+                                  ),
+                                  Center(
+                                    child: Text(
+                                      "${bnd.name.toString()}",
+                                      style: textTheme.headline.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
                                     ),
-                                  ),),
+                                  ),
                                   Padding(
                                     padding: EdgeInsets.all(5),
                                   ),

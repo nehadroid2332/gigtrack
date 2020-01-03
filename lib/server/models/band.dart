@@ -18,6 +18,7 @@ class Band extends BaseModel {
   String userId;
   String creatorName;
   List<String> files = [];
+  int created = DateTime.now().millisecondsSinceEpoch;
 
   Map<String, BandMember> bandmates = Map();
 
@@ -35,8 +36,7 @@ class Band extends BaseModel {
       this.files,
       this.contactInfo,
       this.website,
-      this.creatorName
-      });
+      this.creatorName});
 
   Band.fromJSON(dynamic data) {
     if (data != null) {
@@ -46,6 +46,7 @@ class Band extends BaseModel {
       dateStarted = data['date_started'];
       musicStyle = data['music_style'];
       email = data['email'];
+      created = data['created'] ?? DateTime.now().millisecondsSinceEpoch;
       website = data['website'];
       contactInfo = data['contactInfo'];
       city = data['city'];
@@ -80,6 +81,7 @@ class Band extends BaseModel {
     data['music_style'] = musicStyle ?? "";
     data['primaryContactEmail'] = primaryContactEmail;
     data['user_id'] = userId;
+    data['created'] = created ?? DateTime.now().millisecondsSinceEpoch;
     data['email'] = email ?? "";
     data['contactInfo'] = contactInfo;
     data['website'] = website ?? "";
@@ -88,7 +90,7 @@ class Band extends BaseModel {
     data['zip'] = zip;
     data['id'] = id;
     data['files'] = files;
-    data['creatorName']= creatorName;
+    data['creatorName'] = creatorName;
     Map<String, dynamic> bnds = {};
     for (var key in bandmates.keys) {
       BandMember bandMember = bandmates[key];
