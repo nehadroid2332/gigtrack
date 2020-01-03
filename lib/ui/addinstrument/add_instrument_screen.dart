@@ -91,29 +91,29 @@ class _AddInstrumentScreenState
   DateTime purchasedDate;
 
   DateTime warrantyEndDate;
-  
+
   //added image cropper in the code
   Future<Null> _cropImage(image) async {
     File croppedFile = await ImageCropper.cropImage(
       sourcePath: image.path,
       aspectRatioPresets: Platform.isAndroid
           ? [
-        CropAspectRatioPreset.square,
-        CropAspectRatioPreset.ratio3x2,
-        CropAspectRatioPreset.original,
-        CropAspectRatioPreset.ratio4x3,
-        CropAspectRatioPreset.ratio16x9
-      ]
+              CropAspectRatioPreset.square,
+              CropAspectRatioPreset.ratio3x2,
+              CropAspectRatioPreset.original,
+              CropAspectRatioPreset.ratio4x3,
+              CropAspectRatioPreset.ratio16x9
+            ]
           : [
-        CropAspectRatioPreset.original,
-        CropAspectRatioPreset.square,
-        CropAspectRatioPreset.ratio3x2,
-        CropAspectRatioPreset.ratio4x3,
-        CropAspectRatioPreset.ratio5x3,
-        CropAspectRatioPreset.ratio5x4,
-        CropAspectRatioPreset.ratio7x5,
-        CropAspectRatioPreset.ratio16x9
-      ],
+              CropAspectRatioPreset.original,
+              CropAspectRatioPreset.square,
+              CropAspectRatioPreset.ratio3x2,
+              CropAspectRatioPreset.ratio4x3,
+              CropAspectRatioPreset.ratio5x3,
+              CropAspectRatioPreset.ratio5x4,
+              CropAspectRatioPreset.ratio7x5,
+              CropAspectRatioPreset.ratio16x9
+            ],
       androidUiSettings: AndroidUiSettings(
           toolbarTitle: 'Cropper',
           toolbarColor: Colors.deepOrange,
@@ -157,7 +157,6 @@ class _AddInstrumentScreenState
                 var image = await ImagePicker.pickImage(
                     source: ImageSource.gallery, imageQuality: 50);
                 _cropImage(image);
-              
               },
             ),
           ],
@@ -210,19 +209,21 @@ class _AddInstrumentScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-        backgroundColor:  Colors.deepOrangeAccent,
+        backgroundColor: Colors.deepOrangeAccent,
         actions: <Widget>[
           Container(
             alignment: Alignment.center,
-            width:widget.id.isEmpty?MediaQuery.of(context).size.width: MediaQuery.of(context).size.width / 2,
+            width: widget.id.isEmpty
+                ? MediaQuery.of(context).size.width
+                : MediaQuery.of(context).size.width / 2,
             child: Text(
               "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Equipment",
               textAlign: TextAlign.center,
               style: textTheme.headline.copyWith(
                 color: Colors.white,
-              )
-              ,
-            ), ),
+              ),
+            ),
+          ),
           widget.id.isEmpty
               ? Container()
               : IconButton(
@@ -257,7 +258,7 @@ class _AddInstrumentScreenState
         ClipPath(
           clipper: RoundedClipper(height / 4.5),
           child: Container(
-            color:  Colors.deepOrangeAccent,
+            color: Colors.deepOrangeAccent,
             height: height / 4.5,
           ),
         ),
@@ -277,8 +278,8 @@ class _AddInstrumentScreenState
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),
                   child: ListView(
-                    padding: EdgeInsets.only(
-                        left: 0, right: 0, top: 10, bottom: 15),
+                    padding:
+                        EdgeInsets.only(left: 0, right: 0, top: 10, bottom: 15),
                     children: <Widget>[
                       (_userType == 1 && (widget.id.isEmpty || isEdit))
                           ? Padding(
@@ -334,16 +335,20 @@ class _AddInstrumentScreenState
                                   ),
                                 )
                               : Container(),
-                      Padding(padding: EdgeInsets.all(5),),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
                       widget.id.isEmpty || isEdit
                           ? Container()
-                          : _instrumentNickNameController.text.isNotEmpty?Text(
-                              _instrumentNickNameController.text,
-                              textAlign: TextAlign.center,
-                              style: textTheme.subtitle.copyWith(
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ):Container(),
+                          : _instrumentNickNameController.text.isNotEmpty
+                              ? Text(
+                                  _instrumentNickNameController.text,
+                                  textAlign: TextAlign.center,
+                                  style: textTheme.subtitle.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                )
+                              : Container(),
                       Padding(
                         padding: EdgeInsets.only(
                             left: 8, right: 8, top: 5, bottom: 8),
@@ -375,7 +380,9 @@ class _AddInstrumentScreenState
                               ),
                             ),
                       Padding(
-                        padding: widget.id.isEmpty?EdgeInsets.all(5):EdgeInsets.all(0),
+                        padding: widget.id.isEmpty
+                            ? EdgeInsets.all(5)
+                            : EdgeInsets.all(0),
                       ),
                       ShowUp(
                         child: !_isnickNameEuip
@@ -447,32 +454,24 @@ class _AddInstrumentScreenState
                             )
                           : _wherePurchaseController.text.isEmpty
                               ? Container()
-                              : Row(
+                              : Column(
                                   children: <Widget>[
-                                    Expanded(
-                                      flex: 5,
-                                      child: Text(
-                                        "Vendor",
-                                        textAlign: TextAlign.right,
-                                        style: textTheme.subtitle.copyWith(
-                                          fontWeight: FontWeight.w600,
-                                        ),
+                                    Text(
+                                      "Vendor",
+                                      textAlign: TextAlign.right,
+                                      style: textTheme.subtitle.copyWith(
+                                        fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                    Expanded(
-                                      child: Text(
-                                        " - ",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      flex: 1,
+                                    Container(
+                                      height: 1,
+                                      width: 100,
+                                      color: Colors.black,
                                     ),
-                                    Expanded(
-                                      flex: 5,
-                                      child: Text(
-                                        _wherePurchaseController.text,
-                                        textAlign: TextAlign.left,
-                                      ),
-                                    ),
+                                    Text(
+                                      _wherePurchaseController.text,
+                                      textAlign: TextAlign.left,
+                                    )
                                   ],
                                 ),
                       Padding(
@@ -481,7 +480,9 @@ class _AddInstrumentScreenState
                             : EdgeInsets.all(5),
                       ),
                       Padding(
-                        padding: widget.id.isEmpty?EdgeInsets.all(5):EdgeInsets.all(0),
+                        padding: widget.id.isEmpty
+                            ? EdgeInsets.all(5)
+                            : EdgeInsets.all(0),
                       ),
                       widget.id.isEmpty || isEdit
                           ? ShowUp(
@@ -659,32 +660,24 @@ class _AddInstrumentScreenState
                             )
                           : _costController.text.isEmpty
                               ? Container()
-                              : Row(
+                              : Column(
                                   children: <Widget>[
-                                    Expanded(
-                                      flex: 5,
-                                      child: Text(
-                                        "Cost",
-                                        textAlign: TextAlign.right,
-                                        style: textTheme.subtitle.copyWith(
-                                          fontWeight: FontWeight.w600,
-                                        ),
+                                    Text(
+                                      "Cost",
+                                      textAlign: TextAlign.right,
+                                      style: textTheme.subtitle.copyWith(
+                                        fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                    Expanded(
-                                      child: Text(
-                                        " - ",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      flex: 1,
+                                    Container(
+                                      height: 1,
+                                      width: 100,
+                                      color: Colors.black,
                                     ),
-                                    Expanded(
-                                      flex: 5,
-                                      child: Text(
-                                        "\$" + _costController.text,
-                                        textAlign: TextAlign.left,
-                                      ),
-                                    ),
+                                    Text(
+                                      "\$" + _costController.text,
+                                      textAlign: TextAlign.left,
+                                    )
                                   ],
                                 ),
                       Padding(
@@ -721,32 +714,24 @@ class _AddInstrumentScreenState
                             )
                           : _serialNumberController.text.isEmpty
                               ? Container()
-                              : Row(
+                              : Column(
                                   children: <Widget>[
-                                    Expanded(
-                                      flex: 5,
-                                      child: Text(
-                                        "SN#",
-                                        textAlign: TextAlign.right,
-                                        style: textTheme.subtitle.copyWith(
-                                          fontWeight: FontWeight.w600,
-                                        ),
+                                    Text(
+                                      "SN#",
+                                      textAlign: TextAlign.right,
+                                      style: textTheme.subtitle.copyWith(
+                                        fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                    Expanded(
-                                      child: Text(
-                                        " - ",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      flex: 1,
+                                    Container(
+                                      height: 1,
+                                      width: 100,
+                                      color: Colors.black,
                                     ),
-                                    Expanded(
-                                      flex: 5,
-                                      child: Text(
-                                        _serialNumberController.text,
-                                        textAlign: TextAlign.left,
-                                      ),
-                                    ),
+                                    Text(
+                                      _serialNumberController.text,
+                                      textAlign: TextAlign.left,
+                                    )
                                   ],
                                 ),
                       Padding(
@@ -756,7 +741,9 @@ class _AddInstrumentScreenState
                       ),
                       widget.id.isEmpty || isEdit ? Container() : Container(),
                       Padding(
-                        padding: widget.id.isEmpty?EdgeInsets.all(5):EdgeInsets.all(0),
+                        padding: widget.id.isEmpty
+                            ? EdgeInsets.all(5)
+                            : EdgeInsets.all(0),
                       ),
                       ShowUp(
                         child: !_iswarrantyInfo
@@ -843,7 +830,9 @@ class _AddInstrumentScreenState
                                         : EdgeInsets.all(5),
                                   ),
                                   Padding(
-                                    padding: widget.id.isEmpty?EdgeInsets.all(5):EdgeInsets.all(0),
+                                    padding: widget.id.isEmpty
+                                        ? EdgeInsets.all(5)
+                                        : EdgeInsets.all(0),
                                   ),
                                   ShowUp(
                                     child: !_iswarrantydate
@@ -877,21 +866,6 @@ class _AddInstrumentScreenState
                                                     : CrossAxisAlignment.center,
                                             children: <Widget>[
                                               widget.id.isEmpty || isEdit
-                                                  ? Text(
-                                                      "Warranty End Date",
-                                                      textAlign: widget
-                                                                  .id.isEmpty ||
-                                                              isEdit
-                                                          ? TextAlign.left
-                                                          : TextAlign.center,
-                                                      style: textTheme.subhead
-                                                          .copyWith(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                    )
-                                                  : Container(),
-                                              widget.id.isEmpty || isEdit
                                                   ? GestureDetector(
                                                       child: AbsorbPointer(
                                                         child: TextField(
@@ -902,7 +876,8 @@ class _AddInstrumentScreenState
                                                               _warrantyEndController,
                                                           decoration:
                                                               InputDecoration(
-                                                            labelText: "Date",
+                                                            labelText:
+                                                                "Warranty End Date",
                                                             labelStyle:
                                                                 TextStyle(
                                                               color: Color
@@ -1022,7 +997,9 @@ class _AddInstrumentScreenState
                             : EdgeInsets.all(5),
                       ),
                       Padding(
-                        padding: widget.id.isEmpty?EdgeInsets.all(8):EdgeInsets.all(0),
+                        padding: widget.id.isEmpty
+                            ? EdgeInsets.all(8)
+                            : EdgeInsets.all(0),
                       ),
                       ShowUp(
                         child: !_isinsuranceInfo
@@ -1157,9 +1134,10 @@ class _AddInstrumentScreenState
                           ? Row(
                               children: <Widget>[
                                 Expanded(
-                                  child: Text("Take Invoice/Equip. photo",style: TextStyle(
-                                    fontSize: 16
-                                  ),),
+                                  child: Text(
+                                    "Take Invoice/Equip. photo",
+                                    style: TextStyle(fontSize: 16),
+                                  ),
                                 ),
                                 widget.id.isEmpty || isEdit
                                     ? IconButton(
@@ -1272,7 +1250,7 @@ class _AddInstrumentScreenState
                       ),
                       widget.id.isEmpty || isEdit
                           ? RaisedButton(
-                              color:  Colors.deepOrangeAccent,
+                              color: Colors.deepOrangeAccent,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(18)),
                               textColor: Colors.white,
@@ -1413,16 +1391,17 @@ class _AddInstrumentScreenState
       _warrantyPhoneController.text = instrument.warranty_phone;
       _warrantyReferenceController.text = instrument.warranty_reference;
       _wherePurchaseController.text = instrument.purchased_from;
-      var moneyformatter= instrument.cost.isNotEmpty? double.parse(instrument.cost):0.0;
+      var moneyformatter =
+          instrument.cost.isNotEmpty ? double.parse(instrument.cost) : 0.0;
       FlutterMoneyFormatter fmf = FlutterMoneyFormatter(
           amount: moneyformatter,
-        settings: MoneyFormatterSettings(symbol: 'US',
+          settings: MoneyFormatterSettings(
+            symbol: 'US',
             thousandSeparator: ',',
             decimalSeparator: ',',
             symbolAndNumberSeparator: ' ',
             fractionDigits: 2,
-            )
-      );
+          ));
       _costController.text = fmf.output.nonSymbol.toString();
       if (instrument.uploadedFiles != null) files = instrument.uploadedFiles;
       _instrumentNickNameController.text = instrument.nickName;
@@ -1456,7 +1435,7 @@ class _AddInstrumentScreenState
           content: Text("Are you sure you want to delete?"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
-          
+
             new FlatButton(
               child: new Text("Yes"),
               textColor: Colors.black,
