@@ -270,24 +270,25 @@ class _AddContactScreenState
                       borderRadius: BorderRadius.circular(18)),
                   child: subContact != null
                       ? ListView(
+                          padding: EdgeInsets.all(10),
                           children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.all(20),
+                            ),
                             TextField(
-                              enabled: widget.id.isEmpty || isEdit,
                               style: textTheme.title,
                               textCapitalization: TextCapitalization.sentences,
                               decoration: InputDecoration(
                                 labelText: "Add Note",
                                 labelStyle: TextStyle(
-                                    color: Color.fromRGBO(202, 208, 215, 1.0),
-                                    fontSize: 18),
-                                border: widget.id.isEmpty || isEdit
-                                    ? null
-                                    : InputBorder.none,
+                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                  fontSize: 18,
+                                ),
                               ),
                               controller: _noteContactController,
                             ),
                             Padding(
-                              padding: EdgeInsets.all(10),
+                              padding: EdgeInsets.all(20),
                             ),
                             RaisedButton(
                               onPressed: () {
@@ -295,7 +296,11 @@ class _AddContactScreenState
                                   subContact.title =
                                       _noteContactController.text;
                                   subContact.id = randomString(12);
+                                  subContact.createdDate =
+                                      DateTime.now().millisecondsSinceEpoch;
                                   subContacts.add(subContact);
+                                  presenter.addContactNote(
+                                      subContacts, widget.id);
                                   subContact = null;
                                 });
                               },

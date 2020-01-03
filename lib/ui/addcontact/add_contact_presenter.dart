@@ -36,4 +36,15 @@ class AddContactPresenter extends BasePresenter {
       view.showMessage(res.message);
     }
   }
+
+  void addContactNote(List<SubContact> subContacts, String id) async {
+    final res = await serverAPI.getContactDetails(id);
+    if (res is Contacts) {
+      res.subContacts = subContacts;
+      await serverAPI.addContact(res);
+      (view as AddContactContract).getContactDetails(res);
+    } else if (res is ErrorResponse) {
+      view.showMessage(res.message);
+    }
+  }
 }

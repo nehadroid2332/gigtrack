@@ -1739,7 +1739,9 @@ class _AddPlayingStyleScreenState
               new FlatButton(
                 child: new Text('Submit'),
                 onPressed: () {
+                  bool isUpdate = true;
                   if (bandDetails == null) {
+                    isUpdate = false;
                     bandDetails = BandDetails();
                   }
                   if (bandDetails.id == null) {
@@ -1749,8 +1751,7 @@ class _AddPlayingStyleScreenState
                   bandDetails.desc = _descController.text;
                   bandDetails.dateTo = _yearToController.text;
                   bandDetails.dateFrom = _yearFromController.text;
-                  presenter.addBandExtra(
-                      bandDetails, widget.id, bandDetails != null);
+                  presenter.addBandExtra(bandDetails, widget.id, isUpdate);
                 },
               )
             ],
