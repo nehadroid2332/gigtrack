@@ -15,6 +15,7 @@ import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:gigtrack/utils/showup.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AddInstrumentScreen extends BaseScreen {
   final String id;
@@ -69,6 +70,8 @@ class _AddInstrumentScreenState
   String _errorInstrumentName;
 
   String _errorCost;
+  
+  var _cost;
 
   String _errorwherePurchased;
 
@@ -209,6 +212,41 @@ class _AddInstrumentScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
+    leading: IconButton(
+      icon: Icon(Icons.arrow_back_ios),
+      onPressed: () async {
+        if (isEdit) {
+          final check = await showDialog<bool>(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Do you want to save changes?"),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("No"),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                  ),
+                  FlatButton(
+                    child: Text("Yes"),
+                    onPressed: () {
+                      _submitInstrument();
+                      Navigator.of(context).pop(true);
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+          if (check) {
+            Navigator.of(context).pop();
+          }
+        } else {
+          Navigator.of(context).pop();
+        }
+      },
+    ),
         backgroundColor: Colors.deepOrangeAccent,
         actions: <Widget>[
           Container(
@@ -336,7 +374,7 @@ class _AddInstrumentScreenState
                                 )
                               : Container(),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: EdgeInsets.only(left: 5,right: 5,top: 5,bottom: 0),
                       ),
                       widget.id.isEmpty || isEdit
                           ? Container()
@@ -344,14 +382,14 @@ class _AddInstrumentScreenState
                               ? Text(
                                   _instrumentNickNameController.text,
                                   textAlign: TextAlign.center,
-                                  style: textTheme.subtitle.copyWith(
-                                    fontWeight: FontWeight.w600,
+                                  style: TextStyle(
+                                    fontSize: 16
                                   ),
                                 )
                               : Container(),
                       Padding(
                         padding: EdgeInsets.only(
-                            left: 8, right: 8, top: 5, bottom: 8),
+                            left: 8, right: 8, top: 3, bottom: 3),
                       ),
                       widget.id.isEmpty || isEdit
                           ? TextField(
@@ -377,6 +415,7 @@ class _AddInstrumentScreenState
                               textAlign: TextAlign.center,
                               style: textTheme.subtitle.copyWith(
                                 fontWeight: FontWeight.w600,
+                                fontSize: 16
                               ),
                             ),
                       Padding(
@@ -432,7 +471,36 @@ class _AddInstrumentScreenState
                             ? EdgeInsets.all(5)
                             : EdgeInsets.all(5),
                       ),
-                      widget.id.isEmpty || isEdit ? Container() : Container(),
+                      widget.id.isNotEmpty && !isEdit?Column(
+                        children: <Widget>[
+                          Text(
+                            "Purchased",
+                            textAlign: TextAlign.right,
+                            style: textTheme.subtitle.copyWith(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16
+                            ),
+                          ),
+                          Container(
+                            height: 1,
+                            width: 100,
+                            color: Colors.black,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                            Text(
+                              _purchaseDateController.text,
+                              textAlign: TextAlign.left,
+                            ),
+                              Text(" - ${_costController.text}",
+                              style: TextStyle(
+                                fontSize: 15
+                              ),
+                              )
+                          ],)
+                        ],
+                      ):Container(),
                       widget.id.isEmpty || isEdit
                           ? TextField(
                               enabled: widget.id.isEmpty || isEdit,
@@ -456,28 +524,20 @@ class _AddInstrumentScreenState
                               ? Container()
                               : Column(
                                   children: <Widget>[
-                                    Text(
-                                      "Vendor",
-                                      textAlign: TextAlign.right,
-                                      style: textTheme.subtitle.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 1,
-                                      width: 100,
-                                      color: Colors.black,
-                                    ),
+                                    Padding(padding: EdgeInsets.all(1),),
                                     Text(
                                       _wherePurchaseController.text,
                                       textAlign: TextAlign.left,
+                                      style: TextStyle(fontSize:16,
+                                      fontWeight: FontWeight.bold
+                                      ),
                                     )
                                   ],
                                 ),
                       Padding(
                         padding: _wherePurchaseController.text.isEmpty
                             ? EdgeInsets.all(3)
-                            : EdgeInsets.all(5),
+                            : EdgeInsets.all(2),
                       ),
                       Padding(
                         padding: widget.id.isEmpty
@@ -593,39 +653,39 @@ class _AddInstrumentScreenState
                                               ? Container()
                                               : Row(
                                                   children: <Widget>[
-                                                    Expanded(
-                                                      flex: 5,
-                                                      child: Text(
-                                                        "Purch date",
-                                                        textAlign:
-                                                            TextAlign.right,
-                                                        style: textTheme
-                                                            .subtitle
-                                                            .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Text(
-                                                        " - ",
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                            fontSize: 17),
-                                                      ),
-                                                      flex: 1,
-                                                    ),
-                                                    Expanded(
-                                                      flex: 5,
-                                                      child: Text(
-                                                        _purchaseDateController
-                                                            .text,
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                      ),
-                                                    ),
+//                                                    Expanded(
+//                                                      flex: 5,
+//                                                      child: Text(
+//                                                        "Purch date",
+//                                                        textAlign:
+//                                                            TextAlign.right,
+//                                                        style: textTheme
+//                                                            .subtitle
+//                                                            .copyWith(
+//                                                          fontWeight:
+//                                                              FontWeight.w600,
+//                                                        ),
+//                                                      ),
+//                                                    ),
+//                                                    Expanded(
+//                                                      child: Text(
+//                                                        " - ",
+//                                                        textAlign:
+//                                                            TextAlign.center,
+//                                                        style: TextStyle(
+//                                                            fontSize: 17),
+//                                                      ),
+//                                                      flex: 1,
+//                                                    ),
+//                                                    Expanded(
+//                                                      flex: 5,
+//                                                      child: Text(
+//                                                        _purchaseDateController
+//                                                            .text,
+//                                                        textAlign:
+//                                                            TextAlign.left,
+//                                                      ),
+//                                                    ),
                                                   ],
                                                 ),
                                 ],
@@ -636,7 +696,7 @@ class _AddInstrumentScreenState
                       Padding(
                         padding: _purchaseDateController.text.isEmpty
                             ? EdgeInsets.all(0)
-                            : EdgeInsets.all(5),
+                            : EdgeInsets.all(0),
                       ),
                       widget.id.isEmpty || isEdit
                           ? TextField(
@@ -662,28 +722,28 @@ class _AddInstrumentScreenState
                               ? Container()
                               : Column(
                                   children: <Widget>[
-                                    Text(
-                                      "Cost",
-                                      textAlign: TextAlign.right,
-                                      style: textTheme.subtitle.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 1,
-                                      width: 100,
-                                      color: Colors.black,
-                                    ),
-                                    Text(
-                                      "\$" + _costController.text,
-                                      textAlign: TextAlign.left,
-                                    )
+//                                    Text(
+//                                      "Cost",
+//                                      textAlign: TextAlign.right,
+//                                      style: textTheme.subtitle.copyWith(
+//                                        fontWeight: FontWeight.w600,
+//                                      ),
+//                                    ),
+//                                    Container(
+//                                      height: 1,
+//                                      width: 100,
+//                                      color: Colors.black,
+//                                    ),
+//                                    Text(
+//                                      "\$" + _cost.toString(),
+//                                      textAlign: TextAlign.left,
+//                                    )
                                   ],
                                 ),
                       Padding(
                         padding: _costController.text.isEmpty
                             ? EdgeInsets.all(0)
-                            : EdgeInsets.all(5),
+                            : EdgeInsets.all(0),
                       ),
                       widget.id.isEmpty || isEdit ? Container() : Container(),
 //                      Text(
@@ -714,23 +774,27 @@ class _AddInstrumentScreenState
                             )
                           : _serialNumberController.text.isEmpty
                               ? Container()
-                              : Column(
+                              : Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     Text(
-                                      "SN#",
+                                      "SN# ",
                                       textAlign: TextAlign.right,
-                                      style: textTheme.subtitle.copyWith(
-                                        fontWeight: FontWeight.w600,
+                                      style: TextStyle(
+                                        fontSize: 16
                                       ),
                                     ),
-                                    Container(
-                                      height: 1,
-                                      width: 100,
-                                      color: Colors.black,
-                                    ),
+//                                    Container(
+//                                      height: 1,
+//                                      width: 100,
+//                                      color: Colors.black,
+//                                    ),
                                     Text(
-                                      _serialNumberController.text,
+                                      "  ${_serialNumberController.text}",
                                       textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        fontSize: 16
+                                      ),
                                     )
                                   ],
                                 ),
@@ -794,10 +858,10 @@ class _AddInstrumentScreenState
                                         )
                                       : _warrantyController.text.isEmpty
                                           ? Container()
-                                          : Row(
+                                          : Column(
                                               children: <Widget>[
-                                                Expanded(
-                                                  flex: 5,
+                                                Padding(padding: EdgeInsets.only(top: 2),),
+                                                Center(
                                                   child: Text(
                                                     "Warranty",
                                                     textAlign: TextAlign.right,
@@ -805,21 +869,21 @@ class _AddInstrumentScreenState
                                                         .copyWith(
                                                       fontWeight:
                                                           FontWeight.w600,
+                                                      fontSize: 16
                                                     ),
                                                   ),
                                                 ),
-                                                Expanded(
-                                                  child: Text(
-                                                    " - ",
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                  flex: 1,
-                                                ),
-                                                Expanded(
-                                                  flex: 5,
+                                                Container(
+                                                      height: 1,
+                                                      width: 100,
+                                                      color: Colors.black,
+                                                   ),
+                                                Center(
+                                                 
                                                   child: Text(
                                                     _warrantyController.text,
                                                     textAlign: TextAlign.left,
+                                                    style: TextStyle(fontSize: 16),
                                                   ),
                                                 ),
                                               ],
@@ -827,7 +891,7 @@ class _AddInstrumentScreenState
                                   Padding(
                                     padding: _warrantyController.text.isEmpty
                                         ? EdgeInsets.all(0)
-                                        : EdgeInsets.all(5),
+                                        : EdgeInsets.all(0),
                                   ),
                                   Padding(
                                     padding: widget.id.isEmpty
@@ -940,19 +1004,15 @@ class _AddInstrumentScreenState
                                                       : Row(
                                                           children: <Widget>[
                                                             Expanded(
-                                                              flex: 5,
+                                                              flex: 7,
                                                               child: Text(
-                                                                "Warranty expires",
+                                                                "Expires",
                                                                 textAlign:
                                                                     TextAlign
                                                                         .right,
-                                                                style: textTheme
-                                                                    .subtitle
-                                                                    .copyWith(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
+                                                                style: TextStyle(
+                                                                  fontSize: 15
+                                                                )
                                                               ),
                                                             ),
                                                             Expanded(
@@ -965,7 +1025,7 @@ class _AddInstrumentScreenState
                                                               flex: 1,
                                                             ),
                                                             Expanded(
-                                                              flex: 5,
+                                                              flex: 7,
                                                               child: Text(
                                                                 _warrantyEndController
                                                                     .text,
@@ -994,7 +1054,7 @@ class _AddInstrumentScreenState
                       Padding(
                         padding: _warrantyEndController.text.isEmpty
                             ? EdgeInsets.all(0)
-                            : EdgeInsets.all(5),
+                            : EdgeInsets.all(0),
                       ),
                       Padding(
                         padding: widget.id.isEmpty
@@ -1044,30 +1104,31 @@ class _AddInstrumentScreenState
                                   ),
                                 )
                               : _insuredController.text.isNotEmpty
-                                  ? Row(
+                                  ? Column(
                                       children: <Widget>[
-                                        Expanded(
-                                          flex: 5,
+                                        Center(
                                           child: Text(
-                                            "Insured with",
+                                            "Insurance",
                                             textAlign: TextAlign.right,
                                             style: textTheme.subtitle.copyWith(
                                               fontWeight: FontWeight.w600,
+                                              fontSize: 16
                                             ),
                                           ),
                                         ),
-                                        Expanded(
-                                          child: Text(
-                                            " - ",
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          flex: 1,
+                                        Container(
+                                          height: 1,
+                                          width: 100,
+                                          color: Colors.black,
                                         ),
-                                        Expanded(
-                                          flex: 5,
+  
+                                        Center(
                                           child: Text(
                                             _insuredController.text,
                                             textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              fontSize: 15
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -1077,7 +1138,7 @@ class _AddInstrumentScreenState
                       Padding(
                         padding: _insuredController.text.isEmpty
                             ? EdgeInsets.all(0)
-                            : EdgeInsets.all(5),
+                            : EdgeInsets.all(1),
                       ),
                       _isinsuranceInfo || widget.id.isNotEmpty
                           ? widget.id.isEmpty || isEdit
@@ -1105,25 +1166,20 @@ class _AddInstrumentScreenState
                                         Expanded(
                                           flex: 5,
                                           child: Text(
-                                            "Policy #",
+                                            "Policy #  ",
                                             textAlign: TextAlign.right,
                                             style: textTheme.subtitle.copyWith(
-                                              fontWeight: FontWeight.w600,
+                                              fontSize: 15
                                             ),
                                           ),
                                         ),
-                                        Expanded(
-                                          child: Text(
-                                            " - ",
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          flex: 1,
-                                        ),
+                                      
                                         Expanded(
                                           flex: 5,
                                           child: Text(
-                                            _policyController.text,
+                                           "  ${ _policyController.text}",
                                             textAlign: TextAlign.left,
+                                            style: TextStyle(fontSize: 15),
                                           ),
                                         ),
                                       ],
@@ -1255,63 +1311,7 @@ class _AddInstrumentScreenState
                                   borderRadius: BorderRadius.circular(18)),
                               textColor: Colors.white,
                               onPressed: () {
-                                String instrumentName =
-                                    _instrumentNameController.text;
-                                String wherePurchased =
-                                    _wherePurchaseController.text;
-                                String purchasedDate =
-                                    _purchaseDateController.text;
-                                String sno = _serialNumberController.text;
-                                String warranty = _warrantyController.text;
-                                String wendDate = _warrantyEndController.text;
-                                String wRef = _warrantyReferenceController.text;
-                                String wPh = _warrantyPhoneController.text;
-                                String com = _warrantyCompanyController.text;
-                                String cost = _costController.text;
-                                String nickName =
-                                    _instrumentNickNameController.text;
-                                String insuranceno = _insuredController.text;
-                                String policyno = _policyController.text;
-                                bool warrantyInfo = _iswarrantyAvailable;
-                                setState(() {
-                                  if (instrumentName.isEmpty) {
-                                    _errorInstrumentName = "Cannot be Empty";
-                                  } else {
-                                    UserInstrument instrument = UserInstrument(
-                                        band_id: selectedBand?.id ?? "0",
-                                        is_insured: _instrumentInsured,
-                                        bandId: widget.bandId,
-                                        name: instrumentName,
-                                        purchased_date: this.purchasedDate !=
-                                                null
-                                            ? this
-                                                .purchasedDate
-                                                .millisecondsSinceEpoch
-                                            : 0,
-                                        purchased_from: wherePurchased,
-                                        serial_number: sno,
-                                        user_id: presenter.serverAPI.userId,
-                                        warranty: warranty,
-                                        warranty_end_date:
-                                            this.warrantyEndDate != null
-                                                ? this
-                                                    .warrantyEndDate
-                                                    .millisecondsSinceEpoch
-                                                : 0,
-                                        warranty_phone: wPh,
-                                        warranty_reference: wRef,
-                                        nickName: nickName,
-                                        id: id,
-                                        cost: cost,
-                                        insuranceno: insuranceno,
-                                        isWarranty: warrantyInfo,
-                                        uploadedFiles: files,
-                                        policyno: policyno);
-
-                                    showLoading();
-                                    presenter.addInstrument(instrument);
-                                  }
-                                });
+                                _submitInstrument();
                               },
                               child: Text("Submit"),
                             )
@@ -1398,11 +1398,12 @@ class _AddInstrumentScreenState
           settings: MoneyFormatterSettings(
             symbol: 'US',
             thousandSeparator: ',',
-            decimalSeparator: ',',
+            decimalSeparator: '.',
             symbolAndNumberSeparator: ' ',
             fractionDigits: 2,
           ));
-      _costController.text = fmf.output.nonSymbol.toString();
+      _costController.text = instrument.cost;
+      _cost=   fmf.output.nonSymbol.toString();
       if (instrument.uploadedFiles != null) files = instrument.uploadedFiles;
       _instrumentNickNameController.text = instrument.nickName;
       _insuredController.text = instrument.insuranceno;
@@ -1466,4 +1467,65 @@ class _AddInstrumentScreenState
       },
     );
   }
+
+  void _submitInstrument() {
+    String instrumentName =
+        _instrumentNameController.text;
+    String wherePurchased =
+        _wherePurchaseController.text;
+    String purchasedDate =
+        _purchaseDateController.text;
+    String sno = _serialNumberController.text;
+    String warranty = _warrantyController.text;
+    String wendDate = _warrantyEndController.text;
+    String wRef = _warrantyReferenceController.text;
+    String wPh = _warrantyPhoneController.text;
+    String com = _warrantyCompanyController.text;
+    String cost = _costController.text;
+    String nickName =
+        _instrumentNickNameController.text;
+    String insuranceno = _insuredController.text;
+    String policyno = _policyController.text;
+    bool warrantyInfo = _iswarrantyAvailable;
+    setState(() {
+      if (instrumentName.isEmpty) {
+        _errorInstrumentName = "Cannot be Empty";
+      } else {
+        UserInstrument instrument = UserInstrument(
+            band_id: selectedBand?.id ?? "0",
+            is_insured: _instrumentInsured,
+            bandId: widget.bandId,
+            name: instrumentName,
+            purchased_date: this.purchasedDate !=
+                null
+                ? this
+                .purchasedDate
+                .millisecondsSinceEpoch
+                : 0,
+            purchased_from: wherePurchased,
+            serial_number: sno,
+            user_id: presenter.serverAPI.userId,
+            warranty: warranty,
+            warranty_end_date:
+            this.warrantyEndDate != null
+                ? this
+                .warrantyEndDate
+                .millisecondsSinceEpoch
+                : 0,
+            warranty_phone: wPh,
+            warranty_reference: wRef,
+            nickName: nickName,
+            id: id,
+            cost: cost,
+            insuranceno: insuranceno,
+            isWarranty: warrantyInfo,
+            uploadedFiles: files,
+            policyno: policyno);
+      
+        showLoading();
+        presenter.addInstrument(instrument);
+      }
+    });
+  }
+
 }

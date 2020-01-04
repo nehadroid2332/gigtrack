@@ -113,7 +113,7 @@ class _AddNotesScreenState
             }
           },
         ),
-        backgroundColor:  Color.fromRGBO(3, 218, 157, 1.0),
+        backgroundColor:  Color.fromRGBO(3, 54, 255, 1.0),
         actions: <Widget>[
           Container(
             alignment: Alignment.center,
@@ -161,7 +161,7 @@ class _AddNotesScreenState
         ClipPath(
           clipper: RoundedClipper(height / 4.5),
           child: Container(
-            color:  Color.fromRGBO(3, 218, 157, 1.0),
+            color:  Color.fromRGBO(3, 54, 255, 1.0),
             height: height / 4.5,
           ),
         ),
@@ -491,7 +491,7 @@ class _AddNotesScreenState
                                   subtitle: Text(notesTodo.description),
                                   leading: CircleAvatar(
                                       backgroundColor:
-                                      Color.fromRGBO(3, 218, 157, 1.0),
+                                      Color.fromRGBO(3, 54, 255, 1.0),
                                       radius: 35,
                                       child: Row(
                                         crossAxisAlignment:
@@ -604,7 +604,7 @@ class _AddNotesScreenState
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             6)),
-                                                color:  Color.fromRGBO(3, 218, 157, 1.0),
+                                                color: Color.fromRGBO(3, 54, 255, 1.0),
                                                 onPressed: () {
                                                   Navigator.of(context).pop();
                                                 },
@@ -622,7 +622,7 @@ class _AddNotesScreenState
                               onPressed: () {
                                 _submitnotes();
                               },
-                              color:  Color.fromRGBO(3, 218, 157, 1.0),
+                              color:  Color.fromRGBO(3, 54, 255, 1.0),
                               child: Text(
                                 "Submit",
                                 style: textTheme.headline.copyWith(
@@ -799,7 +799,7 @@ class _AddNotesScreenState
               ),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
-              color:  Color.fromRGBO(3, 218, 157, 1.0),
+              color:Color.fromRGBO(3, 54, 255, 1.0),
               onPressed: () {
                 Navigator.of(context).pop();
               },

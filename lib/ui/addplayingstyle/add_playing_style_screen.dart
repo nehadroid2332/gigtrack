@@ -1001,7 +1001,7 @@ class _AddPlayingStyleScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      ListView.builder(
+                      (widget.id.isNotEmpty || isEdit)? ListView.builder(
                         shrinkWrap: true,
                         itemCount: bandDetails.length,
                         physics: NeverScrollableScrollPhysics(),
@@ -1030,7 +1030,7 @@ class _AddPlayingStyleScreenState
 //                                    onPressed: () {
 //                                      showBandExp(bandDetail);
 //                                    },
-//                                  )
+//                                  ),
 
                               Text("${bandDetail.desc}"),
                               Text(
@@ -1047,7 +1047,7 @@ class _AddPlayingStyleScreenState
                             ],
                           );
                         },
-                      ),
+                      ):Container(),
                       (widget.id.isEmpty || isEdit)
                           ? exList.containsKey("Other")
                               ? TextField(

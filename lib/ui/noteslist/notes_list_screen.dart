@@ -84,7 +84,7 @@ class _NotesListScreenState
                 Text(
                   "Notes/Ideas",
                   style: textTheme.display1.copyWith(
-                      color:  Color.fromRGBO(3, 218, 157, 1.0),
+                      color:  Color.fromRGBO(3, 54, 255, 1.0),
                       fontSize: 28,
                       fontWeight: FontWeight.w500),
                   textAlign: TextAlign.left,

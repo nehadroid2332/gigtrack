@@ -143,7 +143,7 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.all(2),
+                                    padding: EdgeInsets.only(left: 4,right: 4,top: 8,bottom: 8),
                                   ),
                                   Icon(
                                     Icons.arrow_forward,
@@ -171,6 +171,7 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
                                 });
                               },
                             ),
+                            Padding(padding: EdgeInsets.all(3),),
                             FlatButton(
                               padding: EdgeInsets.zero,
                               textColor: Colors.white,
@@ -188,7 +189,7 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginPresenter>
                               ),
                             ),
                             FlatButton(
-                              padding: EdgeInsets.only(bottom: 40),
+                              padding: EdgeInsets.only(bottom: 25),
                               textColor: Colors.white,
                               onPressed: () {
                                 widget.appListener.router.navigateTo(

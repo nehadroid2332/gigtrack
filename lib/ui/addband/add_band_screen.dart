@@ -16,6 +16,7 @@ import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AddBandScreen extends BaseScreen {
   final String id;
@@ -159,6 +160,41 @@ class _AddBandScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
+    leading: IconButton(
+      icon: Icon(Icons.arrow_back_ios),
+      onPressed: () async {
+        if (isEdit) {
+          final check = await showDialog<bool>(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Do you want to save changes?"),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("No"),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                  ),
+                  FlatButton(
+                    child: Text("Yes"),
+                    onPressed: () {
+                      _submitband();
+                      Navigator.of(context).pop(true);
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+          if (check) {
+            Navigator.of(context).pop();
+          }
+        } else {
+          Navigator.of(context).pop();
+        }
+      },
+    ),
         backgroundColor: Color.fromRGBO(167, 0, 0, 1.0),
         actions: <Widget>[
           Container(
@@ -311,7 +347,12 @@ class _AddBandScreenState
             Text(" - "),
             Expanded(
               flex: 1,
-              child: Text("${mem.mobileText ?? 'No Contact Added'}"),
+              child: InkWell(onTap: (){
+                if(mem.mobileText!=null){
+                  String phone= 'tel:+1${mem.mobileText}';
+                  _callPhone(phone);
+                }
+              },child:Text("${mem.mobileText ?? 'No Contact Added'}") ,),
             ),
             mem.email == primaryContactEmail
                 ? Icon(Icons.account_circle)
@@ -336,7 +377,12 @@ class _AddBandScreenState
           Expanded(
             flex: 1,
             child: user != null
-                ? Text("${user.phone ?? 'No Contact Added'}")
+                ? InkWell(onTap: (){
+              if(user.phone!=null){
+                String phone= 'tel:+1${user.phone}';
+                _callPhone(phone);
+              }
+            },child: Text("${user.phone ?? 'No Contact Added'}"),)
                 : Container(),
           ),
         ],
@@ -1297,56 +1343,7 @@ class _AddBandScreenState
                                     borderRadius: BorderRadius.circular(18)),
                                 textColor: Colors.white,
                                 onPressed: () {
-                                  setState(() {
-                                    String dateStarted =
-                                        _dateStartedController.text;
-                                    String musicStyle =
-                                        _musicStyleController.text;
-                                    String bname = _bandNameController.text;
-                                    String blname =
-                                        _bandlegalNameController.text;
-                                    String legalstructure =
-                                        _legalStructureController.text;
-                                    String email = _emailController.text;
-                                    String website = _websiteController.text;
-                                    _errorBandLegalName = null;
-                                    _errorBandName = null;
-                                    _errorDateStarted = null;
-                                    _errorEmail = null;
-                                    _errorMusicStyle = null;
-                                    _errorStructure = null;
-                                    _errorWebsite = null;
-                                    if (bname.isEmpty) {
-                                      _errorBandName = "Cannot be empty";
-                                    }
-                                    //                                  else if (email.isEmpty) {
-                                    //                                    _errorEmail = "Cannot be empty";
-                                    //                                  }
-                                    //                                  else if (validateEmail(email)) {
-                                    //                                    _errorEmail = "Not a Valid Email";
-                                    //                                  }
-                                    else {
-                                      showLoading();
-                                      presenter.addBand(
-                                          selectedStartDate
-                                              .millisecondsSinceEpoch,
-                                          musicStyle,
-                                          bname,
-                                          blname,
-                                          legalstructure,
-                                          email,
-                                          website,
-                                          "",
-                                          _bandCityController.text,
-                                          _bandStateController.text,
-                                          _bandZipController.text,
-                                          files: files,
-                                          id: widget.id,
-                                          bandmates: bandmates,
-                                          creatorName:
-                                              "${user.firstName} ${user.lastName}");
-                                    }
-                                  });
+                                  _submitband();
                                 },
                                 child: Text("Submit"),
                               )
@@ -1584,5 +1581,65 @@ class _AddBandScreenState
     setState(() {
       user = res;
     });
+  }
+
+  void _submitband() {
+    setState(() {
+      String dateStarted =
+          _dateStartedController.text;
+      String musicStyle =
+          _musicStyleController.text;
+      String bname = _bandNameController.text;
+      String blname =
+          _bandlegalNameController.text;
+      String legalstructure =
+          _legalStructureController.text;
+      String email = _emailController.text;
+      String website = _websiteController.text;
+      _errorBandLegalName = null;
+      _errorBandName = null;
+      _errorDateStarted = null;
+      _errorEmail = null;
+      _errorMusicStyle = null;
+      _errorStructure = null;
+      _errorWebsite = null;
+      if (bname.isEmpty) {
+        _errorBandName = "Cannot be empty";
+      }
+      //                                  else if (email.isEmpty) {
+      //                                    _errorEmail = "Cannot be empty";
+      //                                  }
+      //                                  else if (validateEmail(email)) {
+      //                                    _errorEmail = "Not a Valid Email";
+      //                                  }
+      else {
+        showLoading();
+        presenter.addBand(
+            selectedStartDate
+                .millisecondsSinceEpoch,
+            musicStyle,
+            bname,
+            blname,
+            legalstructure,
+            email,
+            website,
+            "",
+            _bandCityController.text,
+            _bandStateController.text,
+            _bandZipController.text,
+            files: files,
+            id: widget.id,
+            bandmates: bandmates,
+            creatorName:
+            "${user.firstName} ${user.lastName}");
+      }
+    });
+  }
+  _callPhone(phone) async {
+    if (await canLaunch(phone)) {
+      await launch(phone);
+    } else {
+      throw 'Could not Call Phone';
+    }
   }
 }

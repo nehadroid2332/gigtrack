@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,6 +12,8 @@ import 'package:gigtrack/utils/showup.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:random_string/random_string.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+import 'package:url_launcher/url_launcher.dart';
 
 class AddContactScreen extends BaseScreen {
   final String id;
@@ -110,7 +111,42 @@ class _AddContactScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(3, 54, 255, 1.0),
+    leading: IconButton(
+      icon: Icon(Icons.arrow_back_ios),
+      onPressed: () async {
+        if (isEdit) {
+          final check = await showDialog<bool>(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Do you want to save changes?"),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("No"),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                  ),
+                  FlatButton(
+                    child: Text("Yes"),
+                    onPressed: () {
+                      _submitContact();
+                      Navigator.of(context).pop(true);
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+          if (check) {
+            Navigator.of(context).pop();
+          }
+        } else {
+          Navigator.of(context).pop();
+        }
+      },
+    ),
+        backgroundColor: Color.fromRGBO(3, 218, 157, 1.0),
         actions: <Widget>[
           Container(
             alignment: Alignment.center,
@@ -177,7 +213,7 @@ class _AddContactScreenState
             style: textTheme.subtitle.copyWith(
                 color: selectedLikesMap.containsKey(s)
                     ? Colors.white
-                    : Color.fromRGBO(3, 54, 255, 1.0)),
+                    : Color.fromRGBO(3, 218, 157, 1.0)),
           ),
           margin: EdgeInsets.all(5),
           padding: EdgeInsets.symmetric(
@@ -186,7 +222,7 @@ class _AddContactScreenState
           ),
           decoration: BoxDecoration(
             color: selectedLikesMap.containsKey(s)
-                ? Color.fromRGBO(3, 54, 255, 1.0)
+                ? Color.fromRGBO(3, 218, 157, 1.0)
                 : Color.fromRGBO(244, 246, 248, 1.0),
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
@@ -661,11 +697,18 @@ class _AddContactScreenState
                                             thickness: 1.5,
                                           )),
                                       Center(
-                                        child: Text(
-                                          _textController.text,
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(fontSize: 16),
-                                        ),
+                                        child: InkWell(
+	                                        onTap: ()async{
+	                                          String phone= 'tel:+1${_textController.text}';
+	                                          _callPhone(phone);
+		                                        //await CallNumber().callNumber(_textController.text);
+	                                        },
+	                                        
+	                                        child:Text(
+	                                        _textController.text,
+	                                        textAlign: TextAlign.left,
+	                                        style: TextStyle(fontSize: 16),
+                                        ) ,)
                                       )
                                     ],
                                   ),
@@ -760,11 +803,15 @@ class _AddContactScreenState
                                                 thickness: 1.5,
                                               )),
                                           Center(
-                                            child: Text(
+                                            child: InkWell(onTap: (){
+                                              String phone= 'tel:+1${_phoneController.text}';
+                                              _callPhone(phone);
+                                            },child:
+                                            Text(
                                               _phoneController.text,
                                               textAlign: TextAlign.left,
                                               style: TextStyle(fontSize: 16),
-                                            ),
+                                            ),)
                                           )
                                         ],
                                       ),
@@ -825,11 +872,15 @@ class _AddContactScreenState
                                                 thickness: 1.5,
                                               )),
                                           Center(
-                                            child: Text(
+                                            child: InkWell(onTap: (){
+                                              String email= "mailto:${_emailController.text}";
+                                              _callPhone(email);
+                                            },child:
+                                            Text(
                                               _emailController.text,
                                               textAlign: TextAlign.left,
                                               style: TextStyle(fontSize: 16),
-                                            ),
+                                            ),)
                                           )
                                         ],
                                       )
@@ -1539,7 +1590,7 @@ class _AddContactScreenState
                                   title: Text(notesTodo.title),
                                   leading: CircleAvatar(
                                       backgroundColor:
-                                          Color.fromRGBO(3, 218, 157, 1.0),
+                                      Color.fromRGBO(3, 218, 157, 1.0),
                                       radius: 35,
                                       child: Row(
                                         crossAxisAlignment:
@@ -1591,58 +1642,13 @@ class _AddContactScreenState
                             ),
                             widget.id.isEmpty || isEdit
                                 ? RaisedButton(
-                                    color: Color.fromRGBO(3, 54, 255, 1.0),
+                                    color: Color.fromRGBO(3, 218, 157, 1.0),
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(18)),
                                     textColor: Colors.white,
                                     onPressed: () {
-                                      selectedLikesMap.forEach((key, value) => {
-                                            if (value.isEmpty)
-                                              {selectedLikesMap.remove(key)}
-                                          });
-                                      setState(() {
-                                        String nm = _nameController.text;
-                                        String rel =
-                                            _relationshipController.text;
-                                        String ph = _phoneController.text;
-                                        String txt = _textController.text;
-                                        String em = _emailController.text;
-                                        String otherrelationShip =
-                                            _otherRelationshipController.text;
-                                        String companyName =
-                                            _companyNameController.text;
-                                        String notes = _notesController.text;
-                                        _errorEmail = null;
-                                        _errorName = null;
-                                        _errorPhone = null;
-                                        _errorRelationship = null;
-                                        _errorText = null;
-                                        if (nm.isEmpty) {
-                                          _errorName = "Cannot be empty";
-                                        } else {
-                                          showLoading();
-                                          Contacts contacts = new Contacts();
-                                          contacts.name = nm;
-                                          contacts.id = widget.id;
-                                          contacts.bandId = widget.bandId;
-                                          contacts.relationship = rel;
-                                          contacts.email = em;
-                                          contacts.phone = ph;
-                                          contacts.text = txt;
-                                          contacts.files = files;
-                                          contacts.subContacts = subContacts;
-                                          contacts.likeadded = selectedLikesMap;
-                                          contacts.dateToRemember =
-                                              _dateToRememberItems;
-                                          contacts.otherrelationship =
-                                              otherrelationShip;
-                                          contacts.companyName = companyName;
-                                          contacts.notes = notes;
-                                          //contacts.likeadded= selectedLikesMap;
-                                          presenter.addContact(contacts);
-                                        }
-                                      });
+                                      _submitContact();
                                     },
                                     child: Text("Submit"),
                                   )
@@ -1870,7 +1876,7 @@ class _AddContactScreenState
               ),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
-              color: Color.fromRGBO(3, 54, 255, 1.0),
+              color: Color.fromRGBO(3, 218, 157, 1.0),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -1879,6 +1885,62 @@ class _AddContactScreenState
         );
       },
     );
+  }
+
+  void _submitContact() {
+    selectedLikesMap.forEach((key, value) => {
+      if (value.isEmpty)
+        {selectedLikesMap.remove(key)}
+    });
+    setState(() {
+      String nm = _nameController.text;
+      String rel =
+          _relationshipController.text;
+      String ph = _phoneController.text;
+      String txt = _textController.text;
+      String em = _emailController.text;
+      String otherrelationShip =
+          _otherRelationshipController.text;
+      String companyName =
+          _companyNameController.text;
+      String notes = _notesController.text;
+      _errorEmail = null;
+      _errorName = null;
+      _errorPhone = null;
+      _errorRelationship = null;
+      _errorText = null;
+      if (nm.isEmpty) {
+        _errorName = "Cannot be empty";
+      } else {
+        showLoading();
+        Contacts contacts = new Contacts();
+        contacts.name = nm;
+        contacts.id = widget.id;
+        contacts.bandId = widget.bandId;
+        contacts.relationship = rel;
+        contacts.email = em;
+        contacts.phone = ph;
+        contacts.text = txt;
+        contacts.files = files;
+        contacts.subContacts = subContacts;
+        contacts.likeadded = selectedLikesMap;
+        contacts.dateToRemember =
+            _dateToRememberItems;
+        contacts.otherrelationship =
+            otherrelationShip;
+        contacts.companyName = companyName;
+        contacts.notes = notes;
+        //contacts.likeadded= selectedLikesMap;
+        presenter.addContact(contacts);
+      }
+    });
+  }
+  _callPhone(phone) async {
+    if (await canLaunch(phone)) {
+      await launch(phone);
+    } else {
+      throw 'Could not Call Phone';
+    }
   }
 }
 

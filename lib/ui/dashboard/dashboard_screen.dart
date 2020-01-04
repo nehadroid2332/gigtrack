@@ -95,19 +95,6 @@ class _DashboardScreenState
                       ),
                       IconButton(
                         icon: Icon(
-                          Icons.help,
-                        ),
-                        color: Color.fromRGBO(222, 153, 24, 1.0),
-                        iconSize: 26,
-                        onPressed: () {
-                          widget.appListener.router.navigateTo(
-                            context,
-                            Screens.HELP.toString(),
-                          );
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(
                           Icons.notifications,
                         ),
                         color: Color.fromRGBO(222, 153, 24, 1.0),
@@ -119,6 +106,20 @@ class _DashboardScreenState
                           );
                         },
                       ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.help,
+                        ),
+                        color: Color.fromRGBO(222, 153, 24, 1.0),
+                        iconSize: 26,
+                        onPressed: () {
+                          widget.appListener.router.navigateTo(
+                            context,
+                            Screens.HELP.toString(),
+                          );
+                        },
+                      ),
+                      Padding(padding: EdgeInsets.only(left: 20),),
                       IconButton(
                         icon: Icon(
                           Icons.power_settings_new,
@@ -201,7 +202,7 @@ class _DashboardScreenState
                       //color=Color.fromRGBO(239,181, 77, 1.0);
                       //	color = Color.fromRGBO(196, 227, 102, 0.1);
                       image = 'assets/images/notesicon.svg';
-                      borderColor = Color.fromRGBO(3, 218, 157, 1.0);
+                      borderColor = Color.fromRGBO(3, 54, 255, 1.0);
                       break;
                     case "BAND":
                       color = Color.fromRGBO(225, 222, 222, 0.7);
@@ -229,7 +230,7 @@ class _DashboardScreenState
                       //color= Color.fromRGBO(191, 53, 42, 1.0);
                       //color = Color.fromRGBO(243, 135, 75, 0.1);
                       image = 'assets/images/telcontact.svg';
-                      borderColor = Color.fromRGBO(3, 54, 255, 1.0);
+                      borderColor = Color.fromRGBO(3, 218, 157, 1.0);//Color.fromRGBO(3, 54, 255, 1.0);
                       break;
                     case "FEEDBACK":
                       color = Color.fromRGBO(225, 222, 222, 0.7);
@@ -380,7 +381,7 @@ class _DashboardScreenState
               textAlign: TextAlign.center,
             ),
             content: Text(
-                "\nThanks for joining up with us during our tour .  Your experience here is very important to us.\n\nPlease use every feature and let us know what you think.  We want to hear your feedback on colors, displays, functionality, issues and anything that can make our app better for you.\n\nSincerely,\nThe Gigtrack Team"),
+                "\nThanks for joining up with us during our rehearsal .  Your experience here is very important to us.\n\nPlease use every feature and let us know what you think.  We want to hear your feedback on colors, displays, functionality, issues and anything that can make our app better for you.\n\nSincerely,\nThe Gigtrack Team"),
             actions: <Widget>[
               new RaisedButton(
                 child: new Text(

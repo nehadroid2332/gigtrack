@@ -116,7 +116,7 @@ class _ContactListScreenState
                         Text(
                           "Contacts",
                           style: textTheme.display1.copyWith(
-                              color: Color.fromRGBO(3, 54, 255, 1.0),
+                              color: Color.fromRGBO(3, 218, 157, 1.0),
                               fontSize: 28,
                               fontWeight: FontWeight.w500),
                           textAlign: TextAlign.left,
@@ -164,8 +164,7 @@ class _ContactListScreenState
                                               ? Center(
                                                   child: Container(
                                                   decoration: new BoxDecoration(
-                                                    color: Color.fromRGBO(
-                                                        3, 54, 255, 1.0),
+                                                    color: Color.fromRGBO(3, 218, 157, 1.0),
                                                   ),
                                                   padding: EdgeInsets.only(
                                                       left: 22,
@@ -220,8 +219,7 @@ class _ContactListScreenState
                                                   alignment:
                                                       Alignment.bottomCenter,
                                                   child: Divider(
-                                                    color: Color.fromRGBO(
-                                                        3, 54, 255, 1.0),
+                                                    color: Color.fromRGBO(3, 218, 157, 1.0),
                                                     height: 5,
                                                     thickness: 1.5,
                                                   ))
@@ -246,8 +244,7 @@ class _ContactListScreenState
                                                               : 0, //
                                                       color: cnt
                                                               .bandId.isNotEmpty
-                                                          ? Color.fromRGBO(
-                                                              3, 54, 255, 1.0)
+                                                          ? Color.fromRGBO(3, 218, 157, 1.0)
                                                           : Colors
                                                               .white //               <--- border width here
                                                       ),
@@ -293,16 +290,8 @@ class _ContactListScreenState
                                                                   color: cnt
                                                                           .bandId
                                                                           .isNotEmpty
-                                                                      ? Color.fromRGBO(
-                                                                          3,
-                                                                          54,
-                                                                          255,
-                                                                          1.0)
-                                                                      : Color.fromRGBO(
-                                                                          3,
-                                                                          54,
-                                                                          255,
-                                                                          1.0),
+                                                                      ? Color.fromRGBO(3, 218, 157, 1.0)
+                                                                      : Color.fromRGBO(3, 218, 157, 1.0),
                                                                 ),
                                                               )
                                                             : Container(),
@@ -1033,7 +1022,7 @@ class _ContactListScreenState
               },
               child: Icon(
                 Icons.add,
-                color: Color.fromRGBO(3, 54, 255, 1.0),
+                color: Color.fromRGBO(3, 218, 157, 1.0),
               ),
               backgroundColor: Colors.yellow,
             )

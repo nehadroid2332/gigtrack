@@ -51,6 +51,41 @@ class _AddBulletInBoardScreenState
           color: Colors.white, //change your color here
         ),
         elevation: 0,
+    leading: IconButton(
+      icon: Icon(Icons.arrow_back_ios),
+      onPressed: () async {
+        if (isEdit) {
+          final check = await showDialog<bool>(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Do you want to save changes?"),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("No"),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                  ),
+                  FlatButton(
+                    child: Text("Yes"),
+                    onPressed: () {
+                      _submitBulletin();
+                      Navigator.of(context).pop(true);
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+          if (check) {
+            Navigator.of(context).pop();
+          }
+        } else {
+          Navigator.of(context).pop();
+        }
+      },
+    ),
         backgroundColor: Color.fromRGBO(214, 22, 35, 1.0),
         actions: <Widget>[
           Container(
@@ -368,29 +403,7 @@ class _AddBulletInBoardScreenState
                       widget.id.isEmpty || isEdit
                           ? RaisedButton(
                               onPressed: () {
-                                String desc = _descController.text;
-                                String note = _noteController.text;
-
-                                setState(() {
-                                  _descError = null;
-                                  _startDateError = null;
-                                  if (desc.isEmpty) {
-                                    _descError = "Cannot be Empty";
-                                  } else {
-                                    BulletInBoard notesTodo = BulletInBoard(
-                                      description: desc,
-                                      date: selectedStartDate != null
-                                          ? selectedStartDate
-                                              .millisecondsSinceEpoch
-                                          : 0,
-                                      type: type,
-                                      id: widget.id,
-                                      item: note,
-                                    );
-                                    showLoading();
-                                    presenter.addBulletIn(notesTodo);
-                                  }
-                                });
+                               _submitBulletin();
                               },
                               color: Color.fromRGBO(214, 22, 35, 1.0),
                               child: Text(
@@ -632,5 +645,31 @@ class _AddBulletInBoardScreenState
         );
       },
     );
+  }
+
+  void _submitBulletin() {
+    String desc = _descController.text;
+    String note = _noteController.text;
+  
+    setState(() {
+      _descError = null;
+      _startDateError = null;
+      if (desc.isEmpty) {
+        _descError = "Cannot be Empty";
+      } else {
+        BulletInBoard notesTodo = BulletInBoard(
+          description: desc,
+          date: selectedStartDate != null
+              ? selectedStartDate
+              .millisecondsSinceEpoch
+              : 0,
+          type: type,
+          id: widget.id,
+          item: note,
+        );
+        showLoading();
+        presenter.addBulletIn(notesTodo);
+      }
+    });
   }
 }
