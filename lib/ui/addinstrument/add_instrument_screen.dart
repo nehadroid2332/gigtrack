@@ -267,30 +267,34 @@ class _AddInstrumentScreenState
               ),
             ),
           ),
-          widget.id.isEmpty
-              ? Container()
-              : IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    setState(() {
-                      isEdit = !isEdit;
-                    });
-                  },
-                ),
-          widget.id.isEmpty
-              ? Container()
-              : IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    if (id == null || id.isEmpty) {
-                      showMessage("Id cannot be null");
-                    } else {
-                      _showDialogConfirm();
-                      // presenter.instrumentDelete(id);
-                      // Navigator.of(context).pop();
-                    }
-                  },
-                )
+          subInstrument == null
+              ? widget.id.isEmpty
+                  ? Container()
+                  : IconButton(
+                      icon: Icon(Icons.edit),
+                      onPressed: () {
+                        setState(() {
+                          isEdit = !isEdit;
+                        });
+                      },
+                    )
+              : Container(),
+          subInstrument == null
+              ? widget.id.isEmpty
+                  ? Container()
+                  : IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {
+                        if (id == null || id.isEmpty) {
+                          showMessage("Id cannot be null");
+                        } else {
+                          _showDialogConfirm();
+                          // presenter.instrumentDelete(id);
+                          // Navigator.of(context).pop();
+                        }
+                      },
+                    )
+              : Container()
         ],
       );
 

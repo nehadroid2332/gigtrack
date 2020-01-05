@@ -111,41 +111,41 @@ class _AddContactScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-    leading: IconButton(
-      icon: Icon(Icons.arrow_back_ios),
-      onPressed: () async {
-        if (isEdit) {
-          final check = await showDialog<bool>(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text("Do you want to save changes?"),
-                actions: <Widget>[
-                  FlatButton(
-                    child: Text("No"),
-                    onPressed: () {
-                      Navigator.of(context).pop(true);
-                    },
-                  ),
-                  FlatButton(
-                    child: Text("Yes"),
-                    onPressed: () {
-                      _submitContact();
-                      Navigator.of(context).pop(true);
-                    },
-                  ),
-                ],
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () async {
+            if (isEdit) {
+              final check = await showDialog<bool>(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Do you want to save changes?"),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text("No"),
+                        onPressed: () {
+                          Navigator.of(context).pop(true);
+                        },
+                      ),
+                      FlatButton(
+                        child: Text("Yes"),
+                        onPressed: () {
+                          _submitContact();
+                          Navigator.of(context).pop(true);
+                        },
+                      ),
+                    ],
+                  );
+                },
               );
-            },
-          );
-          if (check) {
-            Navigator.of(context).pop();
-          }
-        } else {
-          Navigator.of(context).pop();
-        }
-      },
-    ),
+              if (check) {
+                Navigator.of(context).pop();
+              }
+            } else {
+              Navigator.of(context).pop();
+            }
+          },
+        ),
         backgroundColor: Color.fromRGBO(3, 218, 157, 1.0),
         actions: <Widget>[
           Container(
@@ -161,31 +161,35 @@ class _AddContactScreenState
               ),
             ),
           ),
-          widget.id.isEmpty
-              ? Container()
-              : IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    setState(() {
-                      isEdit = !isEdit;
-                      _adddefaultlikes = true;
-                    });
-                  },
-                ),
-          widget.id.isEmpty
-              ? Container()
-              : IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    if (widget.id == null || widget.id.isEmpty) {
-                      showMessage("Id cannot be null");
-                    } else {
-                      _showDialogConfirm();
+          subContact == null
+              ? widget.id.isEmpty
+                  ? Container()
+                  : IconButton(
+                      icon: Icon(Icons.edit),
+                      onPressed: () {
+                        setState(() {
+                          isEdit = !isEdit;
+                          _adddefaultlikes = true;
+                        });
+                      },
+                    )
+              : Container(),
+          subContact == null
+              ? widget.id.isEmpty
+                  ? Container()
+                  : IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {
+                        if (widget.id == null || widget.id.isEmpty) {
+                          showMessage("Id cannot be null");
+                        } else {
+                          _showDialogConfirm();
 //                      presenter.contactDelete(id);
 //                      Navigator.of(context).pop();
-                    }
-                  },
-                )
+                        }
+                      },
+                    )
+              : Container()
         ],
       );
 
@@ -697,19 +701,19 @@ class _AddContactScreenState
                                             thickness: 1.5,
                                           )),
                                       Center(
-                                        child: InkWell(
-	                                        onTap: ()async{
-	                                          String phone= 'tel:+1${_textController.text}';
-	                                          _callPhone(phone);
-		                                        //await CallNumber().callNumber(_textController.text);
-	                                        },
-	                                        
-	                                        child:Text(
-	                                        _textController.text,
-	                                        textAlign: TextAlign.left,
-	                                        style: TextStyle(fontSize: 16),
-                                        ) ,)
-                                      )
+                                          child: InkWell(
+                                        onTap: () async {
+                                          String phone =
+                                              'tel:+1${_textController.text}';
+                                          _callPhone(phone);
+                                          //await CallNumber().callNumber(_textController.text);
+                                        },
+                                        child: Text(
+                                          _textController.text,
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(fontSize: 16),
+                                        ),
+                                      ))
                                     ],
                                   ),
                             Padding(
@@ -803,16 +807,18 @@ class _AddContactScreenState
                                                 thickness: 1.5,
                                               )),
                                           Center(
-                                            child: InkWell(onTap: (){
-                                              String phone= 'tel:+1${_phoneController.text}';
+                                              child: InkWell(
+                                            onTap: () {
+                                              String phone =
+                                                  'tel:+1${_phoneController.text}';
                                               _callPhone(phone);
-                                            },child:
-                                            Text(
+                                            },
+                                            child: Text(
                                               _phoneController.text,
                                               textAlign: TextAlign.left,
                                               style: TextStyle(fontSize: 16),
-                                            ),)
-                                          )
+                                            ),
+                                          ))
                                         ],
                                       ),
                             Padding(
@@ -872,16 +878,18 @@ class _AddContactScreenState
                                                 thickness: 1.5,
                                               )),
                                           Center(
-                                            child: InkWell(onTap: (){
-                                              String email= "mailto:${_emailController.text}";
+                                              child: InkWell(
+                                            onTap: () {
+                                              String email =
+                                                  "mailto:${_emailController.text}";
                                               _callPhone(email);
-                                            },child:
-                                            Text(
+                                            },
+                                            child: Text(
                                               _emailController.text,
                                               textAlign: TextAlign.left,
                                               style: TextStyle(fontSize: 16),
-                                            ),)
-                                          )
+                                            ),
+                                          ))
                                         ],
                                       )
                                     : Container(),
@@ -1590,7 +1598,7 @@ class _AddContactScreenState
                                   title: Text(notesTodo.title),
                                   leading: CircleAvatar(
                                       backgroundColor:
-                                      Color.fromRGBO(3, 218, 157, 1.0),
+                                          Color.fromRGBO(3, 218, 157, 1.0),
                                       radius: 35,
                                       child: Row(
                                         crossAxisAlignment:
@@ -1889,20 +1897,16 @@ class _AddContactScreenState
 
   void _submitContact() {
     selectedLikesMap.forEach((key, value) => {
-      if (value.isEmpty)
-        {selectedLikesMap.remove(key)}
-    });
+          if (value.isEmpty) {selectedLikesMap.remove(key)}
+        });
     setState(() {
       String nm = _nameController.text;
-      String rel =
-          _relationshipController.text;
+      String rel = _relationshipController.text;
       String ph = _phoneController.text;
       String txt = _textController.text;
       String em = _emailController.text;
-      String otherrelationShip =
-          _otherRelationshipController.text;
-      String companyName =
-          _companyNameController.text;
+      String otherrelationShip = _otherRelationshipController.text;
+      String companyName = _companyNameController.text;
       String notes = _notesController.text;
       _errorEmail = null;
       _errorName = null;
@@ -1924,10 +1928,8 @@ class _AddContactScreenState
         contacts.files = files;
         contacts.subContacts = subContacts;
         contacts.likeadded = selectedLikesMap;
-        contacts.dateToRemember =
-            _dateToRememberItems;
-        contacts.otherrelationship =
-            otherrelationShip;
+        contacts.dateToRemember = _dateToRememberItems;
+        contacts.otherrelationship = otherrelationShip;
         contacts.companyName = companyName;
         contacts.notes = notes;
         //contacts.likeadded= selectedLikesMap;
@@ -1935,6 +1937,7 @@ class _AddContactScreenState
       }
     });
   }
+
   _callPhone(phone) async {
     if (await canLaunch(phone)) {
       await launch(phone);
