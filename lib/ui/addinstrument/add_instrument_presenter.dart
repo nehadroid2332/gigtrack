@@ -53,4 +53,15 @@ class AddInstrumentPresenter extends BasePresenter {
   void instrumentDelete(String id) {
     serverAPI.deleteInstrument(id);
   }
+
+  void addSubInstrumentNote(List<SubInstrumentNotes> subInstruments, String id) async{
+    final res = await serverAPI.getInstrumentDetails(id);
+    if (res is UserInstrument) {
+      res.subNotes = subInstruments;
+      await serverAPI.addInstrument(res);
+      (view as AddInstrumentContract).getInstrumentDetails(res);
+    } else if (res is ErrorResponse) {
+      view.showMessage(res.message);
+    }
+  }
 }

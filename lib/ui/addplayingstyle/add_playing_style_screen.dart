@@ -1681,6 +1681,7 @@ class _AddPlayingStyleScreenState
       _nameBandController.text = res.name;
       _bandCity = res.city;
       _bandState = res.state;
+      
     });
   }
 

@@ -26,6 +26,7 @@ class UserInstrument extends BaseModel {
   Band band;
   List<dynamic> uploadedFiles = [];
   String bandId;
+  List<SubInstrumentNotes> subNotes = [];
 
   UserInstrument(
       {this.band_id,
@@ -74,6 +75,11 @@ class UserInstrument extends BaseModel {
     this.isInsurance = data['isInsurance'];
     if (data['uploadedFiles'] != null)
       this.uploadedFiles = data['uploadedFiles'];
+    if (data['subInstrumentNotes'] != null) {
+      for (var item in data['subInstrumentNotes']) {
+        subNotes.add(SubInstrumentNotes.fromJSON(item));
+      }
+    }
   }
 
   @override
@@ -101,6 +107,33 @@ class UserInstrument extends BaseModel {
     data['policy_no'] = policyno ?? "";
     data['isInsurance'] = isInsurance ?? false;
     data['isWarranty'] = isWarranty ?? false;
+    final subbs = <dynamic>[];
+    for (var item in subNotes) {
+      subbs.add(item.toMap());
+    }
+    data['subInstrumentNotes'] = subbs;
+    return data;
+  }
+}
+
+class SubInstrumentNotes extends BaseModel {
+  String id;
+  String title;
+  int createdDate;
+  SubInstrumentNotes();
+
+  SubInstrumentNotes.fromJSON(dynamic data) {
+    id = data['id'];
+    title = data['title'];
+    createdDate = data['createdDate'];
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> data = super.toMap();
+    data['id'] = id;
+    data['title'] = title;
+    data['createdDate'] = createdDate;
     return data;
   }
 }
