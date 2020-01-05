@@ -933,7 +933,7 @@ class _AddBandScreenState
                                               top: 2, bottom: 2),
                                           child: user.instrumentList.length > 0
                                               ? Text(
-                                                  "${user.firstName} ${user.lastName} - ${user.instrumentList?.join(',')}",
+                                                  "${user.firstName} ${user.lastName} - ${user.instrumentList?.join(', ')}",
                                                   style: textTheme.subhead
                                                       .copyWith(
                                                     color: Colors.black,
