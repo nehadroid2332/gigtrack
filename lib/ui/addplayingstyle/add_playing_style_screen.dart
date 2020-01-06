@@ -1001,30 +1001,40 @@ class _AddPlayingStyleScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      (widget.id.isNotEmpty || isEdit)? ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: bandDetails.length,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (BuildContext context, int index) {
-                          BandDetails bandDetail = bandDetails[index];
-                          return Column(
-                            children: <Widget>[
-                              Center(
-                                child: Text("${bandDetail.bandName}"),
-                              ),
-                              new Container(
-                                  padding: EdgeInsets.only(
-                                      left:
-                                          MediaQuery.of(context).size.width / 3,
-                                      right:
-                                          MediaQuery.of(context).size.width / 3,
-                                      top: 0),
-                                  alignment: Alignment.bottomCenter,
-                                  child: Divider(
-                                    color: Colors.black,
-                                    height: 5,
-                                    thickness: 1.5,
-                                  )),
+                      (widget.id.isNotEmpty || isEdit)
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: bandDetails.length,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (BuildContext context, int index) {
+                                BandDetails bandDetail = bandDetails[index];
+                                return Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Column(
+                                        children: <Widget>[
+                                          Center(
+                                            child:
+                                                Text("${bandDetail.bandName}"),
+                                          ),
+                                          new Container(
+                                              padding: EdgeInsets.only(
+                                                  left: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      3,
+                                                  right: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      3,
+                                                  top: 0),
+                                              alignment: Alignment.bottomCenter,
+                                              child: Divider(
+                                                color: Colors.black,
+                                                height: 5,
+                                                thickness: 1.5,
+                                              )),
 //                                  IconButton(
 //                                    icon: Icon(Icons.edit),
 //                                    onPressed: () {
@@ -1032,22 +1042,43 @@ class _AddPlayingStyleScreenState
 //                                    },
 //                                  ),
 
-                              Text("${bandDetail.desc}"),
-                              Text(
-                                  "${bandDetail.dateFrom}-${bandDetail.dateTo}"),
-                              Padding(
-                                padding: EdgeInsets.all(8),
-                              ),
+                                          Text("${bandDetail.desc}"),
+                                          Text(
+                                              "${bandDetail.dateFrom}-${bandDetail.dateTo}"),
+                                          Padding(
+                                            padding: EdgeInsets.all(8),
+                                          ),
 //                              Container(
 //                                child: null,
 //                                width: MediaQuery.of(context).size.width,
 //                                height: 1,
 //                                color: Colors.grey,
 //                              )
-                            ],
-                          );
-                        },
-                      ):Container(),
+                                        ],
+                                      ),
+                                    ),
+                                    isEdit
+                                        ? IconButton(
+                                            icon: Icon(Icons.edit),
+                                            onPressed: () {
+                                              showBandExp(bandDetail);
+                                            },
+                                          )
+                                        : Container(),
+                                    isEdit
+                                        ? IconButton(
+                                            icon: Icon(Icons.delete),
+                                            onPressed: () {
+                                              presenter.addBandExtra(bandDetail,
+                                                  widget.id, false, true);
+                                            },
+                                          )
+                                        : Container()
+                                  ],
+                                );
+                              },
+                            )
+                          : Container(),
                       (widget.id.isEmpty || isEdit)
                           ? exList.containsKey("Other")
                               ? TextField(
@@ -1681,7 +1712,6 @@ class _AddPlayingStyleScreenState
       _nameBandController.text = res.name;
       _bandCity = res.city;
       _bandState = res.state;
-      
     });
   }
 
@@ -1693,17 +1723,17 @@ class _AddPlayingStyleScreenState
   }
 
   @override
-  void addBandExtra() {
-    Navigator.pop(context);
+  void addBandExtra(bool isDelete) {
+    if (!isDelete) Navigator.pop(context);
     presenter.getPlayingStyleDetails(widget.id);
   }
 
-  void showBandExp(BandDetails bandDetails) {
-    if (bandDetails != null) {
-      _bandNameController.text = bandDetails.bandName;
-      _descController.text = bandDetails.desc;
-      _yearFromController.text = bandDetails.dateFrom;
-      _yearToController.text = bandDetails.dateTo;
+  void showBandExp(BandDetails bandDetail) {
+    if (bandDetail != null) {
+      _bandNameController.text = bandDetail.bandName;
+      _descController.text = bandDetail.desc;
+      _yearFromController.text = bandDetail.dateFrom;
+      _yearToController.text = bandDetail.dateTo;
     } else {
       _bandNameController.clear();
       _descController.clear();
@@ -1741,18 +1771,19 @@ class _AddPlayingStyleScreenState
                 child: new Text('Submit'),
                 onPressed: () {
                   bool isUpdate = true;
-                  if (bandDetails == null) {
+                  if (bandDetail == null) {
                     isUpdate = false;
-                    bandDetails = BandDetails();
+                    bandDetail = BandDetails();
                   }
-                  if (bandDetails.id == null) {
-                    bandDetails.id = randomString(18).replaceAll(",/\\", "");
+                  if (bandDetail.id == null) {
+                    bandDetail.id = randomString(18).replaceAll(",/\\", "");
                   }
-                  bandDetails.bandName = _bandNameController.text;
-                  bandDetails.desc = _descController.text;
-                  bandDetails.dateTo = _yearToController.text;
-                  bandDetails.dateFrom = _yearFromController.text;
-                  presenter.addBandExtra(bandDetails, widget.id, isUpdate);
+                  bandDetail.bandName = _bandNameController.text;
+                  bandDetail.desc = _descController.text;
+                  bandDetail.dateTo = _yearToController.text;
+                  bandDetail.dateFrom = _yearFromController.text;
+                  presenter.addBandExtra(
+                      bandDetail, widget.id, isUpdate, false);
                 },
               )
             ],

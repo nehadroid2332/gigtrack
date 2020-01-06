@@ -19,7 +19,7 @@ abstract class AddPlayingStyleContract extends BaseContract {
 
   void onUserDetailsSuccess(User res);
 
-  void addBandExtra();
+  void addBandExtra(bool isDelete);
 }
 
 class AddPlayingStylePresenter extends BasePresenter {
@@ -70,21 +70,26 @@ class AddPlayingStylePresenter extends BasePresenter {
     }
   }
 
-  void addBandExtra(BandDetails bandDetails, String id, bool isUpdate) async {
+  void addBandExtra(
+      BandDetails bandDetails, String id, bool isUpdate, bool isDelete) async {
     final res = await serverAPI.getPlayingStyleDetails(id);
     if (res is UserPlayingStyle) {
       if (isUpdate) {
         for (var i = 0; i < res.bandDetails.length; i++) {
           BandDetails bandDetails1 = res.bandDetails[i];
           if (bandDetails1.id == bandDetails.id) {
-            res.bandDetails[i] = bandDetails1;
+            res.bandDetails[i] = bandDetails;
           }
         }
+      } else if (isDelete) {
+        res.bandDetails.removeWhere((a) {
+          return a.id == bandDetails.id;
+        });
       } else {
         res.bandDetails.add(bandDetails);
       }
       await serverAPI.addUserPlayingStyle(res);
-      (view as AddPlayingStyleContract).addBandExtra();
+      (view as AddPlayingStyleContract).addBandExtra(isDelete);
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
     }
