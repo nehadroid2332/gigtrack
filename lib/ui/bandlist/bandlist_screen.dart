@@ -55,7 +55,7 @@ class _BandListScreenState
               });
             },
             itemBuilder: (BuildContext context) {
-              return ["Newest", "Oldest"].map((String choice) {
+              return ["Newest", "Oldest", "My Band"].map((String choice) {
                 return PopupMenuItem<String>(
                   value: choice,
                   child: Text(choice),

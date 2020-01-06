@@ -36,9 +36,12 @@ class BandListPresenter extends BasePresenter {
           acc.sort((a, b) {
             return b.created.compareTo(a.created);
           });
+        } else if (filter == "My Band") {
+          return acc.where((a) {
+            return a.userId == serverAPI.currentUserId;
+          }).toList();
         }
       }
-
       return acc;
     });
   }
