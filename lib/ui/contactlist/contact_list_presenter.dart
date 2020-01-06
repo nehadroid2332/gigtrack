@@ -21,16 +21,17 @@ class ContactListPresenter extends BasePresenter {
         for (var d in mp.values) {
           final contact = Contacts.fromJSON(d);
 
-          if (contactInit != null &&
-              getNameOrder(contact.name)[0].toLowerCase() ==
-                  contactInit.toLowerCase()) {
-            acc.add(contact);
-          } else if (contactInit.isEmpty) {
-            acc.add(contact);
-          }
-          if (acc.length < 0) {
-            acc.add((contact));
-          }
+          // if (contactInit != null &&
+          //     getNameOrder(contact.name)[0].toLowerCase() ==
+          //         contactInit.toLowerCase()) {
+          //   acc.add(contact);
+          // } else if (contactInit.isEmpty) {
+          //   acc.add(contact);
+          // }
+          acc.add(contact);
+          // if (acc.length < 0) {
+          //   acc.add((contact));
+          // }
         }
         acc.sort((a, b) {
           return a.name
@@ -72,7 +73,7 @@ class ContactListPresenter extends BasePresenter {
                 }
               }
             }
-          } else if (contactInit.isEmpty) {
+          } else {
             acc.add(contact);
           }
         }
