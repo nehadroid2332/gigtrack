@@ -1570,22 +1570,24 @@ class _AddContactScreenState
                             Padding(
                               padding: EdgeInsets.all(4),
                             ),
-                           widget.id.isNotEmpty&& !isEdit? ShowUp(
-                              child: new GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    subContact = SubContact();
-                                  });
-                                },
-                                child: Text(
-                                  "Click here to add contact notes",
-                                  textAlign: TextAlign.center,
-                                  style: textTheme.display1.copyWith(
-                                      color: Colors.red, fontSize: 14),
-                                ),
-                              ),
-                              delay: 1000,
-                            ):Container(),
+                            widget.id.isNotEmpty && !isEdit
+                                ? ShowUp(
+                                    child: new GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          subContact = SubContact();
+                                        });
+                                      },
+                                      child: Text(
+                                        "Click here to add contact notes",
+                                        textAlign: TextAlign.center,
+                                        style: textTheme.display1.copyWith(
+                                            color: Colors.red, fontSize: 14),
+                                      ),
+                                    ),
+                                    delay: 1000,
+                                  )
+                                : Container(),
                             ListView.builder(
                               itemCount: subContacts.length,
                               shrinkWrap: true,
