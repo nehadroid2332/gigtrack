@@ -198,15 +198,41 @@ class _AddPlayingStyleScreenState
   AppBar get appBar => AppBar(
         elevation: 0,
         backgroundColor: Color.fromRGBO(250, 177, 49, 1.0),
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          ),
-          onPressed: () {
+    leading: IconButton(
+      icon: Icon(Icons.arrow_back_ios),
+      onPressed: () async {
+        if (isEdit) {
+          final check = await showDialog<bool>(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Do you want to save changes?"),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("No"),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                  ),
+                  FlatButton(
+                    child: Text("Yes"),
+                    onPressed: () {
+                    _submitEPK();
+                      Navigator.of(context).pop(true);
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+          if (check) {
             Navigator.of(context).pop();
-          },
-        ),
+          }
+        } else {
+          Navigator.of(context).pop();
+        }
+      },
+    ),
         actions: <Widget>[
           Container(
             alignment: Alignment.center,
@@ -322,7 +348,7 @@ class _AddPlayingStyleScreenState
           ),
           decoration: BoxDecoration(
             color: psList.contains(s)
-                ? Color.fromRGBO(124, 180, 97, 1.0)
+                ? Color.fromRGBO(250, 177, 49, 1.0)
                 : Color.fromRGBO(244, 246, 248, 1.0),
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
@@ -360,7 +386,7 @@ class _AddPlayingStyleScreenState
           ),
           decoration: BoxDecoration(
             color: inList.containsKey(s)
-                ? Color.fromRGBO(124, 180, 97, 1.0)
+                ? Color.fromRGBO(250, 177, 49, 1.0)
                 : Color.fromRGBO(244, 246, 248, 1.0),
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
@@ -398,7 +424,7 @@ class _AddPlayingStyleScreenState
           ),
           decoration: BoxDecoration(
             color: exList.containsKey(s)
-                ? Color.fromRGBO(124, 180, 97, 1.0)
+                ? Color.fromRGBO(250, 177, 49, 1.0)
                 : Color.fromRGBO(244, 246, 248, 1.0),
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
@@ -1508,44 +1534,14 @@ class _AddPlayingStyleScreenState
                       widget.id.isEmpty || isEdit
                           ? RaisedButton(
                               onPressed: () {
-                                showLoading();
-                                presenter.addPlayingStyle(UserPlayingStyle(
-                                    instruments: inList,
-                                    id: widget.id,
-                                    role: _roleController.text,
-                                    bandId: widget.bandId,
-                                    aboutTheBands: aboutBandList,
-                                    degree: _degreeController.text,
-                                    response: _responseController.text,
-                                    about: _aboutBandController.text,
-                                    playing_styles: List.from(psList),
-                                    earn: _earnController.text,
-                                    otherExp: _otherExpController.text,
-                                    education: selectedEducation,
-                                    aboutBand: _nameBandController.text +
-                                        "\n" +
-                                        _emailBandController.text +
-                                        "\n" +
-                                        _websiteBandController.text,
-                                    bandContacts: _contactBandController.text,
-                                    bandEmail: _emailBandController.text,
-                                    bandName: _nameBandController.text,
-                                    bandWebsite: _websiteBandController.text,
-                                    age: showage == true
-                                        ? _ageController.text
-                                        : null,
-                                    year: showYear == true
-                                        ? _yearController.text
-                                        : null,
-                                    experience: List.from(exList.keys),
-                                    listSchool: _listSchoolController.text,
-                                    viewerKnow: _expController.text,
-                                    files: files));
+                                _submitEPK();
                               },
                               child: Text(
                                 "Submit",
+                                
+                                style: TextStyle(color: Colors.black),
                               ),
-                              color: Color.fromRGBO(255, 222, 3, 1.0),
+                              color: Color.fromRGBO(250, 177, 49, 1.0),
                               textColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
@@ -1789,5 +1785,41 @@ class _AddPlayingStyleScreenState
             ],
           );
         });
+  }
+  
+  _submitEPK(){
+    showLoading();
+    presenter.addPlayingStyle(UserPlayingStyle(
+        instruments: inList,
+        id: widget.id,
+        role: _roleController.text,
+        bandId: widget.bandId,
+        aboutTheBands: aboutBandList,
+        degree: _degreeController.text,
+        response: _responseController.text,
+        about: _aboutBandController.text,
+        playing_styles: List.from(psList),
+        earn: _earnController.text,
+        otherExp: _otherExpController.text,
+        education: selectedEducation,
+        aboutBand: _nameBandController.text +
+            "\n" +
+            _emailBandController.text +
+            "\n" +
+            _websiteBandController.text,
+        bandContacts: _contactBandController.text,
+        bandEmail: _emailBandController.text,
+        bandName: _nameBandController.text,
+        bandWebsite: _websiteBandController.text,
+        age: showage == true
+            ? _ageController.text
+            : null,
+        year: showYear == true
+            ? _yearController.text
+            : null,
+        experience: List.from(exList.keys),
+        listSchool: _listSchoolController.text,
+        viewerKnow: _expController.text,
+        files: files));
   }
 }

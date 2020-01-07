@@ -985,7 +985,7 @@ class _AddContactScreenState
                                         });
                                       },
                                       child: Text(
-                                        "Dates to Remmember",
+                                        "Dates to Remember",
                                         style: TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold),
@@ -1570,7 +1570,7 @@ class _AddContactScreenState
                             Padding(
                               padding: EdgeInsets.all(4),
                             ),
-                            ShowUp(
+                           widget.id.isNotEmpty&& !isEdit? ShowUp(
                               child: new GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -1585,7 +1585,7 @@ class _AddContactScreenState
                                 ),
                               ),
                               delay: 1000,
-                            ),
+                            ):Container(),
                             ListView.builder(
                               itemCount: subContacts.length,
                               shrinkWrap: true,

@@ -210,7 +210,7 @@ class _NotesListScreenState
               (widget.bandId != null && widget.isComm)
           ? SpeedDial(
               animatedIcon: AnimatedIcons.menu_close,
-              backgroundColor:  Color.fromRGBO(55, 0, 179, 1.0),
+              backgroundColor:  Colors.orange,
               children: [
                 SpeedDialChild(
                   label: "Ideas",

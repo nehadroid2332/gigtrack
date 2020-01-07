@@ -725,7 +725,7 @@ class _AddActivityScreenState
                                     );
                                     latitude = place.latitude;
                                     longitude = place.longitude;
-                                    _locController.text = place.address;
+                                    _locController.text = (place.name+','+place.address);
                                   },
                                 ),
                                 labelText: widget.id.isEmpty || isEdit

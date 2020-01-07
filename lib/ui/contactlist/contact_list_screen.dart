@@ -160,8 +160,7 @@ class _ContactListScreenState
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          index == 0
-                                              ? Center(
+Center(
                                                   child: Container(
                                                   decoration: new BoxDecoration(
                                                     color: Color.fromRGBO(
@@ -172,18 +171,18 @@ class _ContactListScreenState
                                                       right: 22,
                                                       top: 8,
                                                       bottom: 8),
-                                                  child: Text(
-                                                    getNameOrder(cnt.name)[0],
+                                                 child: Text(
+                                                   getNameOrder(cnt.name)[0],
                                                     style: TextStyle(
                                                         color: Colors.yellow,
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontStyle:
-                                                            FontStyle.italic),
-                                                  ),
+                                                       fontSize: 20,
+                                                      fontWeight:
+                                                           FontWeight.bold,
+                                                       fontStyle:
+                                                           FontStyle.italic),
+                                                 ),
                                                 ))
-                                              : Container(),
+                                             ,
                                           Padding(
                                             padding: EdgeInsets.all(5),
                                           ),
