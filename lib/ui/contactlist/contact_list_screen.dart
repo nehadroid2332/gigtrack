@@ -84,7 +84,7 @@ class _ContactListScreenState
             //     selectedContactInit = null;
             //   });
             // } else {
-              Navigator.pop(context);
+            Navigator.pop(context);
             // }
           },
         ),
@@ -156,159 +156,129 @@ class _ContactListScreenState
                                   child: InkWell(
                                     child: Padding(
                                       padding: EdgeInsets.all(15),
-                                      child: Column(
+                                      child: Row(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                            CrossAxisAlignment.center,
                                         children: <Widget>[
-Center(
+                                          cnt.files.length > 0
+                                              ? CircleAvatar(
+                                                  radius: 30.0,
+                                                  backgroundImage: NetworkImage(
+                                                      cnt.files[0]),
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                )
+                                              : Center(
                                                   child: Container(
-                                                  decoration: new BoxDecoration(
-                                                    color: Color.fromRGBO(
-                                                        3, 218, 157, 1.0),
+                                                    decoration:
+                                                        new BoxDecoration(
+                                                      color: Color.fromRGBO(
+                                                          3, 218, 157, 1.0),
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                    padding: EdgeInsets.only(
+                                                        left: 22,
+                                                        right: 22,
+                                                        top: 8,
+                                                        bottom: 8),
+                                                    child: Text(
+                                                      getNameOrder(cnt.name)[0],
+                                                      style: TextStyle(
+                                                          color: Colors.yellow,
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontStyle:
+                                                              FontStyle.italic),
+                                                    ),
                                                   ),
-                                                  padding: EdgeInsets.only(
-                                                      left: 22,
-                                                      right: 22,
-                                                      top: 8,
-                                                      bottom: 8),
-                                                 child: Text(
-                                                   getNameOrder(cnt.name)[0],
-                                                    style: TextStyle(
-                                                        color: Colors.yellow,
-                                                       fontSize: 20,
-                                                      fontWeight:
-                                                           FontWeight.bold,
-                                                       fontStyle:
-                                                           FontStyle.italic),
-                                                 ),
-                                                ))
-                                             ,
+                                                ),
                                           Padding(
                                             padding: EdgeInsets.all(5),
                                           ),
-                                          Center(
-                                            child: Container(
-                                              child: Text(
-                                                getNameOrder(cnt
-                                                    .name), // "${cnt.name.split(" ").reversed.join(' ')}",
-                                                textAlign: TextAlign.center,
-                                                style: textTheme.headline
-                                                    .copyWith(
-                                                        color: cnt.bandId
-                                                                .isNotEmpty
-                                                            ? Colors.black
-                                                            : Colors.black,
-                                                        fontSize: 18),
-                                              ),
-                                            ),
-                                          ),
                                           cnt.bandId.isEmpty
                                               ? new Container(
-                                                  padding: EdgeInsets.only(
-                                                      left:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              7,
-                                                      right:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              7,
-                                                      top: 3),
                                                   alignment:
                                                       Alignment.bottomCenter,
-                                                  child: Divider(
+                                                  child: VerticalDivider(
                                                     color: Color.fromRGBO(
                                                         3, 218, 157, 1.0),
-                                                    height: 5,
+                                                    width: 5,
                                                     thickness: 1.5,
                                                   ))
                                               : Container(),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                left: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    7,
-                                                right: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    7),
-                                            child: new Container(
-                                                padding: EdgeInsets.all(10),
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      width:
-                                                          cnt.bandId.isNotEmpty
-                                                              ? 1
-                                                              : 0, //
-                                                      color: cnt
-                                                              .bandId.isNotEmpty
-                                                          ? Color.fromRGBO(
-                                                              3, 218, 157, 1.0)
-                                                          : Colors
-                                                              .white //               <--- border width here
-                                                      ),
-                                                ),
-                                                child: Column(
-                                                  children: <Widget>[
-                                                    Center(
-                                                      child: Container(
-                                                        child: cnt.companyName
-                                                                .isNotEmpty
-                                                            ? Text(
-                                                                "${cnt.companyName}",
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 13,
-                                                                  color: cnt
-                                                                          .bandId
-                                                                          .isNotEmpty
-                                                                      ? Colors
-                                                                          .black
-                                                                      : Colors
-                                                                          .black,
-                                                                ),
-                                                              )
-                                                            : Container(),
-                                                      ),
+                                          Expanded(
+                                            child: Container(
+                                              padding: EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    width: cnt.bandId.isNotEmpty
+                                                        ? 1
+                                                        : 0, //
+                                                    color: cnt.bandId.isNotEmpty
+                                                        ? Color.fromRGBO(
+                                                            3, 218, 157, 1.0)
+                                                        : Colors
+                                                            .white //               <--- border width here
                                                     ),
-                                                    Center(
-                                                      child: Container(
-                                                        child: cnt.bandId
-                                                                .isNotEmpty
-                                                            ? Text(
-                                                                "${cnt.band.name}",
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 13,
-                                                                  color: cnt
-                                                                          .bandId
-                                                                          .isNotEmpty
-                                                                      ? Color.fromRGBO(
-                                                                          3,
-                                                                          218,
-                                                                          157,
-                                                                          1.0)
-                                                                      : Color.fromRGBO(
-                                                                          3,
-                                                                          218,
-                                                                          157,
-                                                                          1.0),
-                                                                ),
-                                                              )
-                                                            : Container(),
-                                                      ),
-                                                    )
-                                                  ],
-                                                )),
+                                              ),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    getNameOrder(cnt
+                                                        .name), // "${cnt.name.split(" ").reversed.join(' ')}",
+                                                    textAlign: TextAlign.center,
+                                                    style: textTheme.headline
+                                                        .copyWith(
+                                                            color: cnt.bandId
+                                                                    .isNotEmpty
+                                                                ? Colors.black
+                                                                : Colors.black,
+                                                            fontSize: 18),
+                                                  ),
+                                                  cnt.companyName.isNotEmpty
+                                                      ? Text(
+                                                          "${cnt.companyName}",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                            fontSize: 13,
+                                                            color: cnt.bandId
+                                                                    .isNotEmpty
+                                                                ? Colors.black
+                                                                : Colors.black,
+                                                          ),
+                                                        )
+                                                      : Container(),
+                                                  cnt.bandId.isNotEmpty
+                                                      ? Text(
+                                                          "${cnt.band.name}",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                            fontSize: 13,
+                                                            color: cnt.bandId
+                                                                    .isNotEmpty
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        3,
+                                                                        218,
+                                                                        157,
+                                                                        1.0)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        3,
+                                                                        218,
+                                                                        157,
+                                                                        1.0),
+                                                          ),
+                                                        )
+                                                      : Container()
+                                                ],
+                                              ),
+                                            ),
                                           ),
                                         ],
                                       ),
