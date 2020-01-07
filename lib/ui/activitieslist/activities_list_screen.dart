@@ -310,25 +310,21 @@ class _ActivitiesListScreenState
                           textAlign: TextAlign.left,
                         ),
                         current.length > 0
-                            ? SizedBox(
-                                height: 220,
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  padding: EdgeInsets.symmetric(vertical: 10),
-                                  itemCount: current.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    Activites ac = current[index];
-                                    return buildActivityListItem(ac, context,
-                                        onTap: () {
-                                      widget.appListener.router.navigateTo(
-                                          context,
-                                          Screens.ADDACTIVITY.toString() +
-                                              "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////");
-                                    });
-                                  },
-                                ),
+                            ? ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                itemCount: current.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  Activites ac = current[index];
+                                  return buildActivityListItem(ac, context,
+                                      onTap: () {
+                                    widget.appListener.router.navigateTo(
+                                        context,
+                                        Screens.ADDACTIVITY.toString() +
+                                            "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////");
+                                  });
+                                },
                               )
                             : Padding(
                                 child: Center(
@@ -342,25 +338,21 @@ class _ActivitiesListScreenState
                           textAlign: TextAlign.left,
                         ),
                         upcoming.length > 0
-                            ? SizedBox(
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  padding: EdgeInsets.symmetric(vertical: 10),
-                                  itemCount: upcoming.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    Activites ac = upcoming[index];
-                                    return buildActivityListItem(ac, context,
-                                        onTap: () {
-                                      widget.appListener.router.navigateTo(
-                                          context,
-                                          Screens.ADDACTIVITY.toString() +
-                                              "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////");
-                                    });
-                                  },
-                                ),
-                                height: 220,
+                            ? ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                itemCount: upcoming.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  Activites ac = upcoming[index];
+                                  return buildActivityListItem(ac, context,
+                                      onTap: () {
+                                    widget.appListener.router.navigateTo(
+                                        context,
+                                        Screens.ADDACTIVITY.toString() +
+                                            "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////");
+                                  });
+                                },
                               )
                             : Padding(
                                 child: Center(
@@ -387,25 +379,22 @@ class _ActivitiesListScreenState
 
                         isRecurring
                             ? recurring.length > 0
-                                ? SizedBox(
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: recurring.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        Activites ac = recurring[index];
-                                        return buildActivityListItem(
-                                            ac, context, onTap: () {
-                                          widget.appListener.router.navigateTo(
-                                            context,
-                                            Screens.ADDACTIVITY.toString() +
-                                                "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////",
-                                          );
-                                        }, isPast: false);
-                                      },
-                                    ),
-                                    height: 220,
+                                ? ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: recurring.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      Activites ac = recurring[index];
+                                      return buildActivityListItem(ac, context,
+                                          onTap: () {
+                                        widget.appListener.router.navigateTo(
+                                          context,
+                                          Screens.ADDACTIVITY.toString() +
+                                              "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////",
+                                        );
+                                      }, isPast: false);
+                                    },
                                   )
                                 : Padding(
                                     child: Center(
@@ -414,8 +403,8 @@ class _ActivitiesListScreenState
                                     padding: EdgeInsets.symmetric(vertical: 10),
                                   )
                             : Container(
-                              padding: EdgeInsets.all(5),
-                            ),
+                                padding: EdgeInsets.all(5),
+                              ),
                         InkWell(
                           child: Text(
                             "Archive",
@@ -433,24 +422,22 @@ class _ActivitiesListScreenState
                         ),
                         isArchive
                             ? past.length > 0
-                                ? SizedBox(
-                                    height: 220,
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.horizontal,
-                                      padding: EdgeInsets.all(10),
-                                      itemCount: past.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        Activites ac = past[index];
-                                        return buildActivityListItem(
-                                            ac, context, onTap: () {
-                                          widget.appListener.router.navigateTo(
-                                            context,
-                                            Screens.ADDACTIVITY.toString() +
-                                                "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////",
-                                          );
-                                        }, isPast: true);
+                                ? ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    padding: EdgeInsets.all(10),
+                                    itemCount: past.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      Activites ac = past[index];
+                                      return buildActivityListItem(ac, context,
+                                          onTap: () {
+                                        widget.appListener.router.navigateTo(
+                                          context,
+                                          Screens.ADDACTIVITY.toString() +
+                                              "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////",
+                                        );
+                                      }, isPast: true);
 //                                            (ac.type ==
 //                                                    Activites.TYPE_TASK &&
 //                                                (past[index].taskCompleteDate !=
@@ -459,8 +446,7 @@ class _ActivitiesListScreenState
 //                                                        : 0) <
 //                                                    currentDate
 //                                                        .millisecondsSinceEpoch));
-                                      },
-                                    ),
+                                    },
                                   )
                                 : Padding(
                                     child: Center(
