@@ -144,7 +144,7 @@ class _ContactListScreenState
                               children: <Widget>[
                                 Container(
                                   decoration: BoxDecoration(
-                                    color: Colors.blueGrey,
+                                    color: Colors.grey[300],
                                     borderRadius: BorderRadius.circular(5),
                                   ),
                                   padding: EdgeInsets.symmetric(
@@ -157,7 +157,7 @@ class _ContactListScreenState
                                     children: <Widget>[
                                       Icon(
                                         Icons.search,
-                                        color: Colors.white,
+                                        color: Colors.black,
                                       ),
                                       Padding(
                                         padding: EdgeInsets.all(5),
@@ -166,7 +166,7 @@ class _ContactListScreenState
                                         child: TextField(
                                           controller: _searchController,
                                           style: textTheme.button.copyWith(
-                                              color: Colors.white,
+                                              color: Colors.black,
                                               fontSize: 15),
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
@@ -183,10 +183,11 @@ class _ContactListScreenState
                                         (BuildContext context, int index) {
                                       final cnt = _contacts[index];
                                       return Container(
+                                        height: 110,
 //                                color: cnt.bandId.isNotEmpty
 //                                    ? Colors.white
 //                                    : Colors.white,//Color.fromRGBO(3, 54, 255, 1.0),
-                                        margin: EdgeInsets.all(6),
+                                        margin: EdgeInsets.all(0),
 //                                shape: RoundedRectangleBorder(
 //                                    side: cnt.bandId.isNotEmpty
 //                                        ? new BorderSide(
@@ -241,49 +242,29 @@ class _ContactListScreenState
                                                                   .transparent,
                                                         )
                                                       : Center(
-                                                          child: Container(
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              border:
-                                                                  Border.all(
-                                                                      width: cnt
-                                                                              .bandId
-                                                                              .isNotEmpty
-                                                                          ? 1
-                                                                          : 0, //
-                                                                      color: cnt
-                                                                              .bandId
-                                                                              .isNotEmpty
-                                                                          ? Color.fromRGBO(
-                                                                              3,
-                                                                              218,
-                                                                              157,
-                                                                              1.0)
-                                                                          : Colors
-                                                                              .white //               <--- border width here
-                                                                      ),
-                                                            ),
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    left: 22,
-                                                                    right: 22,
-                                                                    top: 8,
-                                                                    bottom: 8),
-                                                            child: Text(
-                                                              getNameOrder(
-                                                                  cnt.name)[0],
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .yellow,
-                                                                  fontSize: 35,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontStyle:
-                                                                      FontStyle
-                                                                          .italic),
-                                                            ),
-                                                          ),
+                                                    child: Container(
+                                                      decoration:
+                                                      new BoxDecoration(
+                                                        color: Color.fromRGBO(
+                                                            3, 218, 157, 1.0),
+                                                        shape: BoxShape.circle,
+                                                      ),
+                                                      padding: EdgeInsets.only(
+                                                          left: 22,
+                                                          right: 22,
+                                                          top: 8,
+                                                          bottom: 8),
+                                                      child: Text(
+                                                        getNameOrder(cnt.name)[0],
+                                                        style: TextStyle(
+                                                            color: Colors.yellow,
+                                                            fontSize: 32,
+                                                            fontWeight:
+                                                            FontWeight.bold,
+                                                            fontStyle:
+                                                            FontStyle.italic),
+                                                      ),
+                                                    ),
                                                         ),
                                                   Padding(
                                                     padding: EdgeInsets.only(
@@ -296,12 +277,7 @@ class _ContactListScreenState
                                                       ? new Container(
                                                           alignment: Alignment
                                                               .bottomCenter,
-                                                          child:
-                                                              VerticalDivider(
-                                                            color: Colors.white,
-                                                            width: 5,
-                                                            thickness: 1.0,
-                                                          ))
+                                                         )
                                                       : Container(),
                                                   Expanded(
                                                     child: Container(
@@ -376,7 +352,7 @@ class _ContactListScreenState
                                                                   style:
                                                                       TextStyle(
                                                                     fontSize:
-                                                                        13,
+                                                                        14,
                                                                     color: cnt
                                                                             .bandId
                                                                             .isNotEmpty
