@@ -1,7 +1,6 @@
 import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/contacts.dart';
-import 'package:gigtrack/server/models/user.dart';
 
 abstract class ContactListContract extends BaseContract {}
 
