@@ -35,6 +35,7 @@ class Activites extends BaseModel {
   Band band;
 
   List<Activites> subActivities = [];
+  List<Travel> travelList = [];
 
   Activites(
       {this.description,
@@ -53,11 +54,11 @@ class Activites extends BaseModel {
       this.latitude,
       this.longitude,
       this.title,
+      this.travelList,
       this.bandTaskId,
       this.bandTaskMemberId,
       this.startTime,
-      this.endTime
-      });
+      this.endTime});
 
   Activites.fromJSON(dynamic data) {
     type = data['type'];
@@ -79,13 +80,18 @@ class Activites extends BaseModel {
     bandTaskMemberId = data['bandTaskMemberId'];
     notes = data['notes'];
     task = data['task'];
-    startTime=data['startTime'];
-    endTime=data['endTime'];
+    startTime = data['startTime'];
+    endTime = data['endTime'];
     taskCompleteDate = data['taskCompleteDate'];
     id = data['id'];
     if (data['subActivities'] != null) {
       for (var item in data['subActivities']) {
         subActivities.add(Activites.fromJSON(item));
+      }
+    }
+    if (data['travelList'] != null) {
+      for (var item in data['travelList']) {
+        travelList.add(Travel.fromJSON(item));
       }
     }
   }
@@ -120,8 +126,149 @@ class Activites extends BaseModel {
       sb.add(item.toMap());
     }
     data['subActivities'] = sb;
-    data['startTime']= startTime;
-    data['endTime']= endTime;
+
+    List<dynamic> tr = [];
+    for (Travel item in travelList) {
+      tr.add(item.toMap());
+    }
+    data['travelList'] = tr;
+    
+    data['startTime'] = startTime;
+    data['endTime'] = endTime;
+    return data;
+  }
+}
+
+class Travel extends BaseModel {
+  List<ShowUps> showupList = [];
+  List<Sleeping> sleepingList = [];
+  List<Flight> flightList = [];
+  String location;
+  int startDate;
+  int endDate;
+  String notes;
+
+  Travel();
+
+  Travel.fromJSON(dynamic data) {
+    location = data['location'];
+    startDate = data['startDate'];
+    endDate = data['endDate'];
+    notes = data['notes'];
+    if (data['showupList'] != null) {
+      for (var item in data['showupList']) {
+        showupList.add(ShowUps.fromJSON(item));
+      }
+    }
+    if (data['sleepingList'] != null) {
+      for (var item in data['sleepingList']) {
+        sleepingList.add(Sleeping.fromJSON(item));
+      }
+    }
+    if (data['flightList'] != null) {
+      for (var item in data['flightList']) {
+        flightList.add(Flight.fromJSON(item));
+      }
+    }
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    final data = super.toMap();
+    data['location'] = location;
+    data['startDate'] = startDate;
+    data['endDate'] = endDate;
+    data['notes'] = notes;
+    List<dynamic> shl = [];
+    for (var item in showupList) {
+      shl.add(item.toMap());
+    }
+    data['showupList'] = shl;
+
+    List<dynamic> sll = [];
+    for (var item in sleepingList) {
+      sll.add(item.toMap());
+    }
+    data['sleepingList'] = sll;
+
+    List<dynamic> fll = [];
+    for (var item in flightList) {
+      fll.add(item.toMap());
+    }
+    data['flightList'] = fll;
+
+    return data;
+  }
+}
+
+class ShowUps extends BaseModel {
+  String location;
+  int dateTime;
+
+  ShowUps();
+  ShowUps.fromJSON(dynamic data) {
+    location = data['location'];
+    dateTime = data['dateTime'];
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    final data = super.toMap();
+    data['location'] = location;
+    data['dateTime'] = dateTime;
+    return data;
+  }
+}
+
+class Sleeping extends BaseModel {
+  String location;
+  int fromDate;
+  int toDate;
+  Sleeping();
+  Sleeping.fromJSON(dynamic data) {
+    location = data['location'];
+    fromDate = data['fromDate'];
+    toDate = data['toDate'];
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    final data = super.toMap();
+    data['location'] = location;
+    data['fromDate'] = fromDate;
+    data['toDate'] = toDate;
+    return data;
+  }
+}
+
+class Flight extends BaseModel {
+  int departureDateTime;
+  int arrivalDateTime;
+  String airline;
+  String flight;
+  String toAirport;
+  String fromAirport;
+
+  Flight();
+
+  Flight.fromJSON(dynamic data) {
+    departureDateTime = data['departureDateTime'];
+    arrivalDateTime = data['arrivalDateTime'];
+    airline = data['airline'];
+    flight = data['flight'];
+    toAirport = data['toAirport'];
+    fromAirport = data['fromAirport'];
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    final data = super.toMap();
+    data['departureDateTime'] = departureDateTime;
+    data['arrivalDateTime'] = arrivalDateTime;
+    data['airline'] = airline;
+    data['flight'] = flight;
+    data['toAirport'] = toAirport;
+    data['fromAirport'] = fromAirport;
     return data;
   }
 }

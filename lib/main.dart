@@ -12,6 +12,7 @@ import 'package:gigtrack/ui/addmembertoband/addmembertobandscreen.dart';
 import 'package:gigtrack/ui/addnotes/add_notes_screen.dart';
 import 'package:gigtrack/ui/addsetlist/addsetlist_screen.dart';
 import 'package:gigtrack/ui/addsong/add_song_screen.dart';
+import 'package:gigtrack/ui/addtravel/addtravel_screen.dart';
 import 'package:gigtrack/ui/bandlist/bandlist_screen.dart';
 import 'package:gigtrack/ui/bulletinboardlist/bulletinboard_list_screen.dart';
 import 'package:gigtrack/ui/contactlist/contact_list_screen.dart';
@@ -180,6 +181,25 @@ class MyApp extends StatelessWidget implements AppListener {
         postEntries: postEntries,
       );
     }));
+    _router.define(
+        Screens.ADDTRAVEL.toString() +
+            "/:type/:id/:isParent/:bandId/:isLeader/:isComm/:isSetUp/:postEntries",
+        handler: Handler(
+            handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      String id = params["id"][0];
+      // int type = int.parse(params["type"][0]);
+      // bool isParent = params["isParent"][0] == '${true}';
+      // String bandId = params['bandId'][0];
+      // bool isLeader = params['isLeader'][0] == "${true}";
+      // bool isComm = params['isComm'][0] == "${true}";
+      // bool isSetUp = params['isSetUp'][0] == "${true}";
+      // bool postEntries = params['postEntries'][0] == "${true}";
+      return AddTravelScreen(
+        this,
+        id: id,
+      );
+    }));
+
     _router.define(
         Screens.ADDNOTE.toString() +
             "/:id/:isParent/:bandId/:isLeader/:isComm/:isSetUp/:postEntries/:type",
@@ -407,8 +427,9 @@ class MyApp extends StatelessWidget implements AppListener {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
         statusBarColor: Colors.blue, // Color for Android
         statusBarBrightness: Brightness.light,
-      systemNavigationBarColor: Colors.blue// Dark == white status bar -- for IOS.
-    ));
+        systemNavigationBarColor:
+            Colors.blue // Dark == white status bar -- for IOS.
+        ));
     return MaterialApp(
       title: 'GigTrack',
       debugShowCheckedModeBanner: false,
@@ -486,5 +507,6 @@ enum Screens {
   PROFILE,
   SETLIST,
   ADDSETLIST,
-  FEEDBACK
+  FEEDBACK,
+  ADDTRAVEL,
 }

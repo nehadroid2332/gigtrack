@@ -91,6 +91,7 @@ class _AddActivityScreenState
 
   String selectedBandMemberId;
 
+  List<Travel> travelList = [];
   double longitude, latitude = 0;
 
   Future<Null> _selectDate(BuildContext context, int type) async {
@@ -192,17 +193,19 @@ class _AddActivityScreenState
         backgroundColor: Color.fromRGBO(40, 35, 188, 1.0),
         actions: <Widget>[
           Container(
-            alignment: Alignment.center,
-            width:widget.id.isEmpty?MediaQuery.of(context).size.width: MediaQuery.of(context).size.width / 2,
-            child: Center(
-              child:Text(
-              "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} ${widget.type == Activites.TYPE_ACTIVITY ? "Activity" : widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? "Performance Schedule" : widget.type == Activites.TYPE_PRACTICE_SCHEDULE ? "Practice Schedule" : widget.type == Activites.TYPE_TASK ? widget.isParent ? "Add Task Notes" : "Task" : widget.type == Activites.TYPE_BAND_TASK ? "Band Task" : ""}",
-              textAlign: TextAlign.center,
-              style: textTheme.headline.copyWith(
-                color: Colors.white,
-              ),
-            ),)
-          ),
+              alignment: Alignment.center,
+              width: widget.id.isEmpty
+                  ? MediaQuery.of(context).size.width
+                  : MediaQuery.of(context).size.width / 2,
+              child: Center(
+                child: Text(
+                  "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} ${widget.type == Activites.TYPE_ACTIVITY ? "Activity" : widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? "Performance Schedule" : widget.type == Activites.TYPE_PRACTICE_SCHEDULE ? "Practice Schedule" : widget.type == Activites.TYPE_TASK ? widget.isParent ? "Add Task Notes" : "Task" : widget.type == Activites.TYPE_BAND_TASK ? "Band Task" : ""}",
+                  textAlign: TextAlign.center,
+                  style: textTheme.headline.copyWith(
+                    color: Colors.white,
+                  ),
+                ),
+              )),
           widget.id.isEmpty || widget.isParent
               ? Container()
               : IconButton(
@@ -469,8 +472,7 @@ class _AddActivityScreenState
                                       child: Text(
                                         "Click here to set time",
                                         style: textTheme.display1.copyWith(
-                                            color: Colors.red,
-                                            fontSize: 15),
+                                            color: Colors.red, fontSize: 15),
                                       ),
                                     )
                                   : Container(),
@@ -614,8 +616,7 @@ class _AddActivityScreenState
                                       child: Text(
                                         "Click here to add end date",
                                         style: textTheme.display1.copyWith(
-                                            color: Colors.red,
-                                            fontSize: 15),
+                                            color: Colors.red, fontSize: 15),
                                       ),
                                     )
                                   : Container(),
@@ -712,7 +713,7 @@ class _AddActivityScreenState
                                   widget.type ==
                                       Activites.TYPE_PRACTICE_SCHEDULE)
                           ? TextField(
-                             textCapitalization: TextCapitalization.words,
+                              textCapitalization: TextCapitalization.words,
                               decoration: InputDecoration(
                                 suffixIcon: IconButton(
                                   icon: Icon(Icons.add),
@@ -725,7 +726,8 @@ class _AddActivityScreenState
                                     );
                                     latitude = place.latitude;
                                     longitude = place.longitude;
-                                    _locController.text = (place.name+','+place.address);
+                                    _locController.text =
+                                        (place.name + ',' + place.address);
                                   },
                                 ),
                                 labelText: widget.id.isEmpty || isEdit
@@ -991,14 +993,37 @@ class _AddActivityScreenState
                                   ),
                                   IconButton(
                                     icon: Icon(Icons.add),
-                                    onPressed: () {
-                                      showDialogConfirm();
+                                    onPressed: () async {
+                                      // showDialogConfirm();
+                                      final travel = await widget
+                                          .appListener.router
+                                          .navigateTo(
+                                              context,
+                                              Screens.ADDTRAVEL.toString() +
+                                                  "////////");
+                                      print("Sd-> $travel");
                                     },
                                   )
                                 ],
                               )
                             : Container(),
                       ),
+                      (widget.id.isEmpty || isEdit) &&
+                              (widget.type ==
+                                  Activites.TYPE_PERFORMANCE_SCHEDULE)
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: travelList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                Travel travel = travelList[index];
+                                return ListTile(
+                                  title: Text("${travel.location}"),
+                                  subtitle: Text("${travel.notes}"),
+                                );
+                              },
+                            )
+                          : Container(),
                       widget.id.isEmpty || isEdit
                           ? Container()
                           : (widget.type == Activites.TYPE_ACTIVITY ||
@@ -1269,7 +1294,8 @@ class _AddActivityScreenState
                                   child: Text("No Band Member"),
                                 )
                           : Container(),
-                      (widget.id.isEmpty || isEdit || widget.isParent) && (widget.type == Activites.TYPE_BAND_TASK)
+                      (widget.id.isEmpty || isEdit || widget.isParent) &&
+                              (widget.type == Activites.TYPE_BAND_TASK)
                           ? Text(
                               "Task Notes",
                               textAlign: TextAlign.center,
@@ -1413,55 +1439,52 @@ class _AddActivityScreenState
                                           .toUtc();
                                     }
                                     Activites activities = Activites(
-                                      title: title,
-                                      id: widget.id,
-                                      bandId: widget.bandId,
-                                      description: desc,
-                                      bandTaskId: selectedBand?.id,
-                                      bandTaskMemberId: selectedBandMember?.id,
-                                      estCompleteDate: completionDate
-                                          ?.toUtc()
-                                          ?.millisecondsSinceEpoch,
-                                      isRecurring: isRecurring,
-                                      startDate: widget.type ==
-                                                  Activites
-                                                      .TYPE_PRACTICE_SCHEDULE ||
-                                              widget.type ==
-                                                  Activites
-                                                      .TYPE_PERFORMANCE_SCHEDULE ||
-                                              widget.type ==
-                                                  Activites.TYPE_ACTIVITY
-                                          ? dateTime
-                                                  ?.toUtc()
-                                                  ?.millisecondsSinceEpoch ??
-                                              0
-                                          : startDate
-                                              .toUtc()
-                                              .millisecondsSinceEpoch,
-                                      endDate: widget.type ==
-                                                  Activites
-                                                      .TYPE_PRACTICE_SCHEDULE ||
-                                              widget.type ==
-                                                  Activites
-                                                      .TYPE_PERFORMANCE_SCHEDULE ||
-                                              widget.type ==
-                                                  Activites.TYPE_ACTIVITY
-                                          ? dateTime2
-                                                  ?.toUtc()
-                                                  ?.millisecondsSinceEpoch ??
-                                              0
-                                          : 0,
-                                      location: loc,
-                                      latitude: latitude,
-                                      longitude: longitude,
-                                      type: widget.type,
-                                      parking: park,
-                                      wardrobe: ward,
-                                      other: other,
-                                      startTime:_startTimeController.text,
-                                      endTime: _endTimeController.text
-                                      
-                                    );
+                                        title: title,
+                                        id: widget.id,
+                                        bandId: widget.bandId,
+                                        description: desc,
+                                        bandTaskId: selectedBand?.id,
+                                        bandTaskMemberId:
+                                            selectedBandMember?.id,
+                                        estCompleteDate: completionDate
+                                            ?.toUtc()
+                                            ?.millisecondsSinceEpoch,
+                                        isRecurring: isRecurring,
+                                        startDate: widget.type ==
+                                                    Activites
+                                                        .TYPE_PRACTICE_SCHEDULE ||
+                                                widget.type ==
+                                                    Activites
+                                                        .TYPE_PERFORMANCE_SCHEDULE ||
+                                                widget.type ==
+                                                    Activites.TYPE_ACTIVITY
+                                            ? dateTime?.toUtc()?.millisecondsSinceEpoch ??
+                                                0
+                                            : startDate
+                                                .toUtc()
+                                                .millisecondsSinceEpoch,
+                                        endDate: widget.type ==
+                                                    Activites
+                                                        .TYPE_PRACTICE_SCHEDULE ||
+                                                widget.type ==
+                                                    Activites
+                                                        .TYPE_PERFORMANCE_SCHEDULE ||
+                                                widget.type ==
+                                                    Activites.TYPE_ACTIVITY
+                                            ? dateTime2
+                                                    ?.toUtc()
+                                                    ?.millisecondsSinceEpoch ??
+                                                0
+                                            : 0,
+                                        location: loc,
+                                        latitude: latitude,
+                                        longitude: longitude,
+                                        type: widget.type,
+                                        parking: park,
+                                        wardrobe: ward,
+                                        other: other,
+                                        startTime: _startTimeController.text,
+                                        endTime: _endTimeController.text);
                                     showLoading();
                                     presenter.addActivity(
                                         activities, widget.isParent);

@@ -1,0 +1,644 @@
+import 'package:flutter/material.dart';
+import 'package:gigtrack/base/base_screen.dart';
+import 'package:gigtrack/main.dart';
+import 'package:gigtrack/server/models/activities.dart';
+import 'package:gigtrack/ui/addtravel/addtravel_presenter.dart';
+import 'package:intl/intl.dart';
+
+class AddTravelScreen extends BaseScreen {
+  final String id;
+  AddTravelScreen(AppListener appListener, {this.id}) : super(appListener);
+
+  @override
+  _AddTravelScreenState createState() => _AddTravelScreenState();
+}
+
+class _AddTravelScreenState
+    extends BaseScreenState<AddTravelScreen, AddTravelPresenter> {
+  final _locNameController = TextEditingController(),
+      _startDateController = TextEditingController(),
+      _notesController = TextEditingController(),
+      _endDateController = TextEditingController();
+
+  List<ShowUps> showUpList = [];
+  List<Sleeping> sleepingList = [];
+  List<Flight> flightsList = [];
+
+  Travel travel = Travel();
+
+  @override
+  Widget buildBody() {
+    return Container(
+      color: Color.fromRGBO(240, 243, 244, 0.5),
+      padding: EdgeInsets.all(20),
+      child: Column(
+        children: <Widget>[
+          Stack(
+            children: <Widget>[
+              InkWell(
+                child: Icon(Icons.arrow_back),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              Align(
+                child: Text(
+                  "Add Travel",
+                  style: textTheme.headline,
+                  textAlign: TextAlign.center,
+                ),
+                alignment: Alignment.center,
+              ),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.all(8),
+          ),
+          Expanded(
+            child: Card(
+              elevation: 8,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: ListView(
+                padding: EdgeInsets.all(20),
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.all(5),
+                    child: Text(
+                      "Location Name",
+                      style: textTheme.subhead.copyWith(
+                        color: Colors.grey[600],
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  TextField(
+                    controller: _locNameController,
+                    onChanged: (s) {
+                      travel.location = s;
+                    },
+                    textCapitalization: TextCapitalization.sentences,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(), hintText: ""),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(5),
+                    child: Text(
+                      "Start Date",
+                      style: textTheme.subhead.copyWith(
+                        color: Colors.grey[600],
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    child: AbsorbPointer(
+                      child: TextField(
+                        controller: _startDateController,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: "Select",
+                        ),
+                      ),
+                    ),
+                    onTap: () async {
+                      DateTime selectedDate = DateTime.now();
+                      final DateTime picked = await showDatePicker(
+                          context: context,
+                          initialDate: selectedDate,
+                          firstDate: DateTime(2015, 8),
+                          lastDate: DateTime(2101));
+                      if (picked != null && picked != selectedDate)
+                        setState(() {
+                          selectedDate = picked;
+                          travel.startDate =
+                              selectedDate.millisecondsSinceEpoch;
+                          _startDateController.text =
+                              DateFormat('yyyy-MM-dd').format(selectedDate);
+                        });
+                    },
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(5),
+                    child: Text(
+                      "End Date",
+                      style: textTheme.subhead.copyWith(
+                        color: Colors.grey[600],
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    child: AbsorbPointer(
+                      child: TextField(
+                        controller: _endDateController,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: "Select",
+                        ),
+                      ),
+                    ),
+                    onTap: () async {
+                      DateTime selectedDate = DateTime.now();
+                      final DateTime picked = await showDatePicker(
+                          context: context,
+                          initialDate: selectedDate,
+                          firstDate: DateTime(2015, 8),
+                          lastDate: DateTime(2101));
+                      if (picked != null && picked != selectedDate)
+                        setState(() {
+                          selectedDate = picked;
+                          travel.endDate = selectedDate.millisecondsSinceEpoch;
+                          _endDateController.text =
+                              DateFormat('yyyy-MM-dd').format(selectedDate);
+                        });
+                    },
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Text("Show Up"),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.add),
+                        onPressed: () {
+                          setState(() {
+                            showUpList.add(ShowUps());
+                          });
+                        },
+                      )
+                    ],
+                  ),
+                  ListView.builder(
+                    itemCount: showUpList.length,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (BuildContext context, int index) {
+                      ShowUps showUp = showUpList[index];
+                      final locController = TextEditingController();
+                      final dateController = TextEditingController();
+                      if (showUp.dateTime != null && showUp.dateTime > 0)
+                        dateController.text = DateFormat('yyyy-MM-dd').format(
+                            DateTime.fromMillisecondsSinceEpoch(
+                                showUp.dateTime));
+                      final timeController = TextEditingController();
+                      if (showUp.dateTime != null && showUp.dateTime > 0)
+                        timeController.text = DateFormat('kk:mm').format(
+                            DateTime.fromMillisecondsSinceEpoch(
+                                showUp.dateTime));
+                      return Card(
+                        child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                            children: <Widget>[
+                              TextField(
+                                controller: locController,
+                                onChanged: (s) {
+                                  showUp.location = s;
+                                  showUpList[index] = showUp;
+                                },
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: "Location",
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(2),
+                              ),
+                              InkWell(
+                                child: AbsorbPointer(
+                                  child: TextField(
+                                    controller: dateController,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      hintText: "Date",
+                                    ),
+                                  ),
+                                ),
+                                onTap: () async {
+                                  DateTime selectedDate = DateTime.now();
+                                  final DateTime picked = await showDatePicker(
+                                      context: context,
+                                      initialDate: selectedDate,
+                                      firstDate: DateTime(2015, 8),
+                                      lastDate: DateTime(2101));
+                                  if (picked != null && picked != selectedDate)
+                                    setState(() {
+                                      selectedDate = picked;
+                                      showUp.dateTime =
+                                          selectedDate.millisecondsSinceEpoch;
+                                      showUpList[index] = showUp;
+                                    });
+                                },
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(2),
+                              ),
+                              InkWell(
+                                child: AbsorbPointer(
+                                  child: TextField(
+                                    controller: timeController,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      hintText: "Time",
+                                    ),
+                                  ),
+                                ),
+                                onTap: () async {
+                                  TimeOfDay selectedDate = TimeOfDay.now();
+                                  final TimeOfDay picked = await showTimePicker(
+                                      context: context,
+                                      initialTime: selectedDate);
+                                  if (picked != null && picked != selectedDate)
+                                    setState(() {
+                                      selectedDate = picked;
+                                      DateTime now =
+                                          DateTime.fromMillisecondsSinceEpoch(
+                                              showUp.dateTime);
+                                      showUp.dateTime = DateTime(
+                                              now.year,
+                                              now.month,
+                                              now.day,
+                                              selectedDate.hour,
+                                              selectedDate.minute)
+                                          .millisecondsSinceEpoch;
+                                      showUpList[index] = showUp;
+                                    });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Text("Sleeping"),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.add),
+                        onPressed: () {
+                          setState(() {
+                            sleepingList.add(Sleeping());
+                          });
+                        },
+                      )
+                    ],
+                  ),
+                  ListView.builder(
+                    itemCount: sleepingList.length,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (BuildContext context, int index) {
+                      Sleeping sleeping = sleepingList[index];
+                      final locController = TextEditingController();
+                      locController.text = sleeping.location;
+                      final fromDateController = TextEditingController();
+                      if (sleeping.fromDate != null && sleeping.fromDate > 0)
+                        fromDateController.text = DateFormat('yyyy-MM-dd')
+                            .format(DateTime.fromMillisecondsSinceEpoch(
+                                sleeping.fromDate));
+                      final toDateController = TextEditingController();
+                      if (sleeping.toDate != null && sleeping.toDate > 0)
+                        toDateController.text = DateFormat('yyyy-MM-dd').format(
+                            DateTime.fromMillisecondsSinceEpoch(
+                                sleeping.toDate));
+                      return Card(
+                        child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                            children: <Widget>[
+                              TextField(
+                                controller: locController,
+                                onChanged: (s) {
+                                  sleeping.location = s;
+                                  sleepingList[index] = sleeping;
+                                },
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: "Sleeping",
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(2),
+                              ),
+                              InkWell(
+                                child: AbsorbPointer(
+                                  child: TextField(
+                                    controller: fromDateController,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      hintText: "From Date",
+                                    ),
+                                  ),
+                                ),
+                                onTap: () async {
+                                  DateTime selectedDate = DateTime.now();
+                                  final DateTime picked = await showDatePicker(
+                                      context: context,
+                                      initialDate: selectedDate,
+                                      firstDate: DateTime(2015, 8),
+                                      lastDate: DateTime(2101));
+                                  if (picked != null && picked != selectedDate)
+                                    setState(() {
+                                      selectedDate = picked;
+                                      sleeping.fromDate =
+                                          selectedDate.millisecondsSinceEpoch;
+                                      sleepingList[index] = sleeping;
+                                    });
+                                },
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(2),
+                              ),
+                              InkWell(
+                                child: AbsorbPointer(
+                                  child: TextField(
+                                    controller: toDateController,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      hintText: "To Date",
+                                    ),
+                                  ),
+                                ),
+                                onTap: () async {
+                                  DateTime selectedDate = DateTime.now();
+                                  final DateTime picked = await showDatePicker(
+                                      context: context,
+                                      initialDate: selectedDate,
+                                      firstDate: DateTime(2015, 8),
+                                      lastDate: DateTime(2101));
+                                  if (picked != null && picked != selectedDate)
+                                    setState(() {
+                                      selectedDate = picked;
+                                      sleeping.toDate =
+                                          selectedDate.millisecondsSinceEpoch;
+                                      sleepingList[index] = sleeping;
+                                    });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Text("Flights"),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.add),
+                        onPressed: () {
+                          setState(() {
+                            flightsList.add(Flight());
+                          });
+                        },
+                      )
+                    ],
+                  ),
+                  ListView.builder(
+                    itemCount: flightsList.length,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (BuildContext context, int index) {
+                      Flight flight = flightsList[index];
+                      final _airlineController = TextEditingController();
+                      final _flightController = TextEditingController();
+                      final _toAirportController = TextEditingController();
+                      final _fromAirportController = TextEditingController();
+                      final departureDateTimeController =
+                          TextEditingController();
+
+                      if (flight.departureDateTime != null &&
+                          flight.departureDateTime > 0)
+                        departureDateTimeController.text =
+                            DateFormat('yyyy-MM-dd kk:mm').format(
+                                DateTime.fromMillisecondsSinceEpoch(
+                                    flight.departureDateTime));
+
+                      final arrivalDateTimeController = TextEditingController();
+                      if (flight.arrivalDateTime != null &&
+                          flight.arrivalDateTime > 0)
+                        arrivalDateTimeController.text =
+                            DateFormat('yyyy-MM-dd kk:mm').format(
+                                DateTime.fromMillisecondsSinceEpoch(
+                                    flight.arrivalDateTime));
+                      return Card(
+                        child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                            children: <Widget>[
+                              InkWell(
+                                child: AbsorbPointer(
+                                  child: TextField(
+                                    controller: departureDateTimeController,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      hintText: "Departure Date Time",
+                                    ),
+                                  ),
+                                ),
+                                onTap: () async {
+                                  DateTime selectedDate = DateTime.now();
+                                  final DateTime picked = await showDatePicker(
+                                      context: context,
+                                      initialDate: selectedDate,
+                                      firstDate: DateTime(2015, 8),
+                                      lastDate: DateTime(2101));
+                                  if (picked != null &&
+                                      picked != selectedDate) {
+                                    TimeOfDay selectedTime = TimeOfDay.now();
+                                    final TimeOfDay pickedTime =
+                                        await showTimePicker(
+                                            context: context,
+                                            initialTime: selectedTime);
+                                    if (picked != null &&
+                                        pickedTime != selectedTime)
+                                      setState(() {
+                                        selectedDate = picked;
+                                        flight.departureDateTime =
+                                            selectedDate.millisecondsSinceEpoch;
+                                        flightsList[index] = flight;
+                                        selectedTime = pickedTime;
+                                        DateTime now =
+                                            DateTime.fromMillisecondsSinceEpoch(
+                                                flight.departureDateTime);
+                                        flight.departureDateTime = DateTime(
+                                                now.year,
+                                                now.month,
+                                                now.day,
+                                                selectedTime.hour,
+                                                selectedTime.minute)
+                                            .millisecondsSinceEpoch;
+                                        flightsList[index] = flight;
+                                      });
+                                  }
+                                },
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(2),
+                              ),
+                              InkWell(
+                                child: AbsorbPointer(
+                                  child: TextField(
+                                    controller: arrivalDateTimeController,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      hintText: "Arrival Date Time",
+                                    ),
+                                  ),
+                                ),
+                                onTap: () async {
+                                  DateTime selectedDate = DateTime.now();
+                                  final DateTime picked = await showDatePicker(
+                                      context: context,
+                                      initialDate: selectedDate,
+                                      firstDate: DateTime(2015, 8),
+                                      lastDate: DateTime(2101));
+                                  if (picked != null &&
+                                      picked != selectedDate) {
+                                    TimeOfDay selectedTime = TimeOfDay.now();
+                                    final TimeOfDay pickedTime =
+                                        await showTimePicker(
+                                            context: context,
+                                            initialTime: selectedTime);
+                                    if (picked != null &&
+                                        pickedTime != selectedTime)
+                                      setState(() {
+                                        selectedDate = picked;
+                                        flight.arrivalDateTime =
+                                            selectedDate.millisecondsSinceEpoch;
+                                        flightsList[index] = flight;
+                                        selectedTime = pickedTime;
+                                        DateTime now =
+                                            DateTime.fromMillisecondsSinceEpoch(
+                                                flight.departureDateTime);
+                                        flight.arrivalDateTime = DateTime(
+                                                now.year,
+                                                now.month,
+                                                now.day,
+                                                selectedTime.hour,
+                                                selectedTime.minute)
+                                            .millisecondsSinceEpoch;
+                                        flightsList[index] = flight;
+                                      });
+                                  }
+                                },
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(2),
+                              ),
+                              TextField(
+                                onChanged: (s) {
+                                  flight.airline = s;
+                                  flightsList[index] = flight;
+                                },
+                                controller: _airlineController,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: "Airline",
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(2),
+                              ),
+                              TextField(
+                                onChanged: (s) {
+                                  flight.flight = s;
+                                  flightsList[index] = flight;
+                                },
+                                controller: _flightController,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: "Flight",
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(2),
+                              ),
+                              TextField(
+                                onChanged: (s) {
+                                  flight.fromAirport = s;
+                                  flightsList[index] = flight;
+                                },
+                                controller: _fromAirportController,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: "From Airport",
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(2),
+                              ),
+                              TextField(
+                                onChanged: (s) {
+                                  flight.toAirport = s;
+                                  flightsList[index] = flight;
+                                },
+                                controller: _toAirportController,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: "To Airport",
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  TextField(
+                    controller: _notesController,
+                    onChanged: (s) {
+                      travel.notes = s;
+                    },
+                    textCapitalization: TextCapitalization.sentences,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Notes",
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(5),
+                  ),
+                  RaisedButton(
+                    color: Colors.redAccent,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                    textColor: Colors.white,
+                    onPressed: () {
+                      setState(() {
+                        Navigator.of(context).pop(travel);
+                      });
+                    },
+                    child: Text("Add"),
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  @override
+  AddTravelPresenter get presenter => AddTravelPresenter(this);
+}
