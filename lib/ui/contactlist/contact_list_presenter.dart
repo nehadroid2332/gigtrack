@@ -28,7 +28,11 @@ class ContactListPresenter extends BasePresenter {
           // } else if (contactInit.isEmpty) {
           //   acc.add(contact);
           // }
-          acc.add(contact);
+          if (contactInit != null) {
+            if (contact.name.toLowerCase().contains(contactInit.toLowerCase()))
+              acc.add(contact);
+          } else
+            acc.add(contact);
           // if (acc.length < 0) {
           //   acc.add((contact));
           // }
@@ -60,22 +64,28 @@ class ContactListPresenter extends BasePresenter {
               contact.band = res;
             }
           }
-          if (contactInit != null &&
-              getNameOrder(contact.name)[0].toLowerCase() ==
-                  contactInit.toLowerCase()) {
-            if (contact.user_id == serverAPI.currentUserId) {
+          // if (contactInit != null &&
+          //     getNameOrder(contact.name)[0].toLowerCase() ==
+          //         contactInit.toLowerCase()) {
+          //   if (contact.user_id == serverAPI.currentUserId) {
+          //     acc.add(contact);
+          //   } else if (contact.user_id != null) {
+          //     final res = await serverAPI.getSingleUserById(contact.user_id);
+          //     if (res is User && (res.isUnder18Age ?? false)) {
+          //       if (res.guardianEmail == serverAPI.currentUserEmail) {
+          //         acc.add(contact);
+          //       }
+          //     }
+          //   }
+          // } else {
+          //   acc.add(contact);
+          // }
+
+          if (contactInit != null) {
+            if (contact.name.toLowerCase().contains(contactInit.toLowerCase()))
               acc.add(contact);
-            } else if (contact.user_id != null) {
-              final res = await serverAPI.getSingleUserById(contact.user_id);
-              if (res is User && (res.isUnder18Age ?? false)) {
-                if (res.guardianEmail == serverAPI.currentUserEmail) {
-                  acc.add(contact);
-                }
-              }
-            }
-          } else {
+          } else
             acc.add(contact);
-          }
         }
         acc.sort((a, b) {
           return a.name
