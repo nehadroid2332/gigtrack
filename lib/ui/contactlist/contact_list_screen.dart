@@ -141,7 +141,8 @@ class _ContactListScreenState
 //                                color: cnt.bandId.isNotEmpty
 //                                    ? Colors.white
 //                                    : Colors.white,//Color.fromRGBO(3, 54, 255, 1.0),
-                                  margin: EdgeInsets.all(6),
+                                height: 110,
+                                  margin: EdgeInsets.all(0),
 //                                shape: RoundedRectangleBorder(
 //                                    side: cnt.bandId.isNotEmpty
 //                                        ? new BorderSide(
@@ -153,9 +154,33 @@ class _ContactListScreenState
 //                                                Color.fromRGBO(3, 54, 255, 1.0),
 //                                            width: 1.0),
 //                                    borderRadius: BorderRadius.circular(15)),
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      //                   <--- left side
+                                      color: Color.fromRGBO(3, 218, 157, 1.0),
+                                      width: 1.0,
+                                    ),
+                                    left: BorderSide(
+                                      //                   <--- left side
+                                      color: Colors.white,
+                                      width: 0.0,
+                                    ),
+                                    right: BorderSide(
+                                      //                   <--- left side
+                                      color: Colors.white,
+                                      width: 0.0,
+                                    ),
+                                    top: BorderSide(
+                                      //                   <--- left side
+                                      color: Colors.white,
+                                      width: 0.0,
+                                    ),
+                                  ),
+                                ),
                                   child: InkWell(
                                     child: Padding(
-                                      padding: EdgeInsets.all(15),
+                                      padding: EdgeInsets.all(0),
                                       child: Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
@@ -185,7 +210,7 @@ class _ContactListScreenState
                                                       getNameOrder(cnt.name)[0],
                                                       style: TextStyle(
                                                           color: Colors.yellow,
-                                                          fontSize: 20,
+                                                          fontSize: 35,
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontStyle:
@@ -194,30 +219,28 @@ class _ContactListScreenState
                                                   ),
                                                 ),
                                           Padding(
-                                            padding: EdgeInsets.all(5),
+                                            padding: EdgeInsets.only(left: 5,right: 5,top: 0,bottom: 0),
                                           ),
                                           cnt.bandId.isEmpty
                                               ? new Container(
                                                   alignment:
                                                       Alignment.bottomCenter,
                                                   child: VerticalDivider(
-                                                    color: Color.fromRGBO(
-                                                        3, 218, 157, 1.0),
+                                                    color: Colors.white,
                                                     width: 5,
-                                                    thickness: 1.5,
+                                                    thickness: 1.0,
                                                   ))
                                               : Container(),
                                           Expanded(
                                             child: Container(
-                                              padding: EdgeInsets.all(10),
+                                              padding: EdgeInsets.only(left: 10,top: 26,bottom: 15,right: 10),
                                               decoration: BoxDecoration(
                                                 border: Border.all(
                                                     width: cnt.bandId.isNotEmpty
-                                                        ? 1
+                                                        ? 0
                                                         : 0, //
                                                     color: cnt.bandId.isNotEmpty
-                                                        ? Color.fromRGBO(
-                                                            3, 218, 157, 1.0)
+                                                        ? Colors.white
                                                         : Colors
                                                             .white //               <--- border width here
                                                     ),
@@ -236,15 +259,15 @@ class _ContactListScreenState
                                                                     .isNotEmpty
                                                                 ? Colors.black
                                                                 : Colors.black,
-                                                            fontSize: 18),
+                                                            fontSize: 14),
                                                   ),
                                                   cnt.companyName.isNotEmpty
                                                       ? Text(
                                                           "${cnt.companyName}",
                                                           textAlign:
-                                                              TextAlign.center,
+                                                              TextAlign.end,
                                                           style: TextStyle(
-                                                            fontSize: 13,
+                                                            fontSize: 14,
                                                             color: cnt.bandId
                                                                     .isNotEmpty
                                                                 ? Colors.black
@@ -275,7 +298,30 @@ class _ContactListScreenState
                                                                         1.0),
                                                           ),
                                                         )
-                                                      : Container()
+                                                      : Container(),
+                                                 
+                                                  cnt.relationship.isNotEmpty&& cnt.relationship!= "Select"? Text(cnt.relationship=="Select"?" ":cnt.relationship, // "${cnt.name.split(" ").reversed.join(' ')}",
+                                                    textAlign: TextAlign.center,
+                                                    style: textTheme.headline
+                                                        .copyWith(
+                                                        color: cnt.bandId
+                                                            .isNotEmpty
+                                                            ? Colors.black
+                                                            : Colors.black,
+                                                        fontSize: 14),
+                                                  ):Container(),
+                                                  Padding(padding: EdgeInsets.all(0),),
+                                                  cnt.text.isNotEmpty? Text(cnt.text, // "${cnt.name.split(" ").reversed.join(' ')}",
+                                                    textAlign: TextAlign.center,
+                                                    style: textTheme.headline
+                                                        .copyWith(
+                                                        color: cnt.bandId
+                                                            .isNotEmpty
+                                                            ? Colors.black
+                                                            : Colors.black,
+                                                        fontSize: 14),
+                                                  ):Container(),
+                                                  
                                                 ],
                                               ),
                                             ),

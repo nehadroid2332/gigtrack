@@ -5,20 +5,33 @@ import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/ui/addfeedback/add_feedback_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
+import 'package:mailer/smtp_server/gmail.dart';
 
 class AddFeedbackScreen extends BaseScreen {
-  AddFeedbackScreen(AppListener appListener) : super(appListener);
+
+  AddFeedbackScreen(AppListener appListener) : super(appListener){
+
+  }
 
   @override
   _AddFeedbackScreenState createState() => _AddFeedbackScreenState();
 }
 
+
 class _AddFeedbackScreenState
     extends BaseScreenState<AddFeedbackScreen, AddFeedbackPresenter>
     implements AddFeedbackContract {
   String _feedbackError;
+  
   final _feedbackController = TextEditingController();
 
+    @override
+  void initState() {
+    // TODO: implement initState
+    
+  }
   @override
   Widget buildBody() {
     return Stack(
@@ -78,7 +91,9 @@ class _AddFeedbackScreenState
                             _feedbackError = "Cannot be Empty";
                           } else {
                             showLoading();
+                            sendEmail();
                             presenter.addFeedback(feed);
+                            
                           }
                         },
                         color:Color.fromRGBO(255, 215, 0, 1.0), //Color.fromRGBO(22, 102, 237, 1.0),
@@ -135,4 +150,33 @@ class _AddFeedbackScreenState
       Navigator.pop(context);
     });
   }
+  void sendEmail() async{
+  
+    SmtpServer smtpServer;
+    String _username = 'gigtrack2@gmail.com';//'gigtrackonline@gmail.com';//
+    String _password = '12345Six**';
+    smtpServer=gmail(_username, _password);
+    // Use the SmtpServer class to configure an SMTP server:
+  //smtpServer = SmtpServer('smtp.gmail.com');
+    // See the named arguments of SmtpServer for further configuration
+    // options.
+  
+    // Create our message.
+    final message = Message()
+      ..from = Address(_username, 'Your name')
+      ..recipients.add('gigtrack2@gmail.com')
+      ..subject = 'Test Dart Mailer library :: 😀 :: ${DateTime.now()}'
+      ..text = 'This is the plain text.\nThis is line 2 of the text part.';
+  
+    try {
+      final sendReport = await send(message, smtpServer);
+      print('Message sent: ' + sendReport.toString());
+    } on MailerException catch (e) {
+      print('Message not sent.${e.message}');
+      for (var p in e.problems) {
+        print('Problem: ${p.code}: ${p.msg}');
+      }
+    }
+  }
+
 }

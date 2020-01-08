@@ -6,7 +6,6 @@ import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/band_member.dart';
 import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
-
 import 'addmembertobandpresenter.dart';
 
 class AddMemberToBandScreen extends BaseScreen {
@@ -581,6 +580,10 @@ class _AddMemberToBandScreenState
                           ),
                           RaisedButton(
                             onPressed: () {
+                              String emailText=_emailController.text;
+                              if(emailText.isEmpty){
+                                _errorEmail = "Cannot be Empty";
+                              }else{
                               showLoading();
                               presenter.addMemberToBand(
                                   BandMember(
@@ -604,7 +607,7 @@ class _AddMemberToBandScreenState
                                     instrumentList: List.from(inList)
                                   ),
                                   widget.bandId,
-                                  isPrimary);
+                                  isPrimary);}
                             },
                             child: Text(
                               "Submit",
