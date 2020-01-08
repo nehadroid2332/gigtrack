@@ -1454,7 +1454,7 @@ class _AddInstrumentScreenState
                                         });
                                       },
                                       child: Text(
-                                        "Click here to add contact notes",
+                                        "Click here to add instrumemt notes",
                                         textAlign: TextAlign.center,
                                         style: textTheme.display1.copyWith(
                                             color: Colors.red, fontSize: 14),

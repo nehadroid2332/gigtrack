@@ -177,7 +177,7 @@ class _DashboardScreenState
               childAspectRatio: 1.36,
               children: [
                 "ACTIVITES",
-                "BAND",
+                "BANDS",
                 "CONTACTS",
                 "EPK",
                 "EQUIPMENT",
@@ -204,7 +204,7 @@ class _DashboardScreenState
                       image = 'assets/images/notesicon.svg';
                       borderColor = Color.fromRGBO(3, 54, 255, 1.0);
                       break;
-                    case "BAND":
+                    case "BANDS":
                       color = Color.fromRGBO(225, 222, 222, 0.7);
                       //color=Color.fromRGBO(214,22, 35, 1.0);
                       //	color = Color.fromRGBO(241, 206, 96, 0.1);
@@ -315,7 +315,7 @@ class _DashboardScreenState
                       else if (txt == "NOTES")
                         widget.appListener.router.navigateTo(
                             context, Screens.NOTETODOLIST.toString() + "/////");
-                      else if (txt == "BAND")
+                      else if (txt == "BANDS")
                         widget.appListener.router
                             .navigateTo(context, Screens.BANDLIST.toString());
                       else if (txt == "EQUIPMENT")
