@@ -4,17 +4,21 @@ import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/activities.dart';
 import 'package:gigtrack/ui/addtravel/addtravel_presenter.dart';
 import 'package:intl/intl.dart';
+import 'package:random_string/random_string.dart';
 
 class AddTravelScreen extends BaseScreen {
   final String id;
-  AddTravelScreen(AppListener appListener, {this.id}) : super(appListener);
+  final String activityId;
+  AddTravelScreen(AppListener appListener, {this.id, this.activityId})
+      : super(appListener);
 
   @override
   _AddTravelScreenState createState() => _AddTravelScreenState();
 }
 
 class _AddTravelScreenState
-    extends BaseScreenState<AddTravelScreen, AddTravelPresenter> {
+    extends BaseScreenState<AddTravelScreen, AddTravelPresenter>
+    implements AddTravelContract {
   final _locNameController = TextEditingController(),
       _startDateController = TextEditingController(),
       _notesController = TextEditingController(),
@@ -180,6 +184,7 @@ class _AddTravelScreenState
                     itemBuilder: (BuildContext context, int index) {
                       ShowUps showUp = showUpList[index];
                       final locController = TextEditingController();
+                      locController.text = showUp.location;
                       final dateController = TextEditingController();
                       if (showUp.dateTime != null && showUp.dateTime > 0)
                         dateController.text = DateFormat('yyyy-MM-dd').format(
@@ -411,9 +416,13 @@ class _AddTravelScreenState
                     itemBuilder: (BuildContext context, int index) {
                       Flight flight = flightsList[index];
                       final _airlineController = TextEditingController();
+                      _airlineController.text = flight.airline;
                       final _flightController = TextEditingController();
+                      _flightController.text = flight.flight;
                       final _toAirportController = TextEditingController();
+                      _toAirportController.text = flight.toAirport;
                       final _fromAirportController = TextEditingController();
+                      _fromAirportController.text = flight.fromAirport;
                       final departureDateTimeController =
                           TextEditingController();
 
@@ -641,4 +650,33 @@ class _AddTravelScreenState
 
   @override
   AddTravelPresenter get presenter => AddTravelPresenter(this);
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.id != null && widget.id.isNotEmpty) {
+      presenter.getTravel(widget.activityId, widget.id);
+    } else {
+      travel.id = randomString(19);
+      travel.showupList = showUpList;
+      travel.sleepingList = sleepingList;
+      travel.flightList = flightsList;
+    }
+  }
+
+  @override
+  void getTravelDetails(Travel res) {
+    setState(() {
+      travel = res;
+      showUpList = res.showupList;
+      sleepingList = res.sleepingList;
+      flightsList = res.flightList;
+      _locNameController.text = res.location;
+      _notesController.text = res.notes;
+      _startDateController.text = DateFormat('yyyy-MM-dd')
+          .format(DateTime.fromMillisecondsSinceEpoch(travel.startDate));
+      _endDateController.text = DateFormat('yyyy-MM-dd')
+          .format(DateTime.fromMillisecondsSinceEpoch(travel.endDate));
+    });
+  }
 }

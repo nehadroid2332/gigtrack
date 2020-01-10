@@ -981,36 +981,48 @@ class _AddActivityScreenState
                                   textAlign: TextAlign.center,
                                 )
                               : Container(),
-                      Padding(
-                        padding: EdgeInsets.only(top: 5),
-                        child: (widget.id.isEmpty || isEdit) &&
-                                (widget.type ==
-                                    Activites.TYPE_PERFORMANCE_SCHEDULE)
-                            ? Row(
+                      (widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE)
+                          ? Padding(
+                              padding: EdgeInsets.only(top: 5),
+                              child: Row(
                                 children: <Widget>[
                                   Expanded(
-                                    child: Text("Travel"),
+                                    child: Text(
+                                      "Travel",
+                                      textAlign: (widget.id.isEmpty || isEdit)
+                                          ? TextAlign.left
+                                          : TextAlign.center,
+                                      style: textTheme.subhead.copyWith(
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
                                   ),
-                                  IconButton(
-                                    icon: Icon(Icons.add),
-                                    onPressed: () async {
-                                      // showDialogConfirm();
-                                      final travel = await widget
-                                          .appListener.router
-                                          .navigateTo(
-                                              context,
-                                              Screens.ADDTRAVEL.toString() +
-                                                  "////////");
-                                      print("Sd-> $travel");
-                                    },
-                                  )
+                                  (widget.id.isEmpty || isEdit)
+                                      ? IconButton(
+                                          icon: Icon(Icons.add),
+                                          onPressed: () async {
+                                            // showDialogConfirm();
+                                            final travel = await widget
+                                                .appListener.router
+                                                .navigateTo(
+                                                    context,
+                                                    Screens.ADDTRAVEL
+                                                            .toString() +
+                                                        "/////////${widget.id}");
+                                            print("Sd-> $travel");
+                                            setState(() {
+                                              if (travel != null &&
+                                                  travel is Travel)
+                                                travelList.add(travel);
+                                            });
+                                          },
+                                        )
+                                      : Container()
                                 ],
-                              )
-                            : Container(),
-                      ),
-                      (widget.id.isEmpty || isEdit) &&
-                              (widget.type ==
-                                  Activites.TYPE_PERFORMANCE_SCHEDULE)
+                              ),
+                            )
+                          : Container(),
+                      (widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE)
                           ? ListView.builder(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
@@ -1020,6 +1032,32 @@ class _AddActivityScreenState
                                 return ListTile(
                                   title: Text("${travel.location}"),
                                   subtitle: Text("${travel.notes}"),
+                                  trailing: IconButton(
+                                    icon: Icon(Icons.delete),
+                                    onPressed: () {
+                                      setState(() {
+                                        travelList.removeAt(index);
+                                      });
+                                    },
+                                  ),
+                                  onTap: () async {
+                                    final tr = await widget.appListener.router
+                                        .navigateTo(
+                                            context,
+                                            Screens.ADDTRAVEL.toString() +
+                                                "//${travel.id}///////${widget.id}");
+                                    setState(() {
+                                      for (var i = 0;
+                                          i < travelList.length;
+                                          i++) {
+                                        Travel travel1 = travelList[i];
+                                        if (travel.id == tr.id &&
+                                            travel1.id == travel.id) {
+                                          travelList[i] = tr;
+                                        }
+                                      }
+                                    });
+                                  },
                                 );
                               },
                             )
@@ -1481,6 +1519,7 @@ class _AddActivityScreenState
                                         longitude: longitude,
                                         type: widget.type,
                                         parking: park,
+                                        travelList: travelList,
                                         wardrobe: ward,
                                         other: other,
                                         startTime: _startTimeController.text.toLowerCase(),
@@ -1620,6 +1659,7 @@ class _AddActivityScreenState
       if (widget.id.isEmpty && widget.type == Activites.TYPE_BAND_TASK) {
         presenter.getUserBands();
       }
+      travelList = activities.travelList;
       // members.addAll(activities.bandmates);
     });
   }

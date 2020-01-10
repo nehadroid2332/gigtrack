@@ -133,7 +133,7 @@ class Activites extends BaseModel {
       tr.add(item.toMap());
     }
     data['travelList'] = tr;
-    
+
     data['startTime'] = startTime;
     data['endTime'] = endTime;
     return data;
@@ -141,6 +141,7 @@ class Activites extends BaseModel {
 }
 
 class Travel extends BaseModel {
+  String id;
   List<ShowUps> showupList = [];
   List<Sleeping> sleepingList = [];
   List<Flight> flightList = [];
@@ -152,6 +153,7 @@ class Travel extends BaseModel {
   Travel();
 
   Travel.fromJSON(dynamic data) {
+    id = data['id'];
     location = data['location'];
     startDate = data['startDate'];
     endDate = data['endDate'];
@@ -177,6 +179,7 @@ class Travel extends BaseModel {
   Map<String, dynamic> toMap() {
     final data = super.toMap();
     data['location'] = location;
+    data['id'] = id;
     data['startDate'] = startDate;
     data['endDate'] = endDate;
     data['notes'] = notes;
