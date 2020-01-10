@@ -124,14 +124,14 @@ class _AddActivityScreenState
       if (isStart) {
         startTime = picked;
         _startTimeController.text =
-            formatDate(dateTime, [hh, ':', nn, ' ', am]);
+            formatDate(dateTime, [h, ':', nn, ' ', am]);
       } else {
         if (picked.hourOfPeriod <= startTime.hourOfPeriod) {
-          showMessage("End Time cannot be greater than Start Time");
+          showMessage("End Time cmust be later than Start Time");
         } else {
           endTime = picked;
           _endTimeController.text =
-              formatDate(dateTime, [hh, ':', nn, ' ', am]);
+              formatDate(dateTime, [h, ':', nn, ' ', am]);
         }
       }
     }
@@ -534,7 +534,7 @@ class _AddActivityScreenState
                                                 flex: 2,
                                                 child: Text(
                                                   //"Start time -" +
-                                                  _startTimeController.text,
+                                                  _startTimeController.text.toLowerCase(),
                                                   textAlign: TextAlign.right,
                                                 ),
                                               )
@@ -592,7 +592,7 @@ class _AddActivityScreenState
                                                 flex: 2,
                                                 child: Text(
                                                   // "End time - " +
-                                                  _endTimeController.text,
+                                                  _endTimeController.text.toLowerCase(),
                                                   textAlign: TextAlign.left,
                                                 ),
                                               )
@@ -1483,8 +1483,8 @@ class _AddActivityScreenState
                                         parking: park,
                                         wardrobe: ward,
                                         other: other,
-                                        startTime: _startTimeController.text,
-                                        endTime: _endTimeController.text);
+                                        startTime: _startTimeController.text.toLowerCase(),
+                                        endTime: _endTimeController.text.toLowerCase());
                                     showLoading();
                                     presenter.addActivity(
                                         activities, widget.isParent);

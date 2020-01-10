@@ -378,7 +378,7 @@ class _ContactListScreenState
                                                                           "Select"
                                                                       ? " "
                                                                       : cnt
-                                                                          .relationship, // "${cnt.name.split(" ").reversed.join(' ')}",
+                                                                          .relationship=="Other"?cnt.otherrelationship:cnt.relationship, // "${cnt.name.split(" ").reversed.join(' ')}",
                                                                   textAlign:
                                                                       TextAlign
                                                                           .center,

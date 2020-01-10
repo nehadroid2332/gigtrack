@@ -128,6 +128,7 @@ class Activites extends BaseModel {
     data['subActivities'] = sb;
 
     List<dynamic> tr = [];
+    if(travelList !=null)
     for (Travel item in travelList) {
       tr.add(item.toMap());
     }

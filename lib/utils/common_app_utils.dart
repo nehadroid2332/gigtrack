@@ -295,10 +295,14 @@ Widget buildActivityListItem(Activites ac, context,
                   children: <Widget>[
                     ac.startTime != null
                         ? Text(
-                            "${ac.startTime}-${ac.endTime}",
+                            "${ac.startTime.toLowerCase()}",
                             style: TextStyle(color: Colors.black, fontSize: 16),
                           )
-                        : Container()
+                        : Container(),
+                    ac.endTime.isNotEmpty?
+                        Text(" - ${ac.endTime.toLowerCase()}",
+                        style: TextStyle(color: Colors.black,fontSize: 16),
+                        ):Container()
                   ],
                 ),
                 Text(
@@ -684,25 +688,20 @@ class AppProgressWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 120,
-      height: 120,
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SvgPicture.asset(
-            'assets/images/loading.svg',
-            allowDrawingOutsideViewBox: true,
-            height: 80,
-            width: 80,
+          Image.asset(
+            'assets/images/loadingimage.gif',
+            height: MediaQuery.of(context).size.height/2,
+            width: MediaQuery.of(context).size.width,
           ),
           Padding(
-            padding: EdgeInsets.all(4),
+            padding: EdgeInsets.all(2),
           ),
-          Text(
-            "Loading...",
-            style: TextStyle(
-              fontSize: 20,
-            ),
-          )
+      
         ],
       ),
     );
