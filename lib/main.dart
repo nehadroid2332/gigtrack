@@ -183,10 +183,11 @@ class MyApp extends StatelessWidget implements AppListener {
     }));
     _router.define(
         Screens.ADDTRAVEL.toString() +
-            "/:type/:id/:isParent/:bandId/:isLeader/:isComm/:isSetUp/:postEntries",
+            "/:type/:id/:isParent/:bandId/:isLeader/:isComm/:isSetUp/:postEntries/:actiivtyId",
         handler: Handler(
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["id"][0];
+      String actiivtyId = params["actiivtyId"][0];
       // int type = int.parse(params["type"][0]);
       // bool isParent = params["isParent"][0] == '${true}';
       // String bandId = params['bandId'][0];
@@ -197,6 +198,7 @@ class MyApp extends StatelessWidget implements AppListener {
       return AddTravelScreen(
         this,
         id: id,
+        activityId: actiivtyId,
       );
     }));
 
