@@ -2112,6 +2112,7 @@ class _AddActivityScreenState
       members.clear();
       if (widget.id.isEmpty && widget.type == Activites.TYPE_BAND_TASK) {
         presenter.getUserBands();
+        
       }
       travelList = activities.travelList;
       // members.addAll(activities.bandmates);
