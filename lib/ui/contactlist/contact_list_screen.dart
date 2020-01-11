@@ -1,10 +1,10 @@
-import 'package:alphabet_list_scroll_view/alphabet_list_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/ui/contactlist/contact_list_presenter.dart';
+import 'package:speech_bubble/speech_bubble.dart';
 import 'package:swipedetector/swipedetector.dart';
 
 import '../../utils/common_app_utils.dart';
@@ -33,17 +33,16 @@ class _ContactListScreenState
     extends BaseScreenState<ContactListScreen, ContactListPresenter>
     implements ContactListContract {
   List<Contacts> _contacts = <Contacts>[];
-  List<String> _strList = <String>[];
 
   Stream<List<Contacts>> list;
   final alpha = [
-    // "A",
-    // "B",
-    // "C",
-    // "D",
-    // "E",
-    // "F",
-    // "G",
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
     "H",
     "I",
     "J",
@@ -59,11 +58,22 @@ class _ContactListScreenState
     "T",
     "U",
     "V",
-    //  "W",
-    //  "X",
-    //  "Y",
-    //  "Z",
+    "W",
+    "X",
+    "Y",
+    "Z",
   ];
+  ScrollController _controller;
+  var _text;
+  var _oldtext;
+  double _offsetContainer;
+  var _sizeheightcontainer;
+  var _heightscroller;
+  var posSelected = 0;
+  var diff = 0.0;
+  var txtSliderPos = 0.0;
+  var _marginRight = 50.0;
+  var _itemsizeheight = 110.0;
 
   final _searchController = TextEditingController();
   @override
@@ -76,6 +86,93 @@ class _ContactListScreenState
             contactInit: _searchController.text);
       });
     });
+    _controller = ScrollController();
+    _controller.addListener(_scrollListener);
+  }
+
+  _scrollListener() {
+    if ((_controller.offset) >= (_controller.position.maxScrollExtent)) {
+      print("reached bottom");
+    }
+    if (_controller.offset <= _controller.position.minScrollExtent &&
+        !_controller.position.outOfRange) {
+      print("reached top");
+    }
+  }
+
+  _getAlphabetItem(int index) {
+    return new Expanded(
+      child: new Container(
+        width: 40,
+        height: 20,
+        alignment: Alignment.center,
+        child: new Text(
+          alpha[index],
+          style: (index == posSelected)
+              ? new TextStyle(fontSize: 16, fontWeight: FontWeight.w700)
+              : new TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+        ),
+      ),
+    );
+  }
+
+  void _onVerticalDragUpdate(DragUpdateDetails details) {
+    setState(() {
+      if ((_offsetContainer + details.delta.dy) >= 0 &&
+          (_offsetContainer + details.delta.dy) <=
+              (_sizeheightcontainer - _heightscroller)) {
+        _offsetContainer += details.delta.dy;
+        posSelected =
+            ((_offsetContainer / _heightscroller) % alpha.length).round();
+        _text = alpha[posSelected];
+        if (_text != _oldtext) {
+          for (var i = 0; i < _contacts.length; i++) {
+            if (_text
+                    .toString()
+                    .compareTo(_contacts[i].name.toString().toUpperCase()[0]) ==
+                0) {
+              _controller.jumpTo(i * _itemsizeheight);
+              break;
+            }
+          }
+          _oldtext = _text;
+        }
+      }
+    });
+  }
+
+  void _onVerticalDragStart(DragStartDetails details) {
+//    var heightAfterToolbar = height - diff;
+//    print("height1 $heightAfterToolbar");
+//    var remavingHeight = heightAfterToolbar - (20.0 * 26);
+//    print("height2 $remavingHeight");
+//
+//    var reducedheight = remavingHeight / 2;
+//    print("height3 $reducedheight");
+    _offsetContainer = details.globalPosition.dy - diff;
+  }
+
+  _getSpeechBubble() {
+    return new SpeechBubble(
+      nipLocation: NipLocation.RIGHT,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            width: 30,
+            child: Center(
+              child: Text(
+                "${_text ?? "${alpha.first}"}",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -142,9 +239,6 @@ class _ContactListScreenState
                             (BuildContext context, AsyncSnapshot snapshot) {
                           if (snapshot.hasData) {
                             _contacts = snapshot.data;
-                            for (var item in _contacts) {
-                              _strList.add(item.name);
-                            }
                             return Column(
                               children: <Widget>[
                                 Container(
@@ -182,286 +276,278 @@ class _ContactListScreenState
                                   ),
                                 ),
                                 Expanded(
-                                  child: AlphabetListScrollView(
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      final cnt = _contacts[index];
-                                      return Container(
-                                        height: 110,
-//                                color: cnt.bandId.isNotEmpty
-//                                    ? Colors.white
-//                                    : Colors.white,//Color.fromRGBO(3, 54, 255, 1.0),
-                                        margin: EdgeInsets.all(0),
-//                                shape: RoundedRectangleBorder(
-//                                    side: cnt.bandId.isNotEmpty
-//                                        ? new BorderSide(
-//                                            color:
-//                                                Color.fromRGBO(3, 54, 255, 1.0),
-//                                            width: 1.0)
-//                                        : new BorderSide(
-//                                            color:
-//                                                Color.fromRGBO(3, 54, 255, 1.0),
-//                                            width: 1.0),
-//                                    borderRadius: BorderRadius.circular(15)),
-                                        decoration: BoxDecoration(
-                                          border: Border(
-                                            bottom: BorderSide(
-                                              //                   <--- left side
-                                              color: Color.fromRGBO(
-                                                  3, 218, 157, 1.0),
-                                              width: 1.0,
-                                            ),
-                                            left: BorderSide(
-                                              //                   <--- left side
-                                              color: Colors.white,
-                                              width: 0.0,
-                                            ),
-                                            right: BorderSide(
-                                              //                   <--- left side
-                                              color: Colors.white,
-                                              width: 0.0,
-                                            ),
-                                            top: BorderSide(
-                                              //                   <--- left side
-                                              color: Colors.white,
-                                              width: 0.0,
-                                            ),
-                                          ),
-                                        ),
-                                        child: InkWell(
-                                          child: Padding(
-                                              padding: EdgeInsets.all(0),
-                                              child: Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: <Widget>[
-                                                  cnt.files.length > 0
-                                                      ? CircleAvatar(
-                                                          radius: 30.0,
-                                                          backgroundImage:
-                                                              NetworkImage(
-                                                                  cnt.files[0]),
-                                                          backgroundColor:
-                                                              Colors
-                                                                  .transparent,
-                                                        )
-                                                      : Center(
-                                                          child: Container(
-                                                            decoration:
-                                                                new BoxDecoration(
-                                                              color: Color
-                                                                  .fromRGBO(
-                                                                      3,
-                                                                      218,
-                                                                      157,
-                                                                      1.0),
-                                                              shape: BoxShape
-                                                                  .circle,
-                                                            ),
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    left: 22,
-                                                                    right: 22,
-                                                                    top: 8,
-                                                                    bottom: 8),
-                                                            child: Text(
-                                                              getNameOrder(
-                                                                  cnt.name)[0],
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .yellow,
-                                                                  fontSize: 32,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontStyle:
-                                                                      FontStyle
-                                                                          .italic),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                  Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 5,
-                                                        right: 5,
-                                                        top: 0,
-                                                        bottom: 0),
-                                                  ),
-                                                  cnt.bandId.isEmpty
-                                                      ? new Container(
-                                                          alignment: Alignment
-                                                              .bottomCenter,
-                                                        )
-                                                      : Container(),
-                                                  Expanded(
-                                                    child: Container(
-                                                      padding: EdgeInsets.only(
-                                                          left: 10,
-                                                          top: 26,
-                                                          bottom: 15,
-                                                          right: 10),
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            width: cnt.bandId
-                                                                    .isNotEmpty
-                                                                ? 0
-                                                                : 0, //
-                                                            color: cnt.bandId
-                                                                    .isNotEmpty
-                                                                ? Colors.white
-                                                                : Colors
-                                                                    .white //               <--- border width here
-                                                            ),
+                                  child: LayoutBuilder(
+                                    builder: (context, constraint) {
+                                      diff = height - constraint.biggest.height;
+                                      _heightscroller =
+                                          (constraint.biggest.height) /
+                                              alpha.length;
+                                      _sizeheightcontainer =
+                                          (constraint.biggest.height); //NO
+                                      return Stack(
+                                        children: <Widget>[
+                                          Positioned.fill(
+                                            child: ListView.builder(
+                                              controller: _controller,
+                                              itemCount: _contacts.length,
+                                              itemExtent: _itemsizeheight,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                final cnt = _contacts[index];
+                                                return Container(
+                                                  height: 110,
+                                                  margin: EdgeInsets.all(0),
+                                                  decoration: BoxDecoration(
+                                                    border: Border(
+                                                      bottom: BorderSide(
+                                                        //                   <--- left side
+                                                        color: Color.fromRGBO(
+                                                            3, 218, 157, 1.0),
+                                                        width: 1.0,
                                                       ),
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: <Widget>[
-                                                          Text(
-                                                            getNameOrder(cnt
-                                                                .name), // "${cnt.name.split(" ").reversed.join(' ')}",
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: textTheme
-                                                                .headline
-                                                                .copyWith(
-                                                                    color: cnt
-                                                                            .bandId
-                                                                            .isNotEmpty
-                                                                        ? Colors
-                                                                            .black
-                                                                        : Colors
-                                                                            .black,
-                                                                    fontSize:
-                                                                        14),
-                                                          ),
-                                                          cnt.companyName
-                                                                  .isNotEmpty
-                                                              ? Text(
-                                                                  "${cnt.companyName}",
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .end,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        14,
-                                                                    color: cnt
-                                                                            .bandId
-                                                                            .isNotEmpty
-                                                                        ? Colors
-                                                                            .black
-                                                                        : Colors
-                                                                            .black,
-                                                                  ),
-                                                                )
-                                                              : Container(),
-                                                          cnt.bandId.isNotEmpty
-                                                              ? Text(
-                                                                  "${cnt.band.name}",
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .center,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        14,
-                                                                    color: cnt
-                                                                            .bandId
-                                                                            .isNotEmpty
-                                                                        ? Color.fromRGBO(
-                                                                            3,
-                                                                            218,
-                                                                            157,
-                                                                            1.0)
-                                                                        : Color.fromRGBO(
+                                                      left: BorderSide(
+                                                        //                   <--- left side
+                                                        color: Colors.white,
+                                                        width: 0.0,
+                                                      ),
+                                                      right: BorderSide(
+                                                        //                   <--- left side
+                                                        color: Colors.white,
+                                                        width: 0.0,
+                                                      ),
+                                                      top: BorderSide(
+                                                        //                   <--- left side
+                                                        color: Colors.white,
+                                                        width: 0.0,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  child: InkWell(
+                                                    child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(0),
+                                                        child: Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: <Widget>[
+                                                            cnt.files.length > 0
+                                                                ? CircleAvatar(
+                                                                    radius:
+                                                                        30.0,
+                                                                    backgroundImage:
+                                                                        NetworkImage(
+                                                                            cnt.files[0]),
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .transparent,
+                                                                  )
+                                                                : Center(
+                                                                    child:
+                                                                        Container(
+                                                                      decoration:
+                                                                          new BoxDecoration(
+                                                                        color: Color.fromRGBO(
                                                                             3,
                                                                             218,
                                                                             157,
                                                                             1.0),
+                                                                        shape: BoxShape
+                                                                            .circle,
+                                                                      ),
+                                                                      padding: EdgeInsets.only(
+                                                                          left:
+                                                                              22,
+                                                                          right:
+                                                                              22,
+                                                                          top:
+                                                                              8,
+                                                                          bottom:
+                                                                              8),
+                                                                      child:
+                                                                          Text(
+                                                                        getNameOrder(
+                                                                            cnt.name)[0],
+                                                                        style: TextStyle(
+                                                                            color: Colors
+                                                                                .yellow,
+                                                                            fontSize:
+                                                                                32,
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            fontStyle: FontStyle.italic),
+                                                                      ),
+                                                                    ),
                                                                   ),
-                                                                )
-                                                              : Container(),
-                                                          cnt.relationship
-                                                                      .isNotEmpty &&
-                                                                  cnt.relationship !=
-                                                                      "Select"
-                                                              ? Text(
-                                                                  cnt.relationship ==
-                                                                          "Select"
-                                                                      ? " "
-                                                                      : cnt.relationship ==
-                                                                              "Other"
-                                                                          ? cnt
-                                                                              .otherrelationship
-                                                                          : cnt
-                                                                              .relationship, // "${cnt.name.split(" ").reversed.join(' ')}",
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .center,
-                                                                  style: textTheme.headline.copyWith(
-                                                                      color: cnt
-                                                                              .bandId
-                                                                              .isNotEmpty
-                                                                          ? Colors
-                                                                              .black
-                                                                          : Colors
-                                                                              .black,
-                                                                      fontSize:
-                                                                          14),
-                                                                )
-                                                              : Container(),
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    0),
-                                                          ),
-                                                          cnt.text.isNotEmpty
-                                                              ? Text(
-                                                                  cnt.text, // "${cnt.name.split(" ").reversed.join(' ')}",
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .center,
-                                                                  style: textTheme.headline.copyWith(
-                                                                      color: cnt
-                                                                              .bandId
-                                                                              .isNotEmpty
-                                                                          ? Colors
-                                                                              .black
-                                                                          : Colors
-                                                                              .black,
-                                                                      fontSize:
-                                                                          14),
-                                                                )
-                                                              : Container(),
-                                                        ],
-                                                      ),
-                                                    ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      left: 5,
+                                                                      right: 5,
+                                                                      top: 0,
+                                                                      bottom:
+                                                                          0),
+                                                            ),
+                                                            cnt.bandId.isEmpty
+                                                                ? new Container(
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .bottomCenter,
+                                                                  )
+                                                                : Container(),
+                                                            Expanded(
+                                                              child: Container(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        left:
+                                                                            10,
+                                                                        top: 26,
+                                                                        bottom:
+                                                                            15,
+                                                                        right:
+                                                                            10),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  border: Border
+                                                                      .all(
+                                                                          width: cnt.bandId.isNotEmpty
+                                                                              ? 0
+                                                                              : 0, //
+                                                                          color: cnt.bandId.isNotEmpty
+                                                                              ? Colors.white
+                                                                              : Colors.white //               <--- border width here
+                                                                          ),
+                                                                ),
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: <
+                                                                      Widget>[
+                                                                    Text(
+                                                                      getNameOrder(
+                                                                          cnt.name), // "${cnt.name.split(" ").reversed.join(' ')}",
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style: textTheme.headline.copyWith(
+                                                                          color: cnt.bandId.isNotEmpty
+                                                                              ? Colors.black
+                                                                              : Colors.black,
+                                                                          fontSize: 14),
+                                                                    ),
+                                                                    cnt.companyName
+                                                                            .isNotEmpty
+                                                                        ? Text(
+                                                                            "${cnt.companyName}",
+                                                                            textAlign:
+                                                                                TextAlign.end,
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontSize: 14,
+                                                                              color: cnt.bandId.isNotEmpty ? Colors.black : Colors.black,
+                                                                            ),
+                                                                          )
+                                                                        : Container(),
+                                                                    cnt.bandId
+                                                                            .isNotEmpty
+                                                                        ? Text(
+                                                                            "${cnt.band.name}",
+                                                                            textAlign:
+                                                                                TextAlign.center,
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontSize: 14,
+                                                                              color: cnt.bandId.isNotEmpty ? Color.fromRGBO(3, 218, 157, 1.0) : Color.fromRGBO(3, 218, 157, 1.0),
+                                                                            ),
+                                                                          )
+                                                                        : Container(),
+                                                                    cnt.relationship.isNotEmpty &&
+                                                                            cnt.relationship !=
+                                                                                "Select"
+                                                                        ? Text(
+                                                                            cnt.relationship == "Select"
+                                                                                ? " "
+                                                                                : cnt.relationship == "Other" ? cnt.otherrelationship : cnt.relationship, // "${cnt.name.split(" ").reversed.join(' ')}",
+                                                                            textAlign:
+                                                                                TextAlign.center,
+                                                                            style:
+                                                                                textTheme.headline.copyWith(color: cnt.bandId.isNotEmpty ? Colors.black : Colors.black, fontSize: 14),
+                                                                          )
+                                                                        : Container(),
+                                                                    Padding(
+                                                                      padding:
+                                                                          EdgeInsets.all(
+                                                                              0),
+                                                                    ),
+                                                                    cnt.text.isNotEmpty
+                                                                        ? Text(
+                                                                            cnt.text, // "${cnt.name.split(" ").reversed.join(' ')}",
+                                                                            textAlign:
+                                                                                TextAlign.center,
+                                                                            style:
+                                                                                textTheme.headline.copyWith(color: cnt.bandId.isNotEmpty ? Colors.black : Colors.black, fontSize: 14),
+                                                                          )
+                                                                        : Container(),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        )),
+                                                    onTap: (widget.isLeader &&
+                                                                widget.bandId
+                                                                    .isNotEmpty) ||
+                                                            widget
+                                                                .bandId.isEmpty
+                                                        ? () {
+                                                            widget.appListener
+                                                                .router
+                                                                .navigateTo(
+                                                                    context,
+                                                                    Screens.ADDCONTACT
+                                                                            .toString() +
+                                                                        "/${cnt.id}/${widget.bandId.isEmpty ? cnt.bandId : widget.bandId}////");
+                                                          }
+                                                        : null,
                                                   ),
-                                                ],
-                                              )),
-                                          onTap: (widget.isLeader &&
-                                                      widget
-                                                          .bandId.isNotEmpty) ||
-                                                  widget.bandId.isEmpty
-                                              ? () {
-                                                  widget.appListener.router
-                                                      .navigateTo(
-                                                          context,
-                                                          Screens.ADDCONTACT
-                                                                  .toString() +
-                                                              "/${cnt.id}/${widget.bandId.isEmpty ? cnt.bandId : widget.bandId}////");
-                                                }
-                                              : null,
-                                        ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                          Positioned(
+                                            right: _marginRight,
+                                            top: _offsetContainer,
+                                            child: _getSpeechBubble(),
+                                          ),
+                                          Align(
+                                            alignment: Alignment.centerRight,
+                                            child: GestureDetector(
+                                              onVerticalDragUpdate:
+                                                  _onVerticalDragUpdate,
+                                              onVerticalDragStart:
+                                                  _onVerticalDragStart,
+                                              child: Container(
+                                                //height: 20.0 * 26,
+                                                color: Colors.transparent,
+                                                child: new Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: []..addAll(
+                                                      new List.generate(
+                                                          alpha.length,
+                                                          (index) =>
+                                                              _getAlphabetItem(
+                                                                  index)),
+                                                    ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       );
                                     },
-                                    showPreview: true,
-                                    indexedHeight: (int i) {
-                                      return 110;
-                                    },
-                                    strList: _strList,
                                   ),
                                 )
                               ],
