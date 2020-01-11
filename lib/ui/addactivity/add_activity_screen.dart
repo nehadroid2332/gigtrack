@@ -53,7 +53,9 @@ class _AddActivityScreenState
       _otherController = TextEditingController(),
       _locController = TextEditingController(),
       _startTimeController = TextEditingController(),
+      _startEventTimeController = TextEditingController(),
       _endTimeController = TextEditingController(),
+      _endEventTimeController = TextEditingController(),
       _completionDateController = TextEditingController(),
       _taskCompletion = TextEditingController();
   final List<Band> bands = [];
@@ -113,7 +115,7 @@ class _AddActivityScreenState
       });
   }
 
-  void selectTime(bool isStart) async {
+  void selectTime(bool isStart, bool isEvent) async {
     final TimeOfDay picked = await showTimePicker(
       context: context,
       initialTime: isStart ? startTime : endTime,
@@ -123,15 +125,23 @@ class _AddActivityScreenState
           startDate.day, picked.hour, picked.minute);
       if (isStart) {
         startTime = picked;
-        _startTimeController.text =
-            formatDate(dateTime, [h, ':', nn, ' ', am]);
+        if (isEvent) {
+          _startEventTimeController.text =
+              formatDate(dateTime, [h, ':', nn, ' ', am]);
+        } else
+          _startTimeController.text =
+              formatDate(dateTime, [h, ':', nn, ' ', am]);
       } else {
         if (picked.hourOfPeriod <= startTime.hourOfPeriod) {
           showMessage("End Time must be later than Start Time");
         } else {
           endTime = picked;
-          _endTimeController.text =
-              formatDate(dateTime, [h, ':', nn, ' ', am]);
+          if (isEvent) {
+            _endEventTimeController.text =
+                formatDate(dateTime, [h, ':', nn, ' ', am]);
+          } else
+            _endTimeController.text =
+                formatDate(dateTime, [h, ':', nn, ' ', am]);
         }
       }
     }
@@ -410,30 +420,48 @@ class _AddActivityScreenState
                                   widget.type ==
                                       Activites.TYPE_PRACTICE_SCHEDULE)
                           ? InkWell(
-                              child: AbsorbPointer(
-                                child: TextField(
-                                  enabled: widget.id.isEmpty || isEdit,
-                                  textCapitalization:
-                                      TextCapitalization.sentences,
-                                  textAlignVertical: TextAlignVertical.center,
-                                  decoration: InputDecoration(
-                                    labelText: widget.id.isEmpty || isEdit
-                                        ? widget.type ==
-                                                Activites.TYPE_PRACTICE_SCHEDULE
-                                            ? "Date"
-                                            : "Start Date"
-                                        : "",
-                                    labelStyle: TextStyle(
-                                      color: Color.fromRGBO(202, 208, 215, 1.0),
-                                    ),
-                                    errorText: _dateError,
-                                    border: widget.id.isEmpty || isEdit
-                                        ? null
-                                        : InputBorder.none,
+                              child: Container(
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  color: Colors.lightBlue.shade100,
+                                  border: Border(
+                                    top: BorderSide(
+                                        width: 2.0, color: Colors.black),
+                                    bottom: BorderSide(
+                                        width: 2.0, color: Colors.black),
                                   ),
-                                  controller: _dateController,
-                                  style: textTheme.subhead.copyWith(
-                                    color: Colors.black,
+                                ),
+                                child: AbsorbPointer(
+                                  child: TextField(
+                                    enabled: widget.id.isEmpty || isEdit,
+                                    textCapitalization:
+                                        TextCapitalization.sentences,
+                                    textAlignVertical: TextAlignVertical.center,
+                                    textAlign: TextAlign.center,
+                                    decoration: InputDecoration(
+                                      isDense: true,
+                                      contentPadding: EdgeInsets.all(8),
+                                      labelText: widget.id.isEmpty || isEdit
+                                          ? widget.type ==
+                                                  Activites
+                                                      .TYPE_PRACTICE_SCHEDULE
+                                              ? "Date"
+                                              // : "Start Date"
+                                              : ""
+                                          : "",
+                                      labelStyle: TextStyle(
+                                        color:
+                                            Color.fromRGBO(202, 208, 215, 1.0),
+                                      ),
+                                      errorText: _dateError,
+                                      border: widget.id.isEmpty || isEdit
+                                          ? null
+                                          : InputBorder.none,
+                                    ),
+                                    controller: _dateController,
+                                    style: textTheme.subhead.copyWith(
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -492,63 +520,86 @@ class _AddActivityScreenState
                                         ? Expanded(
                                             child: InkWell(
                                               onTap: () {
-                                                selectTime(true);
+                                                selectTime(true, false);
                                               },
                                               child: AbsorbPointer(
-                                                child: Column(children: <Widget>[
-                                                  Center(child:
-                                                    Text("Setup Time",
-                                                    style: TextStyle(
-                                                      fontSize: 15
-                                                    ),
-                                                    )),
-                                                  Padding(padding: EdgeInsets.only(bottom: 3),),
+                                                  child: Column(
+                                                children: <Widget>[
+                                                  Center(
+                                                      child: Text(
+                                                    "Setup Time",
+                                                    style:
+                                                        TextStyle(fontSize: 15),
+                                                  )),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        bottom: 3),
+                                                  ),
                                                   Container(
+                                                    height: 30,
                                                     decoration: BoxDecoration(
-                                                      color: Colors.lightBlue.shade100,
+                                                      color: Colors
+                                                          .lightBlue.shade100,
                                                       border: Border(
-                                                        top: BorderSide(width: 2.0, color: Colors.black),
-                                                        bottom: BorderSide(width: 2.0, color: Colors.black),
+                                                        top: BorderSide(
+                                                            width: 2.0,
+                                                            color:
+                                                                Colors.black),
+                                                        bottom: BorderSide(
+                                                            width: 2.0,
+                                                            color:
+                                                                Colors.black),
                                                       ),
                                                     ),
+                                                    alignment: Alignment.center,
                                                     child: TextField(
-                                                    enabled: widget.id.isEmpty ||
-                                                        isEdit,
-                                                    textCapitalization:
-                                                    TextCapitalization
-                                                        .sentences,
-                                                     
-                                                    textAlignVertical:
-                                                    TextAlignVertical.center,
-                                                    textAlign: TextAlign.center,
-                                                    decoration: InputDecoration(
-                                                      contentPadding: const EdgeInsets.only(bottom: 20,top: 0),
-                                                      labelText:
-                                                      widget.id.isEmpty ||
-                                                          isEdit
-                                                          ? ""
-                                                          : "",
-                                                      labelStyle: TextStyle(
-                                                        fontSize: 16,
-                                                        color: Color.fromRGBO(
-                                                            202, 208, 215, 1.0),
+                                                      enabled:
+                                                          widget.id.isEmpty ||
+                                                              isEdit,
+                                                      textCapitalization:
+                                                          TextCapitalization
+                                                              .sentences,
+                                                      textAlignVertical:
+                                                          TextAlignVertical
+                                                              .center,
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        isDense: true,
+                                                        contentPadding:
+                                                            EdgeInsets.all(8),
+                                                        labelText:
+                                                            widget.id.isEmpty ||
+                                                                    isEdit
+                                                                ? ""
+                                                                : "",
+                                                        labelStyle: TextStyle(
+                                                          fontSize: 16,
+                                                          color: Color.fromRGBO(
+                                                              202,
+                                                              208,
+                                                              215,
+                                                              1.0),
+                                                        ),
+                                                        errorText:
+                                                            _startTimeError,
+                                                        border: widget.id
+                                                                    .isEmpty ||
+                                                                isEdit
+                                                            ? null
+                                                            : InputBorder.none,
                                                       ),
-                                                      errorText: _startTimeError,
-                                                      border: widget.id.isEmpty ||
-                                                          isEdit
-                                                          ? null
-                                                          : InputBorder.none,
-  
+                                                      controller:
+                                                          _startTimeController,
+                                                      style: textTheme.subhead
+                                                          .copyWith(
+                                                        color: Colors.black,
+                                                      ),
                                                     ),
-                                                    controller:
-                                                    _startTimeController,
-                                                    style: textTheme.subhead
-                                                        .copyWith(
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),)
-                                                ],)
-                                              ),
+                                                  )
+                                                ],
+                                              )),
                                             ),
                                           )
                                         : _startTimeController.text.isNotEmpty
@@ -556,7 +607,8 @@ class _AddActivityScreenState
                                                 flex: 2,
                                                 child: Text(
                                                   //"Start time -" +
-                                                  _startTimeController.text.toLowerCase(),
+                                                  _startTimeController.text
+                                                      .toLowerCase(),
                                                   textAlign: TextAlign.right,
                                                 ),
                                               )
@@ -572,60 +624,80 @@ class _AddActivityScreenState
                                         ? Expanded(
                                             child: InkWell(
                                               child: AbsorbPointer(
-                                                child:Column(children: <Widget>[
-                                                  Center(child:
-                                                  Text("Call Time",
-                                                    style: TextStyle(
-                                                        fontSize: 15
-                                                    ),
+                                                  child: Column(
+                                                children: <Widget>[
+                                                  Center(
+                                                      child: Text(
+                                                    "Call Time",
+                                                    style:
+                                                        TextStyle(fontSize: 15),
                                                   )),
                                                   Container(
                                                     decoration: BoxDecoration(
-                                                      color: Colors.lightBlue.shade100,
+                                                      color: Colors
+                                                          .lightBlue.shade100,
                                                       border: Border(
-                                                        top: BorderSide(width: 2.0, color: Colors.black),
-                                                        bottom: BorderSide(width: 2.0, color: Colors.black),
+                                                        top: BorderSide(
+                                                            width: 2.0,
+                                                            color:
+                                                                Colors.black),
+                                                        bottom: BorderSide(
+                                                            width: 2.0,
+                                                            color:
+                                                                Colors.black),
                                                       ),
                                                     ),
-                                                    child:TextField(
-                                                      enabled: widget.id.isEmpty ||
-                                                          isEdit,
+                                                    height: 30,
+                                                    child: TextField(
+                                                      enabled:
+                                                          widget.id.isEmpty ||
+                                                              isEdit,
                                                       textCapitalization:
-                                                      TextCapitalization
-                                                          .sentences,
+                                                          TextCapitalization
+                                                              .sentences,
                                                       textAlignVertical:
-                                                      TextAlignVertical.center,
-                                                      textAlign: TextAlign.center,
-                                                      decoration: InputDecoration(
-                                                        
-                                                        contentPadding: const EdgeInsets.only(bottom: 20,top: 0),
+                                                          TextAlignVertical
+                                                              .center,
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        isDense: true,
+                                                        contentPadding:
+                                                            EdgeInsets.all(8),
                                                         labelText:
-                                                        widget.id.isEmpty ||
-                                                            isEdit
-                                                            ? ""
-                                                            : "",
+                                                            widget.id.isEmpty ||
+                                                                    isEdit
+                                                                ? ""
+                                                                : "",
                                                         labelStyle: TextStyle(
                                                           fontSize: 22,
                                                           color: Color.fromRGBO(
-                                                              202, 208, 215, 1.0),
+                                                              202,
+                                                              208,
+                                                              215,
+                                                              1.0),
                                                         ),
-                                                        errorText: _endTimeError,
-                                                        border: widget.id.isEmpty ||
-                                                            isEdit
+                                                        errorText:
+                                                            _endTimeError,
+                                                        border: widget.id
+                                                                    .isEmpty ||
+                                                                isEdit
                                                             ? null
                                                             : InputBorder.none,
                                                       ),
                                                       controller:
-                                                      _endTimeController,
+                                                          _endTimeController,
                                                       style: textTheme.subhead
                                                           .copyWith(
                                                         color: Colors.black,
                                                       ),
-                                                    ),)
-                                                ],)
-                                              ),
+                                                    ),
+                                                  )
+                                                ],
+                                              )),
                                               onTap: () {
-                                                selectTime(false);
+                                                selectTime(false, false);
                                               },
                                             ),
                                           )
@@ -634,7 +706,221 @@ class _AddActivityScreenState
                                                 flex: 2,
                                                 child: Text(
                                                   // "End time - " +
-                                                  _endTimeController.text.toLowerCase(),
+                                                  _endTimeController.text
+                                                      .toLowerCase(),
+                                                  textAlign: TextAlign.left,
+                                                ),
+                                              )
+                                            : Container()
+                                  ],
+                                )
+                          : Container(),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      widget.type == Activites.TYPE_PRACTICE_SCHEDULE ||
+                              widget.type ==
+                                  Activites.TYPE_PERFORMANCE_SCHEDULE ||
+                              widget.type == Activites.TYPE_ACTIVITY
+                          ? (widget.type == Activites.TYPE_ACTIVITY &&
+                                  setTime == false)
+                              ? Container()
+                              : Row(
+                                  children: <Widget>[
+                                    (widget.id.isEmpty || isEdit)
+                                        ? Expanded(
+                                            child: InkWell(
+                                              onTap: () {
+                                                selectTime(true, true);
+                                              },
+                                              child: AbsorbPointer(
+                                                  child: Column(
+                                                children: <Widget>[
+                                                  Center(
+                                                      child: Text(
+                                                    "Event Start Time",
+                                                    style:
+                                                        TextStyle(fontSize: 15),
+                                                  )),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        bottom: 3),
+                                                  ),
+                                                  Container(
+                                                    height: 30,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors
+                                                          .lightBlue.shade100,
+                                                      border: Border(
+                                                        top: BorderSide(
+                                                            width: 2.0,
+                                                            color:
+                                                                Colors.black),
+                                                        bottom: BorderSide(
+                                                            width: 2.0,
+                                                            color:
+                                                                Colors.black),
+                                                      ),
+                                                    ),
+                                                    alignment: Alignment.center,
+                                                    child: TextField(
+                                                      enabled:
+                                                          widget.id.isEmpty ||
+                                                              isEdit,
+                                                      textCapitalization:
+                                                          TextCapitalization
+                                                              .sentences,
+                                                      textAlignVertical:
+                                                          TextAlignVertical
+                                                              .center,
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        isDense: true,
+                                                        contentPadding:
+                                                            EdgeInsets.all(8),
+                                                        labelText:
+                                                            widget.id.isEmpty ||
+                                                                    isEdit
+                                                                ? ""
+                                                                : "",
+                                                        labelStyle: TextStyle(
+                                                          fontSize: 16,
+                                                          color: Color.fromRGBO(
+                                                              202,
+                                                              208,
+                                                              215,
+                                                              1.0),
+                                                        ),
+                                                        errorText:
+                                                            _startTimeError,
+                                                        border: widget.id
+                                                                    .isEmpty ||
+                                                                isEdit
+                                                            ? null
+                                                            : InputBorder.none,
+                                                      ),
+                                                      controller:
+                                                          _startEventTimeController,
+                                                      style: textTheme.subhead
+                                                          .copyWith(
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              )),
+                                            ),
+                                          )
+                                        : _startEventTimeController
+                                                .text.isNotEmpty
+                                            ? Expanded(
+                                                flex: 2,
+                                                child: Text(
+                                                  //"Start time -" +
+                                                  _startEventTimeController.text
+                                                      .toLowerCase(),
+                                                  textAlign: TextAlign.right,
+                                                ),
+                                              )
+                                            : Container(),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 10),
+                                      child: (widget.id.isEmpty || isEdit)
+                                          ? Container()
+                                          : Text("to"),
+                                    ),
+                                    (widget.id.isEmpty || isEdit)
+                                        ? Expanded(
+                                            child: InkWell(
+                                              child: AbsorbPointer(
+                                                  child: Column(
+                                                children: <Widget>[
+                                                  Center(
+                                                      child: Text(
+                                                    "Event End Time",
+                                                    style:
+                                                        TextStyle(fontSize: 15),
+                                                  )),
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      color: Colors
+                                                          .lightBlue.shade100,
+                                                      border: Border(
+                                                        top: BorderSide(
+                                                            width: 2.0,
+                                                            color:
+                                                                Colors.black),
+                                                        bottom: BorderSide(
+                                                            width: 2.0,
+                                                            color:
+                                                                Colors.black),
+                                                      ),
+                                                    ),
+                                                    height: 30,
+                                                    child: TextField(
+                                                      enabled:
+                                                          widget.id.isEmpty ||
+                                                              isEdit,
+                                                      textCapitalization:
+                                                          TextCapitalization
+                                                              .sentences,
+                                                      textAlignVertical:
+                                                          TextAlignVertical
+                                                              .center,
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        isDense: true,
+                                                        contentPadding:
+                                                            EdgeInsets.all(8),
+                                                        labelText:
+                                                            widget.id.isEmpty ||
+                                                                    isEdit
+                                                                ? ""
+                                                                : "",
+                                                        labelStyle: TextStyle(
+                                                          fontSize: 22,
+                                                          color: Color.fromRGBO(
+                                                              202,
+                                                              208,
+                                                              215,
+                                                              1.0),
+                                                        ),
+                                                        errorText:
+                                                            _endTimeError,
+                                                        border: widget.id
+                                                                    .isEmpty ||
+                                                                isEdit
+                                                            ? null
+                                                            : InputBorder.none,
+                                                      ),
+                                                      controller:
+                                                          _endEventTimeController,
+                                                      style: textTheme.subhead
+                                                          .copyWith(
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              )),
+                                              onTap: () {
+                                                selectTime(false, true);
+                                              },
+                                            ),
+                                          )
+                                        : _endEventTimeController
+                                                .text.isNotEmpty
+                                            ? Expanded(
+                                                flex: 2,
+                                                child: Text(
+                                                  // "End time - " +
+                                                  _endEventTimeController.text
+                                                      .toLowerCase(),
                                                   textAlign: TextAlign.left,
                                                 ),
                                               )
@@ -1523,6 +1809,10 @@ class _AddActivityScreenState
                                         id: widget.id,
                                         bandId: widget.bandId,
                                         description: desc,
+                                        startEventTime:
+                                            _startEventTimeController.text,
+                                        endEventTime:
+                                            _endEventTimeController.text,
                                         bandTaskId: selectedBand?.id,
                                         bandTaskMemberId:
                                             selectedBandMember?.id,
@@ -1544,17 +1834,10 @@ class _AddActivityScreenState
                                                 .toUtc()
                                                 .millisecondsSinceEpoch,
                                         endDate: widget.type ==
-                                                    Activites
-                                                        .TYPE_PRACTICE_SCHEDULE ||
-                                                widget.type ==
-                                                    Activites
-                                                        .TYPE_PERFORMANCE_SCHEDULE ||
-                                                widget.type ==
-                                                    Activites.TYPE_ACTIVITY
-                                            ? dateTime2
-                                                    ?.toUtc()
-                                                    ?.millisecondsSinceEpoch ??
-                                                0
+                                                    Activites.TYPE_PRACTICE_SCHEDULE ||
+                                                widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE ||
+                                                widget.type == Activites.TYPE_ACTIVITY
+                                            ? dateTime2?.toUtc()?.millisecondsSinceEpoch ?? 0
                                             : 0,
                                         location: loc,
                                         latitude: latitude,
@@ -1666,6 +1949,8 @@ class _AddActivityScreenState
         _taskCompletion.text =
             formatDate(completionDate, [D, ', ', mm, '-', dd, '-', yy]);
       }
+      _startEventTimeController.text = activities.startEventTime;
+      _endEventTimeController.text = activities.endEventTime;
       latitude = activities.latitude;
       longitude = activities.longitude;
       subActivities.clear();

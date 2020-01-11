@@ -33,6 +33,8 @@ class Activites extends BaseModel {
   double latitude = 0.toDouble();
   double longitude = 0.toDouble();
   Band band;
+  String startEventTime;
+  String endEventTime;
 
   List<Activites> subActivities = [];
   List<Travel> travelList = [];
@@ -57,10 +59,14 @@ class Activites extends BaseModel {
       this.travelList,
       this.bandTaskId,
       this.bandTaskMemberId,
+      this.startEventTime,
+      this.endEventTime,
       this.startTime,
       this.endTime});
 
   Activites.fromJSON(dynamic data) {
+    startEventTime = data['startEventTime'];
+    endEventTime = data['endEventTime'];
     type = data['type'];
     description = data['description'];
     startDate = data['start_date'];
@@ -100,6 +106,8 @@ class Activites extends BaseModel {
   Map<String, dynamic> toMap() {
     Map<String, dynamic> data = super.toMap();
     data['type'] = type;
+    data['startEventTime'] = startEventTime;
+    data['endEventTime'] = endEventTime;
     data['description'] = description ?? "";
     data['start_date'] = startDate ?? 0;
     data['end_date'] = endDate ?? 0;
@@ -128,10 +136,10 @@ class Activites extends BaseModel {
     data['subActivities'] = sb;
 
     List<dynamic> tr = [];
-    if(travelList !=null)
-    for (Travel item in travelList) {
-      tr.add(item.toMap());
-    }
+    if (travelList != null)
+      for (Travel item in travelList) {
+        tr.add(item.toMap());
+      }
     data['travelList'] = tr;
 
     data['startTime'] = startTime;
