@@ -1,3 +1,4 @@
+import 'package:alphabet_list_scroll_view/alphabet_list_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gigtrack/base/base_screen.dart';
@@ -32,6 +33,7 @@ class _ContactListScreenState
     extends BaseScreenState<ContactListScreen, ContactListPresenter>
     implements ContactListContract {
   List<Contacts> _contacts = <Contacts>[];
+  List<String> _strList = <String>[];
 
   Stream<List<Contacts>> list;
   final alpha = [
@@ -140,6 +142,9 @@ class _ContactListScreenState
                             (BuildContext context, AsyncSnapshot snapshot) {
                           if (snapshot.hasData) {
                             _contacts = snapshot.data;
+                            for (var item in _contacts) {
+                              _strList.add(item.name);
+                            }
                             return Column(
                               children: <Widget>[
                                 Container(
@@ -177,8 +182,7 @@ class _ContactListScreenState
                                   ),
                                 ),
                                 Expanded(
-                                  child: ListView.builder(
-                                    itemCount: _contacts.length,
+                                  child: AlphabetListScrollView(
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       final cnt = _contacts[index];
@@ -242,29 +246,39 @@ class _ContactListScreenState
                                                                   .transparent,
                                                         )
                                                       : Center(
-                                                    child: Container(
-                                                      decoration:
-                                                      new BoxDecoration(
-                                                        color: Color.fromRGBO(
-                                                            3, 218, 157, 1.0),
-                                                        shape: BoxShape.circle,
-                                                      ),
-                                                      padding: EdgeInsets.only(
-                                                          left: 22,
-                                                          right: 22,
-                                                          top: 8,
-                                                          bottom: 8),
-                                                      child: Text(
-                                                        getNameOrder(cnt.name)[0],
-                                                        style: TextStyle(
-                                                            color: Colors.yellow,
-                                                            fontSize: 32,
-                                                            fontWeight:
-                                                            FontWeight.bold,
-                                                            fontStyle:
-                                                            FontStyle.italic),
-                                                      ),
-                                                    ),
+                                                          child: Container(
+                                                            decoration:
+                                                                new BoxDecoration(
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      3,
+                                                                      218,
+                                                                      157,
+                                                                      1.0),
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                            ),
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    left: 22,
+                                                                    right: 22,
+                                                                    top: 8,
+                                                                    bottom: 8),
+                                                            child: Text(
+                                                              getNameOrder(
+                                                                  cnt.name)[0],
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .yellow,
+                                                                  fontSize: 32,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontStyle:
+                                                                      FontStyle
+                                                                          .italic),
+                                                            ),
+                                                          ),
                                                         ),
                                                   Padding(
                                                     padding: EdgeInsets.only(
@@ -277,7 +291,7 @@ class _ContactListScreenState
                                                       ? new Container(
                                                           alignment: Alignment
                                                               .bottomCenter,
-                                                         )
+                                                        )
                                                       : Container(),
                                                   Expanded(
                                                     child: Container(
@@ -377,8 +391,12 @@ class _ContactListScreenState
                                                                   cnt.relationship ==
                                                                           "Select"
                                                                       ? " "
-                                                                      : cnt
-                                                                          .relationship=="Other"?cnt.otherrelationship:cnt.relationship, // "${cnt.name.split(" ").reversed.join(' ')}",
+                                                                      : cnt.relationship ==
+                                                                              "Other"
+                                                                          ? cnt
+                                                                              .otherrelationship
+                                                                          : cnt
+                                                                              .relationship, // "${cnt.name.split(" ").reversed.join(' ')}",
                                                                   textAlign:
                                                                       TextAlign
                                                                           .center,
@@ -439,6 +457,11 @@ class _ContactListScreenState
                                         ),
                                       );
                                     },
+                                    showPreview: true,
+                                    indexedHeight: (int i) {
+                                      return 110;
+                                    },
+                                    strList: _strList,
                                   ),
                                 )
                               ],
