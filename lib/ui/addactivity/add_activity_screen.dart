@@ -413,75 +413,194 @@ class _AddActivityScreenState
                                 textAlign: TextAlign.center,
                               ),
                             ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
                       (widget.id.isEmpty || isEdit) &&
                               (widget.type == Activites.TYPE_ACTIVITY ||
                                   widget.type ==
                                       Activites.TYPE_PERFORMANCE_SCHEDULE ||
                                   widget.type ==
                                       Activites.TYPE_PRACTICE_SCHEDULE)
-                          ? InkWell(
-                              child: Container(
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  color: Colors.lightBlue.shade100,
-                                  border: Border(
-                                    top: BorderSide(
-                                        width: 2.0, color: Colors.black),
-                                    bottom: BorderSide(
-                                        width: 2.0, color: Colors.black),
-                                  ),
-                                ),
-                                child: AbsorbPointer(
-                                  child: TextField(
-                                    enabled: widget.id.isEmpty || isEdit,
-                                    textCapitalization:
-                                        TextCapitalization.sentences,
-                                    textAlignVertical: TextAlignVertical.center,
-                                    textAlign: TextAlign.center,
-                                    decoration: InputDecoration(
-                                      isDense: true,
-                                      contentPadding: EdgeInsets.all(8),
-                                      labelText: widget.id.isEmpty || isEdit
-                                          ? widget.type ==
-                                                  Activites
-                                                      .TYPE_PRACTICE_SCHEDULE
-                                              ? "Date"
-                                              // : "Start Date"
-                                              : ""
-                                          : "",
-                                      labelStyle: TextStyle(
-                                        color:
-                                            Color.fromRGBO(202, 208, 215, 1.0),
+                          ? Row(
+                              children: <Widget>[
+                                Expanded(
+                                    child: Column(
+                                  children: <Widget>[
+                                    Center(
+                                        child: Text(
+                                      "Start Date",
+                                      style: TextStyle(fontSize: 15),
+                                    )),
+                                    Padding(
+                                      padding: EdgeInsets.only(bottom: 3),
+                                    ),
+                                    InkWell(
+                                      child: Container(
+                                        height: 30,
+                                        decoration: BoxDecoration(
+                                          color: Colors.lightBlue.shade100,
+                                          border: Border(
+                                            top: BorderSide(
+                                                width: 2.0,
+                                                color: Colors.black),
+                                            bottom: BorderSide(
+                                                width: 2.0,
+                                                color: Colors.black),
+                                          ),
+                                        ),
+                                        child: AbsorbPointer(
+                                          child: TextField(
+                                            enabled:
+                                                widget.id.isEmpty || isEdit,
+                                            textCapitalization:
+                                                TextCapitalization.sentences,
+                                            textAlignVertical:
+                                                TextAlignVertical.center,
+                                            textAlign: TextAlign.center,
+                                            decoration: InputDecoration(
+                                              isDense: true,
+                                              contentPadding: EdgeInsets.all(8),
+                                              labelText: widget.id.isEmpty ||
+                                                      isEdit
+                                                  ? widget.type ==
+                                                          Activites
+                                                              .TYPE_PRACTICE_SCHEDULE
+                                                      ? "Date"
+                                                      // : "Start Date"
+                                                      : ""
+                                                  : "",
+                                              labelStyle: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    202, 208, 215, 1.0),
+                                              ),
+                                              errorText: _dateError,
+                                              border:
+                                                  widget.id.isEmpty || isEdit
+                                                      ? null
+                                                      : InputBorder.none,
+                                            ),
+                                            controller: _dateController,
+                                            style: textTheme.subhead.copyWith(
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                      errorText: _dateError,
-                                      border: widget.id.isEmpty || isEdit
-                                          ? null
-                                          : InputBorder.none,
-                                    ),
-                                    controller: _dateController,
-                                    style: textTheme.subhead.copyWith(
-                                      color: Colors.black,
-                                    ),
-                                  ),
+                                      onTap: () {
+                                        if (widget.id.isEmpty || isEdit)
+                                          _selectDate(context, 1);
+                                      },
+                                    )
+                                  ],
+                                )),
+                                Padding(
+                                  padding: EdgeInsets.all(10),
                                 ),
-                              ),
-                              onTap: () {
-                                if (widget.id.isEmpty || isEdit)
-                                  _selectDate(context, 1);
-                              },
+                                Expanded(
+                                  child: Column(
+                                    children: <Widget>[
+                                      Center(
+                                          child: Text(
+                                        "End Date",
+                                        style: TextStyle(fontSize: 15),
+                                      )),
+                                      Padding(
+                                        padding: EdgeInsets.only(bottom: 3),
+                                      ),
+                                      InkWell(
+                                        child: Container(
+                                          height: 30,
+                                          decoration: BoxDecoration(
+                                            color: Colors.lightBlue.shade100,
+                                            border: Border(
+                                              top: BorderSide(
+                                                  width: 2.0,
+                                                  color: Colors.black),
+                                              bottom: BorderSide(
+                                                  width: 2.0,
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                          child: AbsorbPointer(
+                                            child: TextField(
+                                              enabled:
+                                                  widget.id.isEmpty || isEdit,
+                                              textCapitalization:
+                                                  TextCapitalization.sentences,
+                                              textAlignVertical:
+                                                  TextAlignVertical.center,
+                                              textAlign: TextAlign.center,
+                                              decoration: InputDecoration(
+                                                isDense: true,
+                                                contentPadding:
+                                                    EdgeInsets.all(8),
+                                                labelText: widget.id.isEmpty ||
+                                                        isEdit
+                                                    ? widget.type ==
+                                                            Activites
+                                                                .TYPE_PRACTICE_SCHEDULE
+                                                        ? "Date"
+                                                        // : "Start Date"
+                                                        : ""
+                                                    : "",
+                                                labelStyle: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      202, 208, 215, 1.0),
+                                                ),
+                                                errorText: _dateError,
+                                                border:
+                                                    widget.id.isEmpty || isEdit
+                                                        ? null
+                                                        : InputBorder.none,
+                                              ),
+                                              controller: _endDateController,
+                                              style: textTheme.subhead.copyWith(
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          if (widget.id.isEmpty || isEdit)
+                                            _selectDate(context, 0);
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
                             )
                           : (widget.type == Activites.TYPE_ACTIVITY ||
                                   widget.type ==
                                       Activites.TYPE_PRACTICE_SCHEDULE)
-                              ? Padding(
-                                  padding: EdgeInsets.only(left: 5),
-                                  child: Text(
-                                    _dateTxt,
-                                    style: textTheme.subhead.copyWith(
-                                      color: Colors.grey,
+                              ? Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsets.only(left: 5),
+                                        child: Text(
+                                          _dateTxt,
+                                          style: textTheme.subhead.copyWith(
+                                            color: Colors.grey,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
                                     ),
-                                    textAlign: TextAlign.center,
-                                  ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsets.only(left: 5),
+                                        child: Text(
+                                          _dateTxt,
+                                          style: textTheme.subhead.copyWith(
+                                            color: Colors.grey,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 )
                               : Container(),
                       Padding(
