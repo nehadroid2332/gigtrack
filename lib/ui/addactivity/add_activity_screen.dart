@@ -632,6 +632,10 @@ class _AddActivityScreenState
                                                     style:
                                                         TextStyle(fontSize: 15),
                                                   )),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        bottom: 3),
+                                                  ),
                                                   Container(
                                                     decoration: BoxDecoration(
                                                       color: Colors
@@ -844,6 +848,10 @@ class _AddActivityScreenState
                                                     style:
                                                         TextStyle(fontSize: 15),
                                                   )),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        bottom: 3),
+                                                  ),
                                                   Container(
                                                     decoration: BoxDecoration(
                                                       color: Colors
