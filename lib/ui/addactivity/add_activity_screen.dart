@@ -79,7 +79,7 @@ class _AddActivityScreenState
   bool setTime = false;
   bool endDateShow = false;
 
-  String _dateTxt = "", _estDateTxt = "";
+  String _dateTxt = "", _estDateTxt = "",_dateEndTxt="";
 
   bool isRecurring = false;
 
@@ -573,7 +573,9 @@ class _AddActivityScreenState
                             )
                           : (widget.type == Activites.TYPE_ACTIVITY ||
                                   widget.type ==
-                                      Activites.TYPE_PRACTICE_SCHEDULE)
+                                      Activites.TYPE_PRACTICE_SCHEDULE ||
+                                  widget.type ==
+                                      Activites.TYPE_PERFORMANCE_SCHEDULE)
                               ? Row(
                                   children: <Widget>[
                                     Expanded(
@@ -592,7 +594,7 @@ class _AddActivityScreenState
                                       child: Padding(
                                         padding: EdgeInsets.only(left: 5),
                                         child: Text(
-                                          _dateTxt,
+                                          _dateEndTxt,
                                           style: textTheme.subhead.copyWith(
                                             color: Colors.grey,
                                           ),
@@ -2101,6 +2103,8 @@ class _AddActivityScreenState
       DateTime dateTime =
           DateTime.fromMillisecondsSinceEpoch(activities.endDate ?? 0);
       _endDateController.text = formatDate(dateTime, [mm, '-', dd, '-', yy]);
+      _dateEndTxt = formatDate(dateTime, [D, ', ', mm, '-', dd, '-', yy]);
+
       _endTimeController.text = formatDate(dateTime, [h, ':', nn, ' ', am]);
 
       _locController.text = activities.location;
@@ -2112,7 +2116,6 @@ class _AddActivityScreenState
       members.clear();
       if (widget.id.isEmpty && widget.type == Activites.TYPE_BAND_TASK) {
         presenter.getUserBands();
-        
       }
       travelList = activities.travelList;
       // members.addAll(activities.bandmates);
