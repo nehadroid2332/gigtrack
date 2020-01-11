@@ -127,7 +127,7 @@ class _AddActivityScreenState
             formatDate(dateTime, [h, ':', nn, ' ', am]);
       } else {
         if (picked.hourOfPeriod <= startTime.hourOfPeriod) {
-          showMessage("End Time cmust be later than Start Time");
+          showMessage("End Time must be later than Start Time");
         } else {
           endTime = picked;
           _endTimeController.text =
@@ -359,7 +359,7 @@ class _AddActivityScreenState
                                         : widget.type ==
                                                 Activites
                                                     .TYPE_PERFORMANCE_SCHEDULE
-                                            ? "Title"
+                                            ? "Venue"
                                             : (widget.type ==
                                                             Activites
                                                                 .TYPE_TASK ||
@@ -495,37 +495,59 @@ class _AddActivityScreenState
                                                 selectTime(true);
                                               },
                                               child: AbsorbPointer(
-                                                child: TextField(
-                                                  enabled: widget.id.isEmpty ||
-                                                      isEdit,
-                                                  textCapitalization:
-                                                      TextCapitalization
-                                                          .sentences,
-                                                  textAlignVertical:
-                                                      TextAlignVertical.center,
-                                                  decoration: InputDecoration(
-                                                    labelText:
-                                                        widget.id.isEmpty ||
-                                                                isEdit
-                                                            ? "Start Time"
-                                                            : "",
-                                                    labelStyle: TextStyle(
-                                                      color: Color.fromRGBO(
-                                                          202, 208, 215, 1.0),
+                                                child: Column(children: <Widget>[
+                                                  Center(child:
+                                                    Text("Setup Time",
+                                                    style: TextStyle(
+                                                      fontSize: 15
                                                     ),
-                                                    errorText: _startTimeError,
-                                                    border: widget.id.isEmpty ||
-                                                            isEdit
-                                                        ? null
-                                                        : InputBorder.none,
-                                                  ),
-                                                  controller:
-                                                      _startTimeController,
-                                                  style: textTheme.subhead
-                                                      .copyWith(
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
+                                                    )),
+                                                  Padding(padding: EdgeInsets.only(bottom: 3),),
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.lightBlue.shade100,
+                                                      border: Border(
+                                                        top: BorderSide(width: 2.0, color: Colors.black),
+                                                        bottom: BorderSide(width: 2.0, color: Colors.black),
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                    enabled: widget.id.isEmpty ||
+                                                        isEdit,
+                                                    textCapitalization:
+                                                    TextCapitalization
+                                                        .sentences,
+                                                     
+                                                    textAlignVertical:
+                                                    TextAlignVertical.center,
+                                                    textAlign: TextAlign.center,
+                                                    decoration: InputDecoration(
+                                                      contentPadding: const EdgeInsets.only(bottom: 20,top: 0),
+                                                      labelText:
+                                                      widget.id.isEmpty ||
+                                                          isEdit
+                                                          ? ""
+                                                          : "",
+                                                      labelStyle: TextStyle(
+                                                        fontSize: 16,
+                                                        color: Color.fromRGBO(
+                                                            202, 208, 215, 1.0),
+                                                      ),
+                                                      errorText: _startTimeError,
+                                                      border: widget.id.isEmpty ||
+                                                          isEdit
+                                                          ? null
+                                                          : InputBorder.none,
+  
+                                                    ),
+                                                    controller:
+                                                    _startTimeController,
+                                                    style: textTheme.subhead
+                                                        .copyWith(
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),)
+                                                ],)
                                               ),
                                             ),
                                           )
@@ -550,37 +572,57 @@ class _AddActivityScreenState
                                         ? Expanded(
                                             child: InkWell(
                                               child: AbsorbPointer(
-                                                child: TextField(
-                                                  enabled: widget.id.isEmpty ||
-                                                      isEdit,
-                                                  textCapitalization:
+                                                child:Column(children: <Widget>[
+                                                  Center(child:
+                                                  Text("Call Time",
+                                                    style: TextStyle(
+                                                        fontSize: 15
+                                                    ),
+                                                  )),
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.lightBlue.shade100,
+                                                      border: Border(
+                                                        top: BorderSide(width: 2.0, color: Colors.black),
+                                                        bottom: BorderSide(width: 2.0, color: Colors.black),
+                                                      ),
+                                                    ),
+                                                    child:TextField(
+                                                      enabled: widget.id.isEmpty ||
+                                                          isEdit,
+                                                      textCapitalization:
                                                       TextCapitalization
                                                           .sentences,
-                                                  textAlignVertical:
+                                                      textAlignVertical:
                                                       TextAlignVertical.center,
-                                                  decoration: InputDecoration(
-                                                    labelText:
+                                                      textAlign: TextAlign.center,
+                                                      decoration: InputDecoration(
+                                                        
+                                                        contentPadding: const EdgeInsets.only(bottom: 20,top: 0),
+                                                        labelText:
                                                         widget.id.isEmpty ||
-                                                                isEdit
-                                                            ? "End Time"
-                                                            : "",
-                                                    labelStyle: TextStyle(
-                                                      color: Color.fromRGBO(
-                                                          202, 208, 215, 1.0),
-                                                    ),
-                                                    errorText: _endTimeError,
-                                                    border: widget.id.isEmpty ||
                                                             isEdit
-                                                        ? null
-                                                        : InputBorder.none,
-                                                  ),
-                                                  controller:
+                                                            ? ""
+                                                            : "",
+                                                        labelStyle: TextStyle(
+                                                          fontSize: 22,
+                                                          color: Color.fromRGBO(
+                                                              202, 208, 215, 1.0),
+                                                        ),
+                                                        errorText: _endTimeError,
+                                                        border: widget.id.isEmpty ||
+                                                            isEdit
+                                                            ? null
+                                                            : InputBorder.none,
+                                                      ),
+                                                      controller:
                                                       _endTimeController,
-                                                  style: textTheme.subhead
-                                                      .copyWith(
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
+                                                      style: textTheme.subhead
+                                                          .copyWith(
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),)
+                                                ],)
                                               ),
                                               onTap: () {
                                                 selectTime(false);
@@ -1427,7 +1469,7 @@ class _AddActivityScreenState
                                   } else if (endTime.hourOfPeriod <
                                       startTime.hourOfPeriod) {
                                     showMessage(
-                                        "End Time cannot be greater than Start Time");
+                                        "End Time must be later than Start Time");
                                   }
                                 }
                                 String title = _titleController.text;
