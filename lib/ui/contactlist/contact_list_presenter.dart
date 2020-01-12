@@ -46,10 +46,9 @@ class ContactListPresenter extends BasePresenter {
     //     return acc;
     //   });
     // else
-    return serverAPI
-        .contactDB
-         .orderByChild('user_id')
-          .equalTo(serverAPI.currentUserId)
+    return serverAPI.contactDB
+        .orderByChild('user_id')
+        .equalTo(serverAPI.currentUserId)
         .onValue
         .asyncMap((a) async {
       Map mp = a.snapshot.value;
