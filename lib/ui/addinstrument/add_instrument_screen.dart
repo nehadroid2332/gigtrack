@@ -374,75 +374,83 @@ class _AddInstrumentScreenState
                             )
                           ],
                         )
-                      : ListView(
+                      : Column(children: <Widget>[
+                        Expanded(
+                          flex: 3,
+                          child:
+                        widget.id.isEmpty || isEdit
+                            ? Container()
+                            : files != null && files.length > 0
+                            ? Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                    File(files[0]).path,
+                                  ),
+                                  fit: BoxFit.cover),
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(0),
+                                  topRight: Radius.circular(0)),
+                            ),
+                            margin: EdgeInsets.only(
+                                left: 10, right: 10,top: 10),
+                            height:
+                            MediaQuery.of(context).size.height /
+                                4.2,
+                            width: MediaQuery.of(context).size.width,
+                            child: null)
+                            : Container(),),
+                        
+                        Expanded(
+                          flex:8,
+                          child:  ListView(
                           padding: EdgeInsets.only(
                               left: 0, right: 0, top: 10, bottom: 15),
                           children: <Widget>[
                             (_userType == 1 && (widget.id.isEmpty || isEdit))
                                 ? Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 20),
-                                    child: StreamBuilder(
-                                      stream: list,
-                                      builder: (BuildContext context,
-                                          AsyncSnapshot snapshot) {
-                                        if (snapshot.hasData) {
-                                          _bands = snapshot.data;
-                                        } else {
-                                          _bands = <Band>[];
-                                        }
-                                        return DropdownButton<Band>(
-                                          items: _bands.map((Band value) {
-                                            return new DropdownMenuItem<Band>(
-                                              value: value,
-                                              child: new Text(
-                                                value.name,
-                                                style:
-                                                    textTheme.caption.copyWith(
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            );
-                                          }).toList(),
-                                          isExpanded: true,
-                                          onChanged: (b) {
-                                            setState(() {
-                                              selectedBand = b;
-                                            });
-                                          },
-                                          value: selectedBand,
-                                        );
-                                      },
-                                    ),
-                                  )
+                              padding:
+                              EdgeInsets.symmetric(horizontal: 20),
+                              child: StreamBuilder(
+                                stream: list,
+                                builder: (BuildContext context,
+                                    AsyncSnapshot snapshot) {
+                                  if (snapshot.hasData) {
+                                    _bands = snapshot.data;
+                                  } else {
+                                    _bands = <Band>[];
+                                  }
+                                  return DropdownButton<Band>(
+                                    items: _bands.map((Band value) {
+                                      return new DropdownMenuItem<Band>(
+                                        value: value,
+                                        child: new Text(
+                                          value.name,
+                                          style:
+                                          textTheme.caption.copyWith(
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                    isExpanded: true,
+                                    onChanged: (b) {
+                                      setState(() {
+                                        selectedBand = b;
+                                      });
+                                    },
+                                    value: selectedBand,
+                                  );
+                                },
+                              ),
+                            )
                                 : Container(),
                             Padding(
                               padding: EdgeInsets.only(
                                   left: 5, right: 5, top: 0, bottom: 5),
                             ),
-                            widget.id.isEmpty || isEdit
-                                ? Container()
-                                : files != null && files.length > 0
-                                    ? Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.black,
-                                          image: DecorationImage(
-                                              image: NetworkImage(
-                                                File(files[0]).path,
-                                              ),
-                                              fit: BoxFit.cover),
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(0),
-                                              topRight: Radius.circular(0)),
-                                        ),
-                                        margin: EdgeInsets.only(
-                                            left: 15, right: 15),
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                2.8,
-                                        width: 90,
-                                        child: null)
-                                    : Container(),
+                           
                             Padding(
                               padding: EdgeInsets.only(
                                   left: 5, right: 5, top: 5, bottom: 0),
@@ -450,49 +458,49 @@ class _AddInstrumentScreenState
                             widget.id.isEmpty || isEdit
                                 ? Container()
                                 : _instrumentNickNameController.text.isNotEmpty
-                                    ? Text(
-                                        _instrumentNickNameController.text,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontStyle: FontStyle.italic),
-                                      )
-                                    : Container(),
+                                ? Text(
+                              _instrumentNickNameController.text,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontStyle: FontStyle.italic),
+                            )
+                                : Container(),
                             Padding(
                               padding:
-                                  _instrumentNickNameController.text.isNotEmpty
-                                      ? EdgeInsets.only(
-                                          left: 8, right: 8, top: 3, bottom: 3)
-                                      : EdgeInsets.all(0),
+                              _instrumentNickNameController.text.isNotEmpty
+                                  ? EdgeInsets.only(
+                                  left: 8, right: 8, top: 3, bottom: 3)
+                                  : EdgeInsets.all(0),
                             ),
                             widget.id.isEmpty || isEdit
                                 ? TextField(
-                                    enabled: widget.id.isEmpty || isEdit,
-                                    controller: _instrumentNameController,
-                                    textCapitalization:
-                                        TextCapitalization.words,
-                                    style: textTheme.subhead.copyWith(
-                                      color: Colors.black,
-                                    ),
-                                    decoration: InputDecoration(
-                                      labelText: "Equipment Name",
-                                      labelStyle: TextStyle(
-                                        color:
-                                            Color.fromRGBO(202, 208, 215, 1.0),
-                                      ),
-                                      errorText: _errorInstrumentName,
-                                      border: widget.id.isEmpty || isEdit
-                                          ? null
-                                          : InputBorder.none,
-                                    ),
-                                  )
+                              enabled: widget.id.isEmpty || isEdit,
+                              controller: _instrumentNameController,
+                              textCapitalization:
+                              TextCapitalization.words,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                labelText: "Equipment Name",
+                                labelStyle: TextStyle(
+                                  color:
+                                  Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                errorText: _errorInstrumentName,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
+                              ),
+                            )
                                 : Text(
-                                    _instrumentNameController.text,
-                                    textAlign: TextAlign.center,
-                                    style: textTheme.subtitle.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16),
-                                  ),
+                              _instrumentNameController.text,
+                              textAlign: TextAlign.center,
+                              style: textTheme.subtitle.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16),
+                            ),
                             Padding(
                               padding: widget.id.isEmpty
                                   ? EdgeInsets.all(5)
@@ -501,124 +509,124 @@ class _AddInstrumentScreenState
                             ShowUp(
                               child: !_isnickNameEuip
                                   ? new GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          _isnickNameEuip = true;
-                                        });
-                                      },
-                                      child: widget.id.isEmpty
-                                          ? Text(
-                                              "Click to add special name",
-                                              style: textTheme.display1
-                                                  .copyWith(
-                                                      color: widget.appListener
-                                                          .primaryColorDark,
-                                                      fontSize: 14),
-                                            )
-                                          : Container(),
-                                    )
+                                onTap: () {
+                                  setState(() {
+                                    _isnickNameEuip = true;
+                                  });
+                                },
+                                child: widget.id.isEmpty
+                                    ? Text(
+                                  "Click to add special name",
+                                  style: textTheme.display1
+                                      .copyWith(
+                                      color: widget.appListener
+                                          .primaryColorDark,
+                                      fontSize: 14),
+                                )
+                                    : Container(),
+                              )
                                   : Container(),
                               delay: 1000,
                             ),
                             _isnickNameEuip || isEdit
                                 ? TextField(
-                                    enabled: widget.id.isEmpty || isEdit,
-                                    controller: _instrumentNickNameController,
-                                    textCapitalization:
-                                        TextCapitalization.words,
-                                    style: textTheme.subhead.copyWith(
-                                      color: Colors.black,
-                                    ),
-                                    decoration: InputDecoration(
-                                      labelText: widget.id.isEmpty || isEdit
-                                          ? "Equipment Nick Name"
-                                          : "",
-                                      labelStyle: TextStyle(
-                                        color:
-                                            Color.fromRGBO(202, 208, 215, 1.0),
-                                      ),
-                                      errorText: _errorInstrumentName,
-                                      border: widget.id.isEmpty || isEdit
-                                          ? null
-                                          : InputBorder.none,
-                                    ),
-                                  )
+                              enabled: widget.id.isEmpty || isEdit,
+                              controller: _instrumentNickNameController,
+                              textCapitalization:
+                              TextCapitalization.words,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                labelText: widget.id.isEmpty || isEdit
+                                    ? "Equipment Nick Name"
+                                    : "",
+                                labelStyle: TextStyle(
+                                  color:
+                                  Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                errorText: _errorInstrumentName,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
+                              ),
+                            )
                                 : Container(),
                             Padding(
                               padding:
-                                  _instrumentNickNameController.text.isEmpty
-                                      ? EdgeInsets.all(5)
-                                      : EdgeInsets.all(5),
+                              _instrumentNickNameController.text.isEmpty
+                                  ? EdgeInsets.all(5)
+                                  : EdgeInsets.all(5),
                             ),
                             widget.id.isNotEmpty && !isEdit
                                 ? Column(
-                                    children: <Widget>[
-                                      Text(
-                                        "Purchased",
-                                        textAlign: TextAlign.right,
-                                        style: textTheme.subtitle.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 16),
-                                      ),
-                                      Container(
-                                        height: 1,
-                                        width: 100,
-                                        color: Colors.black,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Text(
-                                            _purchaseDateController.text,
-                                            textAlign: TextAlign.left,
-                                          ),
-                                          Text(
-                                            " - ${_costController.text}",
-                                            style: TextStyle(fontSize: 15),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  )
+                              children: <Widget>[
+                                Text(
+                                  "Purchased",
+                                  textAlign: TextAlign.right,
+                                  style: textTheme.subtitle.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16),
+                                ),
+                                Container(
+                                  height: 1,
+                                  width: 100,
+                                  color: Colors.black,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      _purchaseDateController.text,
+                                      textAlign: TextAlign.left,
+                                    ),
+                                    Text(
+                                      " - ${_costController.text}",
+                                      style: TextStyle(fontSize: 15),
+                                    )
+                                  ],
+                                )
+                              ],
+                            )
                                 : Container(),
                             widget.id.isEmpty || isEdit
                                 ? TextField(
-                                    enabled: widget.id.isEmpty || isEdit,
-                                    controller: _wherePurchaseController,
-                                    textCapitalization:
-                                        TextCapitalization.words,
-                                    style: textTheme.subhead.copyWith(
-                                      color: Colors.black,
-                                    ),
-                                    decoration: InputDecoration(
-                                      labelText: "Purchased Where?",
-                                      labelStyle: TextStyle(
-                                        color:
-                                            Color.fromRGBO(202, 208, 215, 1.0),
-                                      ),
-                                      errorText: _errorwherePurchased,
-                                      border: widget.id.isEmpty || isEdit
-                                          ? null
-                                          : InputBorder.none,
-                                    ),
-                                  )
+                              enabled: widget.id.isEmpty || isEdit,
+                              controller: _wherePurchaseController,
+                              textCapitalization:
+                              TextCapitalization.words,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                labelText: "Purchased Where?",
+                                labelStyle: TextStyle(
+                                  color:
+                                  Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                errorText: _errorwherePurchased,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
+                              ),
+                            )
                                 : _wherePurchaseController.text.isEmpty
-                                    ? Container()
-                                    : Column(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: EdgeInsets.all(1),
-                                          ),
-                                          Text(
-                                            _wherePurchaseController.text,
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold),
-                                          )
-                                        ],
-                                      ),
+                                ? Container()
+                                : Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.all(1),
+                                ),
+                                Text(
+                                  _wherePurchaseController.text,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
                             Padding(
                               padding: _wherePurchaseController.text.isEmpty
                                   ? EdgeInsets.all(3)
@@ -631,126 +639,126 @@ class _AddInstrumentScreenState
                             ),
                             widget.id.isEmpty || isEdit
                                 ? ShowUp(
-                                    child: !_ispurchaseDate
-                                        ? new GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                _ispurchaseDate = true;
-                                              });
-                                            },
-                                            child: widget.id.isEmpty
-                                                ? Text(
-                                                    "Click here to add purchase date",
-                                                    style: textTheme.display1
-                                                        .copyWith(
-                                                            color: widget
-                                                                .appListener
-                                                                .primaryColorDark,
-                                                            fontSize: 16),
-                                                  )
-                                                : Container(),
-                                          )
-                                        : Container(),
-                                    delay: 1000,
-                                  )
+                              child: !_ispurchaseDate
+                                  ? new GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _ispurchaseDate = true;
+                                  });
+                                },
+                                child: widget.id.isEmpty
+                                    ? Text(
+                                  "Click here to add purchase date",
+                                  style: textTheme.display1
+                                      .copyWith(
+                                      color: widget
+                                          .appListener
+                                          .primaryColorDark,
+                                      fontSize: 16),
+                                )
+                                    : Container(),
+                              )
+                                  : Container(),
+                              delay: 1000,
+                            )
                                 : Container(),
                             _ispurchaseDate || widget.id.isNotEmpty
                                 ? Container(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          widget.id.isEmpty || isEdit
-                                              ? CrossAxisAlignment.start
-                                              : CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        widget.id.isEmpty || isEdit
-                                            ? Text(
-                                                "Purchased Date",
-                                                textAlign:
-                                                    widget.id.isEmpty || isEdit
-                                                        ? TextAlign.left
-                                                        : TextAlign.center,
-                                                style:
-                                                    textTheme.subhead.copyWith(
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              )
-                                            : Container(),
-                                        Padding(
-                                          padding: _purchaseDateController
-                                                  .text.isEmpty
-                                              ? EdgeInsets.all(0)
-                                              : EdgeInsets.all(0),
+                              child: Column(
+                                crossAxisAlignment:
+                                widget.id.isEmpty || isEdit
+                                    ? CrossAxisAlignment.start
+                                    : CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  widget.id.isEmpty || isEdit
+                                      ? Text(
+                                    "Purchased Date",
+                                    textAlign:
+                                    widget.id.isEmpty || isEdit
+                                        ? TextAlign.left
+                                        : TextAlign.center,
+                                    style:
+                                    textTheme.subhead.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
+                                      : Container(),
+                                  Padding(
+                                    padding: _purchaseDateController
+                                        .text.isEmpty
+                                        ? EdgeInsets.all(0)
+                                        : EdgeInsets.all(0),
+                                  ),
+                                  widget.id.isEmpty || isEdit
+                                      ? GestureDetector(
+                                    child: AbsorbPointer(
+                                      child: TextField(
+                                        enabled:
+                                        widget.id.isEmpty ||
+                                            isEdit,
+                                        controller:
+                                        _purchaseDateController,
+                                        decoration: InputDecoration(
+                                          labelText: "Date",
+                                          labelStyle: TextStyle(
+                                            color: Color.fromRGBO(
+                                                202, 208, 215, 1.0),
+                                          ),
+                                          errorText:
+                                          _errorPurchasedDate,
+                                          border: widget
+                                              .id.isEmpty ||
+                                              isEdit
+                                              ? null
+                                              : InputBorder.none,
                                         ),
-                                        widget.id.isEmpty || isEdit
-                                            ? GestureDetector(
-                                                child: AbsorbPointer(
-                                                  child: TextField(
-                                                    enabled:
-                                                        widget.id.isEmpty ||
-                                                            isEdit,
-                                                    controller:
-                                                        _purchaseDateController,
-                                                    decoration: InputDecoration(
-                                                      labelText: "Date",
-                                                      labelStyle: TextStyle(
-                                                        color: Color.fromRGBO(
-                                                            202, 208, 215, 1.0),
-                                                      ),
-                                                      errorText:
-                                                          _errorPurchasedDate,
-                                                      border: widget
-                                                                  .id.isEmpty ||
-                                                              isEdit
-                                                          ? null
-                                                          : InputBorder.none,
-                                                    ),
-                                                    style: textTheme.subhead
-                                                        .copyWith(
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                ),
-                                                onTap: () async {
-                                                  if (widget.id.isEmpty ||
-                                                      isEdit) {
-                                                    final DateTime picked =
-                                                        await showDatePicker(
-                                                      context: context,
-                                                      firstDate: DateTime(1959),
-                                                      initialDate: _date,
-                                                      lastDate: DateTime(2022),
-                                                    );
-                                                    if (picked != null) {
-                                                      setState(() {
-                                                        purchasedDate = picked;
-                                                        //_date = picked;
-                                                        _purchaseDateController
-                                                                .text =
-                                                            "${formatDate(picked, [
-                                                          mm,
-                                                          '-',
-                                                          dd,
-                                                          '-',
-                                                          yy
-                                                        ])}";
-                                                      });
-                                                    }
-                                                  }
-                                                },
-                                              )
-                                            : widget.id.isEmpty || isEdit
-                                                ? Text(
-                                                    _purchaseDateController
-                                                        .text,
-                                                    textAlign: TextAlign.center,
-                                                    style:
-                                                        TextStyle(fontSize: 17),
-                                                  )
-                                                : _purchaseDateController
-                                                        .text.isEmpty
-                                                    ? Container()
-                                                    : Row(
-                                                        children: <Widget>[
+                                        style: textTheme.subhead
+                                            .copyWith(
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                    onTap: () async {
+                                      if (widget.id.isEmpty ||
+                                          isEdit) {
+                                        final DateTime picked =
+                                        await showDatePicker(
+                                          context: context,
+                                          firstDate: DateTime(1959),
+                                          initialDate: _date,
+                                          lastDate: DateTime(2022),
+                                        );
+                                        if (picked != null) {
+                                          setState(() {
+                                            purchasedDate = picked;
+                                            //_date = picked;
+                                            _purchaseDateController
+                                                .text =
+                                            "${formatDate(picked, [
+                                              mm,
+                                              '-',
+                                              dd,
+                                              '-',
+                                              yy
+                                            ])}";
+                                          });
+                                        }
+                                      }
+                                    },
+                                  )
+                                      : widget.id.isEmpty || isEdit
+                                      ? Text(
+                                    _purchaseDateController
+                                        .text,
+                                    textAlign: TextAlign.center,
+                                    style:
+                                    TextStyle(fontSize: 17),
+                                  )
+                                      : _purchaseDateController
+                                      .text.isEmpty
+                                      ? Container()
+                                      : Row(
+                                    children: <Widget>[
 //                                                    Expanded(
 //                                                      flex: 5,
 //                                                      child: Text(
@@ -784,13 +792,13 @@ class _AddInstrumentScreenState
 //                                                            TextAlign.left,
 //                                                      ),
 //                                                    ),
-                                                        ],
-                                                      ),
-                                      ],
-                                    ),
-                                  )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
                                 : Container(),
-
+    
                             Padding(
                               padding: _purchaseDateController.text.isEmpty
                                   ? EdgeInsets.all(0)
@@ -798,30 +806,30 @@ class _AddInstrumentScreenState
                             ),
                             widget.id.isEmpty || isEdit
                                 ? TextField(
-                                    enabled: widget.id.isEmpty || isEdit,
-                                    controller: _costController,
-                                    textCapitalization:
-                                        TextCapitalization.words,
-                                    style: textTheme.subhead.copyWith(
-                                      color: Colors.black,
-                                    ),
-                                    decoration: InputDecoration(
-                                      labelText: "Cost",
-                                      prefixText: '\$',
-                                      labelStyle: TextStyle(
-                                        color:
-                                            Color.fromRGBO(202, 208, 215, 1.0),
-                                      ),
-                                      errorText: _errorCost,
-                                      border: widget.id.isEmpty || isEdit
-                                          ? null
-                                          : InputBorder.none,
-                                    ),
-                                  )
+                              enabled: widget.id.isEmpty || isEdit,
+                              controller: _costController,
+                              textCapitalization:
+                              TextCapitalization.words,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                labelText: "Cost",
+                                prefixText: '\$',
+                                labelStyle: TextStyle(
+                                  color:
+                                  Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                errorText: _errorCost,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
+                              ),
+                            )
                                 : _costController.text.isEmpty
-                                    ? Container()
-                                    : Column(
-                                        children: <Widget>[
+                                ? Container()
+                                : Column(
+                              children: <Widget>[
 //                                    Text(
 //                                      "Cost",
 //                                      textAlign: TextAlign.right,
@@ -838,8 +846,8 @@ class _AddInstrumentScreenState
 //                                      "\$" + _cost.toString(),
 //                                      textAlign: TextAlign.left,
 //                                    )
-                                        ],
-                                      ),
+                              ],
+                            ),
                             Padding(
                               padding: _costController.text.isEmpty
                                   ? EdgeInsets.all(0)
@@ -857,48 +865,48 @@ class _AddInstrumentScreenState
 //                            ),
                             widget.id.isEmpty || isEdit
                                 ? TextField(
-                                    enabled: widget.id.isEmpty || isEdit,
-                                    controller: _serialNumberController,
-                                    textCapitalization:
-                                        TextCapitalization.words,
-                                    decoration: InputDecoration(
-                                      labelText: "Serial Number",
-                                      labelStyle: TextStyle(
-                                        color:
-                                            Color.fromRGBO(202, 208, 215, 1.0),
-                                      ),
-                                      errorText: _errorSerialNumber,
-                                      border: widget.id.isEmpty || isEdit
-                                          ? null
-                                          : InputBorder.none,
-                                    ),
-                                    style: textTheme.subhead.copyWith(
-                                      color: Colors.black,
-                                    ),
-                                  )
+                              enabled: widget.id.isEmpty || isEdit,
+                              controller: _serialNumberController,
+                              textCapitalization:
+                              TextCapitalization.words,
+                              decoration: InputDecoration(
+                                labelText: "Serial Number",
+                                labelStyle: TextStyle(
+                                  color:
+                                  Color.fromRGBO(202, 208, 215, 1.0),
+                                ),
+                                errorText: _errorSerialNumber,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
+                              ),
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                            )
                                 : _serialNumberController.text.isEmpty
-                                    ? Container()
-                                    : Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Text(
-                                            "SN# ",
-                                            textAlign: TextAlign.right,
-                                            style: TextStyle(fontSize: 16),
-                                          ),
+                                ? Container()
+                                : Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  "SN# ",
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(fontSize: 16),
+                                ),
 //                                    Container(
 //                                      height: 1,
 //                                      width: 100,
 //                                      color: Colors.black,
 //                                    ),
-                                          Text(
-                                            "  ${_serialNumberController.text}",
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(fontSize: 16),
-                                          )
-                                        ],
-                                      ),
+                                Text(
+                                  "  ${_serialNumberController.text}",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(fontSize: 16),
+                                )
+                              ],
+                            ),
                             Padding(
                               padding: _serialNumberController.text.isEmpty
                                   ? EdgeInsets.all(3)
@@ -915,272 +923,272 @@ class _AddInstrumentScreenState
                             ShowUp(
                               child: !_iswarrantyInfo
                                   ? new GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          _iswarrantyInfo = true;
-                                          _iswarrantyAvailable = true;
-                                        });
-                                      },
-                                      child: widget.id.isEmpty
-                                          ? Text(
-                                              "Click here to add warranty info",
-                                              style: textTheme.display1
-                                                  .copyWith(
-                                                      color: widget.appListener
-                                                          .primaryColorDark,
-                                                      fontSize: 16),
-                                            )
-                                          : Container(),
-                                    )
+                                onTap: () {
+                                  setState(() {
+                                    _iswarrantyInfo = true;
+                                    _iswarrantyAvailable = true;
+                                  });
+                                },
+                                child: widget.id.isEmpty
+                                    ? Text(
+                                  "Click here to add warranty info",
+                                  style: textTheme.display1
+                                      .copyWith(
+                                      color: widget.appListener
+                                          .primaryColorDark,
+                                      fontSize: 16),
+                                )
+                                    : Container(),
+                              )
                                   : Container(),
                               delay: 1000,
                             ),
                             _iswarrantyInfo || widget.id.isNotEmpty
                                 ? Container(
+                              child: Column(
+                                children: <Widget>[
+                                  widget.id.isEmpty || isEdit
+                                      ? TextField(
+                                    enabled:
+                                    widget.id.isEmpty || isEdit,
+                                    controller: _warrantyController,
+                                    textCapitalization:
+                                    TextCapitalization.words,
+                                    decoration: InputDecoration(
+                                      labelText: "Warranty",
+                                      labelStyle: TextStyle(
+                                        color: Color.fromRGBO(
+                                            202, 208, 215, 1.0),
+                                      ),
+                                      errorText: _errorWarranty,
+                                      border: widget.id.isEmpty ||
+                                          isEdit
+                                          ? null
+                                          : InputBorder.none,
+                                    ),
+                                    style:
+                                    textTheme.subhead.copyWith(
+                                      color: Colors.black,
+                                    ),
+                                  )
+                                      : _warrantyController.text.isEmpty
+                                      ? Container()
+                                      : Column(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding:
+                                        EdgeInsets.only(
+                                            top: 2),
+                                      ),
+                                      Center(
+                                        child: Text(
+                                          "Warranty",
+                                          textAlign:
+                                          TextAlign.right,
+                                          style: textTheme
+                                              .subtitle
+                                              .copyWith(
+                                              fontWeight:
+                                              FontWeight
+                                                  .w600,
+                                              fontSize: 16),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 1,
+                                        width: 100,
+                                        color: Colors.black,
+                                      ),
+                                      Center(
+                                        child: Text(
+                                          _warrantyController
+                                              .text,
+                                          textAlign:
+                                          TextAlign.left,
+                                          style: TextStyle(
+                                              fontSize: 16),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding:
+                                    _warrantyController.text.isEmpty
+                                        ? EdgeInsets.all(0)
+                                        : EdgeInsets.all(0),
+                                  ),
+                                  Padding(
+                                    padding: widget.id.isEmpty
+                                        ? EdgeInsets.all(5)
+                                        : EdgeInsets.all(0),
+                                  ),
+                                  ShowUp(
+                                    child: !_iswarrantydate
+                                        ? new GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _iswarrantydate = true;
+                                        });
+                                      },
+                                      child: widget.id.isEmpty
+                                          ? Text(
+                                        "Click here to add warranty end date",
+                                        style: textTheme
+                                            .display1
+                                            .copyWith(
+                                            color: widget
+                                                .appListener
+                                                .primaryColorDark,
+                                            fontSize: 16),
+                                      )
+                                          : Container(),
+                                    )
+                                        : Container(),
+                                    delay: 1000,
+                                  ),
+                                  _iswarrantydate || widget.id.isNotEmpty
+                                      ? Container(
                                     child: Column(
+                                      crossAxisAlignment: widget
+                                          .id.isEmpty ||
+                                          isEdit
+                                          ? CrossAxisAlignment.start
+                                          : CrossAxisAlignment
+                                          .center,
                                       children: <Widget>[
                                         widget.id.isEmpty || isEdit
-                                            ? TextField(
-                                                enabled:
-                                                    widget.id.isEmpty || isEdit,
-                                                controller: _warrantyController,
-                                                textCapitalization:
-                                                    TextCapitalization.words,
-                                                decoration: InputDecoration(
-                                                  labelText: "Warranty",
-                                                  labelStyle: TextStyle(
-                                                    color: Color.fromRGBO(
-                                                        202, 208, 215, 1.0),
-                                                  ),
-                                                  errorText: _errorWarranty,
-                                                  border: widget.id.isEmpty ||
-                                                          isEdit
-                                                      ? null
-                                                      : InputBorder.none,
+                                            ? GestureDetector(
+                                          child:
+                                          AbsorbPointer(
+                                            child: TextField(
+                                              enabled: widget
+                                                  .id
+                                                  .isEmpty ||
+                                                  isEdit,
+                                              controller:
+                                              _warrantyEndController,
+                                              decoration:
+                                              InputDecoration(
+                                                labelText:
+                                                "Warranty End Date",
+                                                labelStyle:
+                                                TextStyle(
+                                                  color: Color
+                                                      .fromRGBO(
+                                                      202,
+                                                      208,
+                                                      215,
+                                                      1.0),
                                                 ),
-                                                style:
-                                                    textTheme.subhead.copyWith(
-                                                  color: Colors.black,
-                                                ),
-                                              )
-                                            : _warrantyController.text.isEmpty
-                                                ? Container()
-                                                : Column(
-                                                    children: <Widget>[
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                top: 2),
-                                                      ),
-                                                      Center(
-                                                        child: Text(
-                                                          "Warranty",
-                                                          textAlign:
-                                                              TextAlign.right,
-                                                          style: textTheme
-                                                              .subtitle
-                                                              .copyWith(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize: 16),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        height: 1,
-                                                        width: 100,
-                                                        color: Colors.black,
-                                                      ),
-                                                      Center(
-                                                        child: Text(
-                                                          _warrantyController
-                                                              .text,
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                              fontSize: 16),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                        Padding(
-                                          padding:
-                                              _warrantyController.text.isEmpty
-                                                  ? EdgeInsets.all(0)
-                                                  : EdgeInsets.all(0),
-                                        ),
-                                        Padding(
-                                          padding: widget.id.isEmpty
-                                              ? EdgeInsets.all(5)
-                                              : EdgeInsets.all(0),
-                                        ),
-                                        ShowUp(
-                                          child: !_iswarrantydate
-                                              ? new GestureDetector(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      _iswarrantydate = true;
-                                                    });
-                                                  },
-                                                  child: widget.id.isEmpty
-                                                      ? Text(
-                                                          "Click here to add warranty end date",
-                                                          style: textTheme
-                                                              .display1
-                                                              .copyWith(
-                                                                  color: widget
-                                                                      .appListener
-                                                                      .primaryColorDark,
-                                                                  fontSize: 16),
-                                                        )
-                                                      : Container(),
-                                                )
-                                              : Container(),
-                                          delay: 1000,
-                                        ),
-                                        _iswarrantydate || widget.id.isNotEmpty
-                                            ? Container(
-                                                child: Column(
-                                                  crossAxisAlignment: widget
-                                                              .id.isEmpty ||
-                                                          isEdit
-                                                      ? CrossAxisAlignment.start
-                                                      : CrossAxisAlignment
-                                                          .center,
-                                                  children: <Widget>[
-                                                    widget.id.isEmpty || isEdit
-                                                        ? GestureDetector(
-                                                            child:
-                                                                AbsorbPointer(
-                                                              child: TextField(
-                                                                enabled: widget
-                                                                        .id
-                                                                        .isEmpty ||
-                                                                    isEdit,
-                                                                controller:
-                                                                    _warrantyEndController,
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  labelText:
-                                                                      "Warranty End Date",
-                                                                  labelStyle:
-                                                                      TextStyle(
-                                                                    color: Color
-                                                                        .fromRGBO(
-                                                                            202,
-                                                                            208,
-                                                                            215,
-                                                                            1.0),
-                                                                  ),
-                                                                  errorText:
-                                                                      _errorWarrantyEndDate,
-                                                                  border: widget
-                                                                              .id
-                                                                              .isEmpty ||
-                                                                          isEdit
-                                                                      ? null
-                                                                      : InputBorder
-                                                                          .none,
-                                                                ),
-                                                                style: textTheme
-                                                                    .subhead
-                                                                    .copyWith(
-                                                                  color: Colors
-                                                                      .black,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            onTap: () async {
-                                                              if (widget.id
-                                                                      .isEmpty ||
-                                                                  isEdit) {
-                                                                final DateTime
-                                                                    picked =
-                                                                    await showDatePicker(
-                                                                  context:
-                                                                      context,
-                                                                  firstDate:
-                                                                      _date,
-                                                                  initialDate:
-                                                                      _date,
-                                                                  lastDate:
-                                                                      DateTime(
-                                                                          2022),
-                                                                );
-                                                                if (picked !=
-                                                                    null) {
-                                                                  setState(() {
-                                                                    //_date = picked;
-                                                                    warrantyEndDate =
-                                                                        picked;
-                                                                    _warrantyEndController
-                                                                            .text =
-                                                                        "${formatDate(picked, [
-                                                                      mm,
-                                                                      '-',
-                                                                      dd,
-                                                                      '-',
-                                                                      yy
-                                                                    ])}";
-                                                                  });
-                                                                }
-                                                              }
-                                                            },
-                                                          )
-                                                        : _warrantyEndController
-                                                                .text.isEmpty
-                                                            ? Container()
-                                                            : Row(
-                                                                children: <
-                                                                    Widget>[
-                                                                  Expanded(
-                                                                    flex: 7,
-                                                                    child: Text(
-                                                                        "Expires",
-                                                                        textAlign:
-                                                                            TextAlign
-                                                                                .right,
-                                                                        style: TextStyle(
-                                                                            fontSize:
-                                                                                15)),
-                                                                  ),
-                                                                  Expanded(
-                                                                    child: Text(
-                                                                      " - ",
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .center,
-                                                                    ),
-                                                                    flex: 1,
-                                                                  ),
-                                                                  Expanded(
-                                                                    flex: 7,
-                                                                    child: Text(
-                                                                      _warrantyEndController
-                                                                          .text,
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                  ],
-                                                ),
-                                              )
-                                            : Container(),
-                                        Padding(
-                                          padding: _warrantyEndController
-                                                  .text.isEmpty
-                                              ? EdgeInsets.all(0)
-                                              : EdgeInsets.all(
-                                                  _eDateType == 0 ? 5 : 5),
+                                                errorText:
+                                                _errorWarrantyEndDate,
+                                                border: widget
+                                                    .id
+                                                    .isEmpty ||
+                                                    isEdit
+                                                    ? null
+                                                    : InputBorder
+                                                    .none,
+                                              ),
+                                              style: textTheme
+                                                  .subhead
+                                                  .copyWith(
+                                                color: Colors
+                                                    .black,
+                                              ),
+                                            ),
+                                          ),
+                                          onTap: () async {
+                                            if (widget.id
+                                                .isEmpty ||
+                                                isEdit) {
+                                              final DateTime
+                                              picked =
+                                              await showDatePicker(
+                                                context:
+                                                context,
+                                                firstDate:
+                                                _date,
+                                                initialDate:
+                                                _date,
+                                                lastDate:
+                                                DateTime(
+                                                    2022),
+                                              );
+                                              if (picked !=
+                                                  null) {
+                                                setState(() {
+                                                  //_date = picked;
+                                                  warrantyEndDate =
+                                                      picked;
+                                                  _warrantyEndController
+                                                      .text =
+                                                  "${formatDate(picked, [
+                                                    mm,
+                                                    '-',
+                                                    dd,
+                                                    '-',
+                                                    yy
+                                                  ])}";
+                                                });
+                                              }
+                                            }
+                                          },
+                                        )
+                                            : _warrantyEndController
+                                            .text.isEmpty
+                                            ? Container()
+                                            : Row(
+                                          children: <
+                                              Widget>[
+                                            Expanded(
+                                              flex: 7,
+                                              child: Text(
+                                                  "Expires",
+                                                  textAlign:
+                                                  TextAlign
+                                                      .right,
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                      15)),
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                " - ",
+                                                textAlign:
+                                                TextAlign
+                                                    .center,
+                                              ),
+                                              flex: 1,
+                                            ),
+                                            Expanded(
+                                              flex: 7,
+                                              child: Text(
+                                                _warrantyEndController
+                                                    .text,
+                                                textAlign:
+                                                TextAlign
+                                                    .left,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
                                   )
+                                      : Container(),
+                                  Padding(
+                                    padding: _warrantyEndController
+                                        .text.isEmpty
+                                        ? EdgeInsets.all(0)
+                                        : EdgeInsets.all(
+                                        _eDateType == 0 ? 5 : 5),
+                                  ),
+                                ],
+                              ),
+                            )
                                 : Container(),
-
+    
                             Padding(
                               padding: _warrantyEndController.text.isEmpty
                                   ? EdgeInsets.all(0)
@@ -1194,78 +1202,78 @@ class _AddInstrumentScreenState
                             ShowUp(
                               child: !_isinsuranceInfo
                                   ? new GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          _isinsuranceInfo = true;
-                                          _isinsuranceAvailable = true;
-                                        });
-                                      },
-                                      child: widget.id.isEmpty
-                                          ? Text(
-                                              "Click to add Insurance info",
-                                              style: textTheme.display1
-                                                  .copyWith(
-                                                      color: widget.appListener
-                                                          .primaryColorDark,
-                                                      fontSize: 16),
-                                            )
-                                          : Container(),
-                                    )
+                                onTap: () {
+                                  setState(() {
+                                    _isinsuranceInfo = true;
+                                    _isinsuranceAvailable = true;
+                                  });
+                                },
+                                child: widget.id.isEmpty
+                                    ? Text(
+                                  "Click to add Insurance info",
+                                  style: textTheme.display1
+                                      .copyWith(
+                                      color: widget.appListener
+                                          .primaryColorDark,
+                                      fontSize: 16),
+                                )
+                                    : Container(),
+                              )
                                   : Container(),
                               delay: 1000,
                             ),
                             _isinsuranceInfo || widget.id.isNotEmpty
                                 ? widget.id.isEmpty || isEdit
-                                    ? TextField(
-                                        enabled: widget.id.isEmpty || isEdit,
-                                        controller: _insuredController,
-                                        textCapitalization:
-                                            TextCapitalization.words,
-                                        style: textTheme.subhead.copyWith(
-                                          color: Colors.black,
-                                        ),
-                                        decoration: InputDecoration(
-                                          labelText: "Insured with",
-                                          labelStyle: TextStyle(
-                                            color: Color.fromRGBO(
-                                                202, 208, 215, 1.0),
-                                          ),
-                                          errorText: _errorCost,
-                                          border: widget.id.isEmpty || isEdit
-                                              ? null
-                                              : InputBorder.none,
-                                        ),
-                                      )
-                                    : _insuredController.text.isNotEmpty
-                                        ? Column(
-                                            children: <Widget>[
-                                              Center(
-                                                child: Text(
-                                                  "Insurance",
-                                                  textAlign: TextAlign.right,
-                                                  style: textTheme.subtitle
-                                                      .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 16),
-                                                ),
-                                              ),
-                                              Container(
-                                                height: 1,
-                                                width: 100,
-                                                color: Colors.black,
-                                              ),
-                                              Center(
-                                                child: Text(
-                                                  _insuredController.text,
-                                                  textAlign: TextAlign.left,
-                                                  style:
-                                                      TextStyle(fontSize: 15),
-                                                ),
-                                              ),
-                                            ],
-                                          )
-                                        : Container()
+                                ? TextField(
+                              enabled: widget.id.isEmpty || isEdit,
+                              controller: _insuredController,
+                              textCapitalization:
+                              TextCapitalization.words,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                labelText: "Insured with",
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(
+                                      202, 208, 215, 1.0),
+                                ),
+                                errorText: _errorCost,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
+                              ),
+                            )
+                                : _insuredController.text.isNotEmpty
+                                ? Column(
+                              children: <Widget>[
+                                Center(
+                                  child: Text(
+                                    "Insurance",
+                                    textAlign: TextAlign.right,
+                                    style: textTheme.subtitle
+                                        .copyWith(
+                                        fontWeight:
+                                        FontWeight.w600,
+                                        fontSize: 16),
+                                  ),
+                                ),
+                                Container(
+                                  height: 1,
+                                  width: 100,
+                                  color: Colors.black,
+                                ),
+                                Center(
+                                  child: Text(
+                                    _insuredController.text,
+                                    textAlign: TextAlign.left,
+                                    style:
+                                    TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                              ],
+                            )
+                                : Container()
                                 : Container(),
                             Padding(
                               padding: _insuredController.text.isEmpty
@@ -1274,227 +1282,233 @@ class _AddInstrumentScreenState
                             ),
                             _isinsuranceInfo || widget.id.isNotEmpty
                                 ? widget.id.isEmpty || isEdit
-                                    ? TextField(
-                                        enabled: widget.id.isEmpty || isEdit,
-                                        controller: _policyController,
-                                        textCapitalization:
-                                            TextCapitalization.words,
-                                        style: textTheme.subhead.copyWith(
-                                          color: Colors.black,
-                                        ),
-                                        decoration: InputDecoration(
-                                          labelText: "Policy no.",
-                                          labelStyle: TextStyle(
-                                            color: Color.fromRGBO(
-                                                202, 208, 215, 1.0),
-                                          ),
-                                          errorText: _errorCost,
-                                          border: widget.id.isEmpty || isEdit
-                                              ? null
-                                              : InputBorder.none,
-                                        ),
-                                      )
-                                    : _policyController.text.isNotEmpty
-                                        ? Row(
-                                            children: <Widget>[
-                                              Expanded(
-                                                flex: 5,
-                                                child: Text(
-                                                  "Policy #  ",
-                                                  textAlign: TextAlign.right,
-                                                  style: textTheme.subtitle
-                                                      .copyWith(fontSize: 15),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                flex: 5,
-                                                child: Text(
-                                                  "  ${_policyController.text}",
-                                                  textAlign: TextAlign.left,
-                                                  style:
-                                                      TextStyle(fontSize: 15),
-                                                ),
-                                              ),
-                                            ],
-                                          )
-                                        : Container()
+                                ? TextField(
+                              enabled: widget.id.isEmpty || isEdit,
+                              controller: _policyController,
+                              textCapitalization:
+                              TextCapitalization.words,
+                              style: textTheme.subhead.copyWith(
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                labelText: "Policy no.",
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(
+                                      202, 208, 215, 1.0),
+                                ),
+                                errorText: _errorCost,
+                                border: widget.id.isEmpty || isEdit
+                                    ? null
+                                    : InputBorder.none,
+                              ),
+                            )
+                                : _policyController.text.isNotEmpty
+                                ? Row(
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 5,
+                                  child: Text(
+                                    "Policy #  ",
+                                    textAlign: TextAlign.right,
+                                    style: textTheme.subtitle
+                                        .copyWith(fontSize: 15),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 5,
+                                  child: Text(
+                                    "  ${_policyController.text}",
+                                    textAlign: TextAlign.left,
+                                    style:
+                                    TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                              ],
+                            )
+                                : Container()
                                 : Container(),
                             widget.id.isEmpty || isEdit
                                 ? Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Text(
-                                          "Take Invoice/Equip. photo",
-                                          style: TextStyle(fontSize: 16),
-                                        ),
-                                      ),
-                                      widget.id.isEmpty || isEdit
-                                          ? IconButton(
-                                              icon: Icon(Icons.add_a_photo),
-                                              onPressed: () {
-                                                if (files.length < 1)
-                                                  getImage();
-                                                else
-                                                  showMessage(
-                                                      "User can upload upto max 1 media files");
-                                              },
-                                            )
-                                          : Container()
-                                    ],
-                                  )
+                              children: <Widget>[
+                                Expanded(
+                                  child: Text(
+                                    "Take Invoice/Equip. photo",
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                                widget.id.isEmpty || isEdit
+                                    ? IconButton(
+                                  icon: Icon(Icons.add_a_photo),
+                                  onPressed: () {
+                                    if (files.length < 1)
+                                      getImage();
+                                    else
+                                      showMessage(
+                                          "User can upload upto max 1 media files");
+                                  },
+                                )
+                                    : Container()
+                              ],
+                            )
                                 : Container(),
                             files.length > 0
                                 ? widget.id.isEmpty || isEdit
-                                    ? SizedBox(
-                                        height: 90,
-                                        child: ListView.builder(
-                                          itemCount: files.length,
-                                          scrollDirection: Axis.horizontal,
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
-                                            File file = File(files[index]);
-                                            return file.path.startsWith("https")
-                                                ? Container(
-                                                    margin: EdgeInsets.only(
-                                                        left: 10, right: 10),
-                                                    height: 80,
-                                                    width: 150,
-                                                    child: Stack(
-                                                      children: <Widget>[
-                                                        widget.id.isNotEmpty ||
-                                                                isEdit &&
-                                                                    file.path
-                                                                        .startsWith(
-                                                                            "https")
-                                                            ? Image.network(
-                                                                file.path
-                                                                        .toString() ??
-                                                                    "",
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                              )
-                                                            : Image.file(
-                                                                file,
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                              ),
-                                                        Positioned(
-                                                          right: 14,
-                                                          top: 0,
-                                                          child: InkWell(
-                                                            onTap: () {
-                                                              setState(() {
-                                                                files =
-                                                                    new List();
-                                                              });
-                                                            },
-                                                            child: Container(
-                                                              child: Icon(
-                                                                Icons.cancel,
-                                                                color: Colors
-                                                                    .white,
-                                                              ),
-                                                              color:
-                                                                  Colors.black,
-                                                            ),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  )
-                                                : Container(
-                                                    margin: EdgeInsets.only(
-                                                        left: 10, right: 10),
-                                                    height: 80,
-                                                    width: 150,
-                                                    child: Stack(
-                                                      children: <Widget>[
-                                                        Image.file(
-                                                          file,
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                        Positioned(
-                                                          right: 14,
-                                                          top: 0,
-                                                          child: InkWell(
-                                                            onTap: () {
-                                                              setState(() {
-                                                                files =
-                                                                    new List();
-                                                              });
-                                                            },
-                                                            child: Container(
-                                                              child: Icon(
-                                                                Icons.cancel,
-                                                                color: Colors
-                                                                    .white,
-                                                              ),
-                                                              color:
-                                                                  Colors.black,
-                                                            ),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  );
-                                          },
+                                ? SizedBox(
+                              height: 90,
+                              child: ListView.builder(
+                                itemCount: files.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (BuildContext context,
+                                    int index) {
+                                  File file = File(files[index]);
+                                  return file.path.startsWith("https")
+                                      ? Container(
+                                    margin: EdgeInsets.only(
+                                        left: 10, right: 10),
+                                    height: 80,
+                                    width: 150,
+                                    child: Stack(
+                                      children: <Widget>[
+                                        widget.id.isNotEmpty ||
+                                            isEdit &&
+                                                file.path
+                                                    .startsWith(
+                                                    "https")
+                                            ? Image.network(
+                                          file.path
+                                              .toString() ??
+                                              "",
+                                          fit: BoxFit
+                                              .cover,
+                                        )
+                                            : Image.file(
+                                          file,
+                                          fit: BoxFit
+                                              .cover,
                                         ),
-                                      )
-                                    : Container()
+                                        Positioned(
+                                          right: 14,
+                                          top: 0,
+                                          child: InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                files =
+                                                new List();
+                                              });
+                                            },
+                                            child: Container(
+                                              child: Icon(
+                                                Icons.cancel,
+                                                color: Colors
+                                                    .white,
+                                              ),
+                                              color:
+                                              Colors.black,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                      : Container(
+                                    margin: EdgeInsets.only(
+                                        left: 10, right: 10),
+                                    height: 80,
+                                    width: 150,
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Image.file(
+                                          file,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        Positioned(
+                                          right: 14,
+                                          top: 0,
+                                          child: InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                files =
+                                                new List();
+                                              });
+                                            },
+                                            child: Container(
+                                              child: Icon(
+                                                Icons.cancel,
+                                                color: Colors
+                                                    .white,
+                                              ),
+                                              color:
+                                              Colors.black,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            )
+                                : Container()
                                 : Container(),
                             Padding(
                               padding: EdgeInsets.all(5),
                             ),
                             widget.id.isNotEmpty && !isEdit
                                 ? ShowUp(
-                                    child: new GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          subContact = SubInstrumentNotes();
-                                        });
-                                      },
-                                      child: Text(
-                                        "Click here to add instrumemt notes",
-                                        textAlign: TextAlign.center,
-                                        style: textTheme.display1.copyWith(
-                                            color: Colors.red, fontSize: 14),
-                                      ),
-                                    ),
-                                    delay: 1000,
-                                  )
+                              child: new GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    subContact = SubInstrumentNotes();
+                                  });
+                                },
+                                child: Text(
+                                  "Click here to add equipment notes",
+                                  textAlign: TextAlign.center,
+                                  style: textTheme.display1.copyWith(
+                                      color: Colors.red, fontSize: 14),
+                                ),
+                              ),
+                              delay: 1000,
+                            )
                                 : Container(),
+                            Container(
+                              height: 1,
+                              width: MediaQuery.of(context).size.width,
+                              color: Colors.red,
+                              margin: EdgeInsets.only(left: MediaQuery.of(context).size.width/5,right: MediaQuery.of(context).size.width/5,top: 3,bottom: 14),
+                            ),
                             ListView.builder(
                               itemCount: subContacts.length,
                               shrinkWrap: true,
                               itemBuilder: (BuildContext context, int index) {
                                 SubInstrumentNotes notesTodo =
-                                    subContacts[index];
+                                subContacts[index];
                                 DateTime dateTime =
-                                    DateTime.fromMillisecondsSinceEpoch(
-                                        notesTodo.createdDate);
+                                DateTime.fromMillisecondsSinceEpoch(
+                                    notesTodo.createdDate);
                                 return ListTile(
                                   title: Text(notesTodo.title),
                                   leading: CircleAvatar(
                                       backgroundColor:
-                                          Color.fromRGBO(3, 218, 157, 1.0),
+                                      Color.fromRGBO(3, 218, 157, 1.0),
                                       radius: 35,
                                       child: Row(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        MainAxisAlignment.center,
                                         children: <Widget>[
                                           Column(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.center,
+                                            CrossAxisAlignment.center,
                                             mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                            MainAxisAlignment.center,
                                             children: <Widget>[
                                               Text(
                                                 "${formatDate(dateTime, [dd])}",
                                                 textAlign: TextAlign.center,
                                                 style:
-                                                    textTheme.headline.copyWith(
+                                                textTheme.headline.copyWith(
                                                   color: Colors.white,
                                                   fontSize: 16,
                                                 ),
@@ -1503,7 +1517,7 @@ class _AddInstrumentScreenState
                                                 "${formatDate(dateTime, [M])}",
                                                 textAlign: TextAlign.center,
                                                 style:
-                                                    textTheme.caption.copyWith(
+                                                textTheme.caption.copyWith(
                                                   color: Colors.white,
                                                 ),
                                               ),
@@ -1531,19 +1545,21 @@ class _AddInstrumentScreenState
                             ),
                             widget.id.isEmpty || isEdit
                                 ? RaisedButton(
-                                    color: Colors.deepOrangeAccent,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(18)),
-                                    textColor: Colors.white,
-                                    onPressed: () {
-                                      _submitInstrument();
-                                    },
-                                    child: Text("Submit"),
-                                  )
+                              color: Colors.deepOrangeAccent,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(18)),
+                              textColor: Colors.white,
+                              onPressed: () {
+                                _submitInstrument();
+                              },
+                              child: Text("Submit"),
+                            )
                                 : Container()
                           ],
-                        ),
+                        ),)
+                   
+                  ],)
                 ),
               )
             ],

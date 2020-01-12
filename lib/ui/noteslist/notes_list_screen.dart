@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gigtrack/base/base_screen.dart';
@@ -63,6 +64,13 @@ class _NotesListScreenState
 
   @override
   Widget buildBody() {
+   // FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(99, 97, 93, .8));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+        statusBarColor: Colors.blue, // Color for Android
+        statusBarBrightness: Brightness.light,
+        systemNavigationBarColor:
+        Colors.blue // Dark == white status bar -- for IOS.
+    ));
     return Scaffold(
       backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
       body: Padding(

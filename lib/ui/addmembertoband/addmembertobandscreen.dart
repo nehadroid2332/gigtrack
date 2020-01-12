@@ -578,46 +578,51 @@ class _AddMemberToBandScreenState
                               errorText: _errorPay,
                             ),
                           ),
-                          RaisedButton(
+                          
+                          Container(
+                            margin: EdgeInsets.only(left: MediaQuery.of(context).size.width/4,right: MediaQuery.of(context).size.width/4,top: 10),
+                            child:FlatButton(
+  
                             onPressed: () {
                               String emailText=_emailController.text;
                               if(emailText.isEmpty){
                                 _errorEmail = "Cannot be Empty";
                               }else{
-                              showLoading();
-                              presenter.addMemberToBand(
-                                  BandMember(
-                                    user_id: itemSelect.user_id,
-                                    // instrument: iList,
-                                    memberRole: List.from(mList),
-                                    firstName: _firstNameController.text,
-                                    lastName: _lastNameController.text,
-                                    email: _emailController.text,
-                                    emergencyContact:
+                                showLoading();
+                                presenter.addMemberToBand(
+                                    BandMember(
+                                        user_id: itemSelect.user_id,
+                                        // instrument: iList,
+                                        memberRole: List.from(mList),
+                                        firstName: _firstNameController.text,
+                                        lastName: _lastNameController.text,
+                                        email: _emailController.text,
+                                        emergencyContact:
                                         _emergencyContactTextController.text,
-                                    mobileText: _mobileTextController.text,
-                                    other: oList,
-                                    primaryContact:
+                                        mobileText: _mobileTextController.text,
+                                        other: oList,
+                                        primaryContact:
                                         _primaryContactTextController.text,
-                                    payInfo: null,
-                                    pay: _payController.text,
-                                    otherTalent: _otherTalentController.text,
-                                    notes: _notesController.text,
-                                    permissions: (psList),
-                                    instrumentList: List.from(inList)
-                                  ),
-                                  widget.bandId,
-                                  isPrimary);}
+                                        payInfo: null,
+                                        pay: _payController.text,
+                                        otherTalent: _otherTalentController.text,
+                                        notes: _notesController.text,
+                                        permissions: (psList),
+                                        instrumentList: List.from(inList)
+                                    ),
+                                    widget.bandId,
+                                    isPrimary);}
                             },
                             child: Text(
                               "Submit",
                             ),
-                            color: Color.fromRGBO(255, 0, 104, 1.0),
+                            color: widget.appListener.primaryColor,
                             textColor: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
-                          )
+                          ) ,)
+                          
                         ],
                       ),
           )

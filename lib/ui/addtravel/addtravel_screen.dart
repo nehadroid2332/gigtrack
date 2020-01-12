@@ -70,7 +70,7 @@ class _AddTravelScreenState
                   Padding(
                     padding: EdgeInsets.all(5),
                     child: Text(
-                      "Location Name",
+                      "Travel To",
                       style: textTheme.subhead.copyWith(
                         color: Colors.grey[600],
                         fontSize: 16,
@@ -284,7 +284,7 @@ class _AddTravelScreenState
                   Row(
                     children: <Widget>[
                       Expanded(
-                        child: Text("Sleeping"),
+                        child: Text("Hotel"),
                       ),
                       IconButton(
                         icon: Icon(Icons.add),
@@ -327,7 +327,7 @@ class _AddTravelScreenState
                                 },
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(),
-                                  hintText: "Sleeping",
+                                  hintText: "Hotel",
                                 ),
                               ),
                               Padding(
@@ -571,7 +571,7 @@ class _AddTravelScreenState
                                     TextCapitalization.sentences,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(),
-                                  hintText: "Flight",
+                                  hintText: "Flight #",
                                 ),
                               ),
                               Padding(
