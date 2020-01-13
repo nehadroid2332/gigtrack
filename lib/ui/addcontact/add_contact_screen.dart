@@ -1801,6 +1801,9 @@ class _AddContactScreenState
 
   @override
   void onUpdate() {
+    setState(() {
+      isEdit = !isEdit;
+    });
     showMessage("Updated Successfully");
   }
 

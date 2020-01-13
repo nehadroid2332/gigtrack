@@ -1644,7 +1644,7 @@ class _AddPlayingStyleScreenState
   void onUpdateSuccess() {
     hideLoading();
     setState(() {
-      isEdit = false;
+      isEdit = !isEdit;
     });
     showMessage("Updated Successfully");
   }

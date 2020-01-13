@@ -28,7 +28,7 @@ class _AddSetListScreenState
       _songChordsController = TextEditingController(),
       _songNotesController = TextEditingController(),
       _songNameController = TextEditingController();
-  
+
   String bandName;
   final Map<String, String> inList = Map();
   final instrumentList = <String>[
@@ -60,9 +60,9 @@ class _AddSetListScreenState
         widget.userId != null &&
         widget.userId.isNotEmpty) {
       showLoading();
-    
+
       presenter.getDetails(widget.id, widget.userId);
-    //  presenter.getBandDetails(widget.userId);
+      //  presenter.getBandDetails(widget.userId);
       //getData();
     }
   }
@@ -303,7 +303,9 @@ class _AddSetListScreenState
                                       vertical: 6,
                                     ),
                                     child: Text(
-                                      _songNameController.text+"-"+_songArtistController.text,
+                                      _songNameController.text +
+                                          "-" +
+                                          _songArtistController.text,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(fontSize: 20),
                                     ),
@@ -333,27 +335,34 @@ class _AddSetListScreenState
                                       final members = bandmembers[index];
                                       return Column(
                                         children: <Widget>[
-                                        Center(
-                                          child: Text(
-                                            "${members.firstName} ${members.lastName}",
-                                            textAlign: TextAlign.right,
+                                          Center(
+                                            child: Text(
+                                              "${members.firstName} ${members.lastName}",
+                                              textAlign: TextAlign.right,
+                                            ),
                                           ),
-                                        ),
-                                        Container(
-                                          width: MediaQuery.of(context).size.width/4,
-                                          padding: EdgeInsets.only(top: 3),
-                                          color: Colors.blue,
-                                          height: 1,
-                                          child:null
-                                        ),
-                                        Center(
-                                          child:members.instrument!=null? Text(
-                                            "${members.instrument}",
-                                            textAlign: TextAlign.left,
-                                          ):Container(),
-                                        ),
-                                          Padding(padding: EdgeInsets.all(5),),
-                                      ],);
+                                          Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  4,
+                                              padding: EdgeInsets.only(top: 3),
+                                              color: Colors.blue,
+                                              height: 1,
+                                              child: null),
+                                          Center(
+                                            child: members.instrument != null
+                                                ? Text(
+                                                    "${members.instrument}",
+                                                    textAlign: TextAlign.left,
+                                                  )
+                                                : Container(),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(5),
+                                          ),
+                                        ],
+                                      );
 //                                        ListTile(
 //                                        title: Text(
 //                                            "${members.firstName} ${members.lastName}"),
@@ -419,25 +428,26 @@ class _AddSetListScreenState
 //                                fontSize: 16,
 //                              ),
 //                            ),
-                            
-                            Center(child:Wrap(
-                              children: items,
-                            ) ,),
-                           
+
+                            Center(
+                              child: Wrap(
+                                children: items,
+                              ),
+                            ),
+
                             Padding(
                               padding: EdgeInsets.all(0),
                             ),
-  
+
                             RaisedButton(
-                              onPressed:() {},
-                                color: Color.fromRGBO(214, 22, 35, 1.0),
-                                child: Text(
-                                    "Play now",
-                                    style: textTheme.headline.copyWith(
-                                      fontWeight: FontWeight.w300,
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                    )),
+                              onPressed: () {},
+                              color: Color.fromRGBO(214, 22, 35, 1.0),
+                              child: Text("Play now",
+                                  style: textTheme.headline.copyWith(
+                                    fontWeight: FontWeight.w300,
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                  )),
                               padding: EdgeInsets.symmetric(
                                 vertical: 8,
                               ),
@@ -705,6 +715,9 @@ class _AddSetListScreenState
   @override
   void onUpdate() {
     hideLoading();
+    setState(() {
+      isEdit = !isEdit;
+    });
     presenter.getDetails(widget.id, widget.userId);
   }
 
@@ -716,15 +729,15 @@ class _AddSetListScreenState
       _listNameController.text = setList.setListName;
     });
   }
+
   @override
   void getBandDetails(Band band) async {
     hideLoading();
     setState(() {
-     
-    bandName= band.name;
-   
+      bandName = band.name;
     });
   }
+
   @override
   void onDelete() {}
 

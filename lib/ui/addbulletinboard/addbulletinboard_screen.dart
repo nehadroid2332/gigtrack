@@ -579,6 +579,9 @@ class _AddBulletInBoardScreenState
   @override
   void onUpdate() {
     showMessage("Updated Successfully");
+    setState(() {
+      isEdit=!isEdit;
+    });
     presenter.getBulletInBoardDetails(widget.id);
   }
 

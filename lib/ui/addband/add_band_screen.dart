@@ -1574,6 +1574,9 @@ class _AddBandScreenState
   @override
   void onUpdate() {
     showLoading();
+    setState(() {
+      isEdit = !isEdit;
+    });
     presenter.getBandDetails(widget.id);
   }
 

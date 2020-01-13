@@ -4,7 +4,6 @@ import 'package:gigtrack/server/models/band_member.dart';
 import 'package:gigtrack/server/models/error_response.dart';
 import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/server/models/user_playing_style.dart';
-import 'package:gigtrack/ui/addplayingstyle/add_playing_style_presenter.dart';
 
 abstract class AddBandContract extends BaseContract {
   void addBandSuccess();
@@ -30,23 +29,24 @@ class AddBandPresenter extends BasePresenter {
       String state,
       String zip,
       {String id,
-      Map<String, BandMember> bandmates, List<String> files,String creatorName}) async {
+      Map<String, BandMember> bandmates,
+      List<String> files,
+      String creatorName}) async {
     Band band = Band(
-      dateStarted: dateStarted,
-      email: email,
-      contactInfo: contactInfo,
-      legalName: blname,
-      legalStructure: legalstructure,
-      musicStyle: musicStyle,
-      name: bname,
-      website: website,
-      city: city,
-      state: state,
-      zip: zip,
-      files:files,
-      bandmates: bandmates,
-      creatorName:creatorName
-    );
+        dateStarted: dateStarted,
+        email: email,
+        contactInfo: contactInfo,
+        legalName: blname,
+        legalStructure: legalstructure,
+        musicStyle: musicStyle,
+        name: bname,
+        website: website,
+        city: city,
+        state: state,
+        zip: zip,
+        files: files,
+        bandmates: bandmates,
+        creatorName: creatorName);
     band.userId = serverAPI.currentUserId;
     if (id != null) {
       band.id = id;
@@ -55,7 +55,10 @@ class AddBandPresenter extends BasePresenter {
     final res = await serverAPI.addBand(band);
     print("REs-> $res");
     if (res is bool) {
-      (view as AddBandContract).addBandSuccess();
+      if (res) {
+        (view as AddBandContract).onUpdate();
+      } else
+        (view as AddBandContract).addBandSuccess();
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
     }
@@ -101,6 +104,7 @@ class AddBandPresenter extends BasePresenter {
       (view as AddBandContract).onData(acc);
     }
   }
+
   void getUserProfile() async {
     final res = await serverAPI.getSingleUserById(serverAPI.currentUserId);
     if (res is User) {
