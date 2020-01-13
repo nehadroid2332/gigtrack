@@ -299,10 +299,12 @@ Widget buildActivityListItem(Activites ac, context,
                             style: TextStyle(color: Colors.black, fontSize: 16),
                           )
                         : Container(),
-                    ac.endTime.isNotEmpty?
-                        Text(" - ${ac.endTime.toLowerCase()}",
-                        style: TextStyle(color: Colors.black,fontSize: 16),
-                        ):Container()
+                    ac.endTime.isNotEmpty
+                        ? Text(
+                            " - ${ac.endTime.toLowerCase()}",
+                            style: TextStyle(color: Colors.black, fontSize: 16),
+                          )
+                        : Container()
                   ],
                 ),
                 Text(
@@ -351,7 +353,7 @@ Widget buildActivityListItem(Activites ac, context,
                     ),
                     ac.bandId.isNotEmpty
                         ? Text(
-                            "-" + ac.band.name,
+                            "-" + (ac?.band?.name ?? ''),
                             style: TextStyle(
                               fontSize: 20,
                               fontStyle: FontStyle.normal,
@@ -695,13 +697,12 @@ class AppProgressWidget extends StatelessWidget {
         children: <Widget>[
           Image.asset(
             'assets/images/loadingimage.gif',
-            height: MediaQuery.of(context).size.height/2,
+            height: MediaQuery.of(context).size.height / 2,
             width: MediaQuery.of(context).size.width,
           ),
           Padding(
             padding: EdgeInsets.all(2),
           ),
-      
         ],
       ),
     );

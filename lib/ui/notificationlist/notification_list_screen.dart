@@ -61,15 +61,16 @@ class _NotificationListScreensState
 
                 return ListView.builder(
                   shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
                   itemCount: _activities.length,
                   padding: EdgeInsets.all(10),
                   itemBuilder: (BuildContext context, int index) {
                     Activites ac = _activities[index];
                     return buildActivityListItem(ac, context, onTap: () {
-//                      widget.appListener.router.navigateTo(
-//                          context,
-//                          Screens.ADDACTIVITY.toString() +
-//                              "/${ac.type}/${ac.id}/${false}/////");
+                      widget.appListener.router.navigateTo(
+                          context,
+                          Screens.ADDACTIVITY.toString() +
+                              "/${ac.type}/${ac.id}/${false}/////");
                     });
                   },
                 );
@@ -106,13 +107,16 @@ class _NotificationListScreensState
                 return ListView.builder(
                   shrinkWrap: true,
                   itemCount: _todos.length,
+                  physics: NeverScrollableScrollPhysics(),
                   padding: EdgeInsets.all(10),
                   itemBuilder: (BuildContext context, int index) {
                     NotesTodo todo = _todos[index];
                     return buildNoteListItem(
                         todo, widget.appListener.primaryColor, onTap: () {
-//                      widget.appListener.router.navigateTo(context,
-//                          Screens.ADDNOTE.toString() + "/${todo.id}///////${todo.type ?? NotesTodo.TYPE_NOTE}");
+                      widget.appListener.router.navigateTo(
+                          context,
+                          Screens.ADDNOTE.toString() +
+                              "/${todo.id}///////${todo.type ?? NotesTodo.TYPE_NOTE}");
                     });
                   },
                 );

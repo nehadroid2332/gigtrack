@@ -90,7 +90,7 @@ class _AddTravelScreenState
                   Padding(
                     padding: EdgeInsets.all(5),
                     child: Text(
-                      "Start Date",
+                      "Arrival Date",
                       style: textTheme.subhead.copyWith(
                         color: Colors.grey[600],
                         fontSize: 16,
@@ -121,14 +121,14 @@ class _AddTravelScreenState
                           travel.startDate =
                               selectedDate.millisecondsSinceEpoch;
                           _startDateController.text =
-                              DateFormat('yyyy-MM-dd').format(selectedDate);
+                              DateFormat('MM-dd-yy').format(selectedDate);
                         });
                     },
                   ),
                   Padding(
                     padding: EdgeInsets.all(5),
                     child: Text(
-                      "End Date",
+                      "Destination Date",
                       style: textTheme.subhead.copyWith(
                         color: Colors.grey[600],
                         fontSize: 16,
@@ -158,7 +158,7 @@ class _AddTravelScreenState
                           selectedDate = picked;
                           travel.endDate = selectedDate.millisecondsSinceEpoch;
                           _endDateController.text =
-                              DateFormat('yyyy-MM-dd').format(selectedDate);
+                              DateFormat('MM-dd-yy').format(selectedDate);
                         });
                     },
                   ),
@@ -187,7 +187,7 @@ class _AddTravelScreenState
                       locController.text = showUp.location;
                       final dateController = TextEditingController();
                       if (showUp.dateTime != null && showUp.dateTime > 0)
-                        dateController.text = DateFormat('yyyy-MM-dd').format(
+                        dateController.text = DateFormat('MM-dd-yy').format(
                             DateTime.fromMillisecondsSinceEpoch(
                                 showUp.dateTime));
                       final timeController = TextEditingController();
@@ -206,6 +206,8 @@ class _AddTravelScreenState
                                   showUp.location = s;
                                   showUpList[index] = showUp;
                                 },
+                                textCapitalization:
+                                    TextCapitalization.sentences,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(),
                                   hintText: "Location",
@@ -261,9 +263,10 @@ class _AddTravelScreenState
                                   if (picked != null && picked != selectedDate)
                                     setState(() {
                                       selectedDate = picked;
-                                      DateTime now =
-                                          DateTime.fromMillisecondsSinceEpoch(
-                                              showUp.dateTime);
+                                      DateTime now = DateTime.now();
+                                      if (showUp.dateTime != null)
+                                        DateTime.fromMillisecondsSinceEpoch(
+                                            showUp.dateTime);
                                       showUp.dateTime = DateTime(
                                               now.year,
                                               now.month,
@@ -306,12 +309,12 @@ class _AddTravelScreenState
                       locController.text = sleeping.location;
                       final fromDateController = TextEditingController();
                       if (sleeping.fromDate != null && sleeping.fromDate > 0)
-                        fromDateController.text = DateFormat('yyyy-MM-dd')
-                            .format(DateTime.fromMillisecondsSinceEpoch(
+                        fromDateController.text = DateFormat('MM-dd-yy').format(
+                            DateTime.fromMillisecondsSinceEpoch(
                                 sleeping.fromDate));
                       final toDateController = TextEditingController();
                       if (sleeping.toDate != null && sleeping.toDate > 0)
-                        toDateController.text = DateFormat('yyyy-MM-dd').format(
+                        toDateController.text = DateFormat('MM-dd-yy').format(
                             DateTime.fromMillisecondsSinceEpoch(
                                 sleeping.toDate));
                       return Card(
@@ -429,7 +432,7 @@ class _AddTravelScreenState
                       if (flight.departureDateTime != null &&
                           flight.departureDateTime > 0)
                         departureDateTimeController.text =
-                            DateFormat('yyyy-MM-dd kk:mm').format(
+                            DateFormat('MM-dd-yy kk:mm').format(
                                 DateTime.fromMillisecondsSinceEpoch(
                                     flight.departureDateTime));
 
@@ -437,7 +440,7 @@ class _AddTravelScreenState
                       if (flight.arrivalDateTime != null &&
                           flight.arrivalDateTime > 0)
                         arrivalDateTimeController.text =
-                            DateFormat('yyyy-MM-dd kk:mm').format(
+                            DateFormat('MM-dd-yy kk:mm').format(
                                 DateTime.fromMillisecondsSinceEpoch(
                                     flight.arrivalDateTime));
                       return Card(
@@ -673,9 +676,9 @@ class _AddTravelScreenState
       flightsList = res.flightList;
       _locNameController.text = res.location;
       _notesController.text = res.notes;
-      _startDateController.text = DateFormat('yyyy-MM-dd')
+      _startDateController.text = DateFormat('MM-dd-yy')
           .format(DateTime.fromMillisecondsSinceEpoch(travel.startDate));
-      _endDateController.text = DateFormat('yyyy-MM-dd')
+      _endDateController.text = DateFormat('MM-dd-yy')
           .format(DateTime.fromMillisecondsSinceEpoch(travel.endDate));
     });
   }
