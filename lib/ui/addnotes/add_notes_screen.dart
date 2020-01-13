@@ -113,19 +113,21 @@ class _AddNotesScreenState
             }
           },
         ),
-        backgroundColor:  Color.fromRGBO(3, 54, 255, 1.0),
+        backgroundColor: Color.fromRGBO(3, 54, 255, 1.0),
         actions: <Widget>[
           Container(
             alignment: Alignment.center,
-            width:widget.id.isEmpty?MediaQuery.of(context).size.width: MediaQuery.of(context).size.width / 2,
+            width: widget.id.isEmpty
+                ? MediaQuery.of(context).size.width
+                : MediaQuery.of(context).size.width / 2,
             child: Text(
               "${widget.id.isEmpty ? widget.type == NotesTodo.TYPE_NOTE ? "Add Note" : widget.type == NotesTodo.TYPE_IDEA ? "Add Idea" : "" : widget.isParent ? "Note is about" : widget.type == NotesTodo.TYPE_NOTE ? "Note" : widget.type == NotesTodo.TYPE_IDEA ? "Idea" : ""}",
               textAlign: TextAlign.center,
               style: textTheme.headline.copyWith(
                 color: Colors.white,
-              )
-              ,
-            ), ),
+              ),
+            ),
+          ),
           widget.id.isEmpty || widget.isParent
               ? Container()
               : IconButton(
@@ -161,7 +163,7 @@ class _AddNotesScreenState
         ClipPath(
           clipper: RoundedClipper(height / 4.5),
           child: Container(
-            color:  Color.fromRGBO(3, 54, 255, 1.0),
+            color: Color.fromRGBO(3, 54, 255, 1.0),
             height: height / 4.5,
           ),
         ),
@@ -295,8 +297,7 @@ class _AddNotesScreenState
                                       child: Text(
                                         "Click here to remind me",
                                         style: textTheme.display1.copyWith(
-                                            color: Colors.red,
-                                            fontSize: 14),
+                                            color: Colors.red, fontSize: 14),
                                       ),
                                     )
                                   : Container(),
@@ -491,7 +492,7 @@ class _AddNotesScreenState
                                   subtitle: Text(notesTodo.description),
                                   leading: CircleAvatar(
                                       backgroundColor:
-                                      Color.fromRGBO(3, 54, 255, 1.0),
+                                          Color.fromRGBO(3, 54, 255, 1.0),
                                       radius: 35,
                                       child: Row(
                                         crossAxisAlignment:
@@ -551,8 +552,8 @@ class _AddNotesScreenState
                               : Padding(
                                   padding: EdgeInsets.all(5),
                                   child: InkWell(
-                                    child: Text(  widget.isParent?"":
-                                      "Archive Note",
+                                    child: Text(
+                                      widget.isParent ? "" : "Archive Note",
                                       textAlign: TextAlign.center,
                                       style: textTheme.subhead.copyWith(
                                         color: Colors.red,
@@ -604,7 +605,8 @@ class _AddNotesScreenState
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             6)),
-                                                color: Color.fromRGBO(3, 54, 255, 1.0),
+                                                color: Color.fromRGBO(
+                                                    3, 54, 255, 1.0),
                                                 onPressed: () {
                                                   Navigator.of(context).pop();
                                                 },
@@ -622,7 +624,7 @@ class _AddNotesScreenState
                               onPressed: () {
                                 _submitnotes();
                               },
-                              color:  Color.fromRGBO(3, 54, 255, 1.0),
+                              color: Color.fromRGBO(3, 54, 255, 1.0),
                               child: Text(
                                 "Submit",
                                 style: textTheme.headline.copyWith(
@@ -787,8 +789,8 @@ class _AddNotesScreenState
                 if (widget.id == null || widget.id.isEmpty) {
                   showMessage("Id cannot be null");
                 } else {
-                  presenter.notesDelete(widget.id);
                   Navigator.pop(context);
+                  presenter.notesDelete(widget.id);
                 }
               },
             ),
@@ -799,7 +801,7 @@ class _AddNotesScreenState
               ),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
-              color:Color.fromRGBO(3, 54, 255, 1.0),
+              color: Color.fromRGBO(3, 54, 255, 1.0),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -826,7 +828,7 @@ class _AddNotesScreenState
     String desc = _descController.text;
     String endDate = _endDateController.text;
     String note = _noteController.text;
-  
+
     setState(() {
       _descError = null;
       _startDateError = null;
@@ -849,23 +851,17 @@ class _AddNotesScreenState
           description: desc,
           bandId: widget.bandId,
           type: widget.type,
-          end_date:
-          end?.millisecondsSinceEpoch ?? 0,
+          end_date: end?.millisecondsSinceEpoch ?? 0,
           start_date: selectedStartDate != null
-              ? selectedStartDate
-              .millisecondsSinceEpoch
+              ? selectedStartDate.millisecondsSinceEpoch
               : 0,
           id: widget.id,
           note: note,
-          createdDate:
-          DateTime.now().millisecondsSinceEpoch,
+          createdDate: DateTime.now().millisecondsSinceEpoch,
         );
         showLoading();
-        presenter.addNotes(
-            notesTodo, widget.isParent);
+        presenter.addNotes(notesTodo, widget.isParent);
       }
     });
   }
 }
-
-

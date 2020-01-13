@@ -79,7 +79,7 @@ class _AddActivityScreenState
   bool setTime = false;
   bool endDateShow = false;
 
-  String _dateTxt = "", _estDateTxt = "",_dateEndTxt="";
+  String _dateTxt = "", _estDateTxt = "", _dateEndTxt = "";
 
   bool isRecurring = false;
 
@@ -212,7 +212,9 @@ class _AddActivityScreenState
                   "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} ${widget.type == Activites.TYPE_ACTIVITY ? "Activity" : widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? "Performance Schedule" : widget.type == Activites.TYPE_PRACTICE_SCHEDULE ? "Practice Schedule" : widget.type == Activites.TYPE_TASK ? widget.isParent ? "Add Task Notes" : "Task" : widget.type == Activites.TYPE_BAND_TASK ? "Band Task" : ""}",
                   textAlign: TextAlign.center,
                   style: textTheme.headline.copyWith(
-                    fontSize: widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE? 22:24,
+                    fontSize: widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE
+                        ? 22
+                        : 24,
                     color: Colors.white,
                   ),
                 ),
@@ -417,96 +419,110 @@ class _AddActivityScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE ?  (widget.id.isEmpty || isEdit) &&
-                          (widget.type == Activites.TYPE_ACTIVITY ||
-                              widget.type ==
-                                  Activites.TYPE_PERFORMANCE_SCHEDULE ||
-                              widget.type ==
-                                  Activites.TYPE_PRACTICE_SCHEDULE)
-                          ? TextField(
-                        textCapitalization: TextCapitalization.words,
-                        decoration: InputDecoration(
-                          suffixIcon: IconButton(
-                            icon: Icon(Icons.add),
-                            onPressed: () async {
-                              var place = await PluginGooglePlacePicker
-                                  .showAutocomplete(
-                                mode: PlaceAutocompleteMode.MODE_OVERLAY,
-                                countryCode: "US",
-                                typeFilter: TypeFilter.ESTABLISHMENT,
-                              );
-                              latitude = place.latitude;
-                              longitude = place.longitude;
-                              _locController.text =
-                              (place.name + ',' + place.address);
-                            },
-                          ),
-                          labelText: widget.id.isEmpty || isEdit
-                              ? "Location (Click + for maps)"
-                              : "",
-                          labelStyle: TextStyle(
-                            color: Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
-                          errorText: _locError,
-                          border: widget.id.isEmpty || isEdit
-                              ? null
-                              : InputBorder.none,
-                        ),
-                        enabled: widget.id.isEmpty || isEdit,
-                        controller: _locController,
-                        style: textTheme.subhead.copyWith(
-                          color: Colors.black,
-                        ),
-                      )
-                          : widget.type == Activites.TYPE_ACTIVITY ||
-                          widget.type ==
-                              Activites.TYPE_PERFORMANCE_SCHEDULE ||
-                          widget.type ==
-                              Activites.TYPE_PRACTICE_SCHEDULE
-                          ? Padding(
-                        padding: EdgeInsets.only(
-                          top: 10,
-                        ),
-                        child: InkWell(
-                          child: Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.center,
-                            crossAxisAlignment:
-                            CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Padding(child:Icon(
-                                Icons.location_on,
-                                color: Colors.grey,
-                              ),padding: EdgeInsets.only(bottom: 4) ,),
-                              Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 5,top: 2),
-                                  child: Text(
-                                    _locController.text,
-                                    textAlign: TextAlign.center,
-                                    style: textTheme.subhead.copyWith(
-                                      fontSize: 15,
-                                      color: Colors.grey,
-                                      
+                      widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE
+                          ? (widget.id.isEmpty || isEdit) &&
+                                  (widget.type == Activites.TYPE_ACTIVITY ||
+                                      widget.type ==
+                                          Activites.TYPE_PERFORMANCE_SCHEDULE ||
+                                      widget.type ==
+                                          Activites.TYPE_PRACTICE_SCHEDULE)
+                              ? TextField(
+                                  textCapitalization: TextCapitalization.words,
+                                  decoration: InputDecoration(
+                                    suffixIcon: IconButton(
+                                      icon: Icon(Icons.add),
+                                      onPressed: () async {
+                                        var place =
+                                            await PluginGooglePlacePicker
+                                                .showAutocomplete(
+                                          mode: PlaceAutocompleteMode
+                                              .MODE_OVERLAY,
+                                          countryCode: "US",
+                                          typeFilter: TypeFilter.ESTABLISHMENT,
+                                        );
+                                        latitude = place.latitude;
+                                        longitude = place.longitude;
+                                        _locController.text =
+                                            (place.name + ',' + place.address);
+                                      },
                                     ),
+                                    labelText: widget.id.isEmpty || isEdit
+                                        ? "Location (Click + for maps)"
+                                        : "",
+                                    labelStyle: TextStyle(
+                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+                                    ),
+                                    errorText: _locError,
+                                    border: widget.id.isEmpty || isEdit
+                                        ? null
+                                        : InputBorder.none,
                                   ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          onTap: () async {
-                            widget.appListener.router.navigateTo(
-                                context,
-                                Screens.GOOGLEMAPS.toString() +
-                                    '/$latitude/$longitude');
-                          },
-                        ),
-                      )
-                          : Container():Container(),
-                      Padding(padding:   widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE?EdgeInsets.all(5):EdgeInsets.all(0),),
-                    Container(
-                      color:Colors.blue.shade50,
-                      padding: EdgeInsets.all(8),
+                                  enabled: widget.id.isEmpty || isEdit,
+                                  controller: _locController,
+                                  style: textTheme.subhead.copyWith(
+                                    color: Colors.black,
+                                  ),
+                                )
+                              : widget.type == Activites.TYPE_ACTIVITY ||
+                                      widget.type ==
+                                          Activites.TYPE_PERFORMANCE_SCHEDULE ||
+                                      widget.type ==
+                                          Activites.TYPE_PRACTICE_SCHEDULE
+                                  ? Padding(
+                                      padding: EdgeInsets.only(
+                                        top: 10,
+                                      ),
+                                      child: InkWell(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Padding(
+                                              child: Icon(
+                                                Icons.location_on,
+                                                color: Colors.grey,
+                                              ),
+                                              padding:
+                                                  EdgeInsets.only(bottom: 4),
+                                            ),
+                                            Expanded(
+                                              child: Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 5, top: 2),
+                                                child: Text(
+                                                  _locController.text,
+                                                  textAlign: TextAlign.center,
+                                                  style: textTheme.subhead
+                                                      .copyWith(
+                                                    fontSize: 15,
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        onTap: () async {
+                                          widget.appListener.router.navigateTo(
+                                              context,
+                                              Screens.GOOGLEMAPS.toString() +
+                                                  '/$latitude/$longitude');
+                                        },
+                                      ),
+                                    )
+                                  : Container()
+                          : Container(),
+                      Padding(
+                        padding:
+                            widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE
+                                ? EdgeInsets.all(5)
+                                : EdgeInsets.all(0),
+                      ),
+                      Container(
+                        color: Colors.blue.shade50,
+                        padding: EdgeInsets.all(8),
 //                      decoration: BoxDecoration(
 //                        borderRadius: BorderRadius.all(Radius.circular(10)),
 //                        border: Border(
@@ -532,199 +548,217 @@ class _AddActivityScreenState
 //                          ),
 //                        ),
 //                      ),
-                      child: Column(children: <Widget>[
-                      (widget.id.isEmpty || isEdit) &&
-                          (widget.type == Activites.TYPE_ACTIVITY ||
-                              widget.type ==
-                                  Activites.TYPE_PERFORMANCE_SCHEDULE ||
-                              widget.type ==
-                                  Activites.TYPE_PRACTICE_SCHEDULE)
-                          ? Row(
-                        children: <Widget>[
-                          Expanded(
-                              child: Column(
-                                children: <Widget>[
-                                  Center(
-                                      child: Text(
-                                        "Start Date",
-                                        style: TextStyle(fontSize: 15),
-                                      )),
-                                  Padding(
-                                    padding: EdgeInsets.only(bottom: 3),
-                                  ),
-                                  InkWell(
-                                    child: Container(
-                                      height: 30,
-                                      decoration: BoxDecoration(
+                        child: Column(
+                          children: <Widget>[
+                            (widget.id.isEmpty || isEdit) &&
+                                    (widget.type == Activites.TYPE_ACTIVITY ||
+                                        widget.type ==
+                                            Activites
+                                                .TYPE_PERFORMANCE_SCHEDULE ||
+                                        widget.type ==
+                                            Activites.TYPE_PRACTICE_SCHEDULE)
+                                ? Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                          child: Column(
+                                        children: <Widget>[
+                                          Center(
+                                              child: Text(
+                                            "Start Date",
+                                            style: TextStyle(fontSize: 15),
+                                          )),
+                                          Padding(
+                                            padding: EdgeInsets.only(bottom: 3),
+                                          ),
+                                          InkWell(
+                                            child: Container(
+                                              height: 30,
+                                              decoration: BoxDecoration(
 //                                          color: Colors.lightBlue.shade100,
-                                        border: Border(
-                                          top: BorderSide(
-                                              width: 0.0,
-                                              color: Colors.white),
-                                          bottom: BorderSide(
-                                              width: 1.0,
-                                              color: Colors.grey.shade200),
-                                        ),
-                                      ),
-                                      child: AbsorbPointer(
-                                        child: TextField(
-                                          enabled:
-                                          widget.id.isEmpty || isEdit,
-                                          textCapitalization:
-                                          TextCapitalization.sentences,
-                                          textAlignVertical:
-                                          TextAlignVertical.center,
-                                          textAlign: TextAlign.center,
-                                          decoration: InputDecoration(
-                                            isDense: true,
-                                            contentPadding: EdgeInsets.all(8),
-                                            labelText: widget.id.isEmpty ||
-                                                isEdit
-                                                ? widget.type ==
-                                                Activites
-                                                    .TYPE_PRACTICE_SCHEDULE
-                                                ? ""
-                                            // : "Start Date"
-                                                : ""
-                                                : "",
-                                            labelStyle: TextStyle(
-                                              color: Color.fromRGBO(
-                                                  202, 208, 215, 1.0),
+                                                border: Border(
+                                                  top: BorderSide(
+                                                      width: 0.0,
+                                                      color: Colors.white),
+                                                  bottom: BorderSide(
+                                                      width: 1.0,
+                                                      color:
+                                                          Colors.grey.shade200),
+                                                ),
+                                              ),
+                                              child: AbsorbPointer(
+                                                child: TextField(
+                                                  enabled: widget.id.isEmpty ||
+                                                      isEdit,
+                                                  textCapitalization:
+                                                      TextCapitalization
+                                                          .sentences,
+                                                  textAlignVertical:
+                                                      TextAlignVertical.center,
+                                                  textAlign: TextAlign.center,
+                                                  decoration: InputDecoration(
+                                                    isDense: true,
+                                                    contentPadding:
+                                                        EdgeInsets.all(8),
+                                                    labelText: widget
+                                                                .id.isEmpty ||
+                                                            isEdit
+                                                        ? widget.type ==
+                                                                Activites
+                                                                    .TYPE_PRACTICE_SCHEDULE
+                                                            ? ""
+                                                            // : "Start Date"
+                                                            : ""
+                                                        : "",
+                                                    labelStyle: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          202, 208, 215, 1.0),
+                                                    ),
+                                                    errorText: _dateError,
+                                                    border: widget.id.isEmpty ||
+                                                            isEdit
+                                                        ? null
+                                                        : InputBorder.none,
+                                                  ),
+                                                  controller: _dateController,
+                                                  style: textTheme.subhead
+                                                      .copyWith(
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
                                             ),
-                                            errorText: _dateError,
-                                            border:
-                                            widget.id.isEmpty || isEdit
-                                                ? null
-                                                : InputBorder.none,
-                                          ),
-                                          controller: _dateController,
-                                          style: textTheme.subhead.copyWith(
-                                            color: Colors.black,
-                                          ),
-                                        ),
+                                            onTap: () {
+                                              if (widget.id.isEmpty || isEdit)
+                                                _selectDate(context, 1);
+                                            },
+                                          )
+                                        ],
+                                      )),
+                                      Padding(
+                                        padding: EdgeInsets.all(10),
                                       ),
-                                    ),
-                                    onTap: () {
-                                      if (widget.id.isEmpty || isEdit)
-                                        _selectDate(context, 1);
-                                    },
-                                  )
-                                ],
-                              )),
-                          Padding(
-                            padding: EdgeInsets.all(10),
-                          ),
-                          Expanded(
-                            child: Column(
-                              children: <Widget>[
-                                Center(
-                                    child: Text(
-                                      "End Date",
-                                      style: TextStyle(fontSize: 15),
-                                    )),
-                                Padding(
-                                  padding: EdgeInsets.only(bottom: 3),
-                                ),
-                                InkWell(
-                                  child: Container(
-                                    height: 30,
-                                    decoration: BoxDecoration(
+                                      Expanded(
+                                        child: Column(
+                                          children: <Widget>[
+                                            Center(
+                                                child: Text(
+                                              "End Date",
+                                              style: TextStyle(fontSize: 15),
+                                            )),
+                                            Padding(
+                                              padding:
+                                                  EdgeInsets.only(bottom: 3),
+                                            ),
+                                            InkWell(
+                                              child: Container(
+                                                height: 30,
+                                                decoration: BoxDecoration(
 //                                            color: Colors.lightBlue.shade100,
-                                      border: Border(
-                                        top: BorderSide(
-                                            width: 0.0,
-                                            color: Colors.white),
-                                        bottom: BorderSide(
-                                            width: 1.0,
-                                            color: Colors.grey.shade200),
-                                      ),
-                                    ),
-                                    child: AbsorbPointer(
-                                      child: TextField(
-                                        enabled:
-                                        widget.id.isEmpty || isEdit,
-                                        textCapitalization:
-                                        TextCapitalization.sentences,
-                                        textAlignVertical:
-                                        TextAlignVertical.center,
-                                        textAlign: TextAlign.center,
-                                        decoration: InputDecoration(
-                                          isDense: true,
-                                          contentPadding:
-                                          EdgeInsets.all(8),
-                                          labelText: widget.id.isEmpty ||
-                                              isEdit
-                                              ? widget.type ==
-                                              Activites
-                                                  .TYPE_PRACTICE_SCHEDULE
-                                              ? ""
-                                          // : "Start Date"
-                                              : ""
-                                              : "",
-                                          labelStyle: TextStyle(
-                                            color: Color.fromRGBO(
-                                                202, 208, 215, 1.0),
+                                                  border: Border(
+                                                    top: BorderSide(
+                                                        width: 0.0,
+                                                        color: Colors.white),
+                                                    bottom: BorderSide(
+                                                        width: 1.0,
+                                                        color: Colors
+                                                            .grey.shade200),
+                                                  ),
+                                                ),
+                                                child: AbsorbPointer(
+                                                  child: TextField(
+                                                    enabled:
+                                                        widget.id.isEmpty ||
+                                                            isEdit,
+                                                    textCapitalization:
+                                                        TextCapitalization
+                                                            .sentences,
+                                                    textAlignVertical:
+                                                        TextAlignVertical
+                                                            .center,
+                                                    textAlign: TextAlign.center,
+                                                    decoration: InputDecoration(
+                                                      isDense: true,
+                                                      contentPadding:
+                                                          EdgeInsets.all(8),
+                                                      labelText: widget
+                                                                  .id.isEmpty ||
+                                                              isEdit
+                                                          ? widget.type ==
+                                                                  Activites
+                                                                      .TYPE_PRACTICE_SCHEDULE
+                                                              ? ""
+                                                              // : "Start Date"
+                                                              : ""
+                                                          : "",
+                                                      labelStyle: TextStyle(
+                                                        color: Color.fromRGBO(
+                                                            202, 208, 215, 1.0),
+                                                      ),
+                                                      errorText: _dateError,
+                                                      border: widget
+                                                                  .id.isEmpty ||
+                                                              isEdit
+                                                          ? null
+                                                          : InputBorder.none,
+                                                    ),
+                                                    controller:
+                                                        _endDateController,
+                                                    style: textTheme.subhead
+                                                        .copyWith(
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              onTap: () {
+                                                if (widget.id.isEmpty || isEdit)
+                                                  _selectDate(context, 0);
+                                              },
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                : (widget.type == Activites.TYPE_ACTIVITY ||
+                                        widget.type ==
+                                            Activites.TYPE_PRACTICE_SCHEDULE ||
+                                        widget.type ==
+                                            Activites.TYPE_PERFORMANCE_SCHEDULE)
+                                    ? Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: Padding(
+                                              padding: EdgeInsets.only(left: 5),
+                                              child: Text(
+                                                _dateTxt,
+                                                style:
+                                                    textTheme.subhead.copyWith(
+                                                  color: Colors.grey,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
                                           ),
-                                          errorText: _dateError,
-                                          border:
-                                          widget.id.isEmpty || isEdit
-                                              ? null
-                                              : InputBorder.none,
-                                        ),
-                                        controller: _endDateController,
-                                        style: textTheme.subhead.copyWith(
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    if (widget.id.isEmpty || isEdit)
-                                      _selectDate(context, 0);
-                                  },
-                                )
-                              ],
+                                          Expanded(
+                                            child: Padding(
+                                              padding: EdgeInsets.only(left: 5),
+                                              child: Text(
+                                                _dateEndTxt,
+                                                style:
+                                                    textTheme.subhead.copyWith(
+                                                  color: Colors.grey,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    : Container(),
+                            Padding(
+                              padding: EdgeInsets.all(5),
                             ),
-                          )
-                        ],
-                      )
-                          : (widget.type == Activites.TYPE_ACTIVITY ||
-                          widget.type ==
-                              Activites.TYPE_PRACTICE_SCHEDULE ||
-                          widget.type ==
-                              Activites.TYPE_PERFORMANCE_SCHEDULE)
-                          ? Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 5),
-                              child: Text(
-                                _dateTxt,
-                                style: textTheme.subhead.copyWith(
-                                  color: Colors.grey,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 5),
-                              child: Text(
-                                _dateEndTxt,
-                                style: textTheme.subhead.copyWith(
-                                  color: Colors.grey,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          )
-                        ],
-                      )
-                          : Container(),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                      ),
 //                      widget.type == Activites.TYPE_ACTIVITY &&
 //                              (widget.id.isEmpty || isEdit)
 //                          ? ShowUp(
@@ -745,435 +779,489 @@ class _AddActivityScreenState
 //                              delay: 1000,
 //                            )
 //                          : Container(),
-                      widget.type ==
-                          Activites.TYPE_PERFORMANCE_SCHEDULE ||
-                          widget.type == Activites.TYPE_ACTIVITY
-                          ? (widget.type == Activites.TYPE_ACTIVITY &&
-                          setTime == true)
-                          ? Container()
-                          : Row(
-                        children: <Widget>[
-                          (widget.id.isEmpty || isEdit)
-                              ? Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                selectTime(true, false);
-                              },
-                              child: AbsorbPointer(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Center(
-                                          child: Text(
-                                            "Setup Time",
-                                            style:
-                                            TextStyle(fontSize: 15),
-                                          )),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            bottom: 3),
-                                      ),
-                                      Container(
-                                        height: 30,
-                                        decoration: BoxDecoration(
+                            widget.type ==
+                                        Activites.TYPE_PERFORMANCE_SCHEDULE ||
+                                    widget.type == Activites.TYPE_ACTIVITY
+                                ? (widget.type == Activites.TYPE_ACTIVITY &&
+                                        setTime == true)
+                                    ? Container()
+                                    : Row(
+                                        children: <Widget>[
+                                          (widget.id.isEmpty || isEdit)
+                                              ? Expanded(
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      selectTime(true, false);
+                                                    },
+                                                    child: AbsorbPointer(
+                                                        child: Column(
+                                                      children: <Widget>[
+                                                        Center(
+                                                            child: Text(
+                                                          "Setup Time",
+                                                          style: TextStyle(
+                                                              fontSize: 15),
+                                                        )),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  bottom: 3),
+                                                        ),
+                                                        Container(
+                                                          height: 30,
+                                                          decoration:
+                                                              BoxDecoration(
 //                                                      color: Colors
 //                                                          .lightBlue.shade100,
-                                          border: Border(
-                                            top: BorderSide(
-                                                width: 0.0,
-                                                color:
-                                                Colors.white),
-                                            bottom: BorderSide(
-                                                width: 1.0,
-                                                color:
-                                                Colors.grey.shade200),
+                                                            border: Border(
+                                                              top: BorderSide(
+                                                                  width: 0.0,
+                                                                  color: Colors
+                                                                      .white),
+                                                              bottom: BorderSide(
+                                                                  width: 1.0,
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .shade200),
+                                                            ),
+                                                          ),
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: TextField(
+                                                            enabled: widget.id
+                                                                    .isEmpty ||
+                                                                isEdit,
+                                                            textCapitalization:
+                                                                TextCapitalization
+                                                                    .sentences,
+                                                            textAlignVertical:
+                                                                TextAlignVertical
+                                                                    .center,
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            decoration:
+                                                                InputDecoration(
+                                                              isDense: true,
+                                                              contentPadding:
+                                                                  EdgeInsets
+                                                                      .all(8),
+                                                              labelText: widget
+                                                                          .id
+                                                                          .isEmpty ||
+                                                                      isEdit
+                                                                  ? ""
+                                                                  : "",
+                                                              labelStyle:
+                                                                  TextStyle(
+                                                                fontSize: 16,
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        202,
+                                                                        208,
+                                                                        215,
+                                                                        1.0),
+                                                              ),
+                                                              errorText:
+                                                                  _startTimeError,
+                                                              border: widget.id
+                                                                          .isEmpty ||
+                                                                      isEdit
+                                                                  ? null
+                                                                  : InputBorder
+                                                                      .none,
+                                                            ),
+                                                            controller:
+                                                                _startTimeController,
+                                                            style: textTheme
+                                                                .subhead
+                                                                .copyWith(
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    )),
+                                                  ),
+                                                )
+                                              : _startTimeController
+                                                      .text.isNotEmpty
+                                                  ? Expanded(
+                                                      flex: 2,
+                                                      child: Text(
+                                                        //"Start time -" +
+                                                        _startTimeController
+                                                            .text
+                                                            .toLowerCase(),
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                      ),
+                                                    )
+                                                  : Container(),
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            child: (widget.id.isEmpty || isEdit)
+                                                ? Container()
+                                                : Text("to"),
                                           ),
-                                        ),
-                                        alignment: Alignment.center,
-                                        child: TextField(
-                                          enabled:
-                                          widget.id.isEmpty ||
-                                              isEdit,
-                                          textCapitalization:
-                                          TextCapitalization
-                                              .sentences,
-                                          textAlignVertical:
-                                          TextAlignVertical
-                                              .center,
-                                          textAlign:
-                                          TextAlign.center,
-                                          decoration:
-                                          InputDecoration(
-                                            isDense: true,
-                                            contentPadding:
-                                            EdgeInsets.all(8),
-                                            labelText:
-                                            widget.id.isEmpty ||
-                                                isEdit
-                                                ? ""
-                                                : "",
-                                            labelStyle: TextStyle(
-                                              fontSize: 16,
-                                              color: Color.fromRGBO(
-                                                  202,
-                                                  208,
-                                                  215,
-                                                  1.0),
-                                            ),
-                                            errorText:
-                                            _startTimeError,
-                                            border: widget.id
-                                                .isEmpty ||
-                                                isEdit
-                                                ? null
-                                                : InputBorder.none,
-                                          ),
-                                          controller:
-                                          _startTimeController,
-                                          style: textTheme.subhead
-                                              .copyWith(
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  )),
-                            ),
-                          )
-                              : _startTimeController.text.isNotEmpty
-                              ? Expanded(
-                            flex: 2,
-                            child: Text(
-                              //"Start time -" +
-                              _startTimeController.text
-                                  .toLowerCase(),
-                              textAlign: TextAlign.right,
-                            ),
-                          )
-                              : Container(),
-                          Padding(
-                            padding:
-                            EdgeInsets.symmetric(horizontal: 10),
-                            child: (widget.id.isEmpty || isEdit)
-                                ? Container()
-                                : Text("to"),
-                          ),
-                          (widget.id.isEmpty || isEdit)
-                              ? Expanded(
-                            child: InkWell(
-                              child: AbsorbPointer(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Center(
-                                          child: Text(
-                                            "Call Time",
-                                            style:
-                                            TextStyle(fontSize: 15),
-                                          )),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            bottom: 3),
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
+                                          (widget.id.isEmpty || isEdit)
+                                              ? Expanded(
+                                                  child: InkWell(
+                                                    child: AbsorbPointer(
+                                                        child: Column(
+                                                      children: <Widget>[
+                                                        Center(
+                                                            child: Text(
+                                                          "Call Time",
+                                                          style: TextStyle(
+                                                              fontSize: 15),
+                                                        )),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  bottom: 3),
+                                                        ),
+                                                        Container(
+                                                          decoration:
+                                                              BoxDecoration(
 //                                                      color: Colors
 //                                                          .lightBlue.shade100,
-                                          border: Border(
-                                            top: BorderSide(
-                                                width: 0.0,
-                                                color:
-                                                Colors.white),
-                                            bottom: BorderSide(
-                                                width: 1.0,
-                                                color:
-                                                Colors.grey.shade200),
-                                          ),
-                                        ),
-                                        height: 30,
-                                        child: TextField(
-                                          enabled:
-                                          widget.id.isEmpty ||
-                                              isEdit,
-                                          textCapitalization:
-                                          TextCapitalization
-                                              .sentences,
-                                          textAlignVertical:
-                                          TextAlignVertical
-                                              .center,
-                                          textAlign:
-                                          TextAlign.center,
-                                          decoration:
-                                          InputDecoration(
-                                            isDense: true,
-                                            contentPadding:
-                                            EdgeInsets.all(8),
-                                            labelText:
-                                            widget.id.isEmpty ||
-                                                isEdit
-                                                ? ""
-                                                : "",
-                                            labelStyle: TextStyle(
-                                              fontSize: 22,
-                                              color: Color.fromRGBO(
-                                                  202,
-                                                  208,
-                                                  215,
-                                                  1.0),
-                                            ),
-                                            errorText:
-                                            _endTimeError,
-                                            border: widget.id
-                                                .isEmpty ||
-                                                isEdit
-                                                ? null
-                                                : InputBorder.none,
-                                          ),
-                                          controller:
-                                          _endTimeController,
-                                          style: textTheme.subhead
-                                              .copyWith(
-                                            color: Colors.black,
-                                          ),
-                                        ),
+                                                            border: Border(
+                                                              top: BorderSide(
+                                                                  width: 0.0,
+                                                                  color: Colors
+                                                                      .white),
+                                                              bottom: BorderSide(
+                                                                  width: 1.0,
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .shade200),
+                                                            ),
+                                                          ),
+                                                          height: 30,
+                                                          child: TextField(
+                                                            enabled: widget.id
+                                                                    .isEmpty ||
+                                                                isEdit,
+                                                            textCapitalization:
+                                                                TextCapitalization
+                                                                    .sentences,
+                                                            textAlignVertical:
+                                                                TextAlignVertical
+                                                                    .center,
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            decoration:
+                                                                InputDecoration(
+                                                              isDense: true,
+                                                              contentPadding:
+                                                                  EdgeInsets
+                                                                      .all(8),
+                                                              labelText: widget
+                                                                          .id
+                                                                          .isEmpty ||
+                                                                      isEdit
+                                                                  ? ""
+                                                                  : "",
+                                                              labelStyle:
+                                                                  TextStyle(
+                                                                fontSize: 22,
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        202,
+                                                                        208,
+                                                                        215,
+                                                                        1.0),
+                                                              ),
+                                                              errorText:
+                                                                  _endTimeError,
+                                                              border: widget.id
+                                                                          .isEmpty ||
+                                                                      isEdit
+                                                                  ? null
+                                                                  : InputBorder
+                                                                      .none,
+                                                            ),
+                                                            controller:
+                                                                _endTimeController,
+                                                            style: textTheme
+                                                                .subhead
+                                                                .copyWith(
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    )),
+                                                    onTap: () {
+                                                      selectTime(false, false);
+                                                    },
+                                                  ),
+                                                )
+                                              : _endTimeController
+                                                      .text.isNotEmpty
+                                                  ? Expanded(
+                                                      flex: 2,
+                                                      child: Text(
+                                                        // "End time - " +
+                                                        _endTimeController.text
+                                                            .toLowerCase(),
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                      ),
+                                                    )
+                                                  : Container()
+                                        ],
                                       )
-                                    ],
-                                  )),
-                              onTap: () {
-                                selectTime(false, false);
-                              },
+                                : Container(),
+                            Padding(
+                              padding: EdgeInsets.all(5),
                             ),
-                          )
-                              : _endTimeController.text.isNotEmpty
-                              ? Expanded(
-                            flex: 2,
-                            child: Text(
-                              // "End time - " +
-                              _endTimeController.text
-                                  .toLowerCase(),
-                              textAlign: TextAlign.left,
-                            ),
-                          )
-                              : Container()
-                        ],
-                      )
-                          : Container(),
-                      Padding(
-                        padding: EdgeInsets.all(5),
+                            widget.type ==
+                                        Activites.TYPE_PERFORMANCE_SCHEDULE ||
+                                    widget.type == Activites.TYPE_ACTIVITY
+                                ? (widget.type == Activites.TYPE_ACTIVITY &&
+                                        setTime == false)
+                                    ? Container()
+                                    : Row(
+                                        children: <Widget>[
+                                          (widget.id.isEmpty || isEdit)
+                                              ? Expanded(
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      selectTime(true, true);
+                                                    },
+                                                    child: AbsorbPointer(
+                                                        child: Column(
+                                                      children: <Widget>[
+                                                        Center(
+                                                            child: Text(
+                                                          "Event Start Time",
+                                                          style: TextStyle(
+                                                              fontSize: 15),
+                                                        )),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  bottom: 3),
+                                                        ),
+                                                        Container(
+                                                          height: 30,
+                                                          decoration:
+                                                              BoxDecoration(
+//                                                      color: Colors
+//                                                          .lightBlue.shade100,
+                                                            border: Border(
+                                                              top: BorderSide(
+                                                                  width: 0.0,
+                                                                  color: Colors
+                                                                      .white),
+                                                              bottom: BorderSide(
+                                                                  width: 1.0,
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .shade300),
+                                                            ),
+                                                          ),
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: TextField(
+                                                            enabled: widget.id
+                                                                    .isEmpty ||
+                                                                isEdit,
+                                                            textCapitalization:
+                                                                TextCapitalization
+                                                                    .sentences,
+                                                            textAlignVertical:
+                                                                TextAlignVertical
+                                                                    .center,
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            decoration:
+                                                                InputDecoration(
+                                                              isDense: true,
+                                                              contentPadding:
+                                                                  EdgeInsets
+                                                                      .all(8),
+                                                              labelText: widget
+                                                                          .id
+                                                                          .isEmpty ||
+                                                                      isEdit
+                                                                  ? ""
+                                                                  : "",
+                                                              labelStyle:
+                                                                  TextStyle(
+                                                                fontSize: 16,
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        202,
+                                                                        208,
+                                                                        215,
+                                                                        1.0),
+                                                              ),
+                                                              errorText:
+                                                                  _startTimeError,
+                                                              border: widget.id
+                                                                          .isEmpty ||
+                                                                      isEdit
+                                                                  ? null
+                                                                  : InputBorder
+                                                                      .none,
+                                                            ),
+                                                            controller:
+                                                                _startEventTimeController,
+                                                            style: textTheme
+                                                                .subhead
+                                                                .copyWith(
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    )),
+                                                  ),
+                                                )
+                                              : _startEventTimeController
+                                                      .text.isNotEmpty
+                                                  ? Expanded(
+                                                      flex: 2,
+                                                      child: Text(
+                                                        //"Start time -" +
+                                                        _startEventTimeController
+                                                            .text
+                                                            .toLowerCase(),
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                      ),
+                                                    )
+                                                  : Container(),
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            child: (widget.id.isEmpty || isEdit)
+                                                ? Container()
+                                                : _endEventTimeController
+                                                        .text.isNotEmpty
+                                                    ? Text("to")
+                                                    : Container(),
+                                          ),
+                                          (widget.id.isEmpty || isEdit)
+                                              ? Expanded(
+                                                  child: InkWell(
+                                                    child: AbsorbPointer(
+                                                        child: Column(
+                                                      children: <Widget>[
+                                                        Center(
+                                                            child: Text(
+                                                          "Event End Time",
+                                                          style: TextStyle(
+                                                              fontSize: 15),
+                                                        )),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  bottom: 3),
+                                                        ),
+                                                        Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            border: Border(
+                                                              top: BorderSide(
+                                                                  width: 0.0,
+                                                                  color: Colors
+                                                                      .white),
+                                                              bottom: BorderSide(
+                                                                  width: 1.0,
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .shade300),
+                                                            ),
+                                                          ),
+                                                          height: 30,
+                                                          child: TextField(
+                                                            enabled: widget.id
+                                                                    .isEmpty ||
+                                                                isEdit,
+                                                            textCapitalization:
+                                                                TextCapitalization
+                                                                    .sentences,
+                                                            textAlignVertical:
+                                                                TextAlignVertical
+                                                                    .center,
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            decoration:
+                                                                InputDecoration(
+                                                              isDense: true,
+                                                              contentPadding:
+                                                                  EdgeInsets
+                                                                      .all(8),
+                                                              labelText: widget
+                                                                          .id
+                                                                          .isEmpty ||
+                                                                      isEdit
+                                                                  ? ""
+                                                                  : "",
+                                                              labelStyle:
+                                                                  TextStyle(
+                                                                fontSize: 22,
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        202,
+                                                                        208,
+                                                                        215,
+                                                                        1.0),
+                                                              ),
+                                                              errorText:
+                                                                  _endTimeError,
+                                                              border: widget.id
+                                                                          .isEmpty ||
+                                                                      isEdit
+                                                                  ? null
+                                                                  : InputBorder
+                                                                      .none,
+                                                            ),
+                                                            controller:
+                                                                _endEventTimeController,
+                                                            style: textTheme
+                                                                .subhead
+                                                                .copyWith(
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    )),
+                                                    onTap: () {
+                                                      selectTime(false, true);
+                                                    },
+                                                  ),
+                                                )
+                                              : _endEventTimeController
+                                                      .text.isNotEmpty
+                                                  ? Expanded(
+                                                      flex: 2,
+                                                      child: Text(
+                                                        // "End time - " +
+                                                        _endEventTimeController
+                                                            .text
+                                                            .toLowerCase(),
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                      ),
+                                                    )
+                                                  : Container()
+                                        ],
+                                      )
+                                : Container(),
+                          ],
+                        ),
                       ),
-                      widget.type ==
-                          Activites.TYPE_PERFORMANCE_SCHEDULE ||
-                          widget.type == Activites.TYPE_ACTIVITY
-                          ? (widget.type == Activites.TYPE_ACTIVITY &&
-                          setTime == false)
-                          ? Container()
-                          : Row(
-                        children: <Widget>[
-                          (widget.id.isEmpty || isEdit)
-                              ? Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                selectTime(true, true);
-                              },
-                              child: AbsorbPointer(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Center(
-                                          child: Text(
-                                            "Event Start Time",
-                                            style:
-                                            TextStyle(fontSize: 15),
-                                          )),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            bottom: 3),
-                                      ),
-                                      Container(
-                                        height: 30,
-                                        decoration: BoxDecoration(
-//                                                      color: Colors
-//                                                          .lightBlue.shade100,
-                                          border: Border(
-                                            top: BorderSide(
-                                                width: 0.0,
-                                                color:
-                                                Colors.white),
-                                            bottom: BorderSide(
-                                                width: 1.0,
-                                                color:
-                                                Colors.grey.shade300),
-                                          ),
-                                        ),
-                                        alignment: Alignment.center,
-                                        child: TextField(
-                                          enabled:
-                                          widget.id.isEmpty ||
-                                              isEdit,
-                                          textCapitalization:
-                                          TextCapitalization
-                                              .sentences,
-                                          textAlignVertical:
-                                          TextAlignVertical
-                                              .center,
-                                          textAlign:
-                                          TextAlign.center,
-                                          decoration:
-                                          InputDecoration(
-                                            isDense: true,
-                                            contentPadding:
-                                            EdgeInsets.all(8),
-                                            labelText:
-                                            widget.id.isEmpty ||
-                                                isEdit
-                                                ? ""
-                                                : "",
-                                            labelStyle: TextStyle(
-                                              fontSize: 16,
-                                              color: Color.fromRGBO(
-                                                  202,
-                                                  208,
-                                                  215,
-                                                  1.0),
-                                            ),
-                                            errorText:
-                                            _startTimeError,
-                                            border: widget.id
-                                                .isEmpty ||
-                                                isEdit
-                                                ? null
-                                                : InputBorder.none,
-                                          ),
-                                          controller:
-                                          _startEventTimeController,
-                                          style: textTheme.subhead
-                                              .copyWith(
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  )),
-                            ),
-                          )
-                              : _startEventTimeController
-                              .text.isNotEmpty
-                              ? Expanded(
-                            flex: 2,
-                            child: Text(
-                              //"Start time -" +
-                              _startEventTimeController.text
-                                  .toLowerCase(),
-                              textAlign: TextAlign.right,
-                            ),
-                          )
-                              : Container(),
-                          Padding(
-                            padding:
-                            EdgeInsets.symmetric(horizontal: 10),
-                            child: (widget.id.isEmpty || isEdit)
-                                ? Container()
-                                : _endEventTimeController
-                                .text.isNotEmpty?Text("to"):Container(),
-                          ),
-                          (widget.id.isEmpty || isEdit)
-                              ? Expanded(
-                            child: InkWell(
-                              child: AbsorbPointer(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Center(
-                                          child: Text(
-                                            "Event End Time",
-                                            style:
-                                            TextStyle(fontSize: 15),
-                                          )),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            bottom: 3),
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          border: Border(
-                                            top: BorderSide(
-                                                width: 0.0,
-                                                color:
-                                                Colors.white),
-                                            bottom: BorderSide(
-                                                width: 1.0,
-                                                color:
-                                                Colors.grey.shade300),
-                                          ),
-                                        ),
-                                        height: 30,
-                                        child: TextField(
-                                          enabled:
-                                          widget.id.isEmpty ||
-                                              isEdit,
-                                          textCapitalization:
-                                          TextCapitalization
-                                              .sentences,
-                                          textAlignVertical:
-                                          TextAlignVertical
-                                              .center,
-                                          textAlign:
-                                          TextAlign.center,
-                                          decoration:
-                                          InputDecoration(
-                                            isDense: true,
-                                            contentPadding:
-                                            EdgeInsets.all(8),
-                                            labelText:
-                                            widget.id.isEmpty ||
-                                                isEdit
-                                                ? ""
-                                                : "",
-                                            labelStyle: TextStyle(
-                                              fontSize: 22,
-                                              color: Color.fromRGBO(
-                                                  202,
-                                                  208,
-                                                  215,
-                                                  1.0),
-                                            ),
-                                            errorText:
-                                            _endTimeError,
-                                            border: widget.id
-                                                .isEmpty ||
-                                                isEdit
-                                                ? null
-                                                : InputBorder.none,
-                                          ),
-                                          controller:
-                                          _endEventTimeController,
-                                          style: textTheme.subhead
-                                              .copyWith(
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  )),
-                              onTap: () {
-                                selectTime(false, true);
-                              },
-                            ),
-                          )
-                              : _endEventTimeController
-                              .text.isNotEmpty
-                              ? Expanded(
-                            flex: 2,
-                            child: Text(
-                              // "End time - " +
-                              _endEventTimeController.text
-                                  .toLowerCase(),
-                              textAlign: TextAlign.left,
-                            ),
-                          )
-                              : Container()
-                        ],
-                      )
-                          : Container(),
-                      
-                    ],),),
-                      
+
                       Padding(
                         padding: EdgeInsets.all(0),
                       ),
@@ -1280,92 +1368,97 @@ class _AddActivityScreenState
                                   textAlign: TextAlign.center,
                                 )
                           : Container(),
-                      widget.type ==
-                          Activites.TYPE_PERFORMANCE_SCHEDULE?Container(): (widget.id.isEmpty || isEdit) &&
-                              (widget.type == Activites.TYPE_ACTIVITY ||
-                                  widget.type ==
-                                      Activites.TYPE_PERFORMANCE_SCHEDULE ||
-                                  widget.type ==
-                                      Activites.TYPE_PRACTICE_SCHEDULE)
-                          ? TextField(
-                              textCapitalization: TextCapitalization.words,
-                              decoration: InputDecoration(
-                                suffixIcon: IconButton(
-                                  icon: Icon(Icons.add),
-                                  onPressed: () async {
-                                    var place = await PluginGooglePlacePicker
-                                        .showAutocomplete(
-                                      mode: PlaceAutocompleteMode.MODE_OVERLAY,
-                                      countryCode: "US",
-                                      typeFilter: TypeFilter.ESTABLISHMENT,
-                                    );
-                                    latitude = place.latitude;
-                                    longitude = place.longitude;
-                                    _locController.text =
-                                        (place.name + ',' + place.address);
-                                  },
-                                ),
-                                labelText: widget.id.isEmpty || isEdit
-                                    ? "Location (Click + for maps)"
-                                    : "",
-                                labelStyle: TextStyle(
-                                  color: Color.fromRGBO(202, 208, 215, 1.0),
-                                ),
-                                errorText: _locError,
-                                border: widget.id.isEmpty || isEdit
-                                    ? null
-                                    : InputBorder.none,
-                              ),
-                              enabled: widget.id.isEmpty || isEdit,
-                              controller: _locController,
-                              style: textTheme.subhead.copyWith(
-                                color: Colors.black,
-                              ),
-                            )
-                          : widget.type == Activites.TYPE_ACTIVITY ||
-                                  widget.type ==
-                                      Activites.TYPE_PERFORMANCE_SCHEDULE ||
-                                  widget.type ==
-                                      Activites.TYPE_PRACTICE_SCHEDULE
-                              ? Padding(
-                                  padding: EdgeInsets.only(
-                                    top: 10,
-                                  ),
-                                  child: InkWell(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Icon(
-                                          Icons.location_on,
-                                          color: Colors.grey,
-                                        ),
-                                        Expanded(
-                                          child: Padding(
-                                            padding: EdgeInsets.only(left: 5),
-                                            child: Text(
-                                              _locController.text,
-                                              textAlign: TextAlign.center,
-                                              style: textTheme.subhead.copyWith(
-                                                fontSize: 15,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                      widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE
+                          ? Container()
+                          : (widget.id.isEmpty || isEdit) &&
+                                  (widget.type == Activites.TYPE_ACTIVITY ||
+                                      widget.type ==
+                                          Activites.TYPE_PERFORMANCE_SCHEDULE ||
+                                      widget.type ==
+                                          Activites.TYPE_PRACTICE_SCHEDULE)
+                              ? TextField(
+                                  textCapitalization: TextCapitalization.words,
+                                  decoration: InputDecoration(
+                                    suffixIcon: IconButton(
+                                      icon: Icon(Icons.add),
+                                      onPressed: () async {
+                                        var place =
+                                            await PluginGooglePlacePicker
+                                                .showAutocomplete(
+                                          mode: PlaceAutocompleteMode
+                                              .MODE_OVERLAY,
+                                          countryCode: "US",
+                                          typeFilter: TypeFilter.ESTABLISHMENT,
+                                        );
+                                        latitude = place.latitude;
+                                        longitude = place.longitude;
+                                        _locController.text =
+                                            (place.name + ',' + place.address);
+                                      },
                                     ),
-                                    onTap: () async {
-                                      widget.appListener.router.navigateTo(
-                                          context,
-                                          Screens.GOOGLEMAPS.toString() +
-                                              '/$latitude/$longitude');
-                                    },
+                                    labelText: widget.id.isEmpty || isEdit
+                                        ? "Location (Click + for maps)"
+                                        : "",
+                                    labelStyle: TextStyle(
+                                      color: Color.fromRGBO(202, 208, 215, 1.0),
+                                    ),
+                                    errorText: _locError,
+                                    border: widget.id.isEmpty || isEdit
+                                        ? null
+                                        : InputBorder.none,
+                                  ),
+                                  enabled: widget.id.isEmpty || isEdit,
+                                  controller: _locController,
+                                  style: textTheme.subhead.copyWith(
+                                    color: Colors.black,
                                   ),
                                 )
-                              : Container(),
+                              : widget.type == Activites.TYPE_ACTIVITY ||
+                                      widget.type ==
+                                          Activites.TYPE_PERFORMANCE_SCHEDULE ||
+                                      widget.type ==
+                                          Activites.TYPE_PRACTICE_SCHEDULE
+                                  ? Padding(
+                                      padding: EdgeInsets.only(
+                                        top: 10,
+                                      ),
+                                      child: InkWell(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Icon(
+                                              Icons.location_on,
+                                              color: Colors.grey,
+                                            ),
+                                            Expanded(
+                                              child: Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 5),
+                                                child: Text(
+                                                  _locController.text,
+                                                  textAlign: TextAlign.center,
+                                                  style: textTheme.subhead
+                                                      .copyWith(
+                                                    fontSize: 15,
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        onTap: () async {
+                                          widget.appListener.router.navigateTo(
+                                              context,
+                                              Screens.GOOGLEMAPS.toString() +
+                                                  '/$latitude/$longitude');
+                                        },
+                                      ),
+                                    )
+                                  : Container(),
                       widget.id.isEmpty || isEdit || widget.isParent
                           ? Container()
                           : Padding(
@@ -1383,12 +1476,19 @@ class _AddActivityScreenState
                                 textAlign: TextAlign.center,
                               ),
                             ),
-                      (_descController.text.isNotEmpty&& !isEdit)?   Container(
-                                         margin: EdgeInsets.only(left: MediaQuery.of(context).size.width/3.3,right: MediaQuery.of(context).size.width/3.3,bottom: 5,top: 0),
-                                     height: 2,
-                                      width: 60,
-                                      color: Colors.grey.shade300,
-                                    ):Container(),
+                      (_descController.text.isNotEmpty && !isEdit)
+                          ? Container(
+                              margin: EdgeInsets.only(
+                                  left: MediaQuery.of(context).size.width / 3.3,
+                                  right:
+                                      MediaQuery.of(context).size.width / 3.3,
+                                  bottom: 5,
+                                  top: 0),
+                              height: 2,
+                              width: 60,
+                              color: Colors.grey.shade300,
+                            )
+                          : Container(),
                       ((widget.type == Activites.TYPE_TASK ||
                                   widget.type == Activites.TYPE_BAND_TASK) &&
                               widget.isParent &&
@@ -1473,12 +1573,19 @@ class _AddActivityScreenState
                                   ),
                                 )
                               : Container(),
-                      (_taskController.text.isNotEmpty&& !isEdit)? Container(
-                        margin: EdgeInsets.only(left: MediaQuery.of(context).size.width/3.3,right: MediaQuery.of(context).size.width/3.3,bottom: 5,top: 5),
-                        height: 2,
-                        width: 60,
-                        color: Colors.grey.shade300,
-                      ):Container(),
+                      (_taskController.text.isNotEmpty && !isEdit)
+                          ? Container(
+                              margin: EdgeInsets.only(
+                                  left: MediaQuery.of(context).size.width / 3.3,
+                                  right:
+                                      MediaQuery.of(context).size.width / 3.3,
+                                  bottom: 5,
+                                  top: 5),
+                              height: 2,
+                              width: 60,
+                              color: Colors.grey.shade300,
+                            )
+                          : Container(),
                       (widget.id.isEmpty || isEdit) &&
                               (widget.type == Activites.TYPE_ACTIVITY ||
                                   widget.type ==
@@ -1537,12 +1644,19 @@ class _AddActivityScreenState
                                   ),
                                 )
                               : Container(),
-                      _parkingController.text.isNotEmpty&& !isEdit? Container(
-                        margin: EdgeInsets.only(left: MediaQuery.of(context).size.width/3.3,right: MediaQuery.of(context).size.width/3.3,bottom: 5,top: 5),
-                        height: 2,
-                        width: 60,
-                        color: Colors.grey.shade300,
-                      ):Container(),
+                      _parkingController.text.isNotEmpty && !isEdit
+                          ? Container(
+                              margin: EdgeInsets.only(
+                                  left: MediaQuery.of(context).size.width / 3.3,
+                                  right:
+                                      MediaQuery.of(context).size.width / 3.3,
+                                  bottom: 5,
+                                  top: 5),
+                              height: 2,
+                              width: 60,
+                              color: Colors.grey.shade300,
+                            )
+                          : Container(),
                       (widget.id.isEmpty || isEdit) &&
                               (widget.type ==
                                   Activites.TYPE_PERFORMANCE_SCHEDULE)
@@ -2325,9 +2439,8 @@ class _AddActivityScreenState
                 if (widget.id == null || widget.id.isEmpty) {
                   showMessage("Id cannot be null");
                 } else {
+                  Navigator.of(context).pop();
                   presenter.activityDelete(widget.id);
-                  Navigator.of(context).popUntil(ModalRoute.withName(
-                      Screens.ACTIVITIESLIST.toString() + "//////"));
                 }
               },
             ),
@@ -2413,5 +2526,10 @@ class _AddActivityScreenState
     setState(() {
       selectedBand = res;
     });
+  }
+
+  @override
+  void onDelete() {
+    Navigator.of(context).pop();
   }
 }
