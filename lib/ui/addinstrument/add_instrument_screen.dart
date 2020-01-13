@@ -375,7 +375,7 @@ class _AddInstrumentScreenState
                           ],
                         )
                       : Column(children: <Widget>[
-                        Expanded(
+                    widget.id.isEmpty || isEdit?Expanded(
                           flex: 3,
                           child:
                         widget.id.isEmpty || isEdit
@@ -400,7 +400,7 @@ class _AddInstrumentScreenState
                                 4.2,
                             width: MediaQuery.of(context).size.width,
                             child: null)
-                            : Container(),),
+                            : Container(),):Container(),
                         
                         Expanded(
                           flex:8,

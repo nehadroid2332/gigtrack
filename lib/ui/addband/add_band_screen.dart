@@ -421,7 +421,7 @@ class _AddBandScreenState
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18)),
                     child:Column(children: <Widget>[
-                      Expanded(
+                      widget.id.isEmpty || isEdit?Container(): Expanded(
                         flex: 3,
                         child: widget.id.isEmpty || isEdit
                             ? Container()
@@ -1116,7 +1116,7 @@ class _AddBandScreenState
                                         vertical: 25,
                                       ),
                                       child: Text(
-                                        "Band Task",
+                                        "Band Marketing",
                                         textAlign: TextAlign.center,
                                         style: textTheme.subhead.copyWith(
                                             fontWeight: FontWeight.w600,
@@ -1267,7 +1267,7 @@ class _AddBandScreenState
                                         vertical: 25,
                                       ),
                                       child: Text(
-                                        "Notes",
+                                        "Band Comunications",
                                         textAlign: TextAlign.center,
                                         style: textTheme.subhead.copyWith(
                                             fontWeight: FontWeight.w600,

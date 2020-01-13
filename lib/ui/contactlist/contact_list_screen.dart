@@ -296,7 +296,7 @@ class _ContactListScreenState
                                                       int index) {
                                                 final cnt = _contacts[index];
                                                 return Container(
-                                                  height: 120,
+                                                  height: MediaQuery.of(context).size.width/3,
                                                   margin: EdgeInsets.all(0),
                                                   decoration: BoxDecoration(
                                                     border: Border(
