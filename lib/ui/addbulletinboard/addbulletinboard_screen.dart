@@ -458,8 +458,9 @@ class _AddBulletInBoardScreenState
                       widget.id.isEmpty || isEdit
                           ? Container()
                           : presenter.serverAPI.currentUserId ==
-                                      // "f7oNvNfTqPTuLQAVq6ZaeqllEBx1"
-                                      "RsaG5sb6zWhvUV0EzK7HDXt7LP22" &&
+                                       "f7oNvNfTqPTuLQAVq6ZaeqllEBx1"
+                                  //    "RsaG5sb6zWhvUV0EzK7HDXt7LP22"
+                          &&
                                   (status == null ||
                                       status == BulletInBoard.STATUS_PENDING)
                               ? Row(
