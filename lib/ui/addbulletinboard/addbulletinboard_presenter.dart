@@ -1,6 +1,8 @@
 import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/bulletinboard.dart';
 import 'package:gigtrack/server/models/error_response.dart';
+import 'package:gigtrack/server/models/notifications.dart';
+import 'package:gigtrack/server/models/user.dart';
 
 abstract class AddBulletInBoardContract extends BaseContract {
   void onSuccess();
@@ -18,8 +20,9 @@ class AddBuiltInBoardPresenter extends BasePresenter {
     if (res is bool) {
       if (res) {
         (view as AddBulletInBoardContract).onUpdate();
-      } else
+      } else {
         (view as AddBulletInBoardContract).onSuccess();
+      }
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
     }
@@ -45,9 +48,30 @@ class AddBuiltInBoardPresenter extends BasePresenter {
       res.created = DateTime.now().millisecondsSinceEpoch;
       res.status = status;
       await serverAPI.addBulletInBoard(res);
+      if (status == BulletInBoard.STATUS_APPROVED) sendNotification(res.id);
       (view as AddBulletInBoardContract).onUpdate();
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
+    }
+  }
+
+  void sendNotification(String id) async {
+    final res = await serverAPI.userDB.once();
+    Map mp1 = res.value;
+    if (mp1 != null) {
+      for (var d in mp1.values) {
+        User user = User.fromJSON(d);
+        final not = await serverAPI.addNotification(Notification(
+          created: DateTime.now().millisecondsSinceEpoch,
+          notiId: id,
+          text: "A new Bullet-In Board created",
+          type: Notification.TYPE_BULLETIN_BOARD,
+          userId: user.id,
+        ));
+        if (not != null && not is Notification) {
+          serverAPI.sendPushNotification(not);
+        }
+      }
     }
   }
 }

@@ -24,9 +24,12 @@ class AddSetListPresenter extends BasePresenter {
   void getDetails(String id, String bandId) async {
     final res = await serverAPI.getSetListItemDetails(id);
     if (res is SetList) {
-      final res2 = await serverAPI.getBandDetails(bandId);
-      if (res2 is Band) {
-        (view as AddSetListContract).onBandMemberDetails(res2.bandmates.values);
+      if (bandId != null && bandId.isNotEmpty) {
+        final res2 = await serverAPI.getBandDetails(bandId);
+        if (res2 is Band) {
+          (view as AddSetListContract)
+              .onBandMemberDetails(res2.bandmates.values);
+        }
       }
       (view as AddSetListContract).onDetails(res);
     } else if (res is ErrorResponse) {

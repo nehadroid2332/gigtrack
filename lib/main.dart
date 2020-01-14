@@ -248,7 +248,7 @@ class MyApp extends StatelessWidget implements AppListener {
       String id = params["id"][0];
       return AddSetListScreen(
         this,
-        userId: userId,
+        bandId: userId,
         id: id,
       );
     }));
@@ -258,12 +258,12 @@ class MyApp extends StatelessWidget implements AppListener {
         this,
       );
     }));
-    _router.define(Screens.SETLIST.toString() + "/:id", handler: Handler(
+    _router.define(Screens.SETLIST.toString() + "/:bandId", handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-      String id = params["id"][0];
+      String bandId = params["bandId"][0];
       return SetListScreen(
         this,
-        id: id,
+        bandId: bandId,
       );
     }));
     _router.define(Screens.BANDLIST.toString(), handler: Handler(

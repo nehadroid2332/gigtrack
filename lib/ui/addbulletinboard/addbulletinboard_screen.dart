@@ -51,60 +51,62 @@ class _AddBulletInBoardScreenState
           color: Colors.white, //change your color here
         ),
         elevation: 0,
-    leading: IconButton(
-      icon: Icon(Icons.arrow_back_ios),
-      onPressed: () async {
-        if (isEdit) {
-          final check = await showDialog<bool>(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text("Do you want to save changes?"),
-                actions: <Widget>[
-                  FlatButton(
-                    child: Text("No"),
-                    onPressed: () {
-                      Navigator.of(context).pop(true);
-                    },
-                  ),
-                  FlatButton(
-                    child: Text("Yes"),
-                    onPressed: () {
-                      _submitBulletin();
-                      Navigator.of(context).pop(true);
-                    },
-                  ),
-                ],
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () async {
+            if (isEdit) {
+              final check = await showDialog<bool>(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Do you want to save changes?"),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text("No"),
+                        onPressed: () {
+                          Navigator.of(context).pop(true);
+                        },
+                      ),
+                      FlatButton(
+                        child: Text("Yes"),
+                        onPressed: () {
+                          _submitBulletin();
+                          Navigator.of(context).pop(true);
+                        },
+                      ),
+                    ],
+                  );
+                },
               );
-            },
-          );
-          if (check) {
-            Navigator.of(context).pop();
-          }
-        } else {
-          Navigator.of(context).pop();
-        }
-      },
-    ),
+              if (check) {
+                Navigator.of(context).pop();
+              }
+            } else {
+              Navigator.of(context).pop();
+            }
+          },
+        ),
         backgroundColor: Color.fromRGBO(214, 22, 35, 1.0),
         actions: <Widget>[
           Container(
             alignment: Alignment.center,
-            width:widget.id.isEmpty?MediaQuery.of(context).size.width: MediaQuery.of(context).size.width / 2,
+            width: widget.id.isEmpty
+                ? MediaQuery.of(context).size.width
+                : MediaQuery.of(context).size.width / 2,
             child: Text(
               "${widget.id.isEmpty ? "Add" : ""} Bulletin Board",
               textAlign: TextAlign.center,
               style: textTheme.headline.copyWith(
                 color: Colors.white,
-              )
-              ,
-            ), ),
+              ),
+            ),
+          ),
           widget.id.isEmpty
               ? Container()
               : (bulletInUserId != null) &&
                       ((bulletInUserId == presenter.serverAPI.currentUserId) ||
                           (presenter.serverAPI.currentUserId ==
-                              "f7oNvNfTqPTuLQAVq6ZaeqllEBx1"))
+                              presenter.serverAPI.adminEmail))
                   ? IconButton(
                       icon: Icon(
                         Icons.edit,
@@ -123,7 +125,7 @@ class _AddBulletInBoardScreenState
               : bulletInUserId != null &&
                       ((bulletInUserId == presenter.serverAPI.currentUserId) ||
                           (presenter.serverAPI.currentUserId ==
-                              "f7oNvNfTqPTuLQAVq6ZaeqllEBx1"))
+                              presenter.serverAPI.adminEmail))
                   ? IconButton(
                       icon: Icon(
                         Icons.delete,
@@ -201,7 +203,6 @@ class _AddBulletInBoardScreenState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-           
               Padding(
                 padding: EdgeInsets.all(0),
               ),
@@ -403,7 +404,7 @@ class _AddBulletInBoardScreenState
                       widget.id.isEmpty || isEdit
                           ? RaisedButton(
                               onPressed: () {
-                               _submitBulletin();
+                                _submitBulletin();
                               },
                               color: Color.fromRGBO(214, 22, 35, 1.0),
                               child: Text(
@@ -426,8 +427,7 @@ class _AddBulletInBoardScreenState
                       widget.id.isEmpty
                           ? Container()
                           : presenter.serverAPI.currentUserId ==
-                                      // "f7oNvNfTqPTuLQAVq6ZaeqllEBx1"
-                                      "RsaG5sb6zWhvUV0EzK7HDXt7LP22" &&
+                                      presenter.serverAPI.adminEmail &&
                                   (status == null ||
                                       status == BulletInBoard.STATUS_PENDING)
                               ? Text("Select number of days to visible")
@@ -435,8 +435,7 @@ class _AddBulletInBoardScreenState
                       widget.id.isEmpty
                           ? Container()
                           : presenter.serverAPI.currentUserId ==
-                                      // "f7oNvNfTqPTuLQAVq6ZaeqllEBx1"
-                                      "RsaG5sb6zWhvUV0EzK7HDXt7LP22" &&
+                                      presenter.serverAPI.adminEmail &&
                                   (status == null ||
                                       status == BulletInBoard.STATUS_PENDING)
                               ? new DropdownButton<int>(
@@ -458,9 +457,7 @@ class _AddBulletInBoardScreenState
                       widget.id.isEmpty || isEdit
                           ? Container()
                           : presenter.serverAPI.currentUserId ==
-                                       "f7oNvNfTqPTuLQAVq6ZaeqllEBx1"
-                                  //    "RsaG5sb6zWhvUV0EzK7HDXt7LP22"
-                          &&
+                                      presenter.serverAPI.adminEmail &&
                                   (status == null ||
                                       status == BulletInBoard.STATUS_PENDING)
                               ? Row(
@@ -580,7 +577,7 @@ class _AddBulletInBoardScreenState
   void onUpdate() {
     showMessage("Updated Successfully");
     setState(() {
-      isEdit=!isEdit;
+      isEdit = !isEdit;
     });
     presenter.getBulletInBoardDetails(widget.id);
   }
@@ -620,7 +617,7 @@ class _AddBulletInBoardScreenState
           content: Text("Are you sure you want to delete?"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
-           
+
             new FlatButton(
               child: new Text("Yes"),
               textColor: Colors.black,
@@ -635,8 +632,9 @@ class _AddBulletInBoardScreenState
               },
             ),
             new RaisedButton(
-              child: new Text("No",
-              style: TextStyle(color: Colors.white),
+              child: new Text(
+                "No",
+                style: TextStyle(color: Colors.white),
               ),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
@@ -654,7 +652,7 @@ class _AddBulletInBoardScreenState
   void _submitBulletin() {
     String desc = _descController.text;
     String note = _noteController.text;
-  
+
     setState(() {
       _descError = null;
       _startDateError = null;
@@ -664,8 +662,7 @@ class _AddBulletInBoardScreenState
         BulletInBoard notesTodo = BulletInBoard(
           description: desc,
           date: selectedStartDate != null
-              ? selectedStartDate
-              .millisecondsSinceEpoch
+              ? selectedStartDate.millisecondsSinceEpoch
               : 0,
           type: type,
           id: widget.id,

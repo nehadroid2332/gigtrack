@@ -7,8 +7,8 @@ import 'package:gigtrack/ui/setlist/setlist_presenter.dart';
 import '../../utils/common_app_utils.dart';
 
 class SetListScreen extends BaseScreen {
-  final String id;
-  SetListScreen(AppListener appListener, {this.id})
+  final String bandId;
+  SetListScreen(AppListener appListener, {this.bandId})
       : super(appListener, title: "");
 
   @override
@@ -108,7 +108,7 @@ class _SetListScreenState
                             widget.appListener.router.navigateTo(
                                 context,
                                 Screens.ADDSETLIST.toString() +
-                                    "/${widget.id}/${setList.id}");
+                                    "/${widget.bandId}/${setList.id}");
                           },
                         );
                       },
@@ -134,7 +134,7 @@ class _SetListScreenState
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           widget.appListener.router.navigateTo(
-              context, Screens.ADDSETLIST.toString() + "/${widget.id}/");
+              context, Screens.ADDSETLIST.toString() + "/${widget.bandId}/");
         },
         child: Icon(Icons.add),
       ),
@@ -144,7 +144,7 @@ class _SetListScreenState
   @override
   void initState() {
     super.initState();
-    list = presenter.getData(widget.id);
+    list = presenter.getData(widget.bandId);
   }
 
   

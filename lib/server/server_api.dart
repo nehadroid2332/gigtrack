@@ -44,6 +44,8 @@ class ServerAPI {
 
   SmtpServer smtpServer;
 
+  String adminEmail = "f7oNvNfTqPTuLQAVq6ZaeqllEBx1";
+
   DatabaseReference _mainFirebaseDatabase;
 
   factory ServerAPI() {
@@ -435,6 +437,29 @@ class ServerAPI {
         isUpdate = false;
       }
       await setListDB.child(setlist.id).set(setlist.toMap());
+
+      if (setlist.bandId != null && setlist.bandId.isNotEmpty) {
+        final detail = await getBandDetails(setlist.bandId);
+        if (detail is Band) {
+          for (var mem in detail.bandmates.keys) {
+            BandMember member = detail.bandmates[mem];
+            if (member.user_id != null && member.user_id.isNotEmpty) {
+              final res = await addNotification(Notification(
+                bandId: setlist.bandId,
+                created: DateTime.now().millisecondsSinceEpoch,
+                notiId: setlist.id,
+                text: "A new Set-List added to band ${detail.name}",
+                type: Notification.TYPE_SET_LIST,
+                userId: member.user_id,
+              ));
+              if (res is Notification) {
+                sendPushNotification(res);
+              }
+            }
+          }
+        }
+      }
+
       return isUpdate;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
@@ -596,21 +621,6 @@ class ServerAPI {
     }
   }
 
-  Future<dynamic> getNotifications(String date) async {
-    try {
-      final res = await _netUtil.post(
-        _baseUrl + "notifications",
-        headers: _headers,
-        body: {
-          //  "date": date,
-        },
-      );
-      return NotificationListResponse.fromJSON(res);
-    } catch (e) {
-      return ErrorResponse.fromJSON(e.message);
-    }
-  }
-
   Future<dynamic> getActivityDetails(String id) async {
     try {
       DataSnapshot dataSnapshot = await activitiesDB.child(id).once();
@@ -678,8 +688,7 @@ class ServerAPI {
   Future<dynamic> sendEmail(
       String bandName, String bandAdminName, String emailReciptant) async {
     try {
-      SmtpServer smtpServer =
-          gmail("gigtrack2@gmail.com", "12345Six**");
+      SmtpServer smtpServer = gmail("gigtrack2@gmail.com", "12345Six**");
 
       final message = new mailer.Message()
         ..from =

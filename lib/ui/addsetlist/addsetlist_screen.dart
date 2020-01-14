@@ -11,8 +11,8 @@ import 'addsetlist_presenter.dart';
 
 class AddSetListScreen extends BaseScreen {
   final String id;
-  final String userId;
-  AddSetListScreen(AppListener appListener, {this.id, this.userId})
+  final String bandId;
+  AddSetListScreen(AppListener appListener, {this.id, this.bandId})
       : super(appListener, title: "");
 
   @override
@@ -55,15 +55,9 @@ class _AddSetListScreenState
   @override
   void initState() {
     super.initState();
-    if (widget.id != null &&
-        widget.id.isNotEmpty &&
-        widget.userId != null &&
-        widget.userId.isNotEmpty) {
+    if (widget.id != null && widget.id.isNotEmpty) {
       showLoading();
-
-      presenter.getDetails(widget.id, widget.userId);
-      //  presenter.getBandDetails(widget.userId);
-      //getData();
+      presenter.getDetails(widget.id, widget.bandId);
     }
   }
 
@@ -667,11 +661,12 @@ class _AddSetListScreenState
                                       onPressed: () {
                                         showLoading();
                                         SetList setList = SetList();
-                                        setList.id = widget.id;
+                                        setList.bandId = widget.bandId;
                                         setList.setListName =
                                             _listNameController.text;
                                         setList.songs = _songList;
-                                        setList.user_id = widget.userId;
+                                        setList.user_id =
+                                            presenter.serverAPI.currentUserId;
                                         presenter.addSetList(setList);
                                       },
                                       color: Color.fromRGBO(214, 22, 35, 1.0),
@@ -721,7 +716,7 @@ class _AddSetListScreenState
     setState(() {
       isEdit = !isEdit;
     });
-    presenter.getDetails(widget.id, widget.userId);
+    presenter.getDetails(widget.id, widget.bandId);
   }
 
   @override
