@@ -3,6 +3,7 @@ import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/activities.dart';
 import 'package:gigtrack/ui/addtravel/addtravel_presenter.dart';
+import 'package:google_places_picker/google_places_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:random_string/random_string.dart';
 
@@ -128,7 +129,7 @@ class _AddTravelScreenState
                   Padding(
                     padding: EdgeInsets.all(5),
                     child: Text(
-                      "Destination Date",
+                      "Arrive Home Date",
                       style: textTheme.subhead.copyWith(
                         color: Colors.grey[600],
                         fontSize: 16,
@@ -162,6 +163,20 @@ class _AddTravelScreenState
                         });
                     },
                   ),
+                  Padding(padding: EdgeInsets.all(5),),
+	                TextField(
+		                controller: _notesController,
+		                onChanged: (s) {
+			                travel.notes = s;
+		                },
+		                textCapitalization: TextCapitalization.sentences,
+		                keyboardType: TextInputType.number,
+		                decoration: InputDecoration(
+			                border: OutlineInputBorder(),
+			                hintText: "Notes",
+		                ),
+	                ),
+                 
                   Row(
                     children: <Widget>[
                       Expanded(
@@ -307,6 +322,8 @@ class _AddTravelScreenState
                       Sleeping sleeping = sleepingList[index];
                       final locController = TextEditingController();
                       locController.text = sleeping.location;
+                      final addressController= TextEditingController();
+                      addressController.text= sleeping.address;
                       final fromDateController = TextEditingController();
                       if (sleeping.fromDate != null && sleeping.fromDate > 0)
                         fromDateController.text = DateFormat('MM-dd-yy').format(
@@ -391,6 +408,46 @@ class _AddTravelScreenState
                                     });
                                 },
                               ),
+                              Padding(padding: EdgeInsets.all(2),),
+                              TextField(
+                                controller: addressController,
+                                textCapitalization: TextCapitalization.words,
+                                onChanged: (s) {
+                                  sleeping.address = s;
+                                  sleepingList[index] = sleeping;
+                                },
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: "Location (Click + for maps)",
+                                  suffixIcon: IconButton(
+                                    icon: Icon(Icons.add),
+                                    onPressed: () async {
+                                      var place =
+                                      await PluginGooglePlacePicker
+                                          .showAutocomplete(
+                                        mode: PlaceAutocompleteMode
+                                            .MODE_OVERLAY,
+                                        countryCode: "US",
+                                        typeFilter: TypeFilter.ESTABLISHMENT,
+                                      );
+//                                      latitude = place.latitude;
+//                                      longitude = place.longitude;
+//                                      _locController.text =
+//                                      (place.name + ',' + place.address);
+                                    },
+                                  ),
+//                                  labelText: "Location (Click + for maps)"
+//                                      : "",
+                                  labelStyle: TextStyle(
+                                    color: Color.fromRGBO(202, 208, 215, 1.0),
+                                  ),
+                                
+                                ),
+                              
+                                style: textTheme.subhead.copyWith(
+                                  color: Colors.black,
+                                ),
+                              )
                             ],
                           ),
                         ),
@@ -454,7 +511,7 @@ class _AddTravelScreenState
                                     controller: departureDateTimeController,
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(),
-                                      hintText: "Departure Date Time",
+                                      hintText: "Departure Date and Time",
                                     ),
                                   ),
                                 ),
@@ -582,6 +639,22 @@ class _AddTravelScreenState
                               ),
                               TextField(
                                 onChanged: (s) {
+                                  flight.recordLocator = s;
+                                  flightsList[index] = flight;
+                                },
+                                controller: _flightController,
+                                textCapitalization:
+                                TextCapitalization.sentences,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: "Record Locator",
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(2),
+                              ),
+                              TextField(
+                                onChanged: (s) {
                                   flight.fromAirport = s;
                                   flightsList[index] = flight;
                                 },
@@ -590,7 +663,7 @@ class _AddTravelScreenState
                                     TextCapitalization.sentences,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(),
-                                  hintText: "From Airport",
+                                  hintText: "Departing Airport",
                                 ),
                               ),
                               Padding(
@@ -606,7 +679,7 @@ class _AddTravelScreenState
                                     TextCapitalization.sentences,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(),
-                                  hintText: "To Airport",
+                                  hintText: "Arriving Airport",
                                 ),
                               ),
                             ],
@@ -615,18 +688,7 @@ class _AddTravelScreenState
                       );
                     },
                   ),
-                  TextField(
-                    controller: _notesController,
-                    onChanged: (s) {
-                      travel.notes = s;
-                    },
-                    textCapitalization: TextCapitalization.sentences,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Notes",
-                    ),
-                  ),
+                
                   Padding(
                     padding: EdgeInsets.all(5),
                   ),

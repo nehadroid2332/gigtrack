@@ -236,11 +236,13 @@ class Sleeping extends BaseModel {
   String location;
   int fromDate;
   int toDate;
+  String address;
   Sleeping();
   Sleeping.fromJSON(dynamic data) {
     location = data['location'];
     fromDate = data['fromDate'];
     toDate = data['toDate'];
+    address= data['address'];
   }
 
   @override
@@ -249,6 +251,7 @@ class Sleeping extends BaseModel {
     data['location'] = location;
     data['fromDate'] = fromDate;
     data['toDate'] = toDate;
+    data['address']= address;
     return data;
   }
 }
@@ -260,6 +263,7 @@ class Flight extends BaseModel {
   String flight;
   String toAirport;
   String fromAirport;
+  String recordLocator;
 
   Flight();
 
@@ -270,6 +274,7 @@ class Flight extends BaseModel {
     flight = data['flight'];
     toAirport = data['toAirport'];
     fromAirport = data['fromAirport'];
+    recordLocator= data['recordLocator'];
   }
 
   @override
@@ -281,6 +286,7 @@ class Flight extends BaseModel {
     data['flight'] = flight;
     data['toAirport'] = toAirport;
     data['fromAirport'] = fromAirport;
+    data['recordLocator']= recordLocator;
     return data;
   }
 }
