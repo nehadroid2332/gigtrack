@@ -50,6 +50,19 @@ class AddBandPresenter extends BasePresenter {
     band.userId = serverAPI.currentUserId;
     if (id != null) {
       band.id = id;
+    } else {
+      final user = await serverAPI.getSingleUserById(serverAPI.currentUserId);
+      if (user is User)
+        band.bandmates[serverAPI.currentUserEmail.replaceAll(".", "")] =
+            BandMember(
+          user_id: serverAPI.currentUserId,
+          // instrument: iList,
+          // memberRole: List.from(mList),
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          mobileText: user.phone,
+        );
     }
 
     final res = await serverAPI.addBand(band);
