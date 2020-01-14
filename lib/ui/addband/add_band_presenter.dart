@@ -48,7 +48,7 @@ class AddBandPresenter extends BasePresenter {
         bandmates: bandmates,
         creatorName: creatorName);
     band.userId = serverAPI.currentUserId;
-    if (id != null) {
+    if (id != null && id.isNotEmpty) {
       band.id = id;
     } else {
       final user = await serverAPI.getSingleUserById(serverAPI.currentUserId);
