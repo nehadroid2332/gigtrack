@@ -529,6 +529,9 @@ class _AddSetListScreenState
                                           if (currentSong.id == null) {
                                             currentSong.id = randomString(15);
                                             _songList.add(currentSong);
+                                            _songList.sort((a, b) {
+                                              return a.name.compareTo(b.name);
+                                            });
                                           } else {
                                             for (var i = 0;
                                                 i < _songList.length;
