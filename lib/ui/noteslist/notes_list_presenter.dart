@@ -35,20 +35,20 @@ class NotesListPresenter extends BasePresenter {
         if (mp == null) return null;
         List<NotesTodo> acc = [];
         for (var d in mp.values) {
-          final contact = NotesTodo.fromJSON(d);
-          if (contact.bandId != null && contact.bandId.isNotEmpty) {
-            final res = await serverAPI.getBandDetails(contact.bandId);
+          final notesTodo = NotesTodo.fromJSON(d);
+          if (notesTodo.bandId != null && notesTodo.bandId.isNotEmpty) {
+            final res = await serverAPI.getBandDetails(notesTodo.bandId);
             if (res != null && res is Band) {
-              contact.band = res;
+              notesTodo.band = res;
             }
           }
-          if (contact.user_id == serverAPI.currentUserId) {
-            acc.add(contact);
-          } else if (contact.user_id != null) {
-            final res = await serverAPI.getSingleUserById(contact.user_id);
+          if (notesTodo.user_id == serverAPI.currentUserId) {
+            acc.add(notesTodo);
+          } else if (notesTodo.user_id != null) {
+            final res = await serverAPI.getSingleUserById(notesTodo.user_id);
             if (res is User && (res.isUnder18Age ?? false)) {
               if (res.guardianEmail == serverAPI.currentUserEmail) {
-                acc.add(contact);
+                acc.add(notesTodo);
               }
             }
           }
