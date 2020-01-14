@@ -608,8 +608,8 @@ class _AddSetListScreenState
                                     ),
                                   ),
                                   widget.id.isEmpty || isEdit
-                                      ? RaisedButton(
-                                          child: Text("Add Song"),
+                                      ? IconButton(
+                                          icon: Icon(Icons.add),
                                           onPressed: () {
                                             setState(() {
                                               currentSong = Song();
