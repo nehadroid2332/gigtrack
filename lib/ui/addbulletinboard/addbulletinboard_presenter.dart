@@ -9,6 +9,8 @@ abstract class AddBulletInBoardContract extends BaseContract {
   void onUpdate();
   void onSubSuccess();
   void getBulletInBoardDetails(BulletInBoard note);
+
+  void onStatusUpdate();
 }
 
 class AddBuiltInBoardPresenter extends BasePresenter {
@@ -48,14 +50,15 @@ class AddBuiltInBoardPresenter extends BasePresenter {
       res.created = DateTime.now().millisecondsSinceEpoch;
       res.status = status;
       await serverAPI.addBulletInBoard(res);
-      if (status == BulletInBoard.STATUS_APPROVED) sendNotification(res.id);
-      (view as AddBulletInBoardContract).onUpdate();
+      if (status == BulletInBoard.STATUS_APPROVED)
+        sendNotification(res.id, res.user_id);
+      (view as AddBulletInBoardContract).onStatusUpdate();
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
     }
   }
 
-  void sendNotification(String id) async {
+  void sendNotification(String id, String user_id) async {
     final res = await serverAPI.userDB.once();
     Map mp1 = res.value;
     if (mp1 != null) {
@@ -64,7 +67,9 @@ class AddBuiltInBoardPresenter extends BasePresenter {
         final not = await serverAPI.addNotification(Notification(
           created: DateTime.now().millisecondsSinceEpoch,
           notiId: id,
-          text: "A new Bullet-In Board created",
+          text: user.id == user_id
+              ? "Your Bullet-In Board has been approved"
+              : "A new Bullet-In Board created",
           type: Notification.TYPE_BULLETIN_BOARD,
           userId: user.id,
         ));

@@ -673,4 +673,9 @@ class _AddBulletInBoardScreenState
       }
     });
   }
+
+  @override
+  void onStatusUpdate() {
+    presenter.getBulletInBoardDetails(widget.id);
+  }
 }
