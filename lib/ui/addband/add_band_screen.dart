@@ -631,7 +631,7 @@ class _AddBandScreenState
                               Expanded(
                                 flex: 6,
                                 child: Text(
-                                  "Date est",
+                                  "Date esta .",
                                   textAlign: TextAlign.right,
                                   //                                style: textTheme.subtitle.copyWith(
                                   //                                  fontWeight: FontWeight.w600,

@@ -90,9 +90,7 @@ class _AddBulletInBoardScreenState
         actions: <Widget>[
           Container(
             alignment: Alignment.center,
-            width: widget.id.isEmpty
-                ? MediaQuery.of(context).size.width
-                : MediaQuery.of(context).size.width / 2,
+            width: widget.id.isEmpty ? MediaQuery.of(context).size.width : MediaQuery.of(context).size.width/2,
             child: Text(
               "${widget.id.isEmpty ? "Add" : ""} Bulletin Board",
               textAlign: TextAlign.center,
@@ -107,18 +105,18 @@ class _AddBulletInBoardScreenState
                       ((bulletInUserId == presenter.serverAPI.currentUserId) ||
                           (presenter.serverAPI.currentUserId ==
                               presenter.serverAPI.adminEmail))
-                  ? IconButton(
-                      icon: Icon(
-                        Icons.edit,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          isEdit = !isEdit;
-                          isshowTitle = true;
-                        });
-                      },
-                    )
+                  ? Container(child:IconButton(
+            icon: Icon(
+              Icons.edit,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              setState(() {
+                isEdit = !isEdit;
+                isshowTitle = true;
+              });
+            },
+          ) ,)
                   : Container(),
           widget.id.isEmpty
               ? Container()

@@ -220,8 +220,9 @@ Widget buildActivityListItem(Activites ac, context,
                   children: <Widget>[
                     Container(
                       width: MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.only(left: MediaQuery.of(context).size.width/5.7,right: MediaQuery.of(context).size.width/5.7),
                       padding:
-                          EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
+                          EdgeInsets.only(left: 5, right: 5, top: 7, bottom: 7),
                       decoration: new BoxDecoration(
                         color: Color.fromRGBO(40, 35, 188, 1.0),
                       ),
@@ -257,8 +258,7 @@ Widget buildActivityListItem(Activites ac, context,
 //                    style: TextStyle(
 //                      fontSize: 16,
 //                      fontStyle: FontStyle.italic,
-//                      color:ac.bandId.isNotEmpty?Color.fromRGBO(32, 95, 139, 1.0): Color.fromRGBO(250, 250, 250, 1.0),
-//                    ),
+//                      color:ac.bandId.isNotEmpty?Color.fromRGBO(32, 95, 139, 1.0): Color.fromRGBO(250, 250, 250, 1.0),4//                    ),
 //                    textAlign: TextAlign.center,
 //                  ),
 

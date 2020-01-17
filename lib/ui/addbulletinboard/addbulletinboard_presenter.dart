@@ -68,8 +68,8 @@ class AddBuiltInBoardPresenter extends BasePresenter {
           created: DateTime.now().millisecondsSinceEpoch,
           notiId: id,
           text: user.id == user_id
-              ? "Your Bullet-In Board has been approved"
-              : "A new Bullet-In Board created",
+              ? "Your Bulletin Board has been approved"
+              : "A new Bulletin Board created",
           type: Notification.TYPE_BULLETIN_BOARD,
           userId: user.id,
         ));
