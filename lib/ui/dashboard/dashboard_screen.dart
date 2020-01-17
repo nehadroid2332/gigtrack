@@ -177,7 +177,7 @@ class _DashboardScreenState
               crossAxisCount: 2,
               childAspectRatio: 1.36,
               children: [
-                "ACTIVITES",
+                "ACTIVITIES",
                 "BANDS",
                 "CONTACTS",
                 "EPK",
@@ -191,7 +191,7 @@ class _DashboardScreenState
                   Color borderColor = Colors.blue;
                   String image;
                   switch (txt) {
-                    case "ACTIVITES":
+                    case "ACTIVITIES":
                       color = Color.fromRGBO(225, 222, 222, 0.7);
                       //color = Color.fromRGBO(63, 146, 219, 1.0); last one
                       //	color = Color.fromRGBO(71, 151, 221, 0.1);
@@ -310,7 +310,7 @@ class _DashboardScreenState
                               ),
                             ))),
                     onTap: () async {
-                      if (txt == "ACTIVITES")
+                      if (txt == "ACTIVITIES")
                         widget.appListener.router.navigateTo(context,
                             Screens.ACTIVITIESLIST.toString() + "//////");
                       else if (txt == "NOTES")

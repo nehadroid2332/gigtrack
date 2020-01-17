@@ -209,7 +209,7 @@ class _AddActivityScreenState
                   : MediaQuery.of(context).size.width / 2,
               child: Center(
                 child: Text(
-                  "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} ${widget.type == Activites.TYPE_ACTIVITY ? "Activity" : widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? "Performance Schedule" : widget.type == Activites.TYPE_PRACTICE_SCHEDULE ? "Practice Schedule" : widget.type == Activites.TYPE_TASK ? widget.isParent ? "Add Task Notes" : "Task" : widget.type == Activites.TYPE_BAND_TASK ? "Band Task" : ""}",
+                  "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} ${widget.type == Activites.TYPE_ACTIVITY ? "Appointment" : widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? "Performance Schedule" : widget.type == Activites.TYPE_PRACTICE_SCHEDULE ? "Practice Schedule" : widget.type == Activites.TYPE_TASK ? widget.isParent ? "Add Task Notes" : "Task" : widget.type == Activites.TYPE_BAND_TASK ? "Band Task" : ""}",
                   textAlign: TextAlign.center,
                   style: textTheme.headline.copyWith(
                     fontSize: widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE
@@ -384,7 +384,7 @@ class _AddActivityScreenState
                                                 ? "What is the Task"
                                                 : widget.type ==
                                                         Activites.TYPE_ACTIVITY
-                                                    ? "List Activity"
+                                                    ? "List Appointment"
                                                     : "Title"
                                     : "",
                                 labelStyle: textTheme.headline.copyWith(
@@ -1587,7 +1587,7 @@ class _AddActivityScreenState
                             )
                           : Container(),
                       (widget.id.isEmpty || isEdit) &&
-                              (widget.type == Activites.TYPE_ACTIVITY ||
+                              (
                                   widget.type ==
                                       Activites.TYPE_PERFORMANCE_SCHEDULE)
                           ? TextField(
@@ -1613,7 +1613,7 @@ class _AddActivityScreenState
                               ),
                               controller: _taskController,
                             )
-                          : widget.type == Activites.TYPE_ACTIVITY ||
+                          :
                                   widget.type ==
                                       Activites.TYPE_PERFORMANCE_SCHEDULE
                               ? Text(

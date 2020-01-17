@@ -236,12 +236,14 @@ class _AddPlayingStyleScreenState
         actions: <Widget>[
           Container(
             alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width / 2,
+            width: widget.id.isEmpty
+                ? MediaQuery.of(context).size.width
+                : MediaQuery.of(context).size.width / 2,
             child: Text(
               "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} EPK",
               textAlign: TextAlign.center,
               style: textTheme.headline.copyWith(
-                color: Colors.black,
+                color: Colors.white,
               ),
             ),
           ),
@@ -574,7 +576,7 @@ class _AddPlayingStyleScreenState
                           : Container(),
                       Padding(
                         padding: EdgeInsets.all(
-                            (widget.id.isEmpty || isEdit) ? 0 : 0),
+                            (widget.id.isEmpty || isEdit) ? 2 : 0),
                       ),
                       (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                           ? Text("Select one")
@@ -652,26 +654,25 @@ class _AddPlayingStyleScreenState
                                       : null,
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 0),
+                                        horizontal: 14, vertical: 4),
                                     decoration: BoxDecoration(
                                         color: _legalUserType == 0
-                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+                                            ? Color.fromRGBO(250, 177, 49, 1.0)
                                             : Color.fromRGBO(
                                                 244, 246, 248, 1.0),
                                         borderRadius: BorderRadius.circular(15),
                                         border: Border.all(
                                             color: _legalUserType == 0
                                                 ? Color.fromRGBO(
-                                                    70, 206, 172, 1.0)
-                                                : Color.fromRGBO(
-                                                    255, 222, 3, 1.0))),
+                                                244, 246, 248, 1.0)
+                                                : Color.fromRGBO(250, 177, 49, 1.0))),
                                     child: Text(
                                       'Age',
                                       style: new TextStyle(
                                         fontSize: 16.0,
                                         color: _legalUserType == 0
-                                            ? Color.fromRGBO(255, 222, 3, 1.0)
-                                            : Color.fromRGBO(255, 222, 3, 1.0),
+                                            ? Colors.white
+                                            : Colors.grey,
                                       ),
                                     ),
                                   ),
@@ -679,7 +680,7 @@ class _AddPlayingStyleScreenState
                                 Padding(
                                   padding: widget.id == true
                                       ? EdgeInsets.all(0)
-                                      : EdgeInsets.all(0),
+                                      : EdgeInsets.all(4),
                                 ),
                                 InkWell(
                                   onTap: widget.id.isEmpty || isEdit
@@ -689,10 +690,10 @@ class _AddPlayingStyleScreenState
                                       : null,
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 0),
+                                        horizontal: 14, vertical: 4),
                                     decoration: BoxDecoration(
                                         color: _legalUserType == 1
-                                            ? Color.fromRGBO(209, 244, 236, 1.0)
+                                            ? Color.fromRGBO(250, 177, 49, 1.0)
                                             : Color.fromRGBO(
                                                 244, 246, 248, 1.0),
                                         borderRadius: BorderRadius.circular(15),
@@ -707,8 +708,8 @@ class _AddPlayingStyleScreenState
                                       style: new TextStyle(
                                         fontSize: 16.0,
                                         color: _legalUserType == 1
-                                            ? Color.fromRGBO(250, 177, 49, 1.0)
-                                            : Color.fromRGBO(250, 177, 49, 1.0),
+                                            ? Colors.white
+                                            : Colors.grey,
                                       ),
                                     ),
                                   ),

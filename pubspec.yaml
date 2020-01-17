@@ -39,7 +39,7 @@ dependencies:
   webview_flutter: ^0.3.14+1
   flutter_speed_dial: ^1.2.1
   flutter_image_compress: ^0.6.3
-  mailer: ^3.0.4
+  mailer2: ^1.2.5
   firebase_messaging: ^6.0.9
   google_maps_flutter: ^0.5.21+8
   image_cropper: ^1.1.0

@@ -8,7 +8,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:gigtrack/server/models/band_member.dart';
 import 'package:gigtrack/server/models/feedback.dart';
 import 'package:gigtrack/server/models/setlist.dart';
-import 'package:mailer/mailer.dart' as mailer;
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:gigtrack/server/models/activities.dart';
 import 'package:gigtrack/server/models/band.dart';
@@ -20,8 +19,6 @@ import 'package:gigtrack/server/models/notifications.dart';
 import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/server/models/user_playing_style.dart';
 import 'package:gigtrack/utils/network_utils.dart';
-import 'package:mailer/smtp_server.dart';
-import 'package:mailer/smtp_server/gmail.dart';
 import 'package:path/path.dart';
 import 'models/band_member_add_response.dart';
 import 'models/chat.dart';
@@ -42,7 +39,6 @@ class ServerAPI {
 
   DatabaseReference notesDB, bulletinDB, setListDB, feedDB;
 
-  SmtpServer smtpServer;
 
   String adminEmail = "f7oNvNfTqPTuLQAVq6ZaeqllEBx1";
 
@@ -688,19 +684,19 @@ class ServerAPI {
   Future<dynamic> sendEmail(
       String bandName, String bandAdminName, String emailReciptant) async {
     try {
-      SmtpServer smtpServer = gmail("gigtrack2@gmail.com", "12345Six**");
-
-      final message = new mailer.Message()
-        ..from =
-            new mailer.Address('nehadroid23@gmail.com', 'Irrigation Mangement')
-        ..recipients.add("$emailReciptant")
-        ..subject = 'Band Invitation'
-        ..text =
-            'You have been invited to be the member of the band($bandName) by $bandAdminName';
-
-      final sendReports = await mailer.send(message, smtpServer);
-      print("SD-> " + sendReports.toString());
-      return "Success";
+//      SmtpServer smtpServer = gmail("gigtrack2@gmail.com", "12345Six**");
+//
+//      final message = new mailer.Message()
+//        ..from =
+//            new mailer.Address('nehadroid23@gmail.com', 'Irrigation Mangement')
+//        ..recipients.add("$emailReciptant")
+//        ..subject = 'Band Invitation'
+//        ..text =
+//            'You have been invited to be the member of the band($bandName) by $bandAdminName';
+//
+//      final sendReports = await mailer.send(message, smtpServer);
+//      print("SD-> " + sendReports.toString());
+//      return "Success";
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }
