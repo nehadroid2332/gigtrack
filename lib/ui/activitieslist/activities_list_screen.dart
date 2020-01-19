@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -299,6 +300,52 @@ class _ActivitiesListScreenState
                         a.taskCompleteDate ??
                         0.compareTo(b.taskCompleteDate ?? 0));
 
+                    Map<int, List<Activites>> currentDates = Map();
+                    for (var c in current) {
+                      List<Activites> list;
+                      if (currentDates.containsKey(c.startDate)) {
+                        list = currentDates[c.startDate];
+                      } else {
+                        list = [];
+                      }
+                      list.add(c);
+                      currentDates[c.startDate] = list;
+                    }
+
+                    Map<int, List<Activites>> upcomingDates = Map();
+                    for (var c in upcoming) {
+                      List<Activites> list;
+                      if (upcomingDates.containsKey(c.startDate)) {
+                        list = upcomingDates[c.startDate];
+                      } else {
+                        list = [];
+                      }
+                      list.add(c);
+                      upcomingDates[c.startDate] = list;
+                    }
+                    Map<int, List<Activites>> recurringDates = Map();
+                    for (var c in recurring) {
+                      List<Activites> list;
+                      if (recurringDates.containsKey(c.startDate)) {
+                        list = recurringDates[c.startDate];
+                      } else {
+                        list = [];
+                      }
+                      list.add(c);
+                      recurringDates[c.startDate] = list;
+                    }
+                    Map<int, List<Activites>> pastDates = Map();
+                    for (var c in past) {
+                      List<Activites> list;
+                      if (pastDates.containsKey(c.startDate)) {
+                        list = pastDates[c.startDate];
+                      } else {
+                        list = [];
+                      }
+                      list.add(c);
+                      pastDates[c.startDate] = list;
+                    }
+
                     return ListView(
                       children: <Widget>[
                         Text(
@@ -314,16 +361,84 @@ class _ActivitiesListScreenState
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
                                 padding: EdgeInsets.symmetric(vertical: 10),
-                                itemCount: current.length,
+                                itemCount: currentDates.keys.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  Activites ac = current[index];
-                                  return buildActivityListItem(ac, context,
-                                      onTap: () {
-                                    widget.appListener.router.navigateTo(
-                                        context,
-                                        Screens.ADDACTIVITY.toString() +
-                                            "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////");
-                                  });
+                                  int ac = currentDates.keys.elementAt(index);
+                                  List<Activites> accs = currentDates[ac];
+                                  DateTime dt =
+                                      DateTime.fromMillisecondsSinceEpoch(ac)
+                                          .toLocal();
+                                  return SizedBox(
+                                    height: 130,
+                                    child: Row(
+                                      children: <Widget>[
+                                        Column(
+                                          children: <Widget>[
+                                            Expanded(
+                                              child: Container(
+                                                color: Colors.grey,
+                                                width: 1.2,
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.symmetric(
+                                                  vertical: 2),
+                                              width: 100,
+                                              child: Text(
+                                                "${formatDate(dt, [
+                                                  DD,
+                                                  ', ',
+                                                  mm,
+                                                  '/',
+                                                  dd,
+                                                  '/',
+                                                  yy,
+                                                ])}",
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.grey,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Container(
+                                                color: Colors.grey,
+                                                width: 1.2,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(2),
+                                        ),
+                                        Expanded(
+                                          child: ListView.builder(
+                                            itemCount: accs.length,
+                                            scrollDirection: Axis.horizontal,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              Activites ac = accs[index];
+                                              return buildActivityListItem(
+                                                ac,
+                                                context,
+                                                onTap: () {
+                                                  widget.appListener.router
+                                                      .navigateTo(
+                                                          context,
+                                                          Screens.ADDACTIVITY
+                                                                  .toString() +
+                                                              "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////");
+                                                },
+                                              );
+                                            },
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );
                                 },
                               )
                             : Padding(
@@ -342,16 +457,84 @@ class _ActivitiesListScreenState
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
                                 padding: EdgeInsets.symmetric(vertical: 10),
-                                itemCount: upcoming.length,
+                                itemCount: upcomingDates.keys.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  Activites ac = upcoming[index];
-                                  return buildActivityListItem(ac, context,
-                                      onTap: () {
-                                    widget.appListener.router.navigateTo(
-                                        context,
-                                        Screens.ADDACTIVITY.toString() +
-                                            "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////");
-                                  });
+                                  int ac = upcomingDates.keys.elementAt(index);
+                                  List<Activites> accs = upcomingDates[ac];
+                                  DateTime dt =
+                                      DateTime.fromMillisecondsSinceEpoch(ac)
+                                          .toLocal();
+                                  return SizedBox(
+                                    height: 130,
+                                    child: Row(
+                                      children: <Widget>[
+                                        Column(
+                                          children: <Widget>[
+                                            Expanded(
+                                              child: Container(
+                                                color: Colors.grey,
+                                                width: 1.2,
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.symmetric(
+                                                  vertical: 2),
+                                              width: 100,
+                                              child: Text(
+                                                "${formatDate(dt, [
+                                                  DD,
+                                                  ', ',
+                                                  mm,
+                                                  '/',
+                                                  dd,
+                                                  '/',
+                                                  yy,
+                                                ])}",
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.grey,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Container(
+                                                color: Colors.grey,
+                                                width: 1.2,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(2),
+                                        ),
+                                        Expanded(
+                                          child: ListView.builder(
+                                            itemCount: accs.length,
+                                            scrollDirection: Axis.horizontal,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              Activites ac = accs[index];
+                                              return buildActivityListItem(
+                                                ac,
+                                                context,
+                                                onTap: () {
+                                                  widget.appListener.router
+                                                      .navigateTo(
+                                                          context,
+                                                          Screens.ADDACTIVITY
+                                                                  .toString() +
+                                                              "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////");
+                                                },
+                                              );
+                                            },
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );
                                 },
                               )
                             : Padding(
@@ -382,18 +565,98 @@ class _ActivitiesListScreenState
                                 ? ListView.builder(
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
-                                    itemCount: recurring.length,
+                                    padding: EdgeInsets.symmetric(vertical: 10),
+                                    itemCount: recurringDates.keys.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
-                                      Activites ac = recurring[index];
-                                      return buildActivityListItem(ac, context,
-                                          onTap: () {
-                                        widget.appListener.router.navigateTo(
-                                          context,
-                                          Screens.ADDACTIVITY.toString() +
-                                              "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////",
-                                        );
-                                      }, isPast: false);
+                                      int ac =
+                                          recurringDates.keys.elementAt(index);
+                                      List<Activites> accs = recurringDates[ac];
+                                      DateTime dt =
+                                          DateTime.fromMillisecondsSinceEpoch(
+                                                  ac)
+                                              .toLocal();
+                                      return SizedBox(
+                                        height: 130,
+                                        child: Row(
+                                          children: <Widget>[
+                                            Column(
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: Container(
+                                                    color: Colors.grey,
+                                                    width: 1.2,
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: 2),
+                                                  width: 100,
+                                                  child: Text(
+                                                    "${formatDate(dt, [
+                                                      DD,
+                                                      ', ',
+                                                      mm,
+                                                      '/',
+                                                      dd,
+                                                      '/',
+                                                      yy,
+                                                    ])}",
+                                                    style: TextStyle(
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontStyle:
+                                                          FontStyle.italic,
+                                                      color: Colors.grey,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Container(
+                                                    color: Colors.grey,
+                                                    width: 1.2,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.all(2),
+                                            ),
+                                            Expanded(
+                                              child: ListView.builder(
+                                                itemCount: accs.length,
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        int index) {
+                                                  Activites ac = accs[index];
+                                                  return buildActivityListItem(
+                                                    ac,
+                                                    context,
+                                                    onTap: () {
+                                                      buildActivityListItem(
+                                                          ac, context,
+                                                          onTap: () {
+                                                        widget
+                                                            .appListener.router
+                                                            .navigateTo(
+                                                          context,
+                                                          Screens.ADDACTIVITY
+                                                                  .toString() +
+                                                              "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////",
+                                                        );
+                                                      }, isPast: false);
+                                                    },
+                                                  );
+                                                },
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      );
                                     },
                                   )
                                 : Padding(
@@ -425,27 +688,89 @@ class _ActivitiesListScreenState
                                 ? ListView.builder(
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
-                                    padding: EdgeInsets.all(10),
-                                    itemCount: past.length,
+                                    padding: EdgeInsets.symmetric(vertical: 10),
+                                    itemCount: pastDates.keys.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
-                                      Activites ac = past[index];
-                                      return buildActivityListItem(ac, context,
-                                          onTap: () {
-                                        widget.appListener.router.navigateTo(
-                                          context,
-                                          Screens.ADDACTIVITY.toString() +
-                                              "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////",
-                                        );
-                                      }, isPast: true);
-//                                            (ac.type ==
-//                                                    Activites.TYPE_TASK &&
-//                                                (past[index].taskCompleteDate !=
-//                                                            null
-//                                                        ? ac.taskCompleteDate
-//                                                        : 0) <
-//                                                    currentDate
-//                                                        .millisecondsSinceEpoch));
+                                      int ac = pastDates.keys.elementAt(index);
+                                      List<Activites> accs = pastDates[ac];
+                                      DateTime dt =
+                                          DateTime.fromMillisecondsSinceEpoch(
+                                                  ac)
+                                              .toLocal();
+                                      return SizedBox(
+                                        height: 130,
+                                        child: Row(
+                                          children: <Widget>[
+                                            Column(
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: Container(
+                                                    color: Colors.grey,
+                                                    width: 1.2,
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: 2),
+                                                  width: 100,
+                                                  child: Text(
+                                                    "${formatDate(dt, [
+                                                      DD,
+                                                      ', ',
+                                                      mm,
+                                                      '/',
+                                                      dd,
+                                                      '/',
+                                                      yy,
+                                                    ])}",
+                                                    style: TextStyle(
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontStyle:
+                                                          FontStyle.italic,
+                                                      color: Colors.grey,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Container(
+                                                    color: Colors.grey,
+                                                    width: 1.2,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.all(2),
+                                            ),
+                                            Expanded(
+                                              child: ListView.builder(
+                                                itemCount: accs.length,
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        int index) {
+                                                  Activites ac = accs[index];
+                                                  return buildActivityListItem(
+                                                      ac, context, onTap: () {
+                                                    widget.appListener.router
+                                                        .navigateTo(
+                                                      context,
+                                                      Screens.ADDACTIVITY
+                                                              .toString() +
+                                                          "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////",
+                                                    );
+                                                  }, isPast: true);
+                                                },
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      );
                                     },
                                   )
                                 : Padding(
