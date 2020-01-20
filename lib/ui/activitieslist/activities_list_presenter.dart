@@ -68,9 +68,11 @@ class ActivitiesListPresenter extends BasePresenter {
               band = item;
             }
           }
-          if (band != null) activites.band = band;
+          if (band != null) {
+            activites.band = band;
+          }
         }
-        acc.add(activites);
+        if (activites.userId == serverAPI.currentUserId) acc.add(activites);
       }
       return acc;
     });
