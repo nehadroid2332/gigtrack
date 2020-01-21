@@ -1,13 +1,15 @@
 import 'package:gigtrack/base/base_model.dart';
+import 'package:gigtrack/server/models/user.dart';
 
-class Feedback extends BaseModel {
+class UserFeedback extends BaseModel {
   String message;
   String userId;
   String id;
+  User user;
 
-  Feedback({this.userId, this.message, this.id});
+  UserFeedback({this.userId, this.message, this.id});
 
-  Feedback.fromJSON(dynamic data) {
+  UserFeedback.fromJSON(dynamic data) {
     message = data['message'];
     userId = data['userId'];
     id = data['id'];

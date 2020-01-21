@@ -7,36 +7,31 @@ import 'package:gigtrack/ui/addfeedback/add_feedback_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:mailer2/mailer.dart';
 
-
 class AddFeedbackScreen extends BaseScreen {
-
-  AddFeedbackScreen(AppListener appListener) : super(appListener){
-
-  }
+  AddFeedbackScreen(AppListener appListener) : super(appListener) {}
 
   @override
   _AddFeedbackScreenState createState() => _AddFeedbackScreenState();
 }
 
-
 class _AddFeedbackScreenState
     extends BaseScreenState<AddFeedbackScreen, AddFeedbackPresenter>
     implements AddFeedbackContract {
   String _feedbackError;
-  
+
   final _feedbackController = TextEditingController();
   var emailTransport;
   var options;
 
-    @override
+  @override
   void initState() {
-      super.initState();
-      options = new GmailSmtpOptions();
-        String _username = "gigtrack2@gmail.com";
-        String _password = "12345Six**";
-       emailTransport = new SmtpTransport(options);
-    
+    super.initState();
+    options = new GmailSmtpOptions();
+    String _username = "gigtrack2@gmail.com";
+    String _password = "12345Six**";
+    emailTransport = new SmtpTransport(options);
   }
+
   @override
   Widget buildBody() {
     return Stack(
@@ -54,10 +49,11 @@ class _AddFeedbackScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                
                 "Your Feedback means a lot to us, what do you think?",
-                style: textTheme.display2
-                    .copyWith(color: Colors.black, fontSize: 26,fontStyle: FontStyle.italic),
+                style: textTheme.display2.copyWith(
+                    color: Colors.black,
+                    fontSize: 26,
+                    fontStyle: FontStyle.italic),
                 textAlign: TextAlign.center,
               ),
               Padding(
@@ -80,8 +76,9 @@ class _AddFeedbackScreenState
                           errorText: _feedbackError,
                           labelText: "Add Feedback",
                           labelStyle: TextStyle(
-                            color: Colors.black//Color.fromRGBO(202, 208, 215, 1.0),
-                          ),
+                              color: Colors
+                                  .black //Color.fromRGBO(202, 208, 215, 1.0),
+                              ),
                           //border: InputBorder.none,
                         ),
                         controller: _feedbackController,
@@ -98,10 +95,10 @@ class _AddFeedbackScreenState
                             showLoading();
                             sendEmail();
                             presenter.addFeedback(feed);
-                            
                           }
                         },
-                        color:Color.fromRGBO(255, 215, 0, 1.0), //Color.fromRGBO(22, 102, 237, 1.0),
+                        color: Color.fromRGBO(255, 215, 0,
+                            1.0), //Color.fromRGBO(22, 102, 237, 1.0),
                         child: Text(
                           "Submit",
                           style: textTheme.headline.copyWith(
@@ -117,7 +114,33 @@ class _AddFeedbackScreenState
                           borderRadius: BorderRadius.circular(20),
                         ),
                         textColor: Colors.black,
-                      )
+                      ),
+                      presenter.serverAPI.currentUserId ==
+                              "f7oNvNfTqPTuLQAVq6ZaeqllEBx1"
+                          ? RaisedButton(
+                              onPressed: () {
+                                widget.appListener.router.navigateTo(
+                                    context, Screens.FEEDBACK_LIST.toString());
+                              },
+                              child: Text(
+                                "Show List",
+                                style: textTheme.headline.copyWith(
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              color: Color.fromRGBO(255, 215, 0,
+                                  1.0), //Color.fromRGBO(22, 102, 237, 1.0),
+                              padding: EdgeInsets.symmetric(
+                                vertical: 8,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              textColor: Colors.black,
+                            )
+                          : Container()
                     ],
                   ),
                 ),
@@ -136,12 +159,15 @@ class _AddFeedbackScreenState
         ),
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+          ),
           onPressed: () async {
             Navigator.of(context).pop();
           },
         ),
-        backgroundColor:Color.fromRGBO(255, 215, 0, 1.0),
+        backgroundColor: Color.fromRGBO(255, 215, 0, 1.0),
       );
 
   @override
@@ -155,9 +181,8 @@ class _AddFeedbackScreenState
       Navigator.pop(context);
     });
   }
-  void sendEmail() async{
-  
 
+  void sendEmail() async {
 //    // Use the SmtpServer class to configure an SMTP server:
 //  //smtpServer = SmtpServer('smtp.gmail.com');
 //    // See the named arguments of SmtpServer for further configuration
@@ -184,14 +209,13 @@ class _AddFeedbackScreenState
       ..from = 'gigtrack2@gmail.com'
       ..recipients.add('gigtrack2@gmail.com')
       ..subject = 'Testing the Dart Mailer library'
-
       ..text = 'This is a cool email message. Whats up?'
       ..html = '<h1>Test</h1><p>Hey!</p>';
 
     // Email it.
-    emailTransport.send(envelope)
+    emailTransport
+        .send(envelope)
         .then((envelope) => print('Email sent!'))
         .catchError((e) => print('Error occurred: $e'));
   }
-
 }

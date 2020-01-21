@@ -891,7 +891,7 @@ class ServerAPI {
     await bandDB.child(bandId).child('bandmates').child(id).remove();
   }
 
-  Future<dynamic> addFeedback(Feedback feedback) async {
+  Future<dynamic> addFeedback(UserFeedback feedback) async {
     try {
       bool isUpdate = true;
       if (feedback.id == null || feedback.id.isEmpty) {

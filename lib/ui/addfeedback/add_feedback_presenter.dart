@@ -11,7 +11,7 @@ class AddFeedbackPresenter extends BasePresenter {
 
   void addFeedback(String feed) async {
     final res = await serverAPI
-        .addFeedback(Feedback(message: feed, userId: serverAPI.currentUserId));
+        .addFeedback(UserFeedback(message: feed, userId: serverAPI.currentUserId));
     if (res is bool) {
       (view as AddFeedbackContract).onSuccess();
     } else if (res is ErrorResponse) {

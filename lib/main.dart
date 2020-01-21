@@ -17,6 +17,7 @@ import 'package:gigtrack/ui/bandlist/bandlist_screen.dart';
 import 'package:gigtrack/ui/bulletinboardlist/bulletinboard_list_screen.dart';
 import 'package:gigtrack/ui/contactlist/contact_list_screen.dart';
 import 'package:gigtrack/ui/dashboard/dashboard_screen.dart';
+import 'package:gigtrack/ui/feedbacklist/feedbacklist_screen.dart';
 import 'package:gigtrack/ui/forgotpassword/forgot_password_screen.dart';
 import 'package:gigtrack/ui/google_maps_screen/google_maps_screen.dart';
 import 'package:gigtrack/ui/instrumentlist/instrument_list_screen.dart';
@@ -393,6 +394,10 @@ class MyApp extends StatelessWidget implements AppListener {
         bandId: bandId,
       );
     }));
+    _router.define(Screens.FEEDBACK_LIST.toString(), handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      return FeedbackListScreen(this);
+    }));
     _router.define(Screens.GOOGLEMAPS.toString() + "/:latitude/:longitude",
         handler: Handler(
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
@@ -511,4 +516,5 @@ enum Screens {
   ADDSETLIST,
   FEEDBACK,
   ADDTRAVEL,
+  FEEDBACK_LIST
 }
