@@ -377,8 +377,7 @@ class _AddInstrumentScreenState
                           )
                         : Column(
                             children: <Widget>[
-                              widget.id.isEmpty || isEdit
-                                  ? Expanded(
+                              widget.id.isEmpty || isEdit?Container(): Expanded(
                                       flex: 3,
                                       child: widget.id.isEmpty || isEdit
                                           ? Container()
@@ -412,8 +411,8 @@ class _AddInstrumentScreenState
                                                       .width,
                                                   child: null)
                                               : Container(),
-                                    )
-                                  : Container(),
+                                    ),
+
                               Expanded(
                                 flex: 8,
                                 child: ListView(

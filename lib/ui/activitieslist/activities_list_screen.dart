@@ -88,7 +88,11 @@ class _ActivitiesListScreenState
         child: Icon(Icons.add),
         backgroundColor: Color.fromRGBO(40, 35, 188, 1.0),
         onTap: () async {
-          showDialogConfirm();
+          //showDialogConfirm();
+          await widget.appListener.router.navigateTo(
+              context,
+              Screens.ADDACTIVITY.toString() +
+                  "/${Activites.TYPE_APPOINTMENT}///${widget.bandId}////");
         },
       ),
       SpeedDialChild(

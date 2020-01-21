@@ -184,8 +184,8 @@ bool validateMobile(String value) {
 Widget buildActivityListItem(Activites ac, context,
     {bool showConfirm = false, onConfirmPressed, onTap, bool isPast = false}) {
   return Container(
-    width: 200,
-    margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+    width: MediaQuery.of(context).size.width/1.55,
+    margin: EdgeInsets.symmetric(horizontal: 3, vertical: 5),
     child: InkWell(
       child: Container(
         padding: ac.bandId.isNotEmpty ? EdgeInsets.all(5) : EdgeInsets.all(15),
@@ -294,6 +294,8 @@ String currentType(int type) {
     return "Task";
   } else if (type == 4) {
     return "Band Task";
+  }else if(type==5){
+    return "Appointment";
   }
   return "";
 }

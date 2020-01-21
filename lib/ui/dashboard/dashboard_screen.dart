@@ -382,7 +382,7 @@ class _DashboardScreenState
               textAlign: TextAlign.center,
             ),
             content: Text(
-                "\nThanks for joining up with us during our tour rehearsal .  Your experience here is very important to us.\n\nPlease use every feature and let us know what you think.  We want to hear your feedback on colors, displays, functionality, issues and anything that can make our app better for you.\n\nSincerely,\nThe Gigtrack Team"),
+                "\nThanks for joining up with us during our tour rehearsal. Your experience here is very important to us.\n\nPlease use every feature and let us know what you think. We want to hear your feedback on colors,displays,functionality,issues and anything that can make our app better for you.\n\nSincerely,\nThe Gigtrack Team"),
             actions: <Widget>[
               new RaisedButton(
                 child: new Text(
