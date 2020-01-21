@@ -342,7 +342,7 @@ class _DashboardScreenState
                             context, Screens.BULLETINLISTLIST.toString());
                       else if (txt == "FEEDBACK")
                         widget.appListener.router
-                            .navigateTo(context, Screens.FEEDBACK.toString());
+                            .navigateTo(context, Screens.PAYMENT_LIST.toString());
                     },
                   );
                 },

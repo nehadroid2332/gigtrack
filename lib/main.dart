@@ -10,6 +10,7 @@ import 'package:gigtrack/ui/addfeedback/add_feedback_screen.dart';
 import 'package:gigtrack/ui/addinstrument/add_instrument_screen.dart';
 import 'package:gigtrack/ui/addmembertoband/addmembertobandscreen.dart';
 import 'package:gigtrack/ui/addnotes/add_notes_screen.dart';
+import 'package:gigtrack/ui/addpayment/addpayment_screen.dart';
 import 'package:gigtrack/ui/addsetlist/addsetlist_screen.dart';
 import 'package:gigtrack/ui/addsong/add_song_screen.dart';
 import 'package:gigtrack/ui/addtravel/addtravel_screen.dart';
@@ -24,6 +25,7 @@ import 'package:gigtrack/ui/instrumentlist/instrument_list_screen.dart';
 import 'package:gigtrack/ui/login/login_screen.dart';
 import 'package:gigtrack/ui/noteslist/notes_list_screen.dart';
 import 'package:gigtrack/ui/notificationlist/notification_list_screen.dart';
+import 'package:gigtrack/ui/paymentlist/paymentlist_screen.dart';
 import 'package:gigtrack/ui/profile/profile_screen.dart';
 import 'package:gigtrack/ui/setlist/setlist_screen.dart';
 import 'package:gigtrack/ui/signup/signup_screen.dart';
@@ -398,6 +400,18 @@ class MyApp extends StatelessWidget implements AppListener {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return FeedbackListScreen(this);
     }));
+    _router.define(Screens.PAYMENT_LIST.toString(), handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      return PaymentListScreen(this);
+    }));
+    _router.define(Screens.ADD_PAYMENT.toString() + "/:id", handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      String id = params["id"][0];
+      return AddPaymentScreen(
+        this,
+        id: id,
+      );
+    }));
     _router.define(Screens.GOOGLEMAPS.toString() + "/:latitude/:longitude",
         handler: Handler(
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
@@ -516,5 +530,7 @@ enum Screens {
   ADDSETLIST,
   FEEDBACK,
   ADDTRAVEL,
-  FEEDBACK_LIST
+  FEEDBACK_LIST,
+  PAYMENT_LIST,
+  ADD_PAYMENT
 }

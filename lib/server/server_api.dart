@@ -7,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:gigtrack/server/models/band_member.dart';
 import 'package:gigtrack/server/models/feedback.dart';
+import 'package:gigtrack/server/models/payment.dart';
 import 'package:gigtrack/server/models/setlist.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:gigtrack/server/models/activities.dart';
@@ -37,8 +38,7 @@ class ServerAPI {
   StorageReference playingstyleRef;
   StorageReference bandref;
 
-  DatabaseReference notesDB, bulletinDB, setListDB, feedDB;
-
+  DatabaseReference notesDB, bulletinDB, setListDB, feedDB, paymentDB;
 
   String adminEmail = "f7oNvNfTqPTuLQAVq6ZaeqllEBx1";
 
@@ -89,6 +89,7 @@ class ServerAPI {
     helpDB = _mainFirebaseDatabase.child("Helps");
     setListDB = _mainFirebaseDatabase.child("SetList");
     feedDB = _mainFirebaseDatabase.child("Feebacks");
+    paymentDB = _mainFirebaseDatabase.child("Payments");
     getCurrentUser();
     firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
@@ -326,12 +327,44 @@ class ServerAPI {
     try {
       bool isUpdate = true;
       if (notification.id == null || notification.id.isEmpty) {
-        String id = notesDB.push().key;
+        String id = notificationDB.push().key;
         notification.id = id;
         isUpdate = false;
       }
       await notificationDB.child(notification.id).set(notification.toMap());
       return notification;
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
+  Future<dynamic> addPayment(Payment payment) async {
+    try {
+      bool isUpdate = true;
+      if (payment.id == null || payment.id.isEmpty) {
+        String id = paymentDB.push().key;
+        payment.id = id;
+        isUpdate = false;
+      }
+
+      if (payment.image != null) {
+        File file1 = File(payment.image);
+        if (await file1.exists()) {
+          String basename = extension(file1.path);
+          File newFile = File(
+              file1.parent.path + "/temp-${await file1.length()}" + basename);
+          File file = await compressFileAndGetFile(file1, newFile.path);
+          final StorageUploadTask uploadTask = equipmentRef
+              .child("${DateTime.now().toString()}$basename")
+              .putFile(file ?? file1);
+          StorageTaskSnapshot snapshot = await uploadTask.onComplete;
+          String url = await snapshot.ref.getDownloadURL();
+          payment.image = url;
+        }
+      }
+
+      await paymentDB.child(payment.id).set(payment.toMap());
+      return isUpdate;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }
@@ -644,6 +677,15 @@ class ServerAPI {
     }
   }
 
+  Future<dynamic> getPaymentDetails(String id) async {
+    try {
+      DataSnapshot dataSnapshot = await paymentDB.child(id).once();
+      return Payment.fromJSON(dataSnapshot.value);
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
   Future<dynamic> searchUser(String name) async {
     try {
       final res =
@@ -831,6 +873,10 @@ class ServerAPI {
 
   void deleteBulletInboard(String id) async {
     await bulletinDB.child(id).remove();
+  }
+
+  void deletePayment(String id) async {
+    await paymentDB.child(id).remove();
   }
 
   void deleteActivity(String id) async {
