@@ -7,6 +7,7 @@ class Activites extends BaseModel {
   static const TYPE_PRACTICE_SCHEDULE = 2;
   static const TYPE_TASK = 3;
   static const TYPE_BAND_TASK = 4;
+  static const TYPE_APPOINTMENT=5;
 
   int type;
   String title;
@@ -87,6 +88,7 @@ class Activites extends BaseModel {
     notes = data['notes'];
     task = data['task'];
     startTime = data['startTime'];
+    userId=data['user_id'];
     endTime = data['endTime'];
     taskCompleteDate = data['taskCompleteDate'];
     id = data['id'];

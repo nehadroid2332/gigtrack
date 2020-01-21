@@ -209,7 +209,7 @@ class _AddActivityScreenState
                   : MediaQuery.of(context).size.width / 2,
               child: Center(
                 child: Text(
-                  "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} ${widget.type == Activites.TYPE_ACTIVITY ? "Appointment" : widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? "Performance Schedule" : widget.type == Activites.TYPE_PRACTICE_SCHEDULE ? "Practice Schedule" : widget.type == Activites.TYPE_TASK ? widget.isParent ? "Add Task Notes" : "Task" : widget.type == Activites.TYPE_BAND_TASK ? "Band Task" : ""}",
+                  "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} ${widget.type == Activites.TYPE_ACTIVITY ? "Activity" : widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? "Performance Schedule" :widget.type == Activites.TYPE_APPOINTMENT ? "Appointment": widget.type == Activites.TYPE_PRACTICE_SCHEDULE ? "Practice Schedule" : widget.type == Activites.TYPE_TASK ? widget.isParent ? "Add Task Notes" : "Task" : widget.type == Activites.TYPE_BAND_TASK ? "Band Task" : ""}",
                   textAlign: TextAlign.center,
                   style: textTheme.headline.copyWith(
                     fontSize: widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE
@@ -384,7 +384,9 @@ class _AddActivityScreenState
                                                 ? "What is the Task"
                                                 : widget.type ==
                                                         Activites.TYPE_ACTIVITY
-                                                    ? "List Appointment"
+                                                    ? "List Activity":widget.type ==
+                                    Activites.TYPE_APPOINTMENT
+                                    ? "List Appointment"
                                                     : "Title"
                                     : "",
                                 labelStyle: textTheme.headline.copyWith(
@@ -551,7 +553,7 @@ class _AddActivityScreenState
                         child: Column(
                           children: <Widget>[
                             (widget.id.isEmpty || isEdit) &&
-                                    (widget.type == Activites.TYPE_ACTIVITY ||
+                                    (widget.type == Activites.TYPE_ACTIVITY ||widget.type==Activites.TYPE_APPOINTMENT||
                                         widget.type ==
                                             Activites
                                                 .TYPE_PERFORMANCE_SCHEDULE ||
@@ -637,7 +639,7 @@ class _AddActivityScreenState
                                       Padding(
                                         padding: EdgeInsets.all(10),
                                       ),
-                                      Expanded(
+                                      widget.type==Activites.TYPE_APPOINTMENT?Container():  Expanded(
                                         child: Column(
                                           children: <Widget>[
                                             Center(
@@ -781,7 +783,7 @@ class _AddActivityScreenState
 //                          : Container(),
                             widget.type ==
                                         Activites.TYPE_PERFORMANCE_SCHEDULE ||
-                                    widget.type == Activites.TYPE_ACTIVITY
+                                    widget.type == Activites.TYPE_ACTIVITY||widget.type==Activites.TYPE_APPOINTMENT
                                 ? (widget.type == Activites.TYPE_ACTIVITY &&
                                         setTime == true)
                                     ? Container()
@@ -798,7 +800,7 @@ class _AddActivityScreenState
                                                       children: <Widget>[
                                                         Center(
                                                             child: Text(
-                                                          "Setup Time",
+                                                              widget.type==Activites.TYPE_APPOINTMENT?"Start Time":  "Setup Time",
                                                           style: TextStyle(
                                                               fontSize: 15),
                                                         )),
@@ -913,7 +915,7 @@ class _AddActivityScreenState
                                                       children: <Widget>[
                                                         Center(
                                                             child: Text(
-                                                          "Call Time",
+                                                              widget.type==Activites.TYPE_APPOINTMENT?"End Time":    "Call Time",
                                                           style: TextStyle(
                                                               fontSize: 15),
                                                         )),
@@ -1371,7 +1373,7 @@ class _AddActivityScreenState
                       widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE
                           ? Container()
                           : (widget.id.isEmpty || isEdit) &&
-                                  (widget.type == Activites.TYPE_ACTIVITY ||
+                                  (widget.type == Activites.TYPE_ACTIVITY ||widget.type==Activites.TYPE_APPOINTMENT||
                                       widget.type ==
                                           Activites.TYPE_PERFORMANCE_SCHEDULE ||
                                       widget.type ==
@@ -1413,7 +1415,7 @@ class _AddActivityScreenState
                                     color: Colors.black,
                                   ),
                                 )
-                              : widget.type == Activites.TYPE_ACTIVITY ||
+                              : widget.type == Activites.TYPE_ACTIVITY ||widget.type==Activites.TYPE_APPOINTMENT||
                                       widget.type ==
                                           Activites.TYPE_PERFORMANCE_SCHEDULE ||
                                       widget.type ==

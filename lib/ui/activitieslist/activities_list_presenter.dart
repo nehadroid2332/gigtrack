@@ -61,6 +61,13 @@ class ActivitiesListPresenter extends BasePresenter {
       List<Activites> acc = [];
       for (var d in mp.values) {
         Activites activites = Activites.fromJSON(d);
+        if(bandId.isEmpty) {
+          if (activites.bandId.isEmpty) {
+            if (activites.userId == serverAPI.currentUserId) {
+              acc.add(activites);
+            }
+          }
+        }
         if (activites.bandId != null && activites.bandId.isNotEmpty) {
           Band band;
           for (var item in bands) {
@@ -71,8 +78,11 @@ class ActivitiesListPresenter extends BasePresenter {
           if (band != null) {
             activites.band = band;
           }
+        }if(activites.band!=null) {
+          if (activites.band.userId == serverAPI.currentUserId) {
+            acc.add(activites);
+          }
         }
-        if (activites.userId == serverAPI.currentUserId) acc.add(activites);
       }
       return acc;
     });
