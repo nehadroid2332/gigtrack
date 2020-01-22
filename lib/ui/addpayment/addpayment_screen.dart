@@ -88,7 +88,7 @@ class _AddPaymentScreenState
                 ? MediaQuery.of(context).size.width
                 : MediaQuery.of(context).size.width / 2,
             child: Text(
-              "${widget.id.isEmpty ? "Add" : ""} Bulletin Board",
+              "${widget.id.isEmpty ? "Add" : ""} Finance",
               textAlign: TextAlign.center,
               style: textTheme.headline.copyWith(
                 color: Colors.white,

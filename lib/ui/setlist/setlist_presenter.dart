@@ -13,10 +13,11 @@ class SetListPresenter extends BasePresenter {
         SetList setList = SetList.fromJSON(d);
         if (bandId != null &&
             setList.bandId != null &&
-            setList.bandId == bandId)
+            setList.bandId == bandId && setList.user_id != null &&
+            setList.user_id == serverAPI.currentUserId)
           acc.add(setList);
         else if (setList.user_id != null &&
-            setList.user_id == serverAPI.currentUserId) {
+            setList.user_id == serverAPI.currentUserId &&setList.bandId==bandId) {
           acc.add(setList);
         }
       }

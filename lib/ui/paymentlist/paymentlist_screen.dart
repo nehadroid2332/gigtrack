@@ -62,7 +62,7 @@ class _FeedbackListScreenState
                   padding: EdgeInsets.only(left: 15),
                 ),
                 Text(
-                  "Payment List",
+                  "Finance List",
                   style: textTheme.display1.copyWith(
                       color: Color.fromRGBO(214, 22, 35, 1.0),
                       fontSize: 28,
