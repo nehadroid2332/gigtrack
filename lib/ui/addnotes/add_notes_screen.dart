@@ -62,6 +62,8 @@ class _AddNotesScreenState
 
   bool isArchieve = false;
 
+  String userId;
+
   @override
   void initState() {
     super.initState();
@@ -130,29 +132,37 @@ class _AddNotesScreenState
           ),
           widget.id.isEmpty || widget.isParent
               ? Container()
-              : IconButton(
-                  icon: Icon(
-                    Icons.edit,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      isEdit = !isEdit;
-                      isshowTitle = true;
-                    });
-                  },
-                ),
+              : widget.isLeader ||
+                      (userId != null &&
+                          userId == presenter.serverAPI.currentUserId)
+                  ? IconButton(
+                      icon: Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          isEdit = !isEdit;
+                          isshowTitle = true;
+                        });
+                      },
+                    )
+                  : Container(),
           widget.id.isEmpty || widget.isParent
               ? Container()
-              : IconButton(
-                  icon: Icon(
-                    Icons.delete,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    _showDialogConfirm();
-                  },
-                )
+              : widget.isLeader ||
+                      (userId != null &&
+                          userId == presenter.serverAPI.currentUserId)
+                  ? IconButton(
+                      icon: Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        _showDialogConfirm();
+                      },
+                    )
+                  : Container()
         ],
       );
 
@@ -707,6 +717,7 @@ class _AddNotesScreenState
   void getNoteDetails(NotesTodo note) {
     hideLoading();
     setState(() {
+      userId = note.user_id;
       subNotes.clear();
       subNotes.addAll(note.subNotes);
       _descController.text = note.description;

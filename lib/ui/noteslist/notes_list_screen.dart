@@ -9,8 +9,6 @@ import 'package:gigtrack/ui/noteslist/notes_list_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 
 import '../../server/models/notestodo.dart';
-import '../../server/models/notestodo.dart';
-import '../../server/models/notestodo.dart';
 import '../../utils/common_app_utils.dart';
 
 class NotesListScreen extends BaseScreen {
@@ -64,13 +62,13 @@ class _NotesListScreenState
 
   @override
   Widget buildBody() {
-   // FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(99, 97, 93, .8));
+    // FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(99, 97, 93, .8));
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
         statusBarColor: Colors.blue, // Color for Android
         statusBarBrightness: Brightness.light,
         systemNavigationBarColor:
-        Colors.blue // Dark == white status bar -- for IOS.
-    ));
+            Colors.blue // Dark == white status bar -- for IOS.
+        ));
     return Scaffold(
       backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
       body: Padding(
@@ -92,7 +90,7 @@ class _NotesListScreenState
                 Text(
                   "Notes/Ideas",
                   style: textTheme.display1.copyWith(
-                      color:  Color.fromRGBO(3, 54, 255, 1.0),
+                      color: Color.fromRGBO(3, 54, 255, 1.0),
                       fontSize: 28,
                       fontWeight: FontWeight.w500),
                   textAlign: TextAlign.left,
@@ -113,21 +111,24 @@ class _NotesListScreenState
                     List<NotesTodo> archieved = [];
 
                     for (var note in _notes) {
-                      if (note.isArchive) {
-                        archieved.add(note);
-                      } else {
-                        notes.add(note);
+                      if (widget.isLeader ||
+                          note.user_id == presenter.serverAPI.currentUserId) {
+                        if (note.isArchive) {
+                          archieved.add(note);
+                        } else {
+                          notes.add(note);
+                        }
                       }
                     }
 
                     return ListView(
                       children: <Widget>[
                         FlatButton(
-                          child: Text("",style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey,
-                              fontSize: 18
-                          )),
+                          child: Text("",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey,
+                                  fontSize: 18)),
                           onPressed: () {
                             setState(() {
                               allowArchieved = !allowArchieved;
@@ -154,14 +155,17 @@ class _NotesListScreenState
                                     : null);
                           },
                         ),
-                        Padding(padding:
-                          EdgeInsets.all(10),),
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                        ),
                         FlatButton(
-                          child: Text("Archived Notes/Ideas",style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                            fontSize: 18
-                          ),),
+                          child: Text(
+                            "Archived Notes/Ideas",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey,
+                                fontSize: 18),
+                          ),
                           onPressed: () {
                             setState(() {
                               allowArchieved = !allowArchieved;
@@ -218,13 +222,13 @@ class _NotesListScreenState
               (widget.bandId != null && widget.isComm)
           ? SpeedDial(
               animatedIcon: AnimatedIcons.menu_close,
-              backgroundColor:  Colors.orange,
+              backgroundColor: Colors.orange,
               children: [
                 SpeedDialChild(
                   label: "Ideas",
                   child: Icon(Icons.add),
                   labelStyle: TextStyle(color: Color.fromRGBO(45, 1, 79, 1.0)),
-                  backgroundColor:  Color.fromRGBO(55, 0, 179, 1.0),
+                  backgroundColor: Color.fromRGBO(55, 0, 179, 1.0),
                   onTap: () async {
                     await widget.appListener.router.navigateTo(
                         context,
@@ -248,7 +252,7 @@ class _NotesListScreenState
                   label: "Write your song",
                   labelStyle: TextStyle(color: Color.fromRGBO(45, 1, 79, 1.0)),
                   child: Icon(Icons.add),
-                  backgroundColor:  Color.fromRGBO(55, 0, 179, 1.0),
+                  backgroundColor: Color.fromRGBO(55, 0, 179, 1.0),
                   onTap: () async {
                     showDialogConfirm();
                   },
@@ -285,7 +289,7 @@ class _NotesListScreenState
               textColor: Colors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
-              color:  Color.fromRGBO(3, 218, 157, 1.0),
+              color: Color.fromRGBO(3, 218, 157, 1.0),
               onPressed: () {
                 Navigator.of(context).pop();
               },

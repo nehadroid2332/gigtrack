@@ -20,6 +20,7 @@ class NotesListPresenter extends BasePresenter {
         List<NotesTodo> acc = [];
         for (var d in mp.values) {
           final note = NotesTodo.fromJSON(d);
+          
           acc.add(note);
         }
         return acc;
