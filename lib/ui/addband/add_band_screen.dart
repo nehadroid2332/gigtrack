@@ -171,13 +171,17 @@ class _AddBandScreenState
                 title: Text("Do you want to save changes?"),
                 actions: <Widget>[
                   FlatButton(
-                    child: Text("No"),
+                    child: Text("No",style:
+                      TextStyle(color: Colors.black),),
                     onPressed: () {
                       Navigator.of(context).pop(true);
                     },
                   ),
-                  FlatButton(
+                  RaisedButton(
                     child: Text("Yes"),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6)),
+                    color: Color.fromRGBO(167, 0, 0, 1.0),
                     onPressed: () {
                       _submitband();
                       Navigator.of(context).pop(true);
