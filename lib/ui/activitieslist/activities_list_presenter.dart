@@ -79,7 +79,8 @@ class ActivitiesListPresenter extends BasePresenter {
             activites.band = band;
           }
         }if(activites.band!=null) {
-          if (activites.band.userId == serverAPI.currentUserId) {
+          if (activites.band.bandmates.keys
+              .contains(serverAPI.currentUserEmail.replaceAll(".", ""))||activites.band.userId==serverAPI.currentUserId) {
             acc.add(activites);
           }
         }

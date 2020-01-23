@@ -11,6 +11,8 @@ abstract class AddBulletInBoardContract extends BaseContract {
   void getBulletInBoardDetails(BulletInBoard note);
 
   void onStatusUpdate();
+
+  void onUserDetailsSuccess(User res) {}
 }
 
 class AddBuiltInBoardPresenter extends BasePresenter {
@@ -53,6 +55,15 @@ class AddBuiltInBoardPresenter extends BasePresenter {
       if (status == BulletInBoard.STATUS_APPROVED)
         sendNotification(res.id, res.user_id);
       (view as AddBulletInBoardContract).onStatusUpdate();
+    } else if (res is ErrorResponse) {
+      view.showMessage(res.message);
+    }
+  }
+
+  void getUserProfile(String userId) async {
+    final res = await serverAPI.getSingleUserById(userId);
+    if (res is User) {
+      (view as AddBulletInBoardContract).onUserDetailsSuccess(res);
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
     }
