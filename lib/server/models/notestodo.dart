@@ -16,6 +16,12 @@ class NotesTodo extends BaseModel {
   String bandId;
   Band band;
   bool isArchive = false;
+  int status = STATUS_PENDING;
+
+  static const STATUS_APPROVED = 1;
+  static const STATUS_DECLINED = 2;
+  static const STATUS_PENDING = 0;
+
   List<NotesTodo> subNotes = [];
 
   NotesTodo(
@@ -37,6 +43,7 @@ class NotesTodo extends BaseModel {
     user_id = data['user_id'];
     bandId = data['bandId'];
     note = data['note'];
+    status = data['status'];
     isArchive = data['isArchive'] ?? false;
     createdDate = data['createdDate'];
     if (data['subNotes'] != null) {
@@ -50,6 +57,7 @@ class NotesTodo extends BaseModel {
   Map<String, dynamic> toMap() {
     Map<String, dynamic> data = super.toMap();
     data['type'] = type ?? TYPE_NOTE;
+    data['status'] = status;
     data['description'] = description ?? "";
     data['start_date'] = start_date ?? 0;
     data['end_date'] = end_date ?? 0;

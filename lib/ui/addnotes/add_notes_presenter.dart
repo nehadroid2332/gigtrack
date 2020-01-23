@@ -9,36 +9,48 @@ abstract class AddNoteContract extends BaseContract {
   void getNoteDetails(NotesTodo note);
   void onDelete();
   void onArchive();
-}
 
-class AddNotesPresenter extends BasePresenter {
-  AddNotesPresenter(BaseContract view) : super(view);
-
-  void addNotes(NotesTodo notetodo, bool isParent) async {
-    notetodo.user_id = serverAPI.currentUserId;
-    if (isParent) {
-      final res1 = await serverAPI.getNoteDetails(notetodo.id);
-      if (res1 is NotesTodo) {
-        res1.subNotes.add(notetodo);
-        final res2 = await serverAPI.addNotes(res1);
-        if (res2 is bool) {
-          (view as AddNoteContract).onSubSuccess();
-        } else if (res2 is ErrorResponse) {
-          view.showMessage(res2.message);
+  void onUpdateStatus();
+  }
+  
+  class AddNotesPresenter extends BasePresenter {
+    AddNotesPresenter(BaseContract view) : super(view);
+  
+    void addNotes(NotesTodo notetodo, bool isParent) async {
+      notetodo.user_id = serverAPI.currentUserId;
+      if (isParent) {
+        final res1 = await serverAPI.getNoteDetails(notetodo.id);
+        if (res1 is NotesTodo) {
+          res1.subNotes.add(notetodo);
+          final res2 = await serverAPI.addNotes(res1);
+          if (res2 is bool) {
+            (view as AddNoteContract).onSubSuccess();
+          } else if (res2 is ErrorResponse) {
+            view.showMessage(res2.message);
+          }
+        } else if (res1 is ErrorResponse) {
+          view.showMessage(res1.message);
         }
-      } else if (res1 is ErrorResponse) {
-        view.showMessage(res1.message);
+      } else {
+        final res = await serverAPI.addNotes(notetodo);
+        if (res is bool) {
+          if (res) {
+            (view as AddNoteContract).onUpdate();
+          } else
+            (view as AddNoteContract).onSuccess();
+        } else if (res is ErrorResponse) {
+          view.showMessage(res.message);
+        }
       }
-    } else {
-      final res = await serverAPI.addNotes(notetodo);
-      if (res is bool) {
-        if (res) {
-          (view as AddNoteContract).onUpdate();
-        } else
-          (view as AddNoteContract).onSuccess();
-      } else if (res is ErrorResponse) {
-        view.showMessage(res.message);
-      }
+    }
+  
+    void updateStatus(String noteId, int status) async {
+      final res = await serverAPI.getNoteDetails(noteId);
+      if (res is NotesTodo) {
+        res.status = status;
+        (view as AddNoteContract).onUpdateStatus();
+    } else if (res is ErrorResponse) {
+      view.showMessage(res.message);
     }
   }
 

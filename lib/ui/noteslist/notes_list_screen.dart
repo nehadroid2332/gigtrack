@@ -111,8 +111,14 @@ class _NotesListScreenState
                     List<NotesTodo> archieved = [];
 
                     for (var note in _notes) {
-                      if (widget.isLeader ||
-                          note.user_id == presenter.serverAPI.currentUserId) {
+                      if ((widget.bandId == null || widget.bandId.isEmpty) ||
+                          (widget.bandId != null &&
+                              (note.status == NotesTodo.STATUS_APPROVED ||
+                                  (widget.isLeader ||
+                                      (note.user_id != null &&
+                                          note.user_id ==
+                                              presenter.serverAPI
+                                                  .currentUserId))))) {
                         if (note.isArchive) {
                           archieved.add(note);
                         } else {

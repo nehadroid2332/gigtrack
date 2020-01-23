@@ -7,9 +7,9 @@ class BulletInBoard extends BaseModel {
   String description;
   String id;
   String user_id;
-  int status = STATUS_PENDING;
   int visibleDays;
   int created = DateTime.now().millisecondsSinceEpoch;
+  int status = STATUS_PENDING;
 
   static const STATUS_APPROVED = 1;
   static const STATUS_DECLINED = 2;

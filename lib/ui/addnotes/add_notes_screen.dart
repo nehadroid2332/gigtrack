@@ -132,9 +132,11 @@ class _AddNotesScreenState
           ),
           widget.id.isEmpty || widget.isParent
               ? Container()
-              : widget.isLeader ||
-                      (userId != null &&
-                          userId == presenter.serverAPI.currentUserId)
+              : (widget.bandId == null || widget.bandId.isEmpty) ||
+                      (widget.bandId != null &&
+                          (widget.isLeader ||
+                              (userId != null &&
+                                  userId == presenter.serverAPI.currentUserId)))
                   ? IconButton(
                       icon: Icon(
                         Icons.edit,
@@ -150,9 +152,11 @@ class _AddNotesScreenState
                   : Container(),
           widget.id.isEmpty || widget.isParent
               ? Container()
-              : widget.isLeader ||
-                      (userId != null &&
-                          userId == presenter.serverAPI.currentUserId)
+              : (widget.bandId == null || widget.bandId.isEmpty) ||
+                      (widget.bandId != null &&
+                          (widget.isLeader ||
+                              (userId != null &&
+                                  userId == presenter.serverAPI.currentUserId)))
                   ? IconButton(
                       icon: Icon(
                         Icons.delete,
@@ -555,7 +559,45 @@ class _AddNotesScreenState
                       Padding(
                         padding: EdgeInsets.all(20),
                       ),
-
+                      (widget.bandId == null || widget.bandId.isEmpty) ||
+                              (widget.bandId != null &&
+                                  (widget.isLeader ||
+                                      (userId != null &&
+                                          userId ==
+                                              presenter
+                                                  .serverAPI.currentUserId)))
+                          ? Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: RaisedButton(
+                                    color: Color.fromRGBO(3, 54, 255, 1.0),
+                                    onPressed: () {},
+                                    child: Text(
+                                      "Approve",
+                                      style: textTheme.button.copyWith(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(5),
+                                ),
+                                Expanded(
+                                  child: RaisedButton(
+                                    onPressed: () {},
+                                    color: Colors.white,
+                                    child: Text(
+                                      "Declined",
+                                      style: textTheme.button.copyWith(
+                                        color: Color.fromRGBO(3, 54, 255, 1.0),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+                          : Container(),
                       widget.id.isNotEmpty
                           ? isArchieve
                               ? Container()
@@ -874,5 +916,10 @@ class _AddNotesScreenState
         presenter.addNotes(notesTodo, widget.isParent);
       }
     });
+  }
+
+  @override
+  void onUpdateStatus() {
+    getDetails();
   }
 }
