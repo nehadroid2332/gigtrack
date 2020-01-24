@@ -829,10 +829,17 @@ class ServerAPI {
     }
   }
 
+  Map<String, User> usersMap = {};
+
   Future<dynamic> getSingleUserById(String id) async {
     try {
+      if (usersMap.containsKey(id)) {
+        return usersMap[id];
+      }
       DataSnapshot dataSnapshot = await userDB.child(id).once();
-      return User.fromJSON(dataSnapshot.value);
+      final user = User.fromJSON(dataSnapshot.value);
+      usersMap[id] = user;
+      return user;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }

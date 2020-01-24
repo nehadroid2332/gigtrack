@@ -36,6 +36,8 @@ class _AddBulletInBoardScreenState
 
   int status = BulletInBoard.STATUS_PENDING;
 
+  User user;
+
   @override
   void initState() {
     super.initState();
@@ -91,7 +93,9 @@ class _AddBulletInBoardScreenState
         actions: <Widget>[
           Container(
             alignment: Alignment.center,
-            width: widget.id.isEmpty ? MediaQuery.of(context).size.width : MediaQuery.of(context).size.width/2,
+            width: widget.id.isEmpty
+                ? MediaQuery.of(context).size.width
+                : MediaQuery.of(context).size.width / 2,
             child: Text(
               "${widget.id.isEmpty ? "Add" : ""} Bulletin Board",
               textAlign: TextAlign.center,
@@ -106,18 +110,20 @@ class _AddBulletInBoardScreenState
                       ((bulletInUserId == presenter.serverAPI.currentUserId) ||
                           (presenter.serverAPI.currentUserId ==
                               presenter.serverAPI.adminEmail))
-                  ? Container(child:IconButton(
-            icon: Icon(
-              Icons.edit,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              setState(() {
-                isEdit = !isEdit;
-                isshowTitle = true;
-              });
-            },
-          ) ,)
+                  ? Container(
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.edit,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isEdit = !isEdit;
+                            isshowTitle = true;
+                          });
+                        },
+                      ),
+                    )
                   : Container(),
           widget.id.isEmpty
               ? Container()
@@ -423,6 +429,10 @@ class _AddBulletInBoardScreenState
                               textColor: Colors.white,
                             )
                           : Container(),
+                      Text("Craeted By: ${user?.firstName} ${user?.lastName}"),
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                      ),
                       widget.id.isEmpty
                           ? Container()
                           : presenter.serverAPI.currentUserId ==
@@ -501,7 +511,7 @@ class _AddBulletInBoardScreenState
                                     )
                                   ],
                                 )
-                              : Container()
+                              : Container(),
                     ],
                   ),
                 ),
@@ -561,6 +571,7 @@ class _AddBulletInBoardScreenState
   void getBulletInBoardDetails(BulletInBoard note) {
     hideLoading();
     setState(() {
+      user = note.user;
       bulletInUserId = note.user_id;
       type = note.type;
       status = note.status;

@@ -1,4 +1,5 @@
 import 'package:gigtrack/base/base_model.dart';
+import 'package:gigtrack/server/models/user.dart';
 
 class BulletInBoard extends BaseModel {
   String item;
@@ -14,6 +15,8 @@ class BulletInBoard extends BaseModel {
   static const STATUS_APPROVED = 1;
   static const STATUS_DECLINED = 2;
   static const STATUS_PENDING = 0;
+
+  User user;
 
   BulletInBoard(
       {this.date,

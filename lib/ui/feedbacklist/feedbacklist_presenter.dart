@@ -14,6 +14,9 @@ class FeedbackListPresenter extends BasePresenter {
         bullets.user = await serverAPI.getSingleUserById(bullets.userId);
         acc.add(bullets);
       }
+      acc.sort((a, b) {
+        return a.created.compareTo(b.created);
+      });
       return acc;
     });
   }

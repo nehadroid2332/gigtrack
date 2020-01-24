@@ -35,6 +35,7 @@ class AddBuiltInBoardPresenter extends BasePresenter {
   void getBulletInBoardDetails(String id) async {
     final res = await serverAPI.getBulletInBoardDetails(id);
     if (res is BulletInBoard) {
+      res.user = await serverAPI.getSingleUserById(res.user_id);
       (view as AddBulletInBoardContract).getBulletInBoardDetails(res);
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);

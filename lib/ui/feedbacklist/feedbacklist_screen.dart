@@ -1,3 +1,4 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gigtrack/base/base_screen.dart';
@@ -84,6 +85,8 @@ class _FeedbackListScreenState
                       itemCount: _notes.length,
                       itemBuilder: (BuildContext context, int index) {
                         final feedback = _notes[index];
+                        DateTime dt = DateTime.fromMillisecondsSinceEpoch(
+                            feedback.created);
                         return Container(
                           child: Card(
                             child: Padding(
@@ -94,11 +97,32 @@ class _FeedbackListScreenState
                                     "${feedback.message}",
                                     style: textTheme.subhead,
                                   ),
-                                  Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                      "${feedback.user?.firstName}",
-                                      style: textTheme.caption,
+                                  Padding(
+                                    padding: EdgeInsets.all(8),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Text(
+                                            "${formatDate(dt, [
+                                              DD,
+                                              ', ',
+                                              mm,
+                                              '/',
+                                              dd,
+                                              '/',
+                                              yy,
+                                            ])}",
+                                            style: textTheme.caption,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            "${feedback.user?.firstName}",
+                                            style: textTheme.caption,
+                                            textAlign: TextAlign.right,
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   )
                                 ],

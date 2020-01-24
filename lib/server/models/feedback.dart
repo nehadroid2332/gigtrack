@@ -6,6 +6,7 @@ class UserFeedback extends BaseModel {
   String userId;
   String id;
   User user;
+  int created = DateTime.now().millisecondsSinceEpoch;
 
   UserFeedback({this.userId, this.message, this.id});
 
@@ -13,6 +14,7 @@ class UserFeedback extends BaseModel {
     message = data['message'];
     userId = data['userId'];
     id = data['id'];
+    created = data['created'] ?? DateTime.now().millisecondsSinceEpoch;
   }
 
   @override
@@ -21,6 +23,7 @@ class UserFeedback extends BaseModel {
     data['message'] = message;
     data['userId'] = userId;
     data['id'] = id;
+    data['created'] = created;
     return data;
   }
 }
