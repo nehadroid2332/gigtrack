@@ -387,7 +387,7 @@ class _ActivitiesListScreenState
                                             Container(
                                               margin: EdgeInsets.symmetric(
                                                   vertical: 2),
-                                              width: 100,
+                                              width: MediaQuery.of(context).size.width/3.5,
                                               child: Text(
                                                 "${formatDate(dt, [
                                                   DD,

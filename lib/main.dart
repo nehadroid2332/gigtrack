@@ -31,7 +31,6 @@ import 'package:gigtrack/ui/setlist/setlist_screen.dart';
 import 'package:gigtrack/ui/signup/signup_screen.dart';
 import 'package:gigtrack/ui/splash/splash_screen.dart';
 import 'package:gigtrack/utils/privacy.dart';
-import 'package:google_places_picker/google_places_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'server/models/notestodo.dart';
@@ -429,10 +428,10 @@ class MyApp extends StatelessWidget implements AppListener {
     //   return CourseDetailsScreen(this, params["id"][0], params["id2"][0]);
     // }));
     initPrefs();
-    PluginGooglePlacePicker.initialize(
-      androidApiKey: "AIzaSyB3Ux1Qpg9Ul1aA36g-fnQelUUT06qWJFI",
-      iosApiKey: "AIzaSyB3Ux1Qpg9Ul1aA36g-fnQelUUT06qWJFI",
-    );
+//    PluginGooglePlacePicker.initialize(
+//      androidApiKey: "AIzaSyB3Ux1Qpg9Ul1aA36g-fnQelUUT06qWJFI",
+//      iosApiKey: "AIzaSyB3Ux1Qpg9Ul1aA36g-fnQelUUT06qWJFI",
+//    );
   }
   //AIzaSyCiapnChsL10zjA5956IlTgccaQE8mM5G0
   //AIzaSyDPmfMCWQcPRNZOcsGXszKGJMs11FbUxtc
@@ -462,11 +461,24 @@ class MyApp extends StatelessWidget implements AppListener {
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
+        accentTextTheme: TextTheme(title: TextStyle(color: Colors.black)),
         // additional settings go here
         fontFamily: 'Mohave',
         primaryColor: primaryColor,
         primaryColorDark: primaryColorDark,
         accentColor: accentColor,
+        scaffoldBackgroundColor: Colors.white,
+        inputDecorationTheme: InputDecorationTheme(
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.white,width: .5),
+
+          ),
+          border: new UnderlineInputBorder(
+                borderSide: new BorderSide(
+                    color: Colors.white,width: .5
+                )
+            ),
+        ),
       ),
       onGenerateRoute: _router.generator,
     );

@@ -1,6 +1,5 @@
 import UIKit
 import Flutter
-import GooglePlaces
 import GoogleMaps
 
 @UIApplicationMain
@@ -22,13 +21,13 @@ import GoogleMaps
       UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
       application.registerUserNotificationSettings(settings)
     }
-    if #available(iOS 10.0, *) {
-      UNUserNotificationCenter.current().delegate = self as?UNUserNotificationCenterDelegate
-    }
+//    if #available(iOS 10.0, *) {
+//      UNUserNotificationCenter.current().delegate = self as?UNUserNotificationCenterDelegate
+//    }
     GMSServices.provideAPIKey("AIzaSyBPyhyGOHdrur7NmsyLStjhpitr_6IknCc")
     GeneratedPluginRegistrant.register(with: self)
-    GMSPlacesClient.provideAPIKey("AIzaSyB3Ux1Qpg9Ul1aA36g-fnQelUUT06qWJFI")
-    GMSServices.provideAPIKey("AIzaSyB3Ux1Qpg9Ul1aA36g-fnQelUUT06qWJFI")
+   // GMSPlacesClient.provideAPIKey("AIzaSyB3Ux1Qpg9Ul1aA36g-fnQelUUT06qWJFI")
+   // GMSServices.provideAPIKey("AIzaSyB3Ux1Qpg9Ul1aA36g-fnQelUUT06qWJFI")
     application.registerForRemoteNotifications()
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }

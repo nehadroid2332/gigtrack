@@ -194,6 +194,32 @@ class _AddPlayingStyleScreenState
     });
   }
 
+  bool qDarkmodeEnable=false;
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    checkThemeMode();
+  }
+  void checkThemeMode() {
+    if(Theme.of(context).platform == TargetPlatform.iOS){
+
+      var qdarkMode = MediaQuery.of(context).platformBrightness;
+      if (qdarkMode == Brightness.dark){
+        setState(() {
+          qDarkmodeEnable=true;
+        });
+
+
+      } else {
+        setState(() {
+          qDarkmodeEnable=false;
+        });
+
+
+      }
+    }
+  }
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
@@ -807,7 +833,7 @@ class _AddPlayingStyleScreenState
                                           "Write something about you experience",
                                       labelStyle: TextStyle(
                                         color:
-                                            widget.appListener.primaryColorDark,
+                                           qDarkmodeEnable?Colors.white: widget.appListener.primaryColorDark,
                                       ),
                                     ),
                                     maxLines: 2,
@@ -849,7 +875,7 @@ class _AddPlayingStyleScreenState
                                   ? "Select your Playing Style"
                                   : "Playing Style",
                               style: textTheme.title.copyWith(
-                                color: Colors.black,
+                                color: qDarkmodeEnable?Colors.white:Colors.black,
                               ),
                               textAlign: widget.id.isEmpty || isEdit
                                   ? TextAlign.left
@@ -988,7 +1014,7 @@ class _AddPlayingStyleScreenState
                         textAlign: widget.id.isEmpty || isEdit
                             ? TextAlign.left
                             : TextAlign.center,
-                        style: textTheme.title.copyWith(color: Colors.black),
+                        style: textTheme.title.copyWith(color:qDarkmodeEnable?Colors.white:Colors.black),
                       ),
                       Padding(padding: EdgeInsets.all(3)),
                       widget.id.isEmpty || isEdit
@@ -1143,7 +1169,7 @@ class _AddPlayingStyleScreenState
                                               "Click here to add education",
                                               style: textTheme.display1
                                                   .copyWith(
-                                                      color: widget.appListener
+                                                      color: qDarkmodeEnable?Colors.white:widget.appListener
                                                           .primaryColorDark,
                                                       fontSize: 14),
                                             )
@@ -1163,7 +1189,7 @@ class _AddPlayingStyleScreenState
                                   ? TextAlign.left
                                   : TextAlign.center,
                               style:
-                                  textTheme.title.copyWith(color: Colors.black),
+                                  textTheme.title.copyWith(color: qDarkmodeEnable?Colors.white:Colors.black),
                             )
                           : Container(),
                       Padding(
@@ -1177,7 +1203,7 @@ class _AddPlayingStyleScreenState
                               /**/ decoration: InputDecoration(
                                 labelText: "List School",
                                 labelStyle: TextStyle(
-                                  color: widget.appListener.primaryColorDark,
+                                  color: qDarkmodeEnable?Colors.white:widget.appListener.primaryColorDark,
                                 ),
                               ),
                             )
@@ -1219,7 +1245,7 @@ class _AddPlayingStyleScreenState
                                       child: Text(
                                         value,
                                         style: TextStyle(
-                                            color: widget
+                                            color:qDarkmodeEnable?Colors.white: widget
                                                 .appListener.primaryColorDark),
                                       ),
                                     );
@@ -1252,7 +1278,7 @@ class _AddPlayingStyleScreenState
                                         "What did you earn your academic degree in",
                                     labelStyle: TextStyle(
                                       color:
-                                          widget.appListener.primaryColorDark,
+                                         qDarkmodeEnable?Colors.white:widget.appListener.primaryColorDark,
                                     ),
                                   ),
                                 )
@@ -1337,6 +1363,7 @@ class _AddPlayingStyleScreenState
                                   decoration: InputDecoration(
                                     hintText: "Band Website",
                                   ),
+                        style: TextStyle(color:qDarkmodeEnable?Colors.white:Colors.black87),
                                 )
                               : Padding(
                                   child: Text(
@@ -1397,6 +1424,7 @@ class _AddPlayingStyleScreenState
                                                   },
                                                 )
                                               : null),
+                                      style: TextStyle(color:qDarkmodeEnable?Colors.white:Colors.black87),
                                       maxLength: 50,
                                       maxLines: 1,
                                     );

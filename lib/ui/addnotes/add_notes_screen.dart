@@ -566,7 +566,7 @@ class _AddNotesScreenState
                                           userId ==
                                               presenter
                                                   .serverAPI.currentUserId)))
-                          ? Row(
+                          ? (widget.id.isNotEmpty&&!isEdit)?Row(
                               children: <Widget>[
                                 Expanded(
                                   child: RaisedButton(
@@ -596,7 +596,7 @@ class _AddNotesScreenState
                                   ),
                                 )
                               ],
-                            )
+                            ):Container()
                           : Container(),
                       widget.id.isNotEmpty
                           ? isArchieve

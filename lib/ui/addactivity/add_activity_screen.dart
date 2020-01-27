@@ -12,7 +12,7 @@ import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/ui/addactivity/add_activity_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:gigtrack/utils/showup.dart';
-import 'package:google_places_picker/google_places_picker.dart';
+import 'package:place_picker/place_picker.dart';
 
 class AddActivityScreen extends BaseScreen {
   final String id;
@@ -95,6 +95,7 @@ class _AddActivityScreenState
 
   List<Travel> travelList = [];
   double longitude, latitude = 0;
+  bool qDarkmodeEnable=false;
 
   Future<Null> _selectDate(BuildContext context, int type) async {
     final DateTime picked = await showDatePicker(
@@ -194,7 +195,16 @@ class _AddActivityScreenState
   @override
   void initState() {
     super.initState();
+
     getData();
+
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    checkThemeMode();
   }
 
   @override
@@ -344,6 +354,7 @@ class _AddActivityScreenState
               ),
               Expanded(
                 child: Card(
+
                   child: ListView(
                     padding: EdgeInsets.all(10),
                     children: <Widget>[
@@ -402,10 +413,10 @@ class _AddActivityScreenState
                               style:
                                   widget.id.isEmpty || isEdit || widget.isParent
                                       ? textTheme.subtitle.copyWith(
-                                          color: Colors.black,
+                                          color:  qDarkmodeEnable?Colors.white:Colors.black,
                                         )
                                       : textTheme.display1.copyWith(
-                                          color: Colors.black,
+                                          color: qDarkmodeEnable?Colors.white:Colors.black,
                                         ),
                               controller: _titleController,
                             )
@@ -414,7 +425,7 @@ class _AddActivityScreenState
                               child: Text(
                                 _titleController.text,
                                 style: textTheme.display1.copyWith(
-                                    color: Colors.black, fontSize: 28),
+                                    color:qDarkmodeEnable?Colors.white: Colors.black, fontSize: 28),
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -434,18 +445,20 @@ class _AddActivityScreenState
                                     suffixIcon: IconButton(
                                       icon: Icon(Icons.add),
                                       onPressed: () async {
-                                        var place =
-                                            await PluginGooglePlacePicker
-                                                .showAutocomplete(
-                                          mode: PlaceAutocompleteMode
-                                              .MODE_OVERLAY,
-                                          countryCode: "US",
-                                          typeFilter: TypeFilter.ESTABLISHMENT,
-                                        );
-                                        latitude = place.latitude;
-                                        longitude = place.longitude;
-                                        _locController.text =
-                                            (place.name + ',' + place.address);
+                                        showPlacePicker();
+//                                        var place =
+//                                            await PluginGooglePlacePicker
+//                                                .showAutocomplete(
+//                                          mode: PlaceAutocompleteMode
+//                                              .MODE_OVERLAY,
+//                                          countryCode: "US",
+//                                          typeFilter: TypeFilter.ESTABLISHMENT,
+//                                        );
+//                                        latitude = place.latitude;
+//                                        longitude = place.longitude;
+//                                        _locController.text =
+//                                            (place.name + ',' + place.address);
+
                                       },
                                     ),
                                     labelText: widget.id.isEmpty || isEdit
@@ -462,7 +475,7 @@ class _AddActivityScreenState
                                   enabled: widget.id.isEmpty || isEdit,
                                   controller: _locController,
                                   style: textTheme.subhead.copyWith(
-                                    color: Colors.black,
+                                    color: qDarkmodeEnable?Colors.white:Colors.black,
                                   ),
                                 )
                               : widget.type == Activites.TYPE_ACTIVITY ||
@@ -499,7 +512,7 @@ class _AddActivityScreenState
                                                   style: textTheme.subhead
                                                       .copyWith(
                                                     fontSize: 15,
-                                                    color: Colors.grey,
+                                                    color: qDarkmodeEnable?Colors.white:Colors.grey,
                                                   ),
                                                 ),
                                               ),
@@ -523,7 +536,7 @@ class _AddActivityScreenState
                                 : EdgeInsets.all(0),
                       ),
                       Container(
-                        color: Colors.blue.shade50,
+                        color: qDarkmodeEnable?Colors.transparent:Colors.blue.shade50,
                         padding: EdgeInsets.all(8),
 //                      decoration: BoxDecoration(
 //                        borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -624,7 +637,7 @@ class _AddActivityScreenState
                                                   controller: _dateController,
                                                   style: textTheme.subhead
                                                       .copyWith(
-                                                    color: Colors.black,
+                                                    color: qDarkmodeEnable?Colors.white:Colors.black,
                                                   ),
                                                 ),
                                               ),
@@ -707,7 +720,7 @@ class _AddActivityScreenState
                                                         _endDateController,
                                                     style: textTheme.subhead
                                                         .copyWith(
-                                                      color: Colors.black,
+                                                      color: qDarkmodeEnable?Colors.white:Colors.black,
                                                     ),
                                                   ),
                                                 ),
@@ -878,7 +891,7 @@ class _AddActivityScreenState
                                                                 .subhead
                                                                 .copyWith(
                                                               color:
-                                                                  Colors.black,
+                                                              qDarkmodeEnable?Colors.white:Colors.black,
                                                             ),
                                                           ),
                                                         )
@@ -991,7 +1004,7 @@ class _AddActivityScreenState
                                                                 .subhead
                                                                 .copyWith(
                                                               color:
-                                                                  Colors.black,
+                                                              qDarkmodeEnable?Colors.white:Colors.black,
                                                             ),
                                                           ),
                                                         )
@@ -1118,7 +1131,7 @@ class _AddActivityScreenState
                                                                 .subhead
                                                                 .copyWith(
                                                               color:
-                                                                  Colors.black,
+                                                              qDarkmodeEnable?Colors.white:Colors.black,
                                                             ),
                                                           ),
                                                         )
@@ -1232,7 +1245,7 @@ class _AddActivityScreenState
                                                                 .subhead
                                                                 .copyWith(
                                                               color:
-                                                                  Colors.black,
+                                                              qDarkmodeEnable?Colors.white:Colors.black,
                                                             ),
                                                           ),
                                                         )
@@ -1384,18 +1397,19 @@ class _AddActivityScreenState
                                     suffixIcon: IconButton(
                                       icon: Icon(Icons.add),
                                       onPressed: () async {
-                                        var place =
-                                            await PluginGooglePlacePicker
-                                                .showAutocomplete(
-                                          mode: PlaceAutocompleteMode
-                                              .MODE_OVERLAY,
-                                          countryCode: "US",
-                                          typeFilter: TypeFilter.ESTABLISHMENT,
-                                        );
-                                        latitude = place.latitude;
-                                        longitude = place.longitude;
-                                        _locController.text =
-                                            (place.name + ',' + place.address);
+                                        showPlacePicker();
+//                                        var place =
+//                                            await PluginGooglePlacePicker
+//                                                .showAutocomplete(
+//                                          mode: PlaceAutocompleteMode
+//                                              .MODE_OVERLAY,
+//                                          countryCode: "US",
+//                                          typeFilter: TypeFilter.ESTABLISHMENT,
+//                                        );
+//                                        latitude = place.latitude;
+//                                        longitude = place.longitude;
+//                                        _locController.text =
+//                                            (place.name + ',' + place.address);
                                       },
                                     ),
                                     labelText: widget.id.isEmpty || isEdit
@@ -1412,7 +1426,7 @@ class _AddActivityScreenState
                                   enabled: widget.id.isEmpty || isEdit,
                                   controller: _locController,
                                   style: textTheme.subhead.copyWith(
-                                    color: Colors.black,
+                                    color: qDarkmodeEnable?Colors.white:Colors.black,
                                   ),
                                 )
                               : widget.type == Activites.TYPE_ACTIVITY ||widget.type==Activites.TYPE_APPOINTMENT||
@@ -1526,7 +1540,7 @@ class _AddActivityScreenState
                                   textCapitalization:
                                       TextCapitalization.sentences,
                                   style: textTheme.subhead.copyWith(
-                                    color: Colors.black,
+                                    color: qDarkmodeEnable?Colors.white:Colors.black,
                                   ),
                                   controller: _descController,
                                 )
@@ -1611,7 +1625,7 @@ class _AddActivityScreenState
                               enabled: true,
                               textCapitalization: TextCapitalization.sentences,
                               style: textTheme.subhead.copyWith(
-                                color: Colors.black,
+                                color: qDarkmodeEnable?Colors.white:Colors.black,
                               ),
                               controller: _taskController,
                             )
@@ -1681,7 +1695,7 @@ class _AddActivityScreenState
                               enabled: true,
                               textCapitalization: TextCapitalization.sentences,
                               style: textTheme.subhead.copyWith(
-                                color: Colors.black,
+                                color: qDarkmodeEnable?Colors.white:Colors.black,
                               ),
                               controller: _parkingController,
                             )
@@ -1817,7 +1831,7 @@ class _AddActivityScreenState
                               enabled: true,
                               textCapitalization: TextCapitalization.sentences,
                               style: textTheme.subhead.copyWith(
-                                color: Colors.black,
+                                color: qDarkmodeEnable?Colors.white:Colors.black,
                               ),
                               controller: _otherController,
                             )
@@ -1885,6 +1899,7 @@ class _AddActivityScreenState
                                           child: Text(
                                             _estDateTxt,
                                             textAlign: TextAlign.left,
+                                             style: TextStyle( color:qDarkmodeEnable?Colors.white:Colors.black),
                                           ),
                                         )
                                       ],
@@ -1915,6 +1930,7 @@ class _AddActivityScreenState
                                           child: Text(
                                             "Date Completed - ",
                                             textAlign: TextAlign.right,
+                                            style: TextStyle(color: qDarkmodeEnable?Colors.white:Colors.black),
                                           ),
                                         ),
                                         Expanded(
@@ -1981,7 +1997,7 @@ class _AddActivityScreenState
                                             : InputBorder.none,
                                       ),
                                       style: textTheme.subhead.copyWith(
-                                        color: Colors.black,
+                                        color:  qDarkmodeEnable?Colors.white:Colors.black,
                                       ),
                                     ),
                                   ),
@@ -2436,7 +2452,7 @@ class _AddActivityScreenState
             // usually buttons at the bottom of the dialog
 
             new FlatButton(
-              child: new Text("Yes"),
+              child: new Text("Yes",style: TextStyle(color: qDarkmodeEnable?Colors.white:Colors.black),),
               onPressed: () {
                 if (widget.id == null || widget.id.isEmpty) {
                   showMessage("Id cannot be null");
@@ -2533,5 +2549,37 @@ class _AddActivityScreenState
   @override
   void onDelete() {
     Navigator.of(context).pop();
+  }
+
+  void checkThemeMode() {
+    if(Theme.of(context).platform == TargetPlatform.iOS){
+
+      var qdarkMode = MediaQuery.of(context).platformBrightness;
+      if (qdarkMode == Brightness.dark){
+        setState(() {
+          qDarkmodeEnable=true;
+        });
+
+
+      } else {
+        setState(() {
+          qDarkmodeEnable=false;
+        });
+
+
+      }
+    }
+  }
+
+  void showPlacePicker() async{
+    LocationResult result = await Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) =>
+            PlacePicker("AIzaSyBPyhyGOHdrur7NmsyLStjhpitr_6IknCc",
+            )));
+    // Handle the result in your way
+    latitude = result.latLng.latitude;
+    longitude = result.latLng.longitude;
+    _locController.text =(result.name + ',' + result.formattedAddress);
+    print(result);
   }
 }

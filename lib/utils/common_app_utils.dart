@@ -184,11 +184,11 @@ bool validateMobile(String value) {
 Widget buildActivityListItem(Activites ac, context,
     {bool showConfirm = false, onConfirmPressed, onTap, bool isPast = false}) {
   return Container(
-    width: MediaQuery.of(context).size.width/1.55,
+    width: MediaQuery.of(context).size.width/1.45,
     margin: EdgeInsets.symmetric(horizontal: 3, vertical: 5),
     child: InkWell(
       child: Container(
-        padding: ac.bandId.isNotEmpty ? EdgeInsets.all(5) : EdgeInsets.all(15),
+        padding: ac.bandId.isNotEmpty ? EdgeInsets.all(5) : EdgeInsets.all(10),
         decoration: ac.bandId.isEmpty
             ? BoxDecoration(
                 color: Color.fromRGBO(40, 35, 188, 0.2),

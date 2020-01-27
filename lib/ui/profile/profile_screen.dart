@@ -93,6 +93,32 @@ class _ProfileScreenState
       },
     );
   }
+  bool qDarkmodeEnable=false;
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    checkThemeMode();
+  }
+  void checkThemeMode() {
+    if(Theme.of(context).platform == TargetPlatform.iOS){
+
+      var qdarkMode = MediaQuery.of(context).platformBrightness;
+      if (qdarkMode == Brightness.dark){
+        setState(() {
+          qDarkmodeEnable=true;
+        });
+
+
+      } else {
+        setState(() {
+          qDarkmodeEnable=false;
+        });
+
+
+      }
+    }
+  }
 
   @override
   Widget buildBody() {
@@ -123,7 +149,7 @@ class _ProfileScreenState
                 child: Container(),
               ),
               IconButton(
-                icon: Icon(Icons.edit),
+                icon: Icon(Icons.edit,color: qDarkmodeEnable?Colors.black87:Colors.black87,),
                 onPressed: () {
                   setState(() {
                     isEdit = !isEdit;
@@ -175,6 +201,7 @@ class _ProfileScreenState
                           ? Icon(
                               Icons.account_circle,
                               size: 130,
+                        color: qDarkmodeEnable?Colors.black12:Colors.grey,
                             )
                           : null,
                     ),
@@ -191,19 +218,26 @@ class _ProfileScreenState
                           ? TextField(
                               controller: _firstNameController,
                               decoration: InputDecoration(
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black,width: .5),
+
+                                ),
                                 labelText: "FirstName",
                                 labelStyle: TextStyle(
                                   color: Color.fromRGBO(169, 176, 187, 1.0),
                                 ),
                                 errorText: _errorFirstName,
                               ),
+                        style: TextStyle(color: Colors.black87),
                             )
                           : Text(
                               _firstNameController.text +
                                   ' ' +
                                   _lastNameController.text,
                               textAlign: TextAlign.center,
-                              style: textTheme.title,
+                              style: textTheme.title.apply(
+                                color: Colors.black87
+                              ),
                             ),
                     ),
                     Padding(
@@ -214,11 +248,16 @@ class _ProfileScreenState
                             child: TextField(
                               controller: _lastNameController,
                               decoration: InputDecoration(
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.black,width: .5),
+
+                                  ),
                                   labelText: "LastName",
                                   labelStyle: TextStyle(
                                     color: Color.fromRGBO(169, 176, 187, 1.0),
                                   ),
                                   errorText: _errorLastName),
+                              style: TextStyle(color: Colors.black87),
                             ),
                           )
                         : Container()
@@ -237,16 +276,22 @@ class _ProfileScreenState
                           phoneNumberFormatter,
                         ],
                         decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black,width: .5),
+
+                            ),
                             labelText: "Phone",
                             labelStyle: TextStyle(
                               color: Color.fromRGBO(169, 176, 187, 1.0),
                             ),
-                            errorText: _errorPhone),
+                            errorText: _errorPhone),style: TextStyle(color: Colors.black87),
                       )
                     : Text(
                         _phoneController.text,
                         textAlign: TextAlign.center,
-                        style: textTheme.title,
+                        style: textTheme.title.apply(
+                          color: Colors.black87
+                        ),
                       ),
                 Padding(
                   padding: EdgeInsets.all(4),
@@ -257,16 +302,22 @@ class _ProfileScreenState
                         enabled: false,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black,width: .5),
+
+                            ),
                             labelText: "Email",
                             labelStyle: TextStyle(
                               color: Color.fromRGBO(169, 176, 187, 1.0),
                             ),
-                            errorText: _errorEmail),
+                            errorText: _errorEmail),style: TextStyle(color: Colors.black87),
                       )
                     : Text(
                         _emailController.text,
                         textAlign: TextAlign.center,
-                        style: textTheme.title,
+                        style: textTheme.title.apply(
+                          color: Colors.black87
+                        ),
                       ),
                 Padding(
                   padding: EdgeInsets.all(4),
@@ -313,17 +364,24 @@ class _ProfileScreenState
                         controller: _zipController,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black,width: .5),
+
+                          ),
                           labelText: "Zip Code",
                           labelStyle: TextStyle(
                             color: Color.fromRGBO(169, 176, 187, 1.0),
                           ),
                           errorText: _errorZip,
                         ),
+                  style: TextStyle(color: Colors.black87),
                       )
                     : Text(
                         _zipController.text,
                         textAlign: TextAlign.center,
-                        style: textTheme.title,
+                        style: textTheme.title.apply(
+                          color: Colors.black87
+                        ),
                       ),
                 Padding(
                   padding: EdgeInsets.all(4),
@@ -333,7 +391,9 @@ class _ProfileScreenState
                     : Text(
                         "Local Timezone- $currentTimeZone",
                         textAlign: TextAlign.center,
-                        style: textTheme.title,
+                        style: textTheme.title.apply(
+                          color: Colors.black87
+                        ),
                       ),
                 Padding(
                   padding: EdgeInsets.all(4),
@@ -344,17 +404,24 @@ class _ProfileScreenState
                             controller: _guardianNameController,
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(
-                              labelText: "Dependent Name",
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black,width: .5),
+
+                              ),
+                              labelText: "Owner of account behalf of dependent",
                               labelStyle: TextStyle(
                                 color: Color.fromRGBO(169, 176, 187, 1.0),
                               ),
                               errorText: _errorGuardianName,
                             ),
+                  style: TextStyle(color: Colors.black87),
                           )
                         : Text(
                             _guardianNameController.text,
                             textAlign: TextAlign.center,
-                            style: textTheme.title,
+                            style: textTheme.title.apply(
+                              color: Colors.black87
+                            ),
                           )
                     : Container(),
                 isUnderAge
@@ -363,17 +430,24 @@ class _ProfileScreenState
                             controller: _guardianEmailController,
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
-                              labelText: "Dependent Email",
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black,width: .5),
+
+                              ),
+                              labelText: "Owner Email",
                               labelStyle: TextStyle(
                                 color: Color.fromRGBO(169, 176, 187, 1.0),
                               ),
                               errorText: _errorGuardianEmail,
                             ),
+                  style: TextStyle(color: Colors.black87),
                           )
                         : Text(
                             _guardianEmailController.text,
                             textAlign: TextAlign.center,
-                            style: textTheme.title,
+                            style: textTheme.title.apply(
+                              color: Colors.black87
+                            ),
                           )
                     : Container(),
 //                TextField(

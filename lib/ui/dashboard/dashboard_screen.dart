@@ -20,12 +20,38 @@ class _DashboardScreenState
     extends BaseScreenState<DashboardScreen, DashboardPresenter>
     implements DashboardContract {
   String userPlayingStyleId;
+  bool qDarkmodeEnable=false;
 
   @override
   void initState() {
     super.initState();
     presenter.doWelcome();
     presenter.getPlayingStyleList("");
+  }
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    checkThemeMode();
+  }
+  void checkThemeMode() {
+    if(Theme.of(context).platform == TargetPlatform.iOS){
+
+      var qdarkMode = MediaQuery.of(context).platformBrightness;
+      if (qdarkMode == Brightness.dark){
+        setState(() {
+          qDarkmodeEnable=true;
+        });
+
+
+      } else {
+        setState(() {
+          qDarkmodeEnable=false;
+        });
+
+
+      }
+    }
   }
 
   
@@ -220,7 +246,7 @@ class _DashboardScreenState
                       borderColor = Colors.deepOrangeAccent;
                       break;
                     case "EPK":
-                      color = Color.fromRGBO(225, 222, 222, 0.7);
+                      color = qDarkmodeEnable?Color.fromRGBO(255, 191, 0, 1.0):Color.fromRGBO(225, 222, 222, 0.7);
                       //color=Color.fromRGBO(80, 54, 116, 1.0);
                       //	color = Color.fromRGBO(26, 182, 37, 0.1);
                       image = 'assets/images/microphoneepk.svg';

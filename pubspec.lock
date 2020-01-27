@@ -240,13 +240,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.5.21+15"
-  google_places_picker:
-    dependency: "direct main"
-    description:
-      name: google_places_picker
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.0+2"
   http:
     dependency: "direct main"
     description:
@@ -303,6 +296,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.1+1"
+  location:
+    dependency: transitive
+    description:
+      name: location
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.3.5"
   logging:
     dependency: transitive
     description:
@@ -380,6 +380,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.4.0"
+  place_picker:
+    dependency: "direct main"
+    description:
+      name: place_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.9.11"
   platform:
     dependency: transitive
     description:

@@ -3,7 +3,6 @@ import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/activities.dart';
 import 'package:gigtrack/ui/addtravel/addtravel_presenter.dart';
-import 'package:google_places_picker/google_places_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:random_string/random_string.dart';
 
@@ -29,8 +28,35 @@ class _AddTravelScreenState
   List<Sleeping> sleepingList = [];
   List<Flight> flightsList = [];
 
-  Travel travel = Travel();
+  bool qDarkmodeEnable= false;
 
+  Travel travel = Travel();
+   @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+
+     checkThemeMode();
+  }
+
+  void checkThemeMode() {
+    if(Theme.of(context).platform == TargetPlatform.iOS){
+
+      var qdarkMode = MediaQuery.of(context).platformBrightness;
+      if (qdarkMode == Brightness.dark){
+        setState(() {
+          qDarkmodeEnable=true;
+        });
+
+
+      } else {
+        setState(() {
+          qDarkmodeEnable=false;
+        });
+
+
+      }
+    }
+  }
   @override
   Widget buildBody() {
     return Container(
@@ -41,7 +67,9 @@ class _AddTravelScreenState
           Stack(
             children: <Widget>[
               InkWell(
-                child: Icon(Icons.arrow_back),
+                child: Icon(Icons.arrow_back
+                ,color: qDarkmodeEnable?Colors.black:Colors.white,
+                ),
                 onTap: () {
                   Navigator.pop(context);
                 },
@@ -49,7 +77,9 @@ class _AddTravelScreenState
               Align(
                 child: Text(
                   "Add Travel",
-                  style: textTheme.headline,
+                  style: textTheme.headline.apply(
+                    color: qDarkmodeEnable?Colors.black:Colors.white
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 alignment: Alignment.center,
@@ -422,18 +452,18 @@ class _AddTravelScreenState
                                   suffixIcon: IconButton(
                                     icon: Icon(Icons.add),
                                     onPressed: () async {
-                                      var place =
-                                      await PluginGooglePlacePicker
-                                          .showAutocomplete(
-                                        mode: PlaceAutocompleteMode
-                                            .MODE_OVERLAY,
-                                        countryCode: "US",
-                                        typeFilter: TypeFilter.ESTABLISHMENT,
-                                      );
-//                                      latitude = place.latitude;
-//                                      longitude = place.longitude;
-//                                      _locController.text =
-//                                      (place.name + ',' + place.address);
+//                                      var place =
+//                                      await PluginGooglePlacePicker
+//                                          .showAutocomplete(
+//                                        mode: PlaceAutocompleteMode
+//                                            .MODE_OVERLAY,
+//                                        countryCode: "US",
+//                                        typeFilter: TypeFilter.ESTABLISHMENT,
+//                                      );
+////                                      latitude = place.latitude;
+////                                      longitude = place.longitude;
+////                                      _locController.text =
+////                                      (place.name + ',' + place.address);
                                     },
                                   ),
 //                                  labelText: "Location (Click + for maps)"

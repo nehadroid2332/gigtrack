@@ -80,10 +80,11 @@ class ActivitiesListPresenter extends BasePresenter {
           }
         }if(activites.band!=null) {
           if (activites.band.bandmates.keys
-              .contains(serverAPI.currentUserEmail.replaceAll(".", ""))||activites.band.userId==serverAPI.currentUserId) {
+              .contains(serverAPI.currentUserEmail.replaceAll(".", ""))||activites.band.userId==serverAPI.currentUserId&& activites.band.id==bandId) {
             acc.add(activites);
           }
         }
+
       }
       return acc;
     });

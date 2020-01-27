@@ -156,6 +156,32 @@ class _AddBandScreenState
     presenter.getPlayingStyleList(widget.id);
     presenter.getUserProfile();
   }
+  bool qDarkmodeEnable=false;
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    checkThemeMode();
+  }
+  void checkThemeMode() {
+    if(Theme.of(context).platform == TargetPlatform.iOS){
+
+      var qdarkMode = MediaQuery.of(context).platformBrightness;
+      if (qdarkMode == Brightness.dark){
+        setState(() {
+          qDarkmodeEnable=true;
+        });
+
+
+      } else {
+        setState(() {
+          qDarkmodeEnable=false;
+        });
+
+
+      }
+    }
+  }
 
   @override
   AppBar get appBar => AppBar(
@@ -172,7 +198,7 @@ class _AddBandScreenState
                 actions: <Widget>[
                   FlatButton(
                     child: Text("No",style:
-                      TextStyle(color: Colors.black),),
+                      TextStyle(color:qDarkmodeEnable?Colors.white: Colors.black),),
                     onPressed: () {
                       Navigator.of(context).pop(true);
                     },
@@ -263,7 +289,7 @@ class _AddBandScreenState
             // usually buttons at the bottom of the dialog
 
             new FlatButton(
-              child: new Text("Yes"),
+              child: new Text("Yes",style: TextStyle(color: qDarkmodeEnable?Colors.white:Colors.black)),
               textColor: Colors.black,
               onPressed: () {
                 if (widget.id == null || widget.id.isEmpty) {
@@ -481,7 +507,7 @@ class _AddBandScreenState
                                   : InputBorder.none,
                             ),
                             style: textTheme.subhead.copyWith(
-                              color: Colors.black,
+                              color: qDarkmodeEnable?Colors.white:Colors.black,
                             ),
                           )
                               : Text(
@@ -518,7 +544,7 @@ class _AddBandScreenState
                                   : InputBorder.none,
                             ),
                             style: textTheme.subhead.copyWith(
-                              color: Colors.black,
+                              color:  qDarkmodeEnable?Colors.white:Colors.black,
                             ),
                           )
                               : Text(
@@ -550,7 +576,7 @@ class _AddBandScreenState
                                   : InputBorder.none,
                             ),
                             style: textTheme.subhead.copyWith(
-                              color: Colors.black,
+                              color:  qDarkmodeEnable?Colors.white:Colors.black,
                             ),
                           )
                               : Container(),
@@ -583,7 +609,7 @@ class _AddBandScreenState
                                   : InputBorder.none,
                             ),
                             style: textTheme.subhead.copyWith(
-                              color: Colors.black,
+                              color:  qDarkmodeEnable?Colors.white:Colors.black,
                             ),
                           )
                               : Container(),
@@ -621,7 +647,7 @@ class _AddBandScreenState
                                       : InputBorder.none,
                                 ),
                                 style: textTheme.subhead.copyWith(
-                                  color: Colors.black,
+                                  color: qDarkmodeEnable?Colors.white:Colors.black,
                                 ),
                               ),
                             ),
@@ -888,7 +914,7 @@ class _AddBandScreenState
                                 child: Text(
                                   "Members(${members.length})",
                                   style: textTheme.subhead.copyWith(
-                                    color: Colors.black,
+                                    color:  qDarkmodeEnable?Colors.white:Colors.black,
                                   ),
                                 ),
                               ),
@@ -901,7 +927,7 @@ class _AddBandScreenState
                                 icon: Icon(
                                   Icons.add,
                                   color:
-                                  widget.appListener.accentColor,
+                                  qDarkmodeEnable?Colors.white:Colors.black,
                                 ),
                                 onPressed: () async {
                                   await widget.appListener.router
@@ -949,7 +975,7 @@ class _AddBandScreenState
                                         "${user.firstName} ${user.lastName} - ${user.instrumentList?.join(', ')}",
                                         style: textTheme.subhead
                                             .copyWith(
-                                          color: Colors.black,
+                                          color:  qDarkmodeEnable?Colors.white:Colors.black,
                                           fontSize: 12.3,
                                         ),
                                         textAlign: TextAlign.center,
@@ -958,7 +984,7 @@ class _AddBandScreenState
                                         "${user.firstName} ${user.lastName}",
                                         style: textTheme.subhead
                                             .copyWith(
-                                          color: Colors.black,
+                                          color: qDarkmodeEnable?Colors.white:Colors.black,
                                           fontSize: 12.3,
                                         ),
                                         textAlign: TextAlign.center,
@@ -987,7 +1013,7 @@ class _AddBandScreenState
                                               "${user.memberRole?.join(',') ?? ''}  ",
                                               style: textTheme.subhead
                                                   .copyWith(
-                                                color: Colors.black,
+                                                color:  qDarkmodeEnable?Colors.white:Colors.black,
                                                 fontSize: 12.3,
                                               ),
                                               textAlign:
@@ -997,7 +1023,7 @@ class _AddBandScreenState
                                               "${user.memberRole?.join(',') ?? ''} ",
                                               style: textTheme.subhead
                                                   .copyWith(
-                                                color: Colors.black,
+                                                color:  qDarkmodeEnable?Colors.white:Colors.black,
                                                 fontSize: 12.3,
                                               ),
                                               textAlign:
@@ -1011,7 +1037,7 @@ class _AddBandScreenState
                                               "- $permission",
                                               style: textTheme.subhead
                                                   .copyWith(
-                                                color: Colors.black,
+                                                color:  qDarkmodeEnable?Colors.white:Colors.black,
                                                 fontSize: 12.3,
                                               ),
                                               textAlign: TextAlign.center,
@@ -1019,7 +1045,7 @@ class _AddBandScreenState
                                               "$permission",
                                               style: textTheme.subhead
                                                   .copyWith(
-                                                color: Colors.black,
+                                                color:  qDarkmodeEnable?Colors.white:Colors.black,
                                                 fontSize: 12.3,
                                               ),
                                               textAlign: TextAlign.center,
@@ -1077,6 +1103,7 @@ class _AddBandScreenState
                                 child: InkWell(
                                   child: Container(
                                       decoration: BoxDecoration(
+                                        color: qDarkmodeEnable?Colors.white:Colors.transparent,
                                           borderRadius: BorderRadius.circular(10),
                                           border: Border.all(
                                               color:Color.fromRGBO(167, 0, 0, 1.0),
@@ -1088,7 +1115,7 @@ class _AddBandScreenState
                                           vertical: 25,
                                         ),
                                         child: Text(
-                                          "Activites/Schedule",
+                                          "Activities/Schedule",
                                           textAlign: TextAlign.center,
                                           style: textTheme.subhead.copyWith(
                                               fontWeight: FontWeight.w600,
@@ -1109,6 +1136,7 @@ class _AddBandScreenState
                                 child: InkWell(
                                   child: Container(
                                     decoration: BoxDecoration(
+                                        color: qDarkmodeEnable?Colors.white:Colors.transparent,
                                         borderRadius: BorderRadius.circular(10),
                                         border: Border.all(
                                             color:Color.fromRGBO(167, 0, 0, 1.0),
@@ -1148,6 +1176,7 @@ class _AddBandScreenState
                                 child: InkWell(
                                   child: Container(
                                     decoration: BoxDecoration(
+                                        color: qDarkmodeEnable?Colors.white:Colors.transparent,
                                         borderRadius: BorderRadius.circular(10),
                                         border: Border.all(
                                             color:Color.fromRGBO(167, 0, 0, 1.0),
@@ -1182,6 +1211,7 @@ class _AddBandScreenState
                                 child: InkWell(
                                   child: Container(
                                     decoration: BoxDecoration(
+                                        color: qDarkmodeEnable?Colors.white:Colors.transparent,
                                         borderRadius: BorderRadius.circular(10),
                                         border: Border.all(
                                             color:Color.fromRGBO(167, 0, 0, 1.0),
@@ -1221,6 +1251,7 @@ class _AddBandScreenState
                                 child: InkWell(
                                   child: Container(
                                     decoration: BoxDecoration(
+                                        color: qDarkmodeEnable?Colors.white:Colors.transparent,
                                         borderRadius: BorderRadius.circular(10),
                                         border: Border.all(
                                             color:Color.fromRGBO(167, 0, 0, 1.0),
@@ -1260,6 +1291,7 @@ class _AddBandScreenState
                                 child: InkWell(
                                   child: Container(
                                     decoration: BoxDecoration(
+                                        color: qDarkmodeEnable?Colors.white:Colors.transparent,
                                         borderRadius: BorderRadius.circular(10),
                                         border: Border.all(
                                             color:Color.fromRGBO(167, 0, 0, 1.0),
@@ -1299,6 +1331,7 @@ class _AddBandScreenState
                                 child: InkWell(
                                   child: Container(
                                     decoration: BoxDecoration(
+                                        color: qDarkmodeEnable?Colors.white:Colors.transparent,
                                         borderRadius: BorderRadius.circular(10),
                                         border: Border.all(
                                             color:Color.fromRGBO(167, 0, 0, 1.0),
@@ -1327,6 +1360,7 @@ class _AddBandScreenState
                                 child: InkWell(
                                   child: Container(
                                     decoration: BoxDecoration(
+                                        color: qDarkmodeEnable?Colors.white:Colors.transparent,
                                         borderRadius: BorderRadius.circular(10),
                                         border: Border.all(
                                             color:Color.fromRGBO(167, 0, 0, 1.0),

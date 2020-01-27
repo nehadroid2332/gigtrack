@@ -48,6 +48,32 @@ class _AddBulletInBoardScreenState
   bool isDateVisible = false;
   bool isshowTitle = false;
 
+  bool qDarkmodeEnable=false;
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    checkThemeMode();
+  }
+  void checkThemeMode() {
+    if(Theme.of(context).platform == TargetPlatform.iOS){
+
+      var qdarkMode = MediaQuery.of(context).platformBrightness;
+      if (qdarkMode == Brightness.dark){
+        setState(() {
+          qDarkmodeEnable=true;
+        });
+
+
+      } else {
+        setState(() {
+          qDarkmodeEnable=false;
+        });
+
+
+      }
+    }
+  }
   @override
   AppBar get appBar => AppBar(
         iconTheme: IconThemeData(
@@ -429,7 +455,7 @@ class _AddBulletInBoardScreenState
                               textColor: Colors.white,
                             )
                           : Container(),
-                      Text("Craeted By: ${user?.firstName} ${user?.lastName}"),
+                      (widget.id.isNotEmpty &&!isEdit)?Text("Craeted By: ${user?.firstName} ${user?.lastName}"):Container(),
                       Padding(
                         padding: EdgeInsets.all(10),
                       ),
@@ -629,8 +655,7 @@ class _AddBulletInBoardScreenState
             // usually buttons at the bottom of the dialog
 
             new FlatButton(
-              child: new Text("Yes"),
-              textColor: Colors.black,
+              child: new Text("Yes",style: TextStyle(color:qDarkmodeEnable?Colors.white:Colors.black87),),
               onPressed: () {
                 if (widget.id == null || widget.id.isEmpty) {
                   showMessage("Id cannot be null");

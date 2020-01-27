@@ -210,7 +210,32 @@ class _AddInstrumentScreenState
   }
 
   bool isEdit = false;
+  bool qDarkmodeEnable=false;
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    checkThemeMode();
+  }
+  void checkThemeMode() {
+    if(Theme.of(context).platform == TargetPlatform.iOS){
 
+      var qdarkMode = MediaQuery.of(context).platformBrightness;
+      if (qdarkMode == Brightness.dark){
+        setState(() {
+          qDarkmodeEnable=true;
+        });
+
+
+      } else {
+        setState(() {
+          qDarkmodeEnable=false;
+        });
+
+
+      }
+    }
+  }
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
@@ -502,7 +527,7 @@ class _AddInstrumentScreenState
                                             textCapitalization:
                                                 TextCapitalization.words,
                                             style: textTheme.subhead.copyWith(
-                                              color: Colors.black,
+                                              color: qDarkmodeEnable?Colors.white:Colors.black,
                                             ),
                                             decoration: InputDecoration(
                                               labelText: "Equipment Name",
@@ -542,7 +567,7 @@ class _AddInstrumentScreenState
                                                       "Click to add special name",
                                                       style: textTheme.display1
                                                           .copyWith(
-                                                              color: widget
+                                                              color:qDarkmodeEnable?Colors.red: widget
                                                                   .appListener
                                                                   .primaryColorDark,
                                                               fontSize: 14),
@@ -561,7 +586,7 @@ class _AddInstrumentScreenState
                                             textCapitalization:
                                                 TextCapitalization.words,
                                             style: textTheme.subhead.copyWith(
-                                              color: Colors.black,
+                                              color: qDarkmodeEnable?Colors.white:Colors.black,
                                             ),
                                             decoration: InputDecoration(
                                               labelText:
@@ -601,7 +626,7 @@ class _AddInstrumentScreenState
                                               Container(
                                                 height: 1,
                                                 width: 100,
-                                                color: Colors.black,
+                                                color: qDarkmodeEnable?Colors.white:Colors.black,
                                               ),
                                               Row(
                                                 mainAxisAlignment:
@@ -631,7 +656,7 @@ class _AddInstrumentScreenState
                                             textCapitalization:
                                                 TextCapitalization.words,
                                             style: textTheme.subhead.copyWith(
-                                              color: Colors.black,
+                                              color:qDarkmodeEnable?Colors.white: Colors.black,
                                             ),
                                             decoration: InputDecoration(
                                               labelText: "Purchased Where?",
@@ -690,7 +715,7 @@ class _AddInstrumentScreenState
                                                             style: textTheme
                                                                 .display1
                                                                 .copyWith(
-                                                                    color: widget
+                                                                    color:qDarkmodeEnable?Colors.red: widget
                                                                         .appListener
                                                                         .primaryColorDark,
                                                                     fontSize:
@@ -767,7 +792,7 @@ class _AddInstrumentScreenState
                                                                 .subhead
                                                                 .copyWith(
                                                               color:
-                                                                  Colors.black,
+                                                                  qDarkmodeEnable?Colors.white:Colors.black,
                                                             ),
                                                           ),
                                                         ),
@@ -878,7 +903,7 @@ class _AddInstrumentScreenState
                                             textCapitalization:
                                                 TextCapitalization.words,
                                             style: textTheme.subhead.copyWith(
-                                              color: Colors.black,
+                                              color:qDarkmodeEnable?Colors.white: Colors.black,
                                             ),
                                             decoration: InputDecoration(
                                               labelText: "Cost",
@@ -951,7 +976,7 @@ class _AddInstrumentScreenState
                                                       : InputBorder.none,
                                             ),
                                             style: textTheme.subhead.copyWith(
-                                              color: Colors.black,
+                                              color: qDarkmodeEnable?Colors.white:Colors.black,
                                             ),
                                           )
                                         : _serialNumberController.text.isEmpty
@@ -1007,7 +1032,7 @@ class _AddInstrumentScreenState
                                                       "Click here to add warranty info",
                                                       style: textTheme.display1
                                                           .copyWith(
-                                                              color: widget
+                                                              color: qDarkmodeEnable?Colors.red:widget
                                                                   .appListener
                                                                   .primaryColorDark,
                                                               fontSize: 16),
@@ -1053,7 +1078,7 @@ class _AddInstrumentScreenState
                                                         ),
                                                         style: textTheme.subhead
                                                             .copyWith(
-                                                          color: Colors.black,
+                                                          color: qDarkmodeEnable?Colors.white:Colors.black,
                                                         ),
                                                       )
                                                     : _warrantyController
@@ -1084,7 +1109,7 @@ class _AddInstrumentScreenState
                                                               Container(
                                                                 height: 1,
                                                                 width: 100,
-                                                                color: Colors
+                                                                color:qDarkmodeEnable?Colors.white: Colors
                                                                     .black,
                                                               ),
                                                               Center(
@@ -1126,7 +1151,7 @@ class _AddInstrumentScreenState
                                                                   ? Text(
                                                                       "Click here to add warranty end date",
                                                                       style: textTheme.display1.copyWith(
-                                                                          color: widget
+                                                                          color: qDarkmodeEnable?Colors.red:widget
                                                                               .appListener
                                                                               .primaryColorDark,
                                                                           fontSize:
@@ -1184,7 +1209,7 @@ class _AddInstrumentScreenState
                                                                             .subhead
                                                                             .copyWith(
                                                                           color:
-                                                                              Colors.black,
+                                                                             qDarkmodeEnable?Colors.white: Colors.black,
                                                                         ),
                                                                       ),
                                                                     ),
@@ -1304,7 +1329,7 @@ class _AddInstrumentScreenState
                                                       "Click to add Insurance info",
                                                       style: textTheme.display1
                                                           .copyWith(
-                                                              color: widget
+                                                              color:qDarkmodeEnable?Colors.red: widget
                                                                   .appListener
                                                                   .primaryColorDark,
                                                               fontSize: 16),
@@ -1324,7 +1349,7 @@ class _AddInstrumentScreenState
                                                     TextCapitalization.words,
                                                 style:
                                                     textTheme.subhead.copyWith(
-                                                  color: Colors.black,
+                                                  color:qDarkmodeEnable?Colors.white: Colors.black,
                                                 ),
                                                 decoration: InputDecoration(
                                                   labelText: "Insured with",
@@ -1359,7 +1384,7 @@ class _AddInstrumentScreenState
                                                       Container(
                                                         height: 1,
                                                         width: 100,
-                                                        color: Colors.black,
+                                                        color:qDarkmodeEnable?Colors.white: Colors.black,
                                                       ),
                                                       Center(
                                                         child: Text(
@@ -1390,7 +1415,7 @@ class _AddInstrumentScreenState
                                                     TextCapitalization.words,
                                                 style:
                                                     textTheme.subhead.copyWith(
-                                                  color: Colors.black,
+                                                  color: qDarkmodeEnable?Colors.white:Colors.black,
                                                 ),
                                                 decoration: InputDecoration(
                                                   labelText: "Policy no.",
@@ -1604,7 +1629,7 @@ class _AddInstrumentScreenState
                                             delay: 1000,
                                           )
                                         : Container(),
-                                    Container(
+                                   widget.id.isNotEmpty&&!isEdit? Container(
                                       height: 1,
                                       width: MediaQuery.of(context).size.width,
                                       color: Colors.red,
@@ -1619,7 +1644,7 @@ class _AddInstrumentScreenState
                                               5,
                                           top: 3,
                                           bottom: 14),
-                                    ),
+                                    ):Container(),
                                     ListView.builder(
                                       itemCount: subContacts.length,
                                       shrinkWrap: true,
@@ -1840,9 +1865,7 @@ class _AddInstrumentScreenState
             // usually buttons at the bottom of the dialog
 
             new FlatButton(
-              child: new Text("Yes"),
-              textColor: Colors.black,
-              color: Colors.white,
+              child: new Text("Yes",style: TextStyle(color: qDarkmodeEnable?Colors.white:Colors.black),),
               onPressed: () {
                 if (id == null || id.isEmpty) {
                   showMessage("Id cannot be null");

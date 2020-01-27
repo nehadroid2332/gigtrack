@@ -79,6 +79,32 @@ class _AddContactScreenState
       });
     }
   }
+  bool qDarkmodeEnable=false;
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    checkThemeMode();
+  }
+  void checkThemeMode() {
+    if(Theme.of(context).platform == TargetPlatform.iOS){
+
+      var qdarkMode = MediaQuery.of(context).platformBrightness;
+      if (qdarkMode == Brightness.dark){
+        setState(() {
+          qDarkmodeEnable=true;
+        });
+
+
+      } else {
+        setState(() {
+          qDarkmodeEnable=false;
+        });
+
+
+      }
+    }
+  }
 
   var files = <String>[];
   final _dateToRememberItems = <DateToRememberData>[];
@@ -122,13 +148,13 @@ class _AddContactScreenState
                     title: Text("Do you want to save changes?"),
                     actions: <Widget>[
                       FlatButton(
-                        child: Text("No"),
+                        child: Text("No",style: TextStyle(color: qDarkmodeEnable?Colors.white:Colors.black87),),
                         onPressed: () {
                           Navigator.of(context).pop(true);
                         },
                       ),
                       FlatButton(
-                        child: Text("Yes"),
+                        child: Text("Yes",style: TextStyle(color: qDarkmodeEnable?Colors.white:Colors.black87),),
                         onPressed: () {
                           _submitContact();
                           Navigator.of(context).pop(true);
@@ -153,13 +179,13 @@ class _AddContactScreenState
             width: widget.id.isEmpty
                 ? MediaQuery.of(context).size.width
                 : MediaQuery.of(context).size.width / 2,
-            child: Text(
+            child: Center(child:Text(
               "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Contact",
               textAlign: TextAlign.center,
               style: textTheme.headline.copyWith(
                 color: Colors.white,
               ),
-            ),
+            ) ,)
           ),
           subContact == null
               ? widget.id.isEmpty
@@ -284,10 +310,11 @@ class _AddContactScreenState
           clipper: RoundedClipper(height / 4.5),
           child: Container(
             decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/newupdated.png"),
-                fit: BoxFit.cover,
-              ),
+              color:  Color.fromRGBO(3, 218, 157, 1.0),
+//              image: DecorationImage(
+//                image: AssetImage("assets/images/newupdated.png"),
+//                fit: BoxFit.cover,
+//              ),
             ),
             // color: Color.fromRGBO(3, 54, 255, 1.0),
             height: height / 4.5,
@@ -316,7 +343,9 @@ class _AddContactScreenState
                               padding: EdgeInsets.all(20),
                             ),
                             TextField(
-                              style: textTheme.title,
+                              style: textTheme.title.apply(
+                                color: qDarkmodeEnable?Colors.white:Colors.black87
+                              ),
                               textCapitalization: TextCapitalization.sentences,
                               decoration: InputDecoration(
                                 labelText: "Add Note",
@@ -325,6 +354,7 @@ class _AddContactScreenState
                                   fontSize: 18,
                                 ),
                               ),
+
                               controller: _noteContactController,
                             ),
                             Padding(
@@ -416,7 +446,7 @@ class _AddContactScreenState
                                           : InputBorder.none,
                                     ),
                                     style: textTheme.subhead.copyWith(
-                                      color: Colors.black,
+                                      color: qDarkmodeEnable?Colors.white:Colors.black,
                                     ),
                                   )
                                 : Column(
@@ -491,7 +521,7 @@ class _AddContactScreenState
                                     textCapitalization:
                                         TextCapitalization.sentences,
                                     style: textTheme.subhead.copyWith(
-                                      color: Colors.black,
+                                      color: qDarkmodeEnable?Colors.white:Colors.black,
                                     ),
                                     decoration: InputDecoration(
                                       labelStyle: TextStyle(
@@ -589,8 +619,7 @@ class _AddContactScreenState
                                             TextCapitalization.sentences,
                                         decoration: InputDecoration(
                                           labelStyle: TextStyle(
-                                            color: Color.fromRGBO(
-                                                202, 208, 215, 1.0),
+                                            color: Color.fromRGBO(202, 208, 215, 1.0),
                                           ),
                                           labelText: widget.id.isNotEmpty
                                               ? ""
@@ -601,7 +630,7 @@ class _AddContactScreenState
                                               : InputBorder.none,
                                         ),
                                         style: textTheme.subhead.copyWith(
-                                          color: Colors.black,
+                                          color: qDarkmodeEnable?Colors.white:Colors.black,
                                         ),
                                       )
                                     : Container()
@@ -653,7 +682,7 @@ class _AddContactScreenState
                                     textCapitalization:
                                         TextCapitalization.sentences,
                                     style: textTheme.subhead.copyWith(
-                                      color: Colors.black,
+                                      color: qDarkmodeEnable?Colors.white:Colors.black,
                                     ),
                                     inputFormatters: [
                                       WhitelistingTextInputFormatter.digitsOnly,
@@ -696,7 +725,7 @@ class _AddContactScreenState
                                               top: 0),
                                           alignment: Alignment.bottomCenter,
                                           child: Divider(
-                                            color: Colors.black,
+                                            color: qDarkmodeEnable?Colors.white:Colors.black,
                                             height: 5,
                                             thickness: 1.5,
                                           )),
@@ -755,7 +784,7 @@ class _AddContactScreenState
                                     textCapitalization:
                                         TextCapitalization.sentences,
                                     style: textTheme.subhead.copyWith(
-                                      color: Colors.black,
+                                      color: qDarkmodeEnable?Colors.white:Colors.black,
                                     ),
                                     inputFormatters: [
                                       WhitelistingTextInputFormatter.digitsOnly,
@@ -802,7 +831,7 @@ class _AddContactScreenState
                                                   top: 0),
                                               alignment: Alignment.bottomCenter,
                                               child: Divider(
-                                                color: Colors.black,
+                                                color:qDarkmodeEnable?Colors.white: Colors.black,
                                                 height: 5,
                                                 thickness: 1.5,
                                               )),
@@ -832,7 +861,7 @@ class _AddContactScreenState
                                     controller: _emailController,
                                     keyboardType: TextInputType.emailAddress,
                                     style: textTheme.subhead.copyWith(
-                                      color: Colors.black,
+                                      color: qDarkmodeEnable?Colors.white:Colors.black,
                                     ),
                                     decoration: InputDecoration(
                                       labelStyle: TextStyle(
@@ -873,7 +902,7 @@ class _AddContactScreenState
                                                   top: 0),
                                               alignment: Alignment.bottomCenter,
                                               child: Divider(
-                                                color: Colors.black,
+                                                color: qDarkmodeEnable?Colors.white:Colors.black,
                                                 height: 5,
                                                 thickness: 1.5,
                                               )),
@@ -902,7 +931,7 @@ class _AddContactScreenState
                                     controller: _notesController,
                                     keyboardType: TextInputType.emailAddress,
                                     style: textTheme.subhead.copyWith(
-                                      color: Colors.black,
+                                      color:qDarkmodeEnable?Colors.white:Colors.black,
                                     ),
                                     decoration: InputDecoration(
                                       labelStyle: TextStyle(
@@ -939,7 +968,7 @@ class _AddContactScreenState
                                                   top: 0),
                                               alignment: Alignment.bottomCenter,
                                               child: Divider(
-                                                color: Colors.black,
+                                                color:qDarkmodeEnable?Colors.white: Colors.black,
                                                 height: 5,
                                                 thickness: 1.5,
                                               )),
@@ -1109,7 +1138,7 @@ class _AddContactScreenState
                                                   ),
                                                   style: textTheme.subhead
                                                       .copyWith(
-                                                    color: Colors.black,
+                                                    color: qDarkmodeEnable?Colors.white:Colors.black,
                                                   ),
                                                 )
                                               : Container(),
@@ -1187,7 +1216,7 @@ class _AddContactScreenState
                                                                 .subhead
                                                                 .copyWith(
                                                               color:
-                                                                  Colors.black,
+                                                                  qDarkmodeEnable?Colors.white:Colors.black,
                                                             ),
                                                           ),
                                                         ),
@@ -1205,7 +1234,7 @@ class _AddContactScreenState
                                                             _yearController,
                                                         style: textTheme.subhead
                                                             .copyWith(
-                                                                color: Colors
+                                                                color: qDarkmodeEnable?Colors.white:Colors
                                                                     .black),
                                                         decoration:
                                                             InputDecoration(
@@ -1279,7 +1308,7 @@ class _AddContactScreenState
                                                     alignment:
                                                         Alignment.bottomCenter,
                                                     child: Divider(
-                                                      color: Colors.black,
+                                                      color: qDarkmodeEnable?Colors.white:Colors.black,
                                                       height: 5,
                                                       thickness: 1.5,
                                                     )),
@@ -1803,6 +1832,8 @@ class _AddContactScreenState
   void onUpdate() {
     setState(() {
       isEdit = !isEdit;
+      _adddefaultlikes=false;
+
     });
     showMessage("Updated Successfully");
   }
@@ -1833,8 +1864,7 @@ class _AddContactScreenState
               },
             ),
             new RaisedButton(
-              child: new Text("Yes"),
-              textColor: Colors.white,
+              child: new Text("Yes",style: TextStyle(color: qDarkmodeEnable?Colors.white:Colors.black87),),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6)),
               color: Color.fromRGBO(82, 149, 171, 1.0),
@@ -1870,7 +1900,7 @@ class _AddContactScreenState
 
             new FlatButton(
               child: new Text("Yes"),
-              textColor: Colors.black,
+              textColor: qDarkmodeEnable?Colors.white:Colors.black,
               onPressed: () {
                 if (widget.id == null || widget.id.isEmpty) {
                   showMessage("Id cannot be null");

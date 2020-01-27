@@ -84,10 +84,23 @@ class _AddMemberToBandScreenState
   AppBar get appBar => AppBar(
         elevation: 0,
         actions: <Widget>[
+          Container(
+            alignment: Alignment.center,
+            width: widget.id.isEmpty
+                ? MediaQuery.of(context).size.width
+                : MediaQuery.of(context).size.width / 2,
+            child: Text(
+              "Add Band Member",
+              textAlign: TextAlign.center,
+              style: textTheme.headline.copyWith(
+                color: Colors.white,
+              ),
+            ),
+          ),
           widget.id.isEmpty
               ? Container()
               : IconButton(
-                  icon: Icon(Icons.edit),
+                  icon: Icon(Icons.edit,color: Colors.black,),
                   onPressed: () {
                     setState(() {
                       isEdit = !isEdit;
@@ -97,7 +110,7 @@ class _AddMemberToBandScreenState
           widget.id.isEmpty
               ? Container()
               : IconButton(
-            icon: Icon(Icons.delete),
+            icon: Icon(Icons.delete,color: Colors.black),
             onPressed: () {
             _showDialogConfirm();
             },
@@ -113,6 +126,32 @@ class _AddMemberToBandScreenState
       presenter.getBandMemberDetails(widget.bandId, id: widget.id);
     } else {
       presenter.getBandMemberDetails(widget.bandId);
+    }
+  }
+  bool qDarkmodeEnable=false;
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    checkThemeMode();
+  }
+  void checkThemeMode() {
+    if(Theme.of(context).platform == TargetPlatform.iOS){
+
+      var qdarkMode = MediaQuery.of(context).platformBrightness;
+      if (qdarkMode == Brightness.dark){
+        setState(() {
+          qDarkmodeEnable=true;
+        });
+
+
+      } else {
+        setState(() {
+          qDarkmodeEnable=false;
+        });
+
+
+      }
     }
   }
 
@@ -277,11 +316,17 @@ class _AddMemberToBandScreenState
                         controller: _searchController,
                         decoration: InputDecoration(
                           hintText: "Search",
+                          hintStyle: TextStyle(color: Colors.black),
+                            enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black,width: .5),
+
+      ),
                         ),
                       ),
                     ),
                     FlatButton(
-                      child: Text("Search"),
+                      color: Colors.black26,
+                      child: Text("Search",style: TextStyle(color: Colors.black),),
                       onPressed: () {
                         presenter.searchUser(_searchController.text);
                       },
@@ -301,8 +346,8 @@ class _AddMemberToBandScreenState
                             itemBuilder: (BuildContext context, int index) {
                               Contacts user = searchUsers[index];
                               return ListTile(
-                                title: Text("${user.name}"),
-                                subtitle: Text(user.relationship),
+                                title: Text("${user.name}",style: TextStyle(color: qDarkmodeEnable?Colors.black87:Colors.black87),),
+                                subtitle: Text(user.relationship,style: TextStyle(color: qDarkmodeEnable?Colors.black87:Colors.black87),),
                                 trailing: FlatButton(
                                   child: Text(
                                     "Select",
@@ -328,7 +373,7 @@ class _AddMemberToBandScreenState
                           )
                         : Center(
                             child: FlatButton(
-                              child: Text("Click to Add Member"),
+                              child: Text("Click to Add Member",style: TextStyle(color: Colors.black),),
                               onPressed: () {
                                 setState(() {
                                   itemSelect = Contacts();
@@ -341,13 +386,20 @@ class _AddMemberToBandScreenState
                           TextField(
                             controller: _firstNameController,
                             enabled: widget.id.isEmpty || isEdit,
+
                             decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black,width: .5),
+
+                              ),
                               labelText: "Name",
                               labelStyle: TextStyle(
                                 color: Color.fromRGBO(169, 176, 187, 1.0),
                               ),
+
                               errorText: _errorFirstName,
                             ),
+                            style: TextStyle(color: Colors.black87),
                           ),
 //                          TextField(
 //                            controller: _lastNameController,
@@ -369,12 +421,17 @@ class _AddMemberToBandScreenState
                               phoneNumberFormatter,
                             ],
                             decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black,width: .5),
+
+                              ),
                               labelText: "Mobile/Text",
                               labelStyle: TextStyle(
                                 color: Color.fromRGBO(169, 176, 187, 1.0),
                               ),
                               errorText: _errorMobileText,
                             ),
+                            style: TextStyle(color: Colors.black87),
                           ),
                           (widget.id.isNotEmpty &&
                                       presenter.primaryContactEmail == null) ||
@@ -385,19 +442,25 @@ class _AddMemberToBandScreenState
                                           _emailController.text)
                               ? Row(
                                   children: <Widget>[
-                                    Checkbox(
+                                    Theme(
+                                      data: Theme.of(context).copyWith(
+                                        unselectedWidgetColor: Colors.grey,
+                                      ),child: Checkbox(
                                       onChanged: (widget.id.isEmpty || isEdit)
                                           ? (bool value) {
-                                              setState(() {
-                                                isPrimary = value;
-                                              });
-                                            }
-                                          : null,
+                                        setState(() {
+                                          isPrimary = value;
+                                        });
+                                      }
+                                      : null,
+                                      checkColor: Colors.yellowAccent,  // color of tick Mark
+                                      activeColor: isPrimary ? Colors.black87: Colors.grey ,
                                       value: isPrimary,
-                                    ),
+                                    ),),
+
                                     Text(
                                       "Make Primary Contact",
-                                      style: TextStyle(fontSize: 14),
+                                      style: TextStyle(fontSize: 14,color: Colors.black),
                                     )
                                   ],
                                 )
@@ -413,27 +476,40 @@ class _AddMemberToBandScreenState
 //                              errorText: _errorPrimaryContact,
 //                            ),
 //                          ),
+                        Column(children: <Widget>[
                           TextField(
                             controller: _emailController,
                             enabled: widget.id.isEmpty,
                             decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black,width: .5),
+
+                              ),
                               labelText: "Email",
                               labelStyle: TextStyle(
                                 color: Color.fromRGBO(169, 176, 187, 1.0),
                               ),
                               errorText: _errorEmail,
                             ),
+                            style: TextStyle(color: Colors.black87),
                           ),
+                        ],),
+
                           TextField(
                             controller: _emergencyContactTextController,
                             enabled: widget.id.isEmpty || isEdit,
                             decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black,width: .5),
+
+                              ),
                               labelText: "Emergency Contact",
                               labelStyle: TextStyle(
                                 color: Color.fromRGBO(169, 176, 187, 1.0),
                               ),
                               errorText: _errorEmergencyContact,
                             ),
+                            style: TextStyle(color: Colors.black87),
                           ),
                           TextField(
                             controller: _primaryContactTextController,
@@ -444,12 +520,17 @@ class _AddMemberToBandScreenState
                               phoneNumberFormatter,
                             ],
                             decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black,width: .5),
+
+                              ),
                               labelText: "Emergency Contact Phone",
                               labelStyle: TextStyle(
                                 color: Color.fromRGBO(169, 176, 187, 1.0),
                               ),
                               errorText: _errorPrimaryContact,
                             ),
+                            style: TextStyle(color: Colors.black87),
                           ),
                           Padding(
                             padding: EdgeInsets.all(10),
@@ -551,32 +632,47 @@ class _AddMemberToBandScreenState
                           TextField(
                             controller: _otherTalentController,
                             decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black,width: .5),
+
+                              ),
                               labelText: "Other Talent",
                               labelStyle: TextStyle(
                                 color: Color.fromRGBO(169, 176, 187, 1.0),
                               ),
                               errorText: _errorOtherTalent,
                             ),
+                            style: TextStyle(color: Colors.black87),
                           ),
                           TextField(
                             controller: _notesController,
                             decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black,width: .5),
+
+                              ),
                               labelText: "Notes",
                               labelStyle: TextStyle(
                                 color: Color.fromRGBO(169, 176, 187, 1.0),
                               ),
                               errorText: _errorNotes,
                             ),
+                            style: TextStyle(color: Colors.black87),
                           ),
                           TextField(
                             controller: _payController,
                             decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black,width: .5),
+
+                              ),
                               labelText: "Pay Percentage",
                               labelStyle: TextStyle(
                                 color: Color.fromRGBO(169, 176, 187, 1.0),
                               ),
                               errorText: _errorPay,
                             ),
+                            style: TextStyle(color: Colors.black87),
                           ),
                           
                           Container(

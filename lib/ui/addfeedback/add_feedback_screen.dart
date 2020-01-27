@@ -31,7 +31,32 @@ class _AddFeedbackScreenState
     String _password = "12345Six**";
     emailTransport = new SmtpTransport(options);
   }
+  bool qDarkmodeEnable=false;
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    checkThemeMode();
+  }
+  void checkThemeMode() {
+    if(Theme.of(context).platform == TargetPlatform.iOS){
 
+      var qdarkMode = MediaQuery.of(context).platformBrightness;
+      if (qdarkMode == Brightness.dark){
+        setState(() {
+          qDarkmodeEnable=true;
+        });
+
+
+      } else {
+        setState(() {
+          qDarkmodeEnable=false;
+        });
+
+
+      }
+    }
+  }
   @override
   Widget buildBody() {
     return Stack(
@@ -76,7 +101,7 @@ class _AddFeedbackScreenState
                           errorText: _feedbackError,
                           labelText: "Add Feedback",
                           labelStyle: TextStyle(
-                              color: Colors
+                              color:qDarkmodeEnable?Colors.white: Colors
                                   .black //Color.fromRGBO(202, 208, 215, 1.0),
                               ),
                           //border: InputBorder.none,

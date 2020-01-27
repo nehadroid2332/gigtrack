@@ -89,6 +89,32 @@ class _ContactListScreenState
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
   }
+  bool qDarkmodeEnable=false;
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    checkThemeMode();
+  }
+  void checkThemeMode() {
+    if(Theme.of(context).platform == TargetPlatform.iOS){
+
+      var qdarkMode = MediaQuery.of(context).platformBrightness;
+      if (qdarkMode == Brightness.dark){
+        setState(() {
+          qDarkmodeEnable=true;
+        });
+
+
+      } else {
+        setState(() {
+          qDarkmodeEnable=false;
+        });
+
+
+      }
+    }
+  }
 
   _scrollListener() {
     if ((_controller.offset) >= (_controller.position.maxScrollExtent)) {
@@ -109,8 +135,8 @@ class _ContactListScreenState
         child: new Text(
           alpha[index],
           style: (index == posSelected)
-              ? new TextStyle(fontSize: 16, fontWeight: FontWeight.w700)
-              : new TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+              ? new TextStyle(fontSize: 16, fontWeight: FontWeight.w700,color: qDarkmodeEnable?Colors.black:Colors.grey)
+              : new TextStyle(fontSize: 12, fontWeight: FontWeight.w400,color: qDarkmodeEnable?Colors.black:Colors.grey),
         ),
       ),
     );
@@ -203,7 +229,7 @@ class _ContactListScreenState
     return Scaffold(
       backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
       body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+          padding: EdgeInsets.symmetric(horizontal: 25, vertical: 0),
           child: selectedContactInit != null
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -900,6 +926,7 @@ class _ContactListScreenState
                         ],
                       ),
                       Row(
+
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           Container(
@@ -1250,17 +1277,20 @@ class _ContactListScreenState
                 )),
       floatingActionButton: (widget.isLeader && widget.bandId.isNotEmpty) ||
               widget.bandId.isEmpty
-          ? FloatingActionButton(
-              onPressed: () async {
-                await widget.appListener.router.navigateTo(context,
-                    Screens.ADDCONTACT.toString() + "//${widget.bandId}////");
-              },
-              child: Icon(
-                Icons.add,
-                color: Color.fromRGBO(3, 218, 157, 1.0),
-              ),
-              backgroundColor: Colors.yellow,
-            )
+          ? Container(
+          margin: EdgeInsets.only(top: 30,right: 40),
+          child:FloatingActionButton(
+
+        onPressed: () async {
+          await widget.appListener.router.navigateTo(context,
+              Screens.ADDCONTACT.toString() + "//${widget.bandId}////");
+        },
+        child: Icon(
+          Icons.add,
+          color: Color.fromRGBO(3, 218, 157, 1.0),
+        ),
+        backgroundColor: Colors.yellow,
+      ))
           : Container(),
     );
   }
