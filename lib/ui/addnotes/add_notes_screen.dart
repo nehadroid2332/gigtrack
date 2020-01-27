@@ -64,6 +64,8 @@ class _AddNotesScreenState
 
   String userId;
 
+  int status;
+
   @override
   void initState() {
     super.initState();
@@ -559,44 +561,49 @@ class _AddNotesScreenState
                       Padding(
                         padding: EdgeInsets.all(20),
                       ),
-                      (widget.bandId == null || widget.bandId.isEmpty) ||
-                              (widget.bandId != null &&
-                                  (widget.isLeader ||
-                                      (userId != null &&
-                                          userId ==
-                                              presenter
-                                                  .serverAPI.currentUserId)))
-                          ? (widget.id.isNotEmpty&&!isEdit)?Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: RaisedButton(
-                                    color: Color.fromRGBO(3, 54, 255, 1.0),
-                                    onPressed: () {},
-                                    child: Text(
-                                      "Approve",
-                                      style: textTheme.button.copyWith(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(5),
-                                ),
-                                Expanded(
-                                  child: RaisedButton(
-                                    onPressed: () {},
-                                    color: Colors.white,
-                                    child: Text(
-                                      "Declined",
-                                      style: textTheme.button.copyWith(
+                      (widget.bandId != null &&
+                              (widget.isLeader) &&
+                              status == NotesTodo.STATUS_PENDING)
+                          ? (widget.id.isNotEmpty && !isEdit)
+                              ? Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: RaisedButton(
                                         color: Color.fromRGBO(3, 54, 255, 1.0),
+                                        onPressed: () {
+                                          presenter.updateStatus(widget.id,
+                                              NotesTodo.STATUS_APPROVED);
+                                        },
+                                        child: Text(
+                                          "Approve",
+                                          style: textTheme.button.copyWith(
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                    Padding(
+                                      padding: EdgeInsets.all(5),
+                                    ),
+                                    Expanded(
+                                      child: RaisedButton(
+                                        onPressed: () {
+                                          presenter.updateStatus(widget.id,
+                                              NotesTodo.STATUS_DECLINED);
+                                        },
+                                        color: Colors.white,
+                                        child: Text(
+                                          "Declined",
+                                          style: textTheme.button.copyWith(
+                                            color:
+                                                Color.fromRGBO(3, 54, 255, 1.0),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 )
-                              ],
-                            ):Container()
+                              : Container()
                           : Container(),
                       widget.id.isNotEmpty
                           ? isArchieve
@@ -762,6 +769,7 @@ class _AddNotesScreenState
       userId = note.user_id;
       subNotes.clear();
       subNotes.addAll(note.subNotes);
+      status = note.status;
       _descController.text = note.description;
       _noteController.text = note.note;
       DateTime createdDate =

@@ -42,7 +42,7 @@ class _NotesListScreenState
   @override
   void initState() {
     super.initState();
-    list = presenter.getList(widget.bandId);
+    list = presenter.getList(widget.isLeader);
   }
 
   @override
