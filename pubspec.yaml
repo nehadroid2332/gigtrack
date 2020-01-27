@@ -56,6 +56,7 @@ dependencies:
   auto_size_text: ^2.1.0
   speech_bubble: ^0.0.5
   place_picker: ^0.9.11
+  sticky_headers: ^0.1.8+1
 
 
 dev_dependencies:
