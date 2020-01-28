@@ -1315,7 +1315,7 @@ class _AddBandScreenState
                                   onTap: () {
                                     widget.appListener.router.navigateTo(
                                         context,
-                                        Screens.NOTETODOLIST.toString() +
+                                        Screens.BANDCOMMLIST.toString() +
                                             "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
                                   },
                                 ),

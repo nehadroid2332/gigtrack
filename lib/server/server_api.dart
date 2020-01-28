@@ -21,6 +21,7 @@ import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/server/models/user_playing_style.dart';
 import 'package:gigtrack/utils/network_utils.dart';
 import 'package:path/path.dart';
+import 'models/band_comm.dart';
 import 'models/band_member_add_response.dart';
 import 'models/chat.dart';
 import 'models/notification_list_response.dart';
@@ -38,7 +39,12 @@ class ServerAPI {
   StorageReference playingstyleRef;
   StorageReference bandref;
 
-  DatabaseReference notesDB, bulletinDB, setListDB, feedDB, paymentDB;
+  DatabaseReference notesDB,
+      bulletinDB,
+      setListDB,
+      feedDB,
+      paymentDB,
+      bandCommDB;
 
   String adminEmail = "f7oNvNfTqPTuLQAVq6ZaeqllEBx1";
 
@@ -90,6 +96,7 @@ class ServerAPI {
     setListDB = _mainFirebaseDatabase.child("SetList");
     feedDB = _mainFirebaseDatabase.child("Feebacks");
     paymentDB = _mainFirebaseDatabase.child("Payments");
+    bandCommDB = _mainFirebaseDatabase.child("BandComm");
     getCurrentUser();
     firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
@@ -457,6 +464,21 @@ class ServerAPI {
     }
   }
 
+  Future<dynamic> addBandComm(BandCommunication bandComm) async {
+    try {
+      bool isUpdate = true;
+      if (bandComm.id == null || bandComm.id.isEmpty) {
+        String id = bandCommDB.push().key;
+        bandComm.id = id;
+        isUpdate = false;
+      }
+      await bandCommDB.child(bandComm.id).set(bandComm.toMap());
+      return isUpdate;
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
   Future<dynamic> addSetList(SetList setlist) async {
     try {
       bool isUpdate = true;
@@ -663,6 +685,15 @@ class ServerAPI {
     try {
       DataSnapshot dataSnapshot = await notesDB.child(id).once();
       return NotesTodo.fromJSON(dataSnapshot.value);
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
+  Future<dynamic> getBandCommDetails(String id) async {
+    try {
+      DataSnapshot dataSnapshot = await bandCommDB.child(id).once();
+      return BandCommunication.fromJSON(dataSnapshot.value);
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
     }
@@ -880,6 +911,10 @@ class ServerAPI {
 
   void deleteBulletInboard(String id) async {
     await bulletinDB.child(id).remove();
+  }
+
+  void deleteBandComm(String id) async {
+    await bandCommDB.child(id).remove();
   }
 
   void deletePayment(String id) async {

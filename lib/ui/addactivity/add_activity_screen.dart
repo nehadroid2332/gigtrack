@@ -95,7 +95,7 @@ class _AddActivityScreenState
 
   List<Travel> travelList = [];
   double longitude, latitude = 0;
-  bool qDarkmodeEnable=false;
+  bool qDarkmodeEnable = false;
 
   Future<Null> _selectDate(BuildContext context, int type) async {
     final DateTime picked = await showDatePicker(
@@ -197,7 +197,6 @@ class _AddActivityScreenState
     super.initState();
 
     getData();
-
   }
 
   @override
@@ -219,7 +218,7 @@ class _AddActivityScreenState
                   : MediaQuery.of(context).size.width / 2,
               child: Center(
                 child: Text(
-                  "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} ${widget.type == Activites.TYPE_ACTIVITY ? "Activity" : widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? "Performance Schedule" :widget.type == Activites.TYPE_APPOINTMENT ? "Appointment": widget.type == Activites.TYPE_PRACTICE_SCHEDULE ? "Practice Schedule" : widget.type == Activites.TYPE_TASK ? widget.isParent ? "Add Task Notes" : "Task" : widget.type == Activites.TYPE_BAND_TASK ? "Band Task" : ""}",
+                  "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} ${widget.type == Activites.TYPE_ACTIVITY ? "Activity" : widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? "Performance Schedule" : widget.type == Activites.TYPE_APPOINTMENT ? "Appointment" : widget.type == Activites.TYPE_PRACTICE_SCHEDULE ? "Practice Schedule" : widget.type == Activites.TYPE_TASK ? widget.isParent ? "Add Task Notes" : "Task" : widget.type == Activites.TYPE_BAND_TASK ? "Band Task" : ""}",
                   textAlign: TextAlign.center,
                   style: textTheme.headline.copyWith(
                     fontSize: widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE
@@ -354,7 +353,6 @@ class _AddActivityScreenState
               ),
               Expanded(
                 child: Card(
-
                   child: ListView(
                     padding: EdgeInsets.all(10),
                     children: <Widget>[
@@ -395,10 +393,12 @@ class _AddActivityScreenState
                                                 ? "What is the Task"
                                                 : widget.type ==
                                                         Activites.TYPE_ACTIVITY
-                                                    ? "List Activity":widget.type ==
-                                    Activites.TYPE_APPOINTMENT
-                                    ? "List Appointment"
-                                                    : "Title"
+                                                    ? "List Activity"
+                                                    : widget.type ==
+                                                            Activites
+                                                                .TYPE_APPOINTMENT
+                                                        ? "List Appointment"
+                                                        : "Title"
                                     : "",
                                 labelStyle: textTheme.headline.copyWith(
                                   color: Color.fromRGBO(202, 208, 215, 1.0),
@@ -413,10 +413,14 @@ class _AddActivityScreenState
                               style:
                                   widget.id.isEmpty || isEdit || widget.isParent
                                       ? textTheme.subtitle.copyWith(
-                                          color:  qDarkmodeEnable?Colors.white:Colors.black,
+                                          color: qDarkmodeEnable
+                                              ? Colors.white
+                                              : Colors.black,
                                         )
                                       : textTheme.display1.copyWith(
-                                          color: qDarkmodeEnable?Colors.white:Colors.black,
+                                          color: qDarkmodeEnable
+                                              ? Colors.white
+                                              : Colors.black,
                                         ),
                               controller: _titleController,
                             )
@@ -425,7 +429,10 @@ class _AddActivityScreenState
                               child: Text(
                                 _titleController.text,
                                 style: textTheme.display1.copyWith(
-                                    color:qDarkmodeEnable?Colors.white: Colors.black, fontSize: 28),
+                                    color: qDarkmodeEnable
+                                        ? Colors.white
+                                        : Colors.black,
+                                    fontSize: 28),
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -458,7 +465,6 @@ class _AddActivityScreenState
 //                                        longitude = place.longitude;
 //                                        _locController.text =
 //                                            (place.name + ',' + place.address);
-
                                       },
                                     ),
                                     labelText: widget.id.isEmpty || isEdit
@@ -475,7 +481,9 @@ class _AddActivityScreenState
                                   enabled: widget.id.isEmpty || isEdit,
                                   controller: _locController,
                                   style: textTheme.subhead.copyWith(
-                                    color: qDarkmodeEnable?Colors.white:Colors.black,
+                                    color: qDarkmodeEnable
+                                        ? Colors.white
+                                        : Colors.black,
                                   ),
                                 )
                               : widget.type == Activites.TYPE_ACTIVITY ||
@@ -512,7 +520,9 @@ class _AddActivityScreenState
                                                   style: textTheme.subhead
                                                       .copyWith(
                                                     fontSize: 15,
-                                                    color: qDarkmodeEnable?Colors.white:Colors.grey,
+                                                    color: qDarkmodeEnable
+                                                        ? Colors.white
+                                                        : Colors.grey,
                                                   ),
                                                 ),
                                               ),
@@ -536,7 +546,9 @@ class _AddActivityScreenState
                                 : EdgeInsets.all(0),
                       ),
                       Container(
-                        color: qDarkmodeEnable?Colors.transparent:Colors.blue.shade50,
+                        color: qDarkmodeEnable
+                            ? Colors.transparent
+                            : Colors.blue.shade50,
                         padding: EdgeInsets.all(8),
 //                      decoration: BoxDecoration(
 //                        borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -566,7 +578,9 @@ class _AddActivityScreenState
                         child: Column(
                           children: <Widget>[
                             (widget.id.isEmpty || isEdit) &&
-                                    (widget.type == Activites.TYPE_ACTIVITY ||widget.type==Activites.TYPE_APPOINTMENT||
+                                    (widget.type == Activites.TYPE_ACTIVITY ||
+                                        widget.type ==
+                                            Activites.TYPE_APPOINTMENT ||
                                         widget.type ==
                                             Activites
                                                 .TYPE_PERFORMANCE_SCHEDULE ||
@@ -637,7 +651,9 @@ class _AddActivityScreenState
                                                   controller: _dateController,
                                                   style: textTheme.subhead
                                                       .copyWith(
-                                                    color: qDarkmodeEnable?Colors.white:Colors.black,
+                                                    color: qDarkmodeEnable
+                                                        ? Colors.white
+                                                        : Colors.black,
                                                   ),
                                                 ),
                                               ),
@@ -652,87 +668,108 @@ class _AddActivityScreenState
                                       Padding(
                                         padding: EdgeInsets.all(10),
                                       ),
-                                      widget.type==Activites.TYPE_APPOINTMENT?Container():  Expanded(
-                                        child: Column(
-                                          children: <Widget>[
-                                            Center(
-                                                child: Text(
-                                              "End Date",
-                                              style: TextStyle(fontSize: 15),
-                                            )),
-                                            Padding(
-                                              padding:
-                                                  EdgeInsets.only(bottom: 3),
-                                            ),
-                                            InkWell(
-                                              child: Container(
-                                                height: 30,
-                                                decoration: BoxDecoration(
+                                      widget.type == Activites.TYPE_APPOINTMENT
+                                          ? Container()
+                                          : Expanded(
+                                              child: Column(
+                                                children: <Widget>[
+                                                  Center(
+                                                      child: Text(
+                                                    "End Date",
+                                                    style:
+                                                        TextStyle(fontSize: 15),
+                                                  )),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        bottom: 3),
+                                                  ),
+                                                  InkWell(
+                                                    child: Container(
+                                                      height: 30,
+                                                      decoration: BoxDecoration(
 //                                            color: Colors.lightBlue.shade100,
-                                                  border: Border(
-                                                    top: BorderSide(
-                                                        width: 0.0,
-                                                        color: Colors.white),
-                                                    bottom: BorderSide(
-                                                        width: 1.0,
-                                                        color: Colors
-                                                            .grey.shade200),
-                                                  ),
-                                                ),
-                                                child: AbsorbPointer(
-                                                  child: TextField(
-                                                    enabled:
-                                                        widget.id.isEmpty ||
-                                                            isEdit,
-                                                    textCapitalization:
-                                                        TextCapitalization
-                                                            .sentences,
-                                                    textAlignVertical:
-                                                        TextAlignVertical
-                                                            .center,
-                                                    textAlign: TextAlign.center,
-                                                    decoration: InputDecoration(
-                                                      isDense: true,
-                                                      contentPadding:
-                                                          EdgeInsets.all(8),
-                                                      labelText: widget
-                                                                  .id.isEmpty ||
-                                                              isEdit
-                                                          ? widget.type ==
-                                                                  Activites
-                                                                      .TYPE_PRACTICE_SCHEDULE
-                                                              ? ""
-                                                              // : "Start Date"
-                                                              : ""
-                                                          : "",
-                                                      labelStyle: TextStyle(
-                                                        color: Color.fromRGBO(
-                                                            202, 208, 215, 1.0),
+                                                        border: Border(
+                                                          top: BorderSide(
+                                                              width: 0.0,
+                                                              color:
+                                                                  Colors.white),
+                                                          bottom: BorderSide(
+                                                              width: 1.0,
+                                                              color: Colors.grey
+                                                                  .shade200),
+                                                        ),
                                                       ),
-                                                      errorText: _dateError,
-                                                      border: widget
+                                                      child: AbsorbPointer(
+                                                        child: TextField(
+                                                          enabled: widget
                                                                   .id.isEmpty ||
-                                                              isEdit
-                                                          ? null
-                                                          : InputBorder.none,
+                                                              isEdit,
+                                                          textCapitalization:
+                                                              TextCapitalization
+                                                                  .sentences,
+                                                          textAlignVertical:
+                                                              TextAlignVertical
+                                                                  .center,
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          decoration:
+                                                              InputDecoration(
+                                                            isDense: true,
+                                                            contentPadding:
+                                                                EdgeInsets.all(
+                                                                    8),
+                                                            labelText: widget.id
+                                                                        .isEmpty ||
+                                                                    isEdit
+                                                                ? widget.type ==
+                                                                        Activites
+                                                                            .TYPE_PRACTICE_SCHEDULE
+                                                                    ? ""
+                                                                    // : "Start Date"
+                                                                    : ""
+                                                                : "",
+                                                            labelStyle:
+                                                                TextStyle(
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      202,
+                                                                      208,
+                                                                      215,
+                                                                      1.0),
+                                                            ),
+                                                            errorText:
+                                                                _dateError,
+                                                            border: widget.id
+                                                                        .isEmpty ||
+                                                                    isEdit
+                                                                ? null
+                                                                : InputBorder
+                                                                    .none,
+                                                          ),
+                                                          controller:
+                                                              _endDateController,
+                                                          style: textTheme
+                                                              .subhead
+                                                              .copyWith(
+                                                            color:
+                                                                qDarkmodeEnable
+                                                                    ? Colors
+                                                                        .white
+                                                                    : Colors
+                                                                        .black,
+                                                          ),
+                                                        ),
+                                                      ),
                                                     ),
-                                                    controller:
-                                                        _endDateController,
-                                                    style: textTheme.subhead
-                                                        .copyWith(
-                                                      color: qDarkmodeEnable?Colors.white:Colors.black,
-                                                    ),
-                                                  ),
-                                                ),
+                                                    onTap: () {
+                                                      if (widget.id.isEmpty ||
+                                                          isEdit)
+                                                        _selectDate(context, 0);
+                                                    },
+                                                  )
+                                                ],
                                               ),
-                                              onTap: () {
-                                                if (widget.id.isEmpty || isEdit)
-                                                  _selectDate(context, 0);
-                                              },
                                             )
-                                          ],
-                                        ),
-                                      )
                                     ],
                                   )
                                 : (widget.type == Activites.TYPE_ACTIVITY ||
@@ -796,7 +833,8 @@ class _AddActivityScreenState
 //                          : Container(),
                             widget.type ==
                                         Activites.TYPE_PERFORMANCE_SCHEDULE ||
-                                    widget.type == Activites.TYPE_ACTIVITY||widget.type==Activites.TYPE_APPOINTMENT
+                                    widget.type == Activites.TYPE_ACTIVITY ||
+                                    widget.type == Activites.TYPE_APPOINTMENT
                                 ? (widget.type == Activites.TYPE_ACTIVITY &&
                                         setTime == true)
                                     ? Container()
@@ -813,7 +851,11 @@ class _AddActivityScreenState
                                                       children: <Widget>[
                                                         Center(
                                                             child: Text(
-                                                              widget.type==Activites.TYPE_APPOINTMENT?"Start Time":  "Setup Time",
+                                                          widget.type ==
+                                                                  Activites
+                                                                      .TYPE_APPOINTMENT
+                                                              ? "Start Time"
+                                                              : "Setup Time",
                                                           style: TextStyle(
                                                               fontSize: 15),
                                                         )),
@@ -891,7 +933,11 @@ class _AddActivityScreenState
                                                                 .subhead
                                                                 .copyWith(
                                                               color:
-                                                              qDarkmodeEnable?Colors.white:Colors.black,
+                                                                  qDarkmodeEnable
+                                                                      ? Colors
+                                                                          .white
+                                                                      : Colors
+                                                                          .black,
                                                             ),
                                                           ),
                                                         )
@@ -928,7 +974,11 @@ class _AddActivityScreenState
                                                       children: <Widget>[
                                                         Center(
                                                             child: Text(
-                                                              widget.type==Activites.TYPE_APPOINTMENT?"End Time":    "Call Time",
+                                                          widget.type ==
+                                                                  Activites
+                                                                      .TYPE_APPOINTMENT
+                                                              ? "End Time"
+                                                              : "Call Time",
                                                           style: TextStyle(
                                                               fontSize: 15),
                                                         )),
@@ -1004,7 +1054,11 @@ class _AddActivityScreenState
                                                                 .subhead
                                                                 .copyWith(
                                                               color:
-                                                              qDarkmodeEnable?Colors.white:Colors.black,
+                                                                  qDarkmodeEnable
+                                                                      ? Colors
+                                                                          .white
+                                                                      : Colors
+                                                                          .black,
                                                             ),
                                                           ),
                                                         )
@@ -1131,7 +1185,11 @@ class _AddActivityScreenState
                                                                 .subhead
                                                                 .copyWith(
                                                               color:
-                                                              qDarkmodeEnable?Colors.white:Colors.black,
+                                                                  qDarkmodeEnable
+                                                                      ? Colors
+                                                                          .white
+                                                                      : Colors
+                                                                          .black,
                                                             ),
                                                           ),
                                                         )
@@ -1245,7 +1303,11 @@ class _AddActivityScreenState
                                                                 .subhead
                                                                 .copyWith(
                                                               color:
-                                                              qDarkmodeEnable?Colors.white:Colors.black,
+                                                                  qDarkmodeEnable
+                                                                      ? Colors
+                                                                          .white
+                                                                      : Colors
+                                                                          .black,
                                                             ),
                                                           ),
                                                         )
@@ -1386,7 +1448,9 @@ class _AddActivityScreenState
                       widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE
                           ? Container()
                           : (widget.id.isEmpty || isEdit) &&
-                                  (widget.type == Activites.TYPE_ACTIVITY ||widget.type==Activites.TYPE_APPOINTMENT||
+                                  (widget.type == Activites.TYPE_ACTIVITY ||
+                                      widget.type ==
+                                          Activites.TYPE_APPOINTMENT ||
                                       widget.type ==
                                           Activites.TYPE_PERFORMANCE_SCHEDULE ||
                                       widget.type ==
@@ -1426,10 +1490,14 @@ class _AddActivityScreenState
                                   enabled: widget.id.isEmpty || isEdit,
                                   controller: _locController,
                                   style: textTheme.subhead.copyWith(
-                                    color: qDarkmodeEnable?Colors.white:Colors.black,
+                                    color: qDarkmodeEnable
+                                        ? Colors.white
+                                        : Colors.black,
                                   ),
                                 )
-                              : widget.type == Activites.TYPE_ACTIVITY ||widget.type==Activites.TYPE_APPOINTMENT||
+                              : widget.type == Activites.TYPE_ACTIVITY ||
+                                      widget.type ==
+                                          Activites.TYPE_APPOINTMENT ||
                                       widget.type ==
                                           Activites.TYPE_PERFORMANCE_SCHEDULE ||
                                       widget.type ==
@@ -1540,7 +1608,9 @@ class _AddActivityScreenState
                                   textCapitalization:
                                       TextCapitalization.sentences,
                                   style: textTheme.subhead.copyWith(
-                                    color: qDarkmodeEnable?Colors.white:Colors.black,
+                                    color: qDarkmodeEnable
+                                        ? Colors.white
+                                        : Colors.black,
                                   ),
                                   controller: _descController,
                                 )
@@ -1603,9 +1673,8 @@ class _AddActivityScreenState
                             )
                           : Container(),
                       (widget.id.isEmpty || isEdit) &&
-                              (
-                                  widget.type ==
-                                      Activites.TYPE_PERFORMANCE_SCHEDULE)
+                              (widget.type ==
+                                  Activites.TYPE_PERFORMANCE_SCHEDULE)
                           ? TextField(
                               decoration: InputDecoration(
                                 labelText: widget.id.isEmpty || isEdit
@@ -1625,13 +1694,13 @@ class _AddActivityScreenState
                               enabled: true,
                               textCapitalization: TextCapitalization.sentences,
                               style: textTheme.subhead.copyWith(
-                                color: qDarkmodeEnable?Colors.white:Colors.black,
+                                color: qDarkmodeEnable
+                                    ? Colors.white
+                                    : Colors.black,
                               ),
                               controller: _taskController,
                             )
-                          :
-                                  widget.type ==
-                                      Activites.TYPE_PERFORMANCE_SCHEDULE
+                          : widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE
                               ? Text(
                                   _taskController.text,
                                   textAlign: TextAlign.center,
@@ -1695,7 +1764,9 @@ class _AddActivityScreenState
                               enabled: true,
                               textCapitalization: TextCapitalization.sentences,
                               style: textTheme.subhead.copyWith(
-                                color: qDarkmodeEnable?Colors.white:Colors.black,
+                                color: qDarkmodeEnable
+                                    ? Colors.white
+                                    : Colors.black,
                               ),
                               controller: _parkingController,
                             )
@@ -1831,7 +1902,9 @@ class _AddActivityScreenState
                               enabled: true,
                               textCapitalization: TextCapitalization.sentences,
                               style: textTheme.subhead.copyWith(
-                                color: qDarkmodeEnable?Colors.white:Colors.black,
+                                color: qDarkmodeEnable
+                                    ? Colors.white
+                                    : Colors.black,
                               ),
                               controller: _otherController,
                             )
@@ -1899,7 +1972,10 @@ class _AddActivityScreenState
                                           child: Text(
                                             _estDateTxt,
                                             textAlign: TextAlign.left,
-                                             style: TextStyle( color:qDarkmodeEnable?Colors.white:Colors.black),
+                                            style: TextStyle(
+                                                color: qDarkmodeEnable
+                                                    ? Colors.white
+                                                    : Colors.black),
                                           ),
                                         )
                                       ],
@@ -1930,7 +2006,10 @@ class _AddActivityScreenState
                                           child: Text(
                                             "Date Completed - ",
                                             textAlign: TextAlign.right,
-                                            style: TextStyle(color: qDarkmodeEnable?Colors.white:Colors.black),
+                                            style: TextStyle(
+                                                color: qDarkmodeEnable
+                                                    ? Colors.white
+                                                    : Colors.black),
                                           ),
                                         ),
                                         Expanded(
@@ -1997,7 +2076,9 @@ class _AddActivityScreenState
                                             : InputBorder.none,
                                       ),
                                       style: textTheme.subhead.copyWith(
-                                        color:  qDarkmodeEnable?Colors.white:Colors.black,
+                                        color: qDarkmodeEnable
+                                            ? Colors.white
+                                            : Colors.black,
                                       ),
                                     ),
                                   ),
@@ -2452,7 +2533,11 @@ class _AddActivityScreenState
             // usually buttons at the bottom of the dialog
 
             new FlatButton(
-              child: new Text("Yes",style: TextStyle(color: qDarkmodeEnable?Colors.white:Colors.black),),
+              child: new Text(
+                "Yes",
+                style: TextStyle(
+                    color: qDarkmodeEnable ? Colors.white : Colors.black),
+              ),
               onPressed: () {
                 if (widget.id == null || widget.id.isEmpty) {
                   showMessage("Id cannot be null");
@@ -2552,34 +2637,29 @@ class _AddActivityScreenState
   }
 
   void checkThemeMode() {
-    if(Theme.of(context).platform == TargetPlatform.iOS){
-
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
       var qdarkMode = MediaQuery.of(context).platformBrightness;
-      if (qdarkMode == Brightness.dark){
+      if (qdarkMode == Brightness.dark) {
         setState(() {
-          qDarkmodeEnable=true;
+          qDarkmodeEnable = true;
         });
-
-
       } else {
         setState(() {
-          qDarkmodeEnable=false;
+          qDarkmodeEnable = false;
         });
-
-
       }
     }
   }
 
-  void showPlacePicker() async{
+  void showPlacePicker() async {
     LocationResult result = await Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) =>
-            PlacePicker("AIzaSyBPyhyGOHdrur7NmsyLStjhpitr_6IknCc",
+        builder: (context) => PlacePicker(
+              "AIzaSyBPyhyGOHdrur7NmsyLStjhpitr_6IknCc",
             )));
     // Handle the result in your way
     latitude = result.latLng.latitude;
     longitude = result.latLng.longitude;
-    _locController.text =(result.name + ',' + result.formattedAddress);
+    _locController.text = (result.name + ',' + result.formattedAddress);
     print(result);
   }
 }

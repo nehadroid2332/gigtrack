@@ -10,37 +10,7 @@ class ActivitiesListPresenter extends BasePresenter {
   ActivitiesListPresenter(BaseContract view) : super(view);
 
   Stream<List<Activites>> getList(String bandId, int type) {
-    // if (bandId != null && bandId.isNotEmpty) {
-    //   return serverAPI.activitiesDB
-    //       .orderByChild('bandId')
-    //       .equalTo(bandId)
-    //       .onValue
-    //       .asyncMap((a) async {
-    //     Map mp = a.snapshot.value;
-    //     if (mp == null) return null;
-    //     List<Activites> acc = [];
-    //     for (var d in mp.values) {
-    //       Activites activites = Activites.fromJSON(d);
-    //       final band = await serverAPI.getBandDetails(activites.bandId);
-    //       activites.band = band;
-    //       if (type != null) {
-    //         if (type == activites.type) {
-    //           acc.add(activites);
-    //         }
-    //       } else {
-    //         acc.add(activites);
-    //       }
-    //     }
-
-    //     return acc;
-    //   });
-    // } else {
-    return serverAPI
-        .activitiesDB
-        // .orderByChild('user_id')
-        // .equalTo(serverAPI.currentUserId)
-        .onValue
-        .asyncMap((a) async {
+    return serverAPI.activitiesDB.onValue.asyncMap((a) async {
       Map mp = a.snapshot.value;
       if (mp == null) return null;
 
@@ -73,32 +43,25 @@ class ActivitiesListPresenter extends BasePresenter {
             activites.band = band;
           }
         }
-        if(bandId.isEmpty){
-          if(activites.band !=null ) {
-            if (activites.band.bandmates.keys.contains(serverAPI.currentUserEmail.replaceAll(".", ""))||activites.band.userId==serverAPI.currentUserId) {
+        if (bandId.isEmpty) {
+          if (activites.band != null) {
+            if (activites.band.bandmates.keys
+                    .contains(serverAPI.currentUserEmail.replaceAll(".", "")) ||
+                activites.band.userId == serverAPI.currentUserId) {
               acc.add(activites);
             }
-//              if (activites.userId == serverAPI.currentUserId&& activites.bandId ==null) {
-//                acc.add(activites);
-//
-//            }
-//              if(activites.band.userId==serverAPI.currentUserId){
-//                acc.add(activites);
-//            }
           }
-          if(activites.userId==serverAPI.currentUserId) {
+          if (activites.userId == serverAPI.currentUserId) {
             if (acc.contains(activites)) {
-          continue;
+              continue;
             } else {
               acc.add(activites);
             }
           }
-
-
-        }else {
+        } else {
           if (activites.band != null && bandId.isNotEmpty) {
-            if (// activites.band.bandmates.keys.contains(serverAPI.currentUserEmail.replaceAll(".", "")) &&
-            activites.band.id == bandId) {
+            if ( // activites.band.bandmates.keys.contains(serverAPI.currentUserEmail.replaceAll(".", "")) &&
+                activites.band.id == bandId) {
               acc.add(activites);
             }
           }

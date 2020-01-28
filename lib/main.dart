@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:gigtrack/ui/activitieslist/activities_list_screen.dart';
 import 'package:gigtrack/ui/addactivity/add_activity_screen.dart';
 import 'package:gigtrack/ui/addband/add_band_screen.dart';
+import 'package:gigtrack/ui/addbandcomm/addband_comm_screen.dart';
 import 'package:gigtrack/ui/addbulletinboard/addbulletinboard_screen.dart';
 import 'package:gigtrack/ui/addcontact/add_contact_screen.dart';
 import 'package:gigtrack/ui/addfeedback/add_feedback_screen.dart';
@@ -14,6 +15,7 @@ import 'package:gigtrack/ui/addpayment/addpayment_screen.dart';
 import 'package:gigtrack/ui/addsetlist/addsetlist_screen.dart';
 import 'package:gigtrack/ui/addsong/add_song_screen.dart';
 import 'package:gigtrack/ui/addtravel/addtravel_screen.dart';
+import 'package:gigtrack/ui/bandcommlist/band_comm_list_screen.dart';
 import 'package:gigtrack/ui/bandlist/bandlist_screen.dart';
 import 'package:gigtrack/ui/bulletinboardlist/bulletinboard_list_screen.dart';
 import 'package:gigtrack/ui/contactlist/contact_list_screen.dart';
@@ -260,6 +262,48 @@ class MyApp extends StatelessWidget implements AppListener {
         this,
       );
     }));
+    _router.define(
+        Screens.ADD_BAND_COMM.toString() +
+            "/:id/:isParent/:bandId/:isLeader/:isComm/:isSetUp/:postEntries/:type",
+        handler: Handler(
+            handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      String id = params["id"][0];
+      String bandId = params["bandId"][0];
+      bool isParent = params["isParent"][0] == '${true}';
+      bool isLeader = params['isLeader'][0] == "${true}";
+      bool isComm = params['isComm'][0] == "${true}";
+      bool isSetUp = params['isSetUp'][0] == "${true}";
+      bool postEntries = params['postEntries'][0] == "${true}";
+      return AddBandCommScreen(
+        this,
+        id: id,
+        bandId: bandId,
+        isParent: isParent,
+        isLeader: isLeader,
+        isComm: isComm,
+        isSetUp: isSetUp,
+        postEntries: postEntries,
+      );
+    }));
+    _router.define(
+        Screens.BANDCOMMLIST.toString() +
+            "/:bandid/:isLeader/:isComm/:isSetUp/:postEntries",
+        handler: Handler(
+            handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      String id = params["bandid"][0];
+      bool isLeader = params['isLeader'][0] == "${true}";
+      bool isComm = params['isComm'][0] == "${true}";
+      bool isSetUp = params['isSetUp'][0] == "${true}";
+      bool postEntries = params['postEntries'][0] == "${true}";
+      return BandCommListScreen(
+        this,
+        bandId: id,
+        isLeader: isLeader,
+        isComm: isComm,
+        isSetUp: isSetUp,
+        postEntries: postEntries,
+      );
+    }));
     _router.define(Screens.SETLIST.toString() + "/:bandId", handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String bandId = params["bandId"][0];
@@ -470,14 +514,10 @@ class MyApp extends StatelessWidget implements AppListener {
         scaffoldBackgroundColor: Colors.white,
         inputDecorationTheme: InputDecorationTheme(
           enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.white,width: .5),
-
+            borderSide: BorderSide(color: Colors.white, width: .5),
           ),
           border: new UnderlineInputBorder(
-                borderSide: new BorderSide(
-                    color: Colors.white,width: .5
-                )
-            ),
+              borderSide: new BorderSide(color: Colors.white, width: .5)),
         ),
       ),
       onGenerateRoute: _router.generator,
@@ -544,5 +584,7 @@ enum Screens {
   ADDTRAVEL,
   FEEDBACK_LIST,
   PAYMENT_LIST,
-  ADD_PAYMENT
+  ADD_PAYMENT,
+  ADD_BAND_COMM,
+  BANDCOMMLIST
 }
