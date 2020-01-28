@@ -66,6 +66,9 @@ class _ActivitiesListScreenState
         ),
       );
 
+//Today
+//this Week
+//this month
   // final _pageController = PageController();
 
   @override
@@ -198,7 +201,9 @@ class _ActivitiesListScreenState
                     List<Activites> recurring = [];
                     // List<Activites> bandActivities = [];
 
-                    DateTime currentDate = DateTime.now().toLocal();
+                    DateTime currentDate = DateTime(DateTime.now().year,
+                            DateTime.now().month, DateTime.now().day, 0, 0, 0)
+                        .toLocal();
                     for (var ac in activities) {
                       DateTime startDate =
                           DateTime.fromMillisecondsSinceEpoch(ac.startDate)
@@ -209,47 +214,33 @@ class _ActivitiesListScreenState
                             DateTime.fromMillisecondsSinceEpoch(ac.endDate)
                                 .toLocal();
                       }
-                      int days = currentDate.difference(startDate).inDays;
-                      int daysval = days * -1;
-                      final difference =
-                          currentDate.difference(startDate).inDays / 7 + 1;
-                      final difference2 =
-                          currentDate.difference(startDate).inDays;
-                      final difference3 =
-                          currentDate.difference(startDate).inDays / 7;
+                      DateTime st = DateTime(startDate.year, startDate.month,
+                          startDate.day, 0, 0, 0);
+                      int days = st.difference(currentDate).inDays;
+                      print(
+                          "SDSD->> ${ac.title}  --> $days  -> ${days.isNegative} -> $st -> $currentDate");
 
                       int days2;
                       if (endDate != null) {
                         days2 = currentDate.difference(endDate).inDays;
+                        print("MKN-> $days2 -> ${days.isNegative}");
                       }
-                      // bool check = myBands.any((a) {
-                      //   return a.id == ac.bandId;
-                      // });
-                      // if (check) {
-                      //   bandActivities.add(ac);
-                      // } else
                       if (ac.isRecurring) {
                         recurring.add(ac);
-                      } else if ((daysval <= 7 && daysval >= 0) ||
-                          (days2 != null && (days2 <= 7 && days2 > 0))) {
+                      } else if (days == 0) {
                         current.add(ac);
-                      } else if (daysval > 7) {
+                      } else if (days > 0 && days < 6) {
                         upcoming.add(ac);
-                        print("divide 7 " + difference3.toString());
-                        print("no divide " + difference2.toString());
-                        print("abc     :" + difference.toString());
-                        print("activity name     :" + ac.title.toString());
-                      } else if (!days.isNegative) {
+                      } else if (days.isNegative) {
                         if (days2 != null) {
                           if (days2.isNegative) {
-                            current.add(ac);
+                            // current.add(ac);
                           } else {
                             past.add(ac);
                           }
                         } else {
                           past.add(ac);
                         }
-                        //  past =  past.sort((b, a) => a.compareTo(b));
                       }
 
                       // if (currentDate >= startDate &&
@@ -262,6 +253,7 @@ class _ActivitiesListScreenState
                       //   upcoming.add(ac);
                       // }
                     }
+                    print("Sixe-> ${past.length}");
                     current.sort((a, b) => a.startDate.compareTo(b.startDate));
                     current.sort((a, b) {
                       DateTime aD =
@@ -350,12 +342,13 @@ class _ActivitiesListScreenState
                       list.add(c);
                       pastDates[c.startDate] = list;
                     }
+                    print("object---> ${pastDates.length}");
                     return ListView(
                       children: <Widget>[
                         StickyHeader(
                           header: Container(
                             child: Text(
-                              "NEXT 7 days",
+                              "Today",
                               style: textTheme.display1.copyWith(
                                   fontSize: 23,
                                   color: Colors.red,
@@ -466,7 +459,7 @@ class _ActivitiesListScreenState
                         StickyHeader(
                           header: Container(
                             child: Text(
-                              "Upcoming",
+                              "This Week",
                               style: textTheme.display1.copyWith(fontSize: 23),
                               textAlign: TextAlign.left,
                             ),
@@ -828,39 +821,6 @@ class _ActivitiesListScreenState
                                     )
                               : Container(),
                         ),
-
-                        // widget.bandId.isEmpty
-                        //     ? Text(
-                        //         "Band Activities",
-                        //         style: textTheme.display1.copyWith(fontSize: 28),
-                        //         textAlign: TextAlign.center,
-                        //       )
-                        //     : Container(),
-                        // widget.bandId.isEmpty
-                        //     ? bandActivities.length > 0
-                        //         ? ListView.builder(
-                        //             physics: NeverScrollableScrollPhysics(),
-                        //             shrinkWrap: true,
-                        //             itemCount: bandActivities.length,
-                        //             itemBuilder:
-                        //                 (BuildContext context, int index) {
-                        //               Activites ac = bandActivities[index];
-                        //               return buildActivityListItem(ac, onTap: () {
-                        //                 widget.appListener.router.navigateTo(
-                        //                   context,
-                        //                   Screens.ADDACTIVITY.toString() +
-                        //                       "/${ac.type}/${ac.id}/${false}/${widget.bandId}////",
-                        //                 );
-                        //               }, isPast: false);
-                        //             },
-                        //           )
-                        //         : Padding(
-                        //             child: Center(
-                        //               child: Text("No Band Activities"),
-                        //             ),
-                        //             padding: EdgeInsets.symmetric(vertical: 10),
-                        //           )
-                        //     : Container()
                       ],
                     );
                   } else if (snapshot.hasError) {
