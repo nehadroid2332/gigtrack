@@ -33,7 +33,7 @@ class _ContactListScreenState
     extends BaseScreenState<ContactListScreen, ContactListPresenter>
     implements ContactListContract {
   List<Contacts> _contacts = <Contacts>[];
-
+  bool showClear=false;
   Stream<List<Contacts>> list;
   final alpha = [
     "A",
@@ -204,6 +204,7 @@ class _ContactListScreenState
   @override
   AppBar get appBar => AppBar(
         backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
+    brightness: Brightness.light,
         elevation: 0,
         leading: IconButton(
           icon: Icon(
@@ -293,11 +294,29 @@ class _ContactListScreenState
                                           style: textTheme.button.copyWith(
                                               color: Colors.black,
                                               fontSize: 15),
+                                          onChanged: (text){
+                                            if(text.length>0){
+                                              setState(() {
+                                                showClear=true;
+                                              });
+                                            }else{
+                                              showClear=false;
+                                            }
+                                          },
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
                                           ),
                                         ),
-                                      )
+                                      ),
+                                      showClear?InkWell(child:Icon(
+                                        Icons.clear,
+                                        color: Colors.black,
+                                      ) ,
+                                      onTap: (){
+                                        showClear=false;
+                                        _searchController.clear();
+                                      },):Container()
+
                                     ],
                                   ),
                                 ),

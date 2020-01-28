@@ -53,17 +53,22 @@ class _DashboardScreenState
       }
     }
   }
-
+//  @override
+//  AppBar get appBar => AppBar(
+//    brightness: Brightness.light,
+//    backgroundColor: Colors.transparent,
+//    elevation: 0,
+//
+//  );
   
   @override
   Widget buildBody() {
-//    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-//      systemNavigationBarColor: Colors.blue  ,
-//  //    statusBarColor: Colors.blue, // Color for Android
-////        statusBarBrightness: Brightness.light,
-//        // Dark == white status bar -- for IOS.
-//    ));
-  
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+        statusBarColor: Colors.blue, // Color for Android
+        statusBarBrightness: Brightness.light,
+        systemNavigationBarColor:
+        Colors.black87 // Dark == white status bar -- for IOS.
+    ));
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     
       statusBarColor: Color.fromRGBO(99, 97, 93, .5),

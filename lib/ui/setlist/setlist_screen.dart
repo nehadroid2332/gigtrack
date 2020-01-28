@@ -23,6 +23,7 @@ class _SetListScreenState
 
   @override
   AppBar get appBar => AppBar(
+    brightness: Brightness.light,
         backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
         elevation: 0,
         leading: IconButton(

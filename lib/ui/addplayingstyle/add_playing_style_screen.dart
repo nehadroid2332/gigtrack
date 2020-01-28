@@ -871,8 +871,7 @@ class _AddPlayingStyleScreenState
 //                              textAlign: TextAlign.center,
 //                            ),
 //                      Padding(padding: EdgeInsets.all(10)),
-                      widget.bandId.isEmpty
-                          ? Text(
+                      Text(
                               widget.id.isEmpty || isEdit
                                   ? "Select your Playing Style"
                                   : "Playing Style",
@@ -883,24 +882,22 @@ class _AddPlayingStyleScreenState
                               ),
                               textAlign: widget.id.isEmpty || isEdit
                                   ? TextAlign.left
-                                  : TextAlign.center)
-                          : Container(),
+                                  : TextAlign.center),
+
                       Padding(
                           padding:
                               EdgeInsets.all(widget.bandId.isEmpty ? 5 : 0)),
-                      (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
+                      (widget.id.isEmpty || isEdit)
                           ? Wrap(
                               children: items,
                             )
-                          : widget.bandId.isEmpty
-                              ? Text(
+                          : Text(
                                   psList.join(", "),
                                   textAlign: TextAlign.center,
-                                )
-                              : Container(),
+                                ),
+
                       psList.contains("Other")
-                          ? ((widget.id.isEmpty || isEdit) &&
-                                  widget.bandId.isEmpty)
+                          ? ((widget.id.isEmpty || isEdit))
                               ? TextField(
                                   enabled: (widget.id.isEmpty || isEdit),
                                   textCapitalization: TextCapitalization.words,

@@ -455,7 +455,7 @@ class _AddBulletInBoardScreenState
                               textColor: Colors.white,
                             )
                           : Container(),
-                      (widget.id.isNotEmpty &&!isEdit)?Text("Craeted By: ${user?.firstName} ${user?.lastName}"):Container(),
+                      (widget.id.isNotEmpty &&!isEdit)?Text("Created By: ${user?.firstName} ${user?.lastName}"):Container(),
                       Padding(
                         padding: EdgeInsets.all(10),
                       ),

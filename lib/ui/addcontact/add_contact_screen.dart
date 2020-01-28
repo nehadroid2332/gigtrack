@@ -153,8 +153,11 @@ class _AddContactScreenState
                           Navigator.of(context).pop(true);
                         },
                       ),
-                      FlatButton(
+                      RaisedButton(
                         child: Text("Yes",style: TextStyle(color: qDarkmodeEnable?Colors.white:Colors.black87),),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6)),
+                        color: Color.fromRGBO(3, 218, 157, 1.0),
                         onPressed: () {
                           _submitContact();
                           Navigator.of(context).pop(true);
@@ -172,6 +175,7 @@ class _AddContactScreenState
             }
           },
         ),
+        brightness: Brightness.light,
         backgroundColor: Color.fromRGBO(3, 218, 157, 1.0),
         actions: <Widget>[
           Container(
@@ -513,6 +517,16 @@ class _AddContactScreenState
                                   : Container(),
                               delay: 1000,
                             ),
+                            widget.id.isEmpty&& !_isCompanyName? Container(
+                              height: 1,
+                              width: MediaQuery.of(context).size.width/4,
+                              color: Colors.red,
+                              margin: EdgeInsets.only(
+                                  left: 0,
+                                  right: MediaQuery.of(context).size.width/2.8,
+                                  top: 2,
+                                  bottom: 0),
+                            ):Container(),
                             (widget.id.isEmpty || isEdit) && _isCompanyName
                                 ? TextField(
                                     enabled: widget.id.isEmpty || isEdit,
@@ -776,6 +790,16 @@ class _AddContactScreenState
                                   : Container(),
                               delay: 1000,
                             ),
+                            widget.id.isEmpty&&!_isphoneNumber? Container(
+                              height: 1,
+                              width: MediaQuery.of(context).size.width/4,
+                              color: Colors.red,
+                              margin: EdgeInsets.only(
+                                  left: 0,
+                                  right: MediaQuery.of(context).size.width/2.2,
+                                  top: 2,
+                                  bottom: 0),
+                            ):Container(),
                             (widget.id.isEmpty || isEdit) && _isphoneNumber
                                 ? TextField(
                                     enabled: widget.id.isEmpty || isEdit,
@@ -1003,6 +1027,16 @@ class _AddContactScreenState
                                     ],
                                   )
                                 : Container(),
+                            widget.id.isNotEmpty && !isEdit? Container(
+                              height: 1,
+                              width: MediaQuery.of(context).size.width/4,
+                              color: Colors.red,
+                              margin: EdgeInsets.only(
+                                  left:  MediaQuery.of(context).size.width/3.0,
+                                  right: MediaQuery.of(context).size.width/3.0,
+                                  top: 2,
+                                  bottom: 0),
+                            ):Container(),
                             Padding(padding: EdgeInsets.all(5)),
                             ShowUp(
                               child: widget.id.isEmpty || isEdit
@@ -1617,6 +1651,16 @@ class _AddContactScreenState
                                     delay: 1000,
                                   )
                                 : Container(),
+                            widget.id.isNotEmpty && !isEdit? Container(
+                              height: 1,
+                              width: MediaQuery.of(context).size.width/4,
+                              color: Colors.red,
+                              margin: EdgeInsets.only(
+                                  left:  MediaQuery.of(context).size.width/4.5,
+                                  right: MediaQuery.of(context).size.width/4.5,
+                                  top: 2,
+                                  bottom: 0),
+                            ):Container(),
                             ListView.builder(
                               itemCount: subContacts.length,
                               shrinkWrap: true,

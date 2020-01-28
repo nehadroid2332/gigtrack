@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gigtrack/base/base_screen.dart';
@@ -53,6 +54,7 @@ class _ActivitiesListScreenState
 
   @override
   AppBar get appBar => AppBar(
+        brightness: Brightness.light,
         backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
         elevation: 0,
         leading: IconButton(
@@ -73,6 +75,17 @@ class _ActivitiesListScreenState
 
   @override
   Widget buildBody() {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+        statusBarColor: Colors.blue, // Color for Android
+        statusBarBrightness: Brightness.light,
+        systemNavigationBarColor:
+        Colors.white // Dark == white status bar -- for IOS.
+    ));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+
+      statusBarColor: Color.fromRGBO(99, 97, 93, .5),
+
+    ));
     List<SpeedDialChild> items = [
       SpeedDialChild(
         label: "Activities",
@@ -461,8 +474,9 @@ class _ActivitiesListScreenState
                           header: Container(
                             child: Text(
                               "This Week",
-                              style: textTheme.display1.copyWith(fontSize: 23),
+                              style: textTheme.display1.copyWith(fontSize: 23,color: Colors.white),
                               textAlign: TextAlign.left,
+
                             ),
                             color: Colors.blueAccent,
                             padding: EdgeInsets.all(5),

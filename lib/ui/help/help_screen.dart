@@ -27,6 +27,8 @@ class _HelpScreenState extends BaseScreenState<HelpScreen, HelpPresenter> {
 
   @override
   AppBar get appBar => AppBar(
+    brightness: Brightness.light,
+    backgroundColor: Color.fromRGBO(255, 215, 0, 1.0),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {

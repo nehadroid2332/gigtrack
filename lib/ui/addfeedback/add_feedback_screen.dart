@@ -192,6 +192,7 @@ class _AddFeedbackScreenState
             Navigator.of(context).pop();
           },
         ),
+        brightness: Brightness.light,
         backgroundColor: Color.fromRGBO(255, 215, 0, 1.0),
       );
 

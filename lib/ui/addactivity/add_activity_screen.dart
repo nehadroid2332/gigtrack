@@ -545,10 +545,26 @@ class _AddActivityScreenState
                                 ? EdgeInsets.all(5)
                                 : EdgeInsets.all(0),
                       ),
-                      Container(
+                      (widget.id.isEmpty || isEdit) &&
+                          (widget.type == Activites.TYPE_ACTIVITY ||
+                              widget.type ==
+                                  Activites.TYPE_APPOINTMENT ||
+                              widget.type ==
+                                  Activites
+                                      .TYPE_PERFORMANCE_SCHEDULE ||
+                              widget.type ==
+                                  Activites.TYPE_PRACTICE_SCHEDULE)?Container(
                         color: qDarkmodeEnable
                             ? Colors.transparent
-                            : Colors.blue.shade50,
+                            : (widget.id.isEmpty || isEdit) &&
+                            (widget.type == Activites.TYPE_ACTIVITY ||
+                                widget.type ==
+                                    Activites.TYPE_APPOINTMENT ||
+                                widget.type ==
+                                    Activites
+                                        .TYPE_PERFORMANCE_SCHEDULE ||
+                                widget.type ==
+                                    Activites.TYPE_PRACTICE_SCHEDULE)?Colors.blue.shade50:Colors.transparent,
                         padding: EdgeInsets.all(8),
 //                      decoration: BoxDecoration(
 //                        borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -833,7 +849,8 @@ class _AddActivityScreenState
 //                          : Container(),
                             widget.type ==
                                         Activites.TYPE_PERFORMANCE_SCHEDULE ||
-                                    widget.type == Activites.TYPE_ACTIVITY ||
+                                    widget.type == Activites.TYPE_ACTIVITY ||widget.type ==
+                                Activites.TYPE_PRACTICE_SCHEDULE||
                                     widget.type == Activites.TYPE_APPOINTMENT
                                 ? (widget.type == Activites.TYPE_ACTIVITY &&
                                         setTime == true)
@@ -853,7 +870,8 @@ class _AddActivityScreenState
                                                             child: Text(
                                                           widget.type ==
                                                                   Activites
-                                                                      .TYPE_APPOINTMENT
+                                                                      .TYPE_APPOINTMENT||widget.type ==
+                                                              Activites.TYPE_PRACTICE_SCHEDULE
                                                               ? "Start Time"
                                                               : "Setup Time",
                                                           style: TextStyle(
@@ -976,7 +994,8 @@ class _AddActivityScreenState
                                                             child: Text(
                                                           widget.type ==
                                                                   Activites
-                                                                      .TYPE_APPOINTMENT
+                                                                      .TYPE_APPOINTMENT||widget.type ==
+                                                              Activites.TYPE_PRACTICE_SCHEDULE
                                                               ? "End Time"
                                                               : "Call Time",
                                                           style: TextStyle(
@@ -1337,7 +1356,7 @@ class _AddActivityScreenState
                                 : Container(),
                           ],
                         ),
-                      ),
+                      ):Container(),
 
                       Padding(
                         padding: EdgeInsets.all(0),
@@ -1930,6 +1949,16 @@ class _AddActivityScreenState
                                   },
                                 )
                           : Container(),
+                      widget.id.isEmpty || isEdit || widget.isParent?Container(): Container(
+                        height: 1,
+                        width: MediaQuery.of(context).size.width/4,
+                        color: Colors.red,
+                        margin: EdgeInsets.only(
+                            left: 0,
+                            right: MediaQuery.of(context).size.width/2.8,
+                            top: 2,
+                            bottom: 0),
+                      ),
                       widget.type == Activites.TYPE_TASK ||
                               widget.type == Activites.TYPE_BAND_TASK
                           ? widget.id.isEmpty || isEdit || widget.isParent
@@ -2041,23 +2070,39 @@ class _AddActivityScreenState
                       (widget.id.isEmpty || isEdit) &&
                               (widget.type == Activites.TYPE_TASK) &&
                               !hasCompletionDate
-                          ? ShowUp(
-                              child: InkWell(
-                                child: Text(
-                                  "Click to add Est. Complete Date",
-                                  style: textTheme.caption.copyWith(
-                                    fontSize: 13,
-                                    color: Colors.red,
-                                  ),
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    hasCompletionDate = true;
-                                  });
-                                },
-                              ),
-                              delay: 1000,
-                            )
+                          ? Column(children: <Widget>[
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              child:   ShowUp(
+                        child: InkWell(
+                          child: Text(
+                            "Click to add Est. Complete Date",
+                            style: textTheme.caption.copyWith(
+                              fontSize: 13,
+                              color: Colors.red,
+                            ),
+                          ),
+                          onTap: () {
+                            setState(() {
+                              hasCompletionDate = true;
+                            });
+                          },
+                        ),
+                        delay: 1000,
+                      ) ,),
+
+                        widget.id.isEmpty||isEdit&& (widget.type == Activites.TYPE_TASK) &&
+                            !hasCompletionDate&& !hasCompletionDate? Container(
+                          height: 1,
+                          width: MediaQuery.of(context).size.width/2,
+                          color: Colors.red,
+                          margin: EdgeInsets.only(
+                              left: 0,
+                              right: MediaQuery.of(context).size.width/2.0,
+                              top: 2,
+                              bottom: 0),
+                        ):Container(),
+                      ],)
                           : hasCompletionDate
                               ? GestureDetector(
                                   child: AbsorbPointer(

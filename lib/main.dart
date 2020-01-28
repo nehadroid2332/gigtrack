@@ -492,7 +492,7 @@ class MyApp extends StatelessWidget implements AppListener {
         statusBarColor: Colors.blue, // Color for Android
         statusBarBrightness: Brightness.light,
         systemNavigationBarColor:
-            Colors.blue // Dark == white status bar -- for IOS.
+            Colors.black87 // Dark == white status bar -- for IOS.
         ));
     return MaterialApp(
       title: 'GigTrack',

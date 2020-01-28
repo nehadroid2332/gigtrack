@@ -63,6 +63,7 @@ class _AddSetListScreenState
 
   @override
   AppBar get appBar => AppBar(
+    brightness: Brightness.light,
         iconTheme: IconThemeData(
           color: Colors.white, //change your color here
         ),

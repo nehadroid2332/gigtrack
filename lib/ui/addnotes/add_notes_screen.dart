@@ -98,8 +98,11 @@ class _AddNotesScreenState
                           Navigator.of(context).pop(false);
                         },
                       ),
-                      FlatButton(
+                      RaisedButton(
                         child: Text("Yes"),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6)),
+                        color: Color.fromRGBO(3, 54, 255, 1.0),
                         onPressed: () {
                           _submitnotes();
                           Navigator.of(context).pop(true);
@@ -123,14 +126,14 @@ class _AddNotesScreenState
             alignment: Alignment.center,
             width: widget.id.isEmpty
                 ? MediaQuery.of(context).size.width
-                : MediaQuery.of(context).size.width / 2,
-            child: Text(
+                : widget.isParent?MediaQuery.of(context).size.width: MediaQuery.of(context).size.width/2 ,
+            child:Center(child: Text(
               "${widget.id.isEmpty ? widget.type == NotesTodo.TYPE_NOTE ? "Add Note" : widget.type == NotesTodo.TYPE_IDEA ? "Add Idea" : "" : widget.isParent ? "Note is about" : widget.type == NotesTodo.TYPE_NOTE ? "Note" : widget.type == NotesTodo.TYPE_IDEA ? "Idea" : ""}",
-              textAlign: TextAlign.center,
+              textAlign: widget.id.isNotEmpty?TextAlign.left:TextAlign.center,
               style: textTheme.headline.copyWith(
                 color: Colors.white,
               ),
-            ),
+            ),)
           ),
           widget.id.isEmpty || widget.isParent
               ? Container()
@@ -320,6 +323,16 @@ class _AddNotesScreenState
                               delay: 1000,
                             )
                           : Container(),
+                      widget.id.isEmpty||isEdit&& !isDateVisible? Container(
+                        height: 1,
+                        width: MediaQuery.of(context).size.width/4,
+                        color: Colors.red,
+                        margin: EdgeInsets.only(
+                            left: 0,
+                            right: MediaQuery.of(context).size.width/1.8,
+                            top: 2,
+                            bottom: 0),
+                      ):Container(),
 
                       Padding(
                         padding: widget.id.isEmpty || isEdit || widget.isParent
@@ -483,6 +496,17 @@ class _AddNotesScreenState
                               ),
                               delay: 1000,
                             ),
+
+                      widget.id.isEmpty || isEdit || widget.isParent?Container(): Container(
+                        height: 1,
+                        width: MediaQuery.of(context).size.width/4,
+                        color: Colors.red,
+                        margin: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width/3.5,
+                            right: MediaQuery.of(context).size.width/3.5,
+                            top: 2,
+                            bottom: 0),
+                      ),
 //                      widget.id.isEmpty || isEdit || widget.isParent
 //                          ? Container()
 //                          : Padding(

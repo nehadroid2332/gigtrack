@@ -47,6 +47,7 @@ class _NotesListScreenState
 
   @override
   AppBar get appBar => AppBar(
+    brightness: Brightness.light,
         backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
         elevation: 0,
         leading: IconButton(
@@ -281,7 +282,7 @@ class _NotesListScreenState
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           title: new Text(
-            "Information!",
+            "Coming soon!",
             textAlign: TextAlign.center,
           ),
           content: Text("Release date would be coming soon..."),
