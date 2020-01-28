@@ -28,6 +28,7 @@ class UserPlayingStyle extends BaseModel {
   String bandEmail;
   String bandWebsite;
   String bandContacts;
+  String playingStyle;
 
   UserPlayingStyle(
       {this.user_id,
@@ -37,6 +38,7 @@ class UserPlayingStyle extends BaseModel {
       this.role,
       this.degree,
       this.age,
+      this.playingStyle,
       this.year,
       this.otherExp,
       this.education,
@@ -91,6 +93,7 @@ class UserPlayingStyle extends BaseModel {
     bandId = data['bandId'];
     listSchool = data['listSchool'];
     earn = data['earn'];
+    playingStyle = data['playingStyle'];
     viewerKnow = data['viewerKnow'];
     if (data['experience'] != null) {
       for (var item in data['experience']) {
@@ -121,6 +124,7 @@ class UserPlayingStyle extends BaseModel {
     data['about'] = about;
     data['bandId'] = bandId;
     data['degree'] = degree;
+    data['playingStyle'] = playingStyle;
     data['education'] = education;
     data['listSchool'] = listSchool;
     data['earn'] = earn;

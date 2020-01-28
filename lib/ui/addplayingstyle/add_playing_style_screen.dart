@@ -88,7 +88,8 @@ class _AddPlayingStyleScreenState
     "Metal",
     "Punjabi",
     "Punk",
-    "Raggae"
+    "Raggae",
+    "Other"
   ];
   final educationsOptions = <String>[
     "High School Grad",
@@ -138,6 +139,7 @@ class _AddPlayingStyleScreenState
   final _descController = TextEditingController();
   final _yearFromController = TextEditingController();
   final _yearToController = TextEditingController();
+  final _playingStyleController = TextEditingController();
   String selectedEducation;
   var _educationType = "Select degree";
   var files = <String>[];
@@ -194,71 +196,68 @@ class _AddPlayingStyleScreenState
     });
   }
 
-  bool qDarkmodeEnable=false;
+  bool qDarkmodeEnable = false;
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     checkThemeMode();
   }
+
   void checkThemeMode() {
-    if(Theme.of(context).platform == TargetPlatform.iOS){
-
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
       var qdarkMode = MediaQuery.of(context).platformBrightness;
-      if (qdarkMode == Brightness.dark){
+      if (qdarkMode == Brightness.dark) {
         setState(() {
-          qDarkmodeEnable=true;
+          qDarkmodeEnable = true;
         });
-
-
       } else {
         setState(() {
-          qDarkmodeEnable=false;
+          qDarkmodeEnable = false;
         });
-
-
       }
     }
   }
+
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
         backgroundColor: Color.fromRGBO(250, 177, 49, 1.0),
-    leading: IconButton(
-      icon: Icon(Icons.arrow_back_ios),
-      onPressed: () async {
-        if (isEdit) {
-          final check = await showDialog<bool>(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text("Do you want to save changes?"),
-                actions: <Widget>[
-                  FlatButton(
-                    child: Text("No"),
-                    onPressed: () {
-                      Navigator.of(context).pop(true);
-                    },
-                  ),
-                  FlatButton(
-                    child: Text("Yes"),
-                    onPressed: () {
-                    _submitEPK();
-                      Navigator.of(context).pop(true);
-                    },
-                  ),
-                ],
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () async {
+            if (isEdit) {
+              final check = await showDialog<bool>(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Do you want to save changes?"),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text("No"),
+                        onPressed: () {
+                          Navigator.of(context).pop(true);
+                        },
+                      ),
+                      FlatButton(
+                        child: Text("Yes"),
+                        onPressed: () {
+                          _submitEPK();
+                          Navigator.of(context).pop(true);
+                        },
+                      ),
+                    ],
+                  );
+                },
               );
-            },
-          );
-          if (check) {
-            Navigator.of(context).pop();
-          }
-        } else {
-          Navigator.of(context).pop();
-        }
-      },
-    ),
+              if (check) {
+                Navigator.of(context).pop();
+              }
+            } else {
+              Navigator.of(context).pop();
+            }
+          },
+        ),
         actions: <Widget>[
           Container(
             alignment: Alignment.center,
@@ -690,8 +689,9 @@ class _AddPlayingStyleScreenState
                                         border: Border.all(
                                             color: _legalUserType == 0
                                                 ? Color.fromRGBO(
-                                                244, 246, 248, 1.0)
-                                                : Color.fromRGBO(250, 177, 49, 1.0))),
+                                                    244, 246, 248, 1.0)
+                                                : Color.fromRGBO(
+                                                    250, 177, 49, 1.0))),
                                     child: Text(
                                       'Age',
                                       style: new TextStyle(
@@ -832,8 +832,10 @@ class _AddPlayingStyleScreenState
                                       labelText:
                                           "Write something about you experience",
                                       labelStyle: TextStyle(
-                                        color:
-                                           qDarkmodeEnable?Colors.white: widget.appListener.primaryColorDark,
+                                        color: qDarkmodeEnable
+                                            ? Colors.white
+                                            : widget
+                                                .appListener.primaryColorDark,
                                       ),
                                     ),
                                     maxLines: 2,
@@ -875,7 +877,9 @@ class _AddPlayingStyleScreenState
                                   ? "Select your Playing Style"
                                   : "Playing Style",
                               style: textTheme.title.copyWith(
-                                color: qDarkmodeEnable?Colors.white:Colors.black,
+                                color: qDarkmodeEnable
+                                    ? Colors.white
+                                    : Colors.black,
                               ),
                               textAlign: widget.id.isEmpty || isEdit
                                   ? TextAlign.left
@@ -894,6 +898,30 @@ class _AddPlayingStyleScreenState
                                   textAlign: TextAlign.center,
                                 )
                               : Container(),
+                      psList.contains("Other")
+                          ? ((widget.id.isEmpty || isEdit) &&
+                                  widget.bandId.isEmpty)
+                              ? TextField(
+                                  enabled: (widget.id.isEmpty || isEdit),
+                                  textCapitalization: TextCapitalization.words,
+                                  controller: _playingStyleController,
+                                  decoration: InputDecoration(
+                                    labelText: "Enter Playing Style",
+                                    labelStyle: TextStyle(
+                                      color: qDarkmodeEnable
+                                          ? Colors.white
+                                          : widget.appListener.primaryColorDark,
+                                    ),
+                                  ),
+                                )
+                              : Padding(
+                                  padding: EdgeInsets.all(5),
+                                  child: Text(
+                                    _playingStyleController.text,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                )
+                          : Container(),
                       Padding(
                           padding:
                               EdgeInsets.all(widget.bandId.isEmpty ? 5 : 0)),
@@ -1014,7 +1042,9 @@ class _AddPlayingStyleScreenState
                         textAlign: widget.id.isEmpty || isEdit
                             ? TextAlign.left
                             : TextAlign.center,
-                        style: textTheme.title.copyWith(color:qDarkmodeEnable?Colors.white:Colors.black),
+                        style: textTheme.title.copyWith(
+                            color:
+                                qDarkmodeEnable ? Colors.white : Colors.black),
                       ),
                       Padding(padding: EdgeInsets.all(3)),
                       widget.id.isEmpty || isEdit
@@ -1169,8 +1199,10 @@ class _AddPlayingStyleScreenState
                                               "Click here to add education",
                                               style: textTheme.display1
                                                   .copyWith(
-                                                      color: qDarkmodeEnable?Colors.white:widget.appListener
-                                                          .primaryColorDark,
+                                                      color: qDarkmodeEnable
+                                                          ? Colors.white
+                                                          : widget.appListener
+                                                              .primaryColorDark,
                                                       fontSize: 14),
                                             )
                                           : Container(),
@@ -1188,8 +1220,10 @@ class _AddPlayingStyleScreenState
                               textAlign: widget.id.isEmpty || isEdit
                                   ? TextAlign.left
                                   : TextAlign.center,
-                              style:
-                                  textTheme.title.copyWith(color: qDarkmodeEnable?Colors.white:Colors.black),
+                              style: textTheme.title.copyWith(
+                                  color: qDarkmodeEnable
+                                      ? Colors.white
+                                      : Colors.black),
                             )
                           : Container(),
                       Padding(
@@ -1203,7 +1237,9 @@ class _AddPlayingStyleScreenState
                               /**/ decoration: InputDecoration(
                                 labelText: "List School",
                                 labelStyle: TextStyle(
-                                  color: qDarkmodeEnable?Colors.white:widget.appListener.primaryColorDark,
+                                  color: qDarkmodeEnable
+                                      ? Colors.white
+                                      : widget.appListener.primaryColorDark,
                                 ),
                               ),
                             )
@@ -1245,8 +1281,10 @@ class _AddPlayingStyleScreenState
                                       child: Text(
                                         value,
                                         style: TextStyle(
-                                            color:qDarkmodeEnable?Colors.white: widget
-                                                .appListener.primaryColorDark),
+                                            color: qDarkmodeEnable
+                                                ? Colors.white
+                                                : widget.appListener
+                                                    .primaryColorDark),
                                       ),
                                     );
                                   }).toList(),
@@ -1277,8 +1315,9 @@ class _AddPlayingStyleScreenState
                                     labelText:
                                         "What did you earn your academic degree in",
                                     labelStyle: TextStyle(
-                                      color:
-                                         qDarkmodeEnable?Colors.white:widget.appListener.primaryColorDark,
+                                      color: qDarkmodeEnable
+                                          ? Colors.white
+                                          : widget.appListener.primaryColorDark,
                                     ),
                                   ),
                                 )
@@ -1363,7 +1402,10 @@ class _AddPlayingStyleScreenState
                                   decoration: InputDecoration(
                                     hintText: "Band Website",
                                   ),
-                        style: TextStyle(color:qDarkmodeEnable?Colors.white:Colors.black87),
+                                  style: TextStyle(
+                                      color: qDarkmodeEnable
+                                          ? Colors.white
+                                          : Colors.black87),
                                 )
                               : Padding(
                                   child: Text(
@@ -1424,7 +1466,10 @@ class _AddPlayingStyleScreenState
                                                   },
                                                 )
                                               : null),
-                                      style: TextStyle(color:qDarkmodeEnable?Colors.white:Colors.black87),
+                                      style: TextStyle(
+                                          color: qDarkmodeEnable
+                                              ? Colors.white
+                                              : Colors.black87),
                                       maxLength: 50,
                                       maxLines: 1,
                                     );
@@ -1567,7 +1612,6 @@ class _AddPlayingStyleScreenState
                               },
                               child: Text(
                                 "Submit",
-                                
                                 style: TextStyle(color: Colors.black),
                               ),
                               color: Color.fromRGBO(250, 177, 49, 1.0),
@@ -1722,6 +1766,7 @@ class _AddPlayingStyleScreenState
       psList.addAll(userPlayingStyle.playing_styles);
       inList.clear();
       inList.addAll(userPlayingStyle.instruments);
+      _playingStyleController.text = userPlayingStyle.playingStyle;
     });
   }
 
@@ -1815,8 +1860,8 @@ class _AddPlayingStyleScreenState
           );
         });
   }
-  
-  _submitEPK(){
+
+  _submitEPK() {
     showLoading();
     presenter.addPlayingStyle(UserPlayingStyle(
         instruments: inList,
@@ -1840,14 +1885,11 @@ class _AddPlayingStyleScreenState
         bandEmail: _emailBandController.text,
         bandName: _nameBandController.text,
         bandWebsite: _websiteBandController.text,
-        age: showage == true
-            ? _ageController.text
-            : null,
-        year: showYear == true
-            ? _yearController.text
-            : null,
+        age: showage == true ? _ageController.text : null,
+        year: showYear == true ? _yearController.text : null,
         experience: List.from(exList.keys),
         listSchool: _listSchoolController.text,
+        playingStyle: _playingStyleController.text,
         viewerKnow: _expController.text,
         files: files));
   }
