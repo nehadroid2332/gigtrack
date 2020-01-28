@@ -73,17 +73,40 @@ class ActivitiesListPresenter extends BasePresenter {
             activites.band = band;
           }
         }
-        
-        if (activites.band != null) {
-          if (activites.band.bandmates.keys
-                  .contains(serverAPI.currentUserEmail.replaceAll(".", "")) ||
-              activites.band.userId == serverAPI.currentUserId &&
-                  activites.band.id == bandId) {
-            acc.add(activites);
+        if(bandId.isEmpty){
+          if(activites.band !=null ) {
+            if (activites.band.bandmates.keys.contains(serverAPI.currentUserEmail.replaceAll(".", ""))||activites.band.userId==serverAPI.currentUserId) {
+              acc.add(activites);
+            }
+//              if (activites.userId == serverAPI.currentUserId&& activites.bandId ==null) {
+//                acc.add(activites);
+//
+//            }
+//              if(activites.band.userId==serverAPI.currentUserId){
+//                acc.add(activites);
+//            }
           }
-        } else {
-          acc.add(activites);
+          if(activites.userId==serverAPI.currentUserId) {
+            if (acc.contains(activites)) {
+          continue;
+            } else {
+              acc.add(activites);
+            }
+          }
+
+
+        }else {
+          if (activites.band != null && bandId.isNotEmpty) {
+            if (// activites.band.bandmates.keys.contains(serverAPI.currentUserEmail.replaceAll(".", "")) &&
+            activites.band.id == bandId) {
+              acc.add(activites);
+            }
+          }
         }
+
+//        else {
+//          acc.add(activites);
+//        }
       }
       return acc;
     });

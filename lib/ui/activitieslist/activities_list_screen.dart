@@ -139,6 +139,7 @@ class _ActivitiesListScreenState
       items.add(SpeedDialChild(
         label: "Band Task",
         child: Icon(Icons.add),
+        labelStyle: TextStyle(color: Color.fromRGBO(45, 1, 79, 1.0)),
         backgroundColor: Color.fromRGBO(40, 35, 188, 1.0),
         onTap: () async {
           await widget.appListener.router.navigateTo(
@@ -358,7 +359,7 @@ class _ActivitiesListScreenState
                               "NEXT 7 days",
                               style: textTheme.display1.copyWith(
                                   fontSize: 23,
-                                  color: Colors.red,
+                                  color: Colors.white,
                                   fontWeight: FontWeight.bold),
                               textAlign: TextAlign.left,
                             ),
@@ -467,7 +468,7 @@ class _ActivitiesListScreenState
                           header: Container(
                             child: Text(
                               "Upcoming",
-                              style: textTheme.display1.copyWith(fontSize: 23),
+                              style: textTheme.display1.copyWith(fontSize: 23,color: Colors.white),
                               textAlign: TextAlign.left,
                             ),
                             color: Colors.blueAccent,
@@ -583,7 +584,7 @@ class _ActivitiesListScreenState
                                 "Recurring",
                                 style: textTheme.display1.copyWith(
                                     fontSize: 23,
-                                    color: Colors.black,
+                                    color: Colors.white,
                                     fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.left,
                               ),
@@ -713,7 +714,7 @@ class _ActivitiesListScreenState
                                 "Archive",
                                 style: textTheme.display1.copyWith(
                                     fontSize: 23,
-                                    color: Colors.black,
+                                    color: Colors.white,
                                     fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.left,
                               ),
