@@ -143,7 +143,7 @@ class _AddBandCommScreenState
           child: Text(
             s,
             style: textTheme.subtitle.copyWith(
-                color: bandComm.priority == (s)
+                color: bandComm?.priority == (s)
                     ? Colors.white
                     : widget.appListener.primaryColorDark),
           ),
@@ -153,7 +153,7 @@ class _AddBandCommScreenState
             vertical: 8,
           ),
           decoration: BoxDecoration(
-            color: bandComm.priority == (s)
+            color: bandComm?.priority == (s)
                 ? Color.fromRGBO(250, 177, 49, 1.0)
                 : Color.fromRGBO(244, 246, 248, 1.0),
             borderRadius: BorderRadius.circular(18),
