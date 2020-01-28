@@ -347,7 +347,7 @@ class _AddBandCommScreenState
                             )
                           : Container(),
                       (widget.id.isNotEmpty || !isEdit) &&
-                              (bandComm?.isArchieve ?? false)
+                              !(bandComm?.isArchieve ?? false)
                           ? RaisedButton(
                               child: Text("Archive Commnuication"),
                               onPressed: () {
@@ -382,7 +382,7 @@ class _AddBandCommScreenState
   void onUpdate() {
     showMessage("Updated Successfully");
     setState(() {
-      isEdit = !isEdit;
+      isEdit = false;
     });
     presenter.getBandCommDetails(widget.id);
   }

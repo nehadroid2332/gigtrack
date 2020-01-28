@@ -94,6 +94,7 @@ class _BandCommListScreenState
                             bulletin.responseDate ??
                                 DateTime.now().millisecondsSinceEpoch);
                         return ListTile(
+                          selected: bulletin.isArchieve ?? false,
                           title: Text(
                             "${bulletin.title}",
                           ),
