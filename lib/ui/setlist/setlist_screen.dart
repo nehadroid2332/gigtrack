@@ -23,7 +23,7 @@ class _SetListScreenState
 
   @override
   AppBar get appBar => AppBar(
-    brightness: Brightness.light,
+        brightness: Brightness.light,
         backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
         elevation: 0,
         leading: IconButton(
@@ -64,40 +64,6 @@ class _SetListScreenState
                     return ListView.builder(
                       itemBuilder: (BuildContext context, int index) {
                         SetList setList = _setLists[index];
-                        // List<Widget> widgets = [];
-                        // for (Song song in setList.songs) {
-                        //   widgets.add(
-                        //     Padding(
-                        //       padding: EdgeInsets.symmetric(
-                        //         vertical: 5
-                        //       ),
-                        //       child: Row(
-                        //         children: <Widget>[
-                        //           Expanded(
-                        //             child: Text(
-                        //               song.name,
-                        //               textAlign: TextAlign.center,
-                        //             ),
-                        //           ),
-                        //           Text("-"),
-                        //           Expanded(
-                        //             child: Text(
-                        //               song.artist,
-                        //               textAlign: TextAlign.center,
-                        //             ),
-                        //           ),
-                        //           Text("*"),
-                        //           Expanded(
-                        //             child: Text(
-                        //               song.perform,
-                        //               textAlign: TextAlign.center,
-                        //             ),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     ),
-                        //   );
-                        // }
                         return FlatButton(
                           child: Text(
                             setList.setListName,
@@ -147,8 +113,6 @@ class _SetListScreenState
     super.initState();
     list = presenter.getData(widget.bandId);
   }
-
-  
 
   @override
   SetListPresenter get presenter => SetListPresenter(this);

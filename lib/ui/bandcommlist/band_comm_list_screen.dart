@@ -96,7 +96,9 @@ class _BandCommListScreenState
                                 DateTime.now().millisecondsSinceEpoch);
                         return Card(
                           margin: EdgeInsets.all(10),
-                          color: Color.fromRGBO(214, 22, 35, 1.0),
+                          color: (bulletin.isArchieve ?? false)
+                              ? Color.fromRGBO(214, 22, 35, 0.5)
+                              : Color.fromRGBO(214, 22, 35, 1.0),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
