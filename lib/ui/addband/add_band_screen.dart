@@ -1352,7 +1352,9 @@ class _AddBandScreenState
                                       ),
                                     ),
                                   ),
-                                  onTap: () {},
+                                  onTap: () {
+                                    showDialogConfirmStage();
+                                  },
                                 ),
                               ),
                               Padding(padding: EdgeInsets.all(5),),
@@ -1693,6 +1695,42 @@ class _AddBandScreenState
             "${user.firstName} ${user.lastName}");
       }
     });
+  }
+  showDialogConfirmStage() {
+    // flutter defined function
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          contentPadding: EdgeInsets.all(15),
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          title: new Text(
+            "Coming soon!",
+            textAlign: TextAlign.center,
+          ),
+          //content: Text("Release date would be coming soon..."),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new RaisedButton(
+              child: new Text(
+                "Okay",
+                textAlign: TextAlign.center,
+              ),
+              textColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6)),
+              color: Color.fromRGBO(167, 0, 0, 1.0),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
   _callPhone(phone) async {
     if (await canLaunch(phone)) {

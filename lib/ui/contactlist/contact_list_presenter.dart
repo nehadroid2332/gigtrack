@@ -78,13 +78,25 @@ class ContactListPresenter extends BasePresenter {
         // } else {
         //   acc.add(contact);
         // }
-        if (contact.user_id == serverAPI.currentUserId ||
-            contact.bandId == bandId) {
-          if (contactInit != null) {
-            if (contact.name.toLowerCase().contains(contactInit.toLowerCase()))
+        if(bandId.isEmpty) {
+          if (contact.user_id == serverAPI.currentUserId ||
+              contact.bandId == bandId) {
+            if (contactInit != null) {
+              if (contact.name.toLowerCase().contains(
+                  contactInit.toLowerCase()))
+                acc.add(contact);
+            } else
               acc.add(contact);
-          } else
-            acc.add(contact);
+          }
+        }else{
+          if(contact.bandId==bandId){
+            if (contactInit != null) {
+              if (contact.name.toLowerCase().contains(
+                  contactInit.toLowerCase()))
+                acc.add(contact);
+            } else
+              acc.add(contact);
+          }
         }
       }
       acc.sort((a, b) {

@@ -9,6 +9,9 @@ class BulletInBoard extends BaseModel {
   String id;
   String user_id;
   int visibleDays;
+  String city;
+  String state;
+  List<dynamic> uploadedFiles = [];
   int created = DateTime.now().millisecondsSinceEpoch;
   int status = STATUS_PENDING;
 
@@ -25,7 +28,11 @@ class BulletInBoard extends BaseModel {
       this.type,
       this.id,
       this.user_id,
-      this.status});
+      this.uploadedFiles,
+      this.status,
+      this.city,
+      this.state
+      });
 
   BulletInBoard.fromJSON(dynamic data) {
     id = data['id'];
@@ -37,6 +44,10 @@ class BulletInBoard extends BaseModel {
     status = data['status'];
     visibleDays = data['visibleDays'];
     created = data['created'];
+    city=data['city'];
+    state= data['state'];
+    if (data['uploadedFiles'] != null)
+      this.uploadedFiles = data['uploadedFiles'];
   }
 
   @override
@@ -51,6 +62,9 @@ class BulletInBoard extends BaseModel {
     data['visibleDays'] = visibleDays;
     data['created'] = created;
     data['description'] = description;
+    data['uploadedFiles'] = uploadedFiles;
+    data['city']= city;
+    data['state']=state;
     return data;
   }
 }

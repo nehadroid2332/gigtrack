@@ -33,6 +33,7 @@ class ServerAPI {
   static final ServerAPI _serverApi = new ServerAPI._internal();
 
   StorageReference equipmentRef;
+  StorageReference bulletionRef;
 
   StorageReference contactsRef;
 
@@ -81,6 +82,7 @@ class ServerAPI {
     contactsRef = storageRef.child("Contacts");
     playingstyleRef = storageRef.child("PlayingStyle");
     bandref = storageRef.child("Bands");
+    bulletionRef= storageRef.child("Bulletinboard");
     _mainFirebaseDatabase =
         FirebaseDatabase.instance.reference().child("Gigtrack");
     userDB = _mainFirebaseDatabase.child("users");
@@ -451,6 +453,24 @@ class ServerAPI {
 
   Future<dynamic> addBulletInBoard(BulletInBoard bulletinboard) async {
     try {
+      if (bulletinboard.uploadedFiles.length > 0) {
+        for (var i = 0; i < bulletinboard.uploadedFiles.length; i++) {
+          File file1 = File(bulletinboard.uploadedFiles[i]);
+
+          if (await file1.exists()) {
+            String basename = extension(file1.path);
+            File newFile = File(
+                file1.parent.path + "/temp-${await file1.length()}" + basename);
+            File file = await compressFileAndGetFile(file1, newFile.path);
+            final StorageUploadTask uploadTask = bulletionRef
+                .child("${DateTime.now().toString()}$basename")
+                .putFile(file);
+            StorageTaskSnapshot snapshot = await uploadTask.onComplete;
+            String url = await snapshot.ref.getDownloadURL();
+            bulletinboard.uploadedFiles[i] = url;
+          }
+        }
+      }
       bool isUpdate = true;
       if (bulletinboard.id == null || bulletinboard.id.isEmpty) {
         String id = bulletinDB.push().key;

@@ -1,5 +1,6 @@
 import 'dart:core' as prefix0;
 import 'dart:core';
+import 'dart:io';
 
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,8 @@ import 'package:gigtrack/server/models/bulletinboard.dart';
 import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/ui/addbulletinboard/addbulletinboard_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddBulletInBoardScreen extends BaseScreen {
   final String id;
@@ -25,7 +28,9 @@ class _AddBulletInBoardScreenState
     implements AddBulletInBoardContract {
   final _descController = TextEditingController(),
       _noteController = TextEditingController(),
-      _startDateController = TextEditingController();
+      _startDateController = TextEditingController(),
+  _cityController= TextEditingController(),
+  _zipController= TextEditingController();
 
   String _descError, _startDateError, _noteError;
 
@@ -37,6 +42,7 @@ class _AddBulletInBoardScreenState
   int status = BulletInBoard.STATUS_PENDING;
 
   User user;
+  File _image;
 
   @override
   void initState() {
@@ -47,6 +53,7 @@ class _AddBulletInBoardScreenState
   bool isEdit = false;
   bool isDateVisible = false;
   bool isshowTitle = false;
+  List files = <dynamic>[];
 
   bool qDarkmodeEnable=false;
   @override
@@ -73,6 +80,79 @@ class _AddBulletInBoardScreenState
 
       }
     }
+  }
+
+  //added image cropper in the code
+  Future<Null> _cropImage(image) async {
+    File croppedFile = await ImageCropper.cropImage(
+      sourcePath: image.path,
+      aspectRatioPresets: Platform.isAndroid
+          ? [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ]
+          : [
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio5x3,
+        CropAspectRatioPreset.ratio5x4,
+        CropAspectRatioPreset.ratio7x5,
+        CropAspectRatioPreset.ratio16x9
+      ],
+      androidUiSettings: AndroidUiSettings(
+          toolbarTitle: 'Cropper',
+          toolbarColor: Colors.deepOrange,
+          toolbarWidgetColor: Colors.white,
+          initAspectRatio: CropAspectRatioPreset.original,
+          lockAspectRatio: false),
+    );
+    if (croppedFile != null) {
+      image = croppedFile;
+      setState(() {
+        _image = image;
+        files.clear();
+        files.add(image.path);
+      });
+    }
+  }
+
+  Future getImage() async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Image Picker"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Camera"),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                var image = await ImagePicker.pickImage(
+                    source: ImageSource.camera, imageQuality: 50);
+
+                _cropImage(image);
+              },
+            ),
+            new FlatButton(
+              child: new Text("Gallery"),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                var image = await ImagePicker.pickImage(
+                    source: ImageSource.gallery, imageQuality: 50);
+                _cropImage(image);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
   @override
   AppBar get appBar => AppBar(
@@ -242,7 +322,7 @@ class _AddBulletInBoardScreenState
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),
                   child: ListView(
-                    padding: EdgeInsets.all(20),
+                    padding: EdgeInsets.all(15),
                     children: <Widget>[
                       Padding(
                         padding: widget.id.isEmpty || isEdit
@@ -256,11 +336,46 @@ class _AddBulletInBoardScreenState
                       ),
                       !(widget.id.isEmpty || isEdit)
                           ? Container(
-                              margin: EdgeInsets.all(5),
+                              margin: EdgeInsets.all(0),
                               child: Column(
                                 children: <Widget>[
+                                  widget.id.isEmpty || isEdit
+                                      ? Container()
+                                      : files != null && files.length > 0
+                                      ? Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                              File(files[0]).path,
+                                            ),
+                                            fit: BoxFit.cover),
+                                        borderRadius:
+                                        BorderRadius.only(
+                                            topLeft: Radius
+                                                .circular(0),
+                                            topRight:
+                                            Radius.circular(
+                                                0)),
+                                      ),
+                                      margin: EdgeInsets.only(
+                                          left: 10,
+                                          right: 10,
+                                          top: 10),
+                                      height: MediaQuery.of(context)
+                                          .size
+                                          .height /
+                                          4.2,
+                                      width: MediaQuery.of(context)
+                                          .size
+                                          .width,
+                                      child: null)
+                                      : Container(),
+                                  Padding(padding: EdgeInsets.all(5),),
                                   Row(
                                     children: <Widget>[
+
+
                                       Padding(
                                         padding: EdgeInsets.all(10),
                                       ),
@@ -391,7 +506,7 @@ class _AddBulletInBoardScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      Row(
+                      widget.id.isEmpty?Row(
                         children: <Widget>[
                           Expanded(
                             child: InkWell(
@@ -422,15 +537,220 @@ class _AddBulletInBoardScreenState
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.all(4),
+                            padding: EdgeInsets.all(0),
                           ),
                         ],
+                      ):Container(),
+                      widget.id.isNotEmpty
+                          ? Text(
+                        isEdit ? "" : "Location",
+                        textAlign: widget.id.isEmpty || isEdit
+                            ? TextAlign.left
+                            : TextAlign.center,
+                        style: textTheme.title
+                            .copyWith(fontWeight: FontWeight.w600),
+                      )
+                          : Container(),
+                      widget.id.isEmpty || isEdit
+                          ? TextField(
+                        enabled: widget.id.isEmpty || isEdit,
+                        textCapitalization: TextCapitalization.words,
+                        controller: _cityController,
+                        decoration: InputDecoration(
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                          ),
+                          labelText: "City",
+                          border: widget.id.isEmpty || isEdit
+                              ? null
+                              : InputBorder.none,
+                        ),
+                        style: textTheme.subhead.copyWith(
+                          color:  qDarkmodeEnable?Colors.white:Colors.black,
+                        ),
+                      )
+                          :Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                        Center(child: Text(
+                          "${_cityController.text}",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 16),
+                        ),),
+                        _zipController.text.isEmpty?Container():Center(child: Text(
+                          ", ${_zipController.text}",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 18),
+                        ))
+                      ],),
+                      widget.id.isEmpty || isEdit
+                          ? TextField(
+                        enabled: widget.id.isEmpty || isEdit,
+                        textCapitalization: TextCapitalization.words,
+                        controller: _zipController,
+                        decoration: InputDecoration(
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(202, 208, 215, 1.0),
+                          ),
+                          labelText: "State",
+                          border: widget.id.isEmpty || isEdit
+                              ? null
+                              : InputBorder.none,
+                        ),
+                        style: textTheme.subhead.copyWith(
+                          color:  qDarkmodeEnable?Colors.white:Colors.black,
+                        ),
+                      ):Container(),
+                      Padding(
+                        padding: EdgeInsets.all(5),
                       ),
+                      widget.id.isEmpty || isEdit
+                          ? Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              "Take Bulletin Cover photo",
+                              style:
+                              TextStyle(fontSize: 16),
+                            ),
+                          ),
+                          widget.id.isEmpty || isEdit
+                              ? IconButton(
+                            icon: Icon(
+                                Icons.add_a_photo),
+                            onPressed: () {
+                              if (files.length < 1)
+                                getImage();
+                              else
+                                showMessage(
+                                    "User can upload upto max 1 media files");
+                            },
+                          )
+                              : Container()
+                        ],
+                      )
+                          : Container(),
+                      files.length > 0
+                          ? widget.id.isEmpty || isEdit
+                          ? SizedBox(
+                        height: 90,
+                        child: ListView.builder(
+                          itemCount: files.length,
+                          scrollDirection:
+                          Axis.horizontal,
+                          itemBuilder:
+                              (BuildContext context,
+                              int index) {
+                            File file = File(files[index]);
+                            return file.path
+                                .startsWith("https")
+                                ? Container(
+                              margin:
+                              EdgeInsets.only(
+                                  left: 10,
+                                  right: 10),
+                              height: 80,
+                              width: 150,
+                              child: Stack(
+                                children: <
+                                    Widget>[
+                                  widget.id.isNotEmpty ||
+                                      isEdit &&
+                                          file.path.startsWith(
+                                              "https")
+                                      ? Image
+                                      .network(
+                                    file.path.toString() ??
+                                        "",
+                                    fit: BoxFit
+                                        .cover,
+                                  )
+                                      : Image
+                                      .file(
+                                    file,
+                                    fit: BoxFit
+                                        .cover,
+                                  ),
+                                  Positioned(
+                                    right: 14,
+                                    top: 0,
+                                    child:
+                                    InkWell(
+                                      onTap: () {
+                                        setState(
+                                                () {
+                                              files =
+                                              new List();
+                                            });
+                                      },
+                                      child:
+                                      Container(
+                                        child:
+                                        Icon(
+                                          Icons
+                                              .cancel,
+                                          color: Colors
+                                              .white,
+                                        ),
+                                        color: Colors
+                                            .black,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                                : Container(
+                              margin:
+                              EdgeInsets.only(
+                                  left: 10,
+                                  right: 10),
+                              height: 80,
+                              width: 150,
+                              child: Stack(
+                                children: <
+                                    Widget>[
+                                  Image.file(
+                                    file,
+                                    fit: BoxFit
+                                        .cover,
+                                  ),
+                                  Positioned(
+                                    right: 14,
+                                    top: 0,
+                                    child:
+                                    InkWell(
+                                      onTap: () {
+                                        setState(
+                                                () {
+                                              files =
+                                              new List();
+                                            });
+                                      },
+                                      child:
+                                      Container(
+                                        child:
+                                        Icon(
+                                          Icons
+                                              .cancel,
+                                          color: Colors
+                                              .white,
+                                        ),
+                                        color: Colors
+                                            .black,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                          : Container()
+                          : Container(),
                       Padding(
                         padding: EdgeInsets.all(10),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(20),
                       ),
                       widget.id.isEmpty || isEdit
                           ? RaisedButton(
@@ -538,6 +858,8 @@ class _AddBulletInBoardScreenState
                                   ],
                                 )
                               : Container(),
+
+
                     ],
                   ),
                 ),
@@ -603,6 +925,9 @@ class _AddBulletInBoardScreenState
       status = note.status;
       _descController.text = note.description;
       _noteController.text = note.item;
+      _cityController.text= note.city;
+      _zipController.text= note.state;
+      if (note.uploadedFiles != null) files = note.uploadedFiles;
       DateTime stDate = DateTime.fromMillisecondsSinceEpoch((note.date));
       _startDateController.text =
           "${formatDate(stDate, [mm, '/', dd, '/', yy])}";
@@ -701,7 +1026,10 @@ class _AddBulletInBoardScreenState
               : 0,
           type: type,
           id: widget.id,
+          uploadedFiles: files,
           item: note,
+          city:_cityController.text,
+          state:_zipController.text
         );
         showLoading();
         presenter.addBulletIn(notesTodo);
