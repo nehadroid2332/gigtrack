@@ -1289,14 +1289,7 @@ class _AddBandScreenState
                                                   ),
                                                 ),
                                               ),
-                                              onTap: () {
-                                                widget.appListener.router
-                                                    .navigateTo(
-                                                        context,
-                                                        Screens.ACTIVITIESLIST
-                                                                .toString() +
-                                                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}/${Activites.TYPE_BAND_TASK}");
-                                              },
+                                              onTap: () {},
                                             ),
                                           )
                                         ],
