@@ -184,7 +184,7 @@ bool validateMobile(String value) {
 Widget buildActivityListItem(Activites ac, context,
     {bool showConfirm = false, onConfirmPressed, onTap, bool isPast = false}) {
   return Container(
-    width: MediaQuery.of(context).size.width / 1.45,
+    width: MediaQuery.of(context).size.width / 2,
     margin: EdgeInsets.symmetric(horizontal: 3, vertical: 5),
     child: InkWell(
       child: Container(
@@ -255,23 +255,25 @@ Widget buildActivityListItem(Activites ac, context,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                ac.bandId.isNotEmpty
-                    ? Text(
-                        "-" + (ac?.band?.name ?? ''),
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontStyle: FontStyle.normal,
-                          color: ac.bandId.isNotEmpty
-                              ? isPast
-                                  ? Colors.grey
-                                  : Color.fromRGBO(32, 95, 139, 1.0)
-                              : isPast
-                                  ? Colors.grey
-                                  : Color.fromRGBO(40, 35, 188, 1.0),
-                        ),
-                        textAlign: TextAlign.center,
-                      )
-                    : Container(),
+                Expanded(
+                  child: ac.bandId.isNotEmpty
+                      ? Text(
+                          "-" + (ac?.band?.name ?? ''),
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontStyle: FontStyle.normal,
+                            color: ac.bandId.isNotEmpty
+                                ? isPast
+                                    ? Colors.grey
+                                    : Color.fromRGBO(32, 95, 139, 1.0)
+                                : isPast
+                                    ? Colors.grey
+                                    : Color.fromRGBO(40, 35, 188, 1.0),
+                          ),
+                          textAlign: TextAlign.center,
+                        )
+                      : Container(),
+                ),
 //
               ],
             )
