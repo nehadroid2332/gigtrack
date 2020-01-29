@@ -1,3 +1,4 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
@@ -63,7 +64,7 @@ class _AddSetListScreenState
 
   @override
   AppBar get appBar => AppBar(
-    brightness: Brightness.light,
+        brightness: Brightness.light,
         iconTheme: IconThemeData(
           color: Colors.white, //change your color here
         ),
@@ -82,7 +83,7 @@ class _AddSetListScreenState
         ),
         backgroundColor: Color.fromRGBO(214, 22, 35, 1.0),
         actions: <Widget>[
-          widget.id.isEmpty
+          widget.id.isEmpty || isEdit
               ? Container()
               : IconButton(
                   icon: Icon(
@@ -95,7 +96,7 @@ class _AddSetListScreenState
                     });
                   },
                 ),
-          widget.id.isEmpty
+          widget.id.isEmpty || isEdit
               ? Container()
               : IconButton(
                   icon: Icon(
@@ -305,14 +306,14 @@ class _AddSetListScreenState
                                       style: TextStyle(fontSize: 20),
                                     ),
                                   ),
-                            widget.id.isEmpty || isEdit
-                                ? Container()
-                                : RaisedButton(
-                                    onPressed: () {
-                                      addSongNotes();
-                                    },
-                                    child: Text("Practice Now"),
-                                  ),
+                            // widget.id.isEmpty || isEdit
+                            //     ? Container()
+                            //     : RaisedButton(
+                            //         onPressed: () {
+                            //           addSongNotes();
+                            //         },
+                            //         child: Text("Practice Now"),
+                            //       ),
                             Padding(
                               padding: EdgeInsets.all(10),
                             ),
@@ -433,24 +434,25 @@ class _AddSetListScreenState
                             Padding(
                               padding: EdgeInsets.all(0),
                             ),
-
-                            RaisedButton(
-                              onPressed: () {},
-                              color: Color.fromRGBO(214, 22, 35, 1.0),
-                              child: Text("Play now",
-                                  style: textTheme.headline.copyWith(
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                  )),
-                              padding: EdgeInsets.symmetric(
-                                vertical: 8,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              textColor: Colors.white,
-                            ),
+                            // (widget.id.isNotEmpty && isEdit)
+                            //     ? Container()
+                            //     : RaisedButton(
+                            //         onPressed: () {},
+                            //         color: Color.fromRGBO(214, 22, 35, 1.0),
+                            //         child: Text("Play now",
+                            //             style: textTheme.headline.copyWith(
+                            //               fontWeight: FontWeight.w300,
+                            //               color: Colors.white,
+                            //               fontSize: 20,
+                            //             )),
+                            //         padding: EdgeInsets.symmetric(
+                            //           vertical: 8,
+                            //         ),
+                            //         shape: RoundedRectangleBorder(
+                            //           borderRadius: BorderRadius.circular(20),
+                            //         ),
+                            //         textColor: Colors.white,
+                            //       ),
                             widget.id.isEmpty || isEdit
                                 ? TextField(
                                     style: textTheme.title,
@@ -633,9 +635,21 @@ class _AddSetListScreenState
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     Song song = _songList[index];
+                                    DateTime dateTime =
+                                        DateTime.fromMillisecondsSinceEpoch(
+                                            song.createdDate);
                                     return ListTile(
                                       title: Text(song.name),
-                                      subtitle: Text(song.artist),
+                                      subtitle: Text(
+                                          "${song.artist}\n${formatDate(dateTime, [
+                                        DD,
+                                        '-',
+                                        mm,
+                                        '/',
+                                        dd,
+                                        '/',
+                                        yy,
+                                      ])}"),
                                       onTap: () {
                                         setState(() {
                                           currentSong = song;
@@ -662,6 +676,7 @@ class _AddSetListScreenState
                                       onPressed: () {
                                         showLoading();
                                         SetList setList = SetList();
+                                        setList.id = widget.id;
                                         setList.bandId = widget.bandId;
                                         setList.setListName =
                                             _listNameController.text;
@@ -738,7 +753,9 @@ class _AddSetListScreenState
   }
 
   @override
-  void onDelete() {}
+  void onDelete() {
+    Navigator.pop(context);
+  }
 
   @override
   void onBandMemberDetails(Iterable<BandMember> values) {

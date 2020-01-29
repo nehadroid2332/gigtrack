@@ -65,6 +65,7 @@ class Song extends BaseModel {
   String perform;
   String id;
   String notes;
+  int createdDate = DateTime.now().millisecondsSinceEpoch;
   List<SongNotes> subnotes = [];
 
   Song();
@@ -75,6 +76,7 @@ class Song extends BaseModel {
     artist = data['artist'];
     chords = data['chords'];
     perform = data['perform'];
+    createdDate = data['createdDate'];
     notes = data['notes'];
     if (data['subnotes'] != null) {
       for (var item in data['subnotes']) {
@@ -89,6 +91,7 @@ class Song extends BaseModel {
     data['id'] = id;
     data['name'] = name;
     data['artist'] = artist;
+    data['createdDate'] = createdDate;
     data['chords'] = chords;
     data['perform'] = perform;
     data['notes'] = notes;
