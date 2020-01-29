@@ -4,6 +4,8 @@ import 'package:gigtrack/server/models/band.dart';
 
 abstract class ActivitiesListContract extends BaseContract {
   void getBands(List<Band> acc);
+
+  void bandDetails(Band band);
 }
 
 class ActivitiesListPresenter extends BasePresenter {
@@ -67,16 +69,16 @@ class ActivitiesListPresenter extends BasePresenter {
           }
         }
 
-//        else {
-//          acc.add(activites);
-//        }
+        //        else {
+        //          acc.add(activites);
+        //        }
       }
       return acc;
     });
     // }
   }
 
-  void getBands() async {
+  void getBands(String bandId) async {
     final res = await serverAPI.bandDB.once();
     Map mp = res.value;
     List<Band> acc = [];
@@ -87,6 +89,9 @@ class ActivitiesListPresenter extends BasePresenter {
             band.bandmates.keys
                 .contains(serverAPI.currentUserEmail.replaceAll(".", ""))) {
           acc.add(band);
+        }
+        if (band.id == bandId) {
+          (view as ActivitiesListContract).bandDetails(band);
         }
       }
     }

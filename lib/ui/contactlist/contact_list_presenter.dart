@@ -2,7 +2,9 @@ import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/contacts.dart';
 
-abstract class ContactListContract extends BaseContract {}
+abstract class ContactListContract extends BaseContract {
+  void onBandDetails(Band res);
+}
 
 class ContactListPresenter extends BasePresenter {
   ContactListPresenter(BaseContract view) : super(view);
@@ -119,6 +121,13 @@ class ContactListPresenter extends BasePresenter {
       return lastname + "" + traversedname.join(' ');
     } else {
       return traversedname.last;
+    }
+  }
+
+  void getBand(String bandId) async {
+    final res = await serverAPI.getBandDetails(bandId);
+    if (res is Band) {
+      (view as ContactListContract).onBandDetails(res);
     }
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
+import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/band_comm.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 
@@ -20,17 +21,21 @@ class BandCommListScreen extends BaseScreen {
 }
 
 class _BandCommListScreenState
-    extends BaseScreenState<BandCommListScreen, BandCommListPresenter> {
+    extends BaseScreenState<BandCommListScreen, BandCommListPresenter>
+    implements BandCommListContract {
   List<BandCommunication> _notes = <BandCommunication>[];
 
   Stream<List<BandCommunication>> list;
 
   bool allowArchieved = false;
 
+  String bandName;
+
   @override
   void initState() {
     super.initState();
     list = presenter.getList(widget.bandId);
+    presenter.getBand(widget.bandId);
   }
 
   @override
@@ -38,6 +43,12 @@ class _BandCommListScreenState
         brightness: Brightness.light,
         backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
         elevation: 0,
+        title: Text(
+          "${bandName ?? ""}",
+          style: textTheme.title.copyWith(
+            color: Colors.blueAccent,
+          ),
+        ),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -303,4 +314,11 @@ class _BandCommListScreenState
 
   @override
   BandCommListPresenter get presenter => BandCommListPresenter(this);
+
+  @override
+  void onBandDetails(Band res) {
+    setState(() {
+      bandName = res.name;
+    });
+  }
 }

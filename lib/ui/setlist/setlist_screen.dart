@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
+import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/setlist.dart';
 import 'package:gigtrack/ui/setlist/setlist_presenter.dart';
 
@@ -16,16 +17,25 @@ class SetListScreen extends BaseScreen {
 }
 
 class _SetListScreenState
-    extends BaseScreenState<SetListScreen, SetListPresenter> {
+    extends BaseScreenState<SetListScreen, SetListPresenter>
+    implements SetListContract {
   List<SetList> _setLists = [];
 
   Stream<List<SetList>> list;
+
+  String bandName;
 
   @override
   AppBar get appBar => AppBar(
         brightness: Brightness.light,
         backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
         elevation: 0,
+        title: Text(
+          "${bandName ?? ""}",
+          style: textTheme.title.copyWith(
+            color: Colors.blueAccent,
+          ),
+        ),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -112,6 +122,14 @@ class _SetListScreenState
   void initState() {
     super.initState();
     list = presenter.getData(widget.bandId);
+    presenter.getBand(widget.bandId);
+  }
+
+  @override
+  void onBandDetails(Band res) {
+    setState(() {
+      bandName = res.name;
+    });
   }
 
   @override

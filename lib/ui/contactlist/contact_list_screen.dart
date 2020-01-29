@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
+import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/server/models/contacts.dart';
 import 'package:gigtrack/ui/contactlist/contact_list_presenter.dart';
 import 'package:speech_bubble/speech_bubble.dart';
@@ -76,6 +77,8 @@ class _ContactListScreenState
   var _itemsizeheight = 110.0;
 
   final _searchController = TextEditingController();
+
+  String bandName;
   @override
   void initState() {
     super.initState();
@@ -86,6 +89,7 @@ class _ContactListScreenState
             contactInit: _searchController.text);
       });
     });
+    presenter.getBand(widget.bandId);
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
   }
@@ -209,6 +213,12 @@ class _ContactListScreenState
         backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
         brightness: Brightness.light,
         elevation: 0,
+        title: Text(
+          "${bandName ?? ""}",
+          style: textTheme.title.copyWith(
+            color: Colors.blueAccent,
+          ),
+        ),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -1321,8 +1331,13 @@ class _ContactListScreenState
     );
   }
 
-
-
   @override
   ContactListPresenter get presenter => ContactListPresenter(this);
+
+  @override
+  void onBandDetails(Band res) {
+    setState(() {
+      bandName = res.name;
+    });
+  }
 }

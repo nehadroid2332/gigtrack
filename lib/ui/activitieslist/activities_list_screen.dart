@@ -44,11 +44,13 @@ class _ActivitiesListScreenState
   List<Band> myBands = [];
   bool isArchive = false;
   bool isRecurring = false;
+  String bandName;
 
   @override
   void initState() {
     super.initState();
-    presenter.getBands();
+    presenter.getBands(widget.bandId);
+
     list = presenter.getList(widget.bandId, widget.type);
   }
 
@@ -66,6 +68,12 @@ class _ActivitiesListScreenState
             Navigator.pop(context);
           },
         ),
+        title: Text(
+          "${bandName ?? ""}",
+          style: textTheme.title.copyWith(
+            color: Colors.blueAccent,
+          ),
+        ),
       );
 
 //Today
@@ -79,12 +87,10 @@ class _ActivitiesListScreenState
         statusBarColor: Colors.blue, // Color for Android
         statusBarBrightness: Brightness.light,
         systemNavigationBarColor:
-        Colors.white // Dark == white status bar -- for IOS.
-    ));
+            Colors.white // Dark == white status bar -- for IOS.
+        ));
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-
       statusBarColor: Color.fromRGBO(99, 97, 93, .5),
-
     ));
     List<SpeedDialChild> items = [
       SpeedDialChild(
@@ -231,13 +237,9 @@ class _ActivitiesListScreenState
                       DateTime st = DateTime(startDate.year, startDate.month,
                           startDate.day, 0, 0, 0);
                       int days = st.difference(currentDate).inDays;
-                      print(
-                          "SDSD->> ${ac.title}  --> $days  -> ${days.isNegative} -> $st -> $currentDate");
-
                       int days2;
                       if (endDate != null) {
                         days2 = currentDate.difference(endDate).inDays;
-                        print("MKN-> $days2 -> ${days.isNegative}");
                       }
                       if (ac.isRecurring) {
                         recurring.add(ac);
@@ -267,7 +269,6 @@ class _ActivitiesListScreenState
                       //   upcoming.add(ac);
                       // }
                     }
-                    print("Sixe-> ${past.length}");
                     current.sort((a, b) => a.startDate.compareTo(b.startDate));
                     current.sort((a, b) {
                       DateTime aD =
@@ -356,7 +357,6 @@ class _ActivitiesListScreenState
                       list.add(c);
                       pastDates[c.startDate] = list;
                     }
-                    print("object---> ${pastDates.length}");
                     return ListView(
                       children: <Widget>[
                         StickyHeader(
@@ -474,9 +474,9 @@ class _ActivitiesListScreenState
                           header: Container(
                             child: Text(
                               "This Week",
-                              style: textTheme.display1.copyWith(fontSize: 23,color: Colors.white),
+                              style: textTheme.display1
+                                  .copyWith(fontSize: 23, color: Colors.white),
                               textAlign: TextAlign.left,
-
                             ),
                             color: Colors.blueAccent,
                             padding: EdgeInsets.all(5),
@@ -912,6 +912,13 @@ class _ActivitiesListScreenState
   void getBands(List<Band> acc) {
     setState(() {
       myBands = acc;
+    });
+  }
+
+  @override
+  void bandDetails(Band band) {
+    setState(() {
+      bandName = band.name;
     });
   }
 }
