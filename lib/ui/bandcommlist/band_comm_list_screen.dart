@@ -25,6 +25,8 @@ class _BandCommListScreenState
 
   Stream<List<BandCommunication>> list;
 
+  bool allowArchieved = false;
+
   @override
   void initState() {
     super.initState();
@@ -87,76 +89,189 @@ class _BandCommListScreenState
                   if (snapshot.hasData) {
                     _notes = snapshot.data;
 
-                    return ListView.builder(
-                      itemCount: _notes.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final bulletin = _notes[index];
-                        DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(
-                            bulletin.responseDate ??
-                                DateTime.now().millisecondsSinceEpoch);
-                        return Card(
-                          margin: EdgeInsets.all(10),
-                          color: (bulletin.isArchieve ?? false)
-                              ? Color.fromRGBO(214, 22, 35, 0.5)
-                              : Color.fromRGBO(214, 22, 35, 1.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: InkWell(
-                              child: Padding(
-                                padding: EdgeInsets.all(15),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      "${bulletin.priority}",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.all(3),
-                                    ),
-                                    Text(
-                                      "${"${bulletin.title}"}",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.all(3),
-                                    ),
-                                    Text(
-                                      "${formatDate(dateTime, [
-                                        DD,
-                                        ', ',
-                                        mm,
-                                        '/',
-                                        dd,
-                                        '/',
-                                        yy,
-                                      ])}",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                    List<BandCommunication> commList = [];
+                    List<BandCommunication> archieveList = [];
+
+                    for (var item in _notes) {
+                      if (item.isArchieve ?? false) {
+                        archieveList.add(item);
+                      } else {
+                        commList.add(item);
+                      }
+                    }
+
+                    return ListView(
+                      children: <Widget>[
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: commList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final bulletin = commList[index];
+                            DateTime dateTime =
+                                DateTime.fromMillisecondsSinceEpoch(
+                                    bulletin.responseDate ??
+                                        DateTime.now().millisecondsSinceEpoch);
+                            return Card(
+                              margin: EdgeInsets.all(10),
+                              color: Color.fromRGBO(214, 22, 35, 1.0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                              onTap: () async {
-                                await widget.appListener.router.navigateTo(
-                                    context,
-                                    Screens.ADD_BAND_COMM.toString() +
-                                        "/${bulletin.id}//${widget.bandId}/////");
-                              }),
-                        );
-                      },
+                              child: InkWell(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(15),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          "${bulletin.priority}",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(3),
+                                        ),
+                                        Text(
+                                          "${"${bulletin.title}"}",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w700),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(3),
+                                        ),
+                                        Text(
+                                          "${formatDate(dateTime, [
+                                            DD,
+                                            ', ',
+                                            mm,
+                                            '/',
+                                            dd,
+                                            '/',
+                                            yy,
+                                          ])}",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  onTap: () async {
+                                    await widget.appListener.router.navigateTo(
+                                        context,
+                                        Screens.ADD_BAND_COMM.toString() +
+                                            "/${bulletin.id}//${widget.bandId}/////");
+                                  }),
+                            );
+                          },
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                        ),
+                        FlatButton(
+                          child: Text(
+                            "Archived",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey,
+                                fontSize: 18),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              allowArchieved = !allowArchieved;
+                            });
+                          },
+                        ),
+                        allowArchieved
+                            ? ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: archieveList.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final bulletin = archieveList[index];
+                                  DateTime dateTime =
+                                      DateTime.fromMillisecondsSinceEpoch(
+                                          bulletin.responseDate ??
+                                              DateTime.now()
+                                                  .millisecondsSinceEpoch);
+                                  return Card(
+                                    margin: EdgeInsets.all(10),
+                                    color: Color.fromRGBO(214, 22, 35, 1.0),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: InkWell(
+                                        child: Padding(
+                                          padding: EdgeInsets.all(15),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Text(
+                                                "${bulletin.priority}",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.all(3),
+                                              ),
+                                              Text(
+                                                "${"${bulletin.title}"}",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.all(3),
+                                              ),
+                                              Text(
+                                                "${formatDate(dateTime, [
+                                                  DD,
+                                                  ', ',
+                                                  mm,
+                                                  '/',
+                                                  dd,
+                                                  '/',
+                                                  yy,
+                                                ])}",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        onTap: () async {
+                                          await widget.appListener.router
+                                              .navigateTo(
+                                                  context,
+                                                  Screens.ADD_BAND_COMM
+                                                          .toString() +
+                                                      "/${bulletin.id}//${widget.bandId}/////");
+                                        }),
+                                  );
+                                },
+                              )
+                            : Container()
+                      ],
                     );
                   } else if (snapshot.hasError) {
                     return Center(
