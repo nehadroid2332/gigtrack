@@ -76,7 +76,7 @@ class Song extends BaseModel {
     artist = data['artist'];
     chords = data['chords'];
     perform = data['perform'];
-    createdDate = data['createdDate'];
+    createdDate = data['createdDate'] ?? DateTime.now().millisecondsSinceEpoch;
     notes = data['notes'];
     if (data['subnotes'] != null) {
       for (var item in data['subnotes']) {
