@@ -156,29 +156,26 @@ class _AddBandScreenState
     presenter.getPlayingStyleList(widget.id);
     presenter.getUserProfile();
   }
-  bool qDarkmodeEnable=false;
+
+  bool qDarkmodeEnable = false;
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     checkThemeMode();
   }
+
   void checkThemeMode() {
-    if(Theme.of(context).platform == TargetPlatform.iOS){
-
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
       var qdarkMode = MediaQuery.of(context).platformBrightness;
-      if (qdarkMode == Brightness.dark){
+      if (qdarkMode == Brightness.dark) {
         setState(() {
-          qDarkmodeEnable=true;
+          qDarkmodeEnable = true;
         });
-
-
       } else {
         setState(() {
-          qDarkmodeEnable=false;
+          qDarkmodeEnable = false;
         });
-
-
       }
     }
   }
@@ -186,59 +183,65 @@ class _AddBandScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
-    leading: IconButton(
-      icon: Icon(Icons.arrow_back_ios),
-      onPressed: () async {
-        if (isEdit) {
-          final check = await showDialog<bool>(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text("Do you want to save changes?"),
-                actions: <Widget>[
-                  FlatButton(
-                    child: Text("No",style:
-                      TextStyle(color:qDarkmodeEnable?Colors.white: Colors.black),),
-                    onPressed: () {
-                      Navigator.of(context).pop(true);
-                    },
-                  ),
-                  RaisedButton(
-                    child: Text("Yes"),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6)),
-                    color: Color.fromRGBO(167, 0, 0, 1.0),
-                    onPressed: () {
-                      _submitband();
-                      Navigator.of(context).pop(true);
-                    },
-                  ),
-                ],
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () async {
+            if (isEdit) {
+              final check = await showDialog<bool>(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Do you want to save changes?"),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text(
+                          "No",
+                          style: TextStyle(
+                              color: qDarkmodeEnable
+                                  ? Colors.white
+                                  : Colors.black),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop(true);
+                        },
+                      ),
+                      RaisedButton(
+                        child: Text("Yes"),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6)),
+                        color: Color.fromRGBO(167, 0, 0, 1.0),
+                        onPressed: () {
+                          _submitband();
+                          Navigator.of(context).pop(true);
+                        },
+                      ),
+                    ],
+                  );
+                },
               );
-            },
-          );
-          if (check) {
-            Navigator.of(context).pop();
-          }
-        } else {
-          Navigator.of(context).pop();
-        }
-      },
-    ),
+              if (check) {
+                Navigator.of(context).pop();
+              }
+            } else {
+              Navigator.of(context).pop();
+            }
+          },
+        ),
         backgroundColor: Color.fromRGBO(167, 0, 0, 1.0),
         actions: <Widget>[
           Container(
             alignment: Alignment.center,
-            width:widget.id.isEmpty?MediaQuery.of(context).size.width: MediaQuery.of(context).size.width / 2,
+            width: widget.id.isEmpty
+                ? MediaQuery.of(context).size.width
+                : MediaQuery.of(context).size.width / 2,
             child: Text(
-            "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Band",
-            textAlign: TextAlign.center,
-            style: textTheme.headline.copyWith(
-              color: Colors.white,
-            )
-            ,
-          ), ),
-         
+              "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Band",
+              textAlign: TextAlign.center,
+              style: textTheme.headline.copyWith(
+                color: Colors.white,
+              ),
+            ),
+          ),
           widget.id.isEmpty
               ? Container()
               : IconButton(
@@ -289,7 +292,9 @@ class _AddBandScreenState
             // usually buttons at the bottom of the dialog
 
             new FlatButton(
-              child: new Text("Yes",style: TextStyle(color: qDarkmodeEnable?Colors.white:Colors.black)),
+              child: new Text("Yes",
+                  style: TextStyle(
+                      color: qDarkmodeEnable ? Colors.white : Colors.black)),
               textColor: Colors.black,
               onPressed: () {
                 if (widget.id == null || widget.id.isEmpty) {
@@ -346,10 +351,12 @@ class _AddBandScreenState
     String permissionType;
     if (members != null && members.length > 0) {
       for (var item in members) {
-        if (item.email.toLowerCase() == presenter.serverAPI.currentUserEmail.toLowerCase()) {
+        if (item.email.toLowerCase() ==
+            presenter.serverAPI.currentUserEmail.toLowerCase()) {
           permissionType = item.permissions;
         }
-        if (item.email.toLowerCase() == presenter.serverAPI.currentUserEmail.toLowerCase()) {
+        if (item.email.toLowerCase() ==
+            presenter.serverAPI.currentUserEmail.toLowerCase()) {
           permission =
               (item.permissions == "Leader" || item.permissions == "Setup");
         }
@@ -377,12 +384,15 @@ class _AddBandScreenState
             Text(" - "),
             Expanded(
               flex: 1,
-              child: InkWell(onTap: (){
-                if(mem.mobileText!=null){
-                  String phone= 'tel:+1${mem.mobileText}';
-                  _callPhone(phone);
-                }
-              },child:Text("${mem.mobileText ?? 'No Contact Added'}") ,),
+              child: InkWell(
+                onTap: () {
+                  if (mem.mobileText != null) {
+                    String phone = 'tel:+1${mem.mobileText}';
+                    _callPhone(phone);
+                  }
+                },
+                child: Text("${mem.mobileText ?? 'No Contact Added'}"),
+              ),
             ),
             mem.email == primaryContactEmail
                 ? Icon(Icons.account_circle)
@@ -407,12 +417,15 @@ class _AddBandScreenState
           Expanded(
             flex: 1,
             child: user != null
-                ? InkWell(onTap: (){
-              if(user.phone!=null){
-                String phone= 'tel:+1${user.phone}';
-                _callPhone(phone);
-              }
-            },child: Text("${user.phone ?? 'No Contact Added'}"),)
+                ? InkWell(
+                    onTap: () {
+                      if (user.phone != null) {
+                        String phone = 'tel:+1${user.phone}';
+                        _callPhone(phone);
+                      }
+                    },
+                    child: Text("${user.phone ?? 'No Contact Added'}"),
+                  )
                 : Container(),
           ),
         ],
@@ -448,970 +461,1225 @@ class _AddBandScreenState
                 ),
                 Expanded(
                   child: Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18)),
-                    child:Column(children: <Widget>[
-                      widget.id.isEmpty || isEdit?Container(): Expanded(
-                        flex: 3,
-                        child: widget.id.isEmpty || isEdit
-                            ? Container()
-                            : files != null && files.length > 0 ? Container(
-                          margin: EdgeInsets.only(left: 15, right: 15,top: 5),
-                        //  height: MediaQuery.of(context).size.height /
-                         //     4.4,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            image:DecorationImage(image:NetworkImage(
-                              File(files[0]).path,
-                            
-                            ),  fit: BoxFit.cover,)
-                          ),
-                          child: null
-                        )
-                            : Container() ,
-                      ),
-                      Expanded(
-                        flex: 8,
-                        child:ListView(
-                        padding: EdgeInsets.all(10),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18)),
+                      child: Column(
                         children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.all(5),
-                          ),
-    
-                          widget.id.isEmpty || isEdit ? Container() : Container(),
-                          //                        Text(
-                          //                                "Name",
-                          //                                textAlign: TextAlign.center,
-                          //                                style: textTheme.subhead
-                          //                                    .copyWith(fontWeight: FontWeight.w600),
-                          //
-                          //                              ),
-    
-                          Padding(
-                            padding: EdgeInsets.all(3),
-                          ),
-                          widget.id.isEmpty || isEdit
-                              ? TextField(
-                            enabled: widget.id.isEmpty || isEdit,
-                            textCapitalization: TextCapitalization.words,
-                            controller: _bandNameController,
-                            decoration: InputDecoration(
-                              labelStyle: TextStyle(
-                                color: Color.fromRGBO(202, 208, 215, 1.0),
-                              ),
-                              labelText: "Name",
-                              errorText: _errorBandName,
-                              border: widget.id.isEmpty || isEdit
-                                  ? null
-                                  : InputBorder.none,
-                            ),
-                            style: textTheme.subhead.copyWith(
-                              color: qDarkmodeEnable?Colors.white:Colors.black,
-                            ),
-                          )
-                              : Text(
-                            _bandNameController.text,
-                            textAlign: TextAlign.center,
-                            style: textTheme.subtitle.copyWith(
-                                fontWeight: FontWeight.w600, fontSize: 16),
-                          ),
-    
-                          Padding(
-                            padding: EdgeInsets.all(1),
-                          ),
-                          widget.id.isEmpty || isEdit ? Container() : Container(),
-                          //                        Text(
-                          //                                "City",
-                          //                                textAlign: TextAlign.center,
-                          //                                style: textTheme.subhead
-                          //                                    .copyWith(fontWeight: FontWeight.w600),
-                          //                              ),
-                          //Padding(padding: EdgeInsets.all(3),),
-                          widget.id.isEmpty || isEdit
-                              ? TextField(
-                            enabled: widget.id.isEmpty || isEdit,
-                            textCapitalization: TextCapitalization.words,
-                            controller: _bandCityController,
-                            decoration: InputDecoration(
-                              labelStyle: TextStyle(
-                                color: Color.fromRGBO(202, 208, 215, 1.0),
-                              ),
-                              labelText: "City",
-                              errorText: _errorBandCity,
-                              border: widget.id.isEmpty || isEdit
-                                  ? null
-                                  : InputBorder.none,
-                            ),
-                            style: textTheme.subhead.copyWith(
-                              color:  qDarkmodeEnable?Colors.white:Colors.black,
-                            ),
-                          )
-                              : Text(
-                            "${_bandCityController.text} , ${_bandStateController.text}",
-                            textAlign: TextAlign.center,
-                          ),
-                          //  Padding(padding: EdgeInsets.all(5),),
-                          widget.id.isEmpty || isEdit ? Container() : Container(),
-                          //                        Text(
-                          //                                "State",
-                          //                                textAlign: TextAlign.center,
-                          //                                style: textTheme.subhead
-                          //                                    .copyWith(fontWeight: FontWeight.w600),
-                          //                              ),
-                          // Padding(padding: EdgeInsets.all(3),),
-                          widget.id.isEmpty || isEdit
-                              ? TextField(
-                            enabled: widget.id.isEmpty || isEdit,
-                            textCapitalization: TextCapitalization.words,
-                            controller: _bandStateController,
-                            decoration: InputDecoration(
-                              labelStyle: TextStyle(
-                                color: Color.fromRGBO(202, 208, 215, 1.0),
-                              ),
-                              labelText: "State",
-                              errorText: _errorBandState,
-                              border: widget.id.isEmpty || isEdit
-                                  ? null
-                                  : InputBorder.none,
-                            ),
-                            style: textTheme.subhead.copyWith(
-                              color:  qDarkmodeEnable?Colors.white:Colors.black,
-                            ),
-                          )
-                              : Container(),
-                          //                        Text(
-                          //                          _bandStateController.text,
-                          //                          textAlign: TextAlign.center,
-                          //                        ),
-                          //  Padding(padding: EdgeInsets.all(5),),
-                          widget.id.isEmpty || isEdit ? Container() : Container(),
-                          //                        Text(
-                          //                                "ZIP",
-                          //                                textAlign: TextAlign.center,
-                          //                                style: textTheme.subhead
-                          //                                    .copyWith(fontWeight: FontWeight.w600),
-                          //                              ),
-                          //Padding(padding: EdgeInsets.all(3),),
-                          widget.id.isEmpty || isEdit
-                              ? TextField(
-                            enabled: widget.id.isEmpty || isEdit,
-                            textCapitalization: TextCapitalization.words,
-                            controller: _bandZipController,
-                            decoration: InputDecoration(
-                              labelStyle: TextStyle(
-                                color: Color.fromRGBO(202, 208, 215, 1.0),
-                              ),
-                              labelText: "ZIP",
-                              errorText: _errorBandZip,
-                              border: widget.id.isEmpty || isEdit
-                                  ? null
-                                  : InputBorder.none,
-                            ),
-                            style: textTheme.subhead.copyWith(
-                              color:  qDarkmodeEnable?Colors.white:Colors.black,
-                            ),
-                          )
-                              : Container(),
-                          //                        Text(
-                          //                          _bandZipController.text,
-                          //                          textAlign: TextAlign.center,
-                          //                        ),
-                          widget.id.isEmpty || isEdit ? Container() : Container(),
-                          //                        Text(
-                          //                                "Date Established",
-                          //                                textAlign: TextAlign.center,
-                          //                                style: textTheme.subhead
-                          //                                    .copyWith(fontWeight: FontWeight.w600),
-                          //                              ),
-                          Padding(
-                            padding: EdgeInsets.all(1),
-                          ),
-                          widget.id.isEmpty || isEdit
-                              ? InkWell(
-                            child: AbsorbPointer(
-                              child: TextField(
-                                enabled: widget.id.isEmpty,
-                                controller: _dateStartedController,
-                                textCapitalization:
-                                TextCapitalization.sentences,
-                                decoration: InputDecoration(
-                                  labelText: "Date Established",
-                                  labelStyle: TextStyle(
-                                    color:
-                                    Color.fromRGBO(202, 208, 215, 1.0),
-                                  ),
-                                  errorText: _errorDateStarted,
-                                  border: widget.id.isEmpty
-                                      ? null
-                                      : InputBorder.none,
-                                ),
-                                style: textTheme.subhead.copyWith(
-                                  color: qDarkmodeEnable?Colors.white:Colors.black,
-                                ),
-                              ),
-                            ),
-                            onTap: () {
-                              if (widget.id.isEmpty || isEdit)
-                                _selectDate(context, true);
-                            },
-                          )
-                              : Row(
-                            children: <Widget>[
-                              Expanded(
-                                flex: 6,
-                                child: Text(
-                                  "Date esta .",
-                                  textAlign: TextAlign.right,
-                                  //                                style: textTheme.subtitle.copyWith(
-                                  //                                  fontWeight: FontWeight.w600,
-                                  //                                ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(4),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  _dateStartedController.text,
-                                  textAlign: TextAlign.left,
-                                ),
-                                flex: 6,
-                              )
-                            ],
-                          ),
-                          widget.id.isEmpty || isEdit
-                              ? Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Text("Add Band Photo"),
-                              ),
-                              widget.id.isEmpty || isEdit
-                                  ? IconButton(
-                                icon: Icon(Icons.add_a_photo),
-                                onPressed: () {
-                                  if (files.length < 1)
-                                    getImage();
-                                  else
-                                    showMessage(
-                                        "User can upload upto max 1 media files");
-                                },
-                              )
-                                  : Container()
-                            ],
-                          )
-                              : Container(),
-                          files.length > 0
-                              ? (widget.id.isEmpty) || (isEdit)
-                              ? SizedBox(
-                            height: 90,
-                            child: ListView.builder(
-                              itemCount: files.length,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder:
-                                  (BuildContext context, int index) {
-                                File file = File(files[index]);
-                                return file.path.startsWith("https")
-                                    ? Container(
-                                  margin: EdgeInsets.only(
-                                      left: 10, right: 10),
-                                  height: 80,
-                                  width: 150,
-                                  child: Stack(
-                                    children: <Widget>[
-                                      widget.id.isNotEmpty ||
-                                          isEdit &&
-                                              file.path
-                                                  .startsWith(
-                                                  "https")
-                                          ? Image.network(
-                                        file.path
-                                            .toString() ??
-                                            "",
-                                        fit: BoxFit.cover,
-                                      )
-                                          : Image.file(
-                                        file,
-                                        fit: BoxFit.cover,
-                                      ),
-                                      Positioned(
-                                        right: 14,
-                                        top: 0,
-                                        child: InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              files = new List();
-                                            });
-                                          },
-                                          child: Container(
-                                            child: Icon(
-                                              Icons.cancel,
-                                              color: Colors.white,
-                                            ),
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )
-                                    : Container(
-                                  margin: EdgeInsets.only(
-                                      left: 10, right: 10),
-                                  height: 80,
-                                  width: 150,
-                                  child: Stack(
-                                    children: <Widget>[
-                                      Image.file(
-                                        file,
-                                        fit: BoxFit.cover,
-                                      ),
-                                      Positioned(
-                                        right: 14,
-                                        top: 0,
-                                        child: InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              files = new List();
-                                            });
-                                          },
-                                          child: Container(
-                                            child: Icon(
-                                              Icons.cancel,
-                                              color: Colors.white,
-                                            ),
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
-                          )
-                              : Container()
-                              : Container(),
-    
-                          //                        Text(
-                          //                                _dateStartedController.text,
-                          //                                textAlign: TextAlign.center,
-                          //                              ),
-    
-                          //                      Padding(
-                          //                        padding: EdgeInsets.all(5),
-                          //                      ),
-                          //                      widget.id.isEmpty || isEdit
-                          //                          ? Container()
-                          //                          : Text(
-                          //                              "Music Style",
-                          //                              textAlign: TextAlign.center,
-                          //                              style: textTheme.subhead,
-                          //                            ),
-                          //                      widget.id.isEmpty || isEdit
-                          //                          ? TextField(
-                          //                              enabled: widget.id.isEmpty || isEdit,
-                          //                              controller: _musicStyleController,
-                          //                              textCapitalization: TextCapitalization.sentences,
-                          //                              decoration: InputDecoration(
-                          //                                labelStyle: TextStyle(
-                          //                                  color: Color.fromRGBO(202, 208, 215, 1.0),
-                          //                                ),
-                          //                                labelText: "Music Style",
-                          //                                errorText: _errorMusicStyle,
-                          //                                border: widget.id.isEmpty || isEdit
-                          //                                    ? null
-                          //                                    : InputBorder.none,
-                          //                              ),
-                          //                              style: textTheme.subhead.copyWith(
-                          //                                color: Colors.black,
-                          //                              ),
-                          //                            )
-                          //                          : Text(
-                          //                              _musicStyleController.text,
-                          //                              textAlign: TextAlign.center,
-                          //                            ),
-                          Padding(
-                            padding: EdgeInsets.all(5),
-                          ),
-                          //                      widget.id.isEmpty || isEdit
-                          //                          ? Container()
-                          //                          : Text(
-                          //                              "Website",
-                          //                              textAlign: TextAlign.center,
-                          //                              style: textTheme.subhead
-                          //                                  .copyWith(fontWeight: FontWeight.w600),
-                          //                            ),
-                          //                      widget.id.isEmpty || isEdit
-                          //                          ? TextField(
-                          //                              enabled: widget.id.isEmpty || isEdit,
-                          //                              controller: _websiteController,
-                          //                              style: textTheme.subhead.copyWith(
-                          //                                color: Colors.black,
-                          //                              ),
-                          //                              decoration: InputDecoration(
-                          //                                labelText: "Website",
-                          //                                labelStyle: TextStyle(
-                          //                                  color: Color.fromRGBO(202, 208, 215, 1.0),
-                          //                                ),
-                          //                                errorText: _errorWebsite,
-                          //                                border: widget.id.isEmpty || isEdit
-                          //                                    ? null
-                          //                                    : InputBorder.none,
-                          //                              ),
-                          //                            )
-                          //                          : Text(
-                          //                              _websiteController.text,
-                          //                              textAlign: TextAlign.center,
-                          //                            ),
-                          //                      Padding(
-                          //                        padding: EdgeInsets.all(5),
-                          //                      ),
-                          //                      widget.id.isEmpty || isEdit
-                          //                          ? Container()
-                          //                          : Text(
-                          //                              "Email Address",
-                          //                              textAlign: TextAlign.center,
-                          //                              style: textTheme.subhead
-                          //                                  .copyWith(fontWeight: FontWeight.w600),
-                          //                            ),
-                          //                      widget.id.isEmpty || isEdit
-                          //                          ? TextField(
-                          //                              enabled: widget.id.isEmpty || isEdit,
-                          //                              controller: _emailController,
-                          //                              style: textTheme.subhead.copyWith(
-                          //                                color: Colors.black,
-                          //                              ),
-                          //                              decoration: InputDecoration(
-                          //                                labelText: "Email Address",
-                          //                                labelStyle: TextStyle(
-                          //                                  color: Color.fromRGBO(202, 208, 215, 1.0),
-                          //                                ),
-                          //                                errorText: _errorEmail,
-                          //                                border: widget.id.isEmpty || isEdit
-                          //                                    ? null
-                          //                                    : InputBorder.none,
-                          //                              ),
-                          //                            )
-                          //                          : Text(
-                          //                              _emailController.text,
-                          //                              textAlign: TextAlign.center,
-                          //                            ),
-                          //                      Padding(
-                          //                        padding: EdgeInsets.all(5),
-                          //                      ),
-    
-                          Padding(
-                            padding: EdgeInsets.only(
-                              top: widget.id.isEmpty ? 30 : 8,
-                            ),
-                          ),
                           widget.id.isEmpty || isEdit
                               ? Container()
-                              : Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Text(
-                                  "Members(${members.length})",
-                                  style: textTheme.subhead.copyWith(
-                                    color:  qDarkmodeEnable?Colors.white:Colors.black,
-                                  ),
+                              : Expanded(
+                                  flex: 3,
+                                  child: widget.id.isEmpty || isEdit
+                                      ? Container()
+                                      : files != null && files.length > 0
+                                          ? Container(
+                                              margin: EdgeInsets.only(
+                                                  left: 15, right: 15, top: 5),
+                                              //  height: MediaQuery.of(context).size.height /
+                                              //     4.4,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                image: NetworkImage(
+                                                  File(files[0]).path,
+                                                ),
+                                                fit: BoxFit.cover,
+                                              )),
+                                              child: null)
+                                          : Container(),
                                 ),
-                              ),
-                              (bandUserId != null &&
-                                  bandUserId ==
-                                      presenter.serverAPI
-                                          .currentUserId) ||
-                                  permission
-                                  ? IconButton(
-                                icon: Icon(
-                                  Icons.add,
-                                  color:
-                                  qDarkmodeEnable?Colors.white:Colors.black,
+                          Expanded(
+                            flex: 8,
+                            child: ListView(
+                              padding: EdgeInsets.all(10),
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.all(5),
                                 ),
-                                onPressed: () async {
-                                  await widget.appListener.router
-                                      .navigateTo(
-                                      context,
-                                      Screens.ADDMEMBERTOBAND
-                                          .toString() +
-                                          "//${widget.id}");
-                                  showLoading();
-                                  presenter.getBandDetails(widget.id);
-                                },
-                              )
-                                  : Container()
-                            ],
-                          ),
-                          widget.id.isEmpty || isEdit
-                              ? Container()
-                              : ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: members.length,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (BuildContext context, int index) {
-                              BandMember user = members[index];
-                              String permission = "";
-                              if (user.permissions != null) {
-                                permission = user.permissions;
-                              }
-                              return Column(
-                                children: <Widget>[
-                                  InkWell(
-                                    onTap: () async {
-                                      await widget.appListener.router
-                                          .navigateTo(
-                                          context,
-                                          Screens.ADDMEMBERTOBAND
-                                              .toString() +
-                                              "/${user.email}/${widget.id}");
-                                      getData();
-                                    },
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 2, bottom: 2),
-                                      child: user.instrumentList.length > 0
-                                          ? Text(
-                                        "${user.firstName} ${user.lastName} - ${user.instrumentList?.join(', ')}",
-                                        style: textTheme.subhead
-                                            .copyWith(
-                                          color:  qDarkmodeEnable?Colors.white:Colors.black,
-                                          fontSize: 12.3,
+
+                                widget.id.isEmpty || isEdit
+                                    ? Container()
+                                    : Container(),
+                                //                        Text(
+                                //                                "Name",
+                                //                                textAlign: TextAlign.center,
+                                //                                style: textTheme.subhead
+                                //                                    .copyWith(fontWeight: FontWeight.w600),
+                                //
+                                //                              ),
+
+                                Padding(
+                                  padding: EdgeInsets.all(3),
+                                ),
+                                widget.id.isEmpty || isEdit
+                                    ? TextField(
+                                        enabled: widget.id.isEmpty || isEdit,
+                                        textCapitalization:
+                                            TextCapitalization.words,
+                                        controller: _bandNameController,
+                                        decoration: InputDecoration(
+                                          labelStyle: TextStyle(
+                                            color: Color.fromRGBO(
+                                                202, 208, 215, 1.0),
+                                          ),
+                                          labelText: "Name",
+                                          errorText: _errorBandName,
+                                          border: widget.id.isEmpty || isEdit
+                                              ? null
+                                              : InputBorder.none,
                                         ),
-                                        textAlign: TextAlign.center,
+                                        style: textTheme.subhead.copyWith(
+                                          color: qDarkmodeEnable
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
                                       )
-                                          : Text(
-                                        "${user.firstName} ${user.lastName}",
-                                        style: textTheme.subhead
-                                            .copyWith(
-                                          color: qDarkmodeEnable?Colors.white:Colors.black,
-                                          fontSize: 12.3,
+                                    : Text(
+                                        _bandNameController.text,
+                                        textAlign: TextAlign.center,
+                                        style: textTheme.subtitle.copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 16),
+                                      ),
+
+                                Padding(
+                                  padding: EdgeInsets.all(1),
+                                ),
+                                widget.id.isEmpty || isEdit
+                                    ? Container()
+                                    : Container(),
+                                //                        Text(
+                                //                                "City",
+                                //                                textAlign: TextAlign.center,
+                                //                                style: textTheme.subhead
+                                //                                    .copyWith(fontWeight: FontWeight.w600),
+                                //                              ),
+                                //Padding(padding: EdgeInsets.all(3),),
+                                widget.id.isEmpty || isEdit
+                                    ? TextField(
+                                        enabled: widget.id.isEmpty || isEdit,
+                                        textCapitalization:
+                                            TextCapitalization.words,
+                                        controller: _bandCityController,
+                                        decoration: InputDecoration(
+                                          labelStyle: TextStyle(
+                                            color: Color.fromRGBO(
+                                                202, 208, 215, 1.0),
+                                          ),
+                                          labelText: "City",
+                                          errorText: _errorBandCity,
+                                          border: widget.id.isEmpty || isEdit
+                                              ? null
+                                              : InputBorder.none,
                                         ),
+                                        style: textTheme.subhead.copyWith(
+                                          color: qDarkmodeEnable
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      )
+                                    : Text(
+                                        "${_bandCityController.text} , ${_bandStateController.text}",
                                         textAlign: TextAlign.center,
                                       ),
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: () async {
-                                      await widget.appListener.router
-                                          .navigateTo(
-                                          context,
-                                          Screens.ADDMEMBERTOBAND
-                                              .toString() +
-                                              "/${user.email}/${widget.id}");
-                                      getData();
-                                    },
-                                    child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                //  Padding(padding: EdgeInsets.all(5),),
+                                widget.id.isEmpty || isEdit
+                                    ? Container()
+                                    : Container(),
+                                //                        Text(
+                                //                                "State",
+                                //                                textAlign: TextAlign.center,
+                                //                                style: textTheme.subhead
+                                //                                    .copyWith(fontWeight: FontWeight.w600),
+                                //                              ),
+                                // Padding(padding: EdgeInsets.all(3),),
+                                widget.id.isEmpty || isEdit
+                                    ? TextField(
+                                        enabled: widget.id.isEmpty || isEdit,
+                                        textCapitalization:
+                                            TextCapitalization.words,
+                                        controller: _bandStateController,
+                                        decoration: InputDecoration(
+                                          labelStyle: TextStyle(
+                                            color: Color.fromRGBO(
+                                                202, 208, 215, 1.0),
+                                          ),
+                                          labelText: "State",
+                                          errorText: _errorBandState,
+                                          border: widget.id.isEmpty || isEdit
+                                              ? null
+                                              : InputBorder.none,
+                                        ),
+                                        style: textTheme.subhead.copyWith(
+                                          color: qDarkmodeEnable
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      )
+                                    : Container(),
+                                //                        Text(
+                                //                          _bandStateController.text,
+                                //                          textAlign: TextAlign.center,
+                                //                        ),
+                                //  Padding(padding: EdgeInsets.all(5),),
+                                widget.id.isEmpty || isEdit
+                                    ? Container()
+                                    : Container(),
+                                //                        Text(
+                                //                                "ZIP",
+                                //                                textAlign: TextAlign.center,
+                                //                                style: textTheme.subhead
+                                //                                    .copyWith(fontWeight: FontWeight.w600),
+                                //                              ),
+                                //Padding(padding: EdgeInsets.all(3),),
+                                widget.id.isEmpty || isEdit
+                                    ? TextField(
+                                        enabled: widget.id.isEmpty || isEdit,
+                                        textCapitalization:
+                                            TextCapitalization.words,
+                                        controller: _bandZipController,
+                                        decoration: InputDecoration(
+                                          labelStyle: TextStyle(
+                                            color: Color.fromRGBO(
+                                                202, 208, 215, 1.0),
+                                          ),
+                                          labelText: "ZIP",
+                                          errorText: _errorBandZip,
+                                          border: widget.id.isEmpty || isEdit
+                                              ? null
+                                              : InputBorder.none,
+                                        ),
+                                        style: textTheme.subhead.copyWith(
+                                          color: qDarkmodeEnable
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      )
+                                    : Container(),
+                                //                        Text(
+                                //                          _bandZipController.text,
+                                //                          textAlign: TextAlign.center,
+                                //                        ),
+                                widget.id.isEmpty || isEdit
+                                    ? Container()
+                                    : Container(),
+                                //                        Text(
+                                //                                "Date Established",
+                                //                                textAlign: TextAlign.center,
+                                //                                style: textTheme.subhead
+                                //                                    .copyWith(fontWeight: FontWeight.w600),
+                                //                              ),
+                                Padding(
+                                  padding: EdgeInsets.all(1),
+                                ),
+                                widget.id.isEmpty || isEdit
+                                    ? InkWell(
+                                        child: AbsorbPointer(
+                                          child: TextField(
+                                            enabled: widget.id.isEmpty,
+                                            controller: _dateStartedController,
+                                            textCapitalization:
+                                                TextCapitalization.sentences,
+                                            decoration: InputDecoration(
+                                              labelText: "Date Established",
+                                              labelStyle: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    202, 208, 215, 1.0),
+                                              ),
+                                              errorText: _errorDateStarted,
+                                              border: widget.id.isEmpty
+                                                  ? null
+                                                  : InputBorder.none,
+                                            ),
+                                            style: textTheme.subhead.copyWith(
+                                              color: qDarkmodeEnable
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          if (widget.id.isEmpty || isEdit)
+                                            _selectDate(context, true);
+                                        },
+                                      )
+                                    : Row(
                                         children: <Widget>[
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                top: 2, bottom: 2),
-                                            child: user.memberRole.length > 0
-                                                ? Text(
-                                              "${user.memberRole?.join(',') ?? ''}  ",
-                                              style: textTheme.subhead
-                                                  .copyWith(
-                                                color:  qDarkmodeEnable?Colors.white:Colors.black,
-                                                fontSize: 12.3,
-                                              ),
-                                              textAlign:
-                                              TextAlign.center,
-                                            )
-                                                : Text(
-                                              "${user.memberRole?.join(',') ?? ''} ",
-                                              style: textTheme.subhead
-                                                  .copyWith(
-                                                color:  qDarkmodeEnable?Colors.white:Colors.black,
-                                                fontSize: 12.3,
-                                              ),
-                                              textAlign:
-                                              TextAlign.center,
+                                          Expanded(
+                                            flex: 6,
+                                            child: Text(
+                                              "Date esta .",
+                                              textAlign: TextAlign.right,
+                                              //                                style: textTheme.subtitle.copyWith(
+                                              //                                  fontWeight: FontWeight.w600,
+                                              //                                ),
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(
-                                                top: 2, bottom: 2),
-                                            child:permission.isNotEmpty&& user.memberRole.length>0? Text(
-                                              "- $permission",
-                                              style: textTheme.subhead
-                                                  .copyWith(
-                                                color:  qDarkmodeEnable?Colors.white:Colors.black,
-                                                fontSize: 12.3,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ):Text(
-                                              "$permission",
-                                              style: textTheme.subhead
-                                                  .copyWith(
-                                                color:  qDarkmodeEnable?Colors.white:Colors.black,
-                                                fontSize: 12.3,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
+                                            padding: EdgeInsets.all(4),
                                           ),
-                                        ]),
-                                  ),
-                                  Container(
-                                    width:
-                                    MediaQuery.of(context).size.width,
-                                    height: 1,
-                                    color: Colors.grey,
-                                    margin: EdgeInsets.only(
-                                        left: 30,
-                                        right: 30,
-                                        top: 3,
-                                        bottom: 3),
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(3),
-                          ),
-                          widget.id.isEmpty || isEdit
-                              ? Container()
-                              : Text(
-                            "Band Contact Info",
-                            textAlign: TextAlign.center,
-                            style: textTheme.subhead
-                                .copyWith(fontWeight: FontWeight.w600),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(3),
-                          ),
-                          widget.id.isEmpty || isEdit
-                              ? Container()
-                              : contactInfo.isEmpty
-                              ? Text(
-                            "No Member Yet",
-                            textAlign: TextAlign.center,
-                          )
-                              : Column(
-                            children: contactInfo,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(12),
-                          ),
-                          widget.id.isEmpty || isEdit
-                              ? Container()
-                              : Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: InkWell(
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                        color: qDarkmodeEnable?Colors.white:Colors.transparent,
-                                          borderRadius: BorderRadius.circular(10),
-                                          border: Border.all(
-                                              color:Color.fromRGBO(167, 0, 0, 1.0),
-                                              width: 1
+                                          Expanded(
+                                            child: Text(
+                                              _dateStartedController.text,
+                                              textAlign: TextAlign.left,
+                                            ),
+                                            flex: 6,
                                           )
+                                        ],
                                       ),
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                          vertical: 25,
-                                        ),
-                                        child: Text(
-                                          "Activities/Schedule",
-                                          textAlign: TextAlign.center,
-                                          style: textTheme.subhead.copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              color: Color.fromRGBO(167, 0, 0, 1.0)
+                                widget.id.isEmpty || isEdit
+                                    ? Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: Text("Add Band Photo"),
                                           ),
-                                        ),
-                                      )),
-                                  onTap: () {
-                                    widget.appListener.router.navigateTo(
-                                        context,
-                                        Screens.ACTIVITIESLIST.toString() +
-                                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}/");
-                                  },
+                                          widget.id.isEmpty || isEdit
+                                              ? IconButton(
+                                                  icon: Icon(Icons.add_a_photo),
+                                                  onPressed: () {
+                                                    if (files.length < 1)
+                                                      getImage();
+                                                    else
+                                                      showMessage(
+                                                          "User can upload upto max 1 media files");
+                                                  },
+                                                )
+                                              : Container()
+                                        ],
+                                      )
+                                    : Container(),
+                                files.length > 0
+                                    ? (widget.id.isEmpty) || (isEdit)
+                                        ? SizedBox(
+                                            height: 90,
+                                            child: ListView.builder(
+                                              itemCount: files.length,
+                                              scrollDirection: Axis.horizontal,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                File file = File(files[index]);
+                                                return file.path
+                                                        .startsWith("https")
+                                                    ? Container(
+                                                        margin: EdgeInsets.only(
+                                                            left: 10,
+                                                            right: 10),
+                                                        height: 80,
+                                                        width: 150,
+                                                        child: Stack(
+                                                          children: <Widget>[
+                                                            widget.id.isNotEmpty ||
+                                                                    isEdit &&
+                                                                        file.path
+                                                                            .startsWith("https")
+                                                                ? Image.network(
+                                                                    file.path
+                                                                            .toString() ??
+                                                                        "",
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  )
+                                                                : Image.file(
+                                                                    file,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
+                                                            Positioned(
+                                                              right: 14,
+                                                              top: 0,
+                                                              child: InkWell(
+                                                                onTap: () {
+                                                                  setState(() {
+                                                                    files =
+                                                                        new List();
+                                                                  });
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  child: Icon(
+                                                                    Icons
+                                                                        .cancel,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
+                                                                  color: Colors
+                                                                      .black,
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      )
+                                                    : Container(
+                                                        margin: EdgeInsets.only(
+                                                            left: 10,
+                                                            right: 10),
+                                                        height: 80,
+                                                        width: 150,
+                                                        child: Stack(
+                                                          children: <Widget>[
+                                                            Image.file(
+                                                              file,
+                                                              fit: BoxFit.cover,
+                                                            ),
+                                                            Positioned(
+                                                              right: 14,
+                                                              top: 0,
+                                                              child: InkWell(
+                                                                onTap: () {
+                                                                  setState(() {
+                                                                    files =
+                                                                        new List();
+                                                                  });
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  child: Icon(
+                                                                    Icons
+                                                                        .cancel,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
+                                                                  color: Colors
+                                                                      .black,
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      );
+                                              },
+                                            ),
+                                          )
+                                        : Container()
+                                    : Container(),
+
+                                //                        Text(
+                                //                                _dateStartedController.text,
+                                //                                textAlign: TextAlign.center,
+                                //                              ),
+
+                                //                      Padding(
+                                //                        padding: EdgeInsets.all(5),
+                                //                      ),
+                                //                      widget.id.isEmpty || isEdit
+                                //                          ? Container()
+                                //                          : Text(
+                                //                              "Music Style",
+                                //                              textAlign: TextAlign.center,
+                                //                              style: textTheme.subhead,
+                                //                            ),
+                                //                      widget.id.isEmpty || isEdit
+                                //                          ? TextField(
+                                //                              enabled: widget.id.isEmpty || isEdit,
+                                //                              controller: _musicStyleController,
+                                //                              textCapitalization: TextCapitalization.sentences,
+                                //                              decoration: InputDecoration(
+                                //                                labelStyle: TextStyle(
+                                //                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                //                                ),
+                                //                                labelText: "Music Style",
+                                //                                errorText: _errorMusicStyle,
+                                //                                border: widget.id.isEmpty || isEdit
+                                //                                    ? null
+                                //                                    : InputBorder.none,
+                                //                              ),
+                                //                              style: textTheme.subhead.copyWith(
+                                //                                color: Colors.black,
+                                //                              ),
+                                //                            )
+                                //                          : Text(
+                                //                              _musicStyleController.text,
+                                //                              textAlign: TextAlign.center,
+                                //                            ),
+                                Padding(
+                                  padding: EdgeInsets.all(5),
                                 ),
-                              ),
-                              Padding(padding: EdgeInsets.all(5),),
-                              Expanded(
-                                child: InkWell(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: qDarkmodeEnable?Colors.white:Colors.transparent,
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color:Color.fromRGBO(167, 0, 0, 1.0),
-                                            width: 1
-                                        )
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 25,
+                                //                      widget.id.isEmpty || isEdit
+                                //                          ? Container()
+                                //                          : Text(
+                                //                              "Website",
+                                //                              textAlign: TextAlign.center,
+                                //                              style: textTheme.subhead
+                                //                                  .copyWith(fontWeight: FontWeight.w600),
+                                //                            ),
+                                //                      widget.id.isEmpty || isEdit
+                                //                          ? TextField(
+                                //                              enabled: widget.id.isEmpty || isEdit,
+                                //                              controller: _websiteController,
+                                //                              style: textTheme.subhead.copyWith(
+                                //                                color: Colors.black,
+                                //                              ),
+                                //                              decoration: InputDecoration(
+                                //                                labelText: "Website",
+                                //                                labelStyle: TextStyle(
+                                //                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                //                                ),
+                                //                                errorText: _errorWebsite,
+                                //                                border: widget.id.isEmpty || isEdit
+                                //                                    ? null
+                                //                                    : InputBorder.none,
+                                //                              ),
+                                //                            )
+                                //                          : Text(
+                                //                              _websiteController.text,
+                                //                              textAlign: TextAlign.center,
+                                //                            ),
+                                //                      Padding(
+                                //                        padding: EdgeInsets.all(5),
+                                //                      ),
+                                //                      widget.id.isEmpty || isEdit
+                                //                          ? Container()
+                                //                          : Text(
+                                //                              "Email Address",
+                                //                              textAlign: TextAlign.center,
+                                //                              style: textTheme.subhead
+                                //                                  .copyWith(fontWeight: FontWeight.w600),
+                                //                            ),
+                                //                      widget.id.isEmpty || isEdit
+                                //                          ? TextField(
+                                //                              enabled: widget.id.isEmpty || isEdit,
+                                //                              controller: _emailController,
+                                //                              style: textTheme.subhead.copyWith(
+                                //                                color: Colors.black,
+                                //                              ),
+                                //                              decoration: InputDecoration(
+                                //                                labelText: "Email Address",
+                                //                                labelStyle: TextStyle(
+                                //                                  color: Color.fromRGBO(202, 208, 215, 1.0),
+                                //                                ),
+                                //                                errorText: _errorEmail,
+                                //                                border: widget.id.isEmpty || isEdit
+                                //                                    ? null
+                                //                                    : InputBorder.none,
+                                //                              ),
+                                //                            )
+                                //                          : Text(
+                                //                              _emailController.text,
+                                //                              textAlign: TextAlign.center,
+                                //                            ),
+                                //                      Padding(
+                                //                        padding: EdgeInsets.all(5),
+                                //                      ),
+
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: widget.id.isEmpty ? 30 : 8,
+                                  ),
+                                ),
+                                widget.id.isEmpty || isEdit
+                                    ? Container()
+                                    : Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: Text(
+                                              "Members(${members.length})",
+                                              style: textTheme.subhead.copyWith(
+                                                color: qDarkmodeEnable
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                          (bandUserId != null &&
+                                                      bandUserId ==
+                                                          presenter.serverAPI
+                                                              .currentUserId) ||
+                                                  permission
+                                              ? IconButton(
+                                                  icon: Icon(
+                                                    Icons.add,
+                                                    color: qDarkmodeEnable
+                                                        ? Colors.white
+                                                        : Colors.black,
+                                                  ),
+                                                  onPressed: () async {
+                                                    await widget
+                                                        .appListener.router
+                                                        .navigateTo(
+                                                            context,
+                                                            Screens.ADDMEMBERTOBAND
+                                                                    .toString() +
+                                                                "//${widget.id}");
+                                                    showLoading();
+                                                    presenter.getBandDetails(
+                                                        widget.id);
+                                                  },
+                                                )
+                                              : Container()
+                                        ],
                                       ),
-                                      child: Text(
-                                        "Band Marketing",
+                                widget.id.isEmpty || isEdit
+                                    ? Container()
+                                    : ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: members.length,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          BandMember user = members[index];
+                                          String permission = "";
+                                          if (user.permissions != null) {
+                                            permission = user.permissions;
+                                          }
+                                          return Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Center(
+                                                child: Container(
+                                                    height: 38,
+                                                    width: 38,
+                                                    decoration:
+                                                        new BoxDecoration(
+                                                      color: Color.fromRGBO(
+                                                          3, 218, 157, 1.0),
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                    alignment: Alignment.center,
+                                                    child: Center(
+                                                      child: Text(
+                                                        getNameOrder(
+                                                            user.firstName)[0],
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.yellow,
+                                                            fontSize: 20,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontStyle: FontStyle
+                                                                .italic),
+                                                      ),
+                                                    )),
+                                              ),
+                                              Expanded(
+                                                child: Column(
+                                                  children: <Widget>[
+                                                    InkWell(
+                                                      onTap: () async {
+                                                        await widget
+                                                            .appListener.router
+                                                            .navigateTo(
+                                                                context,
+                                                                Screens.ADDMEMBERTOBAND
+                                                                        .toString() +
+                                                                    "/${user.email}/${widget.id}");
+                                                        getData();
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 2,
+                                                                bottom: 2),
+                                                        child: Text(
+                                                          "${user.firstName} ${user.lastName}",
+                                                          style: textTheme
+                                                              .subhead
+                                                              .copyWith(
+                                                            color:
+                                                                qDarkmodeEnable
+                                                                    ? Colors
+                                                                        .white
+                                                                    : Colors
+                                                                        .black,
+                                                            fontSize: 12.3,
+                                                          ),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    user.instrumentList.length >
+                                                            0
+                                                        ? Text(
+                                                            "${user.instrumentList?.join(', ')}",
+                                                            style: textTheme
+                                                                .subhead
+                                                                .copyWith(
+                                                              color:
+                                                                  qDarkmodeEnable
+                                                                      ? Colors
+                                                                          .white
+                                                                      : Colors
+                                                                          .black,
+                                                              fontSize: 12.3,
+                                                            ),
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                          )
+                                                        : Container(),
+                                                    InkWell(
+                                                      onTap: () async {
+                                                        await widget
+                                                            .appListener.router
+                                                            .navigateTo(
+                                                                context,
+                                                                Screens.ADDMEMBERTOBAND
+                                                                        .toString() +
+                                                                    "/${user.email}/${widget.id}");
+                                                        getData();
+                                                      },
+                                                      child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: <Widget>[
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 2,
+                                                                      bottom:
+                                                                          2),
+                                                              child: user.memberRole
+                                                                          .length >
+                                                                      0
+                                                                  ? Text(
+                                                                      "${user.memberRole?.join(',') ?? ''}  ",
+                                                                      style: textTheme
+                                                                          .subhead
+                                                                          .copyWith(
+                                                                        color: qDarkmodeEnable
+                                                                            ? Colors.white
+                                                                            : Colors.black,
+                                                                        fontSize:
+                                                                            12.3,
+                                                                      ),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                    )
+                                                                  : Text(
+                                                                      "${user.memberRole?.join(',') ?? ''} ",
+                                                                      style: textTheme
+                                                                          .subhead
+                                                                          .copyWith(
+                                                                        color: qDarkmodeEnable
+                                                                            ? Colors.white
+                                                                            : Colors.black,
+                                                                        fontSize:
+                                                                            12.3,
+                                                                      ),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                    ),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 2,
+                                                                      bottom:
+                                                                          2),
+                                                              child: permission
+                                                                          .isNotEmpty &&
+                                                                      user.memberRole
+                                                                              .length >
+                                                                          0
+                                                                  ? Text(
+                                                                      "- $permission",
+                                                                      style: textTheme
+                                                                          .subhead
+                                                                          .copyWith(
+                                                                        color: qDarkmodeEnable
+                                                                            ? Colors.white
+                                                                            : Colors.black,
+                                                                        fontSize:
+                                                                            12.3,
+                                                                      ),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                    )
+                                                                  : Text(
+                                                                      "$permission",
+                                                                      style: textTheme
+                                                                          .subhead
+                                                                          .copyWith(
+                                                                        color: qDarkmodeEnable
+                                                                            ? Colors.white
+                                                                            : Colors.black,
+                                                                        fontSize:
+                                                                            12.3,
+                                                                      ),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                    ),
+                                                            ),
+                                                          ]),
+                                                    ),
+                                                    Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
+                                                      height: 1,
+                                                      color: Colors.grey,
+                                                      margin: EdgeInsets.only(
+                                                          left: 30,
+                                                          right: 30,
+                                                          top: 3,
+                                                          bottom: 3),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          );
+                                        },
+                                      ),
+                                Padding(
+                                  padding: EdgeInsets.all(3),
+                                ),
+                                widget.id.isEmpty || isEdit
+                                    ? Container()
+                                    : Text(
+                                        "Band Contact Info",
                                         textAlign: TextAlign.center,
                                         style: textTheme.subhead.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            color: Color.fromRGBO(167, 0, 0, 1.0)
-                                        ),
+                                            fontWeight: FontWeight.w600),
                                       ),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    widget.appListener.router.navigateTo(
-                                        context,
-                                        Screens.ACTIVITIESLIST.toString() +
-                                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}/${Activites.TYPE_BAND_TASK}");
-                                  },
+                                Padding(
+                                  padding: EdgeInsets.all(3),
                                 ),
-                              )
-                            ],
-                          ),
-                          Padding(padding: EdgeInsets.all(5),),
-                          widget.id.isEmpty || isEdit
-                              ? Container()
-                              : Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: InkWell(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: qDarkmodeEnable?Colors.white:Colors.transparent,
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color:Color.fromRGBO(167, 0, 0, 1.0),
-                                            width: 1
-                                        )
-                                    ),
-              
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 25,
-                                      ),
-                                      child: Text(
-                                        "Contacts",
-                                        textAlign: TextAlign.center,
-                                        style: textTheme.subhead.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            color: Color.fromRGBO(167, 0, 0, 1.0)
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    widget.appListener.router.navigateTo(
-                                        context,
-                                        Screens.CONTACTLIST.toString() +
-                                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-                                  },
+                                widget.id.isEmpty || isEdit
+                                    ? Container()
+                                    : contactInfo.isEmpty
+                                        ? Text(
+                                            "No Member Yet",
+                                            textAlign: TextAlign.center,
+                                          )
+                                        : Column(
+                                            children: contactInfo,
+                                          ),
+                                Padding(
+                                  padding: EdgeInsets.all(12),
                                 ),
-                              ),
-                              Padding(padding: EdgeInsets.all(5),),
-                              Expanded(
-                                child: InkWell(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: qDarkmodeEnable?Colors.white:Colors.transparent,
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color:Color.fromRGBO(167, 0, 0, 1.0),
-                                            width: 1
-                                        )
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 25,
+                                widget.id.isEmpty || isEdit
+                                    ? Container()
+                                    : Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: InkWell(
+                                              child: Container(
+                                                  decoration: BoxDecoration(
+                                                      color: qDarkmodeEnable
+                                                          ? Colors.white
+                                                          : Colors.transparent,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      border: Border.all(
+                                                          color: Color.fromRGBO(
+                                                              167, 0, 0, 1.0),
+                                                          width: 1)),
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                      vertical: 25,
+                                                    ),
+                                                    child: Text(
+                                                      "Activities/Schedule",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: textTheme.subhead
+                                                          .copyWith(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      167,
+                                                                      0,
+                                                                      0,
+                                                                      1.0)),
+                                                    ),
+                                                  )),
+                                              onTap: () {
+                                                widget.appListener.router
+                                                    .navigateTo(
+                                                        context,
+                                                        Screens.ACTIVITIESLIST
+                                                                .toString() +
+                                                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}/");
+                                              },
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(5),
+                                          ),
+                                          Expanded(
+                                            child: InkWell(
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    color: qDarkmodeEnable
+                                                        ? Colors.white
+                                                        : Colors.transparent,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    border: Border.all(
+                                                        color: Color.fromRGBO(
+                                                            167, 0, 0, 1.0),
+                                                        width: 1)),
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                    vertical: 25,
+                                                  ),
+                                                  child: Text(
+                                                    "Band Marketing",
+                                                    textAlign: TextAlign.center,
+                                                    style: textTheme.subhead
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    167,
+                                                                    0,
+                                                                    0,
+                                                                    1.0)),
+                                                  ),
+                                                ),
+                                              ),
+                                              onTap: () {
+                                                widget.appListener.router
+                                                    .navigateTo(
+                                                        context,
+                                                        Screens.ACTIVITIESLIST
+                                                                .toString() +
+                                                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}/${Activites.TYPE_BAND_TASK}");
+                                              },
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                      child: Text(
-                                        "Equipment",
-                                        textAlign: TextAlign.center,
-                                        style: textTheme.subhead.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            color: Color.fromRGBO(167, 0, 0, 1.0)
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    widget.appListener.router.navigateTo(
-                                        context,
-                                        Screens.INSTRUMENTLIST.toString() +
-                                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-                                  },
+                                Padding(
+                                  padding: EdgeInsets.all(5),
                                 ),
-                              )
-                            ],
-                          ),
-                          Padding(padding: EdgeInsets.all(5),),
-                          widget.id.isEmpty || isEdit
-                              ? Container()
-                              : Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: InkWell(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: qDarkmodeEnable?Colors.white:Colors.transparent,
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color:Color.fromRGBO(167, 0, 0, 1.0),
-                                            width: 1
-                                        )
-                                    ),
-              
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 25,
+                                widget.id.isEmpty || isEdit
+                                    ? Container()
+                                    : Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: InkWell(
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    color: qDarkmodeEnable
+                                                        ? Colors.white
+                                                        : Colors.transparent,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    border: Border.all(
+                                                        color: Color.fromRGBO(
+                                                            167, 0, 0, 1.0),
+                                                        width: 1)),
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                    vertical: 25,
+                                                  ),
+                                                  child: Text(
+                                                    "Contacts",
+                                                    textAlign: TextAlign.center,
+                                                    style: textTheme.subhead
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    167,
+                                                                    0,
+                                                                    0,
+                                                                    1.0)),
+                                                  ),
+                                                ),
+                                              ),
+                                              onTap: () {
+                                                widget.appListener.router
+                                                    .navigateTo(
+                                                        context,
+                                                        Screens.CONTACTLIST
+                                                                .toString() +
+                                                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                                              },
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(5),
+                                          ),
+                                          Expanded(
+                                            child: InkWell(
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    color: qDarkmodeEnable
+                                                        ? Colors.white
+                                                        : Colors.transparent,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    border: Border.all(
+                                                        color: Color.fromRGBO(
+                                                            167, 0, 0, 1.0),
+                                                        width: 1)),
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                    vertical: 25,
+                                                  ),
+                                                  child: Text(
+                                                    "Equipment",
+                                                    textAlign: TextAlign.center,
+                                                    style: textTheme.subhead
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    167,
+                                                                    0,
+                                                                    0,
+                                                                    1.0)),
+                                                  ),
+                                                ),
+                                              ),
+                                              onTap: () {
+                                                widget.appListener.router
+                                                    .navigateTo(
+                                                        context,
+                                                        Screens.INSTRUMENTLIST
+                                                                .toString() +
+                                                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                                              },
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                      child: Text(
-                                        "EPK",
-                                        textAlign: TextAlign.center,
-                                        style: textTheme.subhead.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            color: Color.fromRGBO(167, 0, 0, 1.0)
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    widget.appListener.router.navigateTo(
-                                        context,
-                                        Screens.ADDPLAYINGSTYLE.toString() +
-                                            "/$userPlayingStyleId/${widget.id}////");
-              
-                                    // widget.appListener.router.navigateTo(
-                                    //     context,
-                                    //     Screens.PLAYINGSTYLELIST.toString() +
-                                    //         "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-                                  },
+                                Padding(
+                                  padding: EdgeInsets.all(5),
                                 ),
-                              ),
-                              Padding(padding: EdgeInsets.all(5),),
-                              Expanded(
-                                child: InkWell(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: qDarkmodeEnable?Colors.white:Colors.transparent,
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color:Color.fromRGBO(167, 0, 0, 1.0),
-                                            width: 1
-                                        )
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 25,
+                                widget.id.isEmpty || isEdit
+                                    ? Container()
+                                    : Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: InkWell(
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    color: qDarkmodeEnable
+                                                        ? Colors.white
+                                                        : Colors.transparent,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    border: Border.all(
+                                                        color: Color.fromRGBO(
+                                                            167, 0, 0, 1.0),
+                                                        width: 1)),
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                    vertical: 25,
+                                                  ),
+                                                  child: Text(
+                                                    "EPK",
+                                                    textAlign: TextAlign.center,
+                                                    style: textTheme.subhead
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    167,
+                                                                    0,
+                                                                    0,
+                                                                    1.0)),
+                                                  ),
+                                                ),
+                                              ),
+                                              onTap: () {
+                                                widget.appListener.router
+                                                    .navigateTo(
+                                                        context,
+                                                        Screens.ADDPLAYINGSTYLE
+                                                                .toString() +
+                                                            "/$userPlayingStyleId/${widget.id}////");
+
+                                                // widget.appListener.router.navigateTo(
+                                                //     context,
+                                                //     Screens.PLAYINGSTYLELIST.toString() +
+                                                //         "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                                              },
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(5),
+                                          ),
+                                          Expanded(
+                                            child: InkWell(
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    color: qDarkmodeEnable
+                                                        ? Colors.white
+                                                        : Colors.transparent,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    border: Border.all(
+                                                        color: Color.fromRGBO(
+                                                            167, 0, 0, 1.0),
+                                                        width: 1)),
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                    vertical: 25,
+                                                  ),
+                                                  child: Text(
+                                                    "Band Comunications",
+                                                    textAlign: TextAlign.center,
+                                                    style: textTheme.subhead
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    167,
+                                                                    0,
+                                                                    0,
+                                                                    1.0)),
+                                                  ),
+                                                ),
+                                              ),
+                                              onTap: () {
+                                                widget.appListener.router
+                                                    .navigateTo(
+                                                        context,
+                                                        Screens.BANDCOMMLIST
+                                                                .toString() +
+                                                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
+                                              },
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                      child: Text(
-                                        "Band Comunications",
-                                        textAlign: TextAlign.center,
-                                        style: textTheme.subhead.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            color: Color.fromRGBO(167, 0, 0, 1.0)
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    widget.appListener.router.navigateTo(
-                                        context,
-                                        Screens.BANDCOMMLIST.toString() +
-                                            "/${widget.id}/${permissionType == 'Leader'}/${permissionType == 'Communications'}/${permissionType == 'Setup'}/${permissionType == 'Post Entries'}");
-                                  },
+                                Padding(
+                                  padding: EdgeInsets.all(5),
                                 ),
-                              )
-                            ],
-                          ),
-                          Padding(padding: EdgeInsets.all(5),),
-                          widget.id.isEmpty || isEdit
-                              ? Container()
-                              : Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: InkWell(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: qDarkmodeEnable?Colors.white:Colors.transparent,
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color:Color.fromRGBO(167, 0, 0, 1.0),
-                                            width: 1
-                                        )
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 25,
+                                widget.id.isEmpty || isEdit
+                                    ? Container()
+                                    : Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: InkWell(
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    color: qDarkmodeEnable
+                                                        ? Colors.white
+                                                        : Colors.transparent,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    border: Border.all(
+                                                        color: Color.fromRGBO(
+                                                            167, 0, 0, 1.0),
+                                                        width: 1)),
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                    vertical: 25,
+                                                  ),
+                                                  child: Text(
+                                                    "Stage Plot & DI Set up",
+                                                    textAlign: TextAlign.center,
+                                                    style: textTheme.subhead
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    167,
+                                                                    0,
+                                                                    0,
+                                                                    1.0)),
+                                                  ),
+                                                ),
+                                              ),
+                                              onTap: () {
+                                                showDialogConfirmStage();
+                                              },
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(5),
+                                          ),
+                                          Expanded(
+                                            child: InkWell(
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    color: qDarkmodeEnable
+                                                        ? Colors.white
+                                                        : Colors.transparent,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    border: Border.all(
+                                                        color: Color.fromRGBO(
+                                                            167, 0, 0, 1.0),
+                                                        width: 1)),
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                    vertical: 25,
+                                                  ),
+                                                  child: Text(
+                                                    "Set-List",
+                                                    textAlign: TextAlign.center,
+                                                    style: textTheme.subhead
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    167,
+                                                                    0,
+                                                                    0,
+                                                                    1.0)),
+                                                  ),
+                                                ),
+                                              ),
+                                              onTap: () {
+                                                widget.appListener.router
+                                                    .navigateTo(
+                                                        context,
+                                                        Screens.SETLIST
+                                                                .toString() +
+                                                            "/${widget.id}");
+                                              },
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      child: Text(
-                                        "Stage Plot & DI Set up",
-                                        textAlign: TextAlign.center,
-                                        style: textTheme.subhead.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            color: Color.fromRGBO(167, 0, 0, 1.0)
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    showDialogConfirmStage();
-                                  },
-                                ),
-                              ),
-                              Padding(padding: EdgeInsets.all(5),),
-                              Expanded(
-                                child: InkWell(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: qDarkmodeEnable?Colors.white:Colors.transparent,
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color:Color.fromRGBO(167, 0, 0, 1.0),
-                                            width: 1
-                                        )
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 25,
-                                      ),
-                                      child: Text(
-                                        "Set-List",
-                                        textAlign: TextAlign.center,
-                                        style: textTheme.subhead.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            color: Color.fromRGBO(167, 0, 0, 1.0)),
-                                      ),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    widget.appListener.router.navigateTo(
-                                        context,
-                                        Screens.SETLIST.toString() +
-                                            "/${widget.id}");
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                          widget.id.isEmpty || isEdit
-                              ? RaisedButton(
-                            color: Color.fromRGBO(167, 0, 0, 1.0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18)),
-                            textColor: Colors.white,
-                            onPressed: () {
-                              _submitband();
-                            },
-                            child: Text("Submit"),
-                          )
-                              : Container(),
-                          Padding(
-                            padding: EdgeInsets.all(10),
+                                widget.id.isEmpty || isEdit
+                                    ? RaisedButton(
+                                        color: Color.fromRGBO(167, 0, 0, 1.0),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(18)),
+                                        textColor: Colors.white,
+                                        onPressed: () {
+                                          _submitband();
+                                        },
+                                        child: Text("Submit"),
+                                      )
+                                    : Container(),
+                                Padding(
+                                  padding: EdgeInsets.all(10),
+                                )
+                              ],
+                            ),
                           )
                         ],
-                      ) ,)
-                      
-                  ],)
-                  ),
+                      )),
                 )
               ],
             ),
@@ -1646,15 +1914,11 @@ class _AddBandScreenState
 
   void _submitband() {
     setState(() {
-      String dateStarted =
-          _dateStartedController.text;
-      String musicStyle =
-          _musicStyleController.text;
+      String dateStarted = _dateStartedController.text;
+      String musicStyle = _musicStyleController.text;
       String bname = _bandNameController.text;
-      String blname =
-          _bandlegalNameController.text;
-      String legalstructure =
-          _legalStructureController.text;
+      String blname = _bandlegalNameController.text;
+      String legalstructure = _legalStructureController.text;
       String email = _emailController.text;
       String website = _websiteController.text;
       _errorBandLegalName = null;
@@ -1676,8 +1940,7 @@ class _AddBandScreenState
       else {
         showLoading();
         presenter.addBand(
-            selectedStartDate
-                .millisecondsSinceEpoch,
+            selectedStartDate.millisecondsSinceEpoch,
             musicStyle,
             bname,
             blname,
@@ -1691,11 +1954,11 @@ class _AddBandScreenState
             files: files,
             id: widget.id,
             bandmates: bandmates,
-            creatorName:
-            "${user.firstName} ${user.lastName}");
+            creatorName: "${user.firstName} ${user.lastName}");
       }
     });
   }
+
   showDialogConfirmStage() {
     // flutter defined function
 
@@ -1706,7 +1969,7 @@ class _AddBandScreenState
         return AlertDialog(
           contentPadding: EdgeInsets.all(15),
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           title: new Text(
             "Coming soon!",
             textAlign: TextAlign.center,
@@ -1732,6 +1995,7 @@ class _AddBandScreenState
       },
     );
   }
+
   _callPhone(phone) async {
     if (await canLaunch(phone)) {
       await launch(phone);

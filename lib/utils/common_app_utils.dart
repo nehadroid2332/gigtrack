@@ -184,7 +184,7 @@ bool validateMobile(String value) {
 Widget buildActivityListItem(Activites ac, context,
     {bool showConfirm = false, onConfirmPressed, onTap, bool isPast = false}) {
   return Container(
-    width: MediaQuery.of(context).size.width/1.45,
+    width: MediaQuery.of(context).size.width / 1.45,
     margin: EdgeInsets.symmetric(horizontal: 3, vertical: 5),
     child: InkWell(
       child: Container(
@@ -294,7 +294,7 @@ String currentType(int type) {
     return "Task";
   } else if (type == 4) {
     return "Band Task";
-  }else if(type==5){
+  } else if (type == 5) {
     return "Appointment";
   }
   return "";
@@ -610,5 +610,17 @@ class AppProgressWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+String getNameOrder(String name) {
+  List traversedname = name.split(" ");
+  int namelength = traversedname.length;
+  if (traversedname.length > 1) {
+    String lastname = "" + traversedname.last + ", ";
+    traversedname.removeLast();
+    return lastname + "" + traversedname.join(' ');
+  } else {
+    return traversedname.last;
   }
 }

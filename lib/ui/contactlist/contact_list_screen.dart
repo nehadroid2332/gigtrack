@@ -33,7 +33,7 @@ class _ContactListScreenState
     extends BaseScreenState<ContactListScreen, ContactListPresenter>
     implements ContactListContract {
   List<Contacts> _contacts = <Contacts>[];
-  bool showClear=false;
+  bool showClear = false;
   Stream<List<Contacts>> list;
   final alpha = [
     "A",
@@ -89,29 +89,26 @@ class _ContactListScreenState
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
   }
-  bool qDarkmodeEnable=false;
+
+  bool qDarkmodeEnable = false;
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     checkThemeMode();
   }
+
   void checkThemeMode() {
-    if(Theme.of(context).platform == TargetPlatform.iOS){
-
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
       var qdarkMode = MediaQuery.of(context).platformBrightness;
-      if (qdarkMode == Brightness.dark){
+      if (qdarkMode == Brightness.dark) {
         setState(() {
-          qDarkmodeEnable=true;
+          qDarkmodeEnable = true;
         });
-
-
       } else {
         setState(() {
-          qDarkmodeEnable=false;
+          qDarkmodeEnable = false;
         });
-
-
       }
     }
   }
@@ -135,8 +132,14 @@ class _ContactListScreenState
         child: new Text(
           alpha[index],
           style: (index == posSelected)
-              ? new TextStyle(fontSize: 16, fontWeight: FontWeight.w700,color: qDarkmodeEnable?Colors.black:Colors.grey)
-              : new TextStyle(fontSize: 12, fontWeight: FontWeight.w400,color: qDarkmodeEnable?Colors.black:Colors.grey),
+              ? new TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: qDarkmodeEnable ? Colors.black : Colors.grey)
+              : new TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  color: qDarkmodeEnable ? Colors.black : Colors.grey),
         ),
       ),
     );
@@ -204,7 +207,7 @@ class _ContactListScreenState
   @override
   AppBar get appBar => AppBar(
         backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
-    brightness: Brightness.light,
+        brightness: Brightness.light,
         elevation: 0,
         leading: IconButton(
           icon: Icon(
@@ -294,13 +297,13 @@ class _ContactListScreenState
                                           style: textTheme.button.copyWith(
                                               color: Colors.black,
                                               fontSize: 15),
-                                          onChanged: (text){
-                                            if(text.length>0){
+                                          onChanged: (text) {
+                                            if (text.length > 0) {
                                               setState(() {
-                                                showClear=true;
+                                                showClear = true;
                                               });
-                                            }else{
-                                              showClear=false;
+                                            } else {
+                                              showClear = false;
                                             }
                                           },
                                           decoration: InputDecoration(
@@ -308,15 +311,18 @@ class _ContactListScreenState
                                           ),
                                         ),
                                       ),
-                                      showClear?InkWell(child:Icon(
-                                        Icons.clear,
-                                        color: Colors.black,
-                                      ) ,
-                                      onTap: (){
-                                        showClear=false;
-                                        _searchController.clear();
-                                      },):Container()
-
+                                      showClear
+                                          ? InkWell(
+                                              child: Icon(
+                                                Icons.clear,
+                                                color: Colors.black,
+                                              ),
+                                              onTap: () {
+                                                showClear = false;
+                                                _searchController.clear();
+                                              },
+                                            )
+                                          : Container()
                                     ],
                                   ),
                                 ),
@@ -341,7 +347,10 @@ class _ContactListScreenState
                                                       int index) {
                                                 final cnt = _contacts[index];
                                                 return Container(
-                                                  height: MediaQuery.of(context).size.width/3,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      3,
                                                   margin: EdgeInsets.all(0),
                                                   decoration: BoxDecoration(
                                                     border: Border(
@@ -945,7 +954,6 @@ class _ContactListScreenState
                         ],
                       ),
                       Row(
-
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           Container(
@@ -1297,34 +1305,23 @@ class _ContactListScreenState
       floatingActionButton: (widget.isLeader && widget.bandId.isNotEmpty) ||
               widget.bandId.isEmpty
           ? Container(
-          margin: EdgeInsets.only(top: 30,right: 40),
-          child:FloatingActionButton(
-
-        onPressed: () async {
-          await widget.appListener.router.navigateTo(context,
-              Screens.ADDCONTACT.toString() + "//${widget.bandId}////");
-        },
-        child: Icon(
-          Icons.add,
-          color: Color.fromRGBO(3, 218, 157, 1.0),
-        ),
-        backgroundColor: Colors.yellow,
-      ))
+              margin: EdgeInsets.only(top: 30, right: 40),
+              child: FloatingActionButton(
+                onPressed: () async {
+                  await widget.appListener.router.navigateTo(context,
+                      Screens.ADDCONTACT.toString() + "//${widget.bandId}////");
+                },
+                child: Icon(
+                  Icons.add,
+                  color: Color.fromRGBO(3, 218, 157, 1.0),
+                ),
+                backgroundColor: Colors.yellow,
+              ))
           : Container(),
     );
   }
 
-  String getNameOrder(String name) {
-    List traversedname = name.split(" ");
-    int namelength = traversedname.length;
-    if (traversedname.length > 1) {
-      String lastname = "" + traversedname.last + ", ";
-      traversedname.removeLast();
-      return lastname + "" + traversedname.join(' ');
-    } else {
-      return traversedname.last;
-    }
-  }
+
 
   @override
   ContactListPresenter get presenter => ContactListPresenter(this);
