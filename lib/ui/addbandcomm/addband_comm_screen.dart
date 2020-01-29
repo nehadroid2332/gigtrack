@@ -255,13 +255,15 @@ class _AddBandCommScreenState
                               textAlign: TextAlign.center,
                             ),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: EdgeInsets.all(10),
                       ),
                       Text(
                         "Priority",
                         style: textTheme.title,
+                        textAlign: TextAlign.center,
                       ),
                       Wrap(
+                        alignment: WrapAlignment.center,
                         children: items,
                       ),
                       Padding(
