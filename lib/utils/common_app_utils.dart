@@ -184,7 +184,7 @@ bool validateMobile(String value) {
 Widget buildActivityListItem(Activites ac, context,
     {bool showConfirm = false, onConfirmPressed, onTap, bool isPast = false}) {
   return Container(
-    width: MediaQuery.of(context).size.width / 2,
+    width: MediaQuery.of(context).size.width / 1.7,
     margin: EdgeInsets.symmetric(horizontal: 3, vertical: 5),
     child: InkWell(
       child: Container(
@@ -270,10 +270,12 @@ Widget buildActivityListItem(Activites ac, context,
                                     ? Colors.grey
                                     : Color.fromRGBO(40, 35, 188, 1.0),
                           ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                           textAlign: TextAlign.center,
                         )
                       : Container(),
-                ),
+                )
 //
               ],
             )
