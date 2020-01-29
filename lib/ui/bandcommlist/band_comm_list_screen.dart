@@ -28,12 +28,12 @@ class _BandCommListScreenState
   @override
   void initState() {
     super.initState();
-    list = presenter.getList();
+    list = presenter.getList(widget.bandId);
   }
 
   @override
   AppBar get appBar => AppBar(
-       brightness: Brightness.light,
+        brightness: Brightness.light,
         backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
         elevation: 0,
         leading: IconButton(
@@ -94,26 +94,65 @@ class _BandCommListScreenState
                         DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(
                             bulletin.responseDate ??
                                 DateTime.now().millisecondsSinceEpoch);
-                        return ListTile(
-                          selected: bulletin.isArchieve ?? false,
-                          title: Text(
-                            "${bulletin.title}",
+                        return Card(
+                          margin: EdgeInsets.all(10),
+                          color: Color.fromRGBO(214, 22, 35, 1.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                          subtitle: Text("${formatDate(dateTime, [
-                            DD,
-                            ', ',
-                            mm,
-                            '/',
-                            dd,
-                            '/',
-                            yy,
-                          ])}"),
-                          onTap: () async {
-                            await widget.appListener.router.navigateTo(
-                                context,
-                                Screens.ADD_BAND_COMM.toString() +
-                                    "/${bulletin.id}//${widget.bandId}/////");
-                          },
+                          child: InkWell(
+                              child: Padding(
+                                padding: EdgeInsets.all(15),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      "${bulletin.priority}",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(3),
+                                    ),
+                                    Text(
+                                      "${"${bulletin.title}"}",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(3),
+                                    ),
+                                    Text(
+                                      "${formatDate(dateTime, [
+                                        DD,
+                                        ', ',
+                                        mm,
+                                        '/',
+                                        dd,
+                                        '/',
+                                        yy,
+                                      ])}",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              onTap: () async {
+                                await widget.appListener.router.navigateTo(
+                                    context,
+                                    Screens.ADD_BAND_COMM.toString() +
+                                        "/${bulletin.id}//${widget.bandId}/////");
+                              }),
                         );
                       },
                     );

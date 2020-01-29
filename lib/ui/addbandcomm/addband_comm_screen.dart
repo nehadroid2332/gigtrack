@@ -346,10 +346,18 @@ class _AddBandCommScreenState
                               textColor: Colors.white,
                             )
                           : Container(),
-                      (widget.id.isNotEmpty || !isEdit) &&
+                      (widget.id.isNotEmpty && !isEdit) &&
                               !(bandComm?.isArchieve ?? false)
                           ? RaisedButton(
                               child: Text("Archive Commnuication"),
+                              color: Color.fromRGBO(214, 22, 35, 1.0),
+                              padding: EdgeInsets.symmetric(
+                                vertical: 8,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              textColor: Colors.white,
                               onPressed: () {
                                 bandComm.isArchieve = true;
                                 presenter.addBandComm(bandComm);
