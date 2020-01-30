@@ -3,6 +3,7 @@ import 'dart:core';
 
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/activities.dart';
@@ -12,6 +13,7 @@ import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/ui/addactivity/add_activity_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:gigtrack/utils/showup.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:place_picker/place_picker.dart';
 
 class AddActivityScreen extends BaseScreen {
@@ -96,8 +98,6 @@ class _AddActivityScreenState
   List<Travel> travelList = [];
   double longitude, latitude = 0;
   bool qDarkmodeEnable = false;
-
-  String userId;
 
   Future<Null> _selectDate(BuildContext context, int type) async {
     final DateTime picked = await showDatePicker(
@@ -199,7 +199,24 @@ class _AddActivityScreenState
     super.initState();
 
     getData();
+    getUserLocation();
   }
+  Future<Position> locateUser() async {
+    return Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  }
+  Position currentLocation;
+  LatLng _center;
+
+  void getUserLocation() async {
+    currentLocation = await locateUser();
+    setState(() {
+      _center = LatLng(currentLocation.latitude, currentLocation.longitude);
+    });
+
+  }
+
+
 
   @override
   void didChangeDependencies() {
@@ -230,9 +247,7 @@ class _AddActivityScreenState
                   ),
                 ),
               )),
-          (widget.id.isEmpty || widget.isParent) &&
-                  (widget.isLeader ||
-                      userId == presenter.serverAPI.currentUserId)
+          widget.id.isEmpty || widget.isParent
               ? Container()
               : IconButton(
                   icon: Icon(Icons.edit),
@@ -242,9 +257,7 @@ class _AddActivityScreenState
                     });
                   },
                 ),
-          (widget.id.isEmpty || widget.isParent) &&
-                  (widget.isLeader ||
-                      userId == presenter.serverAPI.currentUserId)
+          widget.id.isEmpty || widget.isParent
               ? Container()
               : IconButton(
                   icon: Icon(Icons.delete),
@@ -551,30 +564,28 @@ class _AddActivityScreenState
                                 ? EdgeInsets.all(5)
                                 : EdgeInsets.all(0),
                       ),
-                      (widget.id.isEmpty || isEdit) &&
-                              (widget.type == Activites.TYPE_ACTIVITY ||
-                                  widget.type == Activites.TYPE_APPOINTMENT ||
-                                  widget.type ==
-                                      Activites.TYPE_PERFORMANCE_SCHEDULE ||
-                                  widget.type ==
-                                      Activites.TYPE_PRACTICE_SCHEDULE)
-                          ? Container(
-                              color: qDarkmodeEnable
-                                  ? Colors.transparent
-                                  : (widget.id.isEmpty || isEdit) &&
-                                          (widget.type ==
-                                                  Activites.TYPE_ACTIVITY ||
-                                              widget.type ==
-                                                  Activites.TYPE_APPOINTMENT ||
-                                              widget.type ==
-                                                  Activites
-                                                      .TYPE_PERFORMANCE_SCHEDULE ||
-                                              widget.type ==
-                                                  Activites
-                                                      .TYPE_PRACTICE_SCHEDULE)
-                                      ? Colors.blue.shade50
-                                      : Colors.transparent,
-                              padding: EdgeInsets.all(8),
+//                      (widget.id.isEmpty || isEdit) &&
+//                          (widget.type == Activites.TYPE_ACTIVITY ||
+//                              widget.type ==
+//                                  Activites.TYPE_APPOINTMENT ||
+//                              widget.type ==
+//                                  Activites
+//                                      .TYPE_PERFORMANCE_SCHEDULE ||
+//                              widget.type ==
+//                                  Activites.TYPE_PRACTICE_SCHEDULE)?
+                      Container(
+                        color: qDarkmodeEnable
+                            ? Colors.transparent
+                            : (widget.id.isEmpty || isEdit) &&
+                            (widget.type == Activites.TYPE_ACTIVITY ||
+                                widget.type ==
+                                    Activites.TYPE_APPOINTMENT ||
+                                widget.type ==
+                                    Activites
+                                        .TYPE_PERFORMANCE_SCHEDULE ||
+                                widget.type ==
+                                    Activites.TYPE_PRACTICE_SCHEDULE)?Colors.blue.shade50:Colors.transparent,
+                        padding: EdgeInsets.all(8),
 //                      decoration: BoxDecoration(
 //                        borderRadius: BorderRadius.all(Radius.circular(10)),
 //                        border: Border(
@@ -600,276 +611,242 @@ class _AddActivityScreenState
 //                          ),
 //                        ),
 //                      ),
-                              child: Column(
-                                children: <Widget>[
-                                  (widget.id.isEmpty || isEdit) &&
-                                          (widget.type ==
-                                                  Activites.TYPE_ACTIVITY ||
-                                              widget.type ==
-                                                  Activites.TYPE_APPOINTMENT ||
-                                              widget.type ==
-                                                  Activites
-                                                      .TYPE_PERFORMANCE_SCHEDULE ||
-                                              widget.type ==
-                                                  Activites
-                                                      .TYPE_PRACTICE_SCHEDULE)
-                                      ? Row(
-                                          children: <Widget>[
-                                            Expanded(
-                                                child: Column(
-                                              children: <Widget>[
-                                                Center(
-                                                    child: Text(
-                                                  "Start Date",
-                                                  style:
-                                                      TextStyle(fontSize: 15),
-                                                )),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      bottom: 3),
-                                                ),
-                                                InkWell(
-                                                  child: Container(
-                                                    height: 30,
-                                                    decoration: BoxDecoration(
+                        child: Column(
+                          children: <Widget>[
+                            (widget.id.isEmpty || isEdit) &&
+                                    (widget.type == Activites.TYPE_ACTIVITY ||
+                                        widget.type ==
+                                            Activites.TYPE_APPOINTMENT ||
+                                        widget.type ==
+                                            Activites
+                                                .TYPE_PERFORMANCE_SCHEDULE ||
+                                        widget.type ==
+                                            Activites.TYPE_PRACTICE_SCHEDULE)
+                                ? Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                          child: Column(
+                                        children: <Widget>[
+                                          Center(
+                                              child: Text(
+                                            "Start Date",
+                                            style: TextStyle(fontSize: 15),
+                                          )),
+                                          Padding(
+                                            padding: EdgeInsets.only(bottom: 3),
+                                          ),
+                                          InkWell(
+                                            child: Container(
+                                              height: 30,
+                                              decoration: BoxDecoration(
 //                                          color: Colors.lightBlue.shade100,
-                                                      border: Border(
-                                                        top: BorderSide(
-                                                            width: 0.0,
-                                                            color:
-                                                                Colors.white),
-                                                        bottom: BorderSide(
-                                                            width: 1.0,
-                                                            color: Colors
-                                                                .grey.shade200),
-                                                      ),
+                                                border: Border(
+                                                  top: BorderSide(
+                                                      width: 0.0,
+                                                      color: Colors.white),
+                                                  bottom: BorderSide(
+                                                      width: 1.0,
+                                                      color:
+                                                          Colors.grey.shade200),
+                                                ),
+                                              ),
+                                              child: AbsorbPointer(
+                                                child: TextField(
+                                                  enabled: widget.id.isEmpty ||
+                                                      isEdit,
+                                                  textCapitalization:
+                                                      TextCapitalization
+                                                          .sentences,
+                                                  textAlignVertical:
+                                                      TextAlignVertical.center,
+                                                  textAlign: TextAlign.center,
+                                                  decoration: InputDecoration(
+                                                    isDense: true,
+                                                    contentPadding:
+                                                        EdgeInsets.all(8),
+                                                    labelText: widget
+                                                                .id.isEmpty ||
+                                                            isEdit
+                                                        ? widget.type ==
+                                                                Activites
+                                                                    .TYPE_PRACTICE_SCHEDULE
+                                                            ? ""
+                                                            // : "Start Date"
+                                                            : ""
+                                                        : "",
+                                                    labelStyle: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          202, 208, 215, 1.0),
                                                     ),
-                                                    child: AbsorbPointer(
-                                                      child: TextField(
-                                                        enabled:
-                                                            widget.id.isEmpty ||
-                                                                isEdit,
-                                                        textCapitalization:
-                                                            TextCapitalization
-                                                                .sentences,
-                                                        textAlignVertical:
-                                                            TextAlignVertical
-                                                                .center,
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        decoration:
-                                                            InputDecoration(
-                                                          isDense: true,
-                                                          contentPadding:
-                                                              EdgeInsets.all(8),
-                                                          labelText: widget.id
-                                                                      .isEmpty ||
-                                                                  isEdit
-                                                              ? widget.type ==
-                                                                      Activites
-                                                                          .TYPE_PRACTICE_SCHEDULE
-                                                                  ? ""
-                                                                  // : "Start Date"
-                                                                  : ""
-                                                              : "",
-                                                          labelStyle: TextStyle(
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    202,
-                                                                    208,
-                                                                    215,
-                                                                    1.0),
-                                                          ),
-                                                          errorText: _dateError,
-                                                          border: widget.id
-                                                                      .isEmpty ||
-                                                                  isEdit
-                                                              ? null
-                                                              : InputBorder
-                                                                  .none,
-                                                        ),
-                                                        controller:
-                                                            _dateController,
-                                                        style: textTheme.subhead
-                                                            .copyWith(
-                                                          color: qDarkmodeEnable
-                                                              ? Colors.white
-                                                              : Colors.black,
-                                                        ),
-                                                      ),
-                                                    ),
+                                                    errorText: _dateError,
+                                                    border: widget.id.isEmpty ||
+                                                            isEdit
+                                                        ? null
+                                                        : InputBorder.none,
                                                   ),
-                                                  onTap: () {
-                                                    if (widget.id.isEmpty ||
-                                                        isEdit)
-                                                      _selectDate(context, 1);
-                                                  },
-                                                )
-                                              ],
-                                            )),
-                                            Padding(
-                                              padding: EdgeInsets.all(10),
-                                            ),
-                                            widget.type ==
-                                                    Activites.TYPE_APPOINTMENT
-                                                ? Container()
-                                                : Expanded(
-                                                    child: Column(
-                                                      children: <Widget>[
-                                                        Center(
-                                                            child: Text(
-                                                          "End Date",
-                                                          style: TextStyle(
-                                                              fontSize: 15),
-                                                        )),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  bottom: 3),
-                                                        ),
-                                                        InkWell(
-                                                          child: Container(
-                                                            height: 30,
-                                                            decoration:
-                                                                BoxDecoration(
-//                                            color: Colors.lightBlue.shade100,
-                                                              border: Border(
-                                                                top: BorderSide(
-                                                                    width: 0.0,
-                                                                    color: Colors
-                                                                        .white),
-                                                                bottom: BorderSide(
-                                                                    width: 1.0,
-                                                                    color: Colors
-                                                                        .grey
-                                                                        .shade200),
-                                                              ),
-                                                            ),
-                                                            child:
-                                                                AbsorbPointer(
-                                                              child: TextField(
-                                                                enabled: widget
-                                                                        .id
-                                                                        .isEmpty ||
-                                                                    isEdit,
-                                                                textCapitalization:
-                                                                    TextCapitalization
-                                                                        .sentences,
-                                                                textAlignVertical:
-                                                                    TextAlignVertical
-                                                                        .center,
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  isDense: true,
-                                                                  contentPadding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              8),
-                                                                  labelText: widget
-                                                                              .id
-                                                                              .isEmpty ||
-                                                                          isEdit
-                                                                      ? widget.type ==
-                                                                              Activites.TYPE_PRACTICE_SCHEDULE
-                                                                          ? ""
-                                                                          // : "Start Date"
-                                                                          : ""
-                                                                      : "",
-                                                                  labelStyle:
-                                                                      TextStyle(
-                                                                    color: Color
-                                                                        .fromRGBO(
-                                                                            202,
-                                                                            208,
-                                                                            215,
-                                                                            1.0),
-                                                                  ),
-                                                                  errorText:
-                                                                      _dateError,
-                                                                  border: widget
-                                                                              .id
-                                                                              .isEmpty ||
-                                                                          isEdit
-                                                                      ? null
-                                                                      : InputBorder
-                                                                          .none,
-                                                                ),
-                                                                controller:
-                                                                    _endDateController,
-                                                                style: textTheme
-                                                                    .subhead
-                                                                    .copyWith(
-                                                                  color: qDarkmodeEnable
-                                                                      ? Colors
-                                                                          .white
-                                                                      : Colors
-                                                                          .black,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          onTap: () {
-                                                            if (widget.id
-                                                                    .isEmpty ||
-                                                                isEdit)
-                                                              _selectDate(
-                                                                  context, 0);
-                                                          },
-                                                        )
-                                                      ],
-                                                    ),
-                                                  )
-                                          ],
-                                        )
-                                      : (widget.type ==
-                                                  Activites.TYPE_ACTIVITY ||
-                                              widget.type ==
-                                                  Activites
-                                                      .TYPE_PRACTICE_SCHEDULE ||
-                                              widget.type ==
-                                                  Activites
-                                                      .TYPE_PERFORMANCE_SCHEDULE)
-                                          ? Row(
-                                              children: <Widget>[
-                                                Expanded(
-                                                  child: Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 5),
-                                                    child: Text(
-                                                      _dateTxt,
-                                                      style: textTheme.subhead
-                                                          .copyWith(
-                                                        color: Colors.grey,
-                                                      ),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    ),
+                                                  controller: _dateController,
+                                                  style: textTheme.subhead
+                                                      .copyWith(
+                                                    color: qDarkmodeEnable
+                                                        ? Colors.white
+                                                        : Colors.black,
                                                   ),
                                                 ),
-                                                Expanded(
-                                                  child: Padding(
+                                              ),
+                                            ),
+                                            onTap: () {
+                                              if (widget.id.isEmpty || isEdit)
+                                                _selectDate(context, 1);
+                                            },
+                                          )
+                                        ],
+                                      )),
+                                      Padding(
+                                        padding: EdgeInsets.all(10),
+                                      ),
+                                      widget.type == Activites.TYPE_APPOINTMENT
+                                          ? Container()
+                                          : Expanded(
+                                              child: Column(
+                                                children: <Widget>[
+                                                  Center(
+                                                      child: Text(
+                                                    "End Date",
+                                                    style:
+                                                        TextStyle(fontSize: 15),
+                                                  )),
+                                                  Padding(
                                                     padding: EdgeInsets.only(
-                                                        left: 5),
-                                                    child: Text(
-                                                      _dateEndTxt,
-                                                      style: textTheme.subhead
-                                                          .copyWith(
-                                                        color: Colors.grey,
-                                                      ),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    ),
+                                                        bottom: 3),
                                                   ),
-                                                )
-                                              ],
+                                                  InkWell(
+                                                    child: Container(
+                                                      height: 30,
+                                                      decoration: BoxDecoration(
+//                                            color: Colors.lightBlue.shade100,
+                                                        border: Border(
+                                                          top: BorderSide(
+                                                              width: 0.0,
+                                                              color:
+                                                                  Colors.white),
+                                                          bottom: BorderSide(
+                                                              width: 1.0,
+                                                              color: Colors.grey
+                                                                  .shade200),
+                                                        ),
+                                                      ),
+                                                      child: AbsorbPointer(
+                                                        child: TextField(
+                                                          enabled: widget
+                                                                  .id.isEmpty ||
+                                                              isEdit,
+                                                          textCapitalization:
+                                                              TextCapitalization
+                                                                  .sentences,
+                                                          textAlignVertical:
+                                                              TextAlignVertical
+                                                                  .center,
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          decoration:
+                                                              InputDecoration(
+                                                            isDense: true,
+                                                            contentPadding:
+                                                                EdgeInsets.all(
+                                                                    8),
+                                                            labelText: widget.id
+                                                                        .isEmpty ||
+                                                                    isEdit
+                                                                ? widget.type ==
+                                                                        Activites
+                                                                            .TYPE_PRACTICE_SCHEDULE
+                                                                    ? ""
+                                                                    // : "Start Date"
+                                                                    : ""
+                                                                : "",
+                                                            labelStyle:
+                                                                TextStyle(
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      202,
+                                                                      208,
+                                                                      215,
+                                                                      1.0),
+                                                            ),
+                                                            errorText:
+                                                                _dateError,
+                                                            border: widget.id
+                                                                        .isEmpty ||
+                                                                    isEdit
+                                                                ? null
+                                                                : InputBorder
+                                                                    .none,
+                                                          ),
+                                                          controller:
+                                                              _endDateController,
+                                                          style: textTheme
+                                                              .subhead
+                                                              .copyWith(
+                                                            color:
+                                                                qDarkmodeEnable
+                                                                    ? Colors
+                                                                        .white
+                                                                    : Colors
+                                                                        .black,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    onTap: () {
+                                                      if (widget.id.isEmpty ||
+                                                          isEdit)
+                                                        _selectDate(context, 0);
+                                                    },
+                                                  )
+                                                ],
+                                              ),
                                             )
-                                          : Container(),
-                                  Padding(
-                                    padding: EdgeInsets.all(5),
-                                  ),
+                                    ],
+                                  )
+                                : (widget.type == Activites.TYPE_ACTIVITY ||widget.type == Activites.TYPE_APPOINTMENT||
+                                        widget.type ==
+                                            Activites.TYPE_PRACTICE_SCHEDULE ||
+                                        widget.type ==
+                                            Activites.TYPE_PERFORMANCE_SCHEDULE)
+                                    ? Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: Padding(
+                                              padding: EdgeInsets.only(left: 5),
+                                              child: Text(
+                                                _dateTxt,
+                                                style:
+                                                    textTheme.subhead.copyWith(
+                                                  color: Colors.grey,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Padding(
+                                              padding: EdgeInsets.only(left: 5),
+                                              child: Text(
+                                                _dateEndTxt,
+                                                style:
+                                                    textTheme.subhead.copyWith(
+                                                  color: Colors.grey,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    : Container(),
+                            Padding(
+                              padding: EdgeInsets.all(5),
+                            ),
 //                      widget.type == Activites.TYPE_ACTIVITY &&
 //                              (widget.id.isEmpty || isEdit)
 //                          ? ShowUp(
@@ -890,564 +867,520 @@ class _AddActivityScreenState
 //                              delay: 1000,
 //                            )
 //                          : Container(),
-                                  widget.type ==
-                                              Activites
-                                                  .TYPE_PERFORMANCE_SCHEDULE ||
-                                          widget.type ==
-                                              Activites.TYPE_ACTIVITY ||
-                                          widget.type ==
-                                              Activites
-                                                  .TYPE_PRACTICE_SCHEDULE ||
-                                          widget.type ==
-                                              Activites.TYPE_APPOINTMENT
-                                      ? (widget.type ==
-                                                  Activites.TYPE_ACTIVITY &&
-                                              setTime == true)
-                                          ? Container()
-                                          : Row(
-                                              children: <Widget>[
-                                                (widget.id.isEmpty || isEdit)
-                                                    ? Expanded(
-                                                        child: InkWell(
-                                                          onTap: () {
-                                                            selectTime(
-                                                                true, false);
-                                                          },
-                                                          child: AbsorbPointer(
-                                                              child: Column(
-                                                            children: <Widget>[
-                                                              Center(
-                                                                  child: Text(
-                                                                widget.type ==
-                                                                            Activites
-                                                                                .TYPE_APPOINTMENT ||
-                                                                        widget.type ==
-                                                                            Activites.TYPE_PRACTICE_SCHEDULE
-                                                                    ? "Start Time"
-                                                                    : "Setup Time",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15),
-                                                              )),
-                                                              Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        bottom:
-                                                                            3),
-                                                              ),
-                                                              Container(
-                                                                height: 30,
-                                                                decoration:
-                                                                    BoxDecoration(
+                            widget.type ==
+                                        Activites.TYPE_PERFORMANCE_SCHEDULE ||
+                                    widget.type == Activites.TYPE_ACTIVITY ||widget.type ==
+                                Activites.TYPE_PRACTICE_SCHEDULE||
+                                    widget.type == Activites.TYPE_APPOINTMENT
+                                ? (widget.type == Activites.TYPE_ACTIVITY &&
+                                        setTime == true)
+                                    ? Container()
+                                    : Row(
+                                        children: <Widget>[
+                                          (widget.id.isEmpty || isEdit)
+                                              ? Expanded(
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      selectTime(true, false);
+                                                    },
+                                                    child: AbsorbPointer(
+                                                        child: Column(
+                                                      children: <Widget>[
+                                                        Center(
+                                                            child: Text(
+                                                          widget.type ==
+                                                                  Activites
+                                                                      .TYPE_APPOINTMENT||widget.type ==
+                                                              Activites.TYPE_PRACTICE_SCHEDULE
+                                                              ? "Start Time"
+                                                              : "Setup Time",
+                                                          style: TextStyle(
+                                                              fontSize: 15),
+                                                        )),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  bottom: 3),
+                                                        ),
+                                                        Container(
+                                                          height: 30,
+                                                          decoration:
+                                                              BoxDecoration(
 //                                                      color: Colors
 //                                                          .lightBlue.shade100,
-                                                                  border:
-                                                                      Border(
-                                                                    top: BorderSide(
-                                                                        width:
-                                                                            0.0,
-                                                                        color: Colors
-                                                                            .white),
-                                                                    bottom: BorderSide(
-                                                                        width:
-                                                                            1.0,
-                                                                        color: Colors
-                                                                            .grey
-                                                                            .shade200),
-                                                                  ),
-                                                                ),
-                                                                alignment:
-                                                                    Alignment
-                                                                        .center,
-                                                                child:
-                                                                    TextField(
-                                                                  enabled: widget
+                                                            border: Border(
+                                                              top: BorderSide(
+                                                                  width: 0.0,
+                                                                  color: Colors
+                                                                      .white),
+                                                              bottom: BorderSide(
+                                                                  width: 1.0,
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .shade200),
+                                                            ),
+                                                          ),
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: TextField(
+                                                            enabled: widget.id
+                                                                    .isEmpty ||
+                                                                isEdit,
+                                                            textCapitalization:
+                                                                TextCapitalization
+                                                                    .sentences,
+                                                            textAlignVertical:
+                                                                TextAlignVertical
+                                                                    .center,
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            decoration:
+                                                                InputDecoration(
+                                                              isDense: true,
+                                                              contentPadding:
+                                                                  EdgeInsets
+                                                                      .all(8),
+                                                              labelText: widget
                                                                           .id
                                                                           .isEmpty ||
-                                                                      isEdit,
-                                                                  textCapitalization:
-                                                                      TextCapitalization
-                                                                          .sentences,
-                                                                  textAlignVertical:
-                                                                      TextAlignVertical
-                                                                          .center,
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .center,
-                                                                  decoration:
-                                                                      InputDecoration(
-                                                                    isDense:
-                                                                        true,
-                                                                    contentPadding:
-                                                                        EdgeInsets
-                                                                            .all(8),
-                                                                    labelText:
-                                                                        widget.id.isEmpty ||
-                                                                                isEdit
-                                                                            ? ""
-                                                                            : "",
-                                                                    labelStyle:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          16,
-                                                                      color: Color.fromRGBO(
-                                                                          202,
-                                                                          208,
-                                                                          215,
-                                                                          1.0),
-                                                                    ),
-                                                                    errorText:
-                                                                        _startTimeError,
-                                                                    border: widget.id.isEmpty ||
-                                                                            isEdit
-                                                                        ? null
-                                                                        : InputBorder
-                                                                            .none,
-                                                                  ),
-                                                                  controller:
-                                                                      _startTimeController,
-                                                                  style: textTheme
-                                                                      .subhead
-                                                                      .copyWith(
-                                                                    color: qDarkmodeEnable
-                                                                        ? Colors
-                                                                            .white
-                                                                        : Colors
-                                                                            .black,
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          )),
-                                                        ),
-                                                      )
-                                                    : _startTimeController
-                                                            .text.isNotEmpty
-                                                        ? Expanded(
-                                                            flex: 2,
-                                                            child: Text(
-                                                              //"Start time -" +
-                                                              _startTimeController
-                                                                  .text
-                                                                  .toLowerCase(),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .right,
-                                                            ),
-                                                          )
-                                                        : Container(),
-                                                Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 10),
-                                                  child: (widget.id.isEmpty ||
-                                                          isEdit)
-                                                      ? Container()
-                                                      : Text("to"),
-                                                ),
-                                                (widget.id.isEmpty || isEdit)
-                                                    ? Expanded(
-                                                        child: InkWell(
-                                                          child: AbsorbPointer(
-                                                              child: Column(
-                                                            children: <Widget>[
-                                                              Center(
-                                                                  child: Text(
-                                                                widget.type ==
-                                                                            Activites
-                                                                                .TYPE_APPOINTMENT ||
-                                                                        widget.type ==
-                                                                            Activites.TYPE_PRACTICE_SCHEDULE
-                                                                    ? "End Time"
-                                                                    : "Call Time",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15),
-                                                              )),
-                                                              Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        bottom:
-                                                                            3),
+                                                                      isEdit
+                                                                  ? ""
+                                                                  : "",
+                                                              labelStyle:
+                                                                  TextStyle(
+                                                                fontSize: 16,
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        202,
+                                                                        208,
+                                                                        215,
+                                                                        1.0),
                                                               ),
-                                                              Container(
-                                                                decoration:
-                                                                    BoxDecoration(
+                                                              errorText:
+                                                                  _startTimeError,
+                                                              border: widget.id
+                                                                          .isEmpty ||
+                                                                      isEdit
+                                                                  ? null
+                                                                  : InputBorder
+                                                                      .none,
+                                                            ),
+                                                            controller:
+                                                                _startTimeController,
+                                                            style: textTheme
+                                                                .subhead
+                                                                .copyWith(
+                                                              color:
+                                                                  qDarkmodeEnable
+                                                                      ? Colors
+                                                                          .white
+                                                                      : Colors
+                                                                          .black,
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    )),
+                                                  ),
+                                                )
+                                              : _startTimeController
+                                                      .text.isNotEmpty
+                                                  ? Expanded(
+                                                      flex: 2,
+                                                      child: Text(
+                                                        //"Start time -" +
+                                                        _startTimeController
+                                                            .text
+                                                            .toLowerCase(),
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                        style: TextStyle(
+                                                          color: qDarkmodeEnable?Colors.white:Colors.black87
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : Container(),
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            child: (widget.id.isEmpty || isEdit)
+                                                ? Container()
+                                                : Text("to"),
+                                          ),
+                                          (widget.id.isEmpty || isEdit)
+                                              ? Expanded(
+                                                  child: InkWell(
+                                                    child: AbsorbPointer(
+                                                        child: Column(
+                                                      children: <Widget>[
+                                                        Center(
+                                                            child: Text(
+                                                          widget.type ==
+                                                                  Activites
+                                                                      .TYPE_APPOINTMENT||widget.type ==
+                                                              Activites.TYPE_PRACTICE_SCHEDULE
+                                                              ? "End Time"
+                                                              : "Call Time",
+                                                          style: TextStyle(
+                                                              fontSize: 15),
+                                                        )),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  bottom: 3),
+                                                        ),
+                                                        Container(
+                                                          decoration:
+                                                              BoxDecoration(
 //                                                      color: Colors
 //                                                          .lightBlue.shade100,
-                                                                  border:
-                                                                      Border(
-                                                                    top: BorderSide(
-                                                                        width:
-                                                                            0.0,
-                                                                        color: Colors
-                                                                            .white),
-                                                                    bottom: BorderSide(
-                                                                        width:
-                                                                            1.0,
-                                                                        color: Colors
-                                                                            .grey
-                                                                            .shade200),
-                                                                  ),
-                                                                ),
-                                                                height: 30,
-                                                                child:
-                                                                    TextField(
-                                                                  enabled: widget
+                                                            border: Border(
+                                                              top: BorderSide(
+                                                                  width: 0.0,
+                                                                  color: Colors
+                                                                      .white),
+                                                              bottom: BorderSide(
+                                                                  width: 1.0,
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .shade200),
+                                                            ),
+                                                          ),
+                                                          height: 30,
+                                                          child: TextField(
+                                                            enabled: widget.id
+                                                                    .isEmpty ||
+                                                                isEdit,
+                                                            textCapitalization:
+                                                                TextCapitalization
+                                                                    .sentences,
+                                                            textAlignVertical:
+                                                                TextAlignVertical
+                                                                    .center,
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            decoration:
+                                                                InputDecoration(
+                                                              isDense: true,
+                                                              contentPadding:
+                                                                  EdgeInsets
+                                                                      .all(8),
+                                                              labelText: widget
                                                                           .id
                                                                           .isEmpty ||
-                                                                      isEdit,
-                                                                  textCapitalization:
-                                                                      TextCapitalization
-                                                                          .sentences,
-                                                                  textAlignVertical:
-                                                                      TextAlignVertical
-                                                                          .center,
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .center,
-                                                                  decoration:
-                                                                      InputDecoration(
-                                                                    isDense:
-                                                                        true,
-                                                                    contentPadding:
-                                                                        EdgeInsets
-                                                                            .all(8),
-                                                                    labelText:
-                                                                        widget.id.isEmpty ||
-                                                                                isEdit
-                                                                            ? ""
-                                                                            : "",
-                                                                    labelStyle:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          22,
-                                                                      color: Color.fromRGBO(
-                                                                          202,
-                                                                          208,
-                                                                          215,
-                                                                          1.0),
-                                                                    ),
-                                                                    errorText:
-                                                                        _endTimeError,
-                                                                    border: widget.id.isEmpty ||
-                                                                            isEdit
-                                                                        ? null
-                                                                        : InputBorder
-                                                                            .none,
-                                                                  ),
-                                                                  controller:
-                                                                      _endTimeController,
-                                                                  style: textTheme
-                                                                      .subhead
-                                                                      .copyWith(
-                                                                    color: qDarkmodeEnable
-                                                                        ? Colors
-                                                                            .white
-                                                                        : Colors
-                                                                            .black,
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          )),
-                                                          onTap: () {
-                                                            selectTime(
-                                                                false, false);
-                                                          },
-                                                        ),
-                                                      )
-                                                    : _endTimeController
-                                                            .text.isNotEmpty
-                                                        ? Expanded(
-                                                            flex: 2,
-                                                            child: Text(
-                                                              // "End time - " +
-                                                              _endTimeController
-                                                                  .text
-                                                                  .toLowerCase(),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                            ),
-                                                          )
-                                                        : Container()
-                                              ],
-                                            )
-                                      : Container(),
-                                  Padding(
-                                    padding: EdgeInsets.all(5),
-                                  ),
-                                  widget.type ==
-                                              Activites
-                                                  .TYPE_PERFORMANCE_SCHEDULE ||
-                                          widget.type == Activites.TYPE_ACTIVITY
-                                      ? (widget.type ==
-                                                  Activites.TYPE_ACTIVITY &&
-                                              setTime == false)
-                                          ? Container()
-                                          : Row(
-                                              children: <Widget>[
-                                                (widget.id.isEmpty || isEdit)
-                                                    ? Expanded(
-                                                        child: InkWell(
-                                                          onTap: () {
-                                                            selectTime(
-                                                                true, true);
-                                                          },
-                                                          child: AbsorbPointer(
-                                                              child: Column(
-                                                            children: <Widget>[
-                                                              Center(
-                                                                  child: Text(
-                                                                "Event Start Time",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15),
-                                                              )),
-                                                              Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        bottom:
-                                                                            3),
+                                                                      isEdit
+                                                                  ? ""
+                                                                  : "",
+                                                              labelStyle:
+                                                                  TextStyle(
+                                                                fontSize: 22,
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        202,
+                                                                        208,
+                                                                        215,
+                                                                        1.0),
                                                               ),
-                                                              Container(
-                                                                height: 30,
-                                                                decoration:
-                                                                    BoxDecoration(
+                                                              errorText:
+                                                                  _endTimeError,
+                                                              border: widget.id
+                                                                          .isEmpty ||
+                                                                      isEdit
+                                                                  ? null
+                                                                  : InputBorder
+                                                                      .none,
+                                                            ),
+                                                            controller:
+                                                                _endTimeController,
+                                                            style: textTheme
+                                                                .subhead
+                                                                .copyWith(
+                                                              color:
+                                                                  qDarkmodeEnable
+                                                                      ? Colors
+                                                                          .white
+                                                                      : Colors
+                                                                          .black,
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    )),
+                                                    onTap: () {
+                                                      selectTime(false, false);
+                                                    },
+                                                  ),
+                                                )
+                                              : _endTimeController
+                                                      .text.isNotEmpty
+                                                  ? Expanded(
+                                                      flex: 2,
+                                                      child: Text(
+                                                        // "End time - " +
+                                                        _endTimeController.text
+                                                            .toLowerCase(),
+                                                        textAlign:
+                                                            TextAlign.left,
+
+                                                      ),
+                                                    )
+                                                  : Container()
+                                        ],
+                                      )
+                                : Container(),
+                            Padding(
+                              padding: EdgeInsets.all(5),
+                            ),
+                            widget.type ==
+                                        Activites.TYPE_PERFORMANCE_SCHEDULE ||
+                                    widget.type == Activites.TYPE_ACTIVITY
+                                ? (widget.type == Activites.TYPE_ACTIVITY &&
+                                        setTime == false)
+                                    ? Container()
+                                    : Row(
+                                        children: <Widget>[
+                                          (widget.id.isEmpty || isEdit)
+                                              ? Expanded(
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      selectTime(true, true);
+                                                    },
+                                                    child: AbsorbPointer(
+                                                        child: Column(
+                                                      children: <Widget>[
+                                                        Center(
+                                                            child: Text(
+                                                          "Event Start Time",
+                                                          style: TextStyle(
+                                                              fontSize: 15),
+                                                        )),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  bottom: 3),
+                                                        ),
+                                                        Container(
+                                                          height: 30,
+                                                          decoration:
+                                                              BoxDecoration(
 //                                                      color: Colors
 //                                                          .lightBlue.shade100,
-                                                                  border:
-                                                                      Border(
-                                                                    top: BorderSide(
-                                                                        width:
-                                                                            0.0,
-                                                                        color: Colors
-                                                                            .white),
-                                                                    bottom: BorderSide(
-                                                                        width:
-                                                                            1.0,
-                                                                        color: Colors
-                                                                            .grey
-                                                                            .shade300),
-                                                                  ),
-                                                                ),
-                                                                alignment:
-                                                                    Alignment
-                                                                        .center,
-                                                                child:
-                                                                    TextField(
-                                                                  enabled: widget
+                                                            border: Border(
+                                                              top: BorderSide(
+                                                                  width: 0.0,
+                                                                  color: Colors
+                                                                      .white),
+                                                              bottom: BorderSide(
+                                                                  width: 1.0,
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .shade300),
+                                                            ),
+                                                          ),
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: TextField(
+                                                            enabled: widget.id
+                                                                    .isEmpty ||
+                                                                isEdit,
+                                                            textCapitalization:
+                                                                TextCapitalization
+                                                                    .sentences,
+                                                            textAlignVertical:
+                                                                TextAlignVertical
+                                                                    .center,
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            decoration:
+                                                                InputDecoration(
+                                                              isDense: true,
+                                                              contentPadding:
+                                                                  EdgeInsets
+                                                                      .all(8),
+                                                              labelText: widget
                                                                           .id
                                                                           .isEmpty ||
-                                                                      isEdit,
-                                                                  textCapitalization:
-                                                                      TextCapitalization
-                                                                          .sentences,
-                                                                  textAlignVertical:
-                                                                      TextAlignVertical
-                                                                          .center,
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .center,
-                                                                  decoration:
-                                                                      InputDecoration(
-                                                                    isDense:
-                                                                        true,
-                                                                    contentPadding:
-                                                                        EdgeInsets
-                                                                            .all(8),
-                                                                    labelText:
-                                                                        widget.id.isEmpty ||
-                                                                                isEdit
-                                                                            ? ""
-                                                                            : "",
-                                                                    labelStyle:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          16,
-                                                                      color: Color.fromRGBO(
-                                                                          202,
-                                                                          208,
-                                                                          215,
-                                                                          1.0),
-                                                                    ),
-                                                                    errorText:
-                                                                        _startTimeError,
-                                                                    border: widget.id.isEmpty ||
-                                                                            isEdit
-                                                                        ? null
-                                                                        : InputBorder
-                                                                            .none,
-                                                                  ),
-                                                                  controller:
-                                                                      _startEventTimeController,
-                                                                  style: textTheme
-                                                                      .subhead
-                                                                      .copyWith(
-                                                                    color: qDarkmodeEnable
-                                                                        ? Colors
-                                                                            .white
-                                                                        : Colors
-                                                                            .black,
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          )),
-                                                        ),
-                                                      )
-                                                    : _startEventTimeController
-                                                            .text.isNotEmpty
-                                                        ? Expanded(
-                                                            flex: 2,
-                                                            child: Text(
-                                                              //"Start time -" +
-                                                              _startEventTimeController
-                                                                  .text
-                                                                  .toLowerCase(),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .right,
-                                                            ),
-                                                          )
-                                                        : Container(),
-                                                Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 10),
-                                                  child: (widget.id.isEmpty ||
-                                                          isEdit)
-                                                      ? Container()
-                                                      : _endEventTimeController
-                                                              .text.isNotEmpty
-                                                          ? Text("to")
-                                                          : Container(),
-                                                ),
-                                                (widget.id.isEmpty || isEdit)
-                                                    ? Expanded(
-                                                        child: InkWell(
-                                                          child: AbsorbPointer(
-                                                              child: Column(
-                                                            children: <Widget>[
-                                                              Center(
-                                                                  child: Text(
-                                                                "Event End Time",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15),
-                                                              )),
-                                                              Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        bottom:
-                                                                            3),
+                                                                      isEdit
+                                                                  ? ""
+                                                                  : "",
+                                                              labelStyle:
+                                                                  TextStyle(
+                                                                fontSize: 16,
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        202,
+                                                                        208,
+                                                                        215,
+                                                                        1.0),
                                                               ),
-                                                              Container(
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  border:
-                                                                      Border(
-                                                                    top: BorderSide(
-                                                                        width:
-                                                                            0.0,
-                                                                        color: Colors
-                                                                            .white),
-                                                                    bottom: BorderSide(
-                                                                        width:
-                                                                            1.0,
-                                                                        color: Colors
-                                                                            .grey
-                                                                            .shade300),
-                                                                  ),
-                                                                ),
-                                                                height: 30,
-                                                                child:
-                                                                    TextField(
-                                                                  enabled: widget
+                                                              errorText:
+                                                                  _startTimeError,
+                                                              border: widget.id
+                                                                          .isEmpty ||
+                                                                      isEdit
+                                                                  ? null
+                                                                  : InputBorder
+                                                                      .none,
+                                                            ),
+                                                            controller:
+                                                                _startEventTimeController,
+                                                            style: textTheme
+                                                                .subhead
+                                                                .copyWith(
+                                                              color:
+                                                                  qDarkmodeEnable
+                                                                      ? Colors
+                                                                          .white
+                                                                      : Colors
+                                                                          .black,
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    )),
+                                                  ),
+                                                )
+                                              : _startEventTimeController
+                                                      .text.isNotEmpty
+                                                  ? Expanded(
+                                                      flex: 2,
+                                                      child: Text(
+                                                        //"Start time -" +
+                                                        _startEventTimeController
+                                                            .text
+                                                            .toLowerCase(),
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                      ),
+                                                    )
+                                                  : Container(),
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            child: (widget.id.isEmpty || isEdit)
+                                                ? Container()
+                                                : _endEventTimeController
+                                                        .text.isNotEmpty
+                                                    ? Text("to")
+                                                    : Container(),
+                                          ),
+                                          (widget.id.isEmpty || isEdit)
+                                              ? Expanded(
+                                                  child: InkWell(
+                                                    child: AbsorbPointer(
+                                                        child: Column(
+                                                      children: <Widget>[
+                                                        Center(
+                                                            child: Text(
+                                                          "Event End Time",
+                                                          style: TextStyle(
+                                                              fontSize: 15),
+                                                        )),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  bottom: 3),
+                                                        ),
+                                                        Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            border: Border(
+                                                              top: BorderSide(
+                                                                  width: 0.0,
+                                                                  color: Colors
+                                                                      .white),
+                                                              bottom: BorderSide(
+                                                                  width: 1.0,
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .shade300),
+                                                            ),
+                                                          ),
+                                                          height: 30,
+                                                          child: TextField(
+                                                            enabled: widget.id
+                                                                    .isEmpty ||
+                                                                isEdit,
+                                                            textCapitalization:
+                                                                TextCapitalization
+                                                                    .sentences,
+                                                            textAlignVertical:
+                                                                TextAlignVertical
+                                                                    .center,
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            decoration:
+                                                                InputDecoration(
+                                                              isDense: true,
+                                                              contentPadding:
+                                                                  EdgeInsets
+                                                                      .all(8),
+                                                              labelText: widget
                                                                           .id
                                                                           .isEmpty ||
-                                                                      isEdit,
-                                                                  textCapitalization:
-                                                                      TextCapitalization
-                                                                          .sentences,
-                                                                  textAlignVertical:
-                                                                      TextAlignVertical
-                                                                          .center,
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .center,
-                                                                  decoration:
-                                                                      InputDecoration(
-                                                                    isDense:
-                                                                        true,
-                                                                    contentPadding:
-                                                                        EdgeInsets
-                                                                            .all(8),
-                                                                    labelText:
-                                                                        widget.id.isEmpty ||
-                                                                                isEdit
-                                                                            ? ""
-                                                                            : "",
-                                                                    labelStyle:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          22,
-                                                                      color: Color.fromRGBO(
-                                                                          202,
-                                                                          208,
-                                                                          215,
-                                                                          1.0),
-                                                                    ),
-                                                                    errorText:
-                                                                        _endTimeError,
-                                                                    border: widget.id.isEmpty ||
-                                                                            isEdit
-                                                                        ? null
-                                                                        : InputBorder
-                                                                            .none,
-                                                                  ),
-                                                                  controller:
-                                                                      _endEventTimeController,
-                                                                  style: textTheme
-                                                                      .subhead
-                                                                      .copyWith(
-                                                                    color: qDarkmodeEnable
-                                                                        ? Colors
-                                                                            .white
-                                                                        : Colors
-                                                                            .black,
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          )),
-                                                          onTap: () {
-                                                            selectTime(
-                                                                false, true);
-                                                          },
-                                                        ),
-                                                      )
-                                                    : _endEventTimeController
-                                                            .text.isNotEmpty
-                                                        ? Expanded(
-                                                            flex: 2,
-                                                            child: Text(
-                                                              // "End time - " +
-                                                              _endEventTimeController
-                                                                  .text
-                                                                  .toLowerCase(),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
+                                                                      isEdit
+                                                                  ? ""
+                                                                  : "",
+                                                              labelStyle:
+                                                                  TextStyle(
+                                                                fontSize: 22,
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        202,
+                                                                        208,
+                                                                        215,
+                                                                        1.0),
+                                                              ),
+                                                              errorText:
+                                                                  _endTimeError,
+                                                              border: widget.id
+                                                                          .isEmpty ||
+                                                                      isEdit
+                                                                  ? null
+                                                                  : InputBorder
+                                                                      .none,
                                                             ),
-                                                          )
-                                                        : Container()
-                                              ],
-                                            )
-                                      : Container(),
-                                ],
-                              ),
-                            )
-                          : Container(),
+                                                            controller:
+                                                                _endEventTimeController,
+                                                            style: textTheme
+                                                                .subhead
+                                                                .copyWith(
+                                                              color:
+                                                                  qDarkmodeEnable
+                                                                      ? Colors
+                                                                          .white
+                                                                      : Colors
+                                                                          .black,
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    )),
+                                                    onTap: () {
+                                                      selectTime(false, true);
+                                                    },
+                                                  ),
+                                                )
+                                              : _endEventTimeController
+                                                      .text.isNotEmpty
+                                                  ? Expanded(
+                                                      flex: 2,
+                                                      child: Text(
+                                                        // "End time - " +
+                                                        _endEventTimeController
+                                                            .text
+                                                            .toLowerCase(),
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                      ),
+                                                    )
+                                                  : Container()
+                                        ],
+                                      )
+                                : Container(),
+                          ],
+                        ),
+                      ),
 
                       Padding(
                         padding: EdgeInsets.all(0),
@@ -2040,19 +1973,17 @@ class _AddActivityScreenState
                                   },
                                 )
                           : Container(),
-                      widget.id.isEmpty || isEdit || widget.isParent
-                          ? Container()
-                          : Container(
-                              height: 1,
-                              width: MediaQuery.of(context).size.width / 4,
-                              color: Colors.red,
-                              margin: EdgeInsets.only(
-                                  left: 0,
-                                  right:
-                                      MediaQuery.of(context).size.width / 2.8,
-                                  top: 2,
-                                  bottom: 0),
-                            ),
+                      widget.type == Activites.TYPE_TASK ||
+                          widget.type == Activites.TYPE_BAND_TASK? widget.id.isEmpty || isEdit || widget.isParent?Container(): Container(
+                        height: 1,
+                        width: MediaQuery.of(context).size.width/4,
+                        color: Colors.red,
+                        margin: EdgeInsets.only(
+                            left: 0,
+                            right: MediaQuery.of(context).size.width/2.8,
+                            top: 2,
+                            bottom: 0),
+                      ):Container(),
                       widget.type == Activites.TYPE_TASK ||
                               widget.type == Activites.TYPE_BAND_TASK
                           ? widget.id.isEmpty || isEdit || widget.isParent
@@ -2164,52 +2095,39 @@ class _AddActivityScreenState
                       (widget.id.isEmpty || isEdit) &&
                               (widget.type == Activites.TYPE_TASK) &&
                               !hasCompletionDate
-                          ? Column(
-                              children: <Widget>[
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: ShowUp(
-                                    child: InkWell(
-                                      child: Text(
-                                        "Click to add Est. Complete Date",
-                                        style: textTheme.caption.copyWith(
-                                          fontSize: 13,
-                                          color: Colors.red,
-                                        ),
-                                      ),
-                                      onTap: () {
-                                        setState(() {
-                                          hasCompletionDate = true;
-                                        });
-                                      },
-                                    ),
-                                    delay: 1000,
-                                  ),
-                                ),
-                                widget.id.isEmpty ||
-                                        isEdit &&
-                                            (widget.type ==
-                                                Activites.TYPE_TASK) &&
-                                            !hasCompletionDate &&
-                                            !hasCompletionDate
-                                    ? Container(
-                                        height: 1,
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                2,
-                                        color: Colors.red,
-                                        margin: EdgeInsets.only(
-                                            left: 0,
-                                            right: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                2.0,
-                                            top: 2,
-                                            bottom: 0),
-                                      )
-                                    : Container(),
-                              ],
-                            )
+                          ? Column(children: <Widget>[
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              child:   ShowUp(
+                        child: InkWell(
+                          child: Text(
+                            "Click to add Est. Complete Date",
+                            style: textTheme.caption.copyWith(
+                              fontSize: 13,
+                              color: Colors.red,
+                            ),
+                          ),
+                          onTap: () {
+                            setState(() {
+                              hasCompletionDate = true;
+                            });
+                          },
+                        ),
+                        delay: 1000,
+                      ) ,),
+
+                        widget.id.isEmpty||isEdit&& (widget.type == Activites.TYPE_TASK) &&
+                            !hasCompletionDate&& !hasCompletionDate? ShowUp(child: Container(
+                          height: 1,
+                          width: MediaQuery.of(context).size.width/2,
+                          color: Colors.red,
+                          margin: EdgeInsets.only(
+                              left: 0,
+                              right: MediaQuery.of(context).size.width/2.0,
+                              top: 2,
+                              bottom: 0),
+                        ),delay: 1000,):Container(),
+                      ],)
                           : hasCompletionDate
                               ? GestureDetector(
                                   child: AbsorbPointer(
@@ -2620,7 +2538,6 @@ class _AddActivityScreenState
         presenter.getUserBands();
       }
       travelList = activities.travelList;
-      userId = activities.userId;
       // members.addAll(activities.bandmates);
     });
   }
@@ -2808,6 +2725,7 @@ class _AddActivityScreenState
     LocationResult result = await Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => PlacePicker(
               "AIzaSyBPyhyGOHdrur7NmsyLStjhpitr_6IknCc",
+          displayLocation: _center,
             )));
     // Handle the result in your way
     latitude = result.latLng.latitude;

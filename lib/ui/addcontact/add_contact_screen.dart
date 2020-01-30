@@ -537,21 +537,23 @@ class _AddContactScreenState
                                   : Container(),
                               delay: 1000,
                             ),
-                            widget.id.isEmpty && !_isCompanyName
+                            ShowUp(child:  widget.id.isEmpty && !_isCompanyName
                                 ? Container(
-                                    height: 1,
-                                    width:
-                                        MediaQuery.of(context).size.width / 4,
-                                    color: Colors.red,
-                                    margin: EdgeInsets.only(
-                                        left: 0,
-                                        right:
-                                            MediaQuery.of(context).size.width /
-                                                2.8,
-                                        top: 2,
-                                        bottom: 0),
-                                  )
+                              height: 1,
+                              width:
+                              MediaQuery.of(context).size.width / 4,
+                              color: Colors.red,
+                              margin: EdgeInsets.only(
+                                  left: 0,
+                                  right:
+                                  MediaQuery.of(context).size.width /
+                                      3.0,
+                                  top: 2,
+                                  bottom: 0),
+                            )
                                 : Container(),
+                            delay: 1000,),
+
                             (widget.id.isEmpty || isEdit) && _isCompanyName
                                 ? TextField(
                                     enabled: widget.id.isEmpty || isEdit,
@@ -824,21 +826,22 @@ class _AddContactScreenState
                                   : Container(),
                               delay: 1000,
                             ),
-                            widget.id.isEmpty && !_isphoneNumber
+                            ShowUp(child:  widget.id.isEmpty && !_isphoneNumber
                                 ? Container(
-                                    height: 1,
-                                    width:
-                                        MediaQuery.of(context).size.width / 4,
-                                    color: Colors.red,
-                                    margin: EdgeInsets.only(
-                                        left: 0,
-                                        right:
-                                            MediaQuery.of(context).size.width /
-                                                2.2,
-                                        top: 2,
-                                        bottom: 0),
-                                  )
-                                : Container(),
+                              height: 1,
+                              width:
+                              MediaQuery.of(context).size.width / 4,
+                              color: Colors.red,
+                              margin: EdgeInsets.only(
+                                  left: 0,
+                                  right:
+                                  MediaQuery.of(context).size.width /
+                                      2.4,
+                                  top: 2,
+                                  bottom: 0),
+                            )
+                                : Container(),delay: 1000,)
+                           ,
                             (widget.id.isEmpty || isEdit) && _isphoneNumber
                                 ? TextField(
                                     enabled: widget.id.isEmpty || isEdit,
