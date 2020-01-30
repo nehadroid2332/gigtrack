@@ -236,16 +236,58 @@ class _ActivitiesListScreenState
                       }
                       DateTime st = DateTime(startDate.year, startDate.month,
                           startDate.day, 0, 0, 0);
+
                       int days = st.difference(currentDate).inDays;
                       int days2;
                       if (endDate != null) {
                         days2 = currentDate.difference(endDate).inDays;
                       }
+                      print("SDSD-> $currentDate $st ->${currentDate.weekday} ->$days ");
+                      bool currentWeek = false;
+                      switch (currentDate.weekday) {
+                        case 1:
+                          if (days.abs() <= 7) {
+                            currentWeek = true;
+                          }
+                          break;
+                        case 2:
+                          if (days.abs() <= 6) {
+                            currentWeek = true;
+                          }
+                          break;
+                        case 3:
+                          if (days.abs() <= 5) {
+                            currentWeek = true;
+                          }
+                          break;
+                        case 4:
+                          if (days.abs() <= 4) {
+                            currentWeek = true;
+                          }
+                          break;
+                        case 5:
+                          if (days.abs() <= 3) {
+                            currentWeek = true;
+                          }
+                          break;
+                        case 6:
+                          if (days.abs() <= 2) {
+                            currentWeek = true;
+                          }
+                          break;
+                        case 7:
+                          if (days.abs() <= 1) {
+                            currentWeek = true;
+                          }
+                          break;
+                        default:
+                      }
+
                       if (ac.isRecurring) {
                         recurring.add(ac);
                       } else if (days == 0) {
                         current.add(ac);
-                      } else if (days > 0 && days < 6) {
+                      } else if (currentWeek) {
                         upcoming.add(ac);
                       } else if (days.isNegative) {
                         if (days2 != null) {
