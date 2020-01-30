@@ -636,8 +636,7 @@ class _AddSetListScreenState
                                       (BuildContext context, int index) {
                                     Song song = _songList[index];
                                     DateTime dateTime =
-                                        DateTime.fromMillisecondsSinceEpoch(
-                                            song.createdDate);
+                                        DateTime.fromMillisecondsSinceEpoch(song.createdDate);
                                     return ListTile(
                                       title: Text(song.name),
                                       subtitle: Text(

@@ -58,6 +58,7 @@ dependencies:
   place_picker: ^0.9.11
   sticky_headers: ^0.1.8+1
   table_calendar: ^2.2.2
+  geolocator: ^5.2.1
 
 
 dev_dependencies:
