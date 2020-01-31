@@ -1723,23 +1723,24 @@ class _AddContactScreenState
                                     delay: 1000,
                                   )
                                 : Container(),
+                            ShowUp(child:
                             widget.id.isNotEmpty && !isEdit
                                 ? Container(
-                                    height: 1,
-                                    width:
-                                        MediaQuery.of(context).size.width / 4,
-                                    color: Colors.red,
-                                    margin: EdgeInsets.only(
-                                        left:
-                                            MediaQuery.of(context).size.width /
-                                                4.5,
-                                        right:
-                                            MediaQuery.of(context).size.width /
-                                                4.5,
-                                        top: 2,
-                                        bottom: 0),
-                                  )
-                                : Container(),
+                              height: 1,
+                              width:
+                              MediaQuery.of(context).size.width / 4,
+                              color: Colors.red,
+                              margin: EdgeInsets.only(
+                                  left:
+                                  MediaQuery.of(context).size.width /
+                                      4.5,
+                                  right:
+                                  MediaQuery.of(context).size.width /
+                                      4.5,
+                                  top: 2,
+                                  bottom: 0),
+                            )
+                                : Container(),delay: 1000,),
                             ListView.builder(
                               itemCount: subContacts.length,
                               shrinkWrap: true,

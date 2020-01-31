@@ -2517,7 +2517,7 @@ class _AddActivityScreenState
             [D, ', ', mm, '-', dd, '-', yy]);
       }
       _dateController.text = formatDate(startDate, [mm, '-', dd, '-', yy]);
-      _startTimeController.text = formatDate(startDate, [h, ':', nn, ' ', am]);
+      _startTimeController.text = activities.startTime;
       selectedBandId = activities.bandTaskId;
       selectedBandMemberId = activities.bandTaskMemberId;
       DateTime dateTime =
@@ -2525,7 +2525,7 @@ class _AddActivityScreenState
       _endDateController.text = formatDate(dateTime, [mm, '-', dd, '-', yy]);
       _dateEndTxt = formatDate(dateTime, [D, ', ', mm, '-', dd, '-', yy]);
 
-      _endTimeController.text = formatDate(dateTime, [h, ':', nn, ' ', am]);
+      _endTimeController.text = activities.endTime;
 
       _locController.text = activities.location;
       _parkingController.text = activities.parking;

@@ -240,22 +240,25 @@ Widget buildActivityListItem(Activites ac, context,
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
+                Expanded(
+                  flex:  ac.bandId.isNotEmpty?1:2,
+                  child: Text(
                   currentType(ac.type),
                   style: TextStyle(
                     fontSize: 20,
                     fontStyle: FontStyle.normal,
                     color: ac.bandId.isNotEmpty
                         ? isPast
-                            ? Colors.grey
-                            : Color.fromRGBO(32, 95, 139, 1.0)
+                        ? Colors.grey
+                        : Color.fromRGBO(32, 95, 139, 1.0)
                         : isPast
-                            ? Colors.grey
-                            : Color.fromRGBO(40, 35, 188, 1.0),
+                        ? Colors.grey
+                        : Color.fromRGBO(40, 35, 188, 1.0),
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                Expanded(
+                  textAlign: ac.bandId.isNotEmpty?TextAlign.right:TextAlign.center,
+                ),),
+                ac.bandId.isNotEmpty? Expanded(
+                  flex: 1,
                   child: ac.bandId.isNotEmpty
                       ? Text(
                           "-" + (ac?.band?.name ?? ''),
@@ -275,7 +278,7 @@ Widget buildActivityListItem(Activites ac, context,
                           textAlign: TextAlign.left,
                         )
                       : Container(),
-                )
+                ):Container()
 //
               ],
             )

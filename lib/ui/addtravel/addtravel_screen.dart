@@ -68,7 +68,7 @@ class _AddTravelScreenState
             children: <Widget>[
               InkWell(
                 child: Icon(Icons.arrow_back
-                ,color: qDarkmodeEnable?Colors.black:Colors.white,
+                ,color: qDarkmodeEnable?Colors.black:Colors.black87,
                 ),
                 onTap: () {
                   Navigator.pop(context);
@@ -78,7 +78,7 @@ class _AddTravelScreenState
                 child: Text(
                   "Add Travel",
                   style: textTheme.headline.apply(
-                    color: qDarkmodeEnable?Colors.black:Colors.white
+                    color: qDarkmodeEnable?Colors.black:Colors.black87
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -355,15 +355,15 @@ class _AddTravelScreenState
                       final addressController= TextEditingController();
                       addressController.text= sleeping.address;
                       final fromDateController = TextEditingController();
-                      if (sleeping.fromDate != null && sleeping.fromDate > 0)
-                        fromDateController.text = DateFormat('MM-dd-yy').format(
-                            DateTime.fromMillisecondsSinceEpoch(
-                                sleeping.fromDate));
-                      final toDateController = TextEditingController();
-                      if (sleeping.toDate != null && sleeping.toDate > 0)
-                        toDateController.text = DateFormat('MM-dd-yy').format(
-                            DateTime.fromMillisecondsSinceEpoch(
-                                sleeping.toDate));
+//                      if (sleeping.fromDate != null && sleeping.fromDate > 0)
+//                        fromDateController.text = DateFormat('MM-dd-yy').format(
+//                            DateTime.fromMillisecondsSinceEpoch(
+//                                sleeping.fromDate));
+                    final toDateController = TextEditingController();
+//                      if (sleeping.toDate != null && sleeping.toDate > 0)
+//                        toDateController.text = DateFormat('MM-dd-yy').format(
+//                            DateTime.fromMillisecondsSinceEpoch(
+//                                sleeping.toDate));
                       return Card(
                         child: Padding(
                           padding: EdgeInsets.all(10),
@@ -383,61 +383,65 @@ class _AddTravelScreenState
                               Padding(
                                 padding: EdgeInsets.all(2),
                               ),
-                              InkWell(
-                                child: AbsorbPointer(
-                                  child: TextField(
+                               TextField(
                                     controller: fromDateController,
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(),
-                                      hintText: "From Date",
+                                      hintText: "Room",
                                     ),
+                                    onChanged: (s){
+                                      sleeping.room= s;
+                                      sleepingList[index]=sleeping;
+                                    },
                                   ),
-                                ),
-                                onTap: () async {
-                                  DateTime selectedDate = DateTime.now();
-                                  final DateTime picked = await showDatePicker(
-                                      context: context,
-                                      initialDate: selectedDate,
-                                      firstDate: DateTime(2015, 8),
-                                      lastDate: DateTime(2101));
-                                  if (picked != null && picked != selectedDate)
-                                    setState(() {
-                                      selectedDate = picked;
-                                      sleeping.fromDate =
-                                          selectedDate.millisecondsSinceEpoch;
-                                      sleepingList[index] = sleeping;
-                                    });
-                                },
-                              ),
+
+//                                onTap: () async {
+//                                  DateTime selectedDate = DateTime.now();
+//                                  final DateTime picked = await showDatePicker(
+//                                      context: context,
+//                                      initialDate: selectedDate,
+//                                      firstDate: DateTime(2015, 8),
+//                                      lastDate: DateTime(2101));
+//                                  if (picked != null && picked != selectedDate)
+//                                    setState(() {
+//                                      selectedDate = picked;
+//                                      sleeping.fromDate =
+//                                          selectedDate.millisecondsSinceEpoch;
+//                                      sleepingList[index] = sleeping;
+//                                    });
+//                                },
+
                               Padding(
                                 padding: EdgeInsets.all(2),
                               ),
-                              InkWell(
-                                child: AbsorbPointer(
-                                  child: TextField(
+                              TextField(
                                     controller: toDateController,
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(),
-                                      hintText: "To Date",
+                                      hintText: "Info",
                                     ),
+                                    onChanged: (s){
+                                      sleeping.info= s;
+                                      sleepingList[index]= sleeping;
+                                    },
                                   ),
-                                ),
-                                onTap: () async {
-                                  DateTime selectedDate = DateTime.now();
-                                  final DateTime picked = await showDatePicker(
-                                      context: context,
-                                      initialDate: selectedDate,
-                                      firstDate: DateTime(2015, 8),
-                                      lastDate: DateTime(2101));
-                                  if (picked != null && picked != selectedDate)
-                                    setState(() {
-                                      selectedDate = picked;
-                                      sleeping.toDate =
-                                          selectedDate.millisecondsSinceEpoch;
-                                      sleepingList[index] = sleeping;
-                                    });
-                                },
-                              ),
+
+//                                onTap: () async {
+//                                  DateTime selectedDate = DateTime.now();
+//                                  final DateTime picked = await showDatePicker(
+//                                      context: context,
+//                                      initialDate: selectedDate,
+//                                      firstDate: DateTime(2015, 8),
+//                                      lastDate: DateTime(2101));
+//                                  if (picked != null && picked != selectedDate)
+//                                    setState(() {
+//                                      selectedDate = picked;
+//                                      sleeping.toDate =
+//                                          selectedDate.millisecondsSinceEpoch;
+//                                      sleepingList[index] = sleeping;
+//                                    });
+//                                },
+
                               Padding(padding: EdgeInsets.all(2),),
                               TextField(
                                 controller: addressController,
