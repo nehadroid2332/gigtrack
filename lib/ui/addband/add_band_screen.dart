@@ -710,7 +710,7 @@ class _AddBandScreenState
                                           Expanded(
                                             flex: 6,
                                             child: Text(
-                                              "Date esta .",
+                                              "Date est.",
                                               textAlign: TextAlign.right,
                                               //                                style: textTheme.subtitle.copyWith(
                                               //                                  fontWeight: FontWeight.w600,
@@ -1033,11 +1033,11 @@ class _AddBandScreenState
                                                   CrossAxisAlignment.start,
                                               children: <Widget>[
                                                 Container(
-                                                  height: 45,
-                                                  width: 45,
+                                                  height: 55,
+                                                  width: 55,
+                                                  margin: EdgeInsets.only(top: 10),
                                                   decoration: new BoxDecoration(
-                                                    color: Color.fromRGBO(
-                                                        3, 218, 157, 1.0),
+                                                    color: Color.fromRGBO(167, 0, 0, 1.0),
                                                     shape: BoxShape.circle,
                                                   ),
                                                   alignment:
@@ -1049,7 +1049,7 @@ class _AddBandScreenState
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(
-                                                          color: Colors.yellow,
+                                                          color: Colors.white,
                                                           fontSize: 22,
                                                           fontWeight:
                                                               FontWeight.bold,
@@ -1138,7 +1138,7 @@ class _AddBandScreenState
                                                             getData();
                                                           },
                                                           child: Text(
-                                                            "${user.memberRole?.join(',') ?? ''}  ",
+                                                            "${user.memberRole?.join(',') ?? ''}",
                                                             style: textTheme
                                                                 .subhead
                                                                 .copyWith(
@@ -1153,6 +1153,38 @@ class _AddBandScreenState
                                                             textAlign: TextAlign
                                                                 .center,
                                                           ),
+                                                        ),
+                                                        Text(
+                                                          "${user.email}",
+                                                          style: textTheme
+                                                              .subhead
+                                                              .copyWith(
+                                                            color:
+                                                            qDarkmodeEnable
+                                                                ? Colors
+                                                                .white
+                                                                : Colors
+                                                                .black,
+                                                            fontSize: 12.3,
+                                                          ),
+                                                          textAlign: TextAlign
+                                                              .center,
+                                                        ),
+                                                        Text(
+                                                          "${user.mobileText}",
+                                                          style: textTheme
+                                                              .subhead
+                                                              .copyWith(
+                                                            color:
+                                                            qDarkmodeEnable
+                                                                ? Colors
+                                                                .white
+                                                                : Colors
+                                                                .black,
+                                                            fontSize: 12.3,
+                                                          ),
+                                                          textAlign: TextAlign
+                                                              .center,
                                                         ),
                                                         Container(
                                                           width: MediaQuery.of(

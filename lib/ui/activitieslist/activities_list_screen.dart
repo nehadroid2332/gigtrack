@@ -219,7 +219,7 @@ class _ActivitiesListScreenState
                     List<Activites> upcoming = [];
                     List<Activites> past = [];
                     List<Activites> recurring = [];
-                    // List<Activites> bandActivities = [];
+                    List<Activites> afterWeek = [];
 
                     DateTime currentDate = DateTime(DateTime.now().year,
                             DateTime.now().month, DateTime.now().day, 0, 0, 0)
@@ -244,43 +244,48 @@ class _ActivitiesListScreenState
                       }
                       print("SDSD-> $currentDate $st ->${currentDate.weekday} ->$days ");
                       bool currentWeek = false;
-                      switch (currentDate.weekday) {
-                        case 1:
-                          if (days.abs() <= 7) {
-                            currentWeek = true;
-                          }
-                          break;
-                        case 2:
-                          if (days.abs() <= 6) {
-                            currentWeek = true;
-                          }
-                          break;
-                        case 3:
-                          if (days.abs() <= 5) {
-                            currentWeek = true;
-                          }
-                          break;
-                        case 4:
-                          if (days.abs() <= 4) {
-                            currentWeek = true;
-                          }
-                          break;
-                        case 5:
-                          if (days.abs() <= 3) {
-                            currentWeek = true;
-                          }
-                          break;
-                        case 6:
-                          if (days.abs() <= 2) {
-                            currentWeek = true;
-                          }
-                          break;
-                        case 7:
-                          if (days.abs() <= 1) {
-                            currentWeek = true;
-                          }
-                          break;
-                        default:
+                      bool afterweek= false;
+                      if(!days.isNegative) {
+                        switch (currentDate.weekday) {
+                          case 1:
+                            if (days.abs() <= 7) {
+                              currentWeek = true;
+                            }
+                            break;
+                          case 2:
+                            if (days.abs() <= 6) {
+                              currentWeek = true;
+                            }
+                            break;
+                          case 3:
+                            if (days.abs() <= 5) {
+                              currentWeek = true;
+                            }
+                            break;
+                          case 4:
+                            if (days.abs() <= 4) {
+                              currentWeek = true;
+                            }
+                            break;
+                          case 5:
+                            if (days.abs() <= 2) {
+                              currentWeek = true;
+                            }else if(days.abs() > 2){
+                              afterweek = true;
+                            }
+                            break;
+                          case 6:
+                            if (days.abs() <= 2) {
+                              currentWeek = true;
+                            }
+                            break;
+                          case 7:
+                            if (days.abs() <= 1) {
+                              currentWeek = true;
+                            }
+                            break;
+                          default:
+                        }
                       }
 
                       if (ac.isRecurring) {
@@ -299,6 +304,8 @@ class _ActivitiesListScreenState
                         } else {
                           past.add(ac);
                         }
+                      }else if(afterweek){
+                        afterWeek.add(ac);
                       }
 
                       // if (currentDate >= startDate &&
@@ -323,12 +330,26 @@ class _ActivitiesListScreenState
                       return 0;
                     });
 
+
+
                     upcoming.sort((a, b) => a.startDate.compareTo(b.startDate));
                     upcoming.sort((a, b) {
                       DateTime aD =
                           DateTime.fromMillisecondsSinceEpoch(a.startDate);
                       DateTime bD =
                           DateTime.fromMillisecondsSinceEpoch(b.startDate);
+                      if (aD.day == bD.day && aD.month == bD.month) {
+                        return a.title.compareTo(b.title);
+                      }
+                      return 0;
+                    });
+
+                    afterWeek.sort((a, b) => a.startDate.compareTo(b.startDate));
+                    afterWeek.sort((a, b) {
+                      DateTime aD =
+                      DateTime.fromMillisecondsSinceEpoch(a.startDate);
+                      DateTime bD =
+                      DateTime.fromMillisecondsSinceEpoch(b.startDate);
                       if (aD.day == bD.day && aD.month == bD.month) {
                         return a.title.compareTo(b.title);
                       }
@@ -366,6 +387,8 @@ class _ActivitiesListScreenState
                       currentDates[c.startDate] = list;
                     }
 
+
+
                     Map<int, List<Activites>> upcomingDates = Map();
                     for (var c in upcoming) {
                       List<Activites> list;
@@ -376,6 +399,18 @@ class _ActivitiesListScreenState
                       }
                       list.add(c);
                       upcomingDates[c.startDate] = list;
+                    }
+
+                    Map<int, List<Activites>> afterWeekDates = Map();
+                    for (var c in afterWeek) {
+                      List<Activites> list;
+                      if (afterWeekDates.containsKey(c.startDate)) {
+                        list = afterWeekDates[c.startDate];
+                      } else {
+                        list = [];
+                      }
+                      list.add(c);
+                      afterWeekDates[c.startDate] = list;
                     }
                     Map<int, List<Activites>> recurringDates = Map();
                     for (var c in recurring) {
@@ -446,7 +481,7 @@ class _ActivitiesListScreenState
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width /
-                                                    3.5,
+                                                    3.3,
                                                 child: Text(
                                                   "${formatDate(dt, [
                                                     DD,
@@ -553,7 +588,10 @@ class _ActivitiesListScreenState
                                               Container(
                                                 margin: EdgeInsets.symmetric(
                                                     vertical: 2),
-                                                width: 100,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                    3.3,
                                                 child: Text(
                                                   "${formatDate(dt, [
                                                     DD,
@@ -614,10 +652,120 @@ class _ActivitiesListScreenState
                                 )
                               : Padding(
                                   child: Center(
-                                    child: Text("No Upcoming Activities"),
+                                    child: Text("No Current Week Activities"),
                                   ),
                                   padding: EdgeInsets.all(10),
                                 ),
+                        ),
+                        StickyHeader(
+                          header: Container(
+                            child: Text(
+                              "Upcoming",
+                              style: textTheme.display1
+                                  .copyWith(fontSize: 23, color: Colors.white),
+                              textAlign: TextAlign.left,
+                            ),
+                            color: Colors.blueAccent,
+                            padding: EdgeInsets.all(5),
+                            width: double.infinity,
+                          ),
+                          content: afterWeek.length > 0
+                              ? ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            itemCount: afterWeekDates.keys.length,
+                            itemBuilder:
+                                (BuildContext context, int index) {
+                              int ac =
+                              afterWeekDates.keys.elementAt(index);
+                              List<Activites> accs = afterWeekDates[ac];
+                              DateTime dt =
+                              DateTime.fromMillisecondsSinceEpoch(ac)
+                                  .toLocal();
+                              return SizedBox(
+                                height: 130,
+                                child: Row(
+                                  children: <Widget>[
+                                    Column(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Container(
+                                            color: Colors.grey,
+                                            width: 1.2,
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.symmetric(
+                                              vertical: 2),
+                                          width: MediaQuery.of(context)
+                                              .size
+                                              .width /
+                                              3.3,
+                                          child: Text(
+                                            "${formatDate(dt, [
+                                              DD,
+                                              ', ',
+                                              mm,
+                                              '/',
+                                              dd,
+                                              '/',
+                                              yy,
+                                            ])}",
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                              fontStyle: FontStyle.italic,
+                                              color: Colors.grey,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            color: Colors.grey,
+                                            width: 1.2,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(2),
+                                    ),
+                                    Expanded(
+                                      child: ListView.builder(
+                                        itemCount: accs.length,
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder:
+                                            (BuildContext context,
+                                            int index) {
+                                          Activites ac = accs[index];
+                                          return buildActivityListItem(
+                                            ac,
+                                            context,
+                                            onTap: () {
+                                              widget.appListener.router
+                                                  .navigateTo(
+                                                  context,
+                                                  Screens.ADDACTIVITY
+                                                      .toString() +
+                                                      "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////");
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                          )
+                              : Padding(
+                            child: Center(
+                              child: Text("No Upcoming Activities"),
+                            ),
+                            padding: EdgeInsets.all(10),
+                          ),
                         ),
                         StickyHeader(
                           header: InkWell(
@@ -674,7 +822,10 @@ class _ActivitiesListScreenState
                                                     margin:
                                                         EdgeInsets.symmetric(
                                                             vertical: 2),
-                                                    width: 100,
+                                                    width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                        3.3,
                                                     child: Text(
                                                       "${formatDate(dt, [
                                                         DD,
@@ -808,7 +959,10 @@ class _ActivitiesListScreenState
                                                     margin:
                                                         EdgeInsets.symmetric(
                                                             vertical: 2),
-                                                    width: 100,
+                                                    width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                        3.3,
                                                     child: Text(
                                                       "${formatDate(dt, [
                                                         DD,

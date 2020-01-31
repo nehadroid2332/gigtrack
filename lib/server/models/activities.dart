@@ -236,14 +236,14 @@ class ShowUps extends BaseModel {
 
 class Sleeping extends BaseModel {
   String location;
-  int fromDate;
-  int toDate;
+  String room;
+  String info;
   String address;
   Sleeping();
   Sleeping.fromJSON(dynamic data) {
     location = data['location'];
-    fromDate = data['fromDate'];
-    toDate = data['toDate'];
+    room = data['room'];
+    info = data['info'];
     address= data['address'];
   }
 
@@ -251,8 +251,8 @@ class Sleeping extends BaseModel {
   Map<String, dynamic> toMap() {
     final data = super.toMap();
     data['location'] = location;
-    data['fromDate'] = fromDate;
-    data['toDate'] = toDate;
+    data['room'] = room;
+    data['info'] = info;
     data['address']= address;
     return data;
   }
