@@ -463,12 +463,11 @@ class _ActivitiesListScreenState
                                       children: <Widget>[
                                         Column(
                                           children: <Widget>[
-                                            // Expanded(
-                                            //   child: Container(
-                                            //     color: Colors.grey,
-                                            //     width: 1.2,
-                                            //   ),
-                                            // ),
+                                            Container(
+                                              color: Colors.grey,
+                                              width: 1.2,
+                                              height: 50,
+                                            ),
                                             Container(
                                               margin: EdgeInsets.symmetric(
                                                   vertical: 2),
@@ -495,12 +494,11 @@ class _ActivitiesListScreenState
                                                 textAlign: TextAlign.center,
                                               ),
                                             ),
-                                            // Expanded(
-                                            //   child: Container(
-                                            //     color: Colors.grey,
-                                            //     width: 1.2,
-                                            //   ),
-                                            // ),
+                                            Container(
+                                              color: Colors.grey,
+                                              width: 1.2,
+                                              height: 50,
+                                            ),
                                           ],
                                         ),
                                         Padding(
@@ -571,12 +569,11 @@ class _ActivitiesListScreenState
                                       children: <Widget>[
                                         Column(
                                           children: <Widget>[
-                                            // Expanded(
-                                            //   child: Container(
-                                            //     color: Colors.grey,
-                                            //     width: 1.2,
-                                            //   ),
-                                            // ),
+                                            Container(
+                                              color: Colors.grey,
+                                              width: 1.2,
+                                              height: 50,
+                                            ),
                                             Container(
                                               margin: EdgeInsets.symmetric(
                                                   vertical: 2),
@@ -603,12 +600,11 @@ class _ActivitiesListScreenState
                                                 textAlign: TextAlign.center,
                                               ),
                                             ),
-                                            // Expanded(
-                                            //   child: Container(
-                                            //     color: Colors.grey,
-                                            //     width: 1.2,
-                                            //   ),
-                                            // ),
+                                            Container(
+                                              color: Colors.grey,
+                                              width: 1.2,
+                                              height: 50,
+                                            ),
                                           ],
                                         ),
                                         Padding(
@@ -676,21 +672,25 @@ class _ActivitiesListScreenState
                                         DateTime.fromMillisecondsSinceEpoch(ac)
                                             .toLocal();
                                     return Row(
+                                      mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           mainAxisSize: MainAxisSize.max,
                                           children: <Widget>[
-                                            // Expanded(
-                                            //   child: Container(
-                                            //     color: Colors.grey,
-                                            //     width: 1.2,
-                                            //   ),
-                                            // ),
+                                            Container(
+                                              color: Colors.grey,
+                                              width: 1.2,
+                                              height: 50,
+                                            ),
                                             Container(
                                               margin: EdgeInsets.symmetric(
                                                   vertical: 2),
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3.3,
                                               child: Text(
                                                 "${formatDate(dt, [
                                                   DD,
@@ -710,12 +710,11 @@ class _ActivitiesListScreenState
                                                 textAlign: TextAlign.center,
                                               ),
                                             ),
-                                            // Expanded(
-                                            //   child: Container(
-                                            //     color: Colors.grey,
-                                            //     width: 1.2,
-                                            //   ),
-                                            // ),
+                                            Container(
+                                              color: Colors.grey,
+                                              width: 1.2,
+                                              height: 50,
+                                            ),
                                           ],
                                         ),
                                         Padding(
@@ -799,12 +798,11 @@ class _ActivitiesListScreenState
                                           children: <Widget>[
                                             Column(
                                               children: <Widget>[
-                                                // Expanded(
-                                                //   child: Container(
-                                                //     color: Colors.grey,
-                                                //     width: 1.2,
-                                                //   ),
-                                                // ),
+                                                Container(
+                                                  color: Colors.grey,
+                                                  width: 1.2,
+                                                  height: 50,
+                                                ),
                                                 Container(
                                                   margin: EdgeInsets.symmetric(
                                                       vertical: 2),
@@ -833,12 +831,11 @@ class _ActivitiesListScreenState
                                                     textAlign: TextAlign.center,
                                                   ),
                                                 ),
-                                                // Expanded(
-                                                //   child: Container(
-                                                //     color: Colors.grey,
-                                                //     width: 1.2,
-                                                //   ),
-                                                // ),
+                                                Container(
+                                                  color: Colors.grey,
+                                                  width: 1.2,
+                                                  height: 50,
+                                                ),
                                               ],
                                             ),
                                             Padding(
@@ -932,12 +929,11 @@ class _ActivitiesListScreenState
                                           children: <Widget>[
                                             Column(
                                               children: <Widget>[
-                                                // Expanded(
-                                                //   child: Container(
-                                                //     color: Colors.grey,
-                                                //     width: 1.2,
-                                                //   ),
-                                                // ),
+                                                Container(
+                                                  color: Colors.grey,
+                                                  width: 1.2,
+                                                  height: 50,
+                                                ),
                                                 Container(
                                                   margin: EdgeInsets.symmetric(
                                                       vertical: 2),
@@ -966,12 +962,11 @@ class _ActivitiesListScreenState
                                                     textAlign: TextAlign.center,
                                                   ),
                                                 ),
-                                                // Expanded(
-                                                //   child: Container(
-                                                //     color: Colors.grey,
-                                                //     width: 1.2,
-                                                //   ),
-                                                // ),
+                                                Container(
+                                                  color: Colors.grey,
+                                                  width: 1.2,
+                                                  height: 50,
+                                                ),
                                               ],
                                             ),
                                             Padding(
