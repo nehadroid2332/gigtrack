@@ -242,7 +242,6 @@ class _ActivitiesListScreenState
                       if (endDate != null) {
                         days2 = currentDate.difference(endDate).inDays;
                       }
-                      print("SDSD-> $currentDate $st ->${currentDate.weekday} ->$days ");
                       bool currentWeek = false;
                       switch (currentDate.weekday) {
                         case 1:
@@ -480,7 +479,9 @@ class _ActivitiesListScreenState
                                           Expanded(
                                             child: ListView.builder(
                                               itemCount: accs.length,
-                                              scrollDirection: Axis.horizontal,
+                                              shrinkWrap: true,
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {
@@ -587,7 +588,9 @@ class _ActivitiesListScreenState
                                           Expanded(
                                             child: ListView.builder(
                                               itemCount: accs.length,
-                                              scrollDirection: Axis.horizontal,
+                                              shrinkWrap: true,
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {
@@ -711,8 +714,9 @@ class _ActivitiesListScreenState
                                               Expanded(
                                                 child: ListView.builder(
                                                   itemCount: accs.length,
-                                                  scrollDirection:
-                                                      Axis.horizontal,
+                                                  shrinkWrap: true,
+                                                  physics:
+                                                      NeverScrollableScrollPhysics(),
                                                   itemBuilder:
                                                       (BuildContext context,
                                                           int index) {
@@ -845,8 +849,9 @@ class _ActivitiesListScreenState
                                               Expanded(
                                                 child: ListView.builder(
                                                   itemCount: accs.length,
-                                                  scrollDirection:
-                                                      Axis.horizontal,
+                                                  shrinkWrap: true,
+                                                  physics:
+                                                      NeverScrollableScrollPhysics(),
                                                   itemBuilder:
                                                       (BuildContext context,
                                                           int index) {
