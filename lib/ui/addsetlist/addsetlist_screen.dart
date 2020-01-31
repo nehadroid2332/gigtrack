@@ -479,21 +479,26 @@ class _AddSetListScreenState
                             Padding(
                               padding: EdgeInsets.all(10),
                             ),
-//                            widget.id.isNotEmpty || isEdit? Row(
-//                              children: <Widget>[
-//                                Expanded(
-//                                  child: Text("Song Notes"),
-//                                ),
-//                                widget.id.isEmpty || isEdit
-//                                    ? Container()
-//                                    : IconButton(
-//                                        icon: Icon(Icons.add),
-//                                        onPressed: () {
-//                                          addSongNotes();
-//                                        },
-//                                      )
-//                              ],
-//                            ):Container(),
+                            widget.id.isNotEmpty || isEdit
+                                ? Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Text(
+                                          "Song Notes",
+                                          style: textTheme.subhead,
+                                        ),
+                                      ),
+                                      widget.id.isNotEmpty || isEdit
+                                          ? IconButton(
+                                              icon: Icon(Icons.add),
+                                              onPressed: () {
+                                                addSongNotes();
+                                              },
+                                            )
+                                          : Container()
+                                    ],
+                                  )
+                                : Container(),
                             Padding(
                               padding: EdgeInsets.all(5),
                             ),
@@ -504,8 +509,25 @@ class _AddSetListScreenState
                               itemBuilder: (BuildContext context, int index) {
                                 SongNotes subnote =
                                     currentSong?.subnotes[index];
+                                DateTime dateTime =
+                                    DateTime.fromMillisecondsSinceEpoch(
+                                        subnote.time);
                                 return ListTile(
-                                  title: Text("${subnote.title}"),
+                                  title: Text(
+                                    "${subnote.title}",
+                                    style: textTheme.caption.copyWith(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  subtitle: Text("${formatDate(dateTime, [
+                                    DD,
+                                    '-',
+                                    mm,
+                                    '/',
+                                    dd,
+                                    '/',
+                                    yy,
+                                  ])}"),
                                 );
                               },
                             ),
@@ -636,11 +658,12 @@ class _AddSetListScreenState
                                       (BuildContext context, int index) {
                                     Song song = _songList[index];
                                     DateTime dateTime =
-                                        DateTime.fromMillisecondsSinceEpoch(song.createdDate);
+                                        DateTime.fromMillisecondsSinceEpoch(
+                                            song.createdDate);
                                     return ListTile(
                                       title: Text(song.name),
                                       subtitle: Text(
-                                          "${song.artist}\n${formatDate(dateTime, [
+                                          "${song.artist}\n${song.perform}\n${formatDate(dateTime, [
                                         DD,
                                         '-',
                                         mm,
@@ -774,7 +797,8 @@ class _AddSetListScreenState
   }
 
   void addSongNotes() {
-    if (widget.id.isEmpty || isEdit) {
+    if (widget.id.isNotEmpty || isEdit) {
+      _subNoteFieldController.clear();
       showDialog(
           context: context,
           builder: (context) {

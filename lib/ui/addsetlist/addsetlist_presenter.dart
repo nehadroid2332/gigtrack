@@ -73,6 +73,7 @@ class AddSetListPresenter extends BasePresenter {
           break;
         }
       }
+      await serverAPI.addSetList(res);
       (view as AddSetListContract).onUpdate();
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
