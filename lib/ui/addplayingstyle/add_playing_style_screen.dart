@@ -239,8 +239,9 @@ class _AddPlayingStyleScreenState
                           Navigator.of(context).pop(true);
                         },
                       ),
-                      FlatButton(
+                      RaisedButton(
                         child: Text("Yes"),
+                        color: Color.fromRGBO(250, 177, 49, 1.0),
                         onPressed: () {
                           _submitEPK();
                           Navigator.of(context).pop(true);
@@ -872,17 +873,16 @@ class _AddPlayingStyleScreenState
 //                            ),
 //                      Padding(padding: EdgeInsets.all(10)),
                       Text(
-                              widget.id.isEmpty || isEdit
-                                  ? "Select your Playing Style"
-                                  : "Playing Style",
-                              style: textTheme.title.copyWith(
-                                color: qDarkmodeEnable
-                                    ? Colors.white
-                                    : Colors.black,
-                              ),
-                              textAlign: widget.id.isEmpty || isEdit
-                                  ? TextAlign.left
-                                  : TextAlign.center),
+                          widget.id.isEmpty || isEdit
+                              ? "Select your Playing Style"
+                              : "Playing Style",
+                          style: textTheme.title.copyWith(
+                            color:
+                                qDarkmodeEnable ? Colors.white : Colors.black,
+                          ),
+                          textAlign: widget.id.isEmpty || isEdit
+                              ? TextAlign.left
+                              : TextAlign.center),
 
                       Padding(
                           padding:
@@ -892,9 +892,9 @@ class _AddPlayingStyleScreenState
                               children: items,
                             )
                           : Text(
-                                  psList.join(", "),
-                                  textAlign: TextAlign.center,
-                                ),
+                              psList.join(", "),
+                              textAlign: TextAlign.center,
+                            ),
 
                       psList.contains("Other")
                           ? ((widget.id.isEmpty || isEdit))
@@ -1433,6 +1433,8 @@ class _AddPlayingStyleScreenState
                                     });
                                     return TextField(
                                       controller: _aboutBandsController,
+                                      textCapitalization:
+                                          TextCapitalization.sentences,
                                       decoration: InputDecoration(
                                           hintText:
                                               "About the band ${index + 1}",

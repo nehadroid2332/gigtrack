@@ -10,6 +10,7 @@ class Notification extends BaseModel {
   static const TYPE_INSTRUMENT = 7;
   static const TYPE_BULLETIN_BOARD = 8;
   static const TYPE_SET_LIST = 9;
+  static const TYPE_BAND_COMM = 10;
 
   String id;
   String userId;

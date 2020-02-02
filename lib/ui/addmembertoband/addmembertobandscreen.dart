@@ -83,6 +83,42 @@ class _AddMemberToBandScreenState
   @override
   AppBar get appBar => AppBar(
         elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () async {
+            if (isEdit) {
+              final check = await showDialog<bool>(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Do you want to save changes?"),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text("No"),
+                        onPressed: () {
+                          Navigator.of(context).pop(true);
+                        },
+                      ),
+                      RaisedButton(
+                        child: Text("Yes"),
+                        color: Color.fromRGBO(250, 177, 49, 1.0),
+                        onPressed: () {
+                          _submit();
+                          Navigator.of(context).pop(true);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+              if (check) {
+                Navigator.of(context).pop();
+              }
+            } else {
+              Navigator.of(context).pop();
+            }
+          },
+        ),
         actions: <Widget>[
           Container(
             alignment: Alignment.center,
@@ -100,7 +136,10 @@ class _AddMemberToBandScreenState
           widget.id.isEmpty
               ? Container()
               : IconButton(
-                  icon: Icon(Icons.edit,color: Colors.black,),
+                  icon: Icon(
+                    Icons.edit,
+                    color: Colors.black,
+                  ),
                   onPressed: () {
                     setState(() {
                       isEdit = !isEdit;
@@ -110,11 +149,11 @@ class _AddMemberToBandScreenState
           widget.id.isEmpty
               ? Container()
               : IconButton(
-            icon: Icon(Icons.delete,color: Colors.black),
-            onPressed: () {
-            _showDialogConfirm();
-            },
-          )
+                  icon: Icon(Icons.delete, color: Colors.black),
+                  onPressed: () {
+                    _showDialogConfirm();
+                  },
+                )
         ],
       );
 
@@ -128,29 +167,26 @@ class _AddMemberToBandScreenState
       presenter.getBandMemberDetails(widget.bandId);
     }
   }
-  bool qDarkmodeEnable=false;
+
+  bool qDarkmodeEnable = false;
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     checkThemeMode();
   }
+
   void checkThemeMode() {
-    if(Theme.of(context).platform == TargetPlatform.iOS){
-
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
       var qdarkMode = MediaQuery.of(context).platformBrightness;
-      if (qdarkMode == Brightness.dark){
+      if (qdarkMode == Brightness.dark) {
         setState(() {
-          qDarkmodeEnable=true;
+          qDarkmodeEnable = true;
         });
-
-
       } else {
         setState(() {
-          qDarkmodeEnable=false;
+          qDarkmodeEnable = false;
         });
-
-
       }
     }
   }
@@ -224,8 +260,7 @@ class _AddMemberToBandScreenState
                     mList.remove(s);
                   } else
                     mList.add(s);
-                }
-                );
+                });
               }
             : null,
       ));
@@ -258,14 +293,13 @@ class _AddMemberToBandScreenState
         ),
         onTap: widget.id.isEmpty || isEdit
             ? () {
-          setState(() {
-            if (inList.contains(s)) {
-              inList.remove(s);
-            } else
-              inList.add(s);
-          }
-          );
-        }
+                setState(() {
+                  if (inList.contains(s)) {
+                    inList.remove(s);
+                  } else
+                    inList.add(s);
+                });
+              }
             : null,
       ));
     }
@@ -317,16 +351,19 @@ class _AddMemberToBandScreenState
                         decoration: InputDecoration(
                           hintText: "Search",
                           hintStyle: TextStyle(color: Colors.black),
-                            enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black,width: .5),
-
-      ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.black, width: .5),
+                          ),
                         ),
                       ),
                     ),
                     FlatButton(
                       color: Colors.black26,
-                      child: Text("Search",style: TextStyle(color: Colors.black),),
+                      child: Text(
+                        "Search",
+                        style: TextStyle(color: Colors.black),
+                      ),
                       onPressed: () {
                         presenter.searchUser(_searchController.text);
                       },
@@ -346,8 +383,20 @@ class _AddMemberToBandScreenState
                             itemBuilder: (BuildContext context, int index) {
                               Contacts user = searchUsers[index];
                               return ListTile(
-                                title: Text("${user.name}",style: TextStyle(color: qDarkmodeEnable?Colors.black87:Colors.black87),),
-                                subtitle: Text(user.relationship,style: TextStyle(color: qDarkmodeEnable?Colors.black87:Colors.black87),),
+                                title: Text(
+                                  "${user.name}",
+                                  style: TextStyle(
+                                      color: qDarkmodeEnable
+                                          ? Colors.black87
+                                          : Colors.black87),
+                                ),
+                                subtitle: Text(
+                                  user.relationship,
+                                  style: TextStyle(
+                                      color: qDarkmodeEnable
+                                          ? Colors.black87
+                                          : Colors.black87),
+                                ),
                                 trailing: FlatButton(
                                   child: Text(
                                     "Select",
@@ -373,7 +422,10 @@ class _AddMemberToBandScreenState
                           )
                         : Center(
                             child: FlatButton(
-                              child: Text("Click to Add Member",style: TextStyle(color: Colors.black),),
+                              child: Text(
+                                "Click to Add Member",
+                                style: TextStyle(color: Colors.black),
+                              ),
                               onPressed: () {
                                 setState(() {
                                   itemSelect = Contacts();
@@ -386,17 +438,15 @@ class _AddMemberToBandScreenState
                           TextField(
                             controller: _firstNameController,
                             enabled: widget.id.isEmpty || isEdit,
-
                             decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black,width: .5),
-
+                                borderSide:
+                                    BorderSide(color: Colors.black, width: .5),
                               ),
                               labelText: "Name",
                               labelStyle: TextStyle(
                                 color: Color.fromRGBO(169, 176, 187, 1.0),
                               ),
-
                               errorText: _errorFirstName,
                             ),
                             style: TextStyle(color: Colors.black87),
@@ -422,8 +472,8 @@ class _AddMemberToBandScreenState
                             ],
                             decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black,width: .5),
-
+                                borderSide:
+                                    BorderSide(color: Colors.black, width: .5),
                               ),
                               labelText: "Mobile/Text",
                               labelStyle: TextStyle(
@@ -445,22 +495,27 @@ class _AddMemberToBandScreenState
                                     Theme(
                                       data: Theme.of(context).copyWith(
                                         unselectedWidgetColor: Colors.grey,
-                                      ),child: Checkbox(
-                                      onChanged: (widget.id.isEmpty || isEdit)
-                                          ? (bool value) {
-                                        setState(() {
-                                          isPrimary = value;
-                                        });
-                                      }
-                                      : null,
-                                      checkColor: Colors.yellowAccent,  // color of tick Mark
-                                      activeColor: isPrimary ? Colors.black87: Colors.grey ,
-                                      value: isPrimary,
-                                    ),),
-
+                                      ),
+                                      child: Checkbox(
+                                        onChanged: (widget.id.isEmpty || isEdit)
+                                            ? (bool value) {
+                                                setState(() {
+                                                  isPrimary = value;
+                                                });
+                                              }
+                                            : null,
+                                        checkColor: Colors
+                                            .yellowAccent, // color of tick Mark
+                                        activeColor: isPrimary
+                                            ? Colors.black87
+                                            : Colors.grey,
+                                        value: isPrimary,
+                                      ),
+                                    ),
                                     Text(
                                       "Make Primary Contact",
-                                      style: TextStyle(fontSize: 14,color: Colors.black),
+                                      style: TextStyle(
+                                          fontSize: 14, color: Colors.black),
                                     )
                                   ],
                                 )
@@ -476,32 +531,34 @@ class _AddMemberToBandScreenState
 //                              errorText: _errorPrimaryContact,
 //                            ),
 //                          ),
-                        Column(children: <Widget>[
-                          TextField(
-                            controller: _emailController,
-                            enabled: widget.id.isEmpty,
-                            decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black,width: .5),
-
+                          Column(
+                            children: <Widget>[
+                              TextField(
+                                controller: _emailController,
+                                enabled: widget.id.isEmpty,
+                                decoration: InputDecoration(
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.black, width: .5),
+                                  ),
+                                  labelText: "Email",
+                                  labelStyle: TextStyle(
+                                    color: Color.fromRGBO(169, 176, 187, 1.0),
+                                  ),
+                                  errorText: _errorEmail,
+                                ),
+                                style: TextStyle(color: Colors.black87),
                               ),
-                              labelText: "Email",
-                              labelStyle: TextStyle(
-                                color: Color.fromRGBO(169, 176, 187, 1.0),
-                              ),
-                              errorText: _errorEmail,
-                            ),
-                            style: TextStyle(color: Colors.black87),
+                            ],
                           ),
-                        ],),
 
                           TextField(
                             controller: _emergencyContactTextController,
                             enabled: widget.id.isEmpty || isEdit,
                             decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black,width: .5),
-
+                                borderSide:
+                                    BorderSide(color: Colors.black, width: .5),
                               ),
                               labelText: "Emergency Contact",
                               labelStyle: TextStyle(
@@ -521,8 +578,8 @@ class _AddMemberToBandScreenState
                             ],
                             decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black,width: .5),
-
+                                borderSide:
+                                    BorderSide(color: Colors.black, width: .5),
                               ),
                               labelText: "Emergency Contact Phone",
                               labelStyle: TextStyle(
@@ -614,27 +671,23 @@ class _AddMemberToBandScreenState
                               ],
                             ),
                           ),
-                          Text(
-                            "Instruments",
+                          Text("Instruments",
                               style: textTheme.headline.copyWith(
                                 color: Color.fromRGBO(99, 108, 119, 1.0),
                                 fontSize: 18,
                               ),
-                            textAlign: TextAlign.left
-                            
-                          ),
+                              textAlign: TextAlign.left),
                           Padding(padding: EdgeInsets.all(5)),
                           Wrap(
                             children: items6,
-                          )
-                              ,
+                          ),
                           Divider(),
                           TextField(
                             controller: _otherTalentController,
                             decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black,width: .5),
-
+                                borderSide:
+                                    BorderSide(color: Colors.black, width: .5),
                               ),
                               labelText: "Other Talent",
                               labelStyle: TextStyle(
@@ -648,8 +701,8 @@ class _AddMemberToBandScreenState
                             controller: _notesController,
                             decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black,width: .5),
-
+                                borderSide:
+                                    BorderSide(color: Colors.black, width: .5),
                               ),
                               labelText: "Notes",
                               labelStyle: TextStyle(
@@ -663,8 +716,8 @@ class _AddMemberToBandScreenState
                             controller: _payController,
                             decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black,width: .5),
-
+                                borderSide:
+                                    BorderSide(color: Colors.black, width: .5),
                               ),
                               labelText: "Pay Percentage",
                               labelStyle: TextStyle(
@@ -674,51 +727,26 @@ class _AddMemberToBandScreenState
                             ),
                             style: TextStyle(color: Colors.black87),
                           ),
-                          
+
                           Container(
-                            margin: EdgeInsets.only(left: MediaQuery.of(context).size.width/4,right: MediaQuery.of(context).size.width/4,top: 10),
-                            child:FlatButton(
-  
-                            onPressed: () {
-                              String emailText=_emailController.text;
-                              if(emailText.isEmpty){
-                                _errorEmail = "Cannot be Empty";
-                              }else{
-                                showLoading();
-                                presenter.addMemberToBand(
-                                    BandMember(
-                                        user_id: itemSelect.user_id,
-                                        // instrument: iList,
-                                        memberRole: List.from(mList),
-                                        firstName: _firstNameController.text,
-                                        lastName: _lastNameController.text,
-                                        email: _emailController.text,
-                                        emergencyContact:
-                                        _emergencyContactTextController.text,
-                                        mobileText: _mobileTextController.text,
-                                        other: oList,
-                                        primaryContact:
-                                        _primaryContactTextController.text,
-                                        payInfo: null,
-                                        pay: _payController.text,
-                                        otherTalent: _otherTalentController.text,
-                                        notes: _notesController.text,
-                                        permissions: (psList),
-                                        instrumentList: List.from(inList)
-                                    ),
-                                    widget.bandId,
-                                    isPrimary);}
-                            },
-                            child: Text(
-                              "Submit",
+                            margin: EdgeInsets.only(
+                                left: MediaQuery.of(context).size.width / 4,
+                                right: MediaQuery.of(context).size.width / 4,
+                                top: 10),
+                            child: FlatButton(
+                              onPressed: () {
+                                _submit();
+                              },
+                              child: Text(
+                                "Submit",
+                              ),
+                              color: widget.appListener.primaryColor,
+                              textColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
                             ),
-                            color: widget.appListener.primaryColor,
-                            textColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ) ,)
-                          
+                          )
                         ],
                       ),
           )
@@ -767,9 +795,10 @@ class _AddMemberToBandScreenState
       inList.addAll(bandMember.instrumentList);
     });
   }
+
   void _showDialogConfirm() {
     // flutter defined function
-  
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -777,7 +806,7 @@ class _AddMemberToBandScreenState
         return AlertDialog(
           contentPadding: EdgeInsets.all(15),
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           title: new Text(
             "Warning",
             textAlign: TextAlign.center,
@@ -785,13 +814,12 @@ class _AddMemberToBandScreenState
           content: Text("Are you sure you want to delete?"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
-           
+
             new FlatButton(
               child: new Text("Yes"),
               textColor: Colors.black,
               color: Colors.white,
               onPressed: () {
-              
                 if (widget.id == null || widget.id.isEmpty) {
                   showMessage("Id cannot be null");
                 } else {
@@ -800,7 +828,6 @@ class _AddMemberToBandScreenState
                   //Navigator.pop(context,"band");
                   Navigator.pop(context);
                   Navigator.pop(context);
-              
                 }
               },
             ),
@@ -820,4 +847,32 @@ class _AddMemberToBandScreenState
     );
   }
 
+  void _submit() {
+    String emailText = _emailController.text;
+    if (emailText.isEmpty) {
+      _errorEmail = "Cannot be Empty";
+    } else {
+      showLoading();
+      presenter.addMemberToBand(
+          BandMember(
+              user_id: itemSelect.user_id,
+              // instrument: iList,
+              memberRole: List.from(mList),
+              firstName: _firstNameController.text,
+              lastName: _lastNameController.text,
+              email: _emailController.text,
+              emergencyContact: _emergencyContactTextController.text,
+              mobileText: _mobileTextController.text,
+              other: oList,
+              primaryContact: _primaryContactTextController.text,
+              payInfo: null,
+              pay: _payController.text,
+              otherTalent: _otherTalentController.text,
+              notes: _notesController.text,
+              permissions: (psList),
+              instrumentList: List.from(inList)),
+          widget.bandId,
+          isPrimary);
+    }
+  }
 }

@@ -82,7 +82,7 @@ class ServerAPI {
     contactsRef = storageRef.child("Contacts");
     playingstyleRef = storageRef.child("PlayingStyle");
     bandref = storageRef.child("Bands");
-    bulletionRef= storageRef.child("Bulletinboard");
+    bulletionRef = storageRef.child("Bulletinboard");
     _mainFirebaseDatabase =
         FirebaseDatabase.instance.reference().child("Gigtrack");
     userDB = _mainFirebaseDatabase.child("users");
@@ -491,6 +491,42 @@ class ServerAPI {
         String id = bandCommDB.push().key;
         bandComm.id = id;
         isUpdate = false;
+      }
+      if (bandComm.bandId != null && bandComm.bandId.isNotEmpty) {
+        final detail = await getBandDetails(bandComm.bandId);
+        if (detail is Band) {
+          for (var mem in detail.bandmates.keys) {
+            BandMember member = detail.bandmates[mem];
+            if (member.user_id != null && member.user_id.isNotEmpty) {
+              final res = await addNotification(Notification(
+                bandId: bandComm.bandId,
+                created: DateTime.now().millisecondsSinceEpoch,
+                notiId: bandComm.id,
+                text:
+                    "A new Band Communication was created in the band (${detail.name})",
+                type: Notification.TYPE_BAND_COMM,
+                userId: member.user_id,
+              ));
+              if (res is Notification) {
+                sendPushNotification(res);
+              }
+            }
+          }
+          if (detail.userId != null && detail.userId.isNotEmpty) {
+            final res = await addNotification(Notification(
+              bandId: bandComm.bandId,
+              created: DateTime.now().millisecondsSinceEpoch,
+              notiId: bandComm.id,
+              text:
+                  "A new Band Communication created in the band(${detail.name})",
+              type: Notification.TYPE_BAND_COMM,
+              userId: detail.userId,
+            ));
+            if (res is Notification) {
+              sendPushNotification(res);
+            }
+          }
+        }
       }
       await bandCommDB.child(bandComm.id).set(bandComm.toMap());
       return isUpdate;

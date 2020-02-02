@@ -663,7 +663,7 @@ class _AddSetListScreenState
                                     return ListTile(
                                       title: Text(song.name),
                                       subtitle: Text(
-                                          "${song.artist}\n${song.perform}\n${formatDate(dateTime, [
+                                          "${song.artist}\n${song.perform != null ? song.perform + '\n' : ''}${formatDate(dateTime, [
                                         DD,
                                         '-',
                                         mm,

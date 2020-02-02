@@ -137,7 +137,7 @@ class _BandCommListScreenState
                                           CrossAxisAlignment.center,
                                       children: <Widget>[
                                         Text(
-                                          "${bulletin.priority}",
+                                          "Priority: ${bulletin.priority}",
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             fontSize: 14,

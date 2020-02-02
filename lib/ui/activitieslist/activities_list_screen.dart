@@ -478,7 +478,7 @@ class _ActivitiesListScreenState
                                               child: Text(
                                                 "${formatDate(dt, [
                                                   DD,
-                                                  ', ',
+                                                  '\n',
                                                   mm,
                                                   '/',
                                                   dd,
@@ -584,7 +584,7 @@ class _ActivitiesListScreenState
                                               child: Text(
                                                 "${formatDate(dt, [
                                                   DD,
-                                                  ', ',
+                                                  '\n',
                                                   mm,
                                                   '/',
                                                   dd,
@@ -694,7 +694,7 @@ class _ActivitiesListScreenState
                                               child: Text(
                                                 "${formatDate(dt, [
                                                   DD,
-                                                  ', ',
+                                                  '\n',
                                                   mm,
                                                   '/',
                                                   dd,
@@ -813,7 +813,7 @@ class _ActivitiesListScreenState
                                                   child: Text(
                                                     "${formatDate(dt, [
                                                       DD,
-                                                      ', ',
+                                                      '\n',
                                                       mm,
                                                       '/',
                                                       dd,
@@ -944,7 +944,7 @@ class _ActivitiesListScreenState
                                                   child: Text(
                                                     "${formatDate(dt, [
                                                       DD,
-                                                      ', ',
+                                                      '\n',
                                                       mm,
                                                       '/',
                                                       dd,
