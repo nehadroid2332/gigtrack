@@ -592,7 +592,7 @@ class _ActivitiesListScreenState
                                                   yy,
                                                 ])}",
                                                 style: TextStyle(
-                                                  fontSize: 12,
+                                                  fontSize: 14,
                                                   fontWeight: FontWeight.bold,
                                                   fontStyle: FontStyle.italic,
                                                   color: Color.fromRGBO(32, 95, 139, 1.0),

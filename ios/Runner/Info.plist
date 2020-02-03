@@ -45,12 +45,12 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Gigtrack For Musicians wants to access your camera to change and upload profile picture.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Gigtrack needs access to location when open and in the background.</string>
 	<key>NSLocationUsageDescription</key>
 	<string>Gigtrack For Musicians wants to access your current location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Gigtrack For Musicians wants to access your current location.</string>
-    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>Gigtrack needs access to location when open and in the background.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Gigtrack For Musicians wants to access your microphone</string>
 	<key>NSPhotoLibraryUsageDescription</key>

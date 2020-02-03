@@ -1066,10 +1066,22 @@ class _AddBandScreenState
                                                         EdgeInsets.symmetric(
                                                       horizontal: 15,
                                                     ),
-                                                    child: Column(
+                                                    child: InkWell(
+                                                      onTap: () async {
+                                                        await widget
+                                                            .appListener
+                                                            .router
+                                                            .navigateTo(
+                                                            context,
+                                                            Screens.ADDMEMBERTOBAND
+                                                                .toString() +
+                                                                "/${user.email}/${widget.id}");
+                                                        getData();
+                                                      },
+                                                      child: Column(
                                                       crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
+                                                      CrossAxisAlignment
+                                                          .start,
                                                       children: <Widget>[
                                                         InkWell(
                                                           onTap: () async {
@@ -1077,17 +1089,17 @@ class _AddBandScreenState
                                                                 .appListener
                                                                 .router
                                                                 .navigateTo(
-                                                                    context,
-                                                                    Screens.ADDMEMBERTOBAND
-                                                                            .toString() +
-                                                                        "/${user.email}/${widget.id}");
+                                                                context,
+                                                                Screens.ADDMEMBERTOBAND
+                                                                    .toString() +
+                                                                    "/${user.email}/${widget.id}");
                                                             getData();
                                                           },
                                                           child: Padding(
                                                             padding:
-                                                                EdgeInsets.only(
-                                                                    top: 2,
-                                                                    bottom: 2),
+                                                            EdgeInsets.only(
+                                                                top: 2,
+                                                                bottom: 2),
                                                             child: Text(
                                                               "${user.firstName} ${user.lastName}",
                                                               style: textTheme
@@ -1095,14 +1107,14 @@ class _AddBandScreenState
                                                                   .copyWith(
                                                                 color: qDarkmodeEnable
                                                                     ? Colors
-                                                                        .white
+                                                                    .white
                                                                     : Colors
-                                                                        .black,
+                                                                    .black,
                                                                 fontSize: 12.3,
                                                               ),
                                                               textAlign:
-                                                                  TextAlign
-                                                                      .center,
+                                                              TextAlign
+                                                                  .center,
                                                             ),
                                                           ),
                                                         ),
@@ -1123,25 +1135,37 @@ class _AddBandScreenState
                                                               TextAlign.center,
                                                         ),
                                                         user.instrumentList
-                                                                    .length >
-                                                                0
-                                                            ? Text(
-                                                                "${user.instrumentList?.join(', ')}",
-                                                                style: textTheme
-                                                                    .subhead
-                                                                    .copyWith(
-                                                                  color: qDarkmodeEnable
-                                                                      ? Colors
-                                                                          .white
-                                                                      : Colors
-                                                                          .black,
-                                                                  fontSize:
-                                                                      12.3,
-                                                                ),
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                              )
+                                                            .length >
+                                                            0
+                                                            ? InkWell(
+                                                            onTap: () async {
+                                                              await widget
+                                                                  .appListener
+                                                                  .router
+                                                                  .navigateTo(
+                                                                  context,
+                                                                  Screens.ADDMEMBERTOBAND
+                                                                      .toString() +
+                                                                      "/${user.email}/${widget.id}");
+                                                              getData();
+                                                            },
+                                                            child: Text(
+                                                              "${user.instrumentList?.join(', ')}",
+                                                              style: textTheme
+                                                                  .subhead
+                                                                  .copyWith(
+                                                                color: qDarkmodeEnable
+                                                                    ? Colors
+                                                                    .white
+                                                                    : Colors
+                                                                    .black,
+                                                                fontSize:
+                                                                12.3,
+                                                              ),
+                                                              textAlign:
+                                                              TextAlign
+                                                                  .center,
+                                                            ))
                                                             : Container(),
                                                         InkWell(
                                                           onTap: () async {
@@ -1149,10 +1173,10 @@ class _AddBandScreenState
                                                                 .appListener
                                                                 .router
                                                                 .navigateTo(
-                                                                    context,
-                                                                    Screens.ADDMEMBERTOBAND
-                                                                            .toString() +
-                                                                        "/${user.email}/${widget.id}");
+                                                                context,
+                                                                Screens.ADDMEMBERTOBAND
+                                                                    .toString() +
+                                                                    "/${user.email}/${widget.id}");
                                                             getData();
                                                           },
                                                           child: Text(
@@ -1161,11 +1185,11 @@ class _AddBandScreenState
                                                                 .subhead
                                                                 .copyWith(
                                                               color:
-                                                                  qDarkmodeEnable
-                                                                      ? Colors
-                                                                          .white
-                                                                      : Colors
-                                                                          .black,
+                                                              qDarkmodeEnable
+                                                                  ? Colors
+                                                                  .white
+                                                                  : Colors
+                                                                  .black,
                                                               fontSize: 12.3,
                                                             ),
                                                             textAlign: TextAlign
@@ -1206,18 +1230,18 @@ class _AddBandScreenState
                                                         ),
                                                         Container(
                                                           width: MediaQuery.of(
-                                                                  context)
+                                                              context)
                                                               .size
                                                               .width,
                                                           height: 1,
                                                           color: Colors.grey,
                                                           margin:
-                                                              EdgeInsets.only(
-                                                                  top: 10,
-                                                                  bottom: 3),
+                                                          EdgeInsets.only(
+                                                              top: 10,
+                                                              bottom: 3),
                                                         ),
                                                       ],
-                                                    ),
+                                                    ),)
                                                   ),
                                                 )
                                               ],

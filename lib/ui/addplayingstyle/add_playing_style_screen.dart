@@ -234,13 +234,13 @@ class _AddPlayingStyleScreenState
                     title: Text("Do you want to save changes?"),
                     actions: <Widget>[
                       FlatButton(
-                        child: Text("No"),
+                        child: Text("No",style: TextStyle(color: Colors.black87),),
                         onPressed: () {
                           Navigator.of(context).pop(true);
                         },
                       ),
                       RaisedButton(
-                        child: Text("Yes"),
+                        child: Text("Yes",style: TextStyle(color: Colors.white),),
                         color: Color.fromRGBO(250, 177, 49, 1.0),
                         onPressed: () {
                           _submitEPK();

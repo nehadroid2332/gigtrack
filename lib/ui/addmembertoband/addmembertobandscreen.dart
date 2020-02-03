@@ -94,14 +94,14 @@ class _AddMemberToBandScreenState
                     title: Text("Do you want to save changes?"),
                     actions: <Widget>[
                       FlatButton(
-                        child: Text("No"),
+                        child: Text("No",style: TextStyle(color: Colors.black87),),
                         onPressed: () {
                           Navigator.of(context).pop(true);
                         },
                       ),
                       RaisedButton(
                         child: Text("Yes"),
-                        color: Color.fromRGBO(250, 177, 49, 1.0),
+                        color: widget.appListener.accentColor,
                         onPressed: () {
                           _submit();
                           Navigator.of(context).pop(true);
@@ -138,7 +138,7 @@ class _AddMemberToBandScreenState
               : IconButton(
                   icon: Icon(
                     Icons.edit,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                   onPressed: () {
                     setState(() {
@@ -149,7 +149,7 @@ class _AddMemberToBandScreenState
           widget.id.isEmpty
               ? Container()
               : IconButton(
-                  icon: Icon(Icons.delete, color: Colors.black),
+                  icon: Icon(Icons.delete, color: Colors.white),
                   onPressed: () {
                     _showDialogConfirm();
                   },

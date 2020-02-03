@@ -170,7 +170,7 @@ class _AddBulletInBoardScreenState
                     title: Text("Do you want to save changes?"),
                     actions: <Widget>[
                       FlatButton(
-                        child: Text("No"),
+                        child: Text("No",style: TextStyle(color: Colors.black87),),
                         onPressed: () {
                           Navigator.of(context).pop(true);
                         },
