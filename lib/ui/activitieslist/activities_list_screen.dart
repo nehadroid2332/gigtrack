@@ -474,7 +474,7 @@ class _ActivitiesListScreenState
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width /
-                                                  3.3,
+                                                  7,
                                               child: Text(
                                                 "${formatDate(dt, [
                                                   DD,
@@ -489,7 +489,7 @@ class _ActivitiesListScreenState
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.bold,
                                                   fontStyle: FontStyle.italic,
-                                                  color: Colors.grey,
+                                                  color: Color.fromRGBO(32, 95, 139, 1.0),
                                                 ),
                                                 textAlign: TextAlign.center,
                                               ),
@@ -580,7 +580,7 @@ class _ActivitiesListScreenState
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width /
-                                                  3.3,
+                                                  7,
                                               child: Text(
                                                 "${formatDate(dt, [
                                                   DD,
@@ -595,7 +595,7 @@ class _ActivitiesListScreenState
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.bold,
                                                   fontStyle: FontStyle.italic,
-                                                  color: Colors.grey,
+                                                  color: Color.fromRGBO(32, 95, 139, 1.0),
                                                 ),
                                                 textAlign: TextAlign.center,
                                               ),
@@ -690,7 +690,7 @@ class _ActivitiesListScreenState
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width /
-                                                  3.3,
+                                                  7,
                                               child: Text(
                                                 "${formatDate(dt, [
                                                   DD,
@@ -705,7 +705,7 @@ class _ActivitiesListScreenState
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.bold,
                                                   fontStyle: FontStyle.italic,
-                                                  color: Colors.grey,
+                                                  color: Color.fromRGBO(32, 95, 139, 1.0),
                                                 ),
                                                 textAlign: TextAlign.center,
                                               ),
@@ -809,7 +809,7 @@ class _ActivitiesListScreenState
                                                   width: MediaQuery.of(context)
                                                           .size
                                                           .width /
-                                                      3.3,
+                                                      7,
                                                   child: Text(
                                                     "${formatDate(dt, [
                                                       DD,
@@ -826,7 +826,7 @@ class _ActivitiesListScreenState
                                                           FontWeight.bold,
                                                       fontStyle:
                                                           FontStyle.italic,
-                                                      color: Colors.grey,
+                                                      color: Color.fromRGBO(32, 95, 139, 1.0),
                                                     ),
                                                     textAlign: TextAlign.center,
                                                   ),
@@ -940,7 +940,7 @@ class _ActivitiesListScreenState
                                                   width: MediaQuery.of(context)
                                                           .size
                                                           .width /
-                                                      3.3,
+                                                      7,
                                                   child: Text(
                                                     "${formatDate(dt, [
                                                       DD,
@@ -957,7 +957,7 @@ class _ActivitiesListScreenState
                                                           FontWeight.bold,
                                                       fontStyle:
                                                           FontStyle.italic,
-                                                      color: Colors.grey,
+                                                      color: Color.fromRGBO(32, 95, 139, 1.0),
                                                     ),
                                                     textAlign: TextAlign.center,
                                                   ),

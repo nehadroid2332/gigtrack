@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/server/models/payment.dart';
@@ -28,7 +29,7 @@ class _FeedbackListScreenState
 
   @override
   AppBar get appBar => AppBar(
-    brightness: Brightness.light,
+        brightness: Brightness.light,
         backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
         elevation: 0,
         leading: IconButton(
@@ -44,6 +45,29 @@ class _FeedbackListScreenState
 
   @override
   Widget buildBody() {
+    List<SpeedDialChild> items = [
+      SpeedDialChild(
+        label: "Receive",
+        labelStyle: TextStyle(color: Color.fromRGBO(45, 1, 79, 1.0)),
+        child: Icon(Icons.add),
+        backgroundColor: Color.fromRGBO(40, 35, 188, 1.0),
+        onTap: () async {
+          widget.appListener.router.navigateTo(context,
+              Screens.ADD_PAYMENT.toString() + "//${Payment.TYPE_RECIEVE}");
+        },
+      ),
+      SpeedDialChild(
+        label: "Paid",
+        labelStyle: TextStyle(color: Color.fromRGBO(45, 1, 79, 1.0)),
+        child: Icon(Icons.add),
+        backgroundColor: Color.fromRGBO(40, 35, 188, 1.0),
+        onTap: () async {
+          widget.appListener.router.navigateTo(context,
+              Screens.ADD_PAYMENT.toString() + "//${Payment.TYPE_PAID}");
+        },
+      ),
+    ];
+
     return Scaffold(
       backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
       body: Padding(
@@ -132,12 +156,12 @@ class _FeedbackListScreenState
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          widget.appListener.router
-              .navigateTo(context, Screens.ADD_PAYMENT.toString() + "/");
-        },
-        child: Icon(Icons.add),
+      floatingActionButton: SpeedDial(
+        animatedIcon: AnimatedIcons.menu_close,
+        backgroundColor: Colors.green,
+        overlayColor: Colors.white,
+        overlayOpacity: 1.0,
+        children: items,
       ),
     );
   }

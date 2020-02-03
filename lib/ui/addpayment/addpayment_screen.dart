@@ -1,12 +1,9 @@
 import 'dart:core' as prefix0;
 import 'dart:core';
 import 'dart:io';
-
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
-import 'package:gigtrack/server/models/bulletinboard.dart';
 import 'package:gigtrack/server/models/payment.dart';
 import 'package:gigtrack/ui/addpayment/addpayment_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
@@ -14,8 +11,9 @@ import 'package:image_picker/image_picker.dart';
 
 class AddPaymentScreen extends BaseScreen {
   final String id;
+  final String type;
 
-  AddPaymentScreen(AppListener appListener, {this.id})
+  AddPaymentScreen(AppListener appListener, {this.id, this.type})
       : super(appListener, title: "");
 
   @override
@@ -312,9 +310,19 @@ class _AddPaymentScreenState
                         ),
                       ),
                       Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 8,
+                        ),
+                        child: Text(
+                          "Take a picture of invoice",
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      Text("Select Type"),
+                      Text(
+                          "${payment.type == Payment.TYPE_PAID ? 'Paid' : payment.type == Payment.TYPE_RECIEVE ? 'Received' : ''} Select Type"),
                       Row(
                         children: <Widget>[
                           Expanded(
@@ -330,10 +338,10 @@ class _AddPaymentScreenState
                                   ? Colors.white
                                   : Color.fromRGBO(214, 22, 35, 1.0),
                               onPressed: () {
-                                if (widget.id.isEmpty || isEdit)
-                                  setState(() {
-                                    payment.type = Payment.TYPE_PAID;
-                                  });
+                                // if (widget.id.isEmpty || isEdit)
+                                //   setState(() {
+                                //     payment.type = Payment.TYPE_PAID;
+                                //   });
                               },
                             ),
                           ),
@@ -353,10 +361,10 @@ class _AddPaymentScreenState
                                   ? Colors.white
                                   : Color.fromRGBO(214, 22, 35, 1.0),
                               onPressed: () {
-                                if (widget.id.isEmpty || isEdit)
-                                  setState(() {
-                                    payment.type = Payment.TYPE_RECIEVE;
-                                  });
+                                // if (widget.id.isEmpty || isEdit)
+                                //   setState(() {
+                                //     payment.type = Payment.TYPE_RECIEVE;
+                                //   });
                               },
                             ),
                           )
@@ -476,8 +484,9 @@ class _AddPaymentScreenState
                               textCapitalization: TextCapitalization.sentences,
                               maxLines: 3,
                               decoration: InputDecoration(
-                                labelText:
-                                    widget.id.isEmpty || isEdit ? "Notes" : "",
+                                labelText: widget.id.isEmpty || isEdit
+                                    ? "Money ${payment.type == Payment.TYPE_PAID ? 'Paid' : payment.type == Payment.TYPE_RECIEVE ? 'Received' : ''} Notes"
+                                    : "",
                                 labelStyle: TextStyle(
                                     color: Color.fromRGBO(202, 208, 215, 1.0),
                                     fontSize: 18),
@@ -578,6 +587,11 @@ class _AddPaymentScreenState
       });
     } else {
       payment = Payment();
+      if (widget.type == "${Payment.TYPE_PAID}") {
+        payment.type = Payment.TYPE_PAID;
+      } else if (widget.type == "${Payment.TYPE_RECIEVE}") {
+        payment.type = Payment.TYPE_RECIEVE;
+      }
     }
   }
 

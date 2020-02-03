@@ -447,12 +447,15 @@ class MyApp extends StatelessWidget implements AppListener {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return PaymentListScreen(this);
     }));
-    _router.define(Screens.ADD_PAYMENT.toString() + "/:id", handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    _router.define(Screens.ADD_PAYMENT.toString() + "/:id/:type", handler:
+        Handler(
+            handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["id"][0];
+      String type = params["type"][0];
       return AddPaymentScreen(
         this,
         id: id,
+        type:type
       );
     }));
     _router.define(Screens.GOOGLEMAPS.toString() + "/:latitude/:longitude",

@@ -188,7 +188,9 @@ Widget buildActivityListItem(Activites ac, context,
     margin: EdgeInsets.symmetric(horizontal: 3, vertical: 5),
     child: InkWell(
       child: Container(
-        padding: ac.bandId.isNotEmpty ? EdgeInsets.all(5) : EdgeInsets.all(10),
+        padding: ac.bandId.isNotEmpty
+            ? EdgeInsets.symmetric(vertical: 5)
+            : EdgeInsets.symmetric(vertical: 10),
         decoration: ac.bandId.isEmpty
             ? BoxDecoration(
                 color: Color.fromRGBO(40, 35, 188, 0.2),
@@ -205,13 +207,17 @@ Widget buildActivityListItem(Activites ac, context,
                 ac.startTime != null
                     ? Text(
                         "${ac.startTime.toLowerCase()}",
-                        style: TextStyle(color: Colors.black, fontSize: 16),
+                        style: TextStyle(
+                            color: Color.fromRGBO(32, 95, 139, 1.0),
+                            fontSize: 16),
                       )
                     : Container(),
                 ac.endTime.isNotEmpty
                     ? Text(
                         " - ${ac.endTime.toLowerCase()}",
-                        style: TextStyle(color: Colors.black, fontSize: 16),
+                        style: TextStyle(
+                            color: Color.fromRGBO(32, 95, 139, 1.0),
+                            fontSize: 16),
                       )
                     : Container()
               ],
@@ -221,7 +227,7 @@ Widget buildActivityListItem(Activites ac, context,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: 23,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: ac.bandId.isNotEmpty
                     ? isPast ? Colors.grey : Color.fromRGBO(40, 35, 188, 1.0)
@@ -241,44 +247,49 @@ Widget buildActivityListItem(Activites ac, context,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Expanded(
-                  flex:  ac.bandId.isNotEmpty?1:2,
+                  flex: ac.bandId.isNotEmpty ? 1 : 2,
                   child: Text(
-                  currentType(ac.type),
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontStyle: FontStyle.normal,
-                    color: ac.bandId.isNotEmpty
-                        ? isPast
-                        ? Colors.grey
-                        : Color.fromRGBO(32, 95, 139, 1.0)
-                        : isPast
-                        ? Colors.grey
-                        : Color.fromRGBO(40, 35, 188, 1.0),
+                    currentType(ac.type),
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontStyle: FontStyle.normal,
+                      color: ac.bandId.isNotEmpty
+                          ? isPast
+                              ? Colors.grey
+                              : Color.fromRGBO(32, 95, 139, 1.0)
+                          : isPast
+                              ? Colors.grey
+                              : Color.fromRGBO(40, 35, 188, 1.0),
+                    ),
+                    textAlign: ac.bandId.isNotEmpty
+                        ? TextAlign.right
+                        : TextAlign.center,
                   ),
-                  textAlign: ac.bandId.isNotEmpty?TextAlign.right:TextAlign.center,
-                ),),
-                ac.bandId.isNotEmpty? Expanded(
-                  flex: 1,
-                  child: ac.bandId.isNotEmpty
-                      ? Text(
-                          "-" + (ac?.band?.name ?? ''),
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontStyle: FontStyle.normal,
-                            color: ac.bandId.isNotEmpty
-                                ? isPast
-                                    ? Colors.grey
-                                    : Color.fromRGBO(32, 95, 139, 1.0)
-                                : isPast
-                                    ? Colors.grey
-                                    : Color.fromRGBO(40, 35, 188, 1.0),
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          textAlign: TextAlign.left,
-                        )
-                      : Container(),
-                ):Container()
+                ),
+                ac.bandId.isNotEmpty
+                    ? Expanded(
+                        flex: 1,
+                        child: ac.bandId.isNotEmpty
+                            ? Text(
+                                "-" + (ac?.band?.name ?? ''),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontStyle: FontStyle.normal,
+                                  color: ac.bandId.isNotEmpty
+                                      ? isPast
+                                          ? Colors.grey
+                                          : Color.fromRGBO(32, 95, 139, 1.0)
+                                      : isPast
+                                          ? Colors.grey
+                                          : Color.fromRGBO(40, 35, 188, 1.0),
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                textAlign: TextAlign.left,
+                              )
+                            : Container(),
+                      )
+                    : Container()
 //
               ],
             )
@@ -621,6 +632,7 @@ class AppProgressWidget extends StatelessWidget {
 }
 
 String getNameOrder(String name) {
+  name = name.trim();
   List traversedname = name.split(" ");
   int namelength = traversedname.length;
   if (traversedname.length > 1) {

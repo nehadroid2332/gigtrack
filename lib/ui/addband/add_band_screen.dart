@@ -1035,9 +1035,11 @@ class _AddBandScreenState
                                                 Container(
                                                   height: 55,
                                                   width: 55,
-                                                  margin: EdgeInsets.only(top: 10),
+                                                  margin:
+                                                      EdgeInsets.only(top: 10),
                                                   decoration: new BoxDecoration(
-                                                    color: Color.fromRGBO(167, 0, 0, 1.0),
+                                                    color: Color.fromRGBO(
+                                                        167, 0, 0, 1.0),
                                                     shape: BoxShape.circle,
                                                   ),
                                                   alignment:
@@ -1104,6 +1106,22 @@ class _AddBandScreenState
                                                             ),
                                                           ),
                                                         ),
+                                                        Text(
+                                                          permission,
+                                                          style: textTheme
+                                                              .subhead
+                                                              .copyWith(
+                                                            color:
+                                                                qDarkmodeEnable
+                                                                    ? Colors
+                                                                        .white
+                                                                    : Colors
+                                                                        .black,
+                                                            fontSize: 12.3,
+                                                          ),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
                                                         user.instrumentList
                                                                     .length >
                                                                 0
@@ -1160,15 +1178,15 @@ class _AddBandScreenState
                                                               .subhead
                                                               .copyWith(
                                                             color:
-                                                            qDarkmodeEnable
-                                                                ? Colors
-                                                                .white
-                                                                : Colors
-                                                                .black,
+                                                                qDarkmodeEnable
+                                                                    ? Colors
+                                                                        .white
+                                                                    : Colors
+                                                                        .black,
                                                             fontSize: 12.3,
                                                           ),
-                                                          textAlign: TextAlign
-                                                              .center,
+                                                          textAlign:
+                                                              TextAlign.center,
                                                         ),
                                                         Text(
                                                           "${user.mobileText}",
@@ -1176,15 +1194,15 @@ class _AddBandScreenState
                                                               .subhead
                                                               .copyWith(
                                                             color:
-                                                            qDarkmodeEnable
-                                                                ? Colors
-                                                                .white
-                                                                : Colors
-                                                                .black,
+                                                                qDarkmodeEnable
+                                                                    ? Colors
+                                                                        .white
+                                                                    : Colors
+                                                                        .black,
                                                             fontSize: 12.3,
                                                           ),
-                                                          textAlign: TextAlign
-                                                              .center,
+                                                          textAlign:
+                                                              TextAlign.center,
                                                         ),
                                                         Container(
                                                           width: MediaQuery.of(
