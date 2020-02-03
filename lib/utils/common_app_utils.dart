@@ -243,55 +243,17 @@ Widget buildActivityListItem(Activites ac, context,
                   height: 5,
                   thickness: 1.5,
                 )),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Expanded(
-                  flex: ac.bandId.isNotEmpty ? 1 : 2,
-                  child: Text(
-                    currentType(ac.type),
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontStyle: FontStyle.normal,
-                      color: ac.bandId.isNotEmpty
-                          ? isPast
-                              ? Colors.grey
-                              : Color.fromRGBO(32, 95, 139, 1.0)
-                          : isPast
-                              ? Colors.grey
-                              : Color.fromRGBO(40, 35, 188, 1.0),
-                    ),
-                    textAlign: ac.bandId.isNotEmpty
-                        ? TextAlign.right
-                        : TextAlign.center,
-                  ),
-                ),
-                ac.bandId.isNotEmpty
-                    ? Expanded(
-                        flex: 1,
-                        child: ac.bandId.isNotEmpty
-                            ? Text(
-                                "-" + (ac?.band?.name ?? ''),
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontStyle: FontStyle.normal,
-                                  color: ac.bandId.isNotEmpty
-                                      ? isPast
-                                          ? Colors.grey
-                                          : Color.fromRGBO(32, 95, 139, 1.0)
-                                      : isPast
-                                          ? Colors.grey
-                                          : Color.fromRGBO(40, 35, 188, 1.0),
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                textAlign: TextAlign.left,
-                              )
-                            : Container(),
-                      )
-                    : Container()
-//
-              ],
+            Text(
+              currentType(ac.type) + "-" + (ac?.band?.name ?? ''),
+              style: TextStyle(
+                fontSize: 17,
+                fontStyle: FontStyle.normal,
+                color: ac.bandId.isNotEmpty
+                    ? isPast ? Colors.grey : Color.fromRGBO(32, 95, 139, 1.0)
+                    : isPast ? Colors.grey : Color.fromRGBO(40, 35, 188, 1.0),
+              ),
+              textAlign:
+                  ac.bandId.isNotEmpty ? TextAlign.right : TextAlign.center,
             )
           ],
         ),
