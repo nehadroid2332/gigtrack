@@ -580,7 +580,7 @@ class _ActivitiesListScreenState
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width /
-                                                  3.3,
+                                                  7,
                                               child: Text(
                                                 "${formatDate(dt, [
                                                   DD,
@@ -592,7 +592,7 @@ class _ActivitiesListScreenState
                                                   yy,
                                                 ])}",
                                                 style: TextStyle(
-                                                  fontSize: 12,
+                                                  fontSize: 14,
                                                   fontWeight: FontWeight.bold,
                                                   fontStyle: FontStyle.italic,
                                                   color: Colors.grey,

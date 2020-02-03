@@ -34,6 +34,27 @@ class _NotificationListScreensState
     equipmentList = presenter.getEList();
     notesList = presenter.getNList();
   }
+  @override
+  AppBar get appBar => AppBar(
+    brightness: Brightness.light,
+    backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
+    elevation: 0,
+    leading: IconButton(
+      icon: Icon(
+        Icons.arrow_back,
+        color: Color.fromRGBO(105, 114, 98, 1.0),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    ),
+    title: Text(
+      "${"Notification List"}",
+      style: textTheme.title.copyWith(
+        color: widget.appListener.primaryColor,
+      ),
+    ),
+  );
 
   @override
   Widget buildBody() {
