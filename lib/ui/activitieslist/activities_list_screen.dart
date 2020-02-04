@@ -12,6 +12,7 @@ import 'package:gigtrack/server/models/band.dart';
 import 'package:gigtrack/ui/activitieslist/activities_list_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:sticky_headers/sticky_headers.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class ActivitiesListScreen extends BaseScreen {
   final String bandId;
@@ -45,12 +46,17 @@ class _ActivitiesListScreenState
   bool isArchive = false;
   bool isRecurring = false;
   String bandName;
+  bool isCalender = false;
+
+  CalendarController _calendarController;
+
+  List _selectedActivities = [];
 
   @override
   void initState() {
     super.initState();
     presenter.getBands(widget.bandId);
-
+    _calendarController = CalendarController();
     list = presenter.getList(widget.bandId, widget.type);
   }
 
@@ -74,6 +80,19 @@ class _ActivitiesListScreenState
             color: Colors.blueAccent,
           ),
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              isCalender ? Icons.list : Icons.calendar_today,
+              color: Colors.blueAccent,
+            ),
+            onPressed: () {
+              setState(() {
+                isCalender = !isCalender;
+              });
+            },
+          )
+        ],
       );
 
 //Today
@@ -214,802 +233,863 @@ class _ActivitiesListScreenState
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
                     activities = snapshot.data;
-
-                    List<Activites> current = [];
-                    List<Activites> upcoming = [];
-                    List<Activites> past = [];
-                    List<Activites> recurring = [];
-                    List<Activites> afterWeek = [];
-
-                    DateTime currentDate = DateTime(DateTime.now().year,
-                            DateTime.now().month, DateTime.now().day, 0, 0, 0)
-                        .toLocal();
-                    for (var ac in activities) {
-                      DateTime startDate =
-                          DateTime.fromMillisecondsSinceEpoch(ac.startDate)
-                              .toLocal();
-                      DateTime endDate;
-                      if (ac.endDate != 0) {
-                        endDate =
-                            DateTime.fromMillisecondsSinceEpoch(ac.endDate)
-                                .toLocal();
-                      }
-                      DateTime st = DateTime(startDate.year, startDate.month,
-                          startDate.day, 0, 0, 0);
-
-                      int days = st.difference(currentDate).inDays;
-                      int days2;
-                      if (endDate != null) {
-                        days2 = currentDate.difference(endDate).inDays;
-                      }
-                      bool currentWeek = false;
-                      bool afterweek = false;
-                      if (!days.isNegative) {
-                        switch (currentDate.weekday) {
-                          case 1:
-                            if (days.abs() <= 7) {
-                              currentWeek = true;
-                            }
-                            break;
-                          case 2:
-                            if (days.abs() <= 6) {
-                              currentWeek = true;
-                            }
-                            break;
-                          case 3:
-                            if (days.abs() <= 5) {
-                              currentWeek = true;
-                            }
-                            break;
-                          case 4:
-                            if (days.abs() <= 4) {
-                              currentWeek = true;
-                            }
-                            break;
-                          case 5:
-                            if (days.abs() <= 2) {
-                              currentWeek = true;
-                            } else if (days.abs() > 2) {
-                              afterweek = true;
-                            }
-                            break;
-                          case 6:
-                            if (days.abs() <= 2) {
-                              currentWeek = true;
-                            }
-                            break;
-                          case 7:
-                            if (days.abs() <= 1) {
-                              currentWeek = true;
-                            }
-                            break;
-                          default:
+                    if (isCalender) {
+                      Map<DateTime, List> _events = {};
+                      for (var item in activities) {
+                        DateTime dateTime =
+                            DateTime.fromMillisecondsSinceEpoch(item.startDate);
+                        List list = _events[dateTime];
+                        if (list == null) {
+                          list = [];
                         }
+                        list.add(item);
+                        _events[dateTime] = list;
                       }
+                      return Column(
+                        children: <Widget>[
+                          TableCalendar(
+                            calendarController: _calendarController,
+                            events: _events,
+                            onDaySelected: (date, events) {
+                              setState(() {
+                                _selectedActivities = events;
+                              });
+                            },
+                          ),
+                          Expanded(
+                              child: ListView.builder(
+                            itemCount: _selectedActivities.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              Activites ac = _selectedActivities[index];
+                              return buildActivityListItem(ac, context,
+                                  onTap: () {
+                                widget.appListener.router.navigateTo(
+                                    context,
+                                    Screens.ADDACTIVITY.toString() +
+                                        "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////");
+                              });
+                            },
+                          ))
+                        ],
+                      );
+                    } else {
+                      List<Activites> current = [];
+                      List<Activites> upcoming = [];
+                      List<Activites> past = [];
+                      List<Activites> recurring = [];
+                      List<Activites> afterWeek = [];
 
-                      if (ac.isRecurring) {
-                        recurring.add(ac);
-                      } else if (days == 0) {
-                        current.add(ac);
-                      } else if (currentWeek) {
-                        upcoming.add(ac);
-                      } else if (days.isNegative) {
-                        if (days2 != null) {
-                          if (days2.isNegative) {
-                            // current.add(ac);
+                      DateTime currentDate = DateTime(DateTime.now().year,
+                              DateTime.now().month, DateTime.now().day, 0, 0, 0)
+                          .toLocal();
+                      for (var ac in activities) {
+                        DateTime startDate =
+                            DateTime.fromMillisecondsSinceEpoch(ac.startDate)
+                                .toLocal();
+                        DateTime endDate;
+                        if (ac.endDate != 0) {
+                          endDate =
+                              DateTime.fromMillisecondsSinceEpoch(ac.endDate)
+                                  .toLocal();
+                        }
+                        DateTime st = DateTime(startDate.year, startDate.month,
+                            startDate.day, 0, 0, 0);
+
+                        int days = st.difference(currentDate).inDays;
+                        int days2;
+                        if (endDate != null) {
+                          days2 = currentDate.difference(endDate).inDays;
+                        }
+                        bool currentWeek = false;
+                        bool afterweek = false;
+                        if (!days.isNegative) {
+                          switch (currentDate.weekday) {
+                            case 1:
+                              if (days.abs() <= 7) {
+                                currentWeek = true;
+                              }
+                              break;
+                            case 2:
+                              if (days.abs() <= 6) {
+                                currentWeek = true;
+                              }
+                              break;
+                            case 3:
+                              if (days.abs() <= 5) {
+                                currentWeek = true;
+                              }
+                              break;
+                            case 4:
+                              if (days.abs() <= 4) {
+                                currentWeek = true;
+                              }
+                              break;
+                            case 5:
+                              if (days.abs() <= 2) {
+                                currentWeek = true;
+                              } else if (days.abs() > 2) {
+                                afterweek = true;
+                              }
+                              break;
+                            case 6:
+                              if (days.abs() <= 2) {
+                                currentWeek = true;
+                              }
+                              break;
+                            case 7:
+                              if (days.abs() <= 1) {
+                                currentWeek = true;
+                              }
+                              break;
+                            default:
+                          }
+                        }
+
+                        if (ac.isRecurring) {
+                          recurring.add(ac);
+                        } else if (days == 0) {
+                          current.add(ac);
+                        } else if (currentWeek) {
+                          upcoming.add(ac);
+                        } else if (days.isNegative) {
+                          if (days2 != null) {
+                            if (days2.isNegative) {
+                              // current.add(ac);
+                            } else {
+                              past.add(ac);
+                            }
                           } else {
                             past.add(ac);
                           }
-                        } else {
-                          past.add(ac);
+                        } else if (afterweek) {
+                          afterWeek.add(ac);
                         }
-                      } else if (afterweek) {
-                        afterWeek.add(ac);
+
+                        // if (currentDate >= startDate &&
+                        //     currentDate <= (endDate ?? 0)) {
+                        //   current.add(ac);
+                        // } else if (currentDate > (endDate ?? 0) ||
+                        //     currentDate > startDate) {
+                        //   past.add(ac);
+                        // } else if (currentDate < startDate) {
+                        //   upcoming.add(ac);
+                        // }
+                      }
+                      current
+                          .sort((a, b) => a.startDate.compareTo(b.startDate));
+                      current.sort((a, b) {
+                        DateTime aD =
+                            DateTime.fromMillisecondsSinceEpoch(a.startDate);
+                        DateTime bD =
+                            DateTime.fromMillisecondsSinceEpoch(b.startDate);
+                        if (aD.day == bD.day && aD.month == bD.month) {
+                          return a.title.compareTo(b.title);
+                        }
+                        return 0;
+                      });
+
+                      upcoming
+                          .sort((a, b) => a.startDate.compareTo(b.startDate));
+                      upcoming.sort((a, b) {
+                        DateTime aD =
+                            DateTime.fromMillisecondsSinceEpoch(a.startDate);
+                        DateTime bD =
+                            DateTime.fromMillisecondsSinceEpoch(b.startDate);
+                        if (aD.day == bD.day && aD.month == bD.month) {
+                          return a.title.compareTo(b.title);
+                        }
+                        return 0;
+                      });
+
+                      afterWeek
+                          .sort((a, b) => a.startDate.compareTo(b.startDate));
+                      afterWeek.sort((a, b) {
+                        DateTime aD =
+                            DateTime.fromMillisecondsSinceEpoch(a.startDate);
+                        DateTime bD =
+                            DateTime.fromMillisecondsSinceEpoch(b.startDate);
+                        if (aD.day == bD.day && aD.month == bD.month) {
+                          return a.title.compareTo(b.title);
+                        }
+                        return 0;
+                      });
+
+                      recurring
+                          .sort((a, b) => a.startDate.compareTo(b.startDate));
+                      recurring.sort((a, b) {
+                        DateTime aD =
+                            DateTime.fromMillisecondsSinceEpoch(a.startDate)
+                                .toLocal();
+                        DateTime bD =
+                            DateTime.fromMillisecondsSinceEpoch(b.startDate)
+                                .toLocal();
+                        if (aD.day == bD.day && aD.month == bD.month) {
+                          return a.title.compareTo(b.title);
+                        }
+                        return 0;
+                      });
+
+                      past.sort((a, b) =>
+                          a.taskCompleteDate ??
+                          0.compareTo(b.taskCompleteDate ?? 0));
+
+                      Map<int, List<Activites>> currentDates = Map();
+                      for (var c in current) {
+                        List<Activites> list;
+                        if (currentDates.containsKey(c.startDate)) {
+                          list = currentDates[c.startDate];
+                        } else {
+                          list = [];
+                        }
+                        list.add(c);
+                        currentDates[c.startDate] = list;
                       }
 
-                      // if (currentDate >= startDate &&
-                      //     currentDate <= (endDate ?? 0)) {
-                      //   current.add(ac);
-                      // } else if (currentDate > (endDate ?? 0) ||
-                      //     currentDate > startDate) {
-                      //   past.add(ac);
-                      // } else if (currentDate < startDate) {
-                      //   upcoming.add(ac);
-                      // }
-                    }
-                    current.sort((a, b) => a.startDate.compareTo(b.startDate));
-                    current.sort((a, b) {
-                      DateTime aD =
-                          DateTime.fromMillisecondsSinceEpoch(a.startDate);
-                      DateTime bD =
-                          DateTime.fromMillisecondsSinceEpoch(b.startDate);
-                      if (aD.day == bD.day && aD.month == bD.month) {
-                        return a.title.compareTo(b.title);
+                      Map<int, List<Activites>> upcomingDates = Map();
+                      for (var c in upcoming) {
+                        List<Activites> list;
+                        if (upcomingDates.containsKey(c.startDate)) {
+                          list = upcomingDates[c.startDate];
+                        } else {
+                          list = [];
+                        }
+                        list.add(c);
+                        upcomingDates[c.startDate] = list;
                       }
-                      return 0;
-                    });
 
-                    upcoming.sort((a, b) => a.startDate.compareTo(b.startDate));
-                    upcoming.sort((a, b) {
-                      DateTime aD =
-                          DateTime.fromMillisecondsSinceEpoch(a.startDate);
-                      DateTime bD =
-                          DateTime.fromMillisecondsSinceEpoch(b.startDate);
-                      if (aD.day == bD.day && aD.month == bD.month) {
-                        return a.title.compareTo(b.title);
+                      Map<int, List<Activites>> afterWeekDates = Map();
+                      for (var c in afterWeek) {
+                        List<Activites> list;
+                        if (afterWeekDates.containsKey(c.startDate)) {
+                          list = afterWeekDates[c.startDate];
+                        } else {
+                          list = [];
+                        }
+                        list.add(c);
+                        afterWeekDates[c.startDate] = list;
                       }
-                      return 0;
-                    });
-
-                    afterWeek
-                        .sort((a, b) => a.startDate.compareTo(b.startDate));
-                    afterWeek.sort((a, b) {
-                      DateTime aD =
-                          DateTime.fromMillisecondsSinceEpoch(a.startDate);
-                      DateTime bD =
-                          DateTime.fromMillisecondsSinceEpoch(b.startDate);
-                      if (aD.day == bD.day && aD.month == bD.month) {
-                        return a.title.compareTo(b.title);
+                      Map<int, List<Activites>> recurringDates = Map();
+                      for (var c in recurring) {
+                        List<Activites> list;
+                        if (recurringDates.containsKey(c.startDate)) {
+                          list = recurringDates[c.startDate];
+                        } else {
+                          list = [];
+                        }
+                        list.add(c);
+                        recurringDates[c.startDate] = list;
                       }
-                      return 0;
-                    });
-
-                    recurring
-                        .sort((a, b) => a.startDate.compareTo(b.startDate));
-                    recurring.sort((a, b) {
-                      DateTime aD =
-                          DateTime.fromMillisecondsSinceEpoch(a.startDate)
-                              .toLocal();
-                      DateTime bD =
-                          DateTime.fromMillisecondsSinceEpoch(b.startDate)
-                              .toLocal();
-                      if (aD.day == bD.day && aD.month == bD.month) {
-                        return a.title.compareTo(b.title);
+                      Map<int, List<Activites>> pastDates = Map();
+                      for (var c in past) {
+                        List<Activites> list;
+                        if (pastDates.containsKey(c.startDate)) {
+                          list = pastDates[c.startDate];
+                        } else {
+                          list = [];
+                        }
+                        list.add(c);
+                        pastDates[c.startDate] = list;
                       }
-                      return 0;
-                    });
-
-                    past.sort((a, b) =>
-                        a.taskCompleteDate ??
-                        0.compareTo(b.taskCompleteDate ?? 0));
-
-                    Map<int, List<Activites>> currentDates = Map();
-                    for (var c in current) {
-                      List<Activites> list;
-                      if (currentDates.containsKey(c.startDate)) {
-                        list = currentDates[c.startDate];
-                      } else {
-                        list = [];
-                      }
-                      list.add(c);
-                      currentDates[c.startDate] = list;
-                    }
-
-                    Map<int, List<Activites>> upcomingDates = Map();
-                    for (var c in upcoming) {
-                      List<Activites> list;
-                      if (upcomingDates.containsKey(c.startDate)) {
-                        list = upcomingDates[c.startDate];
-                      } else {
-                        list = [];
-                      }
-                      list.add(c);
-                      upcomingDates[c.startDate] = list;
-                    }
-
-                    Map<int, List<Activites>> afterWeekDates = Map();
-                    for (var c in afterWeek) {
-                      List<Activites> list;
-                      if (afterWeekDates.containsKey(c.startDate)) {
-                        list = afterWeekDates[c.startDate];
-                      } else {
-                        list = [];
-                      }
-                      list.add(c);
-                      afterWeekDates[c.startDate] = list;
-                    }
-                    Map<int, List<Activites>> recurringDates = Map();
-                    for (var c in recurring) {
-                      List<Activites> list;
-                      if (recurringDates.containsKey(c.startDate)) {
-                        list = recurringDates[c.startDate];
-                      } else {
-                        list = [];
-                      }
-                      list.add(c);
-                      recurringDates[c.startDate] = list;
-                    }
-                    Map<int, List<Activites>> pastDates = Map();
-                    for (var c in past) {
-                      List<Activites> list;
-                      if (pastDates.containsKey(c.startDate)) {
-                        list = pastDates[c.startDate];
-                      } else {
-                        list = [];
-                      }
-                      list.add(c);
-                      pastDates[c.startDate] = list;
-                    }
-                    return ListView(
-                      children: <Widget>[
-                        StickyHeader(
-                          header: Container(
-                            child: Text(
-                              "Today",
-                              style: textTheme.display1.copyWith(
-                                  fontSize: 23,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.left,
-                            ),
-                            padding: EdgeInsets.all(5),
-                            color: Colors.blueAccent,
-                            width: double.infinity,
-                          ),
-                          content: current.length > 0
-                              ? ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  padding: EdgeInsets.symmetric(vertical: 10),
-                                  itemCount: currentDates.keys.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    int ac = currentDates.keys.elementAt(index);
-                                    List<Activites> accs = currentDates[ac];
-                                    DateTime dt =
-                                        DateTime.fromMillisecondsSinceEpoch(ac)
-                                            .toLocal();
-                                    return Row(
-                                      children: <Widget>[
-                                        Column(
-                                          children: <Widget>[
-                                            Container(
-                                              color: Colors.grey,
-                                              width: 1.2,
-                                              height: 50,
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.symmetric(
-                                                  vertical: 2),
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  7,
-                                              child: Text(
-                                                "${formatDate(dt, [
-                                                  DD,
-                                                  '\n',
-                                                  mm,
-                                                  '/',
-                                                  dd,
-                                                  '/',
-                                                  yy,
-                                                ])}",
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Color.fromRGBO(32, 95, 139, 1.0),
-                                                ),
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                            Container(
-                                              color: Colors.grey,
-                                              width: 1.2,
-                                              height: 50,
-                                            ),
-                                          ],
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.all(2),
-                                        ),
-                                        Expanded(
-                                          child: ListView.builder(
-                                            itemCount: accs.length,
-                                            shrinkWrap: true,
-                                            physics:
-                                                NeverScrollableScrollPhysics(),
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              Activites ac = accs[index];
-                                              return buildActivityListItem(
-                                                ac,
-                                                context,
-                                                onTap: () {
-                                                  widget.appListener.router
-                                                      .navigateTo(
-                                                          context,
-                                                          Screens.ADDACTIVITY
-                                                                  .toString() +
-                                                              "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////");
-                                                },
-                                              );
-                                            },
-                                          ),
-                                        )
-                                      ],
-                                    );
-                                  },
-                                )
-                              : Padding(
-                                  child: Center(
-                                    child: Text("No Current Activities"),
-                                  ),
-                                  padding: EdgeInsets.all(10),
-                                ),
-                        ),
-                        StickyHeader(
-                          header: Container(
-                            child: Text(
-                              "This Week",
-                              style: textTheme.display1
-                                  .copyWith(fontSize: 23, color: Colors.white),
-                              textAlign: TextAlign.left,
-                            ),
-                            color: Colors.blueAccent,
-                            padding: EdgeInsets.all(5),
-                            width: double.infinity,
-                          ),
-                          content: upcoming.length > 0
-                              ? ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  padding: EdgeInsets.symmetric(vertical: 10),
-                                  itemCount: upcomingDates.keys.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    int ac =
-                                        upcomingDates.keys.elementAt(index);
-                                    List<Activites> accs = upcomingDates[ac];
-                                    DateTime dt =
-                                        DateTime.fromMillisecondsSinceEpoch(ac)
-                                            .toLocal();
-                                    return Row(
-                                      children: <Widget>[
-                                        Column(
-                                          children: <Widget>[
-                                            Container(
-                                              color: Colors.grey,
-                                              width: 1.2,
-                                              height: 50,
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.symmetric(
-                                                  vertical: 2),
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  7,
-                                              child: Text(
-                                                "${formatDate(dt, [
-                                                  DD,
-                                                  '\n',
-                                                  mm,
-                                                  '/',
-                                                  dd,
-                                                  '/',
-                                                  yy,
-                                                ])}",
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Color.fromRGBO(32, 95, 139, 1.0),
-                                                ),
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                            Container(
-                                              color: Colors.grey,
-                                              width: 1.2,
-                                              height: 50,
-                                            ),
-                                          ],
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.all(2),
-                                        ),
-                                        Expanded(
-                                          child: ListView.builder(
-                                            itemCount: accs.length,
-                                            shrinkWrap: true,
-                                            physics:
-                                                NeverScrollableScrollPhysics(),
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              Activites ac = accs[index];
-                                              return buildActivityListItem(
-                                                ac,
-                                                context,
-                                                onTap: () {
-                                                  widget.appListener.router
-                                                      .navigateTo(
-                                                          context,
-                                                          Screens.ADDACTIVITY
-                                                                  .toString() +
-                                                              "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////");
-                                                },
-                                              );
-                                            },
-                                          ),
-                                        )
-                                      ],
-                                    );
-                                  },
-                                )
-                              : Padding(
-                                  child: Center(
-                                    child: Text("No Current Week Activities"),
-                                  ),
-                                  padding: EdgeInsets.all(10),
-                                ),
-                        ),
-                        StickyHeader(
-                          header: Container(
-                            child: Text(
-                              "Upcoming",
-                              style: textTheme.display1
-                                  .copyWith(fontSize: 23, color: Colors.white),
-                              textAlign: TextAlign.left,
-                            ),
-                            color: Colors.blueAccent,
-                            padding: EdgeInsets.all(5),
-                            width: double.infinity,
-                          ),
-                          content: afterWeek.length > 0
-                              ? ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  padding: EdgeInsets.symmetric(vertical: 10),
-                                  itemCount: afterWeekDates.keys.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    int ac =
-                                        afterWeekDates.keys.elementAt(index);
-                                    List<Activites> accs = afterWeekDates[ac];
-                                    DateTime dt =
-                                        DateTime.fromMillisecondsSinceEpoch(ac)
-                                            .toLocal();
-                                    return Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Container(
-                                              color: Colors.grey,
-                                              width: 1.2,
-                                              height: 50,
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.symmetric(
-                                                  vertical: 2),
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  7,
-                                              child: Text(
-                                                "${formatDate(dt, [
-                                                  DD,
-                                                  '\n',
-                                                  mm,
-                                                  '/',
-                                                  dd,
-                                                  '/',
-                                                  yy,
-                                                ])}",
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Color.fromRGBO(32, 95, 139, 1.0),
-                                                ),
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                            Container(
-                                              color: Colors.grey,
-                                              width: 1.2,
-                                              height: 50,
-                                            ),
-                                          ],
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.all(2),
-                                        ),
-                                        Expanded(
-                                          child: ListView.builder(
-                                            itemCount: accs.length,
-                                            shrinkWrap: true,
-                                            physics:
-                                                NeverScrollableScrollPhysics(),
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              Activites ac = accs[index];
-                                              return buildActivityListItem(
-                                                ac,
-                                                context,
-                                                onTap: () {
-                                                  widget.appListener.router
-                                                      .navigateTo(
-                                                          context,
-                                                          Screens.ADDACTIVITY
-                                                                  .toString() +
-                                                              "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////");
-                                                },
-                                              );
-                                            },
-                                          ),
-                                        )
-                                      ],
-                                    );
-                                  },
-                                )
-                              : Padding(
-                                  child: Center(
-                                    child: Text("No Upcoming Activities"),
-                                  ),
-                                  padding: EdgeInsets.all(10),
-                                ),
-                        ),
-                        StickyHeader(
-                          header: InkWell(
-                            onTap: () {
-                              setState(() {
-                                isRecurring = !isRecurring;
-                              });
-                            },
-                            child: Container(
-                              width: double.infinity,
-                              padding: EdgeInsets.all(5),
+                      return ListView(
+                        children: <Widget>[
+                          StickyHeader(
+                            header: Container(
                               child: Text(
-                                "Recurring",
+                                "Today",
                                 style: textTheme.display1.copyWith(
                                     fontSize: 23,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.left,
                               ),
-                              color: Colors.blueAccent,
-                            ),
-                          ),
-                          content: isRecurring
-                              ? recurring.length > 0
-                                  ? ListView.builder(
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 10),
-                                      itemCount: recurringDates.keys.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        int ac = recurringDates.keys
-                                            .elementAt(index);
-                                        List<Activites> accs =
-                                            recurringDates[ac];
-                                        DateTime dt =
-                                            DateTime.fromMillisecondsSinceEpoch(
-                                                    ac)
-                                                .toLocal();
-                                        return Row(
-                                          children: <Widget>[
-                                            Column(
-                                              children: <Widget>[
-                                                Container(
-                                                  color: Colors.grey,
-                                                  width: 1.2,
-                                                  height: 50,
-                                                ),
-                                                Container(
-                                                  margin: EdgeInsets.symmetric(
-                                                      vertical: 2),
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      7,
-                                                  child: Text(
-                                                    "${formatDate(dt, [
-                                                      DD,
-                                                      '\n',
-                                                      mm,
-                                                      '/',
-                                                      dd,
-                                                      '/',
-                                                      yy,
-                                                    ])}",
-                                                    style: TextStyle(
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontStyle:
-                                                          FontStyle.italic,
-                                                      color: Color.fromRGBO(32, 95, 139, 1.0),
-                                                    ),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ),
-                                                Container(
-                                                  color: Colors.grey,
-                                                  width: 1.2,
-                                                  height: 50,
-                                                ),
-                                              ],
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.all(2),
-                                            ),
-                                            Expanded(
-                                              child: ListView.builder(
-                                                itemCount: accs.length,
-                                                shrinkWrap: true,
-                                                physics:
-                                                    NeverScrollableScrollPhysics(),
-                                                itemBuilder:
-                                                    (BuildContext context,
-                                                        int index) {
-                                                  Activites ac = accs[index];
-                                                  return buildActivityListItem(
-                                                    ac,
-                                                    context,
-                                                    onTap: () {
-                                                      buildActivityListItem(
-                                                          ac, context,
-                                                          onTap: () {
-                                                        widget
-                                                            .appListener.router
-                                                            .navigateTo(
-                                                          context,
-                                                          Screens.ADDACTIVITY
-                                                                  .toString() +
-                                                              "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////",
-                                                        );
-                                                      }, isPast: false);
-                                                    },
-                                                  );
-                                                },
-                                              ),
-                                            )
-                                          ],
-                                        );
-                                      },
-                                    )
-                                  : Padding(
-                                      child: Center(
-                                        child: Text("No Recurring Activities"),
-                                      ),
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 10),
-                                    )
-                              : Container(
-                                  padding: EdgeInsets.all(5),
-                                ),
-                        ),
-                        StickyHeader(
-                          header: InkWell(
-                            child: Container(
                               padding: EdgeInsets.all(5),
-                              width: double.infinity,
-                              child: Text(
-                                "Archive",
-                                style: textTheme.display1.copyWith(
-                                    fontSize: 23,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                                textAlign: TextAlign.left,
-                              ),
                               color: Colors.blueAccent,
+                              width: double.infinity,
                             ),
-                            onTap: () {
-                              setState(() {
-                                isArchive = !isArchive;
-                              });
-                            },
-                          ),
-                          content: isArchive
-                              ? past.length > 0
-                                  ? ListView.builder(
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 10),
-                                      itemCount: pastDates.keys.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        int ac =
-                                            pastDates.keys.elementAt(index);
-                                        List<Activites> accs = pastDates[ac];
-                                        DateTime dt =
-                                            DateTime.fromMillisecondsSinceEpoch(
-                                                    ac)
-                                                .toLocal();
-                                        return Row(
-                                          children: <Widget>[
-                                            Column(
-                                              children: <Widget>[
-                                                Container(
-                                                  color: Colors.grey,
-                                                  width: 1.2,
-                                                  height: 50,
-                                                ),
-                                                Container(
-                                                  margin: EdgeInsets.symmetric(
-                                                      vertical: 2),
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      7,
-                                                  child: Text(
-                                                    "${formatDate(dt, [
-                                                      DD,
-                                                      '\n',
-                                                      mm,
-                                                      '/',
-                                                      dd,
-                                                      '/',
-                                                      yy,
-                                                    ])}",
-                                                    style: TextStyle(
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontStyle:
-                                                          FontStyle.italic,
-                                                      color: Color.fromRGBO(32, 95, 139, 1.0),
-                                                    ),
-                                                    textAlign: TextAlign.center,
+                            content: current.length > 0
+                                ? ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    padding: EdgeInsets.symmetric(vertical: 10),
+                                    itemCount: currentDates.keys.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      int ac =
+                                          currentDates.keys.elementAt(index);
+                                      List<Activites> accs = currentDates[ac];
+                                      DateTime dt =
+                                          DateTime.fromMillisecondsSinceEpoch(
+                                                  ac)
+                                              .toLocal();
+                                      return Row(
+                                        children: <Widget>[
+                                          Column(
+                                            children: <Widget>[
+                                              Container(
+                                                color: Colors.grey,
+                                                width: 1.2,
+                                                height: 50,
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.symmetric(
+                                                    vertical: 2),
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    7,
+                                                child: Text(
+                                                  "${formatDate(dt, [
+                                                    DD,
+                                                    '\n',
+                                                    mm,
+                                                    '/',
+                                                    dd,
+                                                    '/',
+                                                    yy,
+                                                  ])}",
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontStyle: FontStyle.italic,
+                                                    color: Color.fromRGBO(
+                                                        32, 95, 139, 1.0),
                                                   ),
+                                                  textAlign: TextAlign.center,
                                                 ),
-                                                Container(
-                                                  color: Colors.grey,
-                                                  width: 1.2,
-                                                  height: 50,
-                                                ),
-                                              ],
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.all(2),
-                                            ),
-                                            Expanded(
-                                              child: ListView.builder(
-                                                itemCount: accs.length,
-                                                shrinkWrap: true,
-                                                physics:
-                                                    NeverScrollableScrollPhysics(),
-                                                itemBuilder:
-                                                    (BuildContext context,
-                                                        int index) {
-                                                  Activites ac = accs[index];
-                                                  return buildActivityListItem(
-                                                      ac, context, onTap: () {
+                                              ),
+                                              Container(
+                                                color: Colors.grey,
+                                                width: 1.2,
+                                                height: 50,
+                                              ),
+                                            ],
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(2),
+                                          ),
+                                          Expanded(
+                                            child: ListView.builder(
+                                              itemCount: accs.length,
+                                              shrinkWrap: true,
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                Activites ac = accs[index];
+                                                return buildActivityListItem(
+                                                  ac,
+                                                  context,
+                                                  onTap: () {
                                                     widget.appListener.router
                                                         .navigateTo(
-                                                      context,
-                                                      Screens.ADDACTIVITY
-                                                              .toString() +
-                                                          "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////",
-                                                    );
-                                                  }, isPast: true);
-                                                },
+                                                            context,
+                                                            Screens.ADDACTIVITY
+                                                                    .toString() +
+                                                                "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////");
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          )
+                                        ],
+                                      );
+                                    },
+                                  )
+                                : Padding(
+                                    child: Center(
+                                      child: Text("No Current Activities"),
+                                    ),
+                                    padding: EdgeInsets.all(10),
+                                  ),
+                          ),
+                          StickyHeader(
+                            header: Container(
+                              child: Text(
+                                "This Week",
+                                style: textTheme.display1.copyWith(
+                                    fontSize: 23, color: Colors.white),
+                                textAlign: TextAlign.left,
+                              ),
+                              color: Colors.blueAccent,
+                              padding: EdgeInsets.all(5),
+                              width: double.infinity,
+                            ),
+                            content: upcoming.length > 0
+                                ? ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    padding: EdgeInsets.symmetric(vertical: 10),
+                                    itemCount: upcomingDates.keys.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      int ac =
+                                          upcomingDates.keys.elementAt(index);
+                                      List<Activites> accs = upcomingDates[ac];
+                                      DateTime dt =
+                                          DateTime.fromMillisecondsSinceEpoch(
+                                                  ac)
+                                              .toLocal();
+                                      return Row(
+                                        children: <Widget>[
+                                          Column(
+                                            children: <Widget>[
+                                              Container(
+                                                color: Colors.grey,
+                                                width: 1.2,
+                                                height: 50,
                                               ),
-                                            )
-                                          ],
-                                        );
-                                      },
-                                    )
-                                  : Padding(
-                                      child: Center(
-                                        child: Text("No Past Activities"),
-                                      ),
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 10),
-                                    )
-                              : Container(),
-                        ),
-                      ],
-                    );
+                                              Container(
+                                                margin: EdgeInsets.symmetric(
+                                                    vertical: 2),
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    7,
+                                                child: Text(
+                                                  "${formatDate(dt, [
+                                                    DD,
+                                                    '\n',
+                                                    mm,
+                                                    '/',
+                                                    dd,
+                                                    '/',
+                                                    yy,
+                                                  ])}",
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontStyle: FontStyle.italic,
+                                                    color: Color.fromRGBO(
+                                                        32, 95, 139, 1.0),
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
+                                              Container(
+                                                color: Colors.grey,
+                                                width: 1.2,
+                                                height: 50,
+                                              ),
+                                            ],
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(2),
+                                          ),
+                                          Expanded(
+                                            child: ListView.builder(
+                                              itemCount: accs.length,
+                                              shrinkWrap: true,
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                Activites ac = accs[index];
+                                                return buildActivityListItem(
+                                                  ac,
+                                                  context,
+                                                  onTap: () {
+                                                    widget.appListener.router
+                                                        .navigateTo(
+                                                            context,
+                                                            Screens.ADDACTIVITY
+                                                                    .toString() +
+                                                                "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////");
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          )
+                                        ],
+                                      );
+                                    },
+                                  )
+                                : Padding(
+                                    child: Center(
+                                      child: Text("No Current Week Activities"),
+                                    ),
+                                    padding: EdgeInsets.all(10),
+                                  ),
+                          ),
+                          StickyHeader(
+                            header: Container(
+                              child: Text(
+                                "Upcoming",
+                                style: textTheme.display1.copyWith(
+                                    fontSize: 23, color: Colors.white),
+                                textAlign: TextAlign.left,
+                              ),
+                              color: Colors.blueAccent,
+                              padding: EdgeInsets.all(5),
+                              width: double.infinity,
+                            ),
+                            content: afterWeek.length > 0
+                                ? ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    padding: EdgeInsets.symmetric(vertical: 10),
+                                    itemCount: afterWeekDates.keys.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      int ac =
+                                          afterWeekDates.keys.elementAt(index);
+                                      List<Activites> accs = afterWeekDates[ac];
+                                      DateTime dt =
+                                          DateTime.fromMillisecondsSinceEpoch(
+                                                  ac)
+                                              .toLocal();
+                                      return Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: <Widget>[
+                                              Container(
+                                                color: Colors.grey,
+                                                width: 1.2,
+                                                height: 50,
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.symmetric(
+                                                    vertical: 2),
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    7,
+                                                child: Text(
+                                                  "${formatDate(dt, [
+                                                    DD,
+                                                    '\n',
+                                                    mm,
+                                                    '/',
+                                                    dd,
+                                                    '/',
+                                                    yy,
+                                                  ])}",
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontStyle: FontStyle.italic,
+                                                    color: Color.fromRGBO(
+                                                        32, 95, 139, 1.0),
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
+                                              Container(
+                                                color: Colors.grey,
+                                                width: 1.2,
+                                                height: 50,
+                                              ),
+                                            ],
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(2),
+                                          ),
+                                          Expanded(
+                                            child: ListView.builder(
+                                              itemCount: accs.length,
+                                              shrinkWrap: true,
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                Activites ac = accs[index];
+                                                return buildActivityListItem(
+                                                  ac,
+                                                  context,
+                                                  onTap: () {
+                                                    widget.appListener.router
+                                                        .navigateTo(
+                                                            context,
+                                                            Screens.ADDACTIVITY
+                                                                    .toString() +
+                                                                "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////");
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          )
+                                        ],
+                                      );
+                                    },
+                                  )
+                                : Padding(
+                                    child: Center(
+                                      child: Text("No Upcoming Activities"),
+                                    ),
+                                    padding: EdgeInsets.all(10),
+                                  ),
+                          ),
+                          StickyHeader(
+                            header: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  isRecurring = !isRecurring;
+                                });
+                              },
+                              child: Container(
+                                width: double.infinity,
+                                padding: EdgeInsets.all(5),
+                                child: Text(
+                                  "Recurring",
+                                  style: textTheme.display1.copyWith(
+                                      fontSize: 23,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.left,
+                                ),
+                                color: Colors.blueAccent,
+                              ),
+                            ),
+                            content: isRecurring
+                                ? recurring.length > 0
+                                    ? ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 10),
+                                        itemCount: recurringDates.keys.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          int ac = recurringDates.keys
+                                              .elementAt(index);
+                                          List<Activites> accs =
+                                              recurringDates[ac];
+                                          DateTime dt = DateTime
+                                                  .fromMillisecondsSinceEpoch(
+                                                      ac)
+                                              .toLocal();
+                                          return Row(
+                                            children: <Widget>[
+                                              Column(
+                                                children: <Widget>[
+                                                  Container(
+                                                    color: Colors.grey,
+                                                    width: 1.2,
+                                                    height: 50,
+                                                  ),
+                                                  Container(
+                                                    margin:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 2),
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            7,
+                                                    child: Text(
+                                                      "${formatDate(dt, [
+                                                        DD,
+                                                        '\n',
+                                                        mm,
+                                                        '/',
+                                                        dd,
+                                                        '/',
+                                                        yy,
+                                                      ])}",
+                                                      style: TextStyle(
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontStyle:
+                                                            FontStyle.italic,
+                                                        color: Color.fromRGBO(
+                                                            32, 95, 139, 1.0),
+                                                      ),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    color: Colors.grey,
+                                                    width: 1.2,
+                                                    height: 50,
+                                                  ),
+                                                ],
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.all(2),
+                                              ),
+                                              Expanded(
+                                                child: ListView.builder(
+                                                  itemCount: accs.length,
+                                                  shrinkWrap: true,
+                                                  physics:
+                                                      NeverScrollableScrollPhysics(),
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int index) {
+                                                    Activites ac = accs[index];
+                                                    return buildActivityListItem(
+                                                      ac,
+                                                      context,
+                                                      onTap: () {
+                                                        buildActivityListItem(
+                                                            ac, context,
+                                                            onTap: () {
+                                                          widget.appListener
+                                                              .router
+                                                              .navigateTo(
+                                                            context,
+                                                            Screens.ADDACTIVITY
+                                                                    .toString() +
+                                                                "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////",
+                                                          );
+                                                        }, isPast: false);
+                                                      },
+                                                    );
+                                                  },
+                                                ),
+                                              )
+                                            ],
+                                          );
+                                        },
+                                      )
+                                    : Padding(
+                                        child: Center(
+                                          child:
+                                              Text("No Recurring Activities"),
+                                        ),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 10),
+                                      )
+                                : Container(
+                                    padding: EdgeInsets.all(5),
+                                  ),
+                          ),
+                          StickyHeader(
+                            header: InkWell(
+                              child: Container(
+                                padding: EdgeInsets.all(5),
+                                width: double.infinity,
+                                child: Text(
+                                  "Archive",
+                                  style: textTheme.display1.copyWith(
+                                      fontSize: 23,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.left,
+                                ),
+                                color: Colors.blueAccent,
+                              ),
+                              onTap: () {
+                                setState(() {
+                                  isArchive = !isArchive;
+                                });
+                              },
+                            ),
+                            content: isArchive
+                                ? past.length > 0
+                                    ? ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 10),
+                                        itemCount: pastDates.keys.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          int ac =
+                                              pastDates.keys.elementAt(index);
+                                          List<Activites> accs = pastDates[ac];
+                                          DateTime dt = DateTime
+                                                  .fromMillisecondsSinceEpoch(
+                                                      ac)
+                                              .toLocal();
+                                          return Row(
+                                            children: <Widget>[
+                                              Column(
+                                                children: <Widget>[
+                                                  Container(
+                                                    color: Colors.grey,
+                                                    width: 1.2,
+                                                    height: 50,
+                                                  ),
+                                                  Container(
+                                                    margin:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 2),
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            7,
+                                                    child: Text(
+                                                      "${formatDate(dt, [
+                                                        DD,
+                                                        '\n',
+                                                        mm,
+                                                        '/',
+                                                        dd,
+                                                        '/',
+                                                        yy,
+                                                      ])}",
+                                                      style: TextStyle(
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontStyle:
+                                                            FontStyle.italic,
+                                                        color: Color.fromRGBO(
+                                                            32, 95, 139, 1.0),
+                                                      ),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    color: Colors.grey,
+                                                    width: 1.2,
+                                                    height: 50,
+                                                  ),
+                                                ],
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.all(2),
+                                              ),
+                                              Expanded(
+                                                child: ListView.builder(
+                                                  itemCount: accs.length,
+                                                  shrinkWrap: true,
+                                                  physics:
+                                                      NeverScrollableScrollPhysics(),
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int index) {
+                                                    Activites ac = accs[index];
+                                                    return buildActivityListItem(
+                                                        ac, context, onTap: () {
+                                                      widget.appListener.router
+                                                          .navigateTo(
+                                                        context,
+                                                        Screens.ADDACTIVITY
+                                                                .toString() +
+                                                            "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////",
+                                                      );
+                                                    }, isPast: true);
+                                                  },
+                                                ),
+                                              )
+                                            ],
+                                          );
+                                        },
+                                      )
+                                    : Padding(
+                                        child: Center(
+                                          child: Text("No Past Activities"),
+                                        ),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 10),
+                                      )
+                                : Container(),
+                          ),
+                        ],
+                      );
+                    }
                   } else if (snapshot.hasError) {
                     return Center(
                       child: Text("Error Occured"),
@@ -1079,6 +1159,12 @@ class _ActivitiesListScreenState
 
   @override
   ActivitiesListPresenter get presenter => ActivitiesListPresenter(this);
+
+  @override
+  void dispose() {
+    _calendarController.dispose();
+    super.dispose();
+  }
 
   @override
   void getBands(List<Band> acc) {
