@@ -234,6 +234,7 @@ class _ActivitiesListScreenState
                   if (snapshot.hasData) {
                     activities = snapshot.data;
                     if (isCalender) {
+                    
                       Map<DateTime, List> _events = {};
                       for (var item in activities) {
                         DateTime dateTime =
