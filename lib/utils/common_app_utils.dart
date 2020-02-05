@@ -187,7 +187,7 @@ buildActivityListItem(Activites ac, context,isCalendar,
   DateTime dt =
   DateTime.fromMillisecondsSinceEpoch(ac.startDate).toLocal();
   return Row(children: <Widget>[
-    Column(
+    isCalendar?Container():Column(
       children: <Widget>[
         Container(
           color: Colors.grey,
@@ -200,16 +200,16 @@ buildActivityListItem(Activites ac, context,isCalendar,
           width: MediaQuery.of(context)
               .size
               .width /
-              7,
+              6.8,
           child: Text(
             "${formatDate(dt, [
               DD,
               '\n',
-              mm,
-              '/',
-              dd,
-              '/',
-              yy,
+              M,
+              ' ',
+              d,
+              ', ',
+              yyyy,
             ])}",
             style: TextStyle(
               fontSize: 12,
@@ -229,15 +229,10 @@ buildActivityListItem(Activites ac, context,isCalendar,
     ),
     Container(
 
-      width: MediaQuery.of(context).size.width / 1.5,
+      width: isCalendar?MediaQuery.of(context).size.width/1.2:MediaQuery.of(context).size.width / 1.5,
       margin: EdgeInsets.symmetric(horizontal: 3, vertical: 5),
       decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color:isCalendar? Color.fromRGBO(3, 54, 255, 1.0):Colors.transparent,
-            width: 1.0
-          )
-        )
+
       ),
       child: InkWell(
         child: Container(
@@ -248,7 +243,14 @@ buildActivityListItem(Activites ac, context,isCalendar,
               ? BoxDecoration(
               color: Color.fromRGBO(40, 35, 188, 0.2),
               border: Border.all(width: 1, color: Colors.blue))
-              : BoxDecoration(),
+              : BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(
+                      color:isCalendar? Color.fromRGBO(3, 54, 255, 1.0):Colors.transparent,
+                      width: 1.0
+                  )
+              )
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

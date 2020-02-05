@@ -85,6 +85,7 @@ class _ActivitiesListScreenState
             icon: Icon(
               isCalender ? Icons.list : Icons.calendar_today,
               color: Colors.blueAccent,
+              size: 35,
             ),
             onPressed: () {
               setState(() {
@@ -335,18 +336,24 @@ class _ActivitiesListScreenState
                               }
                               break;
                             case 2:
-                              if (days.abs() <= 6) {
+                              if (days.abs() < 6) {
                                 currentWeek = true;
+                              }else if(days.abs()>6){
+                                afterweek=true;
                               }
                               break;
                             case 3:
-                              if (days.abs() <= 5) {
+                              if (days.abs() < 5) {
                                 currentWeek = true;
+                              }else if(days.abs()>5){
+                                afterweek=true;
                               }
                               break;
                             case 4:
                               if (days.abs() <= 4) {
                                 currentWeek = true;
+                              }else if(days.abs()>4){
+                                afterweek=true;
                               }
                               break;
                             case 5:
