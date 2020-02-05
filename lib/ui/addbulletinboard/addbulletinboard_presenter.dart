@@ -76,16 +76,16 @@ class AddBuiltInBoardPresenter extends BasePresenter {
     if (mp1 != null) {
       for (var d in mp1.values) {
         User user = User.fromJSON(d);
-        final not = await serverAPI.addNotification(Notification(
+        final not = await serverAPI.addNotification(AppNotification(
           created: DateTime.now().millisecondsSinceEpoch,
           notiId: id,
           text: user.id == user_id
               ? "Your Bulletin Board has been approved"
               : "A new Bulletin Board created",
-          type: Notification.TYPE_BULLETIN_BOARD,
+          type: AppNotification.TYPE_BULLETIN_BOARD,
           userId: user.id,
         ));
-        if (not != null && not is Notification) {
+        if (not != null && not is AppNotification) {
           serverAPI.sendPushNotification(not);
         }
       }

@@ -1,6 +1,7 @@
 import 'package:gigtrack/base/base_presenter.dart';
 import 'package:gigtrack/server/models/activities.dart';
 import 'package:gigtrack/server/models/notestodo.dart';
+import 'package:gigtrack/server/models/notifications.dart';
 import 'package:gigtrack/server/models/user_instrument.dart';
 
 abstract class NotificationListContract extends BaseContract {}
@@ -64,18 +65,18 @@ class NotificationListPresenter extends BasePresenter {
     });
   }
 
-  Stream<List<NotesTodo>> getNotificationList() {
+  Stream<List<AppNotification>> getNotificationList() {
     return serverAPI.notificationDB
-        .orderByChild('user_id')
+        .orderByChild('userId')
         .equalTo(serverAPI.currentUserId)
         .onValue
         .map((a) {
       Map mp = a.snapshot.value;
       if (mp == null) return null;
 
-      List<NotesTodo> acc = [];
+      List<AppNotification> acc = [];
       for (var d in mp.values) {
-        acc.add(NotesTodo.fromJSON(d));
+        acc.add(AppNotification.fromJSON(d));
       }
       return acc;
     });

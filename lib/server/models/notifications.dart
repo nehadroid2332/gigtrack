@@ -1,6 +1,6 @@
 import 'package:gigtrack/base/base_model.dart';
 
-class Notification extends BaseModel {
+class AppNotification extends BaseModel {
   static const TYPE_BAND = 1;
   static const TYPE_ACTIVITY = 2;
   static const TYPE_EPK = 3;
@@ -28,7 +28,7 @@ class Notification extends BaseModel {
 
   String text;
 
-  Notification({
+  AppNotification({
     this.text,
     this.type,
     this.bandId,
@@ -39,7 +39,7 @@ class Notification extends BaseModel {
     this.id,
   });
 
-  Notification.fromJSON(dynamic data) {
+  AppNotification.fromJSON(dynamic data) {
     id = data['id'];
     userId = data['userId'];
     created = data['created'];

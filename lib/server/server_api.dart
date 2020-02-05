@@ -275,29 +275,29 @@ class ServerAPI {
           for (var mem in detail.bandmates.keys) {
             BandMember member = detail.bandmates[mem];
             if (member.user_id != null && member.user_id.isNotEmpty) {
-              final res = await addNotification(Notification(
+              final res = await addNotification(AppNotification(
                 bandId: contacts.bandId,
                 created: DateTime.now().millisecondsSinceEpoch,
                 notiId: contacts.id,
                 text: "A new Contact created in the band(${detail.name})",
-                type: Notification.TYPE_CONTACT,
+                type: AppNotification.TYPE_CONTACT,
                 userId: member.user_id,
               ));
-              if (res is Notification) {
+              if (res is AppNotification) {
                 sendPushNotification(res);
               }
             }
           }
           if (detail.userId != null && detail.userId.isNotEmpty) {
-            final res = await addNotification(Notification(
+            final res = await addNotification(AppNotification(
               bandId: contacts.bandId,
               created: DateTime.now().millisecondsSinceEpoch,
               notiId: contacts.id,
               text: "A new Contact created in the band(${detail.name})",
-              type: Notification.TYPE_CONTACT,
+              type: AppNotification.TYPE_CONTACT,
               userId: detail.userId,
             ));
-            if (res is Notification) {
+            if (res is AppNotification) {
               sendPushNotification(res);
             }
           }
@@ -332,7 +332,7 @@ class ServerAPI {
     }
   }
 
-  Future<dynamic> addNotification(Notification notification) async {
+  Future<dynamic> addNotification(AppNotification notification) async {
     try {
       bool isUpdate = true;
       if (notification.id == null || notification.id.isEmpty) {
@@ -415,29 +415,29 @@ class ServerAPI {
           for (var mem in detail.bandmates.keys) {
             BandMember member = detail.bandmates[mem];
             if (member.user_id != null && member.user_id.isNotEmpty) {
-              final res = await addNotification(Notification(
+              final res = await addNotification(AppNotification(
                 bandId: notesTodo.bandId,
                 created: DateTime.now().millisecondsSinceEpoch,
                 notiId: notesTodo.id,
                 text: "A new Note/Todo created in the band(${detail.name})",
-                type: Notification.TYPE_NOTES,
+                type: AppNotification.TYPE_NOTES,
                 userId: member.user_id,
               ));
-              if (res is Notification) {
+              if (res is AppNotification) {
                 sendPushNotification(res);
               }
             }
           }
           if (detail.userId != null && detail.userId.isNotEmpty) {
-            final res = await addNotification(Notification(
+            final res = await addNotification(AppNotification(
               bandId: notesTodo.bandId,
               created: DateTime.now().millisecondsSinceEpoch,
               notiId: notesTodo.id,
               text: "A new Note/Todo created in the band(${detail.name})",
-              type: Notification.TYPE_NOTES,
+              type: AppNotification.TYPE_NOTES,
               userId: detail.userId,
             ));
-            if (res is Notification) {
+            if (res is AppNotification) {
               sendPushNotification(res);
             }
           }
@@ -498,31 +498,31 @@ class ServerAPI {
           for (var mem in detail.bandmates.keys) {
             BandMember member = detail.bandmates[mem];
             if (member.user_id != null && member.user_id.isNotEmpty) {
-              final res = await addNotification(Notification(
+              final res = await addNotification(AppNotification(
                 bandId: bandComm.bandId,
                 created: DateTime.now().millisecondsSinceEpoch,
                 notiId: bandComm.id,
                 text:
                     "A new Band Communication was created in the band (${detail.name})",
-                type: Notification.TYPE_BAND_COMM,
+                type: AppNotification.TYPE_BAND_COMM,
                 userId: member.user_id,
               ));
-              if (res is Notification) {
+              if (res is AppNotification) {
                 sendPushNotification(res);
               }
             }
           }
           if (detail.userId != null && detail.userId.isNotEmpty) {
-            final res = await addNotification(Notification(
+            final res = await addNotification(AppNotification(
               bandId: bandComm.bandId,
               created: DateTime.now().millisecondsSinceEpoch,
               notiId: bandComm.id,
               text:
                   "A new Band Communication created in the band(${detail.name})",
-              type: Notification.TYPE_BAND_COMM,
+              type: AppNotification.TYPE_BAND_COMM,
               userId: detail.userId,
             ));
-            if (res is Notification) {
+            if (res is AppNotification) {
               sendPushNotification(res);
             }
           }
@@ -551,15 +551,15 @@ class ServerAPI {
           for (var mem in detail.bandmates.keys) {
             BandMember member = detail.bandmates[mem];
             if (member.user_id != null && member.user_id.isNotEmpty) {
-              final res = await addNotification(Notification(
+              final res = await addNotification(AppNotification(
                 bandId: setlist.bandId,
                 created: DateTime.now().millisecondsSinceEpoch,
                 notiId: setlist.id,
                 text: "A new Set-List added to band ${detail.name}",
-                type: Notification.TYPE_SET_LIST,
+                type: AppNotification.TYPE_SET_LIST,
                 userId: member.user_id,
               ));
-              if (res is Notification) {
+              if (res is AppNotification) {
                 sendPushNotification(res);
               }
             }
@@ -587,31 +587,31 @@ class ServerAPI {
           for (var mem in detail.bandmates.keys) {
             BandMember member = detail.bandmates[mem];
             if (member.user_id != null && member.user_id.isNotEmpty) {
-              final res = await addNotification(Notification(
+              final res = await addNotification(AppNotification(
                 bandId: activities.bandId,
                 created: DateTime.now().millisecondsSinceEpoch,
                 notiId: activities.id,
                 text:
                     "A new ${activities.type == Activites.TYPE_ACTIVITY ? 'Activity' : activities.type == Activites.TYPE_BAND_TASK ? 'Band Task' : activities.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? 'Performance Schedule' : activities.type == Activites.TYPE_PRACTICE_SCHEDULE ? 'Practice Schedule' : activities.type == Activites.TYPE_TASK ? 'Task' : ''} was created in the band (${detail.name})",
-                type: Notification.TYPE_ACTIVITY,
+                type: AppNotification.TYPE_ACTIVITY,
                 userId: member.user_id,
               ));
-              if (res is Notification) {
+              if (res is AppNotification) {
                 sendPushNotification(res);
               }
             }
           }
           if (detail.userId != null && detail.userId.isNotEmpty) {
-            final res = await addNotification(Notification(
+            final res = await addNotification(AppNotification(
               bandId: activities.bandId,
               created: DateTime.now().millisecondsSinceEpoch,
               notiId: activities.id,
               text:
                   "A new ${activities.type == Activites.TYPE_ACTIVITY ? 'Activity' : activities.type == Activites.TYPE_BAND_TASK ? 'Band Task' : activities.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? 'Performance Schedule' : activities.type == Activites.TYPE_PRACTICE_SCHEDULE ? 'Practice Schedule' : activities.type == Activites.TYPE_TASK ? 'Task' : ''} created in the band(${detail.name})",
-              type: Notification.TYPE_ACTIVITY,
+              type: AppNotification.TYPE_ACTIVITY,
               userId: detail.userId,
             ));
-            if (res is Notification) {
+            if (res is AppNotification) {
               sendPushNotification(res);
             }
           }
@@ -657,29 +657,29 @@ class ServerAPI {
           for (var mem in detail.bandmates.keys) {
             BandMember member = detail.bandmates[mem];
             if (member.user_id != null && member.user_id.isNotEmpty) {
-              final res = await addNotification(Notification(
+              final res = await addNotification(AppNotification(
                 bandId: instrument.bandId,
                 created: DateTime.now().millisecondsSinceEpoch,
                 notiId: instrument.id,
                 text: "A new Instrument created in the band(${detail.name})",
-                type: Notification.TYPE_INSTRUMENT,
+                type: AppNotification.TYPE_INSTRUMENT,
                 userId: member.user_id,
               ));
-              if (res is Notification) {
+              if (res is AppNotification) {
                 sendPushNotification(res);
               }
             }
           }
           if (detail.userId != null && detail.userId.isNotEmpty) {
-            final res = await addNotification(Notification(
+            final res = await addNotification(AppNotification(
               bandId: instrument.bandId,
               created: DateTime.now().millisecondsSinceEpoch,
               notiId: instrument.id,
               text: "A new Instrument created in the band(${detail.name})",
-              type: Notification.TYPE_INSTRUMENT,
+              type: AppNotification.TYPE_INSTRUMENT,
               userId: detail.userId,
             ));
-            if (res is Notification) {
+            if (res is AppNotification) {
               sendPushNotification(res);
             }
           }
@@ -878,29 +878,29 @@ class ServerAPI {
           for (var mem in detail.bandmates.keys) {
             BandMember member = detail.bandmates[mem];
             if (member.user_id != null && member.user_id.isNotEmpty) {
-              final res = await addNotification(Notification(
+              final res = await addNotification(AppNotification(
                 bandId: userPlayingStyle.bandId,
                 created: DateTime.now().millisecondsSinceEpoch,
                 notiId: userPlayingStyle.id,
                 text: "A new EPK created in the band(${detail.name})",
-                type: Notification.TYPE_EPK,
+                type: AppNotification.TYPE_EPK,
                 userId: member.user_id,
               ));
-              if (res is Notification) {
+              if (res is AppNotification) {
                 sendPushNotification(res);
               }
             }
           }
           if (detail.userId != null && detail.userId.isNotEmpty) {
-            final res = await addNotification(Notification(
+            final res = await addNotification(AppNotification(
               bandId: userPlayingStyle.bandId,
               created: DateTime.now().millisecondsSinceEpoch,
               notiId: userPlayingStyle.id,
               text: "A new EPK created in the band(${detail.name})",
-              type: Notification.TYPE_EPK,
+              type: AppNotification.TYPE_EPK,
               userId: detail.userId,
             ));
-            if (res is Notification) {
+            if (res is AppNotification) {
               sendPushNotification(res);
             }
           }
@@ -1006,7 +1006,7 @@ class ServerAPI {
     await bandDB.child(id).remove();
   }
 
-  void sendPushNotification(Notification notification) async {
+  void sendPushNotification(AppNotification notification) async {
     Map<String, String> header = {
       HttpHeaders.contentTypeHeader: "application/json",
       "Authorization":
