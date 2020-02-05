@@ -251,6 +251,30 @@ class _ActivitiesListScreenState
                           TableCalendar(
                             calendarController: _calendarController,
                             events: _events,
+                            rowHeight: 35,
+                            calendarStyle: CalendarStyle(
+
+                            ),
+                            builders: CalendarBuilders(
+                              markersBuilder: (context, date, events, holidays) {
+                                final children = <Widget>[];
+
+                                if (events.isNotEmpty) {
+                                  children.add(
+                                    Positioned(
+                                      right: 1,
+                                      bottom: 1,
+                                      child: _buildEventsMarker(date, events),
+                                    ),
+                                  );
+                                }
+
+
+
+                                return children;
+                              },
+                            ),
+
                             onDaySelected: (date, events) {
                               setState(() {
                                 _selectedActivities = events;
@@ -262,7 +286,7 @@ class _ActivitiesListScreenState
                             itemCount: _selectedActivities.length,
                             itemBuilder: (BuildContext context, int index) {
                               Activites ac = _selectedActivities[index];
-                              return buildActivityListItem(ac, context,
+                              return buildActivityListItem(ac, context,isCalender,
                                   onTap: () {
                                 widget.appListener.router.navigateTo(
                                     context,
@@ -385,6 +409,18 @@ class _ActivitiesListScreenState
                             DateTime.fromMillisecondsSinceEpoch(b.startDate);
                         if (aD.day == bD.day && aD.month == bD.month) {
                           return a.title.compareTo(b.title);
+                        }
+                        return 0;
+                      });
+                      current
+                          .sort((a, b) => a.startTime.compareTo(b.startTime));
+                      current.sort((a, b) {
+                        DateTime aD =
+                        DateTime.fromMillisecondsSinceEpoch(a.startDate);
+                        DateTime bD =
+                        DateTime.fromMillisecondsSinceEpoch(b.startDate);
+                        if (aD.day == bD.day && aD.month == bD.month) {
+                          return a.startTime.compareTo(b.startTime);
                         }
                         return 0;
                       });
@@ -524,50 +560,7 @@ class _ActivitiesListScreenState
                                               .toLocal();
                                       return Row(
                                         children: <Widget>[
-                                          Column(
-                                            children: <Widget>[
-                                              Container(
-                                                color: Colors.grey,
-                                                width: 1.2,
-                                                height: 50,
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.symmetric(
-                                                    vertical: 2),
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    7,
-                                                child: Text(
-                                                  "${formatDate(dt, [
-                                                    DD,
-                                                    '\n',
-                                                    mm,
-                                                    '/',
-                                                    dd,
-                                                    '/',
-                                                    yy,
-                                                  ])}",
-                                                  style: TextStyle(
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontStyle: FontStyle.italic,
-                                                    color: Color.fromRGBO(
-                                                        32, 95, 139, 1.0),
-                                                  ),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ),
-                                              Container(
-                                                color: Colors.grey,
-                                                width: 1.2,
-                                                height: 50,
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.all(2),
-                                          ),
+
                                           Expanded(
                                             child: ListView.builder(
                                               itemCount: accs.length,
@@ -581,6 +574,7 @@ class _ActivitiesListScreenState
                                                 return buildActivityListItem(
                                                   ac,
                                                   context,
+                                                  isCalender,
                                                   onTap: () {
                                                     widget.appListener.router
                                                         .navigateTo(
@@ -633,50 +627,7 @@ class _ActivitiesListScreenState
                                               .toLocal();
                                       return Row(
                                         children: <Widget>[
-                                          Column(
-                                            children: <Widget>[
-                                              Container(
-                                                color: Colors.grey,
-                                                width: 1.2,
-                                                height: 50,
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.symmetric(
-                                                    vertical: 2),
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    7,
-                                                child: Text(
-                                                  "${formatDate(dt, [
-                                                    DD,
-                                                    '\n',
-                                                    mm,
-                                                    '/',
-                                                    dd,
-                                                    '/',
-                                                    yy,
-                                                  ])}",
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontStyle: FontStyle.italic,
-                                                    color: Color.fromRGBO(
-                                                        32, 95, 139, 1.0),
-                                                  ),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ),
-                                              Container(
-                                                color: Colors.grey,
-                                                width: 1.2,
-                                                height: 50,
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.all(2),
-                                          ),
+
                                           Expanded(
                                             child: ListView.builder(
                                               itemCount: accs.length,
@@ -690,6 +641,7 @@ class _ActivitiesListScreenState
                                                 return buildActivityListItem(
                                                   ac,
                                                   context,
+                                                  isCalender,
                                                   onTap: () {
                                                     widget.appListener.router
                                                         .navigateTo(
@@ -743,53 +695,7 @@ class _ActivitiesListScreenState
                                       return Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: <Widget>[
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: <Widget>[
-                                              Container(
-                                                color: Colors.grey,
-                                                width: 1.2,
-                                                height: 50,
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.symmetric(
-                                                    vertical: 2),
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    7,
-                                                child: Text(
-                                                  "${formatDate(dt, [
-                                                    DD,
-                                                    '\n',
-                                                    mm,
-                                                    '/',
-                                                    dd,
-                                                    '/',
-                                                    yy,
-                                                  ])}",
-                                                  style: TextStyle(
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontStyle: FontStyle.italic,
-                                                    color: Color.fromRGBO(
-                                                        32, 95, 139, 1.0),
-                                                  ),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ),
-                                              Container(
-                                                color: Colors.grey,
-                                                width: 1.2,
-                                                height: 50,
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.all(2),
-                                          ),
+
                                           Expanded(
                                             child: ListView.builder(
                                               itemCount: accs.length,
@@ -803,6 +709,7 @@ class _ActivitiesListScreenState
                                                 return buildActivityListItem(
                                                   ac,
                                                   context,
+                                                  isCalender,
                                                   onTap: () {
                                                     widget.appListener.router
                                                         .navigateTo(
@@ -867,55 +774,6 @@ class _ActivitiesListScreenState
                                               .toLocal();
                                           return Row(
                                             children: <Widget>[
-                                              Column(
-                                                children: <Widget>[
-                                                  Container(
-                                                    color: Colors.grey,
-                                                    width: 1.2,
-                                                    height: 50,
-                                                  ),
-                                                  Container(
-                                                    margin:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 2),
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width /
-                                                            7,
-                                                    child: Text(
-                                                      "${formatDate(dt, [
-                                                        DD,
-                                                        '\n',
-                                                        mm,
-                                                        '/',
-                                                        dd,
-                                                        '/',
-                                                        yy,
-                                                      ])}",
-                                                      style: TextStyle(
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontStyle:
-                                                            FontStyle.italic,
-                                                        color: Color.fromRGBO(
-                                                            32, 95, 139, 1.0),
-                                                      ),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    color: Colors.grey,
-                                                    width: 1.2,
-                                                    height: 50,
-                                                  ),
-                                                ],
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.all(2),
-                                              ),
                                               Expanded(
                                                 child: ListView.builder(
                                                   itemCount: accs.length,
@@ -929,9 +787,11 @@ class _ActivitiesListScreenState
                                                     return buildActivityListItem(
                                                       ac,
                                                       context,
+                                                      isCalender,
                                                       onTap: () {
                                                         buildActivityListItem(
                                                             ac, context,
+                                                            isCalender,
                                                             onTap: () {
                                                           widget.appListener
                                                               .router
@@ -1003,55 +863,6 @@ class _ActivitiesListScreenState
                                               .toLocal();
                                           return Row(
                                             children: <Widget>[
-                                              Column(
-                                                children: <Widget>[
-                                                  Container(
-                                                    color: Colors.grey,
-                                                    width: 1.2,
-                                                    height: 50,
-                                                  ),
-                                                  Container(
-                                                    margin:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 2),
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width /
-                                                            7,
-                                                    child: Text(
-                                                      "${formatDate(dt, [
-                                                        DD,
-                                                        '\n',
-                                                        mm,
-                                                        '/',
-                                                        dd,
-                                                        '/',
-                                                        yy,
-                                                      ])}",
-                                                      style: TextStyle(
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontStyle:
-                                                            FontStyle.italic,
-                                                        color: Color.fromRGBO(
-                                                            32, 95, 139, 1.0),
-                                                      ),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    color: Colors.grey,
-                                                    width: 1.2,
-                                                    height: 50,
-                                                  ),
-                                                ],
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.all(2),
-                                              ),
                                               Expanded(
                                                 child: ListView.builder(
                                                   itemCount: accs.length,
@@ -1063,7 +874,7 @@ class _ActivitiesListScreenState
                                                           int index) {
                                                     Activites ac = accs[index];
                                                     return buildActivityListItem(
-                                                        ac, context, onTap: () {
+                                                        ac, context, isCalender,onTap: () {
                                                       widget.appListener.router
                                                           .navigateTo(
                                                         context,
@@ -1179,5 +990,28 @@ class _ActivitiesListScreenState
     setState(() {
       bandName = band.name;
     });
+  }
+
+  Widget _buildEventsMarker(DateTime date, List events) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      decoration: BoxDecoration(
+        shape: BoxShape.rectangle,
+        color: _calendarController.isSelected(date)
+            ? Colors.brown[500]
+            : _calendarController.isToday(date) ? Colors.brown[300] : Colors.blue[400],
+      ),
+      width: 16.0,
+      height: 16.0,
+      child: Center(
+        child: Text(
+          '${events.length}',
+          style: TextStyle().copyWith(
+            color: Colors.white,
+            fontSize: 12.0,
+          ),
+        ),
+      ),
+    );
   }
 }

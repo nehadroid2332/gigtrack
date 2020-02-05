@@ -46,7 +46,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Gigtrack For Musicians wants to access your camera to change and upload profile picture.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Gigtrack needs access to location when open and in the background.</string>
+	<string>Gigtrack needs access to location when app is open only.</string>
 	<key>NSLocationUsageDescription</key>
 	<string>Gigtrack For Musicians wants to access your current location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

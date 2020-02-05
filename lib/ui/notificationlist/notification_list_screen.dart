@@ -22,6 +22,7 @@ class _NotificationListScreensState
   var _activities = <Activites>[];
   final _warranty = <UserInstrument>[];
   var _todos = <NotesTodo>[];
+  bool isCalendar;
 
   Stream<List<Activites>> activitiesList;
   Stream<List<UserInstrument>> equipmentList;
@@ -87,7 +88,7 @@ class _NotificationListScreensState
                   padding: EdgeInsets.all(10),
                   itemBuilder: (BuildContext context, int index) {
                     Activites ac = _activities[index];
-                    return buildActivityListItem(ac, context, onTap: () {
+                    return buildActivityListItem(ac, context,isCalendar, onTap: () {
                       widget.appListener.router.navigateTo(
                           context,
                           Screens.ADDACTIVITY.toString() +

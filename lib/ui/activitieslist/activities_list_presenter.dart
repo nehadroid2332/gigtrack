@@ -46,6 +46,13 @@ class ActivitiesListPresenter extends BasePresenter {
           }
         }
         if (bandId.isEmpty) {
+          if (activites.band != null) {
+            if (activites.band.bandmates.keys
+                .contains(serverAPI.currentUserEmail.replaceAll(".", "")) ||
+                activites.band.userId == serverAPI.currentUserId) {
+              acc.add(activites);
+            }
+          }
           if (activites.userId == serverAPI.currentUserId) {
             if (acc.contains(activites)) {
               continue;
@@ -55,23 +62,20 @@ class ActivitiesListPresenter extends BasePresenter {
           }
         } else {
           if (activites.band != null && bandId.isNotEmpty) {
-            if (activites.band.id == bandId) {
+            if ( // activites.band.bandmates.keys.contains(serverAPI.currentUserEmail.replaceAll(".", "")) &&
+            activites.band.id == bandId) {
               acc.add(activites);
             }
           }
         }
+
+        //        else {
+        //          acc.add(activites);
+        //        }
       }
-      /*
-       if (activites.band != null) {
-            if (activites.band.bandmates.keys
-                    .contains(serverAPI.currentUserEmail.replaceAll(".", "")) ||
-                activites.band.userId == serverAPI.currentUserId) {
-              acc.add(activites);
-            }
-          }
-       */
       return acc;
     });
+    // }
   }
 
   void getBands(String bandId) async {

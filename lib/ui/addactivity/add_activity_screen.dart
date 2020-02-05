@@ -996,15 +996,11 @@ class _AddActivityScreenState
                                                 )
                                               : _startTimeController
                                                       .text.isNotEmpty
-                                                  ? Expanded(
+                                                  ? _endTimeController.text.isEmpty?Expanded(
                                                       flex: 1,
                                                       child: Text(
                                                         //"Start time -" +
                                                         _startTimeController
-                                                                .text
-                                                                .toLowerCase() +
-                                                            " to " +
-                                                            _endTimeController
                                                                 .text
                                                                 .toLowerCase(),
                                                         textAlign:
@@ -1015,7 +1011,26 @@ class _AddActivityScreenState
                                                                 : Colors
                                                                     .black87),
                                                       ),
-                                                    )
+                                                    ):Expanded(
+                                            flex: 1,
+                                            child: Text(
+                                              //"Start time -" +
+                                              _startTimeController
+                                                  .text
+                                                  .toLowerCase() +
+                                                  " to " +
+                                                  _endTimeController
+                                                      .text
+                                                      .toLowerCase(),
+                                              textAlign:
+                                              TextAlign.center,
+                                              style: TextStyle(
+                                                  color: qDarkmodeEnable
+                                                      ? Colors.white
+                                                      : Colors
+                                                      .black87),
+                                            ),
+                                          )
                                                   : Container(),
                                           Padding(
                                             padding: EdgeInsets.symmetric(
