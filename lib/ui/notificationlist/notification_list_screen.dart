@@ -84,21 +84,31 @@ class _NotificationListScreensState
                   padding: EdgeInsets.all(10),
                   itemBuilder: (BuildContext context, int index) {
                     AppNotification ac = _notificationList[index];
-                    return
-                      Container(
-                          padding: EdgeInsets.only(top: 18,bottom: 18),
-                          child:Column(
-
-                            children: <Widget>[ InkWell(
-                            child:Row(
-
+                    return Container(
+                      padding: EdgeInsets.only(top: 18, bottom: 18),
+                      child: Column(
+                        children: <Widget>[
+                          InkWell(
+                            child: Row(
                               children: <Widget>[
-                              Image.asset(
-                                'assets/images/notificationbell.png',width: 40,height: 40,
-                              ),Padding(padding: EdgeInsets.all(2),),Flexible(
-                                  child: Text("${ac.text}",softWrap:true,style: TextStyle(fontSize: 16),textAlign: TextAlign.left,maxLines:2),
+                                Image.asset(
+                                  'assets/images/notificationbell.png',
+                                  width: 40,
+                                  height: 40,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(2),
+                                ),
+                                Flexible(
+                                  child: Text("${ac.text}",
+                                      softWrap: true,
+                                      style: TextStyle(fontSize: 16),
+                                      textAlign: TextAlign.left,
+                                      maxLines: 2),
                                 )
-                            ],mainAxisAlignment: MainAxisAlignment.start, ) ,
+                              ],
+                              mainAxisAlignment: MainAxisAlignment.start,
+                            ),
                             onTap: () {
                               switch (ac.type) {
                                 case AppNotification.TYPE_ACTIVITY:
@@ -108,8 +118,10 @@ class _NotificationListScreensState
                                           "/${ac.type}/${ac.notiId}/${false}/${ac.bandId}////");
                                   break;
                                 case AppNotification.TYPE_BAND:
-                                  widget.appListener.router.navigateTo(context,
-                                      Screens.ADDBAND.toString() + "/${ac.notiId}");
+                                  widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.ADDBAND.toString() +
+                                          "/${ac.notiId}");
                                   break;
                                 case AppNotification.TYPE_BULLETIN_BOARD:
                                   widget.appListener.router.navigateTo(
@@ -139,36 +151,41 @@ class _NotificationListScreensState
                                   widget.appListener.router.navigateTo(
                                       context,
                                       Screens.ADDNOTE.toString() +
-                                          "/${ac.notiId}//${ac.bandId}/////${NotesTodo.TYPE_NOTE}");
+                                          "/${ac.notiId}//${ac.bandId}/////${NotesTodo.TYPE_NOTE}/");
                                   break;
                               }
                             },
                           ),
-                              Padding(padding: EdgeInsets.all(3),),
-                             Container(
-
-                                 child:  Text(
-                               "${formatDate(DateTime.fromMillisecondsSinceEpoch(ac.created), [
-                                 M,
-                                 ' ',
-                                 d,
-                                 ', ',
-                                 yyyy,' ',hh,':',mm,' ',am
-                               ])}",
-                               textAlign: TextAlign.right,
-                             ),alignment: Alignment.centerRight,)
-
-                            ],),
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            width: 1,
-                            color: Colors.grey
+                          Padding(
+                            padding: EdgeInsets.all(3),
+                          ),
+                          Container(
+                            child: Text(
+                              "${formatDate(DateTime.fromMillisecondsSinceEpoch(ac.created), [
+                                M,
+                                ' ',
+                                d,
+                                ', ',
+                                yyyy,
+                                ' ',
+                                hh,
+                                ':',
+                                mm,
+                                ' ',
+                                am
+                              ])}",
+                              textAlign: TextAlign.right,
+                            ),
+                            alignment: Alignment.centerRight,
                           )
-                        )
-                      ),width: MediaQuery.of(context).size.width,);
-
-
+                        ],
+                      ),
+                      decoration: BoxDecoration(
+                          border: Border(
+                              bottom:
+                                  BorderSide(width: 1, color: Colors.grey))),
+                      width: MediaQuery.of(context).size.width,
+                    );
                   },
                 );
               } else if (snapshot.hasError) {

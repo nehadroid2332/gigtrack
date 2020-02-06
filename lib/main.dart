@@ -208,7 +208,7 @@ class MyApp extends StatelessWidget implements AppListener {
 
     _router.define(
         Screens.ADDNOTE.toString() +
-            "/:id/:isParent/:bandId/:isLeader/:isComm/:isSetUp/:postEntries/:type",
+            "/:id/:isParent/:bandId/:isLeader/:isComm/:isSetUp/:postEntries/:type/:subNoteId",
         handler: Handler(
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["id"][0];
@@ -219,6 +219,7 @@ class MyApp extends StatelessWidget implements AppListener {
       bool isSetUp = params['isSetUp'][0] == "${true}";
       bool postEntries = params['postEntries'][0] == "${true}";
       int type = int.parse(params['type'][0] ?? "${NotesTodo.TYPE_NOTE}");
+      String subNoteId = params['subNoteId'][0];
       return AddNotesScreen(
         this,
         id: id,
@@ -229,6 +230,7 @@ class MyApp extends StatelessWidget implements AppListener {
         isSetUp: isSetUp,
         type: type,
         postEntries: postEntries,
+        subNoteId: subNoteId,
       );
     }));
     _router.define(Screens.PROFILE.toString(), handler: Handler(
@@ -452,11 +454,7 @@ class MyApp extends StatelessWidget implements AppListener {
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["id"][0];
       String type = params["type"][0];
-      return AddPaymentScreen(
-        this,
-        id: id,
-        type:type
-      );
+      return AddPaymentScreen(this, id: id, type: type);
     }));
     _router.define(Screens.GOOGLEMAPS.toString() + "/:latitude/:longitude",
         handler: Handler(

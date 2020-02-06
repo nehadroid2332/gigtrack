@@ -9,6 +9,7 @@ import 'package:gigtrack/server/models/notestodo.dart';
 import 'package:gigtrack/ui/addnotes/add_notes_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:gigtrack/utils/showup.dart';
+import 'package:random_string/random_string.dart';
 
 import '../../server/models/notestodo.dart';
 
@@ -21,6 +22,7 @@ class AddNotesScreen extends BaseScreen {
   final bool isSetUp;
   final bool postEntries;
   final int type;
+  final String subNoteId;
 
   AddNotesScreen(
     AppListener appListener, {
@@ -32,6 +34,7 @@ class AddNotesScreen extends BaseScreen {
     this.isSetUp,
     this.postEntries,
     this.type,
+    this.subNoteId,
   }) : super(appListener, title: "");
 
   @override
@@ -123,18 +126,22 @@ class _AddNotesScreenState
         backgroundColor: Color.fromRGBO(3, 54, 255, 1.0),
         actions: <Widget>[
           Container(
-            alignment: Alignment.center,
-            width: widget.id.isEmpty
-                ? MediaQuery.of(context).size.width
-                : widget.isParent?MediaQuery.of(context).size.width: MediaQuery.of(context).size.width/2 ,
-            child:Center(child: Text(
-              "${widget.id.isEmpty ? widget.type == NotesTodo.TYPE_NOTE ? "Add Note" : widget.type == NotesTodo.TYPE_IDEA ? "Add Idea" : "" : widget.isParent ? "Note is about" : widget.type == NotesTodo.TYPE_NOTE ? "Note" : widget.type == NotesTodo.TYPE_IDEA ? "Idea" : ""}",
-              textAlign: widget.id.isNotEmpty?TextAlign.left:TextAlign.center,
-              style: textTheme.headline.copyWith(
-                color: Colors.white,
-              ),
-            ),)
-          ),
+              alignment: Alignment.center,
+              width: widget.id.isEmpty
+                  ? MediaQuery.of(context).size.width
+                  : widget.isParent
+                      ? MediaQuery.of(context).size.width
+                      : MediaQuery.of(context).size.width / 2,
+              child: Center(
+                child: Text(
+                  "${widget.id.isEmpty ? widget.type == NotesTodo.TYPE_NOTE ? "Add Note" : widget.type == NotesTodo.TYPE_IDEA ? "Add Idea" : "" : widget.isParent ? "Note is about" : widget.type == NotesTodo.TYPE_NOTE ? "Note" : widget.type == NotesTodo.TYPE_IDEA ? "Idea" : ""}",
+                  textAlign:
+                      widget.id.isNotEmpty ? TextAlign.left : TextAlign.center,
+                  style: textTheme.headline.copyWith(
+                    color: Colors.white,
+                  ),
+                ),
+              )),
           widget.id.isEmpty || widget.isParent
               ? Container()
               : (widget.bandId == null || widget.bandId.isEmpty) ||
@@ -206,16 +213,6 @@ class _AddNotesScreenState
                             ? EdgeInsets.all(5)
                             : EdgeInsets.all(0),
                       ),
-                      //                      widget.id.isNotEmpty||isEdit
-                      //                          ? Text(
-                      //                       !isshowTitle?"Note is about":"",
-                      //                        textAlign: TextAlign.left,
-                      //                        style: TextStyle(
-                      //                          fontSize: 17,
-                      //                          fontWeight:  FontWeight.bold
-                      //                        ),
-                      //                      )
-                      //                          : Container(),
                       Padding(
                         padding: widget.id.isEmpty || isEdit
                             ? EdgeInsets.all(0)
@@ -254,16 +251,6 @@ class _AddNotesScreenState
                             ? EdgeInsets.all(0)
                             : EdgeInsets.all(5),
                       ),
-                      //                      widget.id.isNotEmpty||isEdit
-                      //                          ? Text(
-                      //                        !isshowTitle?"Note Description":"",
-                      //                        textAlign: TextAlign.left,
-                      //                        style: TextStyle(
-                      //                            fontSize: 18,
-                      //                            fontWeight:  FontWeight.bold
-                      //                        ),
-                      //                      )
-                      //                          : Container(),
                       Padding(
                         padding: widget.id.isEmpty || isEdit || widget.isParent
                             ? EdgeInsets.all(0)
@@ -323,16 +310,19 @@ class _AddNotesScreenState
                               delay: 1000,
                             )
                           : Container(),
-                      widget.id.isEmpty||isEdit&& !isDateVisible? Container(
-                        height: 1,
-                        width: MediaQuery.of(context).size.width/4,
-                        color: Colors.red,
-                        margin: EdgeInsets.only(
-                            left: 0,
-                            right: MediaQuery.of(context).size.width/1.8,
-                            top: 2,
-                            bottom: 0),
-                      ):Container(),
+                      widget.id.isEmpty || isEdit && !isDateVisible
+                          ? Container(
+                              height: 1,
+                              width: MediaQuery.of(context).size.width / 4,
+                              color: Colors.red,
+                              margin: EdgeInsets.only(
+                                  left: 0,
+                                  right:
+                                      MediaQuery.of(context).size.width / 1.8,
+                                  top: 2,
+                                  bottom: 0),
+                            )
+                          : Container(),
 
                       Padding(
                         padding: widget.id.isEmpty || isEdit || widget.isParent
@@ -484,7 +474,7 @@ class _AddNotesScreenState
                                   await widget.appListener.router.navigateTo(
                                       context,
                                       Screens.ADDNOTE.toString() +
-                                          "/${widget.id}/true/${widget.bandId}/////${widget.type}");
+                                          "/${widget.id}/true/${widget.bandId}/////${widget.type}/");
                                   getDetails();
                                 },
                                 child: Text(
@@ -497,16 +487,19 @@ class _AddNotesScreenState
                               delay: 1000,
                             ),
 
-                      widget.id.isEmpty || isEdit || widget.isParent?Container(): Container(
-                        height: 1,
-                        width: MediaQuery.of(context).size.width/4,
-                        color: Colors.red,
-                        margin: EdgeInsets.only(
-                            left: MediaQuery.of(context).size.width/3.5,
-                            right: MediaQuery.of(context).size.width/3.5,
-                            top: 2,
-                            bottom: 0),
-                      ),
+                      widget.id.isEmpty || isEdit || widget.isParent
+                          ? Container()
+                          : Container(
+                              height: 1,
+                              width: MediaQuery.of(context).size.width / 4,
+                              color: Colors.red,
+                              margin: EdgeInsets.only(
+                                  left: MediaQuery.of(context).size.width / 3.5,
+                                  right:
+                                      MediaQuery.of(context).size.width / 3.5,
+                                  top: 2,
+                                  bottom: 0),
+                            ),
 //                      widget.id.isEmpty || isEdit || widget.isParent
 //                          ? Container()
 //                          : Padding(
@@ -528,6 +521,13 @@ class _AddNotesScreenState
                                     DateTime.fromMillisecondsSinceEpoch(
                                         notesTodo.createdDate);
                                 return ListTile(
+                                  onTap: () async {
+                                    await widget.appListener.router.navigateTo(
+                                        context,
+                                        Screens.ADDNOTE.toString() +
+                                            "/${widget.id}/true/${widget.bandId}/////${widget.type}/${notesTodo.id}");
+                                    getDetails();
+                                  },
                                   title: Text(notesTodo.note),
                                   subtitle: Text(notesTodo.description),
                                   leading: CircleAvatar(
@@ -819,6 +819,14 @@ class _AddNotesScreenState
       _endTimeController.text =
           "${formatDate(endDate, [HH, ':', nn, ':', ss])}";
       isArchieve = note.isArchive ?? false;
+      if (widget.isParent) {
+        NotesTodo notesTodo = note.subNotes.firstWhere((a) {
+          return a.id == widget.subNoteId;
+        });
+        if (notesTodo != null) {
+          _descController.text = notesTodo.description;
+        }
+      }
     });
   }
 
@@ -840,7 +848,7 @@ class _AddNotesScreenState
   }
 
   void getDetails() {
-    if (widget.id.isNotEmpty && !widget.isParent) {
+    if (widget.id.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         showLoading();
         presenter.getNotesDetails(widget.id);
@@ -941,11 +949,11 @@ class _AddNotesScreenState
               ? selectedStartDate.millisecondsSinceEpoch
               : 0,
           id: widget.id,
-          note: note,
+          note: widget.isParent ? "" : note,
           createdDate: DateTime.now().millisecondsSinceEpoch,
         );
         showLoading();
-        presenter.addNotes(notesTodo, widget.isParent);
+        presenter.addNotes(notesTodo, widget.isParent, widget.subNoteId);
       }
     });
   }

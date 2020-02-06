@@ -157,7 +157,7 @@ class _NotesListScreenState
                                         widget.appListener.router.navigateTo(
                                             context,
                                             Screens.ADDNOTE.toString() +
-                                                "/${not.id}//${widget.bandId}/////${not.type ?? NotesTodo.TYPE_NOTE}");
+                                                "/${not.id}//${widget.bandId}/////${not.type ?? NotesTodo.TYPE_NOTE}/");
                                       }
                                     : null);
                           },
@@ -196,7 +196,7 @@ class _NotesListScreenState
                                               widget.appListener.router.navigateTo(
                                                   context,
                                                   Screens.ADDNOTE.toString() +
-                                                      "/${not.id}//${widget.bandId}/////${not.type ?? NotesTodo.TYPE_NOTE}");
+                                                      "/${not.id}//${widget.bandId}/////${not.type ?? NotesTodo.TYPE_NOTE}/");
                                             }
                                           : null);
                                 },
@@ -240,7 +240,7 @@ class _NotesListScreenState
                     await widget.appListener.router.navigateTo(
                         context,
                         Screens.ADDNOTE.toString() +
-                            "///${widget.bandId}/////${NotesTodo.TYPE_IDEA}");
+                            "///${widget.bandId}/////${NotesTodo.TYPE_IDEA}/");
                   },
                 ),
                 SpeedDialChild(
@@ -252,7 +252,7 @@ class _NotesListScreenState
                     await widget.appListener.router.navigateTo(
                         context,
                         Screens.ADDNOTE.toString() +
-                            "///${widget.bandId}/////${NotesTodo.TYPE_NOTE}");
+                            "///${widget.bandId}/////${NotesTodo.TYPE_NOTE}/");
                   },
                 ),
                 SpeedDialChild(
