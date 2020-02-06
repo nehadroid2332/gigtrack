@@ -301,7 +301,7 @@ class _AddPaymentScreenState
                                     (payment.image == null ||
                                         payment.image.isEmpty)
                                 ? Icon(
-                                    Icons.account_circle,
+                                    Icons.camera,
                                     size: 130,
                                   )
                                 : null,
@@ -311,7 +311,7 @@ class _AddPaymentScreenState
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(
-                          vertical: 8,
+                          vertical: 10,
                         ),
                         child: Text(
                           "Take a picture of invoice",

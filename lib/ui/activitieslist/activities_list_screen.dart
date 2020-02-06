@@ -47,6 +47,7 @@ class _ActivitiesListScreenState
   bool isRecurring = false;
   String bandName;
   bool isCalender = false;
+  DateTime currentDate;
 
   CalendarController _calendarController;
 
@@ -278,10 +279,30 @@ class _ActivitiesListScreenState
 
                             onDaySelected: (date, events) {
                               setState(() {
+                                currentDate=date;
                                 _selectedActivities = events;
                               });
                             },
                           ),
+                          Padding(padding: EdgeInsets.only(right: 20),child: Center(
+                            child: currentDate!=null?Text(
+                              "${formatDate(currentDate, [
+                                DD,
+                                '\n',
+                                M,
+                                ' ',
+                                d,
+                                ', ',
+                                yyyy,
+                              ])}",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromRGBO(32, 95, 139, 1.0),
+                              ),
+                              textAlign: TextAlign.center,
+                            ):Container(),),),
+                          Padding(padding: EdgeInsets.all(5),),
                           Expanded(
                               child: ListView.builder(
                             itemCount: _selectedActivities.length,
@@ -331,8 +352,10 @@ class _ActivitiesListScreenState
                         if (!days.isNegative) {
                           switch (currentDate.weekday) {
                             case 1:
-                              if (days.abs() <= 7) {
+                              if (days.abs() < 7) {
                                 currentWeek = true;
+                              }else if(days.abs()>7){
+                                afterweek=true;
                               }
                               break;
                             case 2:
@@ -350,7 +373,7 @@ class _ActivitiesListScreenState
                               }
                               break;
                             case 4:
-                              if (days.abs() <= 4) {
+                              if (days.abs() < 4) {
                                 currentWeek = true;
                               }else if(days.abs()>4){
                                 afterweek=true;
@@ -366,11 +389,15 @@ class _ActivitiesListScreenState
                             case 6:
                               if (days.abs() <= 2) {
                                 currentWeek = true;
+                              }else if (days.abs() > 2) {
+                                afterweek = true;
                               }
                               break;
                             case 7:
                               if (days.abs() <= 1) {
                                 currentWeek = true;
+                              }else if (days.abs() > 1) {
+                                afterweek = true;
                               }
                               break;
                             default:

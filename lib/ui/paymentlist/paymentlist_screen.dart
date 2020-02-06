@@ -47,7 +47,7 @@ class _FeedbackListScreenState
   Widget buildBody() {
     List<SpeedDialChild> items = [
       SpeedDialChild(
-        label: "Receive",
+        label: "Money Received",
         labelStyle: TextStyle(color: Color.fromRGBO(45, 1, 79, 1.0)),
         child: Icon(Icons.add),
         backgroundColor: Color.fromRGBO(40, 35, 188, 1.0),
@@ -57,7 +57,7 @@ class _FeedbackListScreenState
         },
       ),
       SpeedDialChild(
-        label: "Paid",
+        label: "Money Paid Out",
         labelStyle: TextStyle(color: Color.fromRGBO(45, 1, 79, 1.0)),
         child: Icon(Icons.add),
         backgroundColor: Color.fromRGBO(40, 35, 188, 1.0),

@@ -298,8 +298,19 @@ buildActivityListItem(Activites ac, context,isCalendar,
                     height: isCalendar?0:5,
                     thickness: 1.5,
                   )),
-              Text(
+              ac.band !=null?Text(
                 currentType(ac.type) + "-" + (ac?.band?.name ?? ''),
+                style: TextStyle(
+                  fontSize: 17,
+                  fontStyle: FontStyle.normal,
+                  color: ac.bandId.isNotEmpty
+                      ? isPast ? Colors.grey : Color.fromRGBO(32, 95, 139, 1.0)
+                      : isPast ? Colors.grey : Color.fromRGBO(40, 35, 188, 1.0),
+                ),
+                textAlign:
+                ac.bandId.isNotEmpty ? TextAlign.right : TextAlign.center,
+              ):Text(
+                currentType(ac.type),
                 style: TextStyle(
                   fontSize: 17,
                   fontStyle: FontStyle.normal,

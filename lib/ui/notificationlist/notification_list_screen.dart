@@ -1,4 +1,7 @@
+import 'package:date_format/date_format.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/activities.dart';
@@ -81,53 +84,91 @@ class _NotificationListScreensState
                   padding: EdgeInsets.all(10),
                   itemBuilder: (BuildContext context, int index) {
                     AppNotification ac = _notificationList[index];
-                    return ListTile(
-                      title: Text("${ac.text}"),
-                      onTap: () {
-                        switch (ac.type) {
-                          case AppNotification.TYPE_ACTIVITY:
-                            widget.appListener.router.navigateTo(
-                                context,
-                                Screens.ADDACTIVITY.toString() +
-                                    "/${ac.type}/${ac.notiId}/${false}/${ac.bandId}////");
-                            break;
-                          case AppNotification.TYPE_BAND:
-                            widget.appListener.router.navigateTo(context,
-                                Screens.ADDBAND.toString() + "/${ac.notiId}");
-                            break;
-                          case AppNotification.TYPE_BULLETIN_BOARD:
-                            widget.appListener.router.navigateTo(
-                                context,
-                                Screens.ADDBULLETIN.toString() +
-                                    "/${ac.notiId}");
-                            break;
-                          case AppNotification.TYPE_CONTACT:
-                            widget.appListener.router.navigateTo(
-                                context,
-                                Screens.ADDCONTACT.toString() +
-                                    "/${ac.notiId}/${ac.bandId}////");
-                            break;
-                          case AppNotification.TYPE_EPK:
-                            widget.appListener.router.navigateTo(
-                                context,
-                                Screens.ADDPLAYINGSTYLE.toString() +
-                                    "/${ac.notiId}/////");
-                            break;
-                          case AppNotification.TYPE_INSTRUMENT:
-                            widget.appListener.router.navigateTo(
-                                context,
-                                Screens.ADDINSTRUMENT.toString() +
-                                    "/${ac.notiId}/${ac.bandId}////");
-                            break;
-                          case AppNotification.TYPE_NOTES:
-                            widget.appListener.router.navigateTo(
-                                context,
-                                Screens.ADDNOTE.toString() +
-                                    "/${ac.notiId}//${ac.bandId}/////${NotesTodo.TYPE_NOTE}");
-                            break;
-                        }
-                      },
-                    );
+                    return
+                      Container(
+                          padding: EdgeInsets.only(top: 18,bottom: 18),
+                          child:Column(
+
+                            children: <Widget>[ InkWell(
+                            child:Row(
+
+                              children: <Widget>[
+                              Image.asset(
+                                'assets/images/notificationbell.png',width: 40,height: 40,
+                              ),Padding(padding: EdgeInsets.all(2),),Flexible(
+                                  child: Text("${ac.text}",softWrap:true,style: TextStyle(fontSize: 16),textAlign: TextAlign.left,maxLines:2),
+                                )
+                            ],mainAxisAlignment: MainAxisAlignment.start, ) ,
+                            onTap: () {
+                              switch (ac.type) {
+                                case AppNotification.TYPE_ACTIVITY:
+                                  widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.ADDACTIVITY.toString() +
+                                          "/${ac.type}/${ac.notiId}/${false}/${ac.bandId}////");
+                                  break;
+                                case AppNotification.TYPE_BAND:
+                                  widget.appListener.router.navigateTo(context,
+                                      Screens.ADDBAND.toString() + "/${ac.notiId}");
+                                  break;
+                                case AppNotification.TYPE_BULLETIN_BOARD:
+                                  widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.ADDBULLETIN.toString() +
+                                          "/${ac.notiId}");
+                                  break;
+                                case AppNotification.TYPE_CONTACT:
+                                  widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.ADDCONTACT.toString() +
+                                          "/${ac.notiId}/${ac.bandId}////");
+                                  break;
+                                case AppNotification.TYPE_EPK:
+                                  widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.ADDPLAYINGSTYLE.toString() +
+                                          "/${ac.notiId}/////");
+                                  break;
+                                case AppNotification.TYPE_INSTRUMENT:
+                                  widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.ADDINSTRUMENT.toString() +
+                                          "/${ac.notiId}/${ac.bandId}////");
+                                  break;
+                                case AppNotification.TYPE_NOTES:
+                                  widget.appListener.router.navigateTo(
+                                      context,
+                                      Screens.ADDNOTE.toString() +
+                                          "/${ac.notiId}//${ac.bandId}/////${NotesTodo.TYPE_NOTE}");
+                                  break;
+                              }
+                            },
+                          ),
+                              Padding(padding: EdgeInsets.all(3),),
+                             Container(
+
+                                 child:  Text(
+                               "${formatDate(DateTime.fromMillisecondsSinceEpoch(ac.created), [
+                                 M,
+                                 ' ',
+                                 d,
+                                 ', ',
+                                 yyyy,' ',hh,':',mm,' ',am
+                               ])}",
+                               textAlign: TextAlign.right,
+                             ),alignment: Alignment.centerRight,)
+
+                            ],),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            width: 1,
+                            color: Colors.grey
+                          )
+                        )
+                      ),width: MediaQuery.of(context).size.width,);
+
+
                   },
                 );
               } else if (snapshot.hasError) {

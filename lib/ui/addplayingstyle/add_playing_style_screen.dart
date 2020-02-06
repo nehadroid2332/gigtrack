@@ -1078,6 +1078,19 @@ class _AddPlayingStyleScreenState
                               delay: 1000,
                             )
                           : Container(),
+                   widget.id.isNotEmpty && isEdit? ShowUp(child:
+                       Container(
+                        height: 1,
+                        width:
+                        MediaQuery.of(context).size.width ,
+                        color: Colors.red,
+                        margin: EdgeInsets.only(
+                            left:0,
+                            right:MediaQuery.of(context).size.width/2.4,
+                            top: 3,
+                            bottom: 0),
+                      )
+                          ,delay: 1000,): Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -1182,35 +1195,69 @@ class _AddPlayingStyleScreenState
                                 )
                               : Container(),
 
+
+                      Padding(
+                        padding: EdgeInsets.all(0),
+                      ),
+                      (widget.id.isNotEmpty && widget.bandId.isEmpty)&& !isEdit
+                          ? ShowUp(
+                        child: new GestureDetector(
+                          onTap: () {
+                            showBandExp(null);
+                          },
+                          child: Text(
+                            "Click to here music preview",
+                            style: textTheme.display1.copyWith(
+                                color: Colors.red, fontSize: 14),
+                            textAlign: TextAlign.center,
+                          )
+                          ,
+                        ),
+                        delay: 1000,
+                      )
+                          : Container(),
+                      (widget.id.isNotEmpty && widget.bandId.isEmpty && !isEdit)? ShowUp(child:
+                      Container(
+                        height: 1,
+                        width:
+                        MediaQuery.of(context).size.width ,
+                        color: Colors.red,
+                        margin: EdgeInsets.only(
+                            left:MediaQuery.of(context).size.width/4.2,
+                            right:MediaQuery.of(context).size.width/4.2,
+                            top: 3,
+                            bottom: 0),
+                      )
+                        ,delay: 1000,): Container(),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
                       widget.bandId.isEmpty
                           ? ShowUp(
-                              child: !isEducation
-                                  ? new GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          isEducation = true;
-                                        });
-                                      },
-                                      child: widget.id.isEmpty || isEdit
-                                          ? Text(
-                                              "Click here to add education",
-                                              style: textTheme.display1
-                                                  .copyWith(
-                                                      color: qDarkmodeEnable
-                                                          ? Colors.white
-                                                          : widget.appListener
-                                                              .primaryColorDark,
-                                                      fontSize: 14),
-                                            )
-                                          : Container(),
-                                    )
-                                  : Container(),
-                              delay: 1000,
-                            )
+                        child: !isEducation
+                            ? new GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isEducation = true;
+                            });
+                          },
+                          child: widget.id.isEmpty || isEdit
+                              ? Text(
+                            "Click here to add education",
+                            style: textTheme.display1
+                                .copyWith(
+                                color: qDarkmodeEnable
+                                    ? Colors.white
+                                    : widget.appListener
+                                    .primaryColorDark,
+                                fontSize: 14),
+                          )
+                              : Container(),
+                        )
+                            : Container(),
+                        delay: 1000,
+                      )
                           : Container(),
-                      Padding(
-                        padding: EdgeInsets.all(8),
-                      ),
                       isEducation && widget.bandId.isEmpty
                           ? Text(
                               "Education",
