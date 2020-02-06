@@ -1,4 +1,5 @@
 import 'package:gigtrack/base/base_model.dart';
+import 'package:gigtrack/server/models/user.dart';
 
 class AppNotification extends BaseModel {
   static const TYPE_BAND = 1;
@@ -27,6 +28,8 @@ class AppNotification extends BaseModel {
   int type = 0;
 
   String text;
+  String senderId;
+  User sender;
 
   AppNotification({
     this.text,
@@ -37,6 +40,7 @@ class AppNotification extends BaseModel {
     this.created,
     this.userId,
     this.id,
+    this.senderId,
   });
 
   AppNotification.fromJSON(dynamic data) {
@@ -48,6 +52,7 @@ class AppNotification extends BaseModel {
     bandId = data['bandId'];
     type = data['type'];
     text = data['text'];
+    senderId = data['senderId'];
   }
 
   @override
@@ -61,6 +66,7 @@ class AppNotification extends BaseModel {
     data['bandId'] = bandId;
     data['type'] = type;
     data['text'] = text;
+    data['senderId'] = senderId;
     return data;
   }
 }

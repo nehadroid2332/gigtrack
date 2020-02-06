@@ -70,13 +70,17 @@ class NotificationListPresenter extends BasePresenter {
         .orderByChild('userId')
         .equalTo(serverAPI.currentUserId)
         .onValue
-        .map((a) {
+        .asyncMap((a) async {
       Map mp = a.snapshot.value;
       if (mp == null) return null;
 
       List<AppNotification> acc = [];
       for (var d in mp.values) {
-        acc.add(AppNotification.fromJSON(d));
+        final noti = AppNotification.fromJSON(d);
+        if (noti.senderId != null && noti.senderId.isNotEmpty) {
+          noti.sender = await serverAPI.getSingleUserById(noti.senderId);
+        }
+        acc.add(noti);
       }
       return acc;
     });

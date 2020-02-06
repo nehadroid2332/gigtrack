@@ -282,6 +282,7 @@ class ServerAPI {
                 text: "A new Contact created in the band(${detail.name})",
                 type: AppNotification.TYPE_CONTACT,
                 userId: member.user_id,
+                senderId: currentUserId,
               ));
               if (res is AppNotification) {
                 sendPushNotification(res);
@@ -296,6 +297,7 @@ class ServerAPI {
               text: "A new Contact created in the band(${detail.name})",
               type: AppNotification.TYPE_CONTACT,
               userId: detail.userId,
+              senderId: currentUserId,
             ));
             if (res is AppNotification) {
               sendPushNotification(res);
@@ -422,6 +424,7 @@ class ServerAPI {
                 text: "A new Note/Todo created in the band(${detail.name})",
                 type: AppNotification.TYPE_NOTES,
                 userId: member.user_id,
+                senderId: currentUserId,
               ));
               if (res is AppNotification) {
                 sendPushNotification(res);
@@ -436,6 +439,7 @@ class ServerAPI {
               text: "A new Note/Todo created in the band(${detail.name})",
               type: AppNotification.TYPE_NOTES,
               userId: detail.userId,
+              senderId: currentUserId,
             ));
             if (res is AppNotification) {
               sendPushNotification(res);
@@ -506,6 +510,7 @@ class ServerAPI {
                     "A new Band Communication was created in the band (${detail.name})",
                 type: AppNotification.TYPE_BAND_COMM,
                 userId: member.user_id,
+                senderId: currentUserId,
               ));
               if (res is AppNotification) {
                 sendPushNotification(res);
@@ -521,6 +526,7 @@ class ServerAPI {
                   "A new Band Communication created in the band(${detail.name})",
               type: AppNotification.TYPE_BAND_COMM,
               userId: detail.userId,
+              senderId: currentUserId,
             ));
             if (res is AppNotification) {
               sendPushNotification(res);
@@ -558,6 +564,7 @@ class ServerAPI {
                 text: "A new Set-List added to band ${detail.name}",
                 type: AppNotification.TYPE_SET_LIST,
                 userId: member.user_id,
+                senderId: currentUserId,
               ));
               if (res is AppNotification) {
                 sendPushNotification(res);
@@ -595,6 +602,7 @@ class ServerAPI {
                     "A new ${activities.type == Activites.TYPE_ACTIVITY ? 'Activity' : activities.type == Activites.TYPE_BAND_TASK ? 'Band Task' : activities.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? 'Performance Schedule' : activities.type == Activites.TYPE_PRACTICE_SCHEDULE ? 'Practice Schedule' : activities.type == Activites.TYPE_TASK ? 'Task' : ''} was created in the band (${detail.name})",
                 type: AppNotification.TYPE_ACTIVITY,
                 userId: member.user_id,
+                senderId: currentUserId,
               ));
               if (res is AppNotification) {
                 sendPushNotification(res);
@@ -610,6 +618,7 @@ class ServerAPI {
                   "A new ${activities.type == Activites.TYPE_ACTIVITY ? 'Activity' : activities.type == Activites.TYPE_BAND_TASK ? 'Band Task' : activities.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? 'Performance Schedule' : activities.type == Activites.TYPE_PRACTICE_SCHEDULE ? 'Practice Schedule' : activities.type == Activites.TYPE_TASK ? 'Task' : ''} created in the band(${detail.name})",
               type: AppNotification.TYPE_ACTIVITY,
               userId: detail.userId,
+              senderId: currentUserId,
             ));
             if (res is AppNotification) {
               sendPushNotification(res);
@@ -664,6 +673,7 @@ class ServerAPI {
                 text: "A new Instrument created in the band(${detail.name})",
                 type: AppNotification.TYPE_INSTRUMENT,
                 userId: member.user_id,
+                senderId: currentUserId,
               ));
               if (res is AppNotification) {
                 sendPushNotification(res);
@@ -678,6 +688,7 @@ class ServerAPI {
               text: "A new Instrument created in the band(${detail.name})",
               type: AppNotification.TYPE_INSTRUMENT,
               userId: detail.userId,
+              senderId: currentUserId,
             ));
             if (res is AppNotification) {
               sendPushNotification(res);
@@ -885,6 +896,7 @@ class ServerAPI {
                 text: "A new EPK created in the band(${detail.name})",
                 type: AppNotification.TYPE_EPK,
                 userId: member.user_id,
+                senderId: currentUserId,
               ));
               if (res is AppNotification) {
                 sendPushNotification(res);
@@ -899,6 +911,7 @@ class ServerAPI {
               text: "A new EPK created in the band(${detail.name})",
               type: AppNotification.TYPE_EPK,
               userId: detail.userId,
+              senderId: currentUserId,
             ));
             if (res is AppNotification) {
               sendPushNotification(res);
