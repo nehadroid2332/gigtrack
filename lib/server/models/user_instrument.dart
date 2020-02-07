@@ -25,6 +25,7 @@ class UserInstrument extends BaseModel {
   bool isInsurance;
   Band band;
   List<dynamic> uploadedFiles = [];
+  List<dynamic> receiptFiles = [];
   String bandId;
   List<SubInstrumentNotes> subNotes = [];
 
@@ -49,6 +50,7 @@ class UserInstrument extends BaseModel {
       this.uploadedFiles,
       this.policyno,
       this.isWarranty,
+        this.receiptFiles,
       this.isInsurance});
 
   UserInstrument.fromJSON(dynamic data) {
@@ -75,6 +77,8 @@ class UserInstrument extends BaseModel {
     this.isInsurance = data['isInsurance'];
     if (data['uploadedFiles'] != null)
       this.uploadedFiles = data['uploadedFiles'];
+    if (data['receiptFiles'] != null)
+      this.receiptFiles = data['receiptFiles'];
     if (data['subInstrumentNotes'] != null) {
       for (var item in data['subInstrumentNotes']) {
         subNotes.add(SubInstrumentNotes.fromJSON(item));
@@ -101,6 +105,7 @@ class UserInstrument extends BaseModel {
     data['warranty_reference'] = warranty_reference ?? "";
     data['image'] = image;
     data['uploadedFiles'] = uploadedFiles;
+    data['receiptFiles']=receiptFiles;
     data['cost'] = cost;
     data['nick_name'] = nickName ?? "";
     data['insurance_no'] = insuranceno ?? "";

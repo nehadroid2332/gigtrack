@@ -33,6 +33,7 @@ class ServerAPI {
   static final ServerAPI _serverApi = new ServerAPI._internal();
 
   StorageReference equipmentRef;
+  StorageReference receiptRef;
   StorageReference bulletionRef;
 
   StorageReference contactsRef;
@@ -79,6 +80,7 @@ class ServerAPI {
     _auth = FirebaseAuth.instance;
     StorageReference storageRef = FirebaseStorage.instance.ref();
     equipmentRef = storageRef.child("Equipments");
+    receiptRef = storageRef.child("Receipt");
     contactsRef = storageRef.child("Contacts");
     playingstyleRef = storageRef.child("PlayingStyle");
     bandref = storageRef.child("Bands");
@@ -650,6 +652,24 @@ class ServerAPI {
             StorageTaskSnapshot snapshot = await uploadTask.onComplete;
             String url = await snapshot.ref.getDownloadURL();
             instrument.uploadedFiles[i] = url;
+          }
+        }
+      }
+      if (instrument.receiptFiles.length > 0) {
+        for (var i = 0; i < instrument.receiptFiles.length; i++) {
+          File file1 = File(instrument.receiptFiles[i]);
+
+          if (await file1.exists()) {
+            String basename = extension(file1.path);
+            File newFile = File(
+                file1.parent.path + "/temp-${await file1.length()}" + basename);
+            File file = await compressFileAndGetFile(file1, newFile.path);
+            final StorageUploadTask uploadTask = receiptRef
+                .child("${DateTime.now().toString()}$basename")
+                .putFile(file);
+            StorageTaskSnapshot snapshot = await uploadTask.onComplete;
+            String url = await snapshot.ref.getDownloadURL();
+            instrument.receiptFiles[i] = url;
           }
         }
       }
