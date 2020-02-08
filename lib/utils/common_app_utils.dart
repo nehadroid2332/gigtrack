@@ -5,9 +5,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gigtrack/server/models/activities.dart';
 import 'package:gigtrack/server/models/bulletinboard.dart';
 import 'package:gigtrack/server/models/notestodo.dart';
-import 'package:gigtrack/utils/NumberTextInputFormatter.dart';
+import 'package:gigtrack/utils/UsNumberTextInputFormatter.dart';
 
-NumberTextInputFormatter phoneNumberFormatter = NumberTextInputFormatter(1);
+UsNumberTextInputFormatter phoneNumberFormatter = UsNumberTextInputFormatter();
 
 class AppButton extends StatelessWidget {
   final String title;

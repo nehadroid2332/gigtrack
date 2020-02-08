@@ -6,10 +6,10 @@ import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/user.dart';
 import 'package:gigtrack/ui/profile/profile_presenter.dart';
-import 'package:gigtrack/utils/NumberTextInputFormatter.dart';
+import 'package:gigtrack/utils/UsNumberTextInputFormatter.dart';
 import 'package:image_picker/image_picker.dart';
 
-NumberTextInputFormatter phoneNumberFormatter = NumberTextInputFormatter(1);
+UsNumberTextInputFormatter phoneNumberFormatter = UsNumberTextInputFormatter();
 
 class ProfileScreen extends BaseScreen {
   ProfileScreen(AppListener appListener) : super(appListener);
@@ -268,7 +268,7 @@ class _ProfileScreenState
                   padding: EdgeInsets.all(4),
                 ),
                 isEdit
-                    ? TextField(
+                    ? TextFormField(
                         controller: _phoneController,
                         keyboardType: TextInputType.phone,
                         inputFormatters: [
@@ -276,6 +276,9 @@ class _ProfileScreenState
                           // Fit the validating format.
                           phoneNumberFormatter,
                         ],
+                        onSaved: (String value){
+                          _phoneController.text=value;
+                        },
                         decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.black,width: .5),

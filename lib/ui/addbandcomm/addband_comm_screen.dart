@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
 import 'package:gigtrack/server/models/band_comm.dart';
+import 'package:gigtrack/server/server_api.dart';
 import 'package:gigtrack/ui/addbandcomm/addband_comm_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
 
@@ -39,6 +40,7 @@ class _AddBandCommScreenState
   @override
   void initState() {
     super.initState();
+    //serverAPI = ServerAPI();
     getDetails();
   }
 
@@ -91,18 +93,18 @@ class _AddBandCommScreenState
             alignment: Alignment.center,
             width: widget.id.isEmpty
                 ? MediaQuery.of(context).size.width
-                : MediaQuery.of(context).size.width / 2,
-            child: Text(
+                :(bandComm!=null?bandComm.userId :false)== presenter.serverAPI.currentUserId?MediaQuery.of(context).size.width/2: MediaQuery.of(context).size.width,
+            child: Center(child: Text(
               "${widget.id.isEmpty ? "Add" : ""} Band Communication",
-              textAlign: TextAlign.center,
+              textAlign: (bandComm!=null?bandComm.userId :false)== presenter.serverAPI.currentUserId?TextAlign.center:TextAlign.left,
               style: textTheme.headline.copyWith(
                 color: Colors.white,
               ),
-            ),
+            ),)
           ),
           widget.id.isEmpty
               ? Container()
-              : Container(
+              :(bandComm!=null?bandComm.userId :false)== presenter.serverAPI.currentUserId? Container(
                   child: IconButton(
                     icon: Icon(
                       Icons.edit,
@@ -114,10 +116,10 @@ class _AddBandCommScreenState
                       });
                     },
                   ),
-                ),
+                ):Container(child: null,),
           widget.id.isEmpty
               ? Container()
-              : IconButton(
+              : (bandComm!=null?bandComm.userId :false) == presenter.serverAPI.currentUserId?IconButton(
                   icon: Icon(
                     Icons.delete,
                     color: Colors.white,
@@ -125,7 +127,7 @@ class _AddBandCommScreenState
                   onPressed: () {
                     _showDialogConfirm();
                   },
-                )
+                ):Container(child: null,)
         ],
       );
 
@@ -350,7 +352,7 @@ class _AddBandCommScreenState
                           : Container(),
                       (widget.id.isNotEmpty && !isEdit) &&
                               !(bandComm?.isArchieve ?? false)
-                          ? RaisedButton(
+                          ?(bandComm!=null?bandComm.userId :false)==presenter.serverAPI.currentUserId? RaisedButton(
                               child: Text("Archive Commnuication"),
                               color: Color.fromRGBO(214, 22, 35, 1.0),
                               padding: EdgeInsets.symmetric(
@@ -364,7 +366,7 @@ class _AddBandCommScreenState
                                 bandComm.isArchieve = true;
                                 presenter.addBandComm(bandComm);
                               },
-                            )
+                            ):Container()
                           : Container()
                     ],
                   ),
@@ -444,8 +446,8 @@ class _AddBandCommScreenState
                   showMessage("Id cannot be null");
                 } else {
                   presenter.deleteBandComm(widget.id);
-                  Navigator.of(context).popUntil(
-                      ModalRoute.withName(Screens.BULLETINLISTLIST.toString()));
+                 // Navigator.of(context).popUntil(ModalRoute.withName(Screens.BANDCOMMLIST.toString() +"/////"));
+                  Navigator.popUntil(context, ModalRoute.withName(Screens.BANDCOMMLIST.toString() +"/////"));
                 }
               },
             ),
@@ -496,7 +498,7 @@ class _AddBandCommScreenState
     setState(() {
       bandComm = note;
       _addCommController.text = bandComm.addCommunication;
-      _titleController.text = "\$${bandComm.title}";
+      _titleController.text = "${bandComm.title}";
     });
   }
 }

@@ -35,6 +35,7 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
       _cityController = TextEditingController(),
       _stateController = TextEditingController(),
       _zipController = TextEditingController(),
+      __confirmpasswordController= TextEditingController(),
       _guardianNameController = TextEditingController(),
       _guardianEmailController = TextEditingController(),
       _primaryInstrumentController = TextEditingController(),
@@ -281,6 +282,18 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                     labelText: "Password",
                     labelStyle: TextStyle(
                       color: Color.fromRGBO(169, 176, 187, 1.0),
+                        fontSize: 14
+                    ),
+                    errorText: _errorPassword,
+                  ),
+                  obscureText: true,
+                ),
+                TextField(
+                  controller: __confirmpasswordController,
+                  decoration: InputDecoration(
+                    labelText: "Confirm Password",
+                    labelStyle: TextStyle(
+                        color: Color.fromRGBO(169, 176, 187, 1.0),
                         fontSize: 14
                     ),
                     errorText: _errorPassword,
@@ -609,6 +622,8 @@ class _SignUpScreenState extends BaseScreenState<SignUpScreen, SignUpPresenter>
                             _errorEmail = "Cannot be empty";
                           } else if (password.isEmpty) {
                             _errorPassword = "Cannot be empty";
+                          }else if(password.isNotEmpty&& password==__confirmpasswordController.text){
+                            _errorPassword = "Password entered is not same";
                           } else if (validateEmail(email)) {
                             _errorEmail = "Not a Valid Email";
                           } else if (password.length < 6) {

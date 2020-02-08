@@ -231,30 +231,31 @@ class _AddBandScreenState
         actions: <Widget>[
           Container(
             alignment: Alignment.center,
+
             width: widget.id.isEmpty
                 ? MediaQuery.of(context).size.width
-                : MediaQuery.of(context).size.width / 2,
-            child: Text(
+                :(bandUserId!=null?bandUserId:null) == presenter.serverAPI.currentUserId? MediaQuery.of(context).size.width / 2:MediaQuery.of(context).size.width,
+            child: Center(child: Text(
               "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Band",
               textAlign: TextAlign.center,
               style: textTheme.headline.copyWith(
                 color: Colors.white,
               ),
-            ),
+            ),)
           ),
           widget.id.isEmpty
               ? Container()
-              : IconButton(
+              : (bandUserId!=null?bandUserId:null) == presenter.serverAPI.currentUserId?IconButton(
                   icon: Icon(Icons.edit),
                   onPressed: () {
                     setState(() {
                       isEdit = !isEdit;
                     });
                   },
-                ),
+                ):Container(),
           widget.id.isEmpty
               ? Container()
-              : IconButton(
+              :(bandUserId!=null?bandUserId:null)== presenter.serverAPI.currentUserId?IconButton(
                   icon: Icon(
                     Icons.delete,
                     color: Colors.white,
@@ -268,7 +269,7 @@ class _AddBandScreenState
                       // Navigator.of(context).pop();
                     }
                   },
-                )
+                ):Container()
         ],
       );
 
