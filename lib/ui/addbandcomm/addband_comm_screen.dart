@@ -90,44 +90,61 @@ class _AddBandCommScreenState
         backgroundColor: Color.fromRGBO(214, 22, 35, 1.0),
         actions: <Widget>[
           Container(
-            alignment: Alignment.center,
-            width: widget.id.isEmpty
-                ? MediaQuery.of(context).size.width
-                :(bandComm!=null?bandComm.userId :false)== presenter.serverAPI.currentUserId?MediaQuery.of(context).size.width/2: MediaQuery.of(context).size.width,
-            child: Center(child: Text(
-              "${widget.id.isEmpty ? "Add" : ""} Band Communication",
-              textAlign: (bandComm!=null?bandComm.userId :false)== presenter.serverAPI.currentUserId?TextAlign.center:TextAlign.left,
-              style: textTheme.headline.copyWith(
-                color: Colors.white,
-              ),
-            ),)
-          ),
-          widget.id.isEmpty
-              ? Container()
-              :(bandComm!=null?bandComm.userId :false)== presenter.serverAPI.currentUserId? Container(
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.edit,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        isEdit = !isEdit;
-                      });
-                    },
-                  ),
-                ):Container(child: null,),
-          widget.id.isEmpty
-              ? Container()
-              : (bandComm!=null?bandComm.userId :false) == presenter.serverAPI.currentUserId?IconButton(
-                  icon: Icon(
-                    Icons.delete,
+              alignment: Alignment.center,
+              width: widget.id.isEmpty
+                  ? MediaQuery.of(context).size.width
+                  : (bandComm != null ? bandComm.userId : false) ==
+                          presenter.serverAPI.currentUserId
+                      ? MediaQuery.of(context).size.width / 2
+                      : MediaQuery.of(context).size.width,
+              child: Center(
+                child: Text(
+                  "${widget.id.isEmpty ? "Add" : ""} Band Communication",
+                  textAlign: (bandComm != null ? bandComm.userId : false) ==
+                          presenter.serverAPI.currentUserId
+                      ? TextAlign.center
+                      : TextAlign.left,
+                  style: textTheme.headline.copyWith(
                     color: Colors.white,
                   ),
-                  onPressed: () {
-                    _showDialogConfirm();
-                  },
-                ):Container(child: null,)
+                ),
+              )),
+          widget.id.isEmpty
+              ? Container()
+              : (bandComm != null ? bandComm.userId : false) ==
+                      presenter.serverAPI.currentUserId
+                  ? Container(
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.edit,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isEdit = !isEdit;
+                          });
+                        },
+                      ),
+                    )
+                  : Container(
+                      child: null,
+                    ),
+          widget.id.isEmpty
+              ? Container()
+              : (bandComm != null ? bandComm.userId : false) ==
+                      presenter.serverAPI.currentUserId
+                  ? IconButton(
+                      icon: Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        _showDialogConfirm();
+                      },
+                    )
+                  : Container(
+                      child: null,
+                    )
         ],
       );
 
@@ -352,21 +369,24 @@ class _AddBandCommScreenState
                           : Container(),
                       (widget.id.isNotEmpty && !isEdit) &&
                               !(bandComm?.isArchieve ?? false)
-                          ?(bandComm!=null?bandComm.userId :false)==presenter.serverAPI.currentUserId? RaisedButton(
-                              child: Text("Archive Commnuication"),
-                              color: Color.fromRGBO(214, 22, 35, 1.0),
-                              padding: EdgeInsets.symmetric(
-                                vertical: 8,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              textColor: Colors.white,
-                              onPressed: () {
-                                bandComm.isArchieve = true;
-                                presenter.addBandComm(bandComm);
-                              },
-                            ):Container()
+                          ? (bandComm != null ? bandComm.userId : false) ==
+                                  presenter.serverAPI.currentUserId
+                              ? RaisedButton(
+                                  child: Text("Archive Commnuication"),
+                                  color: Color.fromRGBO(214, 22, 35, 1.0),
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 8,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  textColor: Colors.white,
+                                  onPressed: () {
+                                    bandComm.isArchieve = true;
+                                    presenter.addBandComm(bandComm);
+                                  },
+                                )
+                              : Container()
                           : Container()
                     ],
                   ),
@@ -446,8 +466,8 @@ class _AddBandCommScreenState
                   showMessage("Id cannot be null");
                 } else {
                   presenter.deleteBandComm(widget.id);
-                 // Navigator.of(context).popUntil(ModalRoute.withName(Screens.BANDCOMMLIST.toString() +"/////"));
-                  Navigator.popUntil(context, ModalRoute.withName(Screens.BANDCOMMLIST.toString() +"/////"));
+                  Navigator.pop(context);
+                  Navigator.pop(context);
                 }
               },
             ),

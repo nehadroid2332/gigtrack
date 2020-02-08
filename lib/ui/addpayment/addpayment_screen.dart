@@ -622,8 +622,8 @@ class _AddPaymentScreenState
                   showMessage("Id cannot be null");
                 } else {
                   presenter.deletePayment(widget.id);
-                  Navigator.of(context).popUntil(
-                      ModalRoute.withName(Screens.BULLETINLISTLIST.toString()));
+                  Navigator.pop(context);
+                  Navigator.pop(context);
                 }
               },
             ),

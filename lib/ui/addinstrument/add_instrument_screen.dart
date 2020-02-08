@@ -51,7 +51,7 @@ class _AddInstrumentScreenState
   bool _iswarrantydate = false;
   bool _isnickNameEuip = false;
   bool _isinsuranceInfo = false;
-  bool _isReceiptClick=false;
+  bool _isReceiptClick = false;
 
   bool _iswarrantyAvailable = false;
   bool _isinsuranceAvailable = false;
@@ -102,7 +102,7 @@ class _AddInstrumentScreenState
   String userId;
 
   //added image cropper in the code
-  Future<Null> _cropImage(image,type) async {
+  Future<Null> _cropImage(image, type) async {
     File croppedFile = await ImageCropper.cropImage(
       sourcePath: image.path,
       aspectRatioPresets: Platform.isAndroid
@@ -134,9 +134,10 @@ class _AddInstrumentScreenState
       image = croppedFile;
       setState(() {
         _image = image;
-        if(type==0){
-        files.clear();
-        files.add(image.path);}else if(type==1){
+        if (type == 0) {
+          files.clear();
+          files.add(image.path);
+        } else if (type == 1) {
           receiptfiles.clear();
           receiptfiles.add(image.path);
         }
@@ -160,7 +161,7 @@ class _AddInstrumentScreenState
                 var image = await ImagePicker.pickImage(
                     source: ImageSource.camera, imageQuality: 50);
 
-                _cropImage(image,type);
+                _cropImage(image, type);
               },
             ),
             new FlatButton(
@@ -169,7 +170,7 @@ class _AddInstrumentScreenState
                 Navigator.of(context).pop();
                 var image = await ImagePicker.pickImage(
                     source: ImageSource.gallery, imageQuality: 50);
-                _cropImage(image,type);
+                _cropImage(image, type);
               },
             ),
           ],
@@ -203,7 +204,7 @@ class _AddInstrumentScreenState
   Band selectedBand;
   List<Band> _bands = <Band>[];
   List files = <dynamic>[];
-  List receiptfiles= <dynamic>[];
+  List receiptfiles = <dynamic>[];
   Stream<List<Band>> list;
 
   @override
@@ -1686,86 +1687,130 @@ class _AddInstrumentScreenState
                                                     )
                                                   : Container()
                                           : Container(),
-                                      Padding(padding: _isReceiptClick?EdgeInsets.all(5):EdgeInsets.all(5),),
+                                      Padding(
+                                        padding: _isReceiptClick
+                                            ? EdgeInsets.all(5)
+                                            : EdgeInsets.all(5),
+                                      ),
                                       widget.id.isNotEmpty && !isEdit
-                                          ? receiptfiles!=null&& receiptfiles.length>0?_isReceiptClick?Container():ShowUp(
-                                        child: new GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              _isReceiptClick=true;
-                                            });
-                                          },
-                                          child: Text(
-                                            "Receipt-Click Here",
-                                            textAlign: TextAlign.center,
-                                            style: textTheme.display1
-                                                .copyWith(
-                                                color: Colors.red,
-                                                fontSize: 16),
-                                          ),
-                                        ),
-                                        delay: 1000,
-                                      ):Container()
+                                          ? receiptfiles != null &&
+                                                  receiptfiles.length > 0
+                                              ? _isReceiptClick
+                                                  ? Container()
+                                                  : ShowUp(
+                                                      child:
+                                                          new GestureDetector(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            _isReceiptClick =
+                                                                true;
+                                                          });
+                                                        },
+                                                        child: Text(
+                                                          "Receipt-Click Here",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: textTheme
+                                                              .display1
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .red,
+                                                                  fontSize: 16),
+                                                        ),
+                                                      ),
+                                                      delay: 1000,
+                                                    )
+                                              : Container()
                                           : Container(),
                                       widget.id.isNotEmpty && !isEdit
-                                          ?receiptfiles!=null&& receiptfiles.length>0?ShowUp(child: _isReceiptClick?Container():Container(
-                                        height: 1,
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width,
-                                        color: Colors.red,
-                                        margin: EdgeInsets.only(
-                                            left: MediaQuery.of(context)
-                                                .size
-                                                .width /
-                                                3.5,
-                                            right: MediaQuery.of(context)
-                                                .size
-                                                .width /
-                                                3.5,
-                                            top: 3,
-                                            bottom: 14),
-                                      ),delay: 1000,):Container()
+                                          ? receiptfiles != null &&
+                                                  receiptfiles.length > 0
+                                              ? ShowUp(
+                                                  child: _isReceiptClick
+                                                      ? Container()
+                                                      : Container(
+                                                          height: 1,
+                                                          width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width,
+                                                          color: Colors.red,
+                                                          margin: EdgeInsets.only(
+                                                              left: MediaQuery
+                                                                          .of(
+                                                                              context)
+                                                                      .size
+                                                                      .width /
+                                                                  3.5,
+                                                              right: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  3.5,
+                                                              top: 3,
+                                                              bottom: 14),
+                                                        ),
+                                                  delay: 1000,
+                                                )
+                                              : Container()
                                           : Container(),
 
-                                      _isReceiptClick? widget.id.isEmpty || isEdit
-                                          ? Container()
-                                          : Container(
-                                        child: widget.id.isEmpty || isEdit
-                                            ? Container()
-                                            : receiptfiles != null && receiptfiles.length > 0
-                                            ? Container(
-                                            decoration: BoxDecoration(
-                                              color: Colors.black,
+                                      _isReceiptClick
+                                          ? widget.id.isEmpty || isEdit
+                                              ? Container()
+                                              : Container(
+                                                  child: widget.id.isEmpty ||
+                                                          isEdit
+                                                      ? Container()
+                                                      : receiptfiles != null &&
+                                                              receiptfiles
+                                                                      .length >
+                                                                  0
+                                                          ? Container(
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Colors
+                                                                    .black,
 //                                              image: DecorationImage(
 //                                                  image: NetworkImage(
 //                                                    File(receiptfiles[0]).path,
 //                                                  ),
 //                                                  fit: BoxFit.cover),
-                                              borderRadius:
-                                              BorderRadius.only(
-                                                  topLeft: Radius
-                                                      .circular(0),
-                                                  topRight: Radius
-                                                      .circular(0)),
-                                            ),
-                                            margin: EdgeInsets.only(
-                                                left: 10,
-                                                right: 10,
-                                                top: 10),
-                                            height:
-                                            MediaQuery.of(context)
-                                                .size
-                                                .height /
-                                                5.2,
-                                            width:
-                                            MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            child: PhotoView(imageProvider: NetworkImage(File(receiptfiles[0]).path),tightMode: false,))
+                                                                borderRadius: BorderRadius.only(
+                                                                    topLeft: Radius
+                                                                        .circular(
+                                                                            0),
+                                                                    topRight: Radius
+                                                                        .circular(
+                                                                            0)),
+                                                              ),
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                      left: 10,
+                                                                      right: 10,
+                                                                      top: 10),
+                                                              height: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .height /
+                                                                  5.2,
+                                                              width:
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width,
+                                                              child: PhotoView(
+                                                                imageProvider:
+                                                                    NetworkImage(
+                                                                        File(receiptfiles[0])
+                                                                            .path),
+                                                                tightMode:
+                                                                    false,
+                                                              ))
 //
-                                            : Container(),
-                                      ):Container(),
+                                                          : Container(),
+                                                )
+                                          : Container(),
                                       widget.id.isEmpty || isEdit
                                           ? Row(
                                               children: <Widget>[
@@ -1918,158 +1963,163 @@ class _AddInstrumentScreenState
                                               : Container()
                                           : Container(),
                                       Padding(
-                                        padding:widget.id.isNotEmpty&& !isEdit?EdgeInsets.all(0): EdgeInsets.all(5),
+                                        padding: widget.id.isNotEmpty && !isEdit
+                                            ? EdgeInsets.all(0)
+                                            : EdgeInsets.all(5),
                                       ),
                                       widget.id.isEmpty || isEdit
                                           ? Row(
-                                        children: <Widget>[
-                                          Expanded(
-                                            child: Text(
-                                              "Receipt Photo",
-                                              style:
-                                              TextStyle(fontSize: 16),
-                                            ),
-                                          ),
-                                          widget.id.isEmpty || isEdit
-                                              ? IconButton(
-                                            icon: Icon(
-                                                Icons.add_a_photo),
-                                            onPressed: () {
-                                              if (receiptfiles.length < 1)
-                                                getImage(1);
-                                              else
-                                                showMessage(
-                                                    "User can upload upto max 1 media files");
-                                            },
-                                          )
-                                              : Container()
-                                        ],
-                                      )
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: Text(
+                                                    "Receipt Photo",
+                                                    style:
+                                                        TextStyle(fontSize: 16),
+                                                  ),
+                                                ),
+                                                widget.id.isEmpty || isEdit
+                                                    ? IconButton(
+                                                        icon: Icon(
+                                                            Icons.add_a_photo),
+                                                        onPressed: () {
+                                                          if (receiptfiles
+                                                                  .length <
+                                                              1)
+                                                            getImage(1);
+                                                          else
+                                                            showMessage(
+                                                                "User can upload upto max 1 media files");
+                                                        },
+                                                      )
+                                                    : Container()
+                                              ],
+                                            )
                                           : Container(),
                                       receiptfiles.length > 0
                                           ? widget.id.isEmpty || isEdit
-                                          ? SizedBox(
-                                        height: 90,
-                                        child: ListView.builder(
-                                          itemCount: receiptfiles.length,
-                                          scrollDirection:
-                                          Axis.horizontal,
-                                          itemBuilder:
-                                              (BuildContext context,
-                                              int index) {
-                                            File file =
-                                            File(receiptfiles[index]);
-                                            return file.path
-                                                .startsWith(
-                                                "https")
-                                                ? Container(
-                                              margin: EdgeInsets
-                                                  .only(
-                                                  left: 10,
-                                                  right:
-                                                  10),
-                                              height: 80,
-                                              width: 150,
-                                              child: Stack(
-                                                children: <
-                                                    Widget>[
-                                                  widget.id.isNotEmpty ||
-                                                      isEdit &&
-                                                          file.path.startsWith(
-                                                              "https")
-                                                      ? Image
-                                                      .network(
-                                                    file.path.toString() ??
-                                                        "",
-                                                    fit: BoxFit
-                                                        .cover,
-                                                  )
-                                                      : Image
-                                                      .file(
-                                                    file,
-                                                    fit: BoxFit
-                                                        .cover,
+                                              ? SizedBox(
+                                                  height: 90,
+                                                  child: ListView.builder(
+                                                    itemCount:
+                                                        receiptfiles.length,
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int index) {
+                                                      File file = File(
+                                                          receiptfiles[index]);
+                                                      return file.path
+                                                              .startsWith(
+                                                                  "https")
+                                                          ? Container(
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                      left: 10,
+                                                                      right:
+                                                                          10),
+                                                              height: 80,
+                                                              width: 150,
+                                                              child: Stack(
+                                                                children: <
+                                                                    Widget>[
+                                                                  widget.id.isNotEmpty ||
+                                                                          isEdit &&
+                                                                              file.path.startsWith(
+                                                                                  "https")
+                                                                      ? Image
+                                                                          .network(
+                                                                          file.path.toString() ??
+                                                                              "",
+                                                                          fit: BoxFit
+                                                                              .cover,
+                                                                        )
+                                                                      : Image
+                                                                          .file(
+                                                                          file,
+                                                                          fit: BoxFit
+                                                                              .cover,
+                                                                        ),
+                                                                  Positioned(
+                                                                    right: 14,
+                                                                    top: 0,
+                                                                    child:
+                                                                        InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        setState(
+                                                                            () {
+                                                                          receiptfiles =
+                                                                              new List();
+                                                                        });
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        child:
+                                                                            Icon(
+                                                                          Icons
+                                                                              .cancel,
+                                                                          color:
+                                                                              Colors.white,
+                                                                        ),
+                                                                        color: Colors
+                                                                            .black,
+                                                                      ),
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            )
+                                                          : Container(
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                      left: 10,
+                                                                      right:
+                                                                          10),
+                                                              height: 80,
+                                                              width: 150,
+                                                              child: Stack(
+                                                                children: <
+                                                                    Widget>[
+                                                                  Image.file(
+                                                                    file,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
+                                                                  Positioned(
+                                                                    right: 14,
+                                                                    top: 0,
+                                                                    child:
+                                                                        InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        setState(
+                                                                            () {
+                                                                          receiptfiles =
+                                                                              new List();
+                                                                        });
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        child:
+                                                                            Icon(
+                                                                          Icons
+                                                                              .cancel,
+                                                                          color:
+                                                                              Colors.white,
+                                                                        ),
+                                                                        color: Colors
+                                                                            .black,
+                                                                      ),
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            );
+                                                    },
                                                   ),
-                                                  Positioned(
-                                                    right: 14,
-                                                    top: 0,
-                                                    child:
-                                                    InkWell(
-                                                      onTap:
-                                                          () {
-                                                        setState(
-                                                                () {
-                                                              receiptfiles =
-                                                              new List();
-                                                            });
-                                                      },
-                                                      child:
-                                                      Container(
-                                                        child:
-                                                        Icon(
-                                                          Icons
-                                                              .cancel,
-                                                          color:
-                                                          Colors.white,
-                                                        ),
-                                                        color: Colors
-                                                            .black,
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            )
-                                                : Container(
-                                              margin: EdgeInsets
-                                                  .only(
-                                                  left: 10,
-                                                  right:
-                                                  10),
-                                              height: 80,
-                                              width: 150,
-                                              child: Stack(
-                                                children: <
-                                                    Widget>[
-                                                  Image.file(
-                                                    file,
-                                                    fit: BoxFit
-                                                        .cover,
-                                                  ),
-                                                  Positioned(
-                                                    right: 14,
-                                                    top: 0,
-                                                    child:
-                                                    InkWell(
-                                                      onTap:
-                                                          () {
-                                                        setState(
-                                                                () {
-                                                              receiptfiles =
-                                                              new List();
-                                                            });
-                                                      },
-                                                      child:
-                                                      Container(
-                                                        child:
-                                                        Icon(
-                                                          Icons
-                                                              .cancel,
-                                                          color:
-                                                          Colors.white,
-                                                        ),
-                                                        color: Colors
-                                                            .black,
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      )
-                                          : Container()
+                                                )
+                                              : Container()
                                           : Container(),
                                       Padding(
                                         padding: EdgeInsets.all(5),
@@ -2314,7 +2364,8 @@ class _AddInstrumentScreenState
       _costController.text = instrument.cost;
       _cost = fmf.output.nonSymbol.toString();
       if (instrument.uploadedFiles != null) files = instrument.uploadedFiles;
-      if (instrument.receiptFiles != null) receiptfiles = instrument.receiptFiles;
+      if (instrument.receiptFiles != null)
+        receiptfiles = instrument.receiptFiles;
       _instrumentNickNameController.text = instrument.nickName;
       _insuredController.text = instrument.insuranceno;
       _policyController.text = instrument.policyno;
@@ -2361,9 +2412,8 @@ class _AddInstrumentScreenState
                   showMessage("Id cannot be null");
                 } else {
                   presenter.instrumentDelete(id);
-                  Navigator.of(context).popUntil(ModalRoute.withName(
-                      Screens.INSTRUMENTLIST.toString() + "/////"));
-                  //Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
                 }
               },
             ),
@@ -2425,7 +2475,7 @@ class _AddInstrumentScreenState
             insuranceno: insuranceno,
             isWarranty: warrantyInfo,
             uploadedFiles: files,
-            receiptFiles:receiptfiles,
+            receiptFiles: receiptfiles,
             policyno: policyno);
 
         showLoading();

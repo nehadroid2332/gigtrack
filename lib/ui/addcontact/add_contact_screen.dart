@@ -2101,9 +2101,8 @@ class _AddContactScreenState
                   showMessage("Id cannot be null");
                 } else {
                   presenter.contactDelete(widget.id);
-                  Navigator.of(context).popUntil(ModalRoute.withName(
-                      Screens.CONTACTLIST.toString() + "/////"));
-                  //Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
                 }
               },
             ),

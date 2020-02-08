@@ -170,7 +170,10 @@ class _AddBulletInBoardScreenState
                     title: Text("Do you want to save changes?"),
                     actions: <Widget>[
                       FlatButton(
-                        child: Text("No",style: TextStyle(color: Colors.black87),),
+                        child: Text(
+                          "No",
+                          style: TextStyle(color: Colors.black87),
+                        ),
                         onPressed: () {
                           Navigator.of(context).pop(true);
                         },
@@ -975,8 +978,8 @@ class _AddBulletInBoardScreenState
                   showMessage("Id cannot be null");
                 } else {
                   presenter.bulletinboardDelete(widget.id);
-                  Navigator.of(context).popUntil(
-                      ModalRoute.withName(Screens.BULLETINLISTLIST.toString()));
+                  Navigator.pop(context);
+                  Navigator.pop(context);
                 }
               },
             ),
