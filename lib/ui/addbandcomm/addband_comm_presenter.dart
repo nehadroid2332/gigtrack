@@ -37,7 +37,7 @@ class AddBandCommPresenter extends BasePresenter {
     }
   }
 
-  void deleteBandComm(String id) {
-    serverAPI.deleteBandComm(id);
+  void deleteBandComm(String id) async{
+    await serverAPI.deleteBandComm(id);
   }
 }

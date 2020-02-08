@@ -132,6 +132,7 @@ class _AddPlayingStyleScreenState
   final _otherExpController = TextEditingController();
   final _emailBandController = TextEditingController();
   final _websiteBandController = TextEditingController();
+  final _musicPreviewController= TextEditingController();
   final _nameBandController = TextEditingController();
   final _contactBandController = TextEditingController();
   final _aboutBandController = TextEditingController();
@@ -1439,6 +1440,26 @@ class _AddPlayingStyleScreenState
                       //             ),
                       //           )
                       //     : Container(),
+                      widget.bandId.isEmpty
+                          && (widget.id.isEmpty || isEdit)
+                          ? TextField(
+                        controller: _musicPreviewController,
+                        decoration: InputDecoration(
+                          hintText: "Music Preview",
+                        ),
+                        style: TextStyle(
+                            color: qDarkmodeEnable
+                                ? Colors.white
+                                : Colors.black87),
+                      )
+                          : Padding(
+                        child: Text(
+                          _musicPreviewController.text,
+                          textAlign: TextAlign.center,
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 4),
+                      ),
+
                       widget.bandId.isNotEmpty
                           ? (widget.id.isEmpty || isEdit)
                               ? TextField(

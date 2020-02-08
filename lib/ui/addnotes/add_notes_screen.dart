@@ -131,7 +131,7 @@ class _AddNotesScreenState
                   ? MediaQuery.of(context).size.width
                   : widget.isParent
                       ? MediaQuery.of(context).size.width
-                      : MediaQuery.of(context).size.width / 2,
+                      :(userId!=null?userId:null) == presenter.serverAPI.currentUserId? MediaQuery.of(context).size.width / 2:MediaQuery.of(context).size.width,
               child: Center(
                 child: Text(
                   "${widget.id.isEmpty ? widget.type == NotesTodo.TYPE_NOTE ? "Add Note" : widget.type == NotesTodo.TYPE_IDEA ? "Add Idea" : "" : widget.isParent ? "Note is about" : widget.type == NotesTodo.TYPE_NOTE ? "Note" : widget.type == NotesTodo.TYPE_IDEA ? "Idea" : ""}",
@@ -142,14 +142,17 @@ class _AddNotesScreenState
                   ),
                 ),
               )),
+
+          //(widget.bandId == null || widget.bandId.isEmpty) ||
+  //                      (widget.bandId != null &&
+  //                          (widget.isLeader ||
+  //                              (userId != null &&
+  //                                  userId == presenter.serverAPI.currentUserId)))
+
           widget.id.isEmpty || widget.isParent
               ? Container()
-              : (widget.bandId == null || widget.bandId.isEmpty) ||
-                      (widget.bandId != null &&
-                          (widget.isLeader ||
-                              (userId != null &&
-                                  userId == presenter.serverAPI.currentUserId)))
-                  ? IconButton(
+              :
+          (userId!=null?userId:null) == presenter.serverAPI.currentUserId ? IconButton(
                       icon: Icon(
                         Icons.edit,
                         color: Colors.white,
@@ -164,11 +167,7 @@ class _AddNotesScreenState
                   : Container(),
           widget.id.isEmpty || widget.isParent
               ? Container()
-              : (widget.bandId == null || widget.bandId.isEmpty) ||
-                      (widget.bandId != null &&
-                          (widget.isLeader ||
-                              (userId != null &&
-                                  userId == presenter.serverAPI.currentUserId)))
+              :(userId!=null?userId:null) == presenter.serverAPI.currentUserId
                   ? IconButton(
                       icon: Icon(
                         Icons.delete,
@@ -468,7 +467,7 @@ class _AddNotesScreenState
                             ),
                       widget.id.isEmpty || isEdit || widget.isParent
                           ? Container()
-                          : ShowUp(
+                          : (userId!=null?userId:null) == presenter.serverAPI.currentUserId?ShowUp(
                               child: new GestureDetector(
                                 onTap: () async {
                                   await widget.appListener.router.navigateTo(
@@ -485,11 +484,11 @@ class _AddNotesScreenState
                                 ),
                               ),
                               delay: 1000,
-                            ),
+                            ):Container(),
 
                       widget.id.isEmpty || isEdit || widget.isParent
                           ? Container()
-                          : Container(
+                          :(userId!=null?userId:null) == presenter.serverAPI.currentUserId? Container(
                               height: 1,
                               width: MediaQuery.of(context).size.width / 4,
                               color: Colors.red,
@@ -499,7 +498,7 @@ class _AddNotesScreenState
                                       MediaQuery.of(context).size.width / 3.5,
                                   top: 2,
                                   bottom: 0),
-                            ),
+                            ):Container(),
 //                      widget.id.isEmpty || isEdit || widget.isParent
 //                          ? Container()
 //                          : Padding(
@@ -632,7 +631,7 @@ class _AddNotesScreenState
                       widget.id.isNotEmpty
                           ? isArchieve
                               ? Container()
-                              : Padding(
+                              : (userId!=null?userId:null) == presenter.serverAPI.currentUserId?Padding(
                                   padding: EdgeInsets.all(5),
                                   child: InkWell(
                                     child: Text(
@@ -700,7 +699,7 @@ class _AddNotesScreenState
                                       );
                                     },
                                   ),
-                                )
+                                ):Container()
                           : Container(),
                       widget.id.isEmpty || isEdit || widget.isParent
                           ? RaisedButton(

@@ -59,6 +59,7 @@ dependencies:
   sticky_headers: ^0.1.8+1
   table_calendar: ^2.2.2
   geolocator: ^5.2.1
+  photo_view: ^0.9.1
 
 
 

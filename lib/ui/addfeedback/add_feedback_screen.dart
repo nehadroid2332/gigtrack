@@ -97,6 +97,8 @@ class _AddFeedbackScreenState
                       TextField(
                         style: textTheme.title,
                         textCapitalization: TextCapitalization.sentences,
+                        minLines: 3,
+                        maxLines: 6,
                         decoration: InputDecoration(
                           errorText: _feedbackError,
                           labelText: "Add Feedback",

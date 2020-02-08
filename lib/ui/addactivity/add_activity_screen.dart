@@ -63,7 +63,7 @@ class _AddActivityScreenState
   final List<Band> bands = [];
   final List<User> members = [];
   Band selectedBand;
-
+  String currentuserID;
   String _titleError,
       _dateError,
       _descError,
@@ -135,7 +135,7 @@ class _AddActivityScreenState
           _startTimeController.text =
               formatDate(dateTime, [h, ':', nn, ' ', am]);
       } else {
-        if (picked.hourOfPeriod <= startTime.hourOfPeriod) {
+        if (picked.hour <= startTime.hour) {
           showMessage("End Time must be later than Start Time");
         } else {
           endTime = picked;
@@ -233,7 +233,7 @@ class _AddActivityScreenState
               alignment: Alignment.center,
               width: widget.id.isEmpty
                   ? MediaQuery.of(context).size.width
-                  : MediaQuery.of(context).size.width / 2,
+                  :(currentuserID!=null?currentuserID:null)==presenter.serverAPI.currentUserId? MediaQuery.of(context).size.width / 2:MediaQuery.of(context).size.width,
               child: Center(
                 child: Text(
                   "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} ${widget.type == Activites.TYPE_ACTIVITY ? "Activity" : widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? "Performance Schedule" : widget.type == Activites.TYPE_APPOINTMENT ? "Appointment" : widget.type == Activites.TYPE_PRACTICE_SCHEDULE ? "Practice Schedule" : widget.type == Activites.TYPE_TASK ? widget.isParent ? "Add Task Notes" : "Task" : widget.type == Activites.TYPE_BAND_TASK ? "Band Task" : ""}",
@@ -248,22 +248,22 @@ class _AddActivityScreenState
               )),
           widget.id.isEmpty || widget.isParent
               ? Container()
-              : IconButton(
+              : (currentuserID!=null?currentuserID:null)==presenter.serverAPI.currentUserId?IconButton(
                   icon: Icon(Icons.edit),
                   onPressed: () {
                     setState(() {
                       isEdit = !isEdit;
                     });
                   },
-                ),
+                ):Container(),
           widget.id.isEmpty || widget.isParent
               ? Container()
-              : IconButton(
+              : (currentuserID!=null?currentuserID:null)==presenter.serverAPI.currentUserId?IconButton(
                   icon: Icon(Icons.delete),
                   onPressed: () {
                     _showDialogConfirm();
                   },
-                )
+                ):Container()
         ],
       );
 
@@ -2541,6 +2541,7 @@ class _AddActivityScreenState
         _taskCompletion.text =
             formatDate(completionDate, [D, ', ', mm, '-', dd, '-', yy]);
       }
+      currentuserID= activities.userId;
       _startEventTimeController.text = activities.startEventTime;
       _endEventTimeController.text = activities.endEventTime;
       latitude = activities.latitude;

@@ -50,7 +50,7 @@ class ContactListPresenter extends BasePresenter {
     // else
     return serverAPI.contactDB
         .orderByChild('user_id')
-        .equalTo(serverAPI.currentUserId)
+        //.equalTo(serverAPI.currentUserId)
         .onValue
         .asyncMap((a) async {
       Map mp = a.snapshot.value;
@@ -81,15 +81,35 @@ class ContactListPresenter extends BasePresenter {
         //   acc.add(contact);
         // }
         if (bandId.isEmpty) {
-          if (contact.user_id == serverAPI.currentUserId ||
-              contact.bandId == bandId) {
-            if (contactInit != null) {
-              if (contact.name
-                  .toLowerCase()
-                  .contains(contactInit.toLowerCase())) acc.add(contact);
-            } else
-              acc.add(contact);
+          if (contact.band != null) {
+            if (contact.band.bandmates.keys
+                .contains(serverAPI.currentUserEmail.replaceAll(".", "")) ||
+                contact.band.userId == serverAPI.currentUserId) {
+              if (contactInit != null) {
+                if (contact.name
+                    .toLowerCase()
+                    .contains(contactInit.toLowerCase())) acc.add(contact);
+              } else{
+                acc.add(contact);
+            }
+
+            }
+
           }
+          if (contact.user_id == serverAPI.currentUserId) {
+            if (acc.contains(contact)) {
+              continue;
+            } else {
+              if (contactInit != null) {
+                if (contact.name
+                    .toLowerCase()
+                    .contains(contactInit.toLowerCase())) acc.add(contact);
+              } else{
+                acc.add(contact);
+              }
+            }
+          }
+
         } else {
           if (contact.bandId == bandId) {
             if (contactInit != null) {

@@ -12,7 +12,6 @@ import 'package:gigtrack/utils/showup.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:random_string/random_string.dart';
-import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:url_launcher/url_launcher.dart';
 
 class AddContactScreen extends BaseScreen {
@@ -193,7 +192,10 @@ class _AddContactScreenState
               alignment: Alignment.center,
               width: widget.id.isEmpty
                   ? MediaQuery.of(context).size.width
-                  : MediaQuery.of(context).size.width / 2,
+                  : (widget.isLeader ||
+                          userId == presenter.serverAPI.currentUserId)
+                      ? MediaQuery.of(context).size.width / 2
+                      : MediaQuery.of(context).size.width,
               child: Center(
                 child: Text(
                   "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Contact",
@@ -206,8 +208,9 @@ class _AddContactScreenState
           subContact == null
               ? widget.id.isEmpty
                   ? Container()
-                  : (widget.isLeader ||
-                          userId == presenter.serverAPI.currentUserId)
+                  : (userId ==
+                          presenter
+                              .serverAPI.currentUserId) //widget.isLeader ||
                       ? IconButton(
                           icon: Icon(Icons.edit),
                           onPressed: () {
@@ -222,8 +225,9 @@ class _AddContactScreenState
           subContact == null
               ? widget.id.isEmpty
                   ? Container()
-                  : (widget.isLeader ||
-                          userId == presenter.serverAPI.currentUserId)
+                  : (userId ==
+                          presenter
+                              .serverAPI.currentUserId) //widget.isLeader ||
                       ? IconButton(
                           icon: Icon(Icons.delete),
                           onPressed: () {
@@ -754,10 +758,10 @@ class _AddContactScreenState
                                   : EdgeInsets.all(5),
                             ),
                             widget.id.isEmpty || isEdit
-                                ? TextField(
+                                ? TextFormField(
                                     enabled: widget.id.isEmpty || isEdit,
                                     controller: _textController,
-                                    keyboardType: TextInputType.number,
+                                    keyboardType: TextInputType.phone,
                                     textCapitalization:
                                         TextCapitalization.sentences,
                                     style: textTheme.subhead.copyWith(
@@ -770,6 +774,9 @@ class _AddContactScreenState
                                       // Fit the validating format.
                                       phoneNumberFormatter,
                                     ],
+                                    onSaved: (String value) {
+                                      _textController.text = value;
+                                    },
                                     decoration: InputDecoration(
                                       labelStyle: TextStyle(
                                         color:
@@ -879,7 +886,7 @@ class _AddContactScreenState
                               delay: 1000,
                             ),
                             (widget.id.isEmpty || isEdit) && _isphoneNumber
-                                ? TextField(
+                                ? TextFormField(
                                     enabled: widget.id.isEmpty || isEdit,
                                     controller: _phoneController,
                                     keyboardType: TextInputType.phone,
@@ -895,6 +902,9 @@ class _AddContactScreenState
                                       // Fit the validating format.
                                       phoneNumberFormatter,
                                     ],
+                                    onSaved: (String value) {
+                                      _phoneController.text = value;
+                                    },
                                     decoration: InputDecoration(
                                       labelStyle: TextStyle(
                                         color:
@@ -1742,45 +1752,55 @@ class _AddContactScreenState
                               padding: EdgeInsets.all(4),
                             ),
                             widget.id.isNotEmpty && !isEdit
+                                ? (widget.isLeader ||
+                                        userId ==
+                                            presenter.serverAPI.currentUserId)
+                                    ? ShowUp(
+                                        child: new GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              subContact = SubContact();
+                                            });
+                                          },
+                                          child: Text(
+                                            "Click here to add contact notes",
+                                            textAlign: TextAlign.center,
+                                            style: textTheme.display1.copyWith(
+                                                color: Colors.red,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                        delay: 1000,
+                                      )
+                                    : Container()
+                                : Container(),
+                            (widget.isLeader ||
+                                    userId == presenter.serverAPI.currentUserId)
                                 ? ShowUp(
-                                    child: new GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          subContact = SubContact();
-                                        });
-                                      },
-                                      child: Text(
-                                        "Click here to add contact notes",
-                                        textAlign: TextAlign.center,
-                                        style: textTheme.display1.copyWith(
-                                            color: Colors.red, fontSize: 14),
-                                      ),
-                                    ),
+                                    child: widget.id.isNotEmpty && !isEdit
+                                        ? Container(
+                                            height: 1,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                4,
+                                            color: Colors.red,
+                                            margin: EdgeInsets.only(
+                                                left: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    4.5,
+                                                right: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    4.5,
+                                                top: 2,
+                                                bottom: 0),
+                                          )
+                                        : Container(),
                                     delay: 1000,
                                   )
                                 : Container(),
-                            ShowUp(
-                              child: widget.id.isNotEmpty && !isEdit
-                                  ? Container(
-                                      height: 1,
-                                      width:
-                                          MediaQuery.of(context).size.width / 4,
-                                      color: Colors.red,
-                                      margin: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              4.5,
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              4.5,
-                                          top: 2,
-                                          bottom: 0),
-                                    )
-                                  : Container(),
-                              delay: 1000,
-                            ),
                             ListView.builder(
                               itemCount: subContacts.length,
                               shrinkWrap: true,
