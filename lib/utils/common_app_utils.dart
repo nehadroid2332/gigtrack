@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -687,3 +689,11 @@ String getNameOrder(String name) {
     return traversedname.last;
   }
 }
+
+final _base64SafeEncoder = const Base64Codec.urlSafe();
+
+String encodeStringToBase64UrlSafeString(final String url) =>
+    _base64SafeEncoder.encode(utf8.encode(url));
+
+String decodeFromBase64UrlSafeEncodedString(String str) =>
+    utf8.decode(_base64SafeEncoder.decode(str));

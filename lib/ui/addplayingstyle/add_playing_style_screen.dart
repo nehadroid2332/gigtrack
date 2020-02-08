@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:extended_image/extended_image.dart';
@@ -132,7 +133,7 @@ class _AddPlayingStyleScreenState
   final _otherExpController = TextEditingController();
   final _emailBandController = TextEditingController();
   final _websiteBandController = TextEditingController();
-  final _musicPreviewController= TextEditingController();
+  final _musicPreviewController = TextEditingController();
   final _nameBandController = TextEditingController();
   final _contactBandController = TextEditingController();
   final _aboutBandController = TextEditingController();
@@ -236,13 +237,19 @@ class _AddPlayingStyleScreenState
                     title: Text("Do you want to save changes?"),
                     actions: <Widget>[
                       FlatButton(
-                        child: Text("No",style: TextStyle(color: Colors.black87),),
+                        child: Text(
+                          "No",
+                          style: TextStyle(color: Colors.black87),
+                        ),
                         onPressed: () {
                           Navigator.of(context).pop(true);
                         },
                       ),
                       RaisedButton(
-                        child: Text("Yes",style: TextStyle(color: Colors.white),),
+                        child: Text(
+                          "Yes",
+                          style: TextStyle(color: Colors.white),
+                        ),
                         color: Color.fromRGBO(250, 177, 49, 1.0),
                         onPressed: () {
                           _submitEPK();
@@ -1080,19 +1087,22 @@ class _AddPlayingStyleScreenState
                               delay: 1000,
                             )
                           : Container(),
-                   widget.id.isNotEmpty && isEdit? ShowUp(child:
-                       Container(
-                        height: 1,
-                        width:
-                        MediaQuery.of(context).size.width ,
-                        color: Colors.red,
-                        margin: EdgeInsets.only(
-                            left:0,
-                            right:MediaQuery.of(context).size.width/2.4,
-                            top: 3,
-                            bottom: 0),
-                      )
-                          ,delay: 1000,): Container(),
+                      widget.id.isNotEmpty && isEdit
+                          ? ShowUp(
+                              child: Container(
+                                height: 1,
+                                width: MediaQuery.of(context).size.width,
+                                color: Colors.red,
+                                margin: EdgeInsets.only(
+                                    left: 0,
+                                    right:
+                                        MediaQuery.of(context).size.width / 2.4,
+                                    top: 3,
+                                    bottom: 0),
+                              ),
+                              delay: 1000,
+                            )
+                          : Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -1197,71 +1207,82 @@ class _AddPlayingStyleScreenState
                                 )
                               : Container(),
 
-
                       Padding(
                         padding: EdgeInsets.all(0),
                       ),
-                      (widget.id.isNotEmpty && widget.bandId.isEmpty)&& !isEdit
-                          ? _musicPreviewController.text.isNotEmpty?ShowUp(
-                        child: new GestureDetector(
-                          onTap: () {
-                            String url=_musicPreviewController.text;
-                            widget.appListener.router.navigateTo(
-                                context,
-                                Screens.ShowWebUrl.toString()+'/$url');
-                          },
-                          child: Text(
-                            "Click to here music preview",
-                            style: textTheme.display1.copyWith(
-                                color: Colors.red, fontSize: 14),
-                            textAlign: TextAlign.center,
-                          )
-                          ,
-                        ),
-                        delay: 1000,
-                      ):Container()
+                      (widget.id.isNotEmpty && widget.bandId.isEmpty) && !isEdit
+                          ? _musicPreviewController.text.isNotEmpty
+                              ? ShowUp(
+                                  child: new GestureDetector(
+                                    onTap: () {
+                                      String url = _musicPreviewController.text;
+                                      url = encodeStringToBase64UrlSafeString(
+                                          url);
+                                      widget.appListener.router.navigateTo(
+                                          context,
+                                          Screens.SHOWWEBURL.toString() +
+                                              '/$url');
+                                    },
+                                    child: Text(
+                                      "Click to here music preview",
+                                      style: textTheme.display1.copyWith(
+                                          color: Colors.red, fontSize: 14),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  delay: 1000,
+                                )
+                              : Container()
                           : Container(),
-                      (widget.id.isNotEmpty && widget.bandId.isEmpty && !isEdit)? _musicPreviewController.text.isNotEmpty?ShowUp(child:
-                      Container(
-                        height: 1,
-                        width:
-                        MediaQuery.of(context).size.width ,
-                        color: Colors.red,
-                        margin: EdgeInsets.only(
-                            left:MediaQuery.of(context).size.width/4.2,
-                            right:MediaQuery.of(context).size.width/4.2,
-                            top: 3,
-                            bottom: 0),
-                      )
-                        ,delay: 1000,):Container(): Container(),
+                      (widget.id.isNotEmpty && widget.bandId.isEmpty && !isEdit)
+                          ? _musicPreviewController.text.isNotEmpty
+                              ? ShowUp(
+                                  child: Container(
+                                    height: 1,
+                                    width: MediaQuery.of(context).size.width,
+                                    color: Colors.red,
+                                    margin: EdgeInsets.only(
+                                        left:
+                                            MediaQuery.of(context).size.width /
+                                                4.2,
+                                        right:
+                                            MediaQuery.of(context).size.width /
+                                                4.2,
+                                        top: 3,
+                                        bottom: 0),
+                                  ),
+                                  delay: 1000,
+                                )
+                              : Container()
+                          : Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
                       widget.bandId.isEmpty
                           ? ShowUp(
-                        child: !isEducation
-                            ? new GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isEducation = true;
-                            });
-                          },
-                          child: widget.id.isEmpty || isEdit
-                              ? Text(
-                            "Click here to add education",
-                            style: textTheme.display1
-                                .copyWith(
-                                color: qDarkmodeEnable
-                                    ? Colors.white
-                                    : widget.appListener
-                                    .primaryColorDark,
-                                fontSize: 14),
-                          )
-                              : Container(),
-                        )
-                            : Container(),
-                        delay: 1000,
-                      )
+                              child: !isEducation
+                                  ? new GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          isEducation = true;
+                                        });
+                                      },
+                                      child: widget.id.isEmpty || isEdit
+                                          ? Text(
+                                              "Click here to add education",
+                                              style: textTheme.display1
+                                                  .copyWith(
+                                                      color: qDarkmodeEnable
+                                                          ? Colors.white
+                                                          : widget.appListener
+                                                              .primaryColorDark,
+                                                      fontSize: 14),
+                                            )
+                                          : Container(),
+                                    )
+                                  : Container(),
+                              delay: 1000,
+                            )
                           : Container(),
                       isEducation && widget.bandId.isEmpty
                           ? Text(
@@ -1444,27 +1465,25 @@ class _AddPlayingStyleScreenState
                       //             ),
                       //           )
                       //     : Container(),
-                      widget.bandId.isEmpty
-                          && (widget.id.isEmpty || isEdit)
+                      widget.bandId.isEmpty && (widget.id.isEmpty || isEdit)
                           ? TextField(
-                        controller: _musicPreviewController,
-
-                        decoration: InputDecoration(
-                          hintText: "Music Preview",
-                          errorText: _errorMusic,
-                        ),
-                        style: TextStyle(
-                            color: qDarkmodeEnable
-                                ? Colors.white
-                                : Colors.black87),
-                      )
+                              controller: _musicPreviewController,
+                              decoration: InputDecoration(
+                                hintText: "Music Preview",
+                                errorText: _errorMusic,
+                              ),
+                              style: TextStyle(
+                                  color: qDarkmodeEnable
+                                      ? Colors.white
+                                      : Colors.black87),
+                            )
                           : Padding(
-                        child: Text(
-                          _musicPreviewController.text,
-                          textAlign: TextAlign.center,
-                        ),
-                        padding: EdgeInsets.symmetric(vertical: 4),
-                      ),
+                              child: Text(
+                                _musicPreviewController.text,
+                                textAlign: TextAlign.center,
+                              ),
+                              padding: EdgeInsets.symmetric(vertical: 4),
+                            ),
 
                       widget.bandId.isNotEmpty
                           ? (widget.id.isEmpty || isEdit)
@@ -1681,9 +1700,10 @@ class _AddPlayingStyleScreenState
                       widget.id.isEmpty || isEdit
                           ? RaisedButton(
                               onPressed: () {
-                                if(_musicPreviewController.text.isNotEmpty && !checkvalid(_musicPreviewController.text)){
-                                  _errorMusic="Not a valid URL";
-                                }else {
+                                if (_musicPreviewController.text.isNotEmpty &&
+                                    !checkvalid(_musicPreviewController.text)) {
+                                  _errorMusic = "Not a valid URL";
+                                } else {
                                   _submitEPK();
                                 }
                               },
@@ -1821,7 +1841,7 @@ class _AddPlayingStyleScreenState
       _nameBandController.text = userPlayingStyle.bandName;
       _contactBandController.text = userPlayingStyle.bandContacts;
       _websiteBandController.text = userPlayingStyle.bandWebsite;
-      _musicPreviewController.text= userPlayingStyle.musicpreview;
+      _musicPreviewController.text = userPlayingStyle.musicpreview;
       isEducation = true;
       bandDetails = userPlayingStyle.bandDetails;
 
@@ -1974,13 +1994,12 @@ class _AddPlayingStyleScreenState
   }
 
   bool checkvalid(String text) {
-    var urlPattern = r"(https?|http)://([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?";
+    var urlPattern =
+        r"(https?|http)://([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?";
     bool match = new RegExp(urlPattern, caseSensitive: false).hasMatch(text);
-    if(match){
+    if (match) {
       return true;
     }
     return false;
-
-
   }
 }
