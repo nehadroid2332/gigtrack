@@ -523,13 +523,17 @@ class _AddNotesScreenState
                                     DateTime.fromMillisecondsSinceEpoch(
                                         notesTodo.createdDate);
                                 return ListTile(
-                                  onTap: () async {
-                                    await widget.appListener.router.navigateTo(
-                                        context,
-                                        Screens.ADDNOTE.toString() +
-                                            "/${widget.id}/true/${widget.bandId}/////${widget.type}/${notesTodo.id}");
-                                    getDetails();
-                                  },
+                                  onTap: userId ==
+                                          presenter.serverAPI.currentUserId
+                                      ? () async {
+                                          await widget.appListener.router
+                                              .navigateTo(
+                                                  context,
+                                                  Screens.ADDNOTE.toString() +
+                                                      "/${widget.id}/true/${widget.bandId}/////${widget.type}/${notesTodo.id}");
+                                          getDetails();
+                                        }
+                                      : null,
                                   title: Text(notesTodo.note),
                                   subtitle: Text(notesTodo.description),
                                   leading: CircleAvatar(

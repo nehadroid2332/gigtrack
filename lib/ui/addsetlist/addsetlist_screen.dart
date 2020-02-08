@@ -53,6 +53,8 @@ class _AddSetListScreenState
 
   List<BandMember> bandmembers = [];
 
+  String userId;
+
   @override
   void initState() {
     super.initState();
@@ -513,6 +515,21 @@ class _AddSetListScreenState
                                     DateTime.fromMillisecondsSinceEpoch(
                                         subnote.time);
                                 return ListTile(
+                                  onTap: userId ==
+                                          presenter.serverAPI.currentUserId
+                                      ? () {
+                                          addSongNotes(songNotes1: subnote);
+                                        }
+                                      : null,
+                                  trailing: IconButton(
+                                      icon: Icon(Icons.delete),
+                                      onPressed: () {
+                                        setState(() {
+                                          currentSong.subnotes.removeAt(index);
+                                          presenter.addSong(
+                                              widget.id, currentSong);
+                                        });
+                                      }),
                                   title: Text(
                                     "${subnote.title}",
                                     style: textTheme.caption.copyWith(
@@ -761,6 +778,7 @@ class _AddSetListScreenState
   void onDetails(SetList setList) {
     hideLoading();
     setState(() {
+      userId = setList.userId;
       _songList = setList.songs;
       _listNameController.text = setList.setListName;
     });
@@ -796,9 +814,12 @@ class _AddSetListScreenState
     }
   }
 
-  void addSongNotes() {
+  void addSongNotes({SongNotes songNotes1}) {
     if (widget.id.isNotEmpty || isEdit) {
       _subNoteFieldController.clear();
+      if (songNotes1 != null) {
+        _subNoteFieldController.text = songNotes1.title;
+      }
       showDialog(
           context: context,
           builder: (context) {
@@ -814,10 +835,23 @@ class _AddSetListScreenState
                   onPressed: () {
                     if (_subNoteFieldController.text.isNotEmpty)
                       setState(() {
-                        currentSong.subnotes.add(SongNotes(
-                          time: DateTime.now().millisecondsSinceEpoch,
-                          title: _subNoteFieldController.text,
-                        ));
+                        if (songNotes1 != null) {
+                          for (var i = 0;
+                              i < currentSong.subnotes.length;
+                              i++) {
+                            SongNotes songNotes = currentSong.subnotes[i];
+                            if (songNotes.time == songNotes1.time) {
+                              songNotes1.title = _subNoteFieldController.text;
+                              currentSong.subnotes[i] = songNotes1;
+                              break;
+                            }
+                          }
+                        } else {
+                          currentSong.subnotes.add(SongNotes(
+                            time: DateTime.now().millisecondsSinceEpoch,
+                            title: _subNoteFieldController.text,
+                          ));
+                        }
                         presenter.addSong(widget.id, currentSong);
                       });
                     Navigator.of(context).pop();
