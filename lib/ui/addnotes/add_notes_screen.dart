@@ -69,6 +69,8 @@ class _AddNotesScreenState
 
   int status;
 
+  NotesTodo noteTodo;
+
   @override
   void initState() {
     super.initState();
@@ -85,6 +87,13 @@ class _AddNotesScreenState
           color: Colors.white, //change your color here
         ),
         elevation: 0,
+        title: Text(
+          "${widget.id.isEmpty ? widget.type == NotesTodo.TYPE_NOTE ? "Add Note" : widget.type == NotesTodo.TYPE_IDEA ? "Add Idea" : "" : widget.isParent ? "Note is about" : widget.type == NotesTodo.TYPE_NOTE ? "Note" : widget.type == NotesTodo.TYPE_IDEA ? "Idea" : ""}",
+          textAlign: widget.id.isNotEmpty ? TextAlign.left : TextAlign.center,
+          style: textTheme.headline.copyWith(
+            color: Colors.white,
+          ),
+        ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () async {
@@ -125,34 +134,17 @@ class _AddNotesScreenState
         ),
         backgroundColor: Color.fromRGBO(3, 54, 255, 1.0),
         actions: <Widget>[
-          Container(
-              alignment: Alignment.center,
-              width: widget.id.isEmpty
-                  ? MediaQuery.of(context).size.width
-                  : widget.isParent
-                      ? MediaQuery.of(context).size.width
-                      :(userId!=null?userId:null) == presenter.serverAPI.currentUserId? MediaQuery.of(context).size.width / 2:MediaQuery.of(context).size.width,
-              child: Center(
-                child: Text(
-                  "${widget.id.isEmpty ? widget.type == NotesTodo.TYPE_NOTE ? "Add Note" : widget.type == NotesTodo.TYPE_IDEA ? "Add Idea" : "" : widget.isParent ? "Note is about" : widget.type == NotesTodo.TYPE_NOTE ? "Note" : widget.type == NotesTodo.TYPE_IDEA ? "Idea" : ""}",
-                  textAlign:
-                      widget.id.isNotEmpty ? TextAlign.left : TextAlign.center,
-                  style: textTheme.headline.copyWith(
-                    color: Colors.white,
-                  ),
-                ),
-              )),
-
           //(widget.bandId == null || widget.bandId.isEmpty) ||
-  //                      (widget.bandId != null &&
-  //                          (widget.isLeader ||
-  //                              (userId != null &&
-  //                                  userId == presenter.serverAPI.currentUserId)))
+          //                      (widget.bandId != null &&
+          //                          (widget.isLeader ||
+          //                              (userId != null &&
+          //                                  userId == presenter.serverAPI.currentUserId)))
 
           widget.id.isEmpty || widget.isParent
               ? Container()
-              :
-          (userId!=null?userId:null) == presenter.serverAPI.currentUserId ? IconButton(
+              : (userId != null ? userId : null) ==
+                      presenter.serverAPI.currentUserId
+                  ? IconButton(
                       icon: Icon(
                         Icons.edit,
                         color: Colors.white,
@@ -165,9 +157,13 @@ class _AddNotesScreenState
                       },
                     )
                   : Container(),
-          widget.id.isEmpty || widget.isParent
+          widget.id.isEmpty
               ? Container()
-              :(userId!=null?userId:null) == presenter.serverAPI.currentUserId
+              : (userId != null ? userId : null) ==
+                          presenter.serverAPI.currentUserId ||
+                      (widget.isParent &&
+                          widget.subNoteId != null &&
+                          widget.subNoteId.isNotEmpty)
                   ? IconButton(
                       icon: Icon(
                         Icons.delete,
@@ -467,38 +463,45 @@ class _AddNotesScreenState
                             ),
                       widget.id.isEmpty || isEdit || widget.isParent
                           ? Container()
-                          : (userId!=null?userId:null) == presenter.serverAPI.currentUserId?ShowUp(
-                              child: new GestureDetector(
-                                onTap: () async {
-                                  await widget.appListener.router.navigateTo(
-                                      context,
-                                      Screens.ADDNOTE.toString() +
-                                          "/${widget.id}/true/${widget.bandId}/////${widget.type}/");
-                                  getDetails();
-                                },
-                                child: Text(
-                                  "Click here to add notes",
-                                  textAlign: TextAlign.center,
-                                  style: textTheme.display1.copyWith(
-                                      color: Colors.red, fontSize: 14),
-                                ),
-                              ),
-                              delay: 1000,
-                            ):Container(),
+                          : (userId != null ? userId : null) ==
+                                  presenter.serverAPI.currentUserId
+                              ? ShowUp(
+                                  child: new GestureDetector(
+                                    onTap: () async {
+                                      await widget.appListener.router.navigateTo(
+                                          context,
+                                          Screens.ADDNOTE.toString() +
+                                              "/${widget.id}/true/${widget.bandId}/////${widget.type}/");
+                                      getDetails();
+                                    },
+                                    child: Text(
+                                      "Click here to add notes",
+                                      textAlign: TextAlign.center,
+                                      style: textTheme.display1.copyWith(
+                                          color: Colors.red, fontSize: 14),
+                                    ),
+                                  ),
+                                  delay: 1000,
+                                )
+                              : Container(),
 
                       widget.id.isEmpty || isEdit || widget.isParent
                           ? Container()
-                          :(userId!=null?userId:null) == presenter.serverAPI.currentUserId? Container(
-                              height: 1,
-                              width: MediaQuery.of(context).size.width / 4,
-                              color: Colors.red,
-                              margin: EdgeInsets.only(
-                                  left: MediaQuery.of(context).size.width / 3.5,
-                                  right:
-                                      MediaQuery.of(context).size.width / 3.5,
-                                  top: 2,
-                                  bottom: 0),
-                            ):Container(),
+                          : (userId != null ? userId : null) ==
+                                  presenter.serverAPI.currentUserId
+                              ? Container(
+                                  height: 1,
+                                  width: MediaQuery.of(context).size.width / 4,
+                                  color: Colors.red,
+                                  margin: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width /
+                                          3.5,
+                                      right: MediaQuery.of(context).size.width /
+                                          3.5,
+                                      top: 2,
+                                      bottom: 0),
+                                )
+                              : Container(),
 //                      widget.id.isEmpty || isEdit || widget.isParent
 //                          ? Container()
 //                          : Padding(
@@ -631,75 +634,83 @@ class _AddNotesScreenState
                       widget.id.isNotEmpty
                           ? isArchieve
                               ? Container()
-                              : (userId!=null?userId:null) == presenter.serverAPI.currentUserId?Padding(
-                                  padding: EdgeInsets.all(5),
-                                  child: InkWell(
-                                    child: Text(
-                                      widget.isParent ? "" : "Archive Note",
-                                      textAlign: TextAlign.center,
-                                      style: textTheme.subhead.copyWith(
-                                        color: Colors.red,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          // return object of type Dialog
-                                          return AlertDialog(
-                                            contentPadding: EdgeInsets.all(15),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            title: new Text(
-                                              "Warning",
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            content: Text(
-                                                "Are you sure you want to Archieve?"),
-                                            actions: <Widget>[
-                                              // usually buttons at the bottom of the dialog
-
-                                              new FlatButton(
-                                                child: new Text("Yes"),
-                                                textColor: Colors.black,
-                                                onPressed: () async {
-                                                  if (widget.id == null ||
-                                                      widget.id.isEmpty) {
-                                                    showMessage(
-                                                        "Id cannot be null");
-                                                  } else {
-                                                    showLoading();
-                                                    presenter.archieveNote(
-                                                        widget.id);
-                                                  }
-                                                },
-                                              ),
-                                              new RaisedButton(
-                                                child: new Text(
-                                                  "No",
-                                                  style: TextStyle(
-                                                      color: Colors.white),
-                                                ),
+                              : (userId != null ? userId : null) ==
+                                      presenter.serverAPI.currentUserId
+                                  ? Padding(
+                                      padding: EdgeInsets.all(5),
+                                      child: InkWell(
+                                        child: Text(
+                                          widget.isParent ? "" : "Archive Note",
+                                          textAlign: TextAlign.center,
+                                          style: textTheme.subhead.copyWith(
+                                            color: Colors.red,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              // return object of type Dialog
+                                              return AlertDialog(
+                                                contentPadding:
+                                                    EdgeInsets.all(15),
                                                 shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            6)),
-                                                color: Color.fromRGBO(
-                                                    3, 54, 255, 1.0),
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                              ),
-                                            ],
+                                                            10)),
+                                                title: new Text(
+                                                  "Warning",
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                                content: Text(
+                                                    "Are you sure you want to Archieve?"),
+                                                actions: <Widget>[
+                                                  // usually buttons at the bottom of the dialog
+
+                                                  new FlatButton(
+                                                    child: new Text("Yes"),
+                                                    textColor: Colors.black,
+                                                    onPressed: () async {
+                                                      if (widget.id == null ||
+                                                          widget.id.isEmpty) {
+                                                        showMessage(
+                                                            "Id cannot be null");
+                                                      } else {
+                                                        showLoading();
+                                                        presenter.archieveNote(
+                                                            widget.id);
+                                                      }
+                                                    },
+                                                  ),
+                                                  new RaisedButton(
+                                                    child: new Text(
+                                                      "No",
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    ),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        6)),
+                                                    color: Color.fromRGBO(
+                                                        3, 54, 255, 1.0),
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                  ),
+                                                ],
+                                              );
+                                            },
                                           );
                                         },
-                                      );
-                                    },
-                                  ),
-                                ):Container()
+                                      ),
+                                    )
+                                  : Container()
                           : Container(),
                       widget.id.isEmpty || isEdit || widget.isParent
                           ? RaisedButton(
@@ -789,6 +800,7 @@ class _AddNotesScreenState
   void getNoteDetails(NotesTodo note) {
     hideLoading();
     setState(() {
+      noteTodo = note;
       userId = note.userId;
       subNotes.clear();
       subNotes.addAll(note.subNotes);
@@ -819,11 +831,14 @@ class _AddNotesScreenState
           "${formatDate(endDate, [HH, ':', nn, ':', ss])}";
       isArchieve = note.isArchive ?? false;
       if (widget.isParent) {
-        NotesTodo notesTodo = note.subNotes.firstWhere((a) {
-          return a.id == widget.subNoteId;
-        });
-        if (notesTodo != null) {
-          _descController.text = notesTodo.description;
+        _descController.clear();
+        if (note.subNotes.isNotEmpty) {
+          NotesTodo notesTodo = note.subNotes.firstWhere((a) {
+            return a.id == widget.subNoteId;
+          }, orElse: null);
+          if (notesTodo != null) {
+            _descController.text = notesTodo.description;
+          }
         }
       }
     });
@@ -882,7 +897,14 @@ class _AddNotesScreenState
                   showMessage("Id cannot be null");
                 } else {
                   Navigator.pop(context);
-                  presenter.notesDelete(widget.id);
+                  if (widget.isParent &&
+                      widget.subNoteId.isNotEmpty &&
+                      noteTodo != null) {
+                    presenter.addNotes(
+                        noteTodo, widget.isParent, widget.subNoteId,
+                        isRemove: true);
+                  } else
+                    presenter.notesDelete(widget.id);
                 }
               },
             ),

@@ -17,21 +17,32 @@ abstract class AddNoteContract extends BaseContract {
 class AddNotesPresenter extends BasePresenter {
   AddNotesPresenter(BaseContract view) : super(view);
 
-  void addNotes(NotesTodo notetodo, bool isParent, String subNoteId) async {
+  void addNotes(NotesTodo notetodo, bool isParent, String subNoteId,
+      {bool isRemove = false}) async {
     notetodo.userId = serverAPI.currentUserId;
     if (isParent) {
       final res1 = await serverAPI.getNoteDetails(notetodo.id);
       if (res1 is NotesTodo) {
-        if (subNoteId == null || subNoteId.isEmpty) {
-          notetodo.id = randomString(23).replaceAll(",/\\", "");
-          res1.subNotes.add(notetodo);
-        } else {
-          notetodo.id = subNoteId;
+        if (isRemove && subNoteId != null && subNoteId.isNotEmpty) {
           for (var i = 0; i < res1.subNotes.length; i++) {
             NotesTodo item = res1.subNotes[i];
             if (item.id == subNoteId) {
-              item.description = notetodo.description;
-              res1.subNotes[i] = item;
+              res1.subNotes.removeAt(i);
+              break;
+            }
+          }
+        } else {
+          if (subNoteId == null || subNoteId.isEmpty) {
+            notetodo.id = randomString(23).replaceAll(",/\\", "");
+            res1.subNotes.add(notetodo);
+          } else {
+            notetodo.id = subNoteId;
+            for (var i = 0; i < res1.subNotes.length; i++) {
+              NotesTodo item = res1.subNotes[i];
+              if (item.id == subNoteId) {
+                item.description = notetodo.description;
+                res1.subNotes[i] = item;
+              }
             }
           }
         }
