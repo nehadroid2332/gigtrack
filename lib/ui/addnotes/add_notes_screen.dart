@@ -837,6 +837,7 @@ class _AddNotesScreenState
       if (widget.isParent) {
         _descController.clear();
         if (note.subNotes.isNotEmpty) {
+          
           NotesTodo notesTodo = note.subNotes.firstWhere((a) {
             return a.id == widget.subNoteId;
           }, orElse: null);
