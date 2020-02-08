@@ -88,6 +88,8 @@ class _NotificationListScreensState
                       padding: EdgeInsets.only(top: 18, bottom: 18),
                       child: Column(
                         children: <Widget>[
+
+
                           InkWell(
                             child: Row(
                               children: <Widget>[
@@ -165,26 +167,27 @@ class _NotificationListScreensState
                                   padding: EdgeInsets.symmetric(
                                 horizontal: 10,
                               )),
+                              Expanded(flex:(ac.sender != null && ac.sender.firstName.isNotEmpty)?2:1,
+                                child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  (ac.sender != null && ac.sender.firstName.isNotEmpty)
+                                      ? Text(
+                                    "${ac.sender?.firstName}${ac.sender?.lastName} :",
+                                    style: textTheme.caption,
+                                  )
+                                      : Container(),
+                                  ac.bandId != null
+                                      ? Text(
+                                    " ${ac.band?.name}",
+                                    style: textTheme.caption,
+                                  )
+                                      : Container()
+                                ],mainAxisAlignment: MainAxisAlignment.center,
+                              ),),
+
                               Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    ac.sender != null
-                                        ? Text(
-                                            "Creator: ${ac.sender?.firstName} ${ac.sender?.lastName}",
-                                            style: textTheme.caption,
-                                          )
-                                        : Container(),
-                                    ac.bandId != null
-                                        ? Text(
-                                            "Band: ${ac.band?.name}",
-                                            style: textTheme.caption,
-                                          )
-                                        : Container()
-                                  ],
-                                ),
-                              ),
-                              Expanded(
+                                flex:1,
                                 child: Container(
                                   child: Text(
                                     "${formatDate(DateTime.fromMillisecondsSinceEpoch(ac.created), [

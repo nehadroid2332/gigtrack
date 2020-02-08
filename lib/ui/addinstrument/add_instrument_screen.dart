@@ -287,7 +287,7 @@ class _AddInstrumentScreenState
             alignment: Alignment.center,
             width: widget.id.isEmpty
                 ? MediaQuery.of(context).size.width
-                : MediaQuery.of(context).size.width / 2,
+                : (userId!=null?userId:null) == presenter.serverAPI.currentUserId?MediaQuery.of(context).size.width / 2:MediaQuery.of(context).size.width ,
             child: Text(
               "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Equipment",
               textAlign: TextAlign.center,
@@ -2125,7 +2125,7 @@ class _AddInstrumentScreenState
                                         padding: EdgeInsets.all(5),
                                       ),
                                       widget.id.isNotEmpty && !isEdit
-                                          ? ShowUp(
+                                          ? (userId!=null?userId:null) == presenter.serverAPI.currentUserId?ShowUp(
                                               child: new GestureDetector(
                                                 onTap: () {
                                                   setState(() {
@@ -2143,10 +2143,10 @@ class _AddInstrumentScreenState
                                                 ),
                                               ),
                                               delay: 1000,
-                                            )
+                                            ):Container()
                                           : Container(),
                                       widget.id.isNotEmpty && !isEdit
-                                          ? ShowUp(
+                                          ? (userId!=null?userId:null) == presenter.serverAPI.currentUserId?ShowUp(
                                               child: Container(
                                                 height: 1,
                                                 width: MediaQuery.of(context)
@@ -2167,7 +2167,7 @@ class _AddInstrumentScreenState
                                                     bottom: 14),
                                               ),
                                               delay: 1000,
-                                            )
+                                            ):Container()
                                           : Container(),
                                       ListView.builder(
                                         itemCount: subContacts.length,

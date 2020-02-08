@@ -29,6 +29,7 @@ class UserPlayingStyle extends BaseModel {
   String bandWebsite;
   String bandContacts;
   String playingStyle;
+  String musicpreview;
 
   UserPlayingStyle(
       {this.user_id,
@@ -56,7 +57,9 @@ class UserPlayingStyle extends BaseModel {
       this.aboutTheBands,
       this.bandName,
       this.bandWebsite,
-      this.response});
+      this.response,
+      this.musicpreview
+      });
 
   UserPlayingStyle.fromJSON(dynamic data) {
     id = data['id'];
@@ -95,6 +98,7 @@ class UserPlayingStyle extends BaseModel {
     earn = data['earn'];
     playingStyle = data['playingStyle'];
     viewerKnow = data['viewerKnow'];
+    musicpreview= data['musicpreview'];
     if (data['experience'] != null) {
       for (var item in data['experience']) {
         experience.add(item.toString());
@@ -140,6 +144,7 @@ class UserPlayingStyle extends BaseModel {
     data['bandWebsite'] = bandWebsite;
     data['bandContacts'] = bandContacts;
     data['responsetext'] = response;
+    data['musicpreview']= musicpreview;
     List<dynamic> items = [];
     if (bandDetails != null) {
       for (var item in bandDetails) {

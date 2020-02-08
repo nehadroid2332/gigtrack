@@ -32,6 +32,7 @@ import 'package:gigtrack/ui/profile/profile_screen.dart';
 import 'package:gigtrack/ui/setlist/setlist_screen.dart';
 import 'package:gigtrack/ui/signup/signup_screen.dart';
 import 'package:gigtrack/ui/splash/splash_screen.dart';
+import 'package:gigtrack/utils/ShowWebUrl.dart';
 import 'package:gigtrack/utils/privacy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -467,6 +468,15 @@ class MyApp extends StatelessWidget implements AppListener {
         longitude: longitude,
       );
     }));
+    _router.define(Screens.ShowWebUrl.toString() + "/:url",
+        handler: Handler(
+            handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+              String url = params["url"][0];
+              return ShowWebUrl(
+                this,
+                url: url,
+              );
+            }));
     // _router.define(Screens.COURSEDETAILS.toString() + "/:id/:id2", handler:
     //     Handler(
     //         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
@@ -587,5 +597,6 @@ enum Screens {
   PAYMENT_LIST,
   ADD_PAYMENT,
   ADD_BAND_COMM,
-  BANDCOMMLIST
+  BANDCOMMLIST,
+  ShowWebUrl
 }

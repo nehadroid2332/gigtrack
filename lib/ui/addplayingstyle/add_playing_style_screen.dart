@@ -148,6 +148,7 @@ class _AddPlayingStyleScreenState
 
   bool isEducation = true;
   bool isExperience = false;
+  String _errorMusic;
 
   User user;
 
@@ -1201,10 +1202,13 @@ class _AddPlayingStyleScreenState
                         padding: EdgeInsets.all(0),
                       ),
                       (widget.id.isNotEmpty && widget.bandId.isEmpty)&& !isEdit
-                          ? ShowUp(
+                          ? _musicPreviewController.text.isNotEmpty?ShowUp(
                         child: new GestureDetector(
                           onTap: () {
-                            showBandExp(null);
+                            String url=_musicPreviewController.text;
+                            widget.appListener.router.navigateTo(
+                                context,
+                                Screens.ShowWebUrl.toString() + '/$url');
                           },
                           child: Text(
                             "Click to here music preview",
@@ -1215,9 +1219,9 @@ class _AddPlayingStyleScreenState
                           ,
                         ),
                         delay: 1000,
-                      )
+                      ):Container()
                           : Container(),
-                      (widget.id.isNotEmpty && widget.bandId.isEmpty && !isEdit)? ShowUp(child:
+                      (widget.id.isNotEmpty && widget.bandId.isEmpty && !isEdit)? _musicPreviewController.text.isNotEmpty?ShowUp(child:
                       Container(
                         height: 1,
                         width:
@@ -1229,7 +1233,7 @@ class _AddPlayingStyleScreenState
                             top: 3,
                             bottom: 0),
                       )
-                        ,delay: 1000,): Container(),
+                        ,delay: 1000,):Container(): Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -1444,8 +1448,10 @@ class _AddPlayingStyleScreenState
                           && (widget.id.isEmpty || isEdit)
                           ? TextField(
                         controller: _musicPreviewController,
+
                         decoration: InputDecoration(
                           hintText: "Music Preview",
+                          errorText: _errorMusic,
                         ),
                         style: TextStyle(
                             color: qDarkmodeEnable
@@ -1675,7 +1681,11 @@ class _AddPlayingStyleScreenState
                       widget.id.isEmpty || isEdit
                           ? RaisedButton(
                               onPressed: () {
-                                _submitEPK();
+                                if(_musicPreviewController.text.isNotEmpty && !checkvalid(_musicPreviewController.text)){
+                                  _errorMusic="Not a valid URL";
+                                }else {
+                                  _submitEPK();
+                                }
                               },
                               child: Text(
                                 "Submit",
@@ -1811,6 +1821,7 @@ class _AddPlayingStyleScreenState
       _nameBandController.text = userPlayingStyle.bandName;
       _contactBandController.text = userPlayingStyle.bandContacts;
       _websiteBandController.text = userPlayingStyle.bandWebsite;
+      _musicPreviewController.text= userPlayingStyle.musicpreview;
       isEducation = true;
       bandDetails = userPlayingStyle.bandDetails;
 
@@ -1958,6 +1969,18 @@ class _AddPlayingStyleScreenState
         listSchool: _listSchoolController.text,
         playingStyle: _playingStyleController.text,
         viewerKnow: _expController.text,
+        musicpreview: _musicPreviewController.text,
         files: files));
+  }
+
+  bool checkvalid(String text) {
+    var urlPattern = r"(https?|http)://([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?";
+    bool match = new RegExp(urlPattern, caseSensitive: false).hasMatch(text);
+    if(match){
+      return true;
+    }
+    return false;
+
+
   }
 }

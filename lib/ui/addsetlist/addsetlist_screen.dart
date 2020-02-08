@@ -87,7 +87,7 @@ class _AddSetListScreenState
         actions: <Widget>[
           widget.id.isEmpty || isEdit
               ? Container()
-              : IconButton(
+              :(userId!=null?userId:null)==presenter.serverAPI.currentUserId? IconButton(
                   icon: Icon(
                     Icons.edit,
                     color: Colors.white,
@@ -97,10 +97,10 @@ class _AddSetListScreenState
                       isEdit = !isEdit;
                     });
                   },
-                ),
+                ):Container(),
           widget.id.isEmpty || isEdit
               ? Container()
-              : IconButton(
+              : (userId!=null?userId:null)==presenter.serverAPI.currentUserId?IconButton(
                   icon: Icon(
                     Icons.delete,
                     color: Colors.white,
@@ -121,7 +121,7 @@ class _AddSetListScreenState
                       // Navigator.of(context).pop();
                     }
                   },
-                )
+                ):Container()
         ],
       );
 
@@ -680,15 +680,17 @@ class _AddSetListScreenState
                                     return ListTile(
                                       title: Text(song.name),
                                       subtitle: Text(
-                                          "${song.artist}\n${song.perform != null ? song.perform + '\n' : ''}${formatDate(dateTime, [
-                                        DD,
-                                        '-',
-                                        mm,
-                                        '/',
-                                        dd,
-                                        '/',
-                                        yy,
-                                      ])}"),
+                                          "${song.artist}\n${song.perform != null ? song.perform + '\n' : ''}"),
+
+//                                        ${formatDate(dateTime, [
+//                                    DD,
+//                                    '-',
+//                                    mm,
+//                                    '/',
+//                                    dd,
+//                                    '/',
+//                                    yy,
+//                                    ])}
                                       onTap: () {
                                         setState(() {
                                           currentSong = song;

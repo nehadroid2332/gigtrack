@@ -27,12 +27,18 @@ class InstrumentListPresenter extends BasePresenter {
             contact.band = res;
           }
         }
-        if (contact.bandId.isEmpty) {
+        if (bandId.isEmpty) {
+          if (contact.band != null) {
+            if (contact.band.bandmates.keys.contains(serverAPI.currentUserEmail.replaceAll(".", "")) || contact.band.userId == serverAPI.currentUserId) {
+              acc.add(contact);
+            }
+          }
           if (contact.user_id == serverAPI.currentUserId) {
             if (acc.contains(contact)) {
               continue;
-            } else
+            } else {
               acc.add(contact);
+            }
           }
         } else {
           if (contact.band != null && bandId.isNotEmpty) {

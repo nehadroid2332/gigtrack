@@ -86,7 +86,7 @@ class _AddPaymentScreenState
                 ? MediaQuery.of(context).size.width
                 : MediaQuery.of(context).size.width / 2,
             child: Text(
-              "${widget.id.isEmpty ? "Add" : ""} Finance",
+              "${widget.id.isEmpty ?payment.type == Payment.TYPE_PAID ?"Money Paid out":"Money Received":""}",
               textAlign: TextAlign.center,
               style: textTheme.headline.copyWith(
                 color: Colors.white,
@@ -321,55 +321,55 @@ class _AddPaymentScreenState
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
-                      Text(
-                          "${payment.type == Payment.TYPE_PAID ? 'Paid' : payment.type == Payment.TYPE_RECIEVE ? 'Received' : ''} Select Type"),
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: RaisedButton(
-                              child: Text("Paid"),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              color: payment.type == Payment.TYPE_PAID
-                                  ? Color.fromRGBO(214, 22, 35, 1.0)
-                                  : Colors.white,
-                              textColor: payment.type == Payment.TYPE_PAID
-                                  ? Colors.white
-                                  : Color.fromRGBO(214, 22, 35, 1.0),
-                              onPressed: () {
-                                // if (widget.id.isEmpty || isEdit)
-                                //   setState(() {
-                                //     payment.type = Payment.TYPE_PAID;
-                                //   });
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(5),
-                          ),
-                          Expanded(
-                            child: RaisedButton(
-                              child: Text("Recieve"),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              color: payment.type == Payment.TYPE_RECIEVE
-                                  ? Color.fromRGBO(214, 22, 35, 1.0)
-                                  : Colors.white,
-                              textColor: payment.type == Payment.TYPE_RECIEVE
-                                  ? Colors.white
-                                  : Color.fromRGBO(214, 22, 35, 1.0),
-                              onPressed: () {
-                                // if (widget.id.isEmpty || isEdit)
-                                //   setState(() {
-                                //     payment.type = Payment.TYPE_RECIEVE;
-                                //   });
-                              },
-                            ),
-                          )
-                        ],
-                      ),
+//                      Text(
+//                          "${payment.type == Payment.TYPE_PAID ? 'Paid' : payment.type == Payment.TYPE_RECIEVE ? 'Received' : ''} Select Type"),
+//                      Row(
+//                        children: <Widget>[
+//                          Expanded(
+//                            child: RaisedButton(
+//                              child: Text("Paid"),
+//                              shape: RoundedRectangleBorder(
+//                                borderRadius: BorderRadius.circular(20),
+//                              ),
+//                              color: payment.type == Payment.TYPE_PAID
+//                                  ? Color.fromRGBO(214, 22, 35, 1.0)
+//                                  : Colors.white,
+//                              textColor: payment.type == Payment.TYPE_PAID
+//                                  ? Colors.white
+//                                  : Color.fromRGBO(214, 22, 35, 1.0),
+//                              onPressed: () {
+//                                // if (widget.id.isEmpty || isEdit)
+//                                //   setState(() {
+//                                //     payment.type = Payment.TYPE_PAID;
+//                                //   });
+//                              },
+//                            ),
+//                          ),
+//                          Padding(
+//                            padding: EdgeInsets.all(5),
+//                          ),
+//                          Expanded(
+//                            child: RaisedButton(
+//                              child: Text("Recieve"),
+//                              shape: RoundedRectangleBorder(
+//                                borderRadius: BorderRadius.circular(20),
+//                              ),
+//                              color: payment.type == Payment.TYPE_RECIEVE
+//                                  ? Color.fromRGBO(214, 22, 35, 1.0)
+//                                  : Colors.white,
+//                              textColor: payment.type == Payment.TYPE_RECIEVE
+//                                  ? Colors.white
+//                                  : Color.fromRGBO(214, 22, 35, 1.0),
+//                              onPressed: () {
+//                                // if (widget.id.isEmpty || isEdit)
+//                                //   setState(() {
+//                                //     payment.type = Payment.TYPE_RECIEVE;
+//                                //   });
+//                              },
+//                            ),
+//                          )
+//                        ],
+//                      ),
                       Padding(
                         padding: widget.id.isEmpty || isEdit
                             ? EdgeInsets.all(0)

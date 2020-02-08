@@ -236,7 +236,7 @@ class _AddNotesScreenState
                               ),
                               controller: _noteController,
                             )
-                          : Text(
+                          : widget.isParent?Container():Text(
                               _noteController.text,
                               textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 22),
@@ -489,18 +489,18 @@ class _AddNotesScreenState
                           ? Container()
                           : (userId != null ? userId : null) ==
                                   presenter.serverAPI.currentUserId
-                              ? Container(
-                                  height: 1,
-                                  width: MediaQuery.of(context).size.width / 4,
-                                  color: Colors.red,
-                                  margin: EdgeInsets.only(
-                                      left: MediaQuery.of(context).size.width /
-                                          3.5,
-                                      right: MediaQuery.of(context).size.width /
-                                          3.5,
-                                      top: 2,
-                                      bottom: 0),
-                                )
+                              ? ShowUp(child: Container(
+                        height: 1,
+                        width: MediaQuery.of(context).size.width / 4,
+                        color: Colors.red,
+                        margin: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width /
+                                3.5,
+                            right: MediaQuery.of(context).size.width /
+                                3.5,
+                            top: 2,
+                            bottom: 0),
+                      ),delay: 1000,)
                               : Container(),
 //                      widget.id.isEmpty || isEdit || widget.isParent
 //                          ? Container()
