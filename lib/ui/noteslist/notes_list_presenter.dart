@@ -11,8 +11,8 @@ class NotesListPresenter extends BasePresenter {
   Stream<List<NotesTodo>> getList(bool isLeader) {
     return serverAPI
         .notesDB
-        // .orderByChild('user_id')
-        // .equalTo(serverAPI.currentUserId)
+        .orderByChild('user_id')
+        .equalTo(serverAPI.currentUserId)
         .onValue
         .asyncMap((a) async {
       Map mp = a.snapshot.value;

@@ -236,7 +236,6 @@ class _ActivitiesListScreenState
                   if (snapshot.hasData) {
                     activities = snapshot.data;
                     if (isCalender) {
-                    
                       Map<DateTime, List> _events = {};
                       for (var item in activities) {
                         DateTime dateTime =
@@ -254,11 +253,10 @@ class _ActivitiesListScreenState
                             calendarController: _calendarController,
                             events: _events,
                             rowHeight: 35,
-                            calendarStyle: CalendarStyle(
-
-                            ),
+                            calendarStyle: CalendarStyle(),
                             builders: CalendarBuilders(
-                              markersBuilder: (context, date, events, holidays) {
+                              markersBuilder:
+                                  (context, date, events, holidays) {
                                 final children = <Widget>[];
 
                                 if (events.isNotEmpty) {
@@ -271,45 +269,50 @@ class _ActivitiesListScreenState
                                   );
                                 }
 
-
-
                                 return children;
                               },
                             ),
-
                             onDaySelected: (date, events) {
                               setState(() {
-                                currentDate=date;
+                                currentDate = date;
                                 _selectedActivities = events;
                               });
                             },
                           ),
-                          Padding(padding: EdgeInsets.only(right: 20),child: Center(
-                            child: currentDate!=null?Text(
-                              "${formatDate(currentDate, [
-                                DD,
-                                '\n',
-                                M,
-                                ' ',
-                                d,
-                                ', ',
-                                yyyy,
-                              ])}",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromRGBO(32, 95, 139, 1.0),
-                              ),
-                              textAlign: TextAlign.center,
-                            ):Container(),),),
-                          Padding(padding: EdgeInsets.all(5),),
+                          Padding(
+                            padding: EdgeInsets.only(right: 20),
+                            child: Center(
+                              child: currentDate != null
+                                  ? Text(
+                                      "${formatDate(currentDate, [
+                                        DD,
+                                        '\n',
+                                        M,
+                                        ' ',
+                                        d,
+                                        ', ',
+                                        yyyy,
+                                      ])}",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color.fromRGBO(32, 95, 139, 1.0),
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    )
+                                  : Container(),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(5),
+                          ),
                           Expanded(
                               child: ListView.builder(
                             itemCount: _selectedActivities.length,
                             itemBuilder: (BuildContext context, int index) {
                               Activites ac = _selectedActivities[index];
-                              return buildActivityListItem(ac, context,isCalender,
-                                  onTap: () {
+                              return buildActivityListItem(
+                                  ac, context, isCalender, onTap: () {
                                 widget.appListener.router.navigateTo(
                                     context,
                                     Screens.ADDACTIVITY.toString() +
@@ -354,29 +357,29 @@ class _ActivitiesListScreenState
                             case 1:
                               if (days.abs() < 7) {
                                 currentWeek = true;
-                              }else if(days.abs()>7){
-                                afterweek=true;
+                              } else if (days.abs() > 7) {
+                                afterweek = true;
                               }
                               break;
                             case 2:
                               if (days.abs() < 6) {
                                 currentWeek = true;
-                              }else if(days.abs()>6){
-                                afterweek=true;
+                              } else if (days.abs() > 6) {
+                                afterweek = true;
                               }
                               break;
                             case 3:
                               if (days.abs() < 5) {
                                 currentWeek = true;
-                              }else if(days.abs()>5){
-                                afterweek=true;
+                              } else if (days.abs() > 5) {
+                                afterweek = true;
                               }
                               break;
                             case 4:
                               if (days.abs() < 4) {
                                 currentWeek = true;
-                              }else if(days.abs()>4){
-                                afterweek=true;
+                              } else if (days.abs() > 4) {
+                                afterweek = true;
                               }
                               break;
                             case 5:
@@ -389,14 +392,14 @@ class _ActivitiesListScreenState
                             case 6:
                               if (days.abs() <= 2) {
                                 currentWeek = true;
-                              }else if (days.abs() > 2) {
+                              } else if (days.abs() > 2) {
                                 afterweek = true;
                               }
                               break;
                             case 7:
                               if (days.abs() <= 1) {
                                 currentWeek = true;
-                              }else if (days.abs() > 1) {
+                              } else if (days.abs() > 1) {
                                 afterweek = true;
                               }
                               break;
@@ -450,9 +453,9 @@ class _ActivitiesListScreenState
                           .sort((a, b) => a.startTime.compareTo(b.startTime));
                       current.sort((a, b) {
                         DateTime aD =
-                        DateTime.fromMillisecondsSinceEpoch(a.startDate);
+                            DateTime.fromMillisecondsSinceEpoch(a.startDate);
                         DateTime bD =
-                        DateTime.fromMillisecondsSinceEpoch(b.startDate);
+                            DateTime.fromMillisecondsSinceEpoch(b.startDate);
                         if (aD.day == bD.day && aD.month == bD.month) {
                           return a.startTime.compareTo(b.startTime);
                         }
@@ -594,7 +597,6 @@ class _ActivitiesListScreenState
                                               .toLocal();
                                       return Row(
                                         children: <Widget>[
-
                                           Expanded(
                                             child: ListView.builder(
                                               itemCount: accs.length,
@@ -661,7 +663,6 @@ class _ActivitiesListScreenState
                                               .toLocal();
                                       return Row(
                                         children: <Widget>[
-
                                           Expanded(
                                             child: ListView.builder(
                                               itemCount: accs.length,
@@ -729,7 +730,6 @@ class _ActivitiesListScreenState
                                       return Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: <Widget>[
-
                                           Expanded(
                                             child: ListView.builder(
                                               itemCount: accs.length,
@@ -823,19 +823,14 @@ class _ActivitiesListScreenState
                                                       context,
                                                       isCalender,
                                                       onTap: () {
-                                                        buildActivityListItem(
-                                                            ac, context,
-                                                            isCalender,
-                                                            onTap: () {
-                                                          widget.appListener
-                                                              .router
-                                                              .navigateTo(
-                                                            context,
-                                                            Screens.ADDACTIVITY
-                                                                    .toString() +
-                                                                "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////",
-                                                          );
-                                                        }, isPast: false);
+                                                        widget
+                                                            .appListener.router
+                                                            .navigateTo(
+                                                          context,
+                                                          Screens.ADDACTIVITY
+                                                                  .toString() +
+                                                              "/${ac.type}/${ac.id}/${false}/${widget.bandId.isEmpty ? ac.bandId : widget.bandId}////",
+                                                        );
                                                       },
                                                     );
                                                   },
@@ -908,7 +903,8 @@ class _ActivitiesListScreenState
                                                           int index) {
                                                     Activites ac = accs[index];
                                                     return buildActivityListItem(
-                                                        ac, context, isCalender,onTap: () {
+                                                        ac, context, isCalender,
+                                                        onTap: () {
                                                       widget.appListener.router
                                                           .navigateTo(
                                                         context,
@@ -1033,7 +1029,9 @@ class _ActivitiesListScreenState
         shape: BoxShape.rectangle,
         color: _calendarController.isSelected(date)
             ? Colors.brown[500]
-            : _calendarController.isToday(date) ? Colors.brown[300] : Colors.blue[400],
+            : _calendarController.isToday(date)
+                ? Colors.brown[300]
+                : Colors.blue[400],
       ),
       width: 16.0,
       height: 16.0,

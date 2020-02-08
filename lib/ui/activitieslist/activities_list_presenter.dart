@@ -48,7 +48,7 @@ class ActivitiesListPresenter extends BasePresenter {
         if (bandId.isEmpty) {
           if (activites.band != null) {
             if (activites.band.bandmates.keys
-                .contains(serverAPI.currentUserEmail.replaceAll(".", "")) ||
+                    .contains(serverAPI.currentUserEmail.replaceAll(".", "")) ||
                 activites.band.userId == serverAPI.currentUserId) {
               acc.add(activites);
             }
@@ -62,20 +62,29 @@ class ActivitiesListPresenter extends BasePresenter {
           }
         } else {
           if (activites.band != null && bandId.isNotEmpty) {
-            if ( // activites.band.bandmates.keys.contains(serverAPI.currentUserEmail.replaceAll(".", "")) &&
-            activites.band.id == bandId) {
+            if (activites.band.id == bandId) {
               acc.add(activites);
             }
           }
         }
-
-        //        else {
-        //          acc.add(activites);
-        //        }
       }
+
+      acc.forEach((a) async {
+        if (a.isRecurring) {
+          DateTime dt =
+              DateTime.fromMillisecondsSinceEpoch(a.startDate).toLocal();
+          DateTime today = DateTime.now().toLocal();
+          print("Id:${a.id} title:${a.title} time:$dt today:$today");
+          if (dt.isBefore(today)) {
+            dt = dt.add(Duration(days: 7));
+            a.startDate = dt.millisecondsSinceEpoch;
+            await serverAPI.addActivities(a);
+          }
+        }
+      });
+
       return acc;
     });
-    // }
   }
 
   void getBands(String bandId) async {

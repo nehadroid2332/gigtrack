@@ -19,12 +19,12 @@ class AppButton extends StatelessWidget {
 
   const AppButton(
       {Key key,
-        this.title,
-        this.backgroundColor,
-        this.textColor = Colors.black,
-        this.radius = 0,
-        this.fontSize = 14,
-        this.onPressed})
+      this.title,
+      this.backgroundColor,
+      this.textColor = Colors.black,
+      this.radius = 0,
+      this.fontSize = 14,
+      this.onPressed})
       : super(key: key);
 
   @override
@@ -42,7 +42,7 @@ class AppButton extends StatelessWidget {
           ),
         ),
         shape:
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
       ),
       width: double.infinity,
       height: 42,
@@ -58,11 +58,11 @@ class IconTextButton extends StatelessWidget {
 
   const IconTextButton(
       {Key key,
-        this.image,
-        this.text,
-        this.onPressed,
-        this.height = 20,
-        this.width = 20})
+      this.image,
+      this.text,
+      this.onPressed,
+      this.height = 20,
+      this.width = 20})
       : super(key: key);
 
   @override
@@ -99,9 +99,9 @@ class TextCheckView extends StatelessWidget {
 
   const TextCheckView(
       {this.title,
-        this.color = Colors.lightGreenAccent,
-        this.check = false,
-        this.onTap});
+      this.color = Colors.lightGreenAccent,
+      this.check = false,
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -181,155 +181,168 @@ bool validateMobile(String value) {
   return !(value.isNotEmpty && value.length == 10);
 }
 
-Widget
-buildActivityListItem(Activites ac, context,isCalendar,
+Widget buildActivityListItem(Activites ac, context, isCalendar,
     {bool showConfirm = false, onConfirmPressed, onTap, bool isPast = false}) {
-  DateTime dt =
-  DateTime.fromMillisecondsSinceEpoch(ac.startDate).toLocal();
-  return Row(children: <Widget>[
-    isCalendar?Container():Column(
-      children: <Widget>[
-        Container(
-          color: Colors.grey,
-          width: 1.2,
-          height: 50,
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(
-              vertical: 2),
-          width: MediaQuery.of(context)
-              .size
-              .width /
-              6.8,
-          child: Text(
-            "${formatDate(dt, [
-              DD,
-              '\n',
-              M,
-              ' ',
-              d,
-              ', ',
-              yyyy,
-            ])}",
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-              fontStyle: FontStyle.italic,
-              color: Color.fromRGBO(32, 95, 139, 1.0),
+  DateTime dt = DateTime.fromMillisecondsSinceEpoch(ac.startDate).toLocal();
+  return Row(
+    children: <Widget>[
+      isCalendar
+          ? Container()
+          : Column(
+              children: <Widget>[
+                Container(
+                  color: Colors.grey,
+                  width: 1.2,
+                  height: 50,
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 2),
+                  width: MediaQuery.of(context).size.width / 6.8,
+                  child: Text(
+                    "${formatDate(dt, [
+                      DD,
+                      '\n',
+                      M,
+                      ' ',
+                      d,
+                      ', ',
+                      yyyy,
+                    ])}",
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic,
+                      color: Color.fromRGBO(32, 95, 139, 1.0),
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Container(
+                  color: Colors.grey,
+                  width: 1.2,
+                  height: 50,
+                ),
+              ],
             ),
-            textAlign: TextAlign.center,
+      Container(
+        width: isCalendar
+            ? MediaQuery.of(context).size.width / 1.2
+            : MediaQuery.of(context).size.width / 1.5,
+        margin: EdgeInsets.symmetric(horizontal: 3, vertical: 5),
+        decoration: BoxDecoration(),
+        child: InkWell(
+          child: Container(
+            padding: ac.bandId.isNotEmpty
+                ? EdgeInsets.symmetric(vertical: 5)
+                : EdgeInsets.symmetric(vertical: 10),
+            decoration: ac.bandId.isEmpty
+                ? BoxDecoration(
+                    color: Color.fromRGBO(40, 35, 188, 0.2),
+                    border: Border.all(width: 1, color: Colors.blue))
+                : BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            color: isCalendar
+                                ? Color.fromRGBO(3, 54, 255, 1.0)
+                                : Colors.transparent,
+                            width: 1.0))),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ac.startTime != null
+                        ? Text(
+                            "${ac.startTime.toLowerCase()}",
+                            style: TextStyle(
+                                color: Color.fromRGBO(32, 95, 139, 1.0),
+                                fontSize: 16),
+                          )
+                        : Container(),
+                    ac.endTime.isNotEmpty
+                        ? Text(
+                            " - ${ac.endTime.toLowerCase()}",
+                            style: TextStyle(
+                                color: Color.fromRGBO(32, 95, 139, 1.0),
+                                fontSize: 16),
+                          )
+                        : Container()
+                  ],
+                ),
+                Text(
+                  "${ac.title}",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: ac.bandId.isNotEmpty
+                        ? isPast
+                            ? Colors.grey
+                            : Color.fromRGBO(40, 35, 188, 1.0)
+                        : isPast
+                            ? Colors.grey
+                            : Color.fromRGBO(40, 35, 188, 1.0),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                new Container(
+                    padding:
+                        EdgeInsets.only(left: 0, right: 0, top: 3, bottom: 3),
+                    alignment: Alignment.bottomCenter,
+                    child: Divider(
+                      color: isCalendar
+                          ? Colors.transparent
+                          : Color.fromRGBO(3, 54, 255, 1.0),
+                      height: isCalendar ? 0 : 5,
+                      thickness: 1.5,
+                    )),
+                ac.band != null
+                    ? Text(
+                        currentType(ac.type) + "-" + (ac?.band?.name ?? ''),
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontStyle: FontStyle.normal,
+                          color: ac.bandId.isNotEmpty
+                              ? isPast
+                                  ? Colors.grey
+                                  : Color.fromRGBO(32, 95, 139, 1.0)
+                              : isPast
+                                  ? Colors.grey
+                                  : Color.fromRGBO(40, 35, 188, 1.0),
+                        ),
+                        textAlign: ac.bandId.isNotEmpty
+                            ? TextAlign.right
+                            : TextAlign.center,
+                      )
+                    : Text(
+                        currentType(ac.type),
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontStyle: FontStyle.normal,
+                          color: ac.bandId.isNotEmpty
+                              ? isPast
+                                  ? Colors.grey
+                                  : Color.fromRGBO(32, 95, 139, 1.0)
+                              : isPast
+                                  ? Colors.grey
+                                  : Color.fromRGBO(40, 35, 188, 1.0),
+                        ),
+                        textAlign: ac.bandId.isNotEmpty
+                            ? TextAlign.right
+                            : TextAlign.center,
+                      )
+              ],
+            ),
           ),
+          onTap: onTap,
         ),
-        Container(
-          color: Colors.grey,
-          width: 1.2,
-          height: 50,
-        ),
-      ],
-    ),
-    Container(
-
-      width: isCalendar?MediaQuery.of(context).size.width/1.2:MediaQuery.of(context).size.width / 1.5,
-      margin: EdgeInsets.symmetric(horizontal: 3, vertical: 5),
-      decoration: BoxDecoration(
-
       ),
-      child: InkWell(
-        child: Container(
-          padding: ac.bandId.isNotEmpty
-              ? EdgeInsets.symmetric(vertical: 5)
-              : EdgeInsets.symmetric(vertical: 10),
-          decoration: ac.bandId.isEmpty
-              ? BoxDecoration(
-              color: Color.fromRGBO(40, 35, 188, 0.2),
-              border: Border.all(width: 1, color: Colors.blue))
-              : BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(
-                      color:isCalendar? Color.fromRGBO(3, 54, 255, 1.0):Colors.transparent,
-                      width: 1.0
-                  )
-              )
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ac.startTime != null
-                      ? Text(
-                    "${ac.startTime.toLowerCase()}",
-                    style: TextStyle(
-                        color: Color.fromRGBO(32, 95, 139, 1.0),
-                        fontSize: 16),
-                  )
-                      : Container(),
-                  ac.endTime.isNotEmpty
-                      ? Text(
-                    " - ${ac.endTime.toLowerCase()}",
-                    style: TextStyle(
-                        color: Color.fromRGBO(32, 95, 139, 1.0),
-                        fontSize: 16),
-                  )
-                      : Container()
-                ],
-              ),
-              Text(
-                "${ac.title}",
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: ac.bandId.isNotEmpty
-                      ? isPast ? Colors.grey : Color.fromRGBO(40, 35, 188, 1.0)
-                      : isPast ? Colors.grey : Color.fromRGBO(40, 35, 188, 1.0),
-                ),
-                textAlign: TextAlign.center,
-              ),
-              new Container(
-                  padding: EdgeInsets.only(left: 0, right: 0, top: 3, bottom: 3),
-                  alignment: Alignment.bottomCenter,
-                  child: Divider(
-                    color: isCalendar?Colors.transparent:Color.fromRGBO(3, 54, 255, 1.0),
-                    height: isCalendar?0:5,
-                    thickness: 1.5,
-                  )),
-              ac.band !=null?Text(
-                currentType(ac.type) + "-" + (ac?.band?.name ?? ''),
-                style: TextStyle(
-                  fontSize: 17,
-                  fontStyle: FontStyle.normal,
-                  color: ac.bandId.isNotEmpty
-                      ? isPast ? Colors.grey : Color.fromRGBO(32, 95, 139, 1.0)
-                      : isPast ? Colors.grey : Color.fromRGBO(40, 35, 188, 1.0),
-                ),
-                textAlign:
-                ac.bandId.isNotEmpty ? TextAlign.right : TextAlign.center,
-              ):Text(
-                currentType(ac.type),
-                style: TextStyle(
-                  fontSize: 17,
-                  fontStyle: FontStyle.normal,
-                  color: ac.bandId.isNotEmpty
-                      ? isPast ? Colors.grey : Color.fromRGBO(32, 95, 139, 1.0)
-                      : isPast ? Colors.grey : Color.fromRGBO(40, 35, 188, 1.0),
-                ),
-                textAlign:
-                ac.bandId.isNotEmpty ? TextAlign.right : TextAlign.center,
-              )
-            ],
-          ),
-
-        ),
-        onTap: onTap,
-      ),
-    ),
-
-  ],) ;
+    ],
+  );
 }
 
 String currentType(int type) {
@@ -356,7 +369,7 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
   return Card(
     margin: EdgeInsets.all(10),
     color:
-    not.bandId.isNotEmpty ? Colors.white : Color.fromRGBO(3, 54, 255, 1.0),
+        not.bandId.isNotEmpty ? Colors.white : Color.fromRGBO(3, 54, 255, 1.0),
     shape: RoundedRectangleBorder(
       side: not.bandId.isNotEmpty
           ? new BorderSide(color: Color.fromRGBO(3, 54, 255, 1.0), width: 1.0)
@@ -389,25 +402,25 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
             not.startDate == 0
                 ? Container()
                 : Text(
-              not.startDate == 0
-                  ? ""
-                  : "Remind me ${formatDate(stDate, [
-                DD,
-                '-',
-                mm,
-                '/',
-                dd,
-                '/',
-                yy,
-              ])}",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16,
-                color: (not.bandId.isNotEmpty)
-                    ? Color.fromRGBO(3, 54, 255, 1.0)
-                    : Colors.white,
-              ),
-            ),
+                    not.startDate == 0
+                        ? ""
+                        : "Remind me ${formatDate(stDate, [
+                            DD,
+                            '-',
+                            mm,
+                            '/',
+                            dd,
+                            '/',
+                            yy,
+                          ])}",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: (not.bandId.isNotEmpty)
+                          ? Color.fromRGBO(3, 54, 255, 1.0)
+                          : Colors.white,
+                    ),
+                  ),
 
 //            Padding(
 //              padding: EdgeInsets.all(5),
@@ -513,23 +526,23 @@ Widget buildBulletInBoardListItem(BulletInBoard not, Color color, {onTap}) {
             not.date == 0
                 ? Container()
                 : Text(
-              not.date == 0
-                  ? ""
-                  : "${formatDate(stDate, [
-                DD,
-                '-',
-                mm,
-                '/',
-                dd,
-                '/',
-                yy,
-              ])}",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.white,
-              ),
-            ),
+                    not.date == 0
+                        ? ""
+                        : "${formatDate(stDate, [
+                            DD,
+                            '-',
+                            mm,
+                            '/',
+                            dd,
+                            '/',
+                            yy,
+                          ])}",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
+                    ),
+                  ),
 
 //            Padding(
 //              padding: EdgeInsets.all(5),
@@ -617,13 +630,13 @@ double initScale({Size imageSize, Size size, double initialScale}) {
   var n2 = size.height / size.width;
   if (n1 > n2) {
     final FittedSizes fittedSizes =
-    applyBoxFit(BoxFit.contain, imageSize, size);
+        applyBoxFit(BoxFit.contain, imageSize, size);
     //final Size sourceSize = fittedSizes.source;
     Size destinationSize = fittedSizes.destination;
     return size.width / destinationSize.width;
   } else if (n1 / n2 < 1 / 4) {
     final FittedSizes fittedSizes =
-    applyBoxFit(BoxFit.contain, imageSize, size);
+        applyBoxFit(BoxFit.contain, imageSize, size);
     //final Size sourceSize = fittedSizes.source;
     Size destinationSize = fittedSizes.destination;
     return size.height / destinationSize.height;

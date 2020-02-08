@@ -590,7 +590,9 @@ class ServerAPI {
         activities.id = id;
         isUpdate = false;
       }
-      if (activities.bandId != null && activities.bandId.isNotEmpty) {
+      if (activities.bandId != null &&
+          activities.bandId.isNotEmpty &&
+          !isUpdate) {
         final detail = await getBandDetails(activities.bandId);
         if (detail is Band) {
           for (var mem in detail.bandmates.keys) {
