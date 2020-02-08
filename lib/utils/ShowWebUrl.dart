@@ -21,13 +21,12 @@ class _ShowWebUrlState extends State<ShowWebUrlScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter WebView example'),
       ),
-      body: const WebView(
-        initialUrl: 'https://flutter.io',
+      body: WebView(
+        initialUrl: widget.url,
         javascriptMode: JavascriptMode.unrestricted,
       ),
     );
