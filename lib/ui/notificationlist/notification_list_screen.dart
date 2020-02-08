@@ -159,25 +159,55 @@ class _NotificationListScreensState
                           Padding(
                             padding: EdgeInsets.all(3),
                           ),
-                          Container(
-                            child: Text(
-                              "${formatDate(DateTime.fromMillisecondsSinceEpoch(ac.created), [
-                                M,
-                                ' ',
-                                d,
-                                ', ',
-                                yyyy,
-                                ' ',
-                                hh,
-                                ':',
-                                mm,
-                                ' ',
-                                am
-                              ])}",
-                              textAlign: TextAlign.right,
-                            ),
-                            alignment: Alignment.centerRight,
-                          )
+                          Row(
+                            children: <Widget>[
+                              Padding(
+                                  padding: EdgeInsets.symmetric(
+                                horizontal: 10,
+                              )),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    ac.sender != null
+                                        ? Text(
+                                            "Creator: ${ac.sender?.firstName} ${ac.sender?.lastName}",
+                                            style: textTheme.caption,
+                                          )
+                                        : Container(),
+                                    ac.bandId != null
+                                        ? Text(
+                                            "Band: ${ac.band?.name}",
+                                            style: textTheme.caption,
+                                          )
+                                        : Container()
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: Text(
+                                    "${formatDate(DateTime.fromMillisecondsSinceEpoch(ac.created), [
+                                      M,
+                                      ' ',
+                                      d,
+                                      ', ',
+                                      yyyy,
+                                      ' ',
+                                      hh,
+                                      ':',
+                                      mm,
+                                      ' ',
+                                      am
+                                    ])}",
+                                    textAlign: TextAlign.right,
+                                    style: textTheme.caption,
+                                  ),
+                                  alignment: Alignment.centerRight,
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                       decoration: BoxDecoration(

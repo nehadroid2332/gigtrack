@@ -1,6 +1,8 @@
 import 'package:gigtrack/base/base_model.dart';
 import 'package:gigtrack/server/models/user.dart';
 
+import 'band.dart';
+
 class AppNotification extends BaseModel {
   static const TYPE_BAND = 1;
   static const TYPE_ACTIVITY = 2;
@@ -30,6 +32,8 @@ class AppNotification extends BaseModel {
   String text;
   String senderId;
   User sender;
+
+  Band band;
 
   AppNotification({
     this.text,

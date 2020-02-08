@@ -80,6 +80,9 @@ class NotificationListPresenter extends BasePresenter {
         if (noti.senderId != null && noti.senderId.isNotEmpty) {
           noti.sender = await serverAPI.getSingleUserById(noti.senderId);
         }
+        if (noti.bandId != null && noti.bandId.isNotEmpty) {
+          noti.band = await serverAPI.getBandDetails(noti.bandId);
+        }
         acc.add(noti);
       }
       return acc;
