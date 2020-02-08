@@ -74,7 +74,7 @@ class ActivitiesListPresenter extends BasePresenter {
           DateTime dt =
               DateTime.fromMillisecondsSinceEpoch(a.startDate).toLocal();
           DateTime today = DateTime.now().toLocal();
-          if (dt.isBefore(today)) {
+          if (dt.isBefore(today) && a.userId == serverAPI.currentUserId) {
             dt = dt.add(Duration(days: 7));
             a.startDate = dt.millisecondsSinceEpoch;
             await serverAPI.addActivities(a);
