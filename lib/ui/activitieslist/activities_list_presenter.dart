@@ -74,7 +74,6 @@ class ActivitiesListPresenter extends BasePresenter {
           DateTime dt =
               DateTime.fromMillisecondsSinceEpoch(a.startDate).toLocal();
           DateTime today = DateTime.now().toLocal();
-          print("Id:${a.id} title:${a.title} time:$dt today:$today");
           if (dt.isBefore(today)) {
             dt = dt.add(Duration(days: 7));
             a.startDate = dt.millisecondsSinceEpoch;
