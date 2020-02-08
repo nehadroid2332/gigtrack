@@ -185,26 +185,16 @@ class _AddContactScreenState
             }
           },
         ),
+        title: Text(
+          "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Contact",
+          textAlign: TextAlign.center,
+          style: textTheme.headline.copyWith(
+            color: Colors.white,
+          ),
+        ),
         brightness: Brightness.light,
         backgroundColor: Color.fromRGBO(3, 218, 157, 1.0),
         actions: <Widget>[
-          Container(
-              alignment: Alignment.center,
-              width: widget.id.isEmpty
-                  ? MediaQuery.of(context).size.width
-                  : (widget.isLeader ||
-                          userId == presenter.serverAPI.currentUserId)
-                      ? MediaQuery.of(context).size.width / 2
-                      : MediaQuery.of(context).size.width,
-              child: Center(
-                child: Text(
-                  "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Contact",
-                  textAlign: TextAlign.center,
-                  style: textTheme.headline.copyWith(
-                    color: Colors.white,
-                  ),
-                ),
-              )),
           subContact == null
               ? widget.id.isEmpty
                   ? Container()
@@ -1810,13 +1800,16 @@ class _AddContactScreenState
                                     DateTime.fromMillisecondsSinceEpoch(
                                         notesTodo.createdDate);
                                 return ListTile(
-                                  onTap: () {
-                                    setState(() {
-                                      subContact = notesTodo;
-                                      _noteContactController.text =
-                                          subContact.title;
-                                    });
-                                  },
+                                  onTap: userId ==
+                                          presenter.serverAPI.currentUserId
+                                      ? () {
+                                          setState(() {
+                                            subContact = notesTodo;
+                                            _noteContactController.text =
+                                                subContact.title;
+                                          });
+                                        }
+                                      : null,
                                   title: Text(notesTodo.title),
                                   leading: CircleAvatar(
                                       backgroundColor:
