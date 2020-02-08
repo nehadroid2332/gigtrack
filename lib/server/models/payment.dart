@@ -8,7 +8,7 @@ class Payment extends BaseModel {
   String notes;
   String id;
   int type;
-  String user_id;
+  String userId;
   int created = DateTime.now().millisecondsSinceEpoch;
 
   static const int TYPE_PAID = 1;
@@ -19,7 +19,7 @@ class Payment extends BaseModel {
       this.notes,
       this.amount,
       this.id,
-      this.user_id,
+      this.userId,
       this.type,
       this.paymentPurpose,
       this.paymentStatus,
@@ -27,7 +27,7 @@ class Payment extends BaseModel {
 
   Payment.fromJSON(dynamic data) {
     id = data['id'];
-    user_id = data['user_id'];
+    userId = data['user_id'];
     image = data['image'];
     amount = data['amount'];
     notes = data['notes'];
@@ -43,7 +43,7 @@ class Payment extends BaseModel {
     data['image'] = image;
     data['id'] = id;
     data['type'] = type;
-    data['user_id'] = user_id;
+    data['user_id'] = userId;
     data['paymentPurpose'] = paymentPurpose;
     data['amount'] = amount;
     data['paymentStatus'] = paymentStatus;

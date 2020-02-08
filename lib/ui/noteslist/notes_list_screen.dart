@@ -116,8 +116,8 @@ class _NotesListScreenState
                           (widget.bandId != null &&
                               (note.status == NotesTodo.STATUS_APPROVED ||
                                   (widget.isLeader ||
-                                      (note.user_id != null &&
-                                          note.user_id ==
+                                      (note.userId != null &&
+                                          note.userId ==
                                               presenter.serverAPI
                                                   .currentUserId))))) {
                         if (note.isArchive) {

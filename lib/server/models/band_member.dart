@@ -2,7 +2,7 @@ import 'package:gigtrack/base/base_model.dart';
 
 class BandMember extends BaseModel {
   String id;
-  String user_id;
+  String userId;
   String firstName;
   String lastName;
   String email;
@@ -22,7 +22,7 @@ class BandMember extends BaseModel {
   int status = 0;
 
   BandMember(
-      {this.user_id,
+      {this.userId,
       this.otherTalent,
       this.permissions,
       this.payInfo,
@@ -44,7 +44,7 @@ class BandMember extends BaseModel {
 
   BandMember.fromJSON(dynamic data) {
     id = data['id'];
-    user_id = data['user_id'];
+    userId = data['user_id'];
     email = data['email'];
     firstName = data['firstName'];
     lastName = data['lastName'];
@@ -75,7 +75,7 @@ class BandMember extends BaseModel {
   Map<String, dynamic> toMap() {
     Map<String, dynamic> data = super.toMap();
     data['id'] = id;
-    data['user_id'] = user_id;
+    data['user_id'] = userId;
     data['email'] = email;
     data['firstName'] = firstName;
     data['lastName'] = lastName;

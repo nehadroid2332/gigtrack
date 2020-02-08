@@ -19,12 +19,12 @@ class SetListPresenter extends BasePresenter {
         if (bandId != null &&
             setList.bandId != null &&
             setList.bandId == bandId &&
-            setList.user_id != null
+            setList.userId != null
             //setList.user_id == serverAPI.currentUserId
              )
           acc.add(setList);
-        else if (setList.user_id != null &&
-            setList.user_id == serverAPI.currentUserId&& bandId.isEmpty) {
+        else if (setList.userId != null &&
+            setList.userId == serverAPI.currentUserId&& bandId.isEmpty) {
           acc.add(setList);
         }
       }

@@ -855,7 +855,7 @@ class _AddMemberToBandScreenState
       showLoading();
       presenter.addMemberToBand(
           BandMember(
-              user_id: itemSelect.user_id,
+              userId: itemSelect.userId,
               // instrument: iList,
               memberRole: List.from(mList),
               firstName: _firstNameController.text,

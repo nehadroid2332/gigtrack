@@ -19,7 +19,7 @@ class AddBuiltInBoardPresenter extends BasePresenter {
   AddBuiltInBoardPresenter(BaseContract view) : super(view);
 
   void addBulletIn(BulletInBoard bulletinboard) async {
-    bulletinboard.user_id = serverAPI.currentUserId;
+    bulletinboard.userId = serverAPI.currentUserId;
     final res = await serverAPI.addBulletInBoard(bulletinboard);
     if (res is bool) {
       if (res) {
@@ -35,7 +35,7 @@ class AddBuiltInBoardPresenter extends BasePresenter {
   void getBulletInBoardDetails(String id) async {
     final res = await serverAPI.getBulletInBoardDetails(id);
     if (res is BulletInBoard) {
-      res.user = await serverAPI.getSingleUserById(res.user_id);
+      res.user = await serverAPI.getSingleUserById(res.userId);
       (view as AddBulletInBoardContract).getBulletInBoardDetails(res);
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);
@@ -54,7 +54,7 @@ class AddBuiltInBoardPresenter extends BasePresenter {
       res.status = status;
       await serverAPI.addBulletInBoard(res);
       if (status == BulletInBoard.STATUS_APPROVED)
-        sendNotification(res.id, res.user_id);
+        sendNotification(res.id, res.userId);
       (view as AddBulletInBoardContract).onStatusUpdate();
     } else if (res is ErrorResponse) {
       view.showMessage(res.message);

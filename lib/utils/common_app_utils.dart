@@ -350,8 +350,8 @@ String currentType(int type) {
 }
 
 Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
-  DateTime stDate = DateTime.fromMillisecondsSinceEpoch((not.start_date));
-  DateTime endDate = DateTime.fromMillisecondsSinceEpoch((not.end_date));
+  DateTime stDate = DateTime.fromMillisecondsSinceEpoch((not.startDate));
+  DateTime endDate = DateTime.fromMillisecondsSinceEpoch((not.endDate));
 
   return Card(
     margin: EdgeInsets.all(10),
@@ -386,10 +386,10 @@ Widget buildNoteListItem(NotesTodo not, Color color, {onTap}) {
             Padding(
               padding: EdgeInsets.all(3),
             ),
-            not.start_date == 0
+            not.startDate == 0
                 ? Container()
                 : Text(
-              not.start_date == 0
+              not.startDate == 0
                   ? ""
                   : "Remind me ${formatDate(stDate, [
                 DD,

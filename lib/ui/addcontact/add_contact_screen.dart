@@ -1985,7 +1985,7 @@ class _AddContactScreenState
   void getContactDetails(Contacts data) {
     hideLoading();
     setState(() {
-      userId = data.user_id;
+      userId = data.userId;
       files.clear();
       files.addAll(data.files);
       _dateToRememberItems.clear();

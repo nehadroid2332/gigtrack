@@ -6,7 +6,7 @@ class SetList extends BaseModel {
   String setListName;
   List<Song> songs = [];
   String id;
-  String user_id;
+  String userId;
   String bandId;
   SetList();
 
@@ -14,7 +14,7 @@ class SetList extends BaseModel {
     setListName = data['setListName'];
     id = data['id'];
     bandId = data['bandId'];
-    user_id = data['user_id'];
+    userId = data['user_id'];
     if (data['songs'] != null) {
       for (var item in data['songs']) {
         Song song = Song.fromJSON(item);
@@ -29,7 +29,7 @@ class SetList extends BaseModel {
     data['setListName'] = setListName;
     data['id'] = id;
     data['bandId'] = bandId;
-    data['user_id'] = user_id;
+    data['user_id'] = userId;
     List<dynamic> sb = [];
     for (Song item in songs) {
       sb.add(item.toMap());

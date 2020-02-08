@@ -12,7 +12,7 @@ class AddContactPresenter extends BasePresenter {
   AddContactPresenter(BaseContract view) : super(view);
 
   void addContact(Contacts contacts) async {
-    contacts.user_id = serverAPI.currentUserId;
+    contacts.userId = serverAPI.currentUserId;
     final res = await serverAPI.addContact(contacts);
     if (res is bool) {
       if (res)

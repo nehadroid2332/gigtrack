@@ -18,7 +18,7 @@ class AddNotesPresenter extends BasePresenter {
   AddNotesPresenter(BaseContract view) : super(view);
 
   void addNotes(NotesTodo notetodo, bool isParent, String subNoteId) async {
-    notetodo.user_id = serverAPI.currentUserId;
+    notetodo.userId = serverAPI.currentUserId;
     if (isParent) {
       final res1 = await serverAPI.getNoteDetails(notetodo.id);
       if (res1 is NotesTodo) {

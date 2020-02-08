@@ -789,7 +789,7 @@ class _AddNotesScreenState
   void getNoteDetails(NotesTodo note) {
     hideLoading();
     setState(() {
-      userId = note.user_id;
+      userId = note.userId;
       subNotes.clear();
       subNotes.addAll(note.subNotes);
       status = note.status;
@@ -797,17 +797,17 @@ class _AddNotesScreenState
       _noteController.text = note.note;
       DateTime createdDate =
           DateTime.fromMillisecondsSinceEpoch((note.createdDate));
-      DateTime stDate = DateTime.fromMillisecondsSinceEpoch((note.start_date));
-      DateTime endDate = DateTime.fromMillisecondsSinceEpoch((note.end_date));
+      DateTime stDate = DateTime.fromMillisecondsSinceEpoch((note.startDate));
+      DateTime endDate = DateTime.fromMillisecondsSinceEpoch((note.endDate));
       _createdDateController.text =
           "${formatDate(stDate, [mm, '/', dd, '/', yy])}";
-      if (note.start_date == 0) {
+      if (note.startDate == 0) {
         _startDateController.text = null;
         isDateVisible = false;
       } else {
         isDateVisible = true;
         selectedStartDate =
-            DateTime.fromMillisecondsSinceEpoch((note.start_date));
+            DateTime.fromMillisecondsSinceEpoch((note.startDate));
         _startDateController.text =
             "${formatDate(stDate, [mm, '/', dd, '/', yy])}";
       }
@@ -943,8 +943,8 @@ class _AddNotesScreenState
           description: desc,
           bandId: widget.bandId,
           type: widget.type,
-          end_date: end?.millisecondsSinceEpoch ?? 0,
-          start_date: selectedStartDate != null
+          endDate: end?.millisecondsSinceEpoch ?? 0,
+          startDate: selectedStartDate != null
               ? selectedStartDate.millisecondsSinceEpoch
               : 0,
           id: widget.id,

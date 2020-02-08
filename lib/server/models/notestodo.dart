@@ -7,10 +7,10 @@ class NotesTodo extends BaseModel {
 
   int type = TYPE_NOTE;
   String description;
-  int start_date;
-  int end_date;
+  int startDate;
+  int endDate;
   String id;
-  String user_id;
+  String userId;
   String note;
   int createdDate;
   String bandId;
@@ -26,8 +26,8 @@ class NotesTodo extends BaseModel {
 
   NotesTodo(
       {this.description,
-      this.end_date,
-      this.start_date,
+      this.endDate,
+      this.startDate,
       this.type,
       this.bandId,
       this.id,
@@ -37,10 +37,10 @@ class NotesTodo extends BaseModel {
   NotesTodo.fromJSON(dynamic data) {
     type = data['type'] ?? TYPE_NOTE;
     description = data['description'];
-    start_date = data['start_date'];
-    end_date = data['end_date'];
+    startDate = data['start_date'];
+    endDate = data['end_date'];
     id = data['id'];
-    user_id = data['user_id'];
+    userId = data['user_id'];
     bandId = data['bandId'];
     note = data['note'];
     status = data['status'];
@@ -59,12 +59,12 @@ class NotesTodo extends BaseModel {
     data['type'] = type ?? TYPE_NOTE;
     data['status'] = status;
     data['description'] = description ?? "";
-    data['start_date'] = start_date ?? 0;
-    data['end_date'] = end_date ?? 0;
+    data['start_date'] = startDate ?? 0;
+    data['end_date'] = endDate ?? 0;
     data['id'] = id ?? "";
     data['isArchive'] = isArchive ?? false;
     data['bandId'] = bandId;
-    data['user_id'] = user_id ?? "";
+    data['user_id'] = userId ?? "";
     data['note'] = note ?? "";
     data['createdDate'] = createdDate ?? 0;
     List<dynamic> sb = [];

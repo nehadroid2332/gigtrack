@@ -64,7 +64,7 @@ class AddMemberToBandPresenter extends BasePresenter {
       // }
       final resw = await serverAPI.searchUserByEmail(bandMember.email);
       if (resw is User) {
-        bandMember.user_id = resw.id;
+        bandMember.userId = resw.id;
       }
       res.bandmates[bandMember.email.replaceAll(".", "")] = bandMember;
       if (isPrimaryContact) res.primaryContactEmail = bandMember.email;

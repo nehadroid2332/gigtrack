@@ -55,7 +55,7 @@ class AddBandPresenter extends BasePresenter {
       if (user is User)
         band.bandmates[serverAPI.currentUserEmail.replaceAll(".", "")] =
             BandMember(
-          user_id: serverAPI.currentUserId,
+          userId: serverAPI.currentUserId,
           // instrument: iList,
           // memberRole: List.from(mList),
           firstName: user.firstName,

@@ -703,7 +703,7 @@ class _AddSetListScreenState
                                         setList.setListName =
                                             _listNameController.text;
                                         setList.songs = _songList;
-                                        setList.user_id =
+                                        setList.userId =
                                             presenter.serverAPI.currentUserId;
                                         presenter.addSetList(setList);
                                       },

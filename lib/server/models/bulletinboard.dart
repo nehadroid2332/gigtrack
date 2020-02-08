@@ -7,7 +7,7 @@ class BulletInBoard extends BaseModel {
   String type;
   String description;
   String id;
-  String user_id;
+  String userId;
   int visibleDays;
   String city;
   String state;
@@ -27,7 +27,7 @@ class BulletInBoard extends BaseModel {
       this.description,
       this.type,
       this.id,
-      this.user_id,
+      this.userId,
       this.uploadedFiles,
       this.status,
       this.city,
@@ -36,7 +36,7 @@ class BulletInBoard extends BaseModel {
 
   BulletInBoard.fromJSON(dynamic data) {
     id = data['id'];
-    user_id = data['user_id'];
+    userId = data['user_id'];
     item = data['item'];
     date = data['date'];
     type = data['type'];
@@ -55,7 +55,7 @@ class BulletInBoard extends BaseModel {
     Map<String, dynamic> data = super.toMap();
     data['item'] = item;
     data['id'] = id;
-    data['user_id'] = user_id;
+    data['user_id'] = userId;
     data['date'] = date;
     data['type'] = type;
     data['status'] = status;

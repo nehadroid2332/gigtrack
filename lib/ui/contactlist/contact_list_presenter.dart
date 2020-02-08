@@ -96,7 +96,7 @@ class ContactListPresenter extends BasePresenter {
             }
 
           }
-          if (contact.user_id == serverAPI.currentUserId) {
+          if (contact.userId == serverAPI.currentUserId) {
             if (acc.contains(contact)) {
               continue;
             } else {

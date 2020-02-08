@@ -169,8 +169,8 @@ class ServerAPI {
           for (var mem in band.bandmates.keys) {
             BandMember bandMember = band.bandmates[mem];
             if (bandMember.email == user.email) {
-              if (bandMember.user_id == null || bandMember.user_id.isEmpty) {
-                bandMember.user_id = user.id;
+              if (bandMember.userId == null || bandMember.userId.isEmpty) {
+                bandMember.userId = user.id;
               }
             }
           }
@@ -276,14 +276,14 @@ class ServerAPI {
         if (detail is Band) {
           for (var mem in detail.bandmates.keys) {
             BandMember member = detail.bandmates[mem];
-            if (member.user_id != null && member.user_id.isNotEmpty) {
+            if (member.userId != null && member.userId.isNotEmpty) {
               final res = await addNotification(AppNotification(
                 bandId: contacts.bandId,
                 created: DateTime.now().millisecondsSinceEpoch,
                 notiId: contacts.id,
                 text: "A new Contact created in the band(${detail.name})",
                 type: AppNotification.TYPE_CONTACT,
-                userId: member.user_id,
+                userId: member.userId,
                 senderId: currentUserId,
               ));
               if (res is AppNotification) {
@@ -418,14 +418,14 @@ class ServerAPI {
         if (detail is Band) {
           for (var mem in detail.bandmates.keys) {
             BandMember member = detail.bandmates[mem];
-            if (member.user_id != null && member.user_id.isNotEmpty) {
+            if (member.userId != null && member.userId.isNotEmpty) {
               final res = await addNotification(AppNotification(
                 bandId: notesTodo.bandId,
                 created: DateTime.now().millisecondsSinceEpoch,
                 notiId: notesTodo.id,
                 text: "A new Note/Todo created in the band(${detail.name})",
                 type: AppNotification.TYPE_NOTES,
-                userId: member.user_id,
+                userId: member.userId,
                 senderId: currentUserId,
               ));
               if (res is AppNotification) {
@@ -503,7 +503,7 @@ class ServerAPI {
         if (detail is Band) {
           for (var mem in detail.bandmates.keys) {
             BandMember member = detail.bandmates[mem];
-            if (member.user_id != null && member.user_id.isNotEmpty) {
+            if (member.userId != null && member.userId.isNotEmpty) {
               final res = await addNotification(AppNotification(
                 bandId: bandComm.bandId,
                 created: DateTime.now().millisecondsSinceEpoch,
@@ -511,7 +511,7 @@ class ServerAPI {
                 text:
                     "A new Band Communication was created in the band (${detail.name})",
                 type: AppNotification.TYPE_BAND_COMM,
-                userId: member.user_id,
+                userId: member.userId,
                 senderId: currentUserId,
               ));
               if (res is AppNotification) {
@@ -558,14 +558,14 @@ class ServerAPI {
         if (detail is Band) {
           for (var mem in detail.bandmates.keys) {
             BandMember member = detail.bandmates[mem];
-            if (member.user_id != null && member.user_id.isNotEmpty) {
+            if (member.userId != null && member.userId.isNotEmpty) {
               final res = await addNotification(AppNotification(
                 bandId: setlist.bandId,
                 created: DateTime.now().millisecondsSinceEpoch,
                 notiId: setlist.id,
                 text: "A new Set-List added to band ${detail.name}",
                 type: AppNotification.TYPE_SET_LIST,
-                userId: member.user_id,
+                userId: member.userId,
                 senderId: currentUserId,
               ));
               if (res is AppNotification) {
@@ -595,7 +595,7 @@ class ServerAPI {
         if (detail is Band) {
           for (var mem in detail.bandmates.keys) {
             BandMember member = detail.bandmates[mem];
-            if (member.user_id != null && member.user_id.isNotEmpty) {
+            if (member.userId != null && member.userId.isNotEmpty) {
               final res = await addNotification(AppNotification(
                 bandId: activities.bandId,
                 created: DateTime.now().millisecondsSinceEpoch,
@@ -603,7 +603,7 @@ class ServerAPI {
                 text:
                     "A new ${activities.type == Activites.TYPE_ACTIVITY ? 'Activity' : activities.type == Activites.TYPE_BAND_TASK ? 'Band Task' : activities.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? 'Performance Schedule' : activities.type == Activites.TYPE_PRACTICE_SCHEDULE ? 'Practice Schedule' : activities.type == Activites.TYPE_TASK ? 'Task' : ''} was created in the band (${detail.name})",
                 type: AppNotification.TYPE_ACTIVITY,
-                userId: member.user_id,
+                userId: member.userId,
                 senderId: currentUserId,
               ));
               if (res is AppNotification) {
@@ -685,14 +685,14 @@ class ServerAPI {
         if (detail is Band) {
           for (var mem in detail.bandmates.keys) {
             BandMember member = detail.bandmates[mem];
-            if (member.user_id != null && member.user_id.isNotEmpty) {
+            if (member.userId != null && member.userId.isNotEmpty) {
               final res = await addNotification(AppNotification(
                 bandId: instrument.bandId,
                 created: DateTime.now().millisecondsSinceEpoch,
                 notiId: instrument.id,
                 text: "A new Instrument created in the band(${detail.name})",
                 type: AppNotification.TYPE_INSTRUMENT,
-                userId: member.user_id,
+                userId: member.userId,
                 senderId: currentUserId,
               ));
               if (res is AppNotification) {
@@ -908,14 +908,14 @@ class ServerAPI {
         if (detail is Band) {
           for (var mem in detail.bandmates.keys) {
             BandMember member = detail.bandmates[mem];
-            if (member.user_id != null && member.user_id.isNotEmpty) {
+            if (member.userId != null && member.userId.isNotEmpty) {
               final res = await addNotification(AppNotification(
                 bandId: userPlayingStyle.bandId,
                 created: DateTime.now().millisecondsSinceEpoch,
                 notiId: userPlayingStyle.id,
                 text: "A new EPK created in the band(${detail.name})",
                 type: AppNotification.TYPE_EPK,
-                userId: member.user_id,
+                userId: member.userId,
                 senderId: currentUserId,
               ));
               if (res is AppNotification) {

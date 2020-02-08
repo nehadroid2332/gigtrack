@@ -908,7 +908,7 @@ class _AddBulletInBoardScreenState
     hideLoading();
     setState(() {
       user = note.user;
-      bulletInUserId = note.user_id;
+      bulletInUserId = note.userId;
       type = note.type;
       status = note.status;
       _descController.text = note.description;

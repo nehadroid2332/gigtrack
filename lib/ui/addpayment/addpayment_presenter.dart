@@ -15,7 +15,7 @@ class AddPaymentPresenter extends BasePresenter {
   AddPaymentPresenter(BaseContract view) : super(view);
 
   void addPayment(Payment bulletinboard) async {
-    bulletinboard.user_id = serverAPI.currentUserId;
+    bulletinboard.userId = serverAPI.currentUserId;
     final res = await serverAPI.addPayment(bulletinboard);
     if (res is bool) {
       if (res) {

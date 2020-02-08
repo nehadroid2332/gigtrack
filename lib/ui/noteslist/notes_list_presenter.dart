@@ -41,10 +41,10 @@ class NotesListPresenter extends BasePresenter {
             notesTodo.band = res;
           }
         }
-        if (notesTodo.user_id == serverAPI.currentUserId) {
+        if (notesTodo.userId == serverAPI.currentUserId) {
           acc.add(notesTodo);
-        } else if (notesTodo.user_id != null) {
-          final res = await serverAPI.getSingleUserById(notesTodo.user_id);
+        } else if (notesTodo.userId != null) {
+          final res = await serverAPI.getSingleUserById(notesTodo.userId);
           if (res is User && (res.isUnder18Age ?? false)) {
             if (res.guardianEmail == serverAPI.currentUserEmail) {
               acc.add(notesTodo);

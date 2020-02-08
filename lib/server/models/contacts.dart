@@ -11,7 +11,7 @@ class Contacts extends BaseModel {
   String otherrelationship;
   List<DateToRememberData> dateToRemember = [];
   String id;
-  String user_id;
+  String userId;
   List<String> files = [];
   Map<String, String> likeadded = {};
   String companyName;
@@ -30,7 +30,7 @@ class Contacts extends BaseModel {
     email = data['email'];
     id = data['id'];
     bandId = data['bandId'];
-    user_id = data['user_id'];
+    userId = data['user_id'];
     otherrelationship = data['other_relationship'];
     companyName = data['companyName'];
     notes = data['notes'];
@@ -78,7 +78,7 @@ class Contacts extends BaseModel {
     data['likes'] = likeadded;
     data['date_to_remember'] = dtR;
     data['files'] = files;
-    data['user_id'] = user_id;
+    data['user_id'] = userId;
     data['id'] = id;
     data['other_relationship'] = otherrelationship;
     data['companyName'] = companyName;
