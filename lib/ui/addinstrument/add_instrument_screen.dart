@@ -290,7 +290,9 @@ class _AddInstrumentScreenState
           ),
           widget.id.isEmpty
               ? Container()
-              : (widget.isLeader || userId == presenter.serverAPI.currentUserId)
+              : (widget.isLeader ||
+                          userId == presenter.serverAPI.currentUserId) &&
+                      subContact == null
                   ? IconButton(
                       icon: Icon(Icons.edit),
                       onPressed: () {
@@ -302,16 +304,36 @@ class _AddInstrumentScreenState
                   : Container(),
           widget.id.isEmpty
               ? Container()
-              : (widget.isLeader || userId == presenter.serverAPI.currentUserId)
+              : ((widget.isLeader ||
+                              userId == presenter.serverAPI.currentUserId) &&
+                          subContact == null) ||
+                      (subContact != null &&
+                          subContact.id != null &&
+                          subContact.id.isNotEmpty)
                   ? IconButton(
                       icon: Icon(Icons.delete),
                       onPressed: () {
-                        if (id == null || id.isEmpty) {
-                          showMessage("Id cannot be null");
+                        if (subContact != null) {
+                          setState(() {
+                            for (var i = 0; i < subContacts.length; i++) {
+                              SubInstrumentNotes sub = subContacts[i];
+                              if (sub.id == subContact.id) {
+                                subContacts.removeAt(i);
+                                break;
+                              }
+                            }
+                            presenter.addSubInstrumentNote(
+                                subContacts, widget.id);
+                            subContact = null;
+                          });
                         } else {
-                          _showDialogConfirm();
-                          // presenter.instrumentDelete(id);
-                          // Navigator.of(context).pop();
+                          if (id == null || id.isEmpty) {
+                            showMessage("Id cannot be null");
+                          } else {
+                            _showDialogConfirm();
+                            // presenter.instrumentDelete(id);
+                            // Navigator.of(context).pop();
+                          }
                         }
                       },
                     )
@@ -375,10 +397,24 @@ class _AddInstrumentScreenState
                                   setState(() {
                                     subContact.title =
                                         _noteContactController.text;
-                                    subContact.id = randomString(12);
+                                    if (subContact.id == null ||
+                                        subContact.id.isEmpty)
+                                      subContact.id = randomString(12);
                                     subContact.createdDate =
                                         DateTime.now().millisecondsSinceEpoch;
-                                    subContacts.add(subContact);
+                                    bool add = true;
+                                    for (var i = 0;
+                                        i < subContacts.length;
+                                        i++) {
+                                      SubInstrumentNotes subContactt =
+                                          subContacts[i];
+                                      if (subContactt.id == subContact.id) {
+                                        subContacts[i] = subContact;
+                                        add = false;
+                                        break;
+                                      }
+                                    }
+                                    if (add) subContacts.add(subContact);
                                     presenter.addSubInstrumentNote(
                                         subContacts, widget.id);
                                     subContact = null;
@@ -599,24 +635,29 @@ class _AddInstrumentScreenState
                                             : Container(),
                                         delay: 1000,
                                       ),
-                                     ShowUp(child: widget.id.isEmpty && !_isnickNameEuip
-                                         ? Container(
-                                       height: 1,
-                                       width: MediaQuery.of(context)
-                                           .size
-                                           .width /
-                                           4,
-                                       color: Colors.red,
-                                       margin: EdgeInsets.only(
-                                           left: 0,
-                                           right: MediaQuery.of(context)
-                                               .size
-                                               .width /
-                                               1.80,
-                                           top: 2,
-                                           bottom: 0),
-                                     )
-                                         : Container(),delay: 1000,),
+                                      ShowUp(
+                                        child: widget.id.isEmpty &&
+                                                !_isnickNameEuip
+                                            ? Container(
+                                                height: 1,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    4,
+                                                color: Colors.red,
+                                                margin: EdgeInsets.only(
+                                                    left: 0,
+                                                    right:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            1.80,
+                                                    top: 2,
+                                                    bottom: 0),
+                                              )
+                                            : Container(),
+                                        delay: 1000,
+                                      ),
                                       _isnickNameEuip || isEdit
                                           ? TextField(
                                               enabled:
@@ -778,25 +819,29 @@ class _AddInstrumentScreenState
                                               delay: 1000,
                                             )
                                           : Container(),
-                                      ShowUp(child: widget.id.isEmpty && !_ispurchaseDate
-                                          ? Container(
-                                        height: 1,
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width /
-                                            4,
-                                        color: Colors.red,
-                                        margin: EdgeInsets.only(
-                                            left: 0,
-                                            right: MediaQuery.of(context)
-                                                .size
-                                                .width /
-                                                2.1,
-                                            top: 2,
-                                            bottom: 0),
-                                      )
-                                          : Container() ,delay: 1000,)
-                                     ,
+                                      ShowUp(
+                                        child: widget.id.isEmpty &&
+                                                !_ispurchaseDate
+                                            ? Container(
+                                                height: 1,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    4,
+                                                color: Colors.red,
+                                                margin: EdgeInsets.only(
+                                                    left: 0,
+                                                    right:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            2.1,
+                                                    top: 2,
+                                                    bottom: 0),
+                                              )
+                                            : Container(),
+                                        delay: 1000,
+                                      ),
                                       _ispurchaseDate || widget.id.isNotEmpty
                                           ? Container(
                                               child: Column(
@@ -1132,22 +1177,26 @@ class _AddInstrumentScreenState
                                         delay: 1000,
                                       ),
                                       widget.id.isEmpty && !_iswarrantyAvailable
-                                          ? ShowUp(child: Container(
-                                        height: 1,
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width /
-                                            4,
-                                        color: Colors.red,
-                                        margin: EdgeInsets.only(
-                                            left: 0,
-                                            right: MediaQuery.of(context)
-                                                .size
-                                                .width /
-                                                2.05,
-                                            top: 2,
-                                            bottom: 0),
-                                      ),delay: 1000,)
+                                          ? ShowUp(
+                                              child: Container(
+                                                height: 1,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    4,
+                                                color: Colors.red,
+                                                margin: EdgeInsets.only(
+                                                    left: 0,
+                                                    right:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            2.05,
+                                                    top: 2,
+                                                    bottom: 0),
+                                              ),
+                                              delay: 1000,
+                                            )
                                           : Container(),
                                       _iswarrantyInfo || widget.id.isNotEmpty
                                           ? Container(
@@ -1289,24 +1338,27 @@ class _AddInstrumentScreenState
                                                   ),
                                                   widget.id.isEmpty &&
                                                           !_iswarrantydate
-                                                      ? ShowUp(child:Container(
-                                                    height: 1,
-                                                    width: MediaQuery.of(
-                                                        context)
-                                                        .size
-                                                        .width /
-                                                        1.5,
-                                                    color: Colors.red,
-                                                    margin: EdgeInsets.only(
-                                                        left: 0,
-                                                        right: MediaQuery.of(
-                                                            context)
-                                                            .size
-                                                            .width /
-                                                            2.25,
-                                                        top: 2,
-                                                        bottom: 0),
-                                                  ),delay: 1000,)
+                                                      ? ShowUp(
+                                                          child: Container(
+                                                            height: 1,
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                1.5,
+                                                            color: Colors.red,
+                                                            margin: EdgeInsets.only(
+                                                                left: 0,
+                                                                right: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
+                                                                    2.25,
+                                                                top: 2,
+                                                                bottom: 0),
+                                                          ),
+                                                          delay: 1000,
+                                                        )
                                                       : Container(),
                                                   _iswarrantydate ||
                                                           widget.id.isNotEmpty
@@ -1475,22 +1527,26 @@ class _AddInstrumentScreenState
                                         delay: 1000,
                                       ),
                                       widget.id.isEmpty && !_isinsuranceInfo
-                                          ? ShowUp(child:Container(
-                                        height: 1,
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width /
-                                            4,
-                                        color: Colors.red,
-                                        margin: EdgeInsets.only(
-                                            left: 0,
-                                            right: MediaQuery.of(context)
-                                                .size
-                                                .width /
-                                                2.1,
-                                            top: 2,
-                                            bottom: 0),
-                                      ) ,delay: 1000,)
+                                          ? ShowUp(
+                                              child: Container(
+                                                height: 1,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    4,
+                                                color: Colors.red,
+                                                margin: EdgeInsets.only(
+                                                    left: 0,
+                                                    right:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            2.1,
+                                                    top: 2,
+                                                    bottom: 0),
+                                              ),
+                                              delay: 1000,
+                                            )
                                           : Container(),
                                       _isinsuranceInfo || widget.id.isNotEmpty
                                           ? widget.id.isEmpty || isEdit
@@ -1799,24 +1855,28 @@ class _AddInstrumentScreenState
                                             )
                                           : Container(),
                                       widget.id.isNotEmpty && !isEdit
-                                          ?ShowUp(child: Container(
-                                        height: 1,
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width,
-                                        color: Colors.red,
-                                        margin: EdgeInsets.only(
-                                            left: MediaQuery.of(context)
-                                                .size
-                                                .width /
-                                                5,
-                                            right: MediaQuery.of(context)
-                                                .size
-                                                .width /
-                                                5,
-                                            top: 3,
-                                            bottom: 14),
-                                      ),delay: 1000,)
+                                          ? ShowUp(
+                                              child: Container(
+                                                height: 1,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                color: Colors.red,
+                                                margin: EdgeInsets.only(
+                                                    left: MediaQuery.of(context)
+                                                            .size
+                                                            .width /
+                                                        5,
+                                                    right:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            5,
+                                                    top: 3,
+                                                    bottom: 14),
+                                              ),
+                                              delay: 1000,
+                                            )
                                           : Container(),
                                       ListView.builder(
                                         itemCount: subContacts.length,
@@ -1829,6 +1889,13 @@ class _AddInstrumentScreenState
                                               .fromMillisecondsSinceEpoch(
                                                   notesTodo.createdDate);
                                           return ListTile(
+                                            onTap: () {
+                                              setState(() {
+                                                subContact = notesTodo;
+                                                _noteContactController.text =
+                                                    subContact.title;
+                                              });
+                                            },
                                             title: Text(notesTodo.title),
                                             leading: CircleAvatar(
                                                 backgroundColor: Color.fromRGBO(

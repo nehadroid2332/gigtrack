@@ -237,6 +237,26 @@ class _AddContactScreenState
                           },
                         )
                       : Container()
+              : Container(),
+          subContact != null &&
+                  subContact.id != null &&
+                  subContact.id.isNotEmpty
+              ? IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    setState(() {
+                      for (var i = 0; i < subContacts.length; i++) {
+                        SubContact sub = subContacts[i];
+                        if (sub.id == subContact.id) {
+                          subContacts.removeAt(i);
+                          break;
+                        }
+                      }
+                      presenter.addContactNote(subContacts, widget.id);
+                      subContact = null;
+                    });
+                  },
+                )
               : Container()
         ],
       );
@@ -387,10 +407,21 @@ class _AddContactScreenState
                                 setState(() {
                                   subContact.title =
                                       _noteContactController.text;
-                                  subContact.id = randomString(12);
+                                  if (subContact.id == null ||
+                                      subContact.id.isEmpty)
+                                    subContact.id = randomString(12);
                                   subContact.createdDate =
                                       DateTime.now().millisecondsSinceEpoch;
-                                  subContacts.add(subContact);
+                                  bool add = true;
+                                  for (var i = 0; i < subContacts.length; i++) {
+                                    SubContact subContactt = subContacts[i];
+                                    if (subContactt.id == subContact.id) {
+                                      subContacts[i] = subContact;
+                                      add = false;
+                                      break;
+                                    }
+                                  }
+                                  if (add) subContacts.add(subContact);
                                   presenter.addContactNote(
                                       subContacts, widget.id);
                                   subContact = null;
@@ -537,23 +568,25 @@ class _AddContactScreenState
                                   : Container(),
                               delay: 1000,
                             ),
-                            ShowUp(child:  widget.id.isEmpty && !_isCompanyName
-                                ? Container(
-                              height: 1,
-                              width:
-                              MediaQuery.of(context).size.width / 4,
-                              color: Colors.red,
-                              margin: EdgeInsets.only(
-                                  left: 0,
-                                  right:
-                                  MediaQuery.of(context).size.width /
-                                      3.0,
-                                  top: 2,
-                                  bottom: 0),
-                            )
-                                : Container(),
-                            delay: 1000,),
-
+                            ShowUp(
+                              child: widget.id.isEmpty && !_isCompanyName
+                                  ? Container(
+                                      height: 1,
+                                      width:
+                                          MediaQuery.of(context).size.width / 4,
+                                      color: Colors.red,
+                                      margin: EdgeInsets.only(
+                                          left: 0,
+                                          right: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              3.0,
+                                          top: 2,
+                                          bottom: 0),
+                                    )
+                                  : Container(),
+                              delay: 1000,
+                            ),
                             (widget.id.isEmpty || isEdit) && _isCompanyName
                                 ? TextField(
                                     enabled: widget.id.isEmpty || isEdit,
@@ -826,22 +859,25 @@ class _AddContactScreenState
                                   : Container(),
                               delay: 1000,
                             ),
-                            ShowUp(child:  widget.id.isEmpty && !_isphoneNumber
-                                ? Container(
-                              height: 1,
-                              width:
-                              MediaQuery.of(context).size.width / 4,
-                              color: Colors.red,
-                              margin: EdgeInsets.only(
-                                  left: 0,
-                                  right:
-                                  MediaQuery.of(context).size.width /
-                                      2.4,
-                                  top: 2,
-                                  bottom: 0),
-                            )
-                                : Container(),delay: 1000,)
-                           ,
+                            ShowUp(
+                              child: widget.id.isEmpty && !_isphoneNumber
+                                  ? Container(
+                                      height: 1,
+                                      width:
+                                          MediaQuery.of(context).size.width / 4,
+                                      color: Colors.red,
+                                      margin: EdgeInsets.only(
+                                          left: 0,
+                                          right: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              2.4,
+                                          top: 2,
+                                          bottom: 0),
+                                    )
+                                  : Container(),
+                              delay: 1000,
+                            ),
                             (widget.id.isEmpty || isEdit) && _isphoneNumber
                                 ? TextField(
                                     enabled: widget.id.isEmpty || isEdit,
@@ -1723,24 +1759,28 @@ class _AddContactScreenState
                                     delay: 1000,
                                   )
                                 : Container(),
-                            ShowUp(child:
-                            widget.id.isNotEmpty && !isEdit
-                                ? Container(
-                              height: 1,
-                              width:
-                              MediaQuery.of(context).size.width / 4,
-                              color: Colors.red,
-                              margin: EdgeInsets.only(
-                                  left:
-                                  MediaQuery.of(context).size.width /
-                                      4.5,
-                                  right:
-                                  MediaQuery.of(context).size.width /
-                                      4.5,
-                                  top: 2,
-                                  bottom: 0),
-                            )
-                                : Container(),delay: 1000,),
+                            ShowUp(
+                              child: widget.id.isNotEmpty && !isEdit
+                                  ? Container(
+                                      height: 1,
+                                      width:
+                                          MediaQuery.of(context).size.width / 4,
+                                      color: Colors.red,
+                                      margin: EdgeInsets.only(
+                                          left: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              4.5,
+                                          right: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              4.5,
+                                          top: 2,
+                                          bottom: 0),
+                                    )
+                                  : Container(),
+                              delay: 1000,
+                            ),
                             ListView.builder(
                               itemCount: subContacts.length,
                               shrinkWrap: true,
@@ -1750,6 +1790,13 @@ class _AddContactScreenState
                                     DateTime.fromMillisecondsSinceEpoch(
                                         notesTodo.createdDate);
                                 return ListTile(
+                                  onTap: () {
+                                    setState(() {
+                                      subContact = notesTodo;
+                                      _noteContactController.text =
+                                          subContact.title;
+                                    });
+                                  },
                                   title: Text(notesTodo.title),
                                   leading: CircleAvatar(
                                       backgroundColor:
