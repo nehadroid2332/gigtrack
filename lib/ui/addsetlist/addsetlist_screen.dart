@@ -491,12 +491,12 @@ class _AddSetListScreenState
                                         ),
                                       ),
                                       widget.id.isNotEmpty || isEdit
-                                          ? IconButton(
+                                          ? (userId!=null?userId:null)==presenter.serverAPI.currentUserId?IconButton(
                                               icon: Icon(Icons.add),
                                               onPressed: () {
                                                 addSongNotes();
                                               },
-                                            )
+                                            ):Container()
                                           : Container()
                                     ],
                                   )

@@ -1208,7 +1208,7 @@ class _AddPlayingStyleScreenState
                             String url=_musicPreviewController.text;
                             widget.appListener.router.navigateTo(
                                 context,
-                                Screens.ShowWebUrl.toString() + '/$url');
+                                Screens.ShowWebUrl.toString()+'/$url');
                           },
                           child: Text(
                             "Click to here music preview",
