@@ -18,6 +18,7 @@ import 'package:gigtrack/ui/addtravel/addtravel_screen.dart';
 import 'package:gigtrack/ui/bandcommlist/band_comm_list_screen.dart';
 import 'package:gigtrack/ui/bandlist/bandlist_screen.dart';
 import 'package:gigtrack/ui/bulletinboardlist/bulletinboard_list_screen.dart';
+import 'package:gigtrack/ui/chat/chat_screen.dart';
 import 'package:gigtrack/ui/contactlist/contact_list_screen.dart';
 import 'package:gigtrack/ui/dashboard/dashboard_screen.dart';
 import 'package:gigtrack/ui/feedbacklist/feedbacklist_screen.dart';
@@ -258,6 +259,16 @@ class MyApp extends StatelessWidget implements AppListener {
         this,
         bandId: userId,
         id: id,
+      );
+    }));
+    _router.define(Screens.CHAT.toString() + "/:userId/:id", handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      String userId = params["userId"][0];
+      String id = params["id"][0];
+      return ChatScreen(
+        this,
+        userId: userId,
+        chatId: id,
       );
     }));
     _router.define(Screens.FEEDBACK.toString(), handler: Handler(
@@ -598,5 +609,6 @@ enum Screens {
   ADD_PAYMENT,
   ADD_BAND_COMM,
   BANDCOMMLIST,
-  SHOWWEBURL
+  SHOWWEBURL,
+  CHAT
 }

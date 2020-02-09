@@ -46,7 +46,8 @@ class ServerAPI {
       setListDB,
       feedDB,
       paymentDB,
-      bandCommDB;
+      bandCommDB,
+      chatDB;
 
   String adminEmail = "f7oNvNfTqPTuLQAVq6ZaeqllEBx1";
 
@@ -101,6 +102,7 @@ class ServerAPI {
     feedDB = _mainFirebaseDatabase.child("Feebacks");
     paymentDB = _mainFirebaseDatabase.child("Payments");
     bandCommDB = _mainFirebaseDatabase.child("BandComm");
+    chatDB = _mainFirebaseDatabase.child("Chats");
     getCurrentUser();
     firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
@@ -1079,6 +1081,21 @@ class ServerAPI {
         isUpdate = false;
       }
       await feedDB.child(feedback.id).set(feedback.toMap());
+      return isUpdate;
+    } catch (e) {
+      return ErrorResponse.fromJSON(e.message);
+    }
+  }
+
+  Future<dynamic> addChat2(String chatId, Chat chat) async {
+    try {
+      bool isUpdate = true;
+      if (chat.id == null || chat.id.isEmpty) {
+        String id = chatDB.child(chatId).push().key;
+        chat.id = id;
+        isUpdate = false;
+      }
+      await chatDB.child(chatId).child(chat.id).set(chat.toJSON());
       return isUpdate;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);

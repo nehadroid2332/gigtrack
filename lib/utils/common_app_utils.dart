@@ -690,6 +690,80 @@ String getNameOrder(String name) {
   }
 }
 
+
+class Bubble extends StatelessWidget {
+  Bubble({this.message, this.time, this.delivered = false, this.isMe});
+
+  final String message, time;
+  final delivered, isMe;
+
+  @override
+  Widget build(BuildContext context) {
+    final bg = isMe ? Colors.white : Colors.blueAccent.shade100;
+    final align = isMe ? CrossAxisAlignment.start : CrossAxisAlignment.end;
+    final icon = delivered ? Icons.done_all : Icons.done;
+    final radius = isMe
+        ? BorderRadius.only(
+            topRight: Radius.circular(5.0),
+            bottomLeft: Radius.circular(10.0),
+            bottomRight: Radius.circular(5.0),
+          )
+        : BorderRadius.only(
+            topLeft: Radius.circular(5.0),
+            bottomLeft: Radius.circular(5.0),
+            bottomRight: Radius.circular(10.0),
+          );
+    return Column(
+      crossAxisAlignment: align,
+      children: <Widget>[
+        Container(
+          margin: const EdgeInsets.all(3.0),
+          padding: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                  blurRadius: .5,
+                  spreadRadius: 1.0,
+                  color: Colors.black.withOpacity(.12))
+            ],
+            color: bg,
+            borderRadius: radius,
+          ),
+          child: Stack(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(right: !isMe ? 65.0 : 55),
+                child: Text(message),
+              ),
+              Positioned(
+                bottom: 0.0,
+                right: 0.0,
+                child: Row(
+                  children: <Widget>[
+                    Text(time,
+                        style: TextStyle(
+                          color: Colors.black38,
+                          fontSize: 10.0,
+                        )),
+                    SizedBox(width: 3.0),
+                    !isMe
+                        ? Icon(
+                            icon,
+                            size: 12.0,
+                            color: Colors.black38,
+                          )
+                        : Container()
+                  ],
+                ),
+              )
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}
+
 final _base64SafeEncoder = const Base64Codec.urlSafe();
 
 String encodeStringToBase64UrlSafeString(final String url) =>

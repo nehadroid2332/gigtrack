@@ -60,7 +60,6 @@ class _AddBulletInBoardScreenState
   bool qDarkmodeEnable = false;
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     checkThemeMode();
   }
@@ -159,6 +158,13 @@ class _AddBulletInBoardScreenState
           color: Colors.white, //change your color here
         ),
         elevation: 0,
+        title: Text(
+          "${widget.id.isEmpty ? "Add" : ""} Bulletin Board",
+          textAlign: TextAlign.center,
+          style: textTheme.headline.copyWith(
+            color: Colors.white,
+          ),
+        ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () async {
@@ -200,19 +206,15 @@ class _AddBulletInBoardScreenState
         ),
         backgroundColor: Color.fromRGBO(214, 22, 35, 1.0),
         actions: <Widget>[
-          Container(
-            alignment: Alignment.center,
-            width: widget.id.isEmpty
-                ? MediaQuery.of(context).size.width
-                : MediaQuery.of(context).size.width / 2,
-            child: Text(
-              "${widget.id.isEmpty ? "Add" : ""} Bulletin Board",
-              textAlign: TextAlign.center,
-              style: textTheme.headline.copyWith(
-                color: Colors.white,
-              ),
-            ),
-          ),
+          widget.id.isEmpty || bulletInUserId == null
+              ? Container()
+              : IconButton(
+                  icon: Icon(Icons.chat),
+                  onPressed: () {
+                    widget.appListener.router.navigateTo(context,
+                        Screens.CHAT.toString() + "/$bulletInUserId/${widget.id}");
+                  },
+                ),
           widget.id.isEmpty
               ? Container()
               : (bulletInUserId != null) &&
