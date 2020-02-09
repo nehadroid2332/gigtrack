@@ -144,8 +144,8 @@ class _AddTravelScreenState
                       final DateTime picked = await showDatePicker(
                           context: context,
                           initialDate: selectedDate,
-                          firstDate: DateTime(2015, 8),
-                          lastDate: DateTime(2101));
+                          firstDate: DateTime(1953, 8),
+                          lastDate: DateTime(2035));
                       if (picked != null && picked != selectedDate)
                         setState(() {
                           selectedDate = picked;
@@ -182,8 +182,8 @@ class _AddTravelScreenState
                       final DateTime picked = await showDatePicker(
                           context: context,
                           initialDate: selectedDate,
-                          firstDate: DateTime(2015, 8),
-                          lastDate: DateTime(2101));
+                          firstDate: DateTime(1953, 8),
+                          lastDate: DateTime(2035));
                       if (picked != null && picked != selectedDate)
                         setState(() {
                           selectedDate = picked;
@@ -276,8 +276,8 @@ class _AddTravelScreenState
                                   final DateTime picked = await showDatePicker(
                                       context: context,
                                       initialDate: selectedDate,
-                                      firstDate: DateTime(2015, 8),
-                                      lastDate: DateTime(2101));
+                                      firstDate: DateTime(1953, 8),
+                                      lastDate: DateTime(2035));
                                   if (picked != null && picked != selectedDate)
                                     setState(() {
                                       selectedDate = picked;
@@ -397,7 +397,7 @@ class _AddTravelScreenState
 
 //                                onTap: () async {
 //                                  DateTime selectedDate = DateTime.now();
-//                                  final DateTime picked = await showDatePicker(
+//                                  final DateTime picked = await show(
 //                                      context: context,
 //                                      initialDate: selectedDate,
 //                                      firstDate: DateTime(2015, 8),
@@ -428,7 +428,7 @@ class _AddTravelScreenState
 
 //                                onTap: () async {
 //                                  DateTime selectedDate = DateTime.now();
-//                                  final DateTime picked = await showDatePicker(
+//                                  final DateTime picked = await show(
 //                                      context: context,
 //                                      initialDate: selectedDate,
 //                                      firstDate: DateTime(2015, 8),
@@ -554,8 +554,8 @@ class _AddTravelScreenState
                                   final DateTime picked = await showDatePicker(
                                       context: context,
                                       initialDate: selectedDate,
-                                      firstDate: DateTime(2015, 8),
-                                      lastDate: DateTime(2101));
+                                      firstDate: DateTime(1953, 8),
+                                      lastDate: DateTime(2035));
                                   if (picked != null &&
                                       picked != selectedDate) {
                                     TimeOfDay selectedTime = TimeOfDay.now();
@@ -604,8 +604,8 @@ class _AddTravelScreenState
                                   final DateTime picked = await showDatePicker(
                                       context: context,
                                       initialDate: selectedDate,
-                                      firstDate: DateTime(2015, 8),
-                                      lastDate: DateTime(2101));
+                                      firstDate: DateTime(1953, 8),
+                                      lastDate: DateTime(2035));
                                   if (picked != null &&
                                       picked != selectedDate) {
                                     TimeOfDay selectedTime = TimeOfDay.now();

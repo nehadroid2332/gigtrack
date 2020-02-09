@@ -1290,11 +1290,11 @@ class _AddContactScreenState
                                                                           .now(),
                                                                   firstDate:
                                                                       DateTime(
-                                                                          2015,
+                                                                          1953,
                                                                           8),
                                                                   lastDate:
                                                                       DateTime(
-                                                                          2101));
+                                                                          2035));
                                                           if (picked != null)
                                                             setState(() {
                                                               data.date = picked

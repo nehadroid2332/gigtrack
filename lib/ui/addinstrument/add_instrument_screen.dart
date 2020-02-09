@@ -937,12 +937,12 @@ class _AddInstrumentScreenState
                                                                     context,
                                                                 firstDate:
                                                                     DateTime(
-                                                                        1959),
+                                                                        1953),
                                                                 initialDate:
                                                                     _date,
                                                                 lastDate:
                                                                     DateTime(
-                                                                        2022),
+                                                                        2035),
                                                               );
                                                               if (picked !=
                                                                   null) {
@@ -1429,7 +1429,7 @@ class _AddInstrumentScreenState
                                                                             initialDate:
                                                                                 _date,
                                                                             lastDate:
-                                                                                DateTime(2022),
+                                                                                DateTime(2035),
                                                                           );
                                                                           if (picked !=
                                                                               null) {

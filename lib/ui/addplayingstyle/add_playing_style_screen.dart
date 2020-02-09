@@ -611,7 +611,7 @@ class _AddPlayingStyleScreenState
                           : Container(),
                       Padding(
                         padding: EdgeInsets.all(
-                            (widget.id.isEmpty || isEdit) ? 2 : 0),
+                            (widget.id.isEmpty || isEdit) ? 5 : 0),
                       ),
                       (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                           ? Text("Select one")
@@ -812,7 +812,7 @@ class _AddPlayingStyleScreenState
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.all(widget.bandId.isEmpty ? 0 : 0),
+                        padding: EdgeInsets.all(widget.bandId.isEmpty ? 5 : 0),
                       ),
                       Row(
                         mainAxisAlignment: widget.id.isEmpty || isEdit
@@ -1042,7 +1042,7 @@ class _AddPlayingStyleScreenState
                               EdgeInsets.all(widget.bandId.isEmpty ? 0 : 5)),
                       Padding(
                           padding: EdgeInsets.all(
-                              (widget.id.isEmpty || isEdit) ? 2 : 5)),
+                              (widget.id.isEmpty || isEdit) ? 5 : 5)),
                       Text(
                         "Experience",
                         textAlign: widget.id.isEmpty || isEdit
@@ -1068,7 +1068,7 @@ class _AddPlayingStyleScreenState
                               ),
                             ),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: EdgeInsets.all(10),
                       ),
                       widget.id.isNotEmpty && isEdit
                           ? ShowUp(
@@ -1210,7 +1210,7 @@ class _AddPlayingStyleScreenState
                       Padding(
                         padding: EdgeInsets.all(0),
                       ),
-                      (widget.id.isNotEmpty && widget.bandId.isNotEmpty) && !isEdit
+                      (widget.id.isNotEmpty && widget.bandId.isEmpty) && !isEdit
                           ? _musicPreviewController.text.isNotEmpty
                               ? ShowUp(
                                   child: new GestureDetector(
@@ -1256,7 +1256,7 @@ class _AddPlayingStyleScreenState
                               : Container()
                           : Container(),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: EdgeInsets.all(9),
                       ),
                       widget.bandId.isEmpty
                           ? ShowUp(
@@ -1341,6 +1341,7 @@ class _AddPlayingStyleScreenState
                                   ],
                                 )
                               : Container(),
+                      Padding(padding: EdgeInsets.all(widget.id.isEmpty||isEdit?4:0),),
                       isEducation
                           ? (widget.id.isEmpty || isEdit) &&
                                   widget.bandId.isEmpty
@@ -1465,11 +1466,12 @@ class _AddPlayingStyleScreenState
                       //             ),
                       //           )
                       //     : Container(),
-                      widget.bandId.isNotEmpty && (widget.id.isEmpty || isEdit)
+                      Padding(padding: EdgeInsets.all(5),),
+                      widget.bandId.isEmpty && (widget.id.isEmpty || isEdit)
                           ? TextField(
                               controller: _musicPreviewController,
                               decoration: InputDecoration(
-                                hintText: "Music Preview",
+                                hintText: "Hyperlink to your Music",
                                 errorText: _errorMusic,
                               ),
                               style: TextStyle(
@@ -1477,13 +1479,7 @@ class _AddPlayingStyleScreenState
                                       ? Colors.white
                                       : Colors.black87),
                             )
-                          : Padding(
-                              child: Text(
-                                _musicPreviewController.text,
-                                textAlign: TextAlign.center,
-                              ),
-                              padding: EdgeInsets.symmetric(vertical: 4),
-                            ),
+                          : Container(),
 
                       widget.bandId.isNotEmpty
                           ? (widget.id.isEmpty || isEdit)

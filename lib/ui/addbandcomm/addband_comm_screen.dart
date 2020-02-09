@@ -322,9 +322,9 @@ class _AddBandCommScreenState
                                 if (widget.id.isEmpty || isEdit) {
                                   final DateTime picked = await showDatePicker(
                                     context: context,
-                                    firstDate: DateTime.now(),
+                                    firstDate:  DateTime(1953),
                                     initialDate: DateTime.now(),
-                                    lastDate: DateTime(2022),
+                                    lastDate: DateTime(2035),
                                   );
                                   if (picked != null) {
                                     setState(() {

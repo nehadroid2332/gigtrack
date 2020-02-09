@@ -754,8 +754,8 @@ class _AddNotesScreenState
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
+        firstDate: DateTime(1953, 8),
+        lastDate: DateTime(2035));
     if (picked != null && picked != selectedStartDate)
       setState(() {
         if (isStart) {

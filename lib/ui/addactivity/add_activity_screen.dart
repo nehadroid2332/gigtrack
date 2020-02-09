@@ -103,8 +103,8 @@ class _AddActivityScreenState
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: type == 1 ? startDate : endDate,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
+        firstDate: DateTime(1953, 8),
+        lastDate: DateTime(2035));
     if (picked != null && (picked != startDate || picked != endDate))
       setState(() {
         if (type == 1) {
@@ -2202,7 +2202,7 @@ class _AddActivityScreenState
                                         context: context,
                                         firstDate: DateTime.now(),
                                         initialDate: DateTime.now(),
-                                        lastDate: DateTime(2022),
+                                        lastDate: DateTime(2035),
                                       );
                                       if (picked != null) {
                                         setState(() {
