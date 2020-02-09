@@ -21,6 +21,7 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatPresenter> {
   List<Chat> _chats = [];
   Stream<List<Chat>> _stream;
   final _txtController = TextEditingController();
+  final _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -46,6 +47,7 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatPresenter> {
               child: ListView.builder(
                 itemCount: _chats.length,
                 padding: EdgeInsets.all(10),
+                controller: _scrollController,
                 itemBuilder: (BuildContext context, int index) {
                   Chat chat = _chats[index];
                   if (widget.userId == presenter.serverAPI.currentUserId) {
@@ -102,6 +104,8 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatPresenter> {
                               );
                             }
                             _txtController.clear();
+                            _scrollController.jumpTo(
+                                _scrollController.position.maxScrollExtent);
                           },
                         )
                       ],
