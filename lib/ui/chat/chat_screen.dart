@@ -45,6 +45,8 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatPresenter> {
             Expanded(
               child: ListView.builder(
                 itemCount: _chats.length,
+                padding: EdgeInsets.all(10),
+                reverse: widget.userId != presenter.serverAPI.currentUserId,
                 itemBuilder: (BuildContext context, int index) {
                   Chat chat = _chats[index];
                   if (widget.userId == presenter.serverAPI.currentUserId) {
