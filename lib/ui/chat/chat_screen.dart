@@ -60,9 +60,7 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatPresenter> {
                                 "/${user.id}/${widget.chatId}");
                       },
                       title: Text("${user?.firstName} ${user?.lastName}"),
-                      subtitle: Text(formatDate(
-                          DateTime.fromMillisecondsSinceEpoch(chat.created),
-                          [hh, ':', nn, ' ', am])),
+                      subtitle: Text("${chat.message}\n${formatDate(DateTime.fromMillisecondsSinceEpoch(chat.created),[hh, ':', nn, ' ', am])}"),
                     );
                   } else {
                     return Bubble(
