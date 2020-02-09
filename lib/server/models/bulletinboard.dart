@@ -11,6 +11,7 @@ class BulletInBoard extends BaseModel {
   int visibleDays;
   String city;
   String state;
+  bool isrecurring;
   List<dynamic> uploadedFiles = [];
   int created = DateTime.now().millisecondsSinceEpoch;
   int status = STATUS_PENDING;
@@ -31,7 +32,8 @@ class BulletInBoard extends BaseModel {
       this.uploadedFiles,
       this.status,
       this.city,
-      this.state
+      this.state,
+        this.isrecurring
       });
 
   BulletInBoard.fromJSON(dynamic data) {
@@ -46,6 +48,7 @@ class BulletInBoard extends BaseModel {
     created = data['created'];
     city=data['city'];
     state= data['state'];
+    isrecurring=data['isrecurring'];
     if (data['uploadedFiles'] != null)
       this.uploadedFiles = data['uploadedFiles'];
   }
@@ -64,6 +67,7 @@ class BulletInBoard extends BaseModel {
     data['description'] = description;
     data['uploadedFiles'] = uploadedFiles;
     data['city']= city;
+    data['isrecurring']= isrecurring;
     data['state']=state;
     return data;
   }

@@ -23,12 +23,15 @@ class _ShowWebUrlState extends State<ShowWebUrlScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter WebView example'),
+        title: const Text('Music Preview'),
       ),
-      body: WebView(
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: WebView(
         initialUrl: widget.url,
         javascriptMode: JavascriptMode.unrestricted,
-      ),
+      ),)
     );
   }
 }

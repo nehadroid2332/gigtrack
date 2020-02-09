@@ -118,8 +118,8 @@ class _AddBandCommScreenState
               )),
           widget.id.isEmpty
               ? Container()
-              : (bandComm != null ? bandComm.userId : false) ==
-                      presenter.serverAPI.currentUserId
+              : ((bandComm != null ? bandComm.userId : false) ==
+                      presenter.serverAPI.currentUserId&& widget.isLeader)
                   ? Container(
                       child: IconButton(
                         icon: Icon(
@@ -138,8 +138,8 @@ class _AddBandCommScreenState
                     ),
           widget.id.isEmpty
               ? Container()
-              : (bandComm != null ? bandComm.userId : false) ==
-                      presenter.serverAPI.currentUserId
+              : ((bandComm != null ? bandComm.userId : false) ==
+              presenter.serverAPI.currentUserId&& widget.isLeader)
                   ? IconButton(
                       icon: Icon(
                         Icons.delete,

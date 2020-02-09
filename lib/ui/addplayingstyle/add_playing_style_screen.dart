@@ -1210,7 +1210,7 @@ class _AddPlayingStyleScreenState
                       Padding(
                         padding: EdgeInsets.all(0),
                       ),
-                      (widget.id.isNotEmpty && widget.bandId.isEmpty) && !isEdit
+                      (widget.id.isNotEmpty && widget.bandId.isNotEmpty) && !isEdit
                           ? _musicPreviewController.text.isNotEmpty
                               ? ShowUp(
                                   child: new GestureDetector(
@@ -1234,7 +1234,7 @@ class _AddPlayingStyleScreenState
                                 )
                               : Container()
                           : Container(),
-                      (widget.id.isNotEmpty && widget.bandId.isEmpty && !isEdit)
+                      (widget.id.isNotEmpty && widget.bandId.isNotEmpty && !isEdit)
                           ? _musicPreviewController.text.isNotEmpty
                               ? ShowUp(
                                   child: Container(
@@ -1465,7 +1465,7 @@ class _AddPlayingStyleScreenState
                       //             ),
                       //           )
                       //     : Container(),
-                      widget.bandId.isEmpty && (widget.id.isEmpty || isEdit)
+                      widget.bandId.isNotEmpty && (widget.id.isEmpty || isEdit)
                           ? TextField(
                               controller: _musicPreviewController,
                               decoration: InputDecoration(

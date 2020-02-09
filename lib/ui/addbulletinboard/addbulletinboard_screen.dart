@@ -43,6 +43,7 @@ class _AddBulletInBoardScreenState
 
   User user;
   File _image;
+  bool isRecurring=false;
 
   String _zipError, _cityError;
 
@@ -620,6 +621,22 @@ class _AddBulletInBoardScreenState
                               ),
                             )
                           : Container(),
+                      widget.id.isEmpty || isEdit? Row(
+                        children: <Widget>[
+                          Checkbox(
+                            onChanged: (bool value) {
+                              setState(() {
+                                isRecurring = value;
+                              });
+                            },
+                            value: isRecurring,
+                          ),
+                          Text(
+                            "Show identity to others",
+                            style: TextStyle(fontSize: 14),
+                          )
+                        ],
+                      ):Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -765,9 +782,10 @@ class _AddBulletInBoardScreenState
                             )
                           : Container(),
                       (widget.id.isNotEmpty && !isEdit)
-                          ? Text(
-                              "Created By: ${user?.firstName} ${user?.lastName}")
-                          : Container(),
+                          ? isRecurring!=null&& isRecurring?bulletInUserId==presenter.serverAPI.currentUserId?Container():presenter.serverAPI.currentUserId ==
+                          presenter.serverAPI.adminEmail?Text(
+                              "Created By: ${user?.firstName} ${user?.lastName}"):Container()
+                          : Container():Container(),
                       Padding(
                         padding: EdgeInsets.all(10),
                       ),
@@ -917,6 +935,10 @@ class _AddBulletInBoardScreenState
       _noteController.text = note.item;
       _cityController.text = note.city;
       _zipController.text = note.state;
+      isRecurring= note.isrecurring;
+      if(isRecurring==null){
+        isRecurring= false;
+      }
       if (note.uploadedFiles != null) files = note.uploadedFiles;
       DateTime stDate = DateTime.fromMillisecondsSinceEpoch((note.date));
       _startDateController.text =
@@ -1029,6 +1051,7 @@ class _AddBulletInBoardScreenState
             uploadedFiles: files,
             item: note,
             city: city,
+            isrecurring: isRecurring,
             state: state);
         showLoading();
         presenter.addBulletIn(notesTodo);
