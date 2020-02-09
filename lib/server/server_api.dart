@@ -1096,6 +1096,14 @@ class ServerAPI {
         isUpdate = false;
       }
       await chatDB.child(chatId).child(chat.id).set(chat.toJSON());
+      sendPushNotification(AppNotification(
+        created: DateTime.now().millisecondsSinceEpoch,
+        senderId: currentUserId,
+        notiId: chatId,
+        text: "A new message is send in BulletIn Board",
+        type: AppNotification.TYPE_BULLETIN_BOARD_MSG,
+        userId: chat.receiverId,
+      ));
       return isUpdate;
     } catch (e) {
       return ErrorResponse.fromJSON(e.message);
