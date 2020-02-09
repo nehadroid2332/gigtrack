@@ -49,6 +49,9 @@ class ChatPresenter extends BasePresenter {
         Chat chat = Chat.fromJSON(d);
         acc.add(chat);
       }
+      acc.sort((a, b) {
+        return a.created.compareTo(b.created);
+      });
       return acc;
     });
   }
