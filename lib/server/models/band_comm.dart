@@ -9,6 +9,11 @@ class BandCommunication extends BaseModel {
   String id;
   String bandId;
   String userId;
+  int status = STATUS_PENDING;
+
+  static const STATUS_APPROVED = 1;
+  static const STATUS_DECLINED = 2;
+  static const STATUS_PENDING = 0;
 
   BandCommunication();
 
@@ -21,6 +26,7 @@ class BandCommunication extends BaseModel {
     priority = data['priority'];
     responseDate = data['responseDate'];
     isArchieve = data['isArchieve'];
+    status = data['status'];
   }
 
   @override
@@ -34,6 +40,7 @@ class BandCommunication extends BaseModel {
     data['bandId'] = bandId;
     data['userId'] = userId;
     data['isArchieve'] = isArchieve;
+    data['status'] = status;
     return data;
   }
 }

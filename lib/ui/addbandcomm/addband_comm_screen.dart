@@ -12,17 +12,24 @@ import 'package:gigtrack/utils/common_app_utils.dart';
 class AddBandCommScreen extends BaseScreen {
   final String id;
   final String bandId;
+  final bool isParent;
+  final bool isLeader;
+  final bool isComm;
+  final bool isSetUp;
+  final bool postEntries;
+  final int type;
 
-  AddBandCommScreen(AppListener appListener,
-      {this.id,
-      this.bandId,
-      bool isParent,
-      bool isLeader,
-      bool isComm,
-      bool isSetUp,
-      bool postEntries,
-      int type})
-      : super(appListener, title: "");
+  AddBandCommScreen(
+    AppListener appListener, {
+    this.id,
+    this.bandId,
+    this.isParent,
+    this.isComm,
+    this.isLeader,
+    this.isSetUp,
+    this.postEntries,
+    this.type,
+  }) : super(appListener, title: "");
 
   @override
   _AddBandCommScreenState createState() => _AddBandCommScreenState();
@@ -387,6 +394,39 @@ class _AddBandCommScreenState
                                   },
                                 )
                               : Container()
+                          : Container(),
+                      Padding(padding: EdgeInsets.all(20)),
+                      (widget.id.isNotEmpty && !isEdit) &&
+                              (widget.isLeader &&
+                                  bandComm?.userId !=
+                                      presenter.serverAPI.currentUserId)
+                          ? Row(
+                              children: <Widget>[
+                                Expanded(
+                                    child: RaisedButton(
+                                  color: Color.fromRGBO(214, 22, 35, 1.0),
+                                  textColor: Colors.white,
+                                  child: Text("Approved"),
+                                  onPressed: () {
+                                    bandComm.status =
+                                        BandCommunication.STATUS_APPROVED;
+                                    presenter.addBandComm(bandComm);
+                                  },
+                                )),
+                                Padding(padding: EdgeInsets.all(5)),
+                                Expanded(
+                                    child: RaisedButton(
+                                  textColor: Color.fromRGBO(214, 22, 35, 1.0),
+                                  color: Colors.white,
+                                  child: Text("Declined"),
+                                  onPressed: () {
+                                    bandComm.status =
+                                        BandCommunication.STATUS_DECLINED;
+                                    presenter.addBandComm(bandComm);
+                                  },
+                                )),
+                              ],
+                            )
                           : Container()
                     ],
                   ),
