@@ -95,6 +95,7 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatPresenter> {
                                   created:
                                       DateTime.now().millisecondsSinceEpoch,
                                   message: _txtController.text,
+                                  receiverId: widget.userId,
                                   senderId: presenter.serverAPI.currentUserId,
                                 ),
                               );
