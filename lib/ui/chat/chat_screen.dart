@@ -50,7 +50,12 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatPresenter> {
                   if (widget.userId == presenter.serverAPI.currentUserId) {
                     User user = chat.sender ?? chat.receiver;
                     return ListTile(
-                      onTap: () {},
+                      onTap: () {
+                        widget.appListener.router.navigateTo(
+                            context,
+                            Screens.CHAT.toString() +
+                                "/${user.id}/${widget.chatId}");
+                      },
                       title: Text("${user?.firstName} ${user?.lastName}"),
                       subtitle: Text(formatDate(
                           DateTime.fromMillisecondsSinceEpoch(chat.created),
@@ -84,7 +89,8 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatPresenter> {
                           child: Icon(Icons.send),
                           onPressed: () async {
                             if (_txtController.text.isNotEmpty) {
-                              await presenter.serverAPI.addChat2(widget.chatId,
+                              await presenter.serverAPI.addChat2(
+                                widget.chatId,
                                 Chat(
                                   created:
                                       DateTime.now().millisecondsSinceEpoch,
