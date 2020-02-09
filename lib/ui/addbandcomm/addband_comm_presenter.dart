@@ -15,7 +15,13 @@ class AddBandCommPresenter extends BasePresenter {
   AddBandCommPresenter(BaseContract view) : super(view);
 
   void addBandComm(BandCommunication bandComm) async {
-    bandComm.userId = serverAPI.currentUserId;
+    if(bandComm.userId==null){
+      bandComm.userId = serverAPI.currentUserId;
+
+    }else{
+      bandComm.userId=bandComm.userId;
+    }
+
     final res = await serverAPI.addBandComm(bandComm);
     if (res is bool) {
       if (res) {

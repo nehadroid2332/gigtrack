@@ -163,54 +163,87 @@ class _NotificationListScreensState
                           ),
                           Row(
                             children: <Widget>[
-                              Padding(
-                                  padding: EdgeInsets.symmetric(
-                                horizontal: 10,
-                              )),
-                              Expanded(flex:(ac.sender != null && ac.sender.firstName.isNotEmpty)?2:1,
-                                child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  (ac.sender != null && ac.sender.firstName.isNotEmpty)
-                                      ? Text(
-                                    "${ac.sender?.firstName}${ac.sender?.lastName} :",
-                                    style: textTheme.caption,
-                                  )
-                                      : Container(),
-                                  ac.bandId != null
-                                      ? Text(
-                                    " ${ac.band?.name}",
-                                    style: textTheme.caption,
-                                  )
-                                      : Container()
-                                ],mainAxisAlignment: MainAxisAlignment.center,
-                              ),),
-
-                              Expanded(
-                                flex:1,
-                                child: Container(
-                                  child: Text(
-                                    "${formatDate(DateTime.fromMillisecondsSinceEpoch(ac.created), [
-                                      M,
-                                      ' ',
-                                      d,
-                                      ', ',
-                                      yyyy,
-                                      ' ',
-                                      hh,
-                                      ':',
-                                      mm,
-                                      ' ',
-                                      am
-                                    ])}",
-                                    textAlign: TextAlign.right,
-                                    style: textTheme.caption,
-                                  ),
-                                  alignment: Alignment.centerRight,
-                                ),
-                              ),
-                            ],
-                          ),
+                            Center(
+                              child:  ac.bandId != null
+                                  ? Text(
+                                " ${ac.band?.name}",
+                                style: textTheme.caption,
+                                textAlign: TextAlign.center,
+                              )
+                                  : Container()
+                            ),
+                            Center(
+                              child: (ac.sender != null && ac.sender.firstName.isNotEmpty)
+                                  ? Text(
+                                " - ${ac.sender?.firstName} ${ac.sender?.lastName} :",
+                                style: textTheme.caption,
+                                textAlign: TextAlign.right,
+                              )
+                                  : Container() ,
+                            ),Center(child: Text(
+                              " - ${formatDate(DateTime.fromMillisecondsSinceEpoch(ac.created), [
+                                M,
+                                ' ',
+                                d,
+                                ', ',
+                                yyyy,
+                                ' ',
+                                hh,
+                                ':',
+                                mm,
+                                ' ',
+                                am
+                              ])}",
+                              textAlign: TextAlign.left,
+                              style: textTheme.caption,
+                            ),)
+                          ],mainAxisAlignment: MainAxisAlignment.center,),
+//                          Row(
+//                            children: <Widget>[
+//                              Padding(
+//                                  padding: EdgeInsets.symmetric(
+//                                horizontal: 10,
+//                              )),
+//                              Expanded(flex:(ac.sender != null && ac.sender.firstName.isNotEmpty)?1:0,
+//                                child: Row(
+//                                crossAxisAlignment: CrossAxisAlignment.start,
+//                                children: <Widget>[
+//
+//                                ],mainAxisAlignment: MainAxisAlignment.center,
+//                              ),),
+//                              Expanded(flex:1,
+//                                child: Row(
+//                                  crossAxisAlignment: CrossAxisAlignment.start,
+//                                  children: <Widget>[
+//
+//                                  ],mainAxisAlignment: MainAxisAlignment.center,
+//                                ),),
+//
+//                              Expanded(
+//                                flex:1,
+//                                child: Container(
+//                                  child: Text(
+//                                    "${formatDate(DateTime.fromMillisecondsSinceEpoch(ac.created), [
+//                                      M,
+//                                      ' ',
+//                                      d,
+//                                      ', ',
+//                                      yyyy,
+//                                      ' ',
+//                                      hh,
+//                                      ':',
+//                                      mm,
+//                                      ' ',
+//                                      am
+//                                    ])}",
+//                                    textAlign: TextAlign.left,
+//                                    style: textTheme.caption,
+//                                  ),
+//                                  alignment: Alignment.centerRight,
+//                                ),
+//                              ),
+//                            ],
+//                          ),
                         ],
                       ),
                       decoration: BoxDecoration(

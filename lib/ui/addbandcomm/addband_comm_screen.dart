@@ -52,6 +52,7 @@ class _AddBandCommScreenState
   }
 
   bool isEdit = false;
+  int status = BandCommunication.STATUS_PENDING;
 
   @override
   AppBar get appBar => AppBar(
@@ -118,8 +119,7 @@ class _AddBandCommScreenState
               )),
           widget.id.isEmpty
               ? Container()
-              : ((bandComm != null ? bandComm.userId : false) ==
-                      presenter.serverAPI.currentUserId&& widget.isLeader)
+              : ((bandComm != null ? bandComm.userId : false) == presenter.serverAPI.currentUserId)
                   ? Container(
                       child: IconButton(
                         icon: Icon(
@@ -138,8 +138,7 @@ class _AddBandCommScreenState
                     ),
           widget.id.isEmpty
               ? Container()
-              : ((bandComm != null ? bandComm.userId : false) ==
-              presenter.serverAPI.currentUserId&& widget.isLeader)
+              : ((bandComm != null ? bandComm.userId : false) == presenter.serverAPI.currentUserId)
                   ? IconButton(
                       icon: Icon(
                         Icons.delete,
@@ -396,10 +395,8 @@ class _AddBandCommScreenState
                               : Container()
                           : Container(),
                       Padding(padding: EdgeInsets.all(20)),
-                      (widget.id.isNotEmpty && !isEdit) &&
-                              (widget.isLeader &&
-                                  bandComm?.userId !=
-                                      presenter.serverAPI.currentUserId)
+                      ( (widget.id.isNotEmpty && !isEdit) &&(widget.isLeader||(bandComm!=null?bandComm.userId:null)==presenter.serverAPI.currentUserId)&& (status == null ||
+                          bandComm.status == BandCommunication.STATUS_PENDING))
                           ? Row(
                               children: <Widget>[
                                 Expanded(
@@ -473,9 +470,12 @@ class _AddBandCommScreenState
         showLoading();
         presenter.getBandCommDetails(widget.id);
       });
-    } else {
+    } else {setState(() {
       bandComm = BandCommunication();
       bandComm.bandId = widget.bandId;
+      status= bandComm.status;
+    });
+
     }
   }
 

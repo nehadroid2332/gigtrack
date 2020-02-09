@@ -23,6 +23,7 @@ class _ShowWebUrlState extends State<ShowWebUrlScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromRGBO(250, 177, 49, 1.0),
         title: const Text('Music Preview'),
       ),
       body: Container(

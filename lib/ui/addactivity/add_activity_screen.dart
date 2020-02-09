@@ -109,6 +109,7 @@ class _AddActivityScreenState
       setState(() {
         if (type == 1) {
           startDate = picked;
+          endDate=picked;
           _dateController.text = formatDate(startDate, [mm, '-', dd, '-', yy]);
         } else if (type == 0) {
           endDate = picked;
