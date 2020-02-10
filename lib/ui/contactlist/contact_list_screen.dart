@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gigtrack/base/base_screen.dart';
 import 'package:gigtrack/main.dart';
@@ -240,6 +241,28 @@ class _ContactListScreenState
 
   @override
   Widget buildBody() {
+    List<SpeedDialChild> items = [
+      SpeedDialChild(
+        label: "Add Contact",
+        labelStyle: TextStyle(color: Color.fromRGBO(45, 1, 79, 1.0)),
+        child: Icon(Icons.add),
+        backgroundColor: Color.fromRGBO(40, 35, 188, 1.0),
+        onTap: () async {
+          await widget.appListener.router.navigateTo(context,
+              Screens.ADDCONTACT.toString() + "//${widget.bandId}/////");
+        },
+      ),
+      SpeedDialChild(
+        label: "Import Contact",
+        labelStyle: TextStyle(color: Color.fromRGBO(45, 1, 79, 1.0)),
+        child: Icon(Icons.add),
+        backgroundColor: Color.fromRGBO(40, 35, 188, 1.0),
+        onTap: () async {
+          await widget.appListener.router.navigateTo(context,
+              Screens.ADDCONTACT.toString() + "//${widget.bandId}/////true");
+        },
+      ),
+    ];
     return Scaffold(
       backgroundColor: Color.fromRGBO(250, 250, 250, 1.0),
       body: Padding(
@@ -299,7 +322,8 @@ class _ContactListScreenState
                                         color: Colors.black,
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.only(left: 5,right: 5),
+                                        padding:
+                                            EdgeInsets.only(left: 5, right: 5),
                                       ),
                                       Expanded(
                                         child: TextField(
@@ -349,239 +373,230 @@ class _ContactListScreenState
                                         fit: StackFit.passthrough,
                                         children: <Widget>[
                                           ListView.builder(
-                                              controller: _controller,
-                                              itemCount: _contacts.length,
-                                              itemExtent: _itemsizeheight,
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                final cnt = _contacts[index];
-                                                return Container(
-                                                  height: MediaQuery.of(context).size.width/2.8 ,
-                                                  margin: EdgeInsets.all(0),
-                                                  decoration: BoxDecoration(
-                                                    border: Border(
-                                                      bottom: BorderSide(
-                                                        //                   <--- left side
-                                                        color: Color.fromRGBO(
-                                                            3, 218, 157, 1.0),
-                                                        width: 1.0,
-                                                      ),
-                                                      left: BorderSide(
-                                                        //                   <--- left side
-                                                        color: Colors.white,
-                                                        width: 0.0,
-                                                      ),
-                                                      right: BorderSide(
-                                                        //                   <--- left side
-                                                        color: Colors.white,
-                                                        width: 0.0,
-                                                      ),
-                                                      top: BorderSide(
-                                                        //                   <--- left side
-                                                        color: Colors.white,
-                                                        width: 0.0,
-                                                      ),
+                                            controller: _controller,
+                                            itemCount: _contacts.length,
+                                            itemExtent: _itemsizeheight,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              final cnt = _contacts[index];
+                                              return Container(
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2.8,
+                                                margin: EdgeInsets.all(0),
+                                                decoration: BoxDecoration(
+                                                  border: Border(
+                                                    bottom: BorderSide(
+                                                      //                   <--- left side
+                                                      color: Color.fromRGBO(
+                                                          3, 218, 157, 1.0),
+                                                      width: 1.0,
+                                                    ),
+                                                    left: BorderSide(
+                                                      //                   <--- left side
+                                                      color: Colors.white,
+                                                      width: 0.0,
+                                                    ),
+                                                    right: BorderSide(
+                                                      //                   <--- left side
+                                                      color: Colors.white,
+                                                      width: 0.0,
+                                                    ),
+                                                    top: BorderSide(
+                                                      //                   <--- left side
+                                                      color: Colors.white,
+                                                      width: 0.0,
                                                     ),
                                                   ),
-                                                  child: InkWell(
-                                                    child: Padding(
-                                                        padding:
-                                                            EdgeInsets.all(0),
-                                                        child: Container(
-                                                            child: Row(
-                                                          crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                          children: <Widget>[
-                                                            cnt.files.length > 0
-                                                                ? CircleAvatar(
-                                                              radius:
-                                                              30.0,
-                                                              backgroundImage:
-                                                              NetworkImage(
-                                                                  cnt.files[0]),
-                                                              backgroundColor:
-                                                              Colors
-                                                                  .transparent,
-                                                            )
-                                                                : Center(
-                                                              child:
-                                                              Container(
-
-                                                                decoration:
-                                                                new BoxDecoration(
-                                                                  color: Color.fromRGBO(
-                                                                      3,
-                                                                      218,
-                                                                      157,
-                                                                      1.0),
-                                                                  shape: BoxShape
-                                                                      .circle,
+                                                ),
+                                                child: InkWell(
+                                                  child: Padding(
+                                                      padding:
+                                                          EdgeInsets.all(0),
+                                                      child: Container(
+                                                          child: Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: <Widget>[
+                                                          cnt.files.length > 0
+                                                              ? CircleAvatar(
+                                                                  radius: 30.0,
+                                                                  backgroundImage:
+                                                                      NetworkImage(
+                                                                          cnt.files[
+                                                                              0]),
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .transparent,
+                                                                )
+                                                              : Center(
+                                                                  child:
+                                                                      Container(
+                                                                    decoration:
+                                                                        new BoxDecoration(
+                                                                      color: Color.fromRGBO(
+                                                                          3,
+                                                                          218,
+                                                                          157,
+                                                                          1.0),
+                                                                      shape: BoxShape
+                                                                          .circle,
+                                                                    ),
+                                                                    padding: EdgeInsets.only(
+                                                                        left:
+                                                                            22,
+                                                                        right:
+                                                                            22,
+                                                                        top: 4,
+                                                                        bottom:
+                                                                            8),
+                                                                    child: Text(
+                                                                      getNameOrder(
+                                                                          cnt.name)[0],
+                                                                      style: TextStyle(
+                                                                          color: Colors
+                                                                              .yellow,
+                                                                          fontSize:
+                                                                              30,
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          fontStyle:
+                                                                              FontStyle.italic),
+                                                                    ),
+                                                                  ),
                                                                 ),
-                                                                padding: EdgeInsets.only(
-                                                                    left:
-                                                                    22,
-                                                                    right:
-                                                                    22,
-                                                                    top:
-                                                                    4,
-                                                                    bottom:
-                                                                    8),
-                                                                child:
-                                                                Text(
-                                                                  getNameOrder(
-                                                                      cnt.name)[0],
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .yellow,
-                                                                      fontSize:
-                                                                      30,
-                                                                      fontWeight:
-                                                                      FontWeight.bold,
-                                                                      fontStyle: FontStyle.italic),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Padding(
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    left: 5,
+                                                                    right: 5,
+                                                                    top: 0,
+                                                                    bottom: 0),
+                                                          ),
+                                                          cnt.bandId.isEmpty
+                                                              ? new Container(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .bottomCenter,
+                                                                )
+                                                              : Container(),
+                                                          Container(
                                                               padding: EdgeInsets
                                                                   .only(
-                                                                  left: 5,
-                                                                  right: 5,
-                                                                  top: 0,
-                                                                  bottom:
-                                                                  0),
-                                                            ),
-                                                            cnt.bandId.isEmpty
-                                                                ? new Container(
-                                                              alignment:
-                                                              Alignment
-                                                                  .bottomCenter,
-                                                            )
-                                                                : Container(),
-                                                             Container(
-                                                                  padding: EdgeInsets
-                                                                      .only(
-                                                                      left:
-                                                                      10,
+                                                                      left: 10,
                                                                       top: 13,
-                                                                      bottom:
-                                                                      2,
+                                                                      bottom: 2,
                                                                       right:
-                                                                      10),
-                                                                  decoration:
+                                                                          10),
+                                                              decoration:
                                                                   BoxDecoration(
-                                                                    border: Border
-                                                                        .all(
+                                                                border:
+                                                                    Border.all(
                                                                         width: cnt.bandId.isNotEmpty
                                                                             ? 0
                                                                             : 0, //
                                                                         color: cnt.bandId.isNotEmpty
                                                                             ? Colors.white
                                                                             : Colors.white //               <--- border width here
-                                                                    ),
-                                                                  ),
-                                                                  child:Container(
-
-                                                                    child:Column(
-                                                                      crossAxisAlignment:
+                                                                        ),
+                                                              ),
+                                                              child: Container(
+                                                                child: Column(
+                                                                  crossAxisAlignment:
                                                                       CrossAxisAlignment
                                                                           .start,
-                                                                      children: <
-                                                                          Widget>[
-
-                                                                        Text(
-                                                                          getNameOrder(
-                                                                              cnt.name), // "${cnt.name.split(" ").reversed.join(' ')}",
-                                                                          textAlign:
+                                                                  children: <
+                                                                      Widget>[
+                                                                    Text(
+                                                                      getNameOrder(
+                                                                          cnt.name), // "${cnt.name.split(" ").reversed.join(' ')}",
+                                                                      textAlign:
                                                                           TextAlign
                                                                               .center,
-                                                                          style: textTheme.headline.copyWith(
-                                                                              color: cnt.bandId.isNotEmpty
-                                                                                  ? Colors.black
-                                                                                  : Colors.black,
-                                                                              fontSize: 14),
-                                                                        ),
-                                                                        cnt.companyName
+                                                                      style: textTheme.headline.copyWith(
+                                                                          color: cnt.bandId.isNotEmpty
+                                                                              ? Colors.black
+                                                                              : Colors.black,
+                                                                          fontSize: 14),
+                                                                    ),
+                                                                    cnt.companyName
                                                                             .isNotEmpty
-                                                                            ? Text(
-                                                                          "${cnt.companyName}",
-                                                                          textAlign:
-                                                                          TextAlign.end,
-                                                                          style:
-                                                                          TextStyle(
-                                                                            fontSize: 14,
-                                                                            color: cnt.bandId.isNotEmpty ? Colors.black : Colors.black,
-                                                                          ),
-                                                                        )
-                                                                            : Container(),
-                                                                        cnt.bandId
+                                                                        ? Text(
+                                                                            "${cnt.companyName}",
+                                                                            textAlign:
+                                                                                TextAlign.end,
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontSize: 14,
+                                                                              color: cnt.bandId.isNotEmpty ? Colors.black : Colors.black,
+                                                                            ),
+                                                                          )
+                                                                        : Container(),
+                                                                    cnt.bandId
                                                                             .isNotEmpty
-                                                                            ? Text(
-                                                                          "${cnt.band.name}",
-                                                                          textAlign:
-                                                                          TextAlign.center,
-                                                                          style:
-                                                                          TextStyle(
-                                                                            fontSize: 14,
-                                                                            color: cnt.bandId.isNotEmpty ? Color.fromRGBO(3, 218, 157, 1.0) : Color.fromRGBO(3, 218, 157, 1.0),
-                                                                          ),
-                                                                        )
-                                                                            : Container(),
-                                                                        cnt.relationship.isNotEmpty &&
+                                                                        ? Text(
+                                                                            "${cnt.band.name}",
+                                                                            textAlign:
+                                                                                TextAlign.center,
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontSize: 14,
+                                                                              color: cnt.bandId.isNotEmpty ? Color.fromRGBO(3, 218, 157, 1.0) : Color.fromRGBO(3, 218, 157, 1.0),
+                                                                            ),
+                                                                          )
+                                                                        : Container(),
+                                                                    cnt.relationship.isNotEmpty &&
                                                                             cnt.relationship !=
                                                                                 "Select"
-                                                                            ? Text(
-                                                                          cnt.relationship == "Select"
-                                                                              ? " "
-                                                                              : cnt.relationship == "Other" ? cnt.otherrelationship : cnt.relationship, // "${cnt.name.split(" ").reversed.join(' ')}",
-                                                                          textAlign:
-                                                                          TextAlign.center,
-                                                                          style:
-                                                                          textTheme.headline.copyWith(color: cnt.bandId.isNotEmpty ? Colors.black : Colors.black, fontSize: 14),
-                                                                        )
-                                                                            : Container(),
-                                                                        Padding(
-                                                                          padding:
+                                                                        ? Text(
+                                                                            cnt.relationship == "Select"
+                                                                                ? " "
+                                                                                : cnt.relationship == "Other" ? cnt.otherrelationship : cnt.relationship, // "${cnt.name.split(" ").reversed.join(' ')}",
+                                                                            textAlign:
+                                                                                TextAlign.center,
+                                                                            style:
+                                                                                textTheme.headline.copyWith(color: cnt.bandId.isNotEmpty ? Colors.black : Colors.black, fontSize: 14),
+                                                                          )
+                                                                        : Container(),
+                                                                    Padding(
+                                                                      padding:
                                                                           EdgeInsets.all(
                                                                               0),
-                                                                        ),
-                                                                        cnt.text.isNotEmpty
-                                                                            ? Text(
-                                                                          cnt.text, // "${cnt.name.split(" ").reversed.join(' ')}",
-                                                                          textAlign:
-                                                                          TextAlign.center,
-                                                                          style:
-                                                                          textTheme.headline.copyWith(color: cnt.bandId.isNotEmpty ? Colors.black : Colors.black, fontSize: 14),
-                                                                        )
-                                                                            : Container(),
-                                                                      ],
-                                                                    ),)
-
-                                                            ),
-                                                          ],
-                                                        ))
-                                                  ),
-                                                    onTap: (widget.isLeader &&
-                                                                widget.bandId
-                                                                    .isNotEmpty) ||
-                                                            widget
-                                                                .bandId.isEmpty
-                                                        ? () {
-                                                            widget.appListener
-                                                                .router
-                                                                .navigateTo(
-                                                                    context,
-                                                                    Screens.ADDCONTACT
-                                                                            .toString() +
-                                                                        "/${cnt.id}/${widget.bandId.isEmpty ? cnt.bandId : widget.bandId}////");
-                                                          }
-                                                        : null,
-                                                  ),
-                                                );
-                                              },
-                                            ),
-
+                                                                    ),
+                                                                    cnt.text.isNotEmpty
+                                                                        ? Text(
+                                                                            cnt.text, // "${cnt.name.split(" ").reversed.join(' ')}",
+                                                                            textAlign:
+                                                                                TextAlign.center,
+                                                                            style:
+                                                                                textTheme.headline.copyWith(color: cnt.bandId.isNotEmpty ? Colors.black : Colors.black, fontSize: 14),
+                                                                          )
+                                                                        : Container(),
+                                                                  ],
+                                                                ),
+                                                              )),
+                                                        ],
+                                                      ))),
+                                                  onTap: (widget.isLeader &&
+                                                              widget.bandId
+                                                                  .isNotEmpty) ||
+                                                          widget.bandId.isEmpty
+                                                      ? () {
+                                                          widget.appListener
+                                                              .router
+                                                              .navigateTo(
+                                                                  context,
+                                                                  Screens.ADDCONTACT
+                                                                          .toString() +
+                                                                      "/${cnt.id}/${widget.bandId.isEmpty ? cnt.bandId : widget.bandId}/////");
+                                                        }
+                                                      : null,
+                                                ),
+                                              );
+                                            },
+                                          ),
                                           Positioned(
                                             right: _marginRight,
                                             top: _offsetContainer,
@@ -1314,22 +1329,18 @@ class _ContactListScreenState
                     showMessage(("Swipe up"));
                   },
                 )),
-      floatingActionButton: (widget.isLeader && widget.bandId.isNotEmpty) ||
-              widget.bandId.isEmpty
-          ? Container(
-              margin: EdgeInsets.only(top: 30, right: 40),
-              child: FloatingActionButton(
-                onPressed: () async {
-                  await widget.appListener.router.navigateTo(context,
-                      Screens.ADDCONTACT.toString() + "//${widget.bandId}////");
-                },
-                child: Icon(
-                  Icons.add,
-                  color: Color.fromRGBO(3, 218, 157, 1.0),
-                ),
-                backgroundColor: Colors.yellow,
-              ))
-          : Container(),
+      floatingActionButton:
+          (widget.isLeader && widget.bandId.isNotEmpty) || widget.bandId.isEmpty
+              ? Container(
+                  margin: EdgeInsets.only(top: 30, right: 40),
+                  child: SpeedDial(
+                    animatedIcon: AnimatedIcons.menu_close,
+                    backgroundColor: Colors.green,
+                    overlayColor: Colors.white,
+                    overlayOpacity: 1.0,
+                    children: items,
+                  ))
+              : Container(),
     );
   }
 

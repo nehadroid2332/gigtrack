@@ -423,7 +423,7 @@ class MyApp extends StatelessWidget implements AppListener {
     }));
     _router.define(
         Screens.ADDCONTACT.toString() +
-            "/:id/:bandId/:isLeader/:isComm/:isSetUp/:postEntries",
+            "/:id/:bandId/:isLeader/:isComm/:isSetUp/:postEntries/:fromImport",
         handler: Handler(
             handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       String id = params["id"][0];
@@ -432,7 +432,7 @@ class MyApp extends StatelessWidget implements AppListener {
       bool isComm = params['isComm'][0] == "${true}";
       bool isSetUp = params['isSetUp'][0] == "${true}";
       bool postEntries = params['postEntries'][0] == "${true}";
-
+      bool fromImport = params['fromImport'][0] == "${true}";
       return AddContactScreen(
         this,
         id: id,
@@ -441,6 +441,7 @@ class MyApp extends StatelessWidget implements AppListener {
         isLeader: isLeader,
         isSetUp: isSetUp,
         postEntries: postEntries,
+        fromImport: fromImport,
       );
     }));
     _router.define(Screens.ADDMEMBERTOBAND.toString() + "/:id/:bandId", handler:

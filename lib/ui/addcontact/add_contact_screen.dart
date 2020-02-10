@@ -11,6 +11,7 @@ import 'package:gigtrack/utils/common_app_utils.dart';
 import 'package:gigtrack/utils/showup.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:native_contact_picker/native_contact_picker.dart';
 import 'package:random_string/random_string.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -21,6 +22,7 @@ class AddContactScreen extends BaseScreen {
   final bool isComm;
   final bool isSetUp;
   final bool postEntries;
+  final bool fromImport;
 
   AddContactScreen(
     AppListener appListener, {
@@ -30,6 +32,7 @@ class AddContactScreen extends BaseScreen {
     this.isComm,
     this.isSetUp,
     this.postEntries,
+    this.fromImport,
   }) : super(appListener, title: "");
 
   @override
@@ -79,12 +82,20 @@ class _AddContactScreenState
         presenter.contactDetails(widget.id);
       });
     }
+    if (widget.fromImport)
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        final NativeContactPicker _contactPicker = new NativeContactPicker();
+        Contact contact = await _contactPicker.selectContact();
+        if (contact != null) {
+          _nameController.text = contact.fullName;
+          _textController.text = contact.phoneNumber;
+        }
+      });
   }
 
   bool qDarkmodeEnable = false;
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     checkThemeMode();
   }
@@ -193,14 +204,19 @@ class _AddContactScreenState
             alignment: Alignment.center,
             width: widget.id.isEmpty
                 ? MediaQuery.of(context).size.width
-                : (userId!=null?userId:null) == presenter.serverAPI.currentUserId?MediaQuery.of(context).size.width / 2:MediaQuery.of(context).size.width ,
-            child: Center(child: Text(
-              "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Contact",
-              textAlign: TextAlign.center,
-              style: textTheme.headline.copyWith(
-                color: Colors.white,
+                : (userId != null ? userId : null) ==
+                        presenter.serverAPI.currentUserId
+                    ? MediaQuery.of(context).size.width / 2
+                    : MediaQuery.of(context).size.width,
+            child: Center(
+              child: Text(
+                "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Contact",
+                textAlign: TextAlign.center,
+                style: textTheme.headline.copyWith(
+                  color: Colors.white,
+                ),
               ),
-            ),),
+            ),
           ),
           subContact == null
               ? widget.id.isEmpty
@@ -544,7 +560,7 @@ class _AddContactScreenState
                                       widget.id.isEmpty || isEdit ? 4 : 4),
                             ),
                             Padding(
-                              padding: widget.id.isEmpty||isEdit
+                              padding: widget.id.isEmpty || isEdit
                                   ? EdgeInsets.all(5)
                                   : EdgeInsets.all(0),
                             ),
@@ -570,7 +586,8 @@ class _AddContactScreenState
                               delay: 1000,
                             ),
                             ShowUp(
-                              child: (widget.id.isEmpty||isEdit) && !_isCompanyName
+                              child: (widget.id.isEmpty || isEdit) &&
+                                      !_isCompanyName
                                   ? Container(
                                       height: 1,
                                       width:
@@ -838,7 +855,7 @@ class _AddContactScreenState
                                   : EdgeInsets.all(4),
                             ),
                             Padding(
-                              padding: widget.id.isEmpty||isEdit
+                              padding: widget.id.isEmpty || isEdit
                                   ? EdgeInsets.all(5)
                                   : EdgeInsets.all(0),
                             ),
@@ -864,7 +881,8 @@ class _AddContactScreenState
                               delay: 1000,
                             ),
                             ShowUp(
-                              child: (widget.id.isEmpty ||isEdit)&& !_isphoneNumber
+                              child: (widget.id.isEmpty || isEdit) &&
+                                      !_isphoneNumber
                                   ? Container(
                                       height: 1,
                                       width:

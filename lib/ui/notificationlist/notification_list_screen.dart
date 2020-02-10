@@ -135,7 +135,7 @@ class _NotificationListScreensState
                                   widget.appListener.router.navigateTo(
                                       context,
                                       Screens.ADDCONTACT.toString() +
-                                          "/${ac.notiId}/${ac.bandId}////");
+                                          "/${ac.notiId}/${ac.bandId}/////");
                                   break;
                                 case AppNotification.TYPE_EPK:
                                   widget.appListener.router.navigateTo(
