@@ -87,13 +87,7 @@ class _AddNotesScreenState
           color: Colors.white, //change your color here
         ),
         elevation: 0,
-        title: Text(
-          "${widget.id.isEmpty ? widget.type == NotesTodo.TYPE_NOTE ? "Add Note" : widget.type == NotesTodo.TYPE_IDEA ? "Add Idea" : "" : widget.isParent ? "Note is about" : widget.type == NotesTodo.TYPE_NOTE ? "Note" : widget.type == NotesTodo.TYPE_IDEA ? "Idea" : ""}",
-          textAlign: widget.id.isNotEmpty ? TextAlign.left : TextAlign.center,
-          style: textTheme.headline.copyWith(
-            color: Colors.white,
-          ),
-        ),
+        title: null,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () async {
@@ -105,9 +99,10 @@ class _AddNotesScreenState
                     title: Text("Do you want to save changes?"),
                     actions: <Widget>[
                       FlatButton(
-                        child: Text("No"),
+                        child: Text("No",style: TextStyle(color: Colors.black),),
+                        color: Colors.black,
                         onPressed: () {
-                          Navigator.of(context).pop(false);
+                          Navigator.of(context).pop(true);
                         },
                       ),
                       RaisedButton(
@@ -139,6 +134,19 @@ class _AddNotesScreenState
           //                          (widget.isLeader ||
           //                              (userId != null &&
           //                                  userId == presenter.serverAPI.currentUserId)))
+          Container(
+            alignment: Alignment.center,
+            width: widget.id.isEmpty
+                ? MediaQuery.of(context).size.width
+                : (userId!=null?userId:null) == presenter.serverAPI.currentUserId?MediaQuery.of(context).size.width / 2:MediaQuery.of(context).size.width ,
+            child: Text(
+              "${widget.id.isEmpty ? widget.type == NotesTodo.TYPE_NOTE ? "Add Note" : widget.type == NotesTodo.TYPE_IDEA ? "Add Idea" : "" : widget.isParent ? "Note is about" : widget.type == NotesTodo.TYPE_NOTE ? "Note" : widget.type == NotesTodo.TYPE_IDEA ? "Idea" : ""}",
+              textAlign: widget.id.isNotEmpty ? TextAlign.left : TextAlign.center,
+              style: textTheme.headline.copyWith(
+                color: Colors.white,
+              ),
+            ),
+          ),
 
           widget.id.isEmpty || widget.isParent
               ? Container()
@@ -306,17 +314,17 @@ class _AddNotesScreenState
                             )
                           : Container(),
                       widget.id.isEmpty || isEdit && !isDateVisible
-                          ? Container(
-                              height: 1,
-                              width: MediaQuery.of(context).size.width / 4,
-                              color: Colors.red,
-                              margin: EdgeInsets.only(
-                                  left: 0,
-                                  right:
-                                      MediaQuery.of(context).size.width / 1.8,
-                                  top: 2,
-                                  bottom: 0),
-                            )
+                          ? ShowUp(child: Container(
+                        height: 1,
+                        width: MediaQuery.of(context).size.width / 4,
+                        color: Colors.red,
+                        margin: EdgeInsets.only(
+                            left: 0,
+                            right:
+                            MediaQuery.of(context).size.width / 1.8,
+                            top: 2,
+                            bottom: 0),
+                      ),delay: 1000,)
                           : Container(),
 
                       Padding(

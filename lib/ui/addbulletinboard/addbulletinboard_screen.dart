@@ -159,13 +159,7 @@ class _AddBulletInBoardScreenState
           color: Colors.white, //change your color here
         ),
         elevation: 0,
-        title: Text(
-          "${widget.id.isEmpty ? "Add" : ""} Bulletin Board",
-          textAlign: TextAlign.center,
-          style: textTheme.headline.copyWith(
-            color: Colors.white,
-          ),
-        ),
+        title: null,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () async {
@@ -207,9 +201,25 @@ class _AddBulletInBoardScreenState
         ),
         backgroundColor: Color.fromRGBO(214, 22, 35, 1.0),
         actions: <Widget>[
+          Container(
+            alignment: Alignment.center,
+            padding: presenter.serverAPI.currentUserId == presenter.serverAPI.adminEmail?EdgeInsets.only(left: 90):EdgeInsets.only(left: 0),
+            width: widget.id.isEmpty
+                ? MediaQuery.of(context).size.width
+                : (bulletInUserId!=null?bulletInUserId:null) == presenter.serverAPI.currentUserId?MediaQuery.of(context).size.width / 2:MediaQuery.of(context).size.width /1.54,
+         child: Text(
+           "${widget.id.isEmpty ? "Add" : ""} Bulletin Board",
+           textAlign: TextAlign.center,
+           style: textTheme.headline.copyWith(
+             color: Colors.white,
+           ),
+         ),
+
+          ),
           widget.id.isEmpty || bulletInUserId == null
               ? Container()
               : IconButton(
+            padding:   (presenter.serverAPI.currentUserId != presenter.serverAPI.adminEmail&&bulletInUserId != presenter.serverAPI.currentUserId)?EdgeInsets.only(right: 45):EdgeInsets.only(right: 0),
                   icon: Icon(Icons.chat),
                   onPressed: () {
                     widget.appListener.router.navigateTo(context,
@@ -220,8 +230,7 @@ class _AddBulletInBoardScreenState
               ? Container()
               : (bulletInUserId != null) &&
                       ((bulletInUserId == presenter.serverAPI.currentUserId) ||
-                          (presenter.serverAPI.currentUserId ==
-                              presenter.serverAPI.adminEmail))
+                          (presenter.serverAPI.currentUserId == presenter.serverAPI.adminEmail))
                   ? Container(
                       child: IconButton(
                         icon: Icon(
@@ -241,8 +250,7 @@ class _AddBulletInBoardScreenState
               ? Container()
               : bulletInUserId != null &&
                       ((bulletInUserId == presenter.serverAPI.currentUserId) ||
-                          (presenter.serverAPI.currentUserId ==
-                              presenter.serverAPI.adminEmail))
+                          (presenter.serverAPI.currentUserId == presenter.serverAPI.adminEmail))
                   ? IconButton(
                       icon: Icon(
                         Icons.delete,
@@ -375,7 +383,7 @@ class _AddBulletInBoardScreenState
                                   Padding(
                                     padding: EdgeInsets.all(5),
                                   ),
-                                  Row(
+                                  _startDateController.text.isEmpty?Container():Row(
                                     children: <Widget>[
                                       Padding(
                                         padding: EdgeInsets.all(10),
@@ -940,9 +948,13 @@ class _AddBulletInBoardScreenState
         isRecurring= false;
       }
       if (note.uploadedFiles != null) files = note.uploadedFiles;
+      if(note.date==0){
+        _startDateController.text=null;
+        }else{
+
       DateTime stDate = DateTime.fromMillisecondsSinceEpoch((note.date));
       _startDateController.text =
-          "${formatDate(stDate, [mm, '/', dd, '/', yy])}";
+          "${formatDate(stDate, [mm, '/', dd, '/', yy])}";}
     });
   }
 

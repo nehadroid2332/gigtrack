@@ -1224,7 +1224,7 @@ class _AddPlayingStyleScreenState
                                               '/$url');
                                     },
                                     child: Text(
-                                      "Click to here music preview",
+                                      "Click to hear music preview",
                                       style: textTheme.display1.copyWith(
                                           color: Colors.red, fontSize: 14),
                                       textAlign: TextAlign.center,

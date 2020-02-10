@@ -257,13 +257,16 @@ class _AddInstrumentScreenState
                     title: Text("Do you want to save changes?"),
                     actions: <Widget>[
                       FlatButton(
-                        child: Text("No"),
+                        child: Text("No",style: TextStyle(color: Colors.black),),
                         onPressed: () {
                           Navigator.of(context).pop(true);
                         },
                       ),
-                      FlatButton(
+                      RaisedButton(
                         child: Text("Yes"),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6)),
+                        color:  Colors.deepOrangeAccent,
                         onPressed: () {
                           _submitInstrument();
                           Navigator.of(context).pop(true);
