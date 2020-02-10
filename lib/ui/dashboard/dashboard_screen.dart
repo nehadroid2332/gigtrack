@@ -20,7 +20,7 @@ class _DashboardScreenState
     extends BaseScreenState<DashboardScreen, DashboardPresenter>
     implements DashboardContract {
   String userPlayingStyleId;
-  bool qDarkmodeEnable=false;
+  bool qDarkmodeEnable = false;
 
   @override
   void initState() {
@@ -28,294 +28,290 @@ class _DashboardScreenState
     presenter.doWelcome();
     presenter.getPlayingStyleList("");
   }
+
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     checkThemeMode();
   }
+
   void checkThemeMode() {
-    if(Theme.of(context).platform == TargetPlatform.iOS){
-
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
       var qdarkMode = MediaQuery.of(context).platformBrightness;
-      if (qdarkMode == Brightness.dark){
+      if (qdarkMode == Brightness.dark) {
         setState(() {
-          qDarkmodeEnable=true;
+          qDarkmodeEnable = true;
         });
-
-
       } else {
         setState(() {
-          qDarkmodeEnable=false;
+          qDarkmodeEnable = false;
         });
-
-
       }
     }
   }
-//  @override
-//  AppBar get appBar => AppBar(
-//    brightness: Brightness.light,
-//    backgroundColor: Colors.transparent,
-//    elevation: 0,
-//
-//  );
-  
+
+  @override
+  Drawer get drawer => Drawer(
+        child: SafeArea(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              ListTile(
+                title: Text("Profile"),
+                leading: Icon(Icons.account_circle),
+                onTap: () {
+                  Navigator.pop(context);
+                  widget.appListener.router.navigateTo(
+                    context,
+                    Screens.PROFILE.toString(),
+                  );
+                },
+              ),
+              ListTile(
+                title: Text("Notification"),
+                leading: Icon(Icons.notifications),
+                onTap: () {
+                  Navigator.pop(context);
+                  widget.appListener.router.navigateTo(
+                    context,
+                    Screens.NOTIFICATION.toString(),
+                  );
+                },
+              ),
+              ListTile(
+                title: Text("Help"),
+                leading: Icon(Icons.help),
+                onTap: () {
+                  Navigator.pop(context);
+                  widget.appListener.router.navigateTo(
+                    context,
+                    Screens.HELP.toString(),
+                  );
+                },
+              ),
+              ListTile(
+                title: Text("Logout"),
+                leading: Icon(Icons.power_settings_new),
+                onTap: () {
+                  Navigator.pop(context);
+                  widget.appListener.sharedPreferences.clear();
+                  presenter.logout();
+                  widget.appListener.router.navigateTo(
+                      context, Screens.LOGIN.toString(),
+                      replace: true);
+                },
+              )
+            ],
+          ),
+        ),
+      );
+
   @override
   Widget buildBody() {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
         statusBarColor: Colors.blue, // Color for Android
         statusBarBrightness: Brightness.light,
         systemNavigationBarColor:
-        Colors.black87 // Dark == white status bar -- for IOS.
-    ));
+            Colors.black87 // Dark == white status bar -- for IOS.
+        ));
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    
       statusBarColor: Color.fromRGBO(99, 97, 93, .5),
-  
     ));
     return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/images/rendered.png"),
-          fit: BoxFit.cover,
-        ),
-      ),
-      padding: EdgeInsets.symmetric(
-        horizontal: 25,
-        vertical: 5,
-      ),
-      child:SafeArea(
-        top: false,
-        child:Column(
-        children: <Widget>[
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-                padding: EdgeInsets.only(
-                  bottom: 0,
-                ),
-                child: Container(
-//                decoration: new BoxDecoration(
-//                  gradient: new LinearGradient(
-//                      colors: [
-//                       Color.fromRGBO(107, 105, 102, .9),
-//                       Color.fromRGBO(79, 78, 76, .8)
-//                      ],
-//                      begin: const FractionalOffset(0.0, 0.0),
-//                      end: const FractionalOffset(0.0, 1.0),
-//                      stops: [0.0, 1.0],
-//                      tileMode: TileMode.clamp),
-//                ),
-                  child:Row(
-                    children: <Widget>[
-//                  Expanded(
-//                    child: Container(),
-//                  ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.account_circle,
-                        ),
-                        color: Color.fromRGBO(222, 153, 24, 1.0),
-                        iconSize: 26,
-                        onPressed: () {
-                          widget.appListener.router.navigateTo(
-                            context,
-                            Screens.PROFILE.toString(),
-                          );
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.notifications,
-                        ),
-                        color: Color.fromRGBO(222, 153, 24, 1.0),
-                        iconSize: 26,
-                        onPressed: () {
-                          widget.appListener.router.navigateTo(
-                            context,
-                            Screens.NOTIFICATION.toString(),
-                          );
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.help,
-                        ),
-                        color: Color.fromRGBO(222, 153, 24, 1.0),
-                        iconSize: 26,
-                        onPressed: () {
-                          widget.appListener.router.navigateTo(
-                            context,
-                            Screens.HELP.toString(),
-                          );
-                        },
-                      ),
-                      Padding(padding: EdgeInsets.only(left: 20),),
-                      IconButton(
-                        icon: Icon(
-                          Icons.power_settings_new,
-                          color: Colors.white,
-                        ),
-                        color: Colors.white,
-                        iconSize: 36,
-                        onPressed: () {
-                          widget.appListener.sharedPreferences.clear();
-                          presenter.logout();
-                          widget.appListener.router.navigateTo(
-                              context, Screens.LOGIN.toString(),
-                              replace: true);
-                        },
-                      )
-                    ],
-                  ) ,)
-            ),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/rendered.png"),
+            fit: BoxFit.cover,
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        ),
+        padding: EdgeInsets.symmetric(
+          horizontal: 25,
+          vertical: 5,
+        ),
+        child: SafeArea(
+          top: false,
+          child: Column(
             children: <Widget>[
-              Expanded(
-                child: Column(
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Image.asset(
-                          'assets/images/Gigtrackupdate.png',
-                          height: 70,
-                        ),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                    padding: EdgeInsets.only(
+                      bottom: 0,
+                    ),
+                    child: Container(
+                      child: Row(
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(
+                              Icons.menu,
+                            ),
+                            color: Color.fromRGBO(222, 153, 24, 1.0),
+                            iconSize: 26,
+                            onPressed: () {
+                              scaffoldKey.currentState.openDrawer();
+                            },
+                          ),
+                        ],
                       ),
-                    )
-                  ],
-                ),
+                    )),
               ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(
+                    child: Column(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Image.asset(
+                              'assets/images/Gigtrackupdate.png',
+                              height: 70,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
 //              Image.asset(
 //                'assets/images/music.png',
 //                height: 50,
 //              )
-            ],
-          ),
-          Padding(
-            padding:
-            EdgeInsets.only(top: MediaQuery.of(context).size.width / 19),
-          ),
-          Padding(
-            padding: EdgeInsets.all(2),
-          ),
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: 2,
-              childAspectRatio: 1.36,
-              children: [
-                "ACTIVITIES",
-                "BANDS",
-                "CONTACTS",
-                "EPK",
-                "EQUIPMENT",
-                "NOTES",
-                "FEEDBACK",
-                "BULLETIN BOARD"
-              ].map(
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.width / 19),
+              ),
+              Padding(
+                padding: EdgeInsets.all(2),
+              ),
+              Expanded(
+                child: GridView.count(
+                  crossAxisCount: 2,
+                  childAspectRatio: 1.36,
+                  children: [
+                    "ACTIVITIES",
+                    "BANDS",
+                    "CONTACTS",
+                    "EPK",
+                    "EQUIPMENT",
+                    "NOTES",
+                    "FEEDBACK",
+                    "BULLETIN BOARD"
+                  ].map(
                     (txt) {
-                  Color color = widget.appListener.primaryColor;
-                  Color borderColor = Colors.blue;
-                  String image;
-                  switch (txt) {
-                    case "ACTIVITIES":
-                      color = Color.fromRGBO(225, 222, 222, 0.7);
-                      //color = Color.fromRGBO(63, 146, 219, 1.0); last one
-                      //	color = Color.fromRGBO(71, 151, 221, 0.1);
-                      image = 'assets/images/finalcalander.svg';
-                      borderColor = Color.fromRGBO(55, 0, 179, 1.0);
-                      break;
-                    case "NOTES":
-                      color = Color.fromRGBO(225, 222, 222, 0.7);
-                      //color=Color.fromRGBO(239,181, 77, 1.0);
-                      //	color = Color.fromRGBO(196, 227, 102, 0.1);
-                      image = 'assets/images/notesicon.svg';
-                      borderColor = Color.fromRGBO(3, 54, 255, 1.0);
-                      break;
-                    case "BANDS":
-                      color = Color.fromRGBO(225, 222, 222, 0.7);
-                      //color=Color.fromRGBO(214,22, 35, 1.0);
-                      //	color = Color.fromRGBO(241, 206, 96, 0.1);
-                      image = 'assets/images/bandicon.svg';
-                      borderColor = Color.fromRGBO(167, 0, 0, 1.0);
-                      break;
-                    case "EQUIPMENT":
-                      color = Color.fromRGBO(225, 222, 222, 0.7);
-                      //color = Color.fromRGBO(210, 34, 153, 0.1);
-                      //color = Color.fromRGBO(60, 111, 54, 1.0);
-                      image = 'assets/images/radioicon.svg';
-                      borderColor = Colors.deepOrangeAccent;
-                      break;
-                    case "EPK":
-                      color = qDarkmodeEnable?Color.fromRGBO(255, 191, 0, 1.0):Color.fromRGBO(225, 222, 222, 0.7);
-                      //color=Color.fromRGBO(80, 54, 116, 1.0);
-                      //	color = Color.fromRGBO(26, 182, 37, 0.1);
-                      image = 'assets/images/microphoneepk.svg';
-                      borderColor = Color.fromRGBO(250, 177, 49, 1.0);
-                      break;
-                    case "CONTACTS":
-                      color = Color.fromRGBO(225, 222, 222, 0.7);
-                      //color= Color.fromRGBO(191, 53, 42, 1.0);
-                      //color = Color.fromRGBO(243, 135, 75, 0.1);
-                      image = 'assets/images/telcontact.svg';
-                      borderColor = Color.fromRGBO(3, 218, 157, 1.0);//Color.fromRGBO(3, 54, 255, 1.0);
-                      break;
-                    case "FEEDBACK":
-                      color = Color.fromRGBO(225, 222, 222, 0.7);
-                      //color = Color.fromRGBO(102, 187, 238, 0.1);
-                      //color = Color.fromRGBO(18, 130, 119, 1.0);
-                      image = 'assets/images/feedbackicon.svg';
-                      borderColor = Colors.grey;
-                      break;
-                    case "BULLETIN BOARD":
-                    //	color = Color.fromRGBO(251, 111, 162, 0.1);
-                      color = Color.fromRGBO(225, 222, 222, 0.7);
-                      image = 'assets/images/finalbulletin.svg';
-                      borderColor = Colors.black;
-                      break;
-                  }
-                  return InkWell(
-                    child: Container(
-                        child: Card(
-                            margin: EdgeInsets.all(5),
-                            color: color,
-                            elevation: 10,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              side: new BorderSide(
-                                  color: borderColor, width: 2.5),
-                            ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                      "assets/images/newupdated.png"),
-                                  fit: BoxFit.cover,
+                      Color color = widget.appListener.primaryColor;
+                      Color borderColor = Colors.blue;
+                      String image;
+                      switch (txt) {
+                        case "ACTIVITIES":
+                          color = Color.fromRGBO(225, 222, 222, 0.7);
+                          //color = Color.fromRGBO(63, 146, 219, 1.0); last one
+                          //	color = Color.fromRGBO(71, 151, 221, 0.1);
+                          image = 'assets/images/finalcalander.svg';
+                          borderColor = Color.fromRGBO(55, 0, 179, 1.0);
+                          break;
+                        case "NOTES":
+                          color = Color.fromRGBO(225, 222, 222, 0.7);
+                          //color=Color.fromRGBO(239,181, 77, 1.0);
+                          //	color = Color.fromRGBO(196, 227, 102, 0.1);
+                          image = 'assets/images/notesicon.svg';
+                          borderColor = Color.fromRGBO(3, 54, 255, 1.0);
+                          break;
+                        case "BANDS":
+                          color = Color.fromRGBO(225, 222, 222, 0.7);
+                          //color=Color.fromRGBO(214,22, 35, 1.0);
+                          //	color = Color.fromRGBO(241, 206, 96, 0.1);
+                          image = 'assets/images/bandicon.svg';
+                          borderColor = Color.fromRGBO(167, 0, 0, 1.0);
+                          break;
+                        case "EQUIPMENT":
+                          color = Color.fromRGBO(225, 222, 222, 0.7);
+                          //color = Color.fromRGBO(210, 34, 153, 0.1);
+                          //color = Color.fromRGBO(60, 111, 54, 1.0);
+                          image = 'assets/images/radioicon.svg';
+                          borderColor = Colors.deepOrangeAccent;
+                          break;
+                        case "EPK":
+                          color = qDarkmodeEnable
+                              ? Color.fromRGBO(255, 191, 0, 1.0)
+                              : Color.fromRGBO(225, 222, 222, 0.7);
+                          //color=Color.fromRGBO(80, 54, 116, 1.0);
+                          //	color = Color.fromRGBO(26, 182, 37, 0.1);
+                          image = 'assets/images/microphoneepk.svg';
+                          borderColor = Color.fromRGBO(250, 177, 49, 1.0);
+                          break;
+                        case "CONTACTS":
+                          color = Color.fromRGBO(225, 222, 222, 0.7);
+                          //color= Color.fromRGBO(191, 53, 42, 1.0);
+                          //color = Color.fromRGBO(243, 135, 75, 0.1);
+                          image = 'assets/images/telcontact.svg';
+                          borderColor = Color.fromRGBO(3, 218, 157,
+                              1.0); //Color.fromRGBO(3, 54, 255, 1.0);
+                          break;
+                        case "FEEDBACK":
+                          color = Color.fromRGBO(225, 222, 222, 0.7);
+                          //color = Color.fromRGBO(102, 187, 238, 0.1);
+                          //color = Color.fromRGBO(18, 130, 119, 1.0);
+                          image = 'assets/images/feedbackicon.svg';
+                          borderColor = Colors.grey;
+                          break;
+                        case "BULLETIN BOARD":
+                          //	color = Color.fromRGBO(251, 111, 162, 0.1);
+                          color = Color.fromRGBO(225, 222, 222, 0.7);
+                          image = 'assets/images/finalbulletin.svg';
+                          borderColor = Colors.black;
+                          break;
+                      }
+                      return InkWell(
+                        child: Container(
+                            child: Card(
+                                margin: EdgeInsets.all(5),
+                                color: color,
+                                elevation: 10,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  side: new BorderSide(
+                                      color: borderColor, width: 2.5),
                                 ),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    left: 0, right: 0, top: 6, bottom: 6),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                            
-                                  ///mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Container(
-                                        child: Center(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                          "assets/images/newupdated.png"),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 0, right: 0, top: 6, bottom: 6),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+
+                                      ///mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Container(
+                                            child: Center(
                                           child: Column(
                                             children: <Widget>[
-                                              Padding(padding: EdgeInsets.only(
-                                                  left: 0, right: 0, top: 6, bottom: 6)),
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 0,
+                                                      right: 0,
+                                                      top: 6,
+                                                      bottom: 6)),
                                               new SvgPicture.asset(
                                                 image,
-                                                height: MediaQuery.of(context).size.height/13,
-                                                allowDrawingOutsideViewBox: true,
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height /
+                                                    13,
+                                                allowDrawingOutsideViewBox:
+                                                    true,
                                               ),
                                               Padding(
                                                 padding: EdgeInsets.only(
@@ -328,63 +324,67 @@ class _DashboardScreenState
                                                 "$txt",
                                                 textAlign: TextAlign.center,
                                                 maxLines: 2,
-                                                style: textTheme.headline.copyWith(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 14),
+                                                style: textTheme.headline
+                                                    .copyWith(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 14),
                                               )
                                             ],
                                           ),
                                         )),
-                                  ],
-                                ),
-                              ),
-                            ))),
-                    onTap: () async {
-                      if (txt == "ACTIVITIES")
-                        widget.appListener.router.navigateTo(context,
-                            Screens.ACTIVITIESLIST.toString() + "//////");
-                      else if (txt == "NOTES")
-                        widget.appListener.router.navigateTo(
-                            context, Screens.NOTETODOLIST.toString() + "/////");
-                      else if (txt == "BANDS")
-                        widget.appListener.router
-                            .navigateTo(context, Screens.BANDLIST.toString());
-                      else if (txt == "EQUIPMENT")
-                        widget.appListener.router.navigateTo(context,
-                            Screens.INSTRUMENTLIST.toString() + "/////");
-                      else if (txt == "EPK") {
-                        if (userPlayingStyleId == null) {
-                          await widget.appListener.router.navigateTo(context,
-                              Screens.ADDPLAYINGSTYLE.toString() + "//////");
-                        } else {
-                          await widget.appListener.router.navigateTo(
-                              context,
-                              Screens.ADDPLAYINGSTYLE.toString() +
-                                  "/$userPlayingStyleId/////");
-                        }
-                        userPlayingStyleId = "";
-                        presenter.getPlayingStyleList("");
-                      } else if (txt == "CONTACTS")
-                        widget.appListener.router.navigateTo(
-                            context, Screens.CONTACTLIST.toString() + "/////");
-                      else if (txt == "BULLETIN BOARD")
-                        widget.appListener.router.navigateTo(
-                            context, Screens.BULLETINLISTLIST.toString());
-                      else if (txt == "FEEDBACK")
-                         widget.appListener.router
-                           .navigateTo(context, Screens.FEEDBACK.toString());
-               //  widget.appListener.router
-                 //        .navigateTo(context, Screens.PAYMENT_LIST.toString());
+                                      ],
+                                    ),
+                                  ),
+                                ))),
+                        onTap: () async {
+                          if (txt == "ACTIVITIES")
+                            widget.appListener.router.navigateTo(context,
+                                Screens.ACTIVITIESLIST.toString() + "//////");
+                          else if (txt == "NOTES")
+                            widget.appListener.router.navigateTo(context,
+                                Screens.NOTETODOLIST.toString() + "/////");
+                          else if (txt == "BANDS")
+                            widget.appListener.router.navigateTo(
+                                context, Screens.BANDLIST.toString());
+                          else if (txt == "EQUIPMENT")
+                            widget.appListener.router.navigateTo(context,
+                                Screens.INSTRUMENTLIST.toString() + "/////");
+                          else if (txt == "EPK") {
+                            if (userPlayingStyleId == null) {
+                              await widget.appListener.router.navigateTo(
+                                  context,
+                                  Screens.ADDPLAYINGSTYLE.toString() +
+                                      "//////");
+                            } else {
+                              await widget.appListener.router.navigateTo(
+                                  context,
+                                  Screens.ADDPLAYINGSTYLE.toString() +
+                                      "/$userPlayingStyleId/////");
+                            }
+                            userPlayingStyleId = "";
+                            presenter.getPlayingStyleList("");
+                          } else if (txt == "CONTACTS")
+                            widget.appListener.router.navigateTo(context,
+                                Screens.CONTACTLIST.toString() + "/////");
+                          else if (txt == "BULLETIN BOARD")
+                            widget.appListener.router.navigateTo(
+                                context, Screens.BULLETINLISTLIST.toString());
+                          else if (txt == "FEEDBACK")
+                            widget.appListener.router.navigateTo(
+                                context, Screens.FEEDBACK.toString());
+                          //  widget.appListener.router
+                          //        .navigateTo(context, Screens.PAYMENT_LIST.toString());
+                        },
+                      );
                     },
-                  );
-                },
-              ).toList(),
-            ),
-          )
-        ],
-      ) ,)
-    );
+                  ).toList(),
+                ),
+              )
+            ],
+          ),
+        ));
   }
 
   @override

@@ -173,6 +173,8 @@ PODS:
     - nanopb/encode (= 0.3.9011)
   - nanopb/decode (0.3.9011)
   - nanopb/encode (0.3.9011)
+  - native_contact_picker (0.0.1):
+    - Flutter
   - path_provider (0.0.1):
     - Flutter
   - PromisesObjC (1.2.8)
@@ -220,6 +222,7 @@ DEPENDENCIES:
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - location (from `.symlinks/plugins/location/ios`)
   - location_permissions (from `.symlinks/plugins/location_permissions/ios`)
+  - native_contact_picker (from `.symlinks/plugins/native_contact_picker/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - shared_preferences_macos (from `.symlinks/plugins/shared_preferences_macos/ios`)
@@ -302,6 +305,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/location/ios"
   location_permissions:
     :path: ".symlinks/plugins/location_permissions/ios"
+  native_contact_picker:
+    :path: ".symlinks/plugins/native_contact_picker/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
   shared_preferences:
@@ -365,6 +370,7 @@ SPEC CHECKSUMS:
   location_permissions: 360d12ecd1c94a4cab68585f508be1d5ad944c8b
   Mantle: 35238ae6f2e2b2d474fa7b67fee82a59fea71915
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
+  native_contact_picker: 8707c6a4f696bf9431ebcc389dd2a2c4c2fbbd71
   path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   Protobuf: 0e94afe3b47cb11876eb6aee296638711a24bf75
