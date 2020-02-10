@@ -1110,7 +1110,7 @@ class _AddBandScreenState
                                                                         bottom:
                                                                             2),
                                                                 child: Text(
-                                                                  "${user.firstName} ${user.lastName}",
+                                                                  "${user.firstName} ${user.lastName} - ${permission}",
                                                                   style: textTheme
                                                                       .subhead
                                                                       .copyWith(
@@ -1128,22 +1128,22 @@ class _AddBandScreenState
                                                                 ),
                                                               ),
                                                             ),
-                                                            Text(
-                                                              permission,
-                                                              style: textTheme
-                                                                  .subhead
-                                                                  .copyWith(
-                                                                color: qDarkmodeEnable
-                                                                    ? Colors
-                                                                        .white
-                                                                    : Colors
-                                                                        .black,
-                                                                fontSize: 12.3,
-                                                              ),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                            ),
+//                                                            Text(
+//                                                              permission,
+//                                                              style: textTheme
+//                                                                  .subhead
+//                                                                  .copyWith(
+//                                                                color: qDarkmodeEnable
+//                                                                    ? Colors
+//                                                                        .white
+//                                                                    : Colors
+//                                                                        .black,
+//                                                                fontSize: 12.3,
+//                                                              ),
+//                                                              textAlign:
+//                                                                  TextAlign
+//                                                                      .center,
+//                                                            ),
                                                             user.instrumentList
                                                                         .length >
                                                                     0
@@ -1185,7 +1185,7 @@ class _AddBandScreenState
                                                                             "/${user.email}/${widget.id}");
                                                                 getData();
                                                               },
-                                                              child: Text(
+                                                              child:user.memberRole.length>0? Text(
                                                                 "${user.memberRole?.join(',') ?? ''}",
                                                                 style: textTheme
                                                                     .subhead
@@ -1201,7 +1201,7 @@ class _AddBandScreenState
                                                                 textAlign:
                                                                     TextAlign
                                                                         .center,
-                                                              ),
+                                                              ):Container(),
                                                             ),
                                                             Text(
                                                               "${user.email}",
@@ -1817,8 +1817,8 @@ class _AddBandScreenState
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
+        firstDate: DateTime(1953, 8),
+        lastDate: DateTime(2035));
     if (picked != null && picked != selectedStartDate)
       setState(() {
         if (isStart) {

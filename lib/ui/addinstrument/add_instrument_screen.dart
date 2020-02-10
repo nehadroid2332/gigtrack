@@ -257,13 +257,16 @@ class _AddInstrumentScreenState
                     title: Text("Do you want to save changes?"),
                     actions: <Widget>[
                       FlatButton(
-                        child: Text("No"),
+                        child: Text("No",style: TextStyle(color: Colors.black),),
                         onPressed: () {
                           Navigator.of(context).pop(true);
                         },
                       ),
-                      FlatButton(
+                      RaisedButton(
                         child: Text("Yes"),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6)),
+                        color:  Colors.deepOrangeAccent,
                         onPressed: () {
                           _submitInstrument();
                           Navigator.of(context).pop(true);
@@ -937,12 +940,12 @@ class _AddInstrumentScreenState
                                                                     context,
                                                                 firstDate:
                                                                     DateTime(
-                                                                        1959),
+                                                                        1953),
                                                                 initialDate:
                                                                     _date,
                                                                 lastDate:
                                                                     DateTime(
-                                                                        2022),
+                                                                        2035),
                                                               );
                                                               if (picked !=
                                                                   null) {
@@ -1429,7 +1432,7 @@ class _AddInstrumentScreenState
                                                                             initialDate:
                                                                                 _date,
                                                                             lastDate:
-                                                                                DateTime(2022),
+                                                                                DateTime(2035),
                                                                           );
                                                                           if (picked !=
                                                                               null) {

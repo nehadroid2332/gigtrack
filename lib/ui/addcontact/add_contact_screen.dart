@@ -185,16 +185,23 @@ class _AddContactScreenState
             }
           },
         ),
-        title: Text(
-          "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Contact",
-          textAlign: TextAlign.center,
-          style: textTheme.headline.copyWith(
-            color: Colors.white,
-          ),
-        ),
+        title: null,
         brightness: Brightness.light,
         backgroundColor: Color.fromRGBO(3, 218, 157, 1.0),
         actions: <Widget>[
+          Container(
+            alignment: Alignment.center,
+            width: widget.id.isEmpty
+                ? MediaQuery.of(context).size.width
+                : (userId!=null?userId:null) == presenter.serverAPI.currentUserId?MediaQuery.of(context).size.width / 2:MediaQuery.of(context).size.width ,
+            child: Center(child: Text(
+              "${widget.id.isEmpty ? "Add" : isEdit ? "Edit" : ""} Contact",
+              textAlign: TextAlign.center,
+              style: textTheme.headline.copyWith(
+                color: Colors.white,
+              ),
+            ),),
+          ),
           subContact == null
               ? widget.id.isEmpty
                   ? Container()
@@ -537,7 +544,7 @@ class _AddContactScreenState
                                       widget.id.isEmpty || isEdit ? 4 : 4),
                             ),
                             Padding(
-                              padding: widget.id.isEmpty
+                              padding: widget.id.isEmpty||isEdit
                                   ? EdgeInsets.all(5)
                                   : EdgeInsets.all(0),
                             ),
@@ -563,7 +570,7 @@ class _AddContactScreenState
                               delay: 1000,
                             ),
                             ShowUp(
-                              child: widget.id.isEmpty && !_isCompanyName
+                              child: (widget.id.isEmpty||isEdit) && !_isCompanyName
                                   ? Container(
                                       height: 1,
                                       width:
@@ -831,7 +838,7 @@ class _AddContactScreenState
                                   : EdgeInsets.all(4),
                             ),
                             Padding(
-                              padding: widget.id.isEmpty
+                              padding: widget.id.isEmpty||isEdit
                                   ? EdgeInsets.all(5)
                                   : EdgeInsets.all(0),
                             ),
@@ -857,7 +864,7 @@ class _AddContactScreenState
                               delay: 1000,
                             ),
                             ShowUp(
-                              child: widget.id.isEmpty && !_isphoneNumber
+                              child: (widget.id.isEmpty ||isEdit)&& !_isphoneNumber
                                   ? Container(
                                       height: 1,
                                       width:
@@ -1290,11 +1297,11 @@ class _AddContactScreenState
                                                                           .now(),
                                                                   firstDate:
                                                                       DateTime(
-                                                                          2015,
+                                                                          1953,
                                                                           8),
                                                                   lastDate:
                                                                       DateTime(
-                                                                          2101));
+                                                                          2035));
                                                           if (picked != null)
                                                             setState(() {
                                                               data.date = picked

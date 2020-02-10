@@ -11,9 +11,10 @@ import 'band_comm_list_presenter.dart';
 
 class BandCommListScreen extends BaseScreen {
   final String bandId;
+  bool isLeader;
 
   BandCommListScreen(AppListener appListener,
-      {this.bandId, bool isLeader, bool isComm, bool isSetUp, bool postEntries})
+      {this.bandId, this.isLeader, bool isComm, bool isSetUp, bool postEntries})
       : super(appListener, title: "");
 
   @override
@@ -34,7 +35,7 @@ class _BandCommListScreenState
   @override
   void initState() {
     super.initState();
-    list = presenter.getList(widget.bandId);
+    list = presenter.getList(widget.bandId,widget.isLeader);
     presenter.getBand(widget.bandId);
   }
 
@@ -181,7 +182,7 @@ class _BandCommListScreenState
                                     await widget.appListener.router.navigateTo(
                                         context,
                                         Screens.ADD_BAND_COMM.toString() +
-                                            "/${bulletin.id}//${widget.bandId}/////");
+                                            "/${bulletin.id}//${widget.bandId}/${widget.isLeader}////");
                                   }),
                             );
                           },

@@ -611,7 +611,7 @@ class _AddPlayingStyleScreenState
                           : Container(),
                       Padding(
                         padding: EdgeInsets.all(
-                            (widget.id.isEmpty || isEdit) ? 2 : 0),
+                            (widget.id.isEmpty || isEdit) ? 5 : 0),
                       ),
                       (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                           ? Text("Select one")
@@ -812,7 +812,7 @@ class _AddPlayingStyleScreenState
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.all(widget.bandId.isEmpty ? 0 : 0),
+                        padding: EdgeInsets.all(widget.bandId.isEmpty ? 5 : 0),
                       ),
                       Row(
                         mainAxisAlignment: widget.id.isEmpty || isEdit
@@ -1042,7 +1042,7 @@ class _AddPlayingStyleScreenState
                               EdgeInsets.all(widget.bandId.isEmpty ? 0 : 5)),
                       Padding(
                           padding: EdgeInsets.all(
-                              (widget.id.isEmpty || isEdit) ? 2 : 5)),
+                              (widget.id.isEmpty || isEdit && widget.bandId.isEmpty) ? 5 : 0)),
                       Text(
                         "Experience",
                         textAlign: widget.id.isEmpty || isEdit
@@ -1068,7 +1068,7 @@ class _AddPlayingStyleScreenState
                               ),
                             ),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: EdgeInsets.all(widget.bandId.isEmpty?10:0),
                       ),
                       widget.id.isNotEmpty && isEdit
                           ? ShowUp(
@@ -1104,7 +1104,7 @@ class _AddPlayingStyleScreenState
                             )
                           : Container(),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: EdgeInsets.all(widget.bandId.isEmpty?5:0),
                       ),
                       (widget.id.isNotEmpty || isEdit)
                           ? ListView.builder(
@@ -1210,7 +1210,7 @@ class _AddPlayingStyleScreenState
                       Padding(
                         padding: EdgeInsets.all(0),
                       ),
-                      (widget.id.isNotEmpty && widget.bandId.isEmpty) && !isEdit
+                      (widget.id.isNotEmpty ) && !isEdit
                           ? _musicPreviewController.text.isNotEmpty
                               ? ShowUp(
                                   child: new GestureDetector(
@@ -1224,7 +1224,7 @@ class _AddPlayingStyleScreenState
                                               '/$url');
                                     },
                                     child: Text(
-                                      "Click to here music preview",
+                                      "Click to hear music preview",
                                       style: textTheme.display1.copyWith(
                                           color: Colors.red, fontSize: 14),
                                       textAlign: TextAlign.center,
@@ -1234,7 +1234,7 @@ class _AddPlayingStyleScreenState
                                 )
                               : Container()
                           : Container(),
-                      (widget.id.isNotEmpty && widget.bandId.isEmpty && !isEdit)
+                      (widget.id.isNotEmpty  && !isEdit)
                           ? _musicPreviewController.text.isNotEmpty
                               ? ShowUp(
                                   child: Container(
@@ -1256,7 +1256,7 @@ class _AddPlayingStyleScreenState
                               : Container()
                           : Container(),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: EdgeInsets.all(widget.bandId.isEmpty?9:0),
                       ),
                       widget.bandId.isEmpty
                           ? ShowUp(
@@ -1297,7 +1297,7 @@ class _AddPlayingStyleScreenState
                             )
                           : Container(),
                       Padding(
-                        padding: EdgeInsets.all(widget.bandId.isEmpty ? 1 : 3),
+                        padding: EdgeInsets.all(widget.bandId.isEmpty ? 1 : 0),
                       ),
                       (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                           ? TextField(
@@ -1341,6 +1341,7 @@ class _AddPlayingStyleScreenState
                                   ],
                                 )
                               : Container(),
+                      Padding(padding: EdgeInsets.all(widget.id.isEmpty||isEdit && widget.bandId.isEmpty?4:0),),
                       isEducation
                           ? (widget.id.isEmpty || isEdit) &&
                                   widget.bandId.isEmpty
@@ -1375,7 +1376,7 @@ class _AddPlayingStyleScreenState
                       //                                  textAlign: TextAlign.center,
                       //                                )
                       //                          : Container(),
-                      Column(
+                      widget.bandId.isEmpty?Column(
                         children: <Widget>[
                           (widget.id.isEmpty || isEdit) && widget.bandId.isEmpty
                               ? TextField(
@@ -1422,7 +1423,7 @@ class _AddPlayingStyleScreenState
                                   : Container(),
                           Container(),
                         ],
-                      ),
+                      ):Container(),
                       Padding(
                         padding: EdgeInsets.all(widget.bandId.isEmpty ? 0 : 5),
                       ),
@@ -1465,25 +1466,27 @@ class _AddPlayingStyleScreenState
                       //             ),
                       //           )
                       //     : Container(),
-                      widget.bandId.isEmpty && (widget.id.isEmpty || isEdit)
+                      Padding(padding: EdgeInsets.all(widget.bandId.isEmpty?5:0),),
+                       (widget.id.isEmpty || isEdit)
                           ? TextField(
                               controller: _musicPreviewController,
                               decoration: InputDecoration(
-                                hintText: "Music Preview",
+                                hintText: "Hyperlink to your Music",
                                 errorText: _errorMusic,
+                                prefixText:_musicPreviewController.text.isEmpty? "https://":"",
+
                               ),
                               style: TextStyle(
                                   color: qDarkmodeEnable
                                       ? Colors.white
                                       : Colors.black87),
+                         onChanged: (text){
+                                setState(() {
+
+                                });
+                         },
                             )
-                          : Padding(
-                              child: Text(
-                                _musicPreviewController.text,
-                                textAlign: TextAlign.center,
-                              ),
-                              padding: EdgeInsets.symmetric(vertical: 4),
-                            ),
+                          : Container(),
 
                       widget.bandId.isNotEmpty
                           ? (widget.id.isEmpty || isEdit)
@@ -1989,13 +1992,13 @@ class _AddPlayingStyleScreenState
         listSchool: _listSchoolController.text,
         playingStyle: _playingStyleController.text,
         viewerKnow: _expController.text,
-        musicpreview: _musicPreviewController.text,
+        musicpreview: "https://${_musicPreviewController.text}",
         files: files));
   }
 
   bool checkvalid(String text) {
     var urlPattern =
-        r"(https?|http)://([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?";
+        r"([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?";
     bool match = new RegExp(urlPattern, caseSensitive: false).hasMatch(text);
     if (match) {
       return true;
