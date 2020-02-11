@@ -86,7 +86,7 @@ class _AddPaymentScreenState
                 ? MediaQuery.of(context).size.width
                 : MediaQuery.of(context).size.width / 2,
             child: Text(
-              "${widget.id.isEmpty ?payment.type == Payment.TYPE_PAID ?"Money Paid out":"Money Received":""}",
+              "${widget.id.isEmpty ? payment.type == Payment.TYPE_PAID ? "Money Paid out" : "Money Received" : ""}",
               textAlign: TextAlign.center,
               style: textTheme.headline.copyWith(
                 color: Colors.white,
@@ -297,14 +297,16 @@ class _AddPaymentScreenState
                                     ),
                                   )
                                 : null,
-                            child: payment.image == null &&
-                                    (payment.image == null ||
-                                        payment.image.isEmpty)
-                                ? Icon(
-                                    Icons.camera,
-                                    size: 130,
-                                  )
-                                : null,
+                            child: widget.id.isNotEmpty && !isEdit
+                                ? Container()
+                                : payment.image == null &&
+                                        (payment.image == null ||
+                                            payment.image.isEmpty)
+                                    ? Icon(
+                                        Icons.camera,
+                                        size: 130,
+                                      )
+                                    : null,
                           ),
                           onTap: isEdit || widget.id.isEmpty ? getImage : null,
                         ),
@@ -313,10 +315,12 @@ class _AddPaymentScreenState
                         padding: EdgeInsets.symmetric(
                           vertical: 10,
                         ),
-                        child: Text(
-                          "Take a picture of invoice",
-                          textAlign: TextAlign.center,
-                        ),
+                        child: widget.id.isNotEmpty && !isEdit
+                            ? Container()
+                            : Text(
+                                "Take a picture of invoice",
+                                textAlign: TextAlign.center,
+                              ),
                       ),
                       Padding(
                         padding: EdgeInsets.all(5),
@@ -460,6 +464,9 @@ class _AddPaymentScreenState
                                   style: TextStyle(fontSize: 17),
                                 )
                               : Container(),
+                      Padding(
+                        padding: EdgeInsets.all(3),
+                      ),
                       widget.id.isNotEmpty
                           ? Text(
                               isEdit

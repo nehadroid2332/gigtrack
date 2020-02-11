@@ -17,6 +17,7 @@ class Band extends BaseModel {
   String id;
   String userId;
   String creatorName;
+  bool addBandToDirectory = false;
   List<String> files = [];
   int created = DateTime.now().millisecondsSinceEpoch;
 
@@ -35,6 +36,7 @@ class Band extends BaseModel {
       this.zip,
       this.files,
       this.contactInfo,
+      this.addBandToDirectory,
       this.website,
       this.creatorName});
 
@@ -53,6 +55,7 @@ class Band extends BaseModel {
       state = data['state'];
       zip = data['zip'];
       id = data['id'];
+      addBandToDirectory = data['addBandToDirectory'] ?? false;
       primaryContactEmail = data['primaryContactEmail'];
       userId = data['user_id'];
       if (data['files'] != null) {
@@ -81,6 +84,7 @@ class Band extends BaseModel {
     data['music_style'] = musicStyle ?? "";
     data['primaryContactEmail'] = primaryContactEmail;
     data['user_id'] = userId;
+    data['addBandToDirectory'] = addBandToDirectory;
     data['created'] = created ?? DateTime.now().millisecondsSinceEpoch;
     data['email'] = email ?? "";
     data['contactInfo'] = contactInfo;

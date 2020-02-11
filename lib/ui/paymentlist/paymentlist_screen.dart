@@ -134,7 +134,7 @@ class _FeedbackListScreenState
                             widget.appListener.router.navigateTo(
                                 context,
                                 Screens.ADD_PAYMENT.toString() +
-                                    "/${feedback.id}");
+                                    "/${feedback.id}/${feedback.type}");
                           },
                         );
                       },

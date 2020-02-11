@@ -31,7 +31,8 @@ class AddBandPresenter extends BasePresenter {
       {String id,
       Map<String, BandMember> bandmates,
       List<String> files,
-      String creatorName}) async {
+      String creatorName,
+      bool addBandToDirectory=false}) async {
     Band band = Band(
         dateStarted: dateStarted,
         email: email,
@@ -46,6 +47,7 @@ class AddBandPresenter extends BasePresenter {
         zip: zip,
         files: files,
         bandmates: bandmates,
+        addBandToDirectory: addBandToDirectory,
         creatorName: creatorName);
     band.userId = serverAPI.currentUserId;
     if (id != null && id.isNotEmpty) {

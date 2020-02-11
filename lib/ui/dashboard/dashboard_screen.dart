@@ -79,6 +79,15 @@ class _DashboardScreenState
                 },
               ),
               ListTile(
+                title: Text("Feedback"),
+                leading: Icon(Icons.feedback),
+                onTap: () {
+                  Navigator.pop(context);
+                  widget.appListener.router
+                      .navigateTo(context, Screens.FEEDBACK.toString());
+                },
+              ),
+              ListTile(
                 title: Text("Help"),
                 leading: Icon(Icons.help),
                 onTap: () {
@@ -198,7 +207,7 @@ class _DashboardScreenState
                     "EPK",
                     "EQUIPMENT",
                     "NOTES",
-                    "FEEDBACK",
+                    "FINANCE",
                     "BULLETIN BOARD"
                   ].map(
                     (txt) {
@@ -251,7 +260,7 @@ class _DashboardScreenState
                           borderColor = Color.fromRGBO(3, 218, 157,
                               1.0); //Color.fromRGBO(3, 54, 255, 1.0);
                           break;
-                        case "FEEDBACK":
+                        case "FINANCE":
                           color = Color.fromRGBO(225, 222, 222, 0.7);
                           //color = Color.fromRGBO(102, 187, 238, 0.1);
                           //color = Color.fromRGBO(18, 130, 119, 1.0);
@@ -371,11 +380,9 @@ class _DashboardScreenState
                           else if (txt == "BULLETIN BOARD")
                             widget.appListener.router.navigateTo(
                                 context, Screens.BULLETINLISTLIST.toString());
-                          else if (txt == "FEEDBACK")
+                          else if (txt == "FINANCE")
                             widget.appListener.router.navigateTo(
-                                context, Screens.FEEDBACK.toString());
-                          //  widget.appListener.router
-                          //        .navigateTo(context, Screens.PAYMENT_LIST.toString());
+                                context, Screens.PAYMENT_LIST.toString());
                         },
                       );
                     },

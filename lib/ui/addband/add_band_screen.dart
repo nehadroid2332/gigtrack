@@ -77,6 +77,8 @@ class _AddBandScreenState
 
   String primaryContactEmail;
 
+  bool _addbandToDirectory = false;
+
   Future getImage() async {
     showDialog(
       context: context,
@@ -973,7 +975,24 @@ class _AddBandScreenState
                                 //                      Padding(
                                 //                        padding: EdgeInsets.all(5),
                                 //                      ),
-
+                                widget.id.isEmpty || isEdit
+                                    ? Row(
+                                        children: <Widget>[
+                                          Checkbox(
+                                            value: _addbandToDirectory,
+                                            onChanged: (a) {
+                                              setState(() {
+                                                _addbandToDirectory = a;
+                                              });
+                                            },
+                                          ),
+                                          Text("Add Band to Directory")
+                                        ],
+                                      )
+                                    : Container(),
+                                Padding(
+                                  padding: EdgeInsets.all(5),
+                                ),
                                 Padding(
                                   padding: EdgeInsets.only(
                                     top: widget.id.isEmpty ? 30 : 8,
@@ -1034,100 +1053,105 @@ class _AddBandScreenState
                                           if (user.permissions != null) {
                                             permission = user.permissions;
                                           }
-                                          return Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 8),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Container(
-                                                  height: 55,
-                                                  width: 55,
-                                                  margin:
-                                                      EdgeInsets.only(top: 10),
-                                                  decoration: new BoxDecoration(
-                                                    color: Color.fromRGBO(
-                                                        167, 0, 0, 1.0),
-                                                    shape: BoxShape.circle,
-                                                  ),
-                                                  alignment:
-                                                      Alignment.topCenter,
-                                                  child: Center(
-                                                    child: Text(
-                                                      getNameOrder(
-                                                          user.firstName)[0],
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 22,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontStyle:
-                                                              FontStyle.italic),
-                                                    ),
-                                                  ),
+                                          return ExpansionTile(
+                                            leading: Container(
+                                              height: 55,
+                                              width: 55,
+                                              decoration: new BoxDecoration(
+                                                color: Color.fromRGBO(
+                                                    167, 0, 0, 1.0),
+                                                shape: BoxShape.circle,
+                                              ),
+                                              alignment: Alignment.topCenter,
+                                              child: Center(
+                                                child: Text(
+                                                  getNameOrder(
+                                                      user.firstName)[0],
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 22,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontStyle:
+                                                          FontStyle.italic),
                                                 ),
-                                                Expanded(
-                                                  child: Padding(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                        horizontal: 15,
-                                                      ),
-                                                      child: InkWell(
-                                                        onTap: () async {
-                                                          await widget
-                                                              .appListener
-                                                              .router
-                                                              .navigateTo(
-                                                                  context,
-                                                                  Screens.ADDMEMBERTOBAND
-                                                                          .toString() +
-                                                                      "/${user.email}/${widget.id}");
-                                                          getData();
-                                                        },
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: <Widget>[
-                                                            InkWell(
-                                                              onTap: () async {
-                                                                await widget
-                                                                    .appListener
-                                                                    .router
-                                                                    .navigateTo(
-                                                                        context,
-                                                                        Screens.ADDMEMBERTOBAND.toString() +
-                                                                            "/${user.email}/${widget.id}");
-                                                                getData();
-                                                              },
-                                                              child: Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
+                                              ),
+                                            ),
+                                            title: Text(
+                                                "${user.firstName} ${user.lastName}"),
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 17,
+                                                    vertical: 8),
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Container(
+                                                      height: 55,
+                                                      width: 55,
+                                                    ),
+                                                    Expanded(
+                                                      child: Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                            horizontal: 15,
+                                                          ),
+                                                          child: InkWell(
+                                                            onTap: () async {
+                                                              await widget
+                                                                  .appListener
+                                                                  .router
+                                                                  .navigateTo(
+                                                                      context,
+                                                                      Screens.ADDMEMBERTOBAND
+                                                                              .toString() +
+                                                                          "/${user.email}/${widget.id}");
+                                                              getData();
+                                                            },
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: <
+                                                                  Widget>[
+                                                                InkWell(
+                                                                  onTap:
+                                                                      () async {
+                                                                    await widget
+                                                                        .appListener
+                                                                        .router
+                                                                        .navigateTo(
+                                                                            context,
+                                                                            Screens.ADDMEMBERTOBAND.toString() +
+                                                                                "/${user.email}/${widget.id}");
+                                                                    getData();
+                                                                  },
+                                                                  child:
+                                                                      Padding(
+                                                                    padding: EdgeInsets.only(
                                                                         top: 2,
                                                                         bottom:
                                                                             2),
-                                                                child: Text(
-                                                                  "${user.firstName} ${user.lastName} - ${permission}",
-                                                                  style: textTheme
-                                                                      .subhead
-                                                                      .copyWith(
-                                                                    color: qDarkmodeEnable
-                                                                        ? Colors
-                                                                            .white
-                                                                        : Colors
-                                                                            .black,
-                                                                    fontSize:
-                                                                        12.3,
+                                                                    child: Text(
+                                                                      "$permission",
+                                                                      style: textTheme
+                                                                          .subhead
+                                                                          .copyWith(
+                                                                        color: qDarkmodeEnable
+                                                                            ? Colors.white
+                                                                            : Colors.black,
+                                                                        fontSize:
+                                                                            12.3,
+                                                                      ),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                    ),
                                                                   ),
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .center,
                                                                 ),
-                                                              ),
-                                                            ),
 //                                                            Text(
 //                                                              permission,
 //                                                              style: textTheme
@@ -1144,118 +1168,107 @@ class _AddBandScreenState
 //                                                                  TextAlign
 //                                                                      .center,
 //                                                            ),
-                                                            user.instrumentList
-                                                                        .length >
-                                                                    0
-                                                                ? InkWell(
-                                                                    onTap:
-                                                                        () async {
-                                                                      await widget
-                                                                          .appListener
-                                                                          .router
-                                                                          .navigateTo(
-                                                                              context,
-                                                                              Screens.ADDMEMBERTOBAND.toString() + "/${user.email}/${widget.id}");
-                                                                      getData();
-                                                                    },
-                                                                    child: Text(
-                                                                      "${user.instrumentList?.join(', ')}",
-                                                                      style: textTheme
-                                                                          .subhead
-                                                                          .copyWith(
-                                                                        color: qDarkmodeEnable
-                                                                            ? Colors.white
-                                                                            : Colors.black,
-                                                                        fontSize:
-                                                                            12.3,
-                                                                      ),
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .center,
-                                                                    ))
-                                                                : Container(),
-                                                            InkWell(
-                                                              onTap: () async {
-                                                                await widget
-                                                                    .appListener
-                                                                    .router
-                                                                    .navigateTo(
-                                                                        context,
-                                                                        Screens.ADDMEMBERTOBAND.toString() +
-                                                                            "/${user.email}/${widget.id}");
-                                                                getData();
-                                                              },
-                                                              child:user.memberRole.length>0? Text(
-                                                                "${user.memberRole?.join(',') ?? ''}",
-                                                                style: textTheme
-                                                                    .subhead
-                                                                    .copyWith(
-                                                                  color: qDarkmodeEnable
-                                                                      ? Colors
-                                                                          .white
-                                                                      : Colors
-                                                                          .black,
-                                                                  fontSize:
-                                                                      12.3,
+                                                                user.instrumentList
+                                                                            .length >
+                                                                        0
+                                                                    ? InkWell(
+                                                                        onTap:
+                                                                            () async {
+                                                                          await widget
+                                                                              .appListener
+                                                                              .router
+                                                                              .navigateTo(context, Screens.ADDMEMBERTOBAND.toString() + "/${user.email}/${widget.id}");
+                                                                          getData();
+                                                                        },
+                                                                        child:
+                                                                            Text(
+                                                                          "${user.instrumentList?.join(', ')}",
+                                                                          style: textTheme
+                                                                              .subhead
+                                                                              .copyWith(
+                                                                            color: qDarkmodeEnable
+                                                                                ? Colors.white
+                                                                                : Colors.black,
+                                                                            fontSize:
+                                                                                12.3,
+                                                                          ),
+                                                                          textAlign:
+                                                                              TextAlign.center,
+                                                                        ))
+                                                                    : Container(),
+                                                                InkWell(
+                                                                  onTap:
+                                                                      () async {
+                                                                    await widget
+                                                                        .appListener
+                                                                        .router
+                                                                        .navigateTo(
+                                                                            context,
+                                                                            Screens.ADDMEMBERTOBAND.toString() +
+                                                                                "/${user.email}/${widget.id}");
+                                                                    getData();
+                                                                  },
+                                                                  child: user.memberRole
+                                                                              .length >
+                                                                          0
+                                                                      ? Text(
+                                                                          "${user.memberRole?.join(',') ?? ''}",
+                                                                          style: textTheme
+                                                                              .subhead
+                                                                              .copyWith(
+                                                                            color: qDarkmodeEnable
+                                                                                ? Colors.white
+                                                                                : Colors.black,
+                                                                            fontSize:
+                                                                                12.3,
+                                                                          ),
+                                                                          textAlign:
+                                                                              TextAlign.center,
+                                                                        )
+                                                                      : Container(),
                                                                 ),
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                              ):Container(),
+                                                                Text(
+                                                                  "${user.email}",
+                                                                  style: textTheme
+                                                                      .subhead
+                                                                      .copyWith(
+                                                                    color: qDarkmodeEnable
+                                                                        ? Colors
+                                                                            .white
+                                                                        : Colors
+                                                                            .black,
+                                                                    fontSize:
+                                                                        12.3,
+                                                                  ),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                ),
+                                                                Text(
+                                                                  "${user.mobileText}",
+                                                                  style: textTheme
+                                                                      .subhead
+                                                                      .copyWith(
+                                                                    color: qDarkmodeEnable
+                                                                        ? Colors
+                                                                            .white
+                                                                        : Colors
+                                                                            .black,
+                                                                    fontSize:
+                                                                        12.3,
+                                                                  ),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                ),
+                                                              ],
                                                             ),
-                                                            Text(
-                                                              "${user.email}",
-                                                              style: textTheme
-                                                                  .subhead
-                                                                  .copyWith(
-                                                                color: qDarkmodeEnable
-                                                                    ? Colors
-                                                                        .white
-                                                                    : Colors
-                                                                        .black,
-                                                                fontSize: 12.3,
-                                                              ),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                            ),
-                                                            Text(
-                                                              "${user.mobileText}",
-                                                              style: textTheme
-                                                                  .subhead
-                                                                  .copyWith(
-                                                                color: qDarkmodeEnable
-                                                                    ? Colors
-                                                                        .white
-                                                                    : Colors
-                                                                        .black,
-                                                                fontSize: 12.3,
-                                                              ),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                            ),
-                                                            Container(
-                                                              width:
-                                                                  MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width,
-                                                              height: 1,
-                                                              color:
-                                                                  Colors.grey,
-                                                              margin: EdgeInsets
-                                                                  .only(
-                                                                      top: 10,
-                                                                      bottom:
-                                                                          3),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      )),
-                                                )
-                                              ],
-                                            ),
+                                                          )),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
+                                            ],
                                           );
                                         },
                                       ),
@@ -1678,6 +1691,7 @@ class _AddBandScreenState
                                           ),
                                         ],
                                       ),
+
                                 widget.id.isEmpty || isEdit
                                     ? RaisedButton(
                                         color: Color.fromRGBO(167, 0, 0, 1.0),
@@ -1877,6 +1891,7 @@ class _AddBandScreenState
       files.clear();
       files.addAll(band.files);
       bandUserId = band.userId;
+      _addbandToDirectory = band.addBandToDirectory ?? false;
       _musicStyleController.text = band.musicStyle;
       _bandlegalNameController.text = band.legalName;
       _bandNameController.text = band.name;
@@ -1949,14 +1964,7 @@ class _AddBandScreenState
       _errorWebsite = null;
       if (bname.isEmpty) {
         _errorBandName = "Cannot be empty";
-      }
-      //                                  else if (email.isEmpty) {
-      //                                    _errorEmail = "Cannot be empty";
-      //                                  }
-      //                                  else if (validateEmail(email)) {
-      //                                    _errorEmail = "Not a Valid Email";
-      //                                  }
-      else {
+      } else {
         showLoading();
         presenter.addBand(
             selectedStartDate.millisecondsSinceEpoch,
@@ -1973,6 +1981,7 @@ class _AddBandScreenState
             files: files,
             id: widget.id,
             bandmates: bandmates,
+            addBandToDirectory: _addbandToDirectory,
             creatorName: "${user.firstName} ${user.lastName}");
       }
     });

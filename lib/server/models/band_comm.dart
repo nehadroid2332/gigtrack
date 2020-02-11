@@ -10,6 +10,7 @@ class BandCommunication extends BaseModel {
   String bandId;
   String userId;
   int status = STATUS_PENDING;
+  List<SubNotesBandComm> subNotes = [];
 
   static const STATUS_APPROVED = 1;
   static const STATUS_DECLINED = 2;
@@ -27,6 +28,11 @@ class BandCommunication extends BaseModel {
     responseDate = data['responseDate'];
     isArchieve = data['isArchieve'];
     status = data['status'];
+    if (data['subNotes'] != null) {
+      for (var item in data['subNotes']) {
+        subNotes.add(SubNotesBandComm.fromJSON(item));
+      }
+    }
   }
 
   @override
@@ -41,6 +47,33 @@ class BandCommunication extends BaseModel {
     data['userId'] = userId;
     data['isArchieve'] = isArchieve;
     data['status'] = status;
+    List<dynamic> sb = [];
+    for (SubNotesBandComm item in subNotes) {
+      sb.add(item.toMap());
+    }
+    data['subNotes'] = sb;
+    return data;
+  }
+}
+
+class SubNotesBandComm extends BaseModel {
+  String desc;
+  int created;
+  String id;
+  SubNotesBandComm();
+
+  SubNotesBandComm.fromJSON(dynamic data) {
+    desc = data['desc'];
+    id = data['id'];
+    created = data['created'];
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> data = super.toMap();
+    data['desc'] = desc;
+    data['id'] = id;
+    data['created'] = created;
     return data;
   }
 }

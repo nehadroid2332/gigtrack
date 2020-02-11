@@ -15,11 +15,10 @@ class AddBandCommPresenter extends BasePresenter {
   AddBandCommPresenter(BaseContract view) : super(view);
 
   void addBandComm(BandCommunication bandComm) async {
-    if(bandComm.userId==null){
+    if (bandComm.userId == null) {
       bandComm.userId = serverAPI.currentUserId;
-
-    }else{
-      bandComm.userId=bandComm.userId;
+    } else {
+      bandComm.userId = bandComm.userId;
     }
 
     final res = await serverAPI.addBandComm(bandComm);
@@ -43,7 +42,7 @@ class AddBandCommPresenter extends BasePresenter {
     }
   }
 
-  void deleteBandComm(String id) async{
+  void deleteBandComm(String id) async {
     await serverAPI.deleteBandComm(id);
   }
 }

@@ -8,6 +8,7 @@ import 'package:gigtrack/server/models/band_comm.dart';
 import 'package:gigtrack/server/server_api.dart';
 import 'package:gigtrack/ui/addbandcomm/addband_comm_presenter.dart';
 import 'package:gigtrack/utils/common_app_utils.dart';
+import 'package:random_string/random_string.dart';
 
 class AddBandCommScreen extends BaseScreen {
   final String id;
@@ -119,7 +120,8 @@ class _AddBandCommScreenState
               )),
           widget.id.isEmpty
               ? Container()
-              : ((bandComm != null ? bandComm.userId : false) == presenter.serverAPI.currentUserId)
+              : ((bandComm != null ? bandComm.userId : false) ==
+                      presenter.serverAPI.currentUserId)
                   ? Container(
                       child: IconButton(
                         icon: Icon(
@@ -138,7 +140,8 @@ class _AddBandCommScreenState
                     ),
           widget.id.isEmpty
               ? Container()
-              : ((bandComm != null ? bandComm.userId : false) == presenter.serverAPI.currentUserId)
+              : ((bandComm != null ? bandComm.userId : false) ==
+                      presenter.serverAPI.currentUserId)
                   ? IconButton(
                       icon: Icon(
                         Icons.delete,
@@ -321,7 +324,7 @@ class _AddBandCommScreenState
                                 if (widget.id.isEmpty || isEdit) {
                                   final DateTime picked = await showDatePicker(
                                     context: context,
-                                    firstDate:  DateTime(1953),
+                                    firstDate: DateTime(1953),
                                     initialDate: DateTime.now(),
                                     lastDate: DateTime(2035),
                                   );
@@ -347,6 +350,61 @@ class _AddBandCommScreenState
                               style: TextStyle(fontSize: 18),
                               textAlign: TextAlign.center,
                             ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Expanded(child: Text("Band Comm. Sub Notes")),
+                          widget.isLeader
+                              ? IconButton(
+                                  icon: Icon(Icons.add),
+                                  onPressed: () {
+                                    createdEditSubNotes();
+                                  },
+                                )
+                              : Container()
+                        ],
+                      ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: bandComm.subNotes.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          SubNotesBandComm subNotesBandComm =
+                              bandComm.subNotes[index];
+                          DateTime dateTime =
+                              DateTime.fromMillisecondsSinceEpoch(
+                                  subNotesBandComm.created);
+                          return ListTile(
+                            trailing: IconButton(
+                              icon: Icon(Icons.delete),
+                              onPressed: widget.isLeader
+                                  ? () async {
+                                      setState(() {
+                                        bandComm.subNotes.removeAt(index);
+                                      });
+                                      presenter.addBandComm(bandComm);
+                                    }
+                                  : null,
+                            ),
+                            onTap: widget.isLeader
+                                ? () {
+                                    createdEditSubNotes(
+                                        subNotesBandComm: subNotesBandComm);
+                                  }
+                                : null,
+                            title: Text("${subNotesBandComm.desc}"),
+                            subtitle: Text("${formatDate(dateTime, [
+                              M,
+                              ' ',
+                              d,
+                              ', ',
+                              yyyy,
+                            ])}"),
+                          );
+                        },
+                      ),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -395,8 +453,13 @@ class _AddBandCommScreenState
                               : Container()
                           : Container(),
                       Padding(padding: EdgeInsets.all(20)),
-                      ( (widget.id.isNotEmpty && !isEdit) &&(widget.isLeader||(bandComm!=null?bandComm.userId:null)==presenter.serverAPI.currentUserId)&& (status == null ||
-                          bandComm.status == BandCommunication.STATUS_PENDING))
+                      ((widget.id.isNotEmpty && !isEdit) &&
+                              (widget.isLeader ||
+                                  (bandComm != null ? bandComm.userId : null) ==
+                                      presenter.serverAPI.currentUserId) &&
+                              (status == null ||
+                                  bandComm.status ==
+                                      BandCommunication.STATUS_PENDING))
                           ? Row(
                               children: <Widget>[
                                 Expanded(
@@ -470,12 +533,12 @@ class _AddBandCommScreenState
         showLoading();
         presenter.getBandCommDetails(widget.id);
       });
-    } else {setState(() {
-      bandComm = BandCommunication();
-      bandComm.bandId = widget.bandId;
-      status= bandComm.status;
-    });
-
+    } else {
+      setState(() {
+        bandComm = BandCommunication();
+        bandComm.bandId = widget.bandId;
+        status = bandComm.status;
+      });
     }
   }
 
@@ -560,5 +623,80 @@ class _AddBandCommScreenState
       _addCommController.text = bandComm.addCommunication;
       _titleController.text = "${bandComm.title}";
     });
+  }
+
+  void createdEditSubNotes({SubNotesBandComm subNotesBandComm}) async {
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        final _descController =
+            TextEditingController(text: subNotesBandComm?.desc ?? "");
+
+        return AlertDialog(
+          contentPadding: EdgeInsets.all(15),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          title: new Text(
+            "Sub Note",
+            textAlign: TextAlign.center,
+          ),
+          content: TextField(
+            controller: _descController,
+            decoration: InputDecoration(
+              hintText: "Enter sub notes",
+            ),
+          ),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Cancel"),
+              textColor: Colors.black,
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new RaisedButton(
+              child: new Text(
+                "Create",
+                style: TextStyle(color: Colors.white),
+              ),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6)),
+              color: Color.fromRGBO(214, 22, 35, 1.0),
+              onPressed: () {
+                if (widget.id == null || widget.id.isEmpty) {
+                  showMessage("Id cannot be null");
+                } else {
+                  if (subNotesBandComm == null)
+                    subNotesBandComm = SubNotesBandComm();
+                  if (subNotesBandComm.id == null) {
+                    subNotesBandComm.id = randomString(10);
+                  }
+                  subNotesBandComm.created =
+                      DateTime.now().millisecondsSinceEpoch;
+                  subNotesBandComm.desc = _descController.text;
+                  bool add = true;
+                  for (var i = 0; i < bandComm.subNotes.length; i++) {
+                    SubNotesBandComm item = bandComm.subNotes[i];
+                    if (item.id == subNotesBandComm.id) {
+                      bandComm.subNotes[i] = subNotesBandComm;
+                      add = false;
+                      break;
+                    }
+                  }
+                  if (add) {
+                    bandComm.subNotes.add(subNotesBandComm);
+                  }
+                  presenter.addBandComm(bandComm);
+                  Navigator.pop(context);
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+    getDetails();
   }
 }
