@@ -43,9 +43,11 @@ class _AddBulletInBoardScreenState
 
   User user;
   File _image;
-  bool isRecurring=false;
+  bool isRecurring = false;
 
   String _zipError, _cityError;
+
+  bool isArchieved = false;
 
   @override
   void initState() {
@@ -203,34 +205,46 @@ class _AddBulletInBoardScreenState
         actions: <Widget>[
           Container(
             alignment: Alignment.center,
-            padding: presenter.serverAPI.currentUserId == presenter.serverAPI.adminEmail?EdgeInsets.only(left: 90):EdgeInsets.only(left: 0),
+            padding: presenter.serverAPI.currentUserId ==
+                    presenter.serverAPI.adminEmail
+                ? EdgeInsets.only(left: 90)
+                : EdgeInsets.only(left: 0),
             width: widget.id.isEmpty
                 ? MediaQuery.of(context).size.width
-                : (bulletInUserId!=null?bulletInUserId:null) == presenter.serverAPI.currentUserId?MediaQuery.of(context).size.width / 2:MediaQuery.of(context).size.width /1.54,
-         child: Text(
-           "${widget.id.isEmpty ? "Add" : ""} Bulletin Board",
-           textAlign: TextAlign.center,
-           style: textTheme.headline.copyWith(
-             color: Colors.white,
-           ),
-         ),
-
+                : (bulletInUserId != null ? bulletInUserId : null) ==
+                        presenter.serverAPI.currentUserId
+                    ? MediaQuery.of(context).size.width / 2
+                    : MediaQuery.of(context).size.width / 1.54,
+            child: Text(
+              "${widget.id.isEmpty ? "Add" : ""} Bulletin Board",
+              textAlign: TextAlign.center,
+              style: textTheme.headline.copyWith(
+                color: Colors.white,
+              ),
+            ),
           ),
           widget.id.isEmpty || bulletInUserId == null
               ? Container()
               : IconButton(
-            padding:   (presenter.serverAPI.currentUserId != presenter.serverAPI.adminEmail&&bulletInUserId != presenter.serverAPI.currentUserId)?EdgeInsets.only(right: 45):EdgeInsets.only(right: 0),
+                  padding: (presenter.serverAPI.currentUserId !=
+                              presenter.serverAPI.adminEmail &&
+                          bulletInUserId != presenter.serverAPI.currentUserId)
+                      ? EdgeInsets.only(right: 45)
+                      : EdgeInsets.only(right: 0),
                   icon: Icon(Icons.chat),
                   onPressed: () {
-                    widget.appListener.router.navigateTo(context,
-                        Screens.CHAT.toString() + "/$bulletInUserId/${widget.id}");
+                    widget.appListener.router.navigateTo(
+                        context,
+                        Screens.CHAT.toString() +
+                            "/$bulletInUserId/${widget.id}");
                   },
                 ),
           widget.id.isEmpty
               ? Container()
               : (bulletInUserId != null) &&
                       ((bulletInUserId == presenter.serverAPI.currentUserId) ||
-                          (presenter.serverAPI.currentUserId == presenter.serverAPI.adminEmail))
+                          (presenter.serverAPI.currentUserId ==
+                              presenter.serverAPI.adminEmail))
                   ? Container(
                       child: IconButton(
                         icon: Icon(
@@ -250,7 +264,8 @@ class _AddBulletInBoardScreenState
               ? Container()
               : bulletInUserId != null &&
                       ((bulletInUserId == presenter.serverAPI.currentUserId) ||
-                          (presenter.serverAPI.currentUserId == presenter.serverAPI.adminEmail))
+                          (presenter.serverAPI.currentUserId ==
+                              presenter.serverAPI.adminEmail))
                   ? IconButton(
                       icon: Icon(
                         Icons.delete,
@@ -383,39 +398,41 @@ class _AddBulletInBoardScreenState
                                   Padding(
                                     padding: EdgeInsets.all(5),
                                   ),
-                                  _startDateController.text.isEmpty?Container():Row(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: EdgeInsets.all(10),
-                                      ),
-                                      Expanded(
-                                        flex: 5,
-                                        child: Text(
-                                          "Post Date",
-                                          textAlign: TextAlign.right,
-                                          style: textTheme.title.copyWith(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600
-                                              //fontWeight: FontWeight.w600,
+                                  _startDateController.text.isEmpty
+                                      ? Container()
+                                      : Row(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: EdgeInsets.all(10),
+                                            ),
+                                            Expanded(
+                                              flex: 5,
+                                              child: Text(
+                                                "Post Date",
+                                                textAlign: TextAlign.right,
+                                                style: textTheme.title.copyWith(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w600
+                                                    //fontWeight: FontWeight.w600,
+                                                    ),
                                               ),
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                " - ",
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                _startDateController.text,
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(fontSize: 17),
+                                              ),
+                                              flex: 5,
+                                            )
+                                          ],
                                         ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          " - ",
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          _startDateController.text,
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(fontSize: 17),
-                                        ),
-                                        flex: 5,
-                                      )
-                                    ],
-                                  ),
                                   Padding(
                                     padding: EdgeInsets.all(1),
                                   ),
@@ -629,22 +646,24 @@ class _AddBulletInBoardScreenState
                               ),
                             )
                           : Container(),
-                      widget.id.isEmpty || isEdit? Row(
-                        children: <Widget>[
-                          Checkbox(
-                            onChanged: (bool value) {
-                              setState(() {
-                                isRecurring = value;
-                              });
-                            },
-                            value: isRecurring,
-                          ),
-                          Text(
-                            "Show identity to others",
-                            style: TextStyle(fontSize: 14),
-                          )
-                        ],
-                      ):Container(),
+                      widget.id.isEmpty || isEdit
+                          ? Row(
+                              children: <Widget>[
+                                Checkbox(
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      isRecurring = value;
+                                    });
+                                  },
+                                  value: isRecurring,
+                                ),
+                                Text(
+                                  "Show identity to others",
+                                  style: TextStyle(fontSize: 14),
+                                )
+                              ],
+                            )
+                          : Container(),
                       Padding(
                         padding: EdgeInsets.all(5),
                       ),
@@ -790,10 +809,29 @@ class _AddBulletInBoardScreenState
                             )
                           : Container(),
                       (widget.id.isNotEmpty && !isEdit)
-                          ? isRecurring!=null&& isRecurring?bulletInUserId==presenter.serverAPI.currentUserId?Container():presenter.serverAPI.currentUserId ==
-                          presenter.serverAPI.adminEmail?Text(
-                              "Created By: ${user?.firstName} ${user?.lastName}"):Container()
-                          : Container():Container(),
+                          ? isRecurring != null && isRecurring
+                              ? bulletInUserId ==
+                                      presenter.serverAPI.currentUserId
+                                  ? Container()
+                                  : presenter.serverAPI.currentUserId ==
+                                              presenter.serverAPI.adminEmail &&
+                                          (status == null ||
+                                              status ==
+                                                  BulletInBoard.STATUS_PENDING)
+                                      ? Column(
+                                          children: <Widget>[
+                                            Text(
+                                                "Created By: ${user?.firstName} ${user?.lastName}"),
+                                            Text("Email: ${user?.email}"),
+                                            Text("Mob: ${user?.phone}"),
+                                            Text("City: ${user?.city}"),
+                                            Text("State: ${user?.state}"),
+                                            Text("ZipCode: ${user?.zipcode}"),
+                                          ],
+                                        )
+                                      : Container()
+                              : Container()
+                          : Container(),
                       Padding(
                         padding: EdgeInsets.all(10),
                       ),
@@ -876,6 +914,21 @@ class _AddBulletInBoardScreenState
                                   ],
                                 )
                               : Container(),
+                      widget.id.isEmpty || isEdit
+                          ? Container()
+                          : presenter.serverAPI.currentUserId ==
+                                      presenter.serverAPI.adminEmail &&
+                                  (status == null ||
+                                      status ==
+                                          BulletInBoard.STATUS_APPROVED) &&
+                                  isArchieved
+                              ? FlatButton(
+                                  onPressed: () {
+                                    presenter.archieved(widget.id);
+                                  },
+                                  child: Text("Archieve"),
+                                )
+                              : Container()
                     ],
                   ),
                 ),
@@ -938,23 +991,24 @@ class _AddBulletInBoardScreenState
       user = note.user;
       bulletInUserId = note.userId;
       type = note.type;
+      isArchieved = note.isArchieved;
       status = note.status;
       _descController.text = note.description;
       _noteController.text = note.item;
       _cityController.text = note.city;
       _zipController.text = note.state;
-      isRecurring= note.isrecurring;
-      if(isRecurring==null){
-        isRecurring= false;
+      isRecurring = note.isrecurring;
+      if (isRecurring == null) {
+        isRecurring = false;
       }
       if (note.uploadedFiles != null) files = note.uploadedFiles;
-      if(note.date==0){
-        _startDateController.text=null;
-        }else{
-
-      DateTime stDate = DateTime.fromMillisecondsSinceEpoch((note.date));
-      _startDateController.text =
-          "${formatDate(stDate, [mm, '/', dd, '/', yy])}";}
+      if (note.date == 0) {
+        _startDateController.text = null;
+      } else {
+        DateTime stDate = DateTime.fromMillisecondsSinceEpoch((note.date));
+        _startDateController.text =
+            "${formatDate(stDate, [mm, '/', dd, '/', yy])}";
+      }
     });
   }
 
@@ -962,7 +1016,7 @@ class _AddBulletInBoardScreenState
   void onUpdate() {
     showMessage("Updated Successfully");
     setState(() {
-      isEdit = !isEdit;
+      isEdit = false;
     });
     presenter.getBulletInBoardDetails(widget.id);
   }

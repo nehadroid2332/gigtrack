@@ -46,6 +46,17 @@ class AddBuiltInBoardPresenter extends BasePresenter {
     serverAPI.deleteBulletInboard(id);
   }
 
+  void archieved(String id) async {
+    final res = await serverAPI.getBulletInBoardDetails(id);
+    if (res is BulletInBoard) {
+      res.isArchieved = true;
+      await serverAPI.addBulletInBoard(res);
+      (view as AddBulletInBoardContract).onUpdate();
+    } else if (res is ErrorResponse) {
+      view.showMessage(res.message);
+    }
+  }
+
   void updateStatus(String id, int status, int visibleDays) async {
     final res = await serverAPI.getBulletInBoardDetails(id);
     if (res is BulletInBoard) {
