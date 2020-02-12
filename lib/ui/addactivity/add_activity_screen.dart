@@ -109,11 +109,16 @@ class _AddActivityScreenState
       setState(() {
         if (type == 1) {
           startDate = picked;
-          endDate=picked;
+          endDate = picked;
           _dateController.text = formatDate(startDate, [mm, '-', dd, '-', yy]);
         } else if (type == 0) {
-          endDate = picked;
-          _endDateController.text = formatDate(endDate, [mm, '-', dd, '-', yy]);
+          if (startDate == null || picked.isBefore(startDate)) {
+            showMessage("End Date Cannot be less than start Date");
+          } else {
+            endDate = picked;
+            _endDateController.text =
+                formatDate(endDate, [mm, '-', dd, '-', yy]);
+          }
         }
         // !isVisible ? _showDialog() : "";
       });
@@ -231,40 +236,51 @@ class _AddActivityScreenState
         backgroundColor: Color.fromRGBO(40, 35, 188, 1.0),
         actions: <Widget>[
           Container(
-              alignment: Alignment.center,
-              width: widget.id.isEmpty
-                  ? MediaQuery.of(context).size.width
-                  :(currentuserID!=null?currentuserID:null)==presenter.serverAPI.currentUserId? MediaQuery.of(context).size.width / 2:MediaQuery.of(context).size.width,
-              child: Center(
-                child: Text(
-                  "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} ${widget.type == Activites.TYPE_ACTIVITY ? "Activity" : widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? "Performance Schedule" : widget.type == Activites.TYPE_APPOINTMENT ? "Appointment" : widget.type == Activites.TYPE_PRACTICE_SCHEDULE ? "Practice Schedule" : widget.type == Activites.TYPE_TASK ? widget.isParent ? "Add Task Notes" : "Task" : widget.type == Activites.TYPE_BAND_TASK ? "Band Task" : ""}",
-                  textAlign: TextAlign.center,
-                  style: textTheme.headline.copyWith(
-                    fontSize: widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE
-                        ? 22
-                        : 24,
-                    color: Colors.white,
-                  ),
+            alignment: Alignment.center,
+            width: widget.id.isEmpty
+                ? MediaQuery.of(context).size.width
+                : (currentuserID != null ? currentuserID : null) ==
+                        presenter.serverAPI.currentUserId
+                    ? MediaQuery.of(context).size.width / 2
+                    : MediaQuery.of(context).size.width / 2,
+            child: Center(
+              child: Text(
+                "${widget.id.isEmpty || isEdit ? isEdit ? "Edit" : "Add" : ""} ${widget.type == Activites.TYPE_ACTIVITY ? "Activity" : widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE ? "Performance Schedule" : widget.type == Activites.TYPE_APPOINTMENT ? "Appointment" : widget.type == Activites.TYPE_PRACTICE_SCHEDULE ? "Practice Schedule" : widget.type == Activites.TYPE_TASK ? widget.isParent ? "Add Task Notes" : "Task" : widget.type == Activites.TYPE_BAND_TASK ? "Band Task" : ""}",
+                textAlign: TextAlign.center,
+                style: textTheme.headline.copyWith(
+                  fontSize: widget.type == Activites.TYPE_PERFORMANCE_SCHEDULE
+                      ? 22
+                      : 24,
+                  color: Colors.white,
                 ),
-              )),
+              ),
+            ),
+          ),
+          widget.id.isEmpty //|| widget.isParent
+              ? Container()
+              : //(currentuserID != null ? currentuserID : null) ==
+              //   presenter.serverAPI.currentUserId
+              true
+                  ? IconButton(
+                      icon: Icon(Icons.edit),
+                      onPressed: () {
+                        setState(() {
+                          isEdit = !isEdit;
+                        });
+                      },
+                    )
+                  : Container(),
           widget.id.isEmpty || widget.isParent
               ? Container()
-              : (currentuserID!=null?currentuserID:null)==presenter.serverAPI.currentUserId?IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    setState(() {
-                      isEdit = !isEdit;
-                    });
-                  },
-                ):Container(),
-          widget.id.isEmpty || widget.isParent
-              ? Container()
-              : (currentuserID!=null?currentuserID:null)==presenter.serverAPI.currentUserId?IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    _showDialogConfirm();
-                  },
-                ):Container()
+              : (currentuserID != null ? currentuserID : null) ==
+                      presenter.serverAPI.currentUserId
+                  ? IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {
+                        _showDialogConfirm();
+                      },
+                    )
+                  : Container()
         ],
       );
 
@@ -997,41 +1013,46 @@ class _AddActivityScreenState
                                                 )
                                               : _startTimeController
                                                       .text.isNotEmpty
-                                                  ? _endTimeController.text.isEmpty?Expanded(
-                                                      flex: 1,
-                                                      child: Text(
-                                                        //"Start time -" +
-                                                        _startTimeController
+                                                  ? _endTimeController
+                                                          .text.isEmpty
+                                                      ? Expanded(
+                                                          flex: 1,
+                                                          child: Text(
+                                                            //"Start time -" +
+                                                            _startTimeController
                                                                 .text
                                                                 .toLowerCase(),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                            color: qDarkmodeEnable
-                                                                ? Colors.white
-                                                                : Colors
-                                                                    .black87),
-                                                      ),
-                                                    ):Expanded(
-                                            flex: 1,
-                                            child: Text(
-                                              //"Start time -" +
-                                              _startTimeController
-                                                  .text
-                                                  .toLowerCase() +
-                                                  " to " +
-                                                  _endTimeController
-                                                      .text
-                                                      .toLowerCase(),
-                                              textAlign:
-                                              TextAlign.center,
-                                              style: TextStyle(
-                                                  color: qDarkmodeEnable
-                                                      ? Colors.white
-                                                      : Colors
-                                                      .black87),
-                                            ),
-                                          )
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                color: qDarkmodeEnable
+                                                                    ? Colors
+                                                                        .white
+                                                                    : Colors
+                                                                        .black87),
+                                                          ),
+                                                        )
+                                                      : Expanded(
+                                                          flex: 1,
+                                                          child: Text(
+                                                            //"Start time -" +
+                                                            _startTimeController
+                                                                    .text
+                                                                    .toLowerCase() +
+                                                                " to " +
+                                                                _endTimeController
+                                                                    .text
+                                                                    .toLowerCase(),
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                color: qDarkmodeEnable
+                                                                    ? Colors
+                                                                        .white
+                                                                    : Colors
+                                                                        .black87),
+                                                          ),
+                                                        )
                                                   : Container(),
                                           Padding(
                                             padding: EdgeInsets.symmetric(
@@ -2542,7 +2563,7 @@ class _AddActivityScreenState
         _taskCompletion.text =
             formatDate(completionDate, [D, ', ', mm, '-', dd, '-', yy]);
       }
-      currentuserID= activities.userId;
+      currentuserID = activities.userId;
       _startEventTimeController.text = activities.startEventTime;
       _endEventTimeController.text = activities.endEventTime;
       latitude = activities.latitude;
@@ -2576,8 +2597,6 @@ class _AddActivityScreenState
       _parkingController.text = activities.parking;
       _otherController.text = activities.other;
       isRecurring = activities.isRecurring;
-      //      _timeController.text = "at ${formatDate(dateT
-      //      ime, [hh, ':', nn, am])}";
       members.clear();
       if (widget.id.isEmpty && widget.type == Activites.TYPE_BAND_TASK) {
         presenter.getUserBands();
